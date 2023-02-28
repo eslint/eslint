@@ -37,7 +37,7 @@ module.exports.schema = []; // no options
 
 ## Rule Basics
 
-`schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules#configuring-rules)
+`schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules)
 
 `create` (function) returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
 

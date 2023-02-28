@@ -61,7 +61,7 @@ The source file for a rule exports an object with the following properties.
 
      **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
-* `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules#configuring-rules)
+* `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules)
 
 * `deprecated` (boolean) indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.
 
@@ -110,7 +110,7 @@ The `context` object contains additional functionality that is helpful for rules
 
 * `parserOptions` - the parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
 * `id` - the rule ID.
-* `options` - an array of the [configured options](../use/configure/rules#configuring-rules) for this rule. This array does not include the rule severity. For more information, see [here](#contextoptions).
+* `options` - an array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity. For more information, see [here](#contextoptions).
 * `settings` - the [shared settings](../use/configure/configuration-files#adding-shared-settings) from configuration.
 * `parserPath` - the name of the `parser` from configuration.
 * `parserServices` - an object containing parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
