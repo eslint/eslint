@@ -13,6 +13,7 @@ const path = require("path");
 const os = require("os");
 const { assert } = require("chai");
 const sh = require("shelljs");
+const sinon = require("sinon");
 const {
     Legacy: {
         CascadingConfigArrayFactory
@@ -178,6 +179,73 @@ describe("FileEnumerator", () => {
                     assert.strictEqual(list[2].config[1].filePath, path.join(root, ".eslintrc.json"));
                     assert.strictEqual(list[2].config[2].filePath, path.join(root, "test/.eslintrc.yml"));
                     assert.strictEqual(list[2].config[3].filePath, path.join(root, ".eslintignore"));
+                });
+            });
+        });
+
+        // https://github.com/eslint/eslint/issues/14742
+        describe("with 5 directories ('{lib}', '{lib}/client', '{lib}/client/src', '{lib}/server', '{lib}/server/src') that contains two files '{lib}/client/src/one.js' and '{lib}/server/src/two.js'", () => {
+            const root = path.join(os.tmpdir(), "eslint/file-enumerator");
+            const files = {
+                "{lib}/client/src/one.js": "console.log('one.js');",
+                "{lib}/server/src/two.js": "console.log('two.js');",
+                "{lib}/client/.eslintrc.json": JSON.stringify({
+                    rules: {
+                        "no-console": "error"
+                    },
+                    env: {
+                        mocha: true
+                    }
+                }),
+                "{lib}/server/.eslintrc.json": JSON.stringify({
+                    rules: {
+                        "no-console": "off"
+                    },
+                    env: {
+                        mocha: true
+                    }
+                })
+            };
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files
+            });
+
+            /** @type {FileEnumerator} */
+            let enumerator;
+
+            beforeEach(async () => {
+                await prepare();
+                enumerator = new FileEnumerator({
+                    cwd: path.resolve(getPath("{lib}/server"))
+                });
+            });
+
+            afterEach(cleanup);
+
+            describe("when running eslint in the server directory", () => {
+                it("should use the config '{lib}/server/.eslintrc.json' for '{lib}/server/src/two.js'.", () => {
+                    const spy = sinon.spy(fs, "readdirSync");
+
+                    const list = [
+                        ...enumerator.iterateFiles(["src/**/*.{js,json}"])
+                    ];
+
+                    // should enter the directory '{lib}/server/src' directly
+                    assert.strictEqual(spy.getCall(0).firstArg, path.join(root, "{lib}/server/src"));
+                    assert.strictEqual(list.length, 1);
+                    assert.strictEqual(list[0].config.length, 2);
+                    assert.strictEqual(list[0].config[0].name, "DefaultIgnorePattern");
+                    assert.strictEqual(list[0].config[1].filePath, getPath("{lib}/server/.eslintrc.json"));
+                    assert.deepStrictEqual(
+                        list.map(entry => entry.filePath),
+                        [
+                            path.join(root, "{lib}/server/src/two.js")
+                        ]
+                    );
+
+                    // destroy the spy
+                    sinon.restore();
                 });
             });
         });
