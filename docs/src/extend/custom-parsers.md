@@ -120,7 +120,7 @@ To learn more about using ESLint parsers in your project, refer to [Configure a 
 
 For a complex example of a custom parser, refer to the [`@typescript-eslint/parser`](https://github.com/typescript-eslint/typescript-eslint/tree/main/packages/parser) source code.
 
-A simple custom parser that logs `"foo"` to the console when it processes a node:
+A simple custom parser that provides a `context.parserServices.foo()` method to rules.
 
 ```javascript
 // awesome-custom-parser.js
