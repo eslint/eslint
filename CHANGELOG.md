@@ -1,3 +1,27 @@
+v8.35.0 - February 26, 2023
+
+* [`cdcbe12`](https://github.com/eslint/eslint/commit/cdcbe127de20cbcc4e24131a808c13b1024e61a2) chore: upgrade @eslint/js@8.35.0 (#16935) (Brandon Mills)
+* [`c954c34`](https://github.com/eslint/eslint/commit/c954c349c0c2f88919614efc95e1368c245582fd) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`5a517da`](https://github.com/eslint/eslint/commit/5a517da8e55f6de28e9c028c5627fa7d82945969) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`9f10926`](https://github.com/eslint/eslint/commit/9f10926d76be7cf675721b29bd5030e85cb4ab30) chore: upgrade @eslint/eslintrc@2.0.0 (#16928) (Milos Djermanovic)
+* [`8e34a04`](https://github.com/eslint/eslint/commit/8e34a04e3a4395bce59bc6acadf84281abc11d18) feat: add `afterHashbangComment` option to `lines-around-comment` rule (#16920) (SUZUKI Sosuke)
+* [`c8c0c71`](https://github.com/eslint/eslint/commit/c8c0c715a2964cc1859b99f9d4f542675094d1d5) feat: Move all and recommended configs into package. (#16844) (Nicholas C. Zakas)
+* [`f9f195e`](https://github.com/eslint/eslint/commit/f9f195ef12deb114fb86763010a23ea0cb4c78d1) docs: Plugin docs cleanup & expansion (#16862) (Ben Perlmutter)
+* [`df809fd`](https://github.com/eslint/eslint/commit/df809fdedc5fc92df4be8340e28baedbde605b4f) docs: Custom Formatters page cleanup/expansion (#16886) (Ben Perlmutter)
+* [`0700d1b`](https://github.com/eslint/eslint/commit/0700d1b14659bf39b1a08f082c44c9084cf676a8) docs: Add PostCSS/Autoprefixer/CSSNano (#16502) (Nick Schonning)
+* [`da728fa`](https://github.com/eslint/eslint/commit/da728fae6c4e5fdda74195e84d45d67ad5cafc45) ci: use LTS node version in workflows (#16907) (Nitin Kumar)
+* [`7b9e9bf`](https://github.com/eslint/eslint/commit/7b9e9bf78bedb009fe2813308ede1f46502c3890) docs: support unicode anchors (#16782) (Percy Ma)
+* [`5fbc0bf`](https://github.com/eslint/eslint/commit/5fbc0bffdd9f84feb43296eb502d1e484fb323f2) docs: Update README (GitHub Actions Bot)
+* [`c57b4f3`](https://github.com/eslint/eslint/commit/c57b4f3dc6383e452120381204ee4a7c874225a0) perf: upgrade to esquery@1.4.2 (#16901) (Milos Djermanovic)
+* [`9698bc5`](https://github.com/eslint/eslint/commit/9698bc5cdec1bbee567a6a489da82e87fe65d019) fix: pin esquery v1.4.0 (fixes #16896) (#16897) (唯然)
+* [`67865a0`](https://github.com/eslint/eslint/commit/67865a064cc1a4e320030299edc1cfdd1f9ac3b8) docs: Remove mention of mailing list (#16869) (Amaresh  S M)
+* [`43af24a`](https://github.com/eslint/eslint/commit/43af24a88b939a62880c37d1332b02f677d82f16) docs: Add explanation of when to use 'warn' severity (#16882) (Nicholas C. Zakas)
+* [`71f6f0d`](https://github.com/eslint/eslint/commit/71f6f0dcd574320ee71c3eb1f313841899bdf260) feat: report more cases with `??` in no-constant-binary-expression (#16826) (Daiki Nishikawa)
+* [`ed2999b`](https://github.com/eslint/eslint/commit/ed2999b38b4d61f5c278301738e294012d5d3c9e) docs: Shareable configs page edits and expansion (#16824) (Ben Perlmutter)
+* [`2780635`](https://github.com/eslint/eslint/commit/27806358b5e1c4d37b63b1c61595e86ff03b5b42) docs: fix typos (#16884) (Lioness100)
+* [`5bdaae2`](https://github.com/eslint/eslint/commit/5bdaae205c3a0089ea338b382df59e21d5b06436) docs: Ways to Extend ESLint page (#16861) (Ben Perlmutter)
+* [`9122f07`](https://github.com/eslint/eslint/commit/9122f0764031dc36970df715bc5e16973890e18d) chore: Update stale bot settings (#16870) (Nicholas C. Zakas)
+
 v8.34.0 - February 10, 2023
 
 * [`f0a9883`](https://github.com/eslint/eslint/commit/f0a988384ea1a262150e70d83abd8a5e50c46fa7) docs: split rules documentation (#16797) (Ben Perlmutter)

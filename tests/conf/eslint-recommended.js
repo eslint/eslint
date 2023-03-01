@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert;
-const eslintRecommended = require("../../conf/eslint-recommended");
+const eslintRecommended = require("../../packages/js").configs.recommended;
 const rules = eslintRecommended.rules;
 
 //------------------------------------------------------------------------------

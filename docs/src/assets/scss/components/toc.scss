@@ -124,7 +124,6 @@
     color: var(--color-neutral-400);
 
     [aria-expanded="true"] & {
-        -ms-transform: rotate(180deg);
         transform: rotate(180deg);
     }
 }

@@ -29,6 +29,7 @@ const path = require("path");
 const internalPlugin = require("eslint-plugin-internal-rules");
 const eslintPlugin = require("eslint-plugin-eslint-plugin");
 const { FlatCompat } = require("@eslint/eslintrc");
+const js = require("./packages/js");
 const globals = require("globals");
 
 //-----------------------------------------------------------------------------
@@ -36,7 +37,8 @@ const globals = require("globals");
 //-----------------------------------------------------------------------------
 
 const compat = new FlatCompat({
-    baseDirectory: __dirname
+    baseDirectory: __dirname,
+    recommendedConfig: js.configs.recommended
 });
 
 const INTERNAL_FILES = {

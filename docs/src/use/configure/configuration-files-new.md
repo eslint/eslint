@@ -562,16 +562,18 @@ export default [
 
 ### Using predefined configurations
 
-ESLint has two predefined configurations:
+ESLint has two predefined configurations for JavaScript:
 
-* `eslint:recommended` - enables the rules that ESLint recommends everyone use to avoid potential errors
-* `eslint:all` - enables all of the rules shipped with ESLint
+* `js.configs.recommended` - enables the rules that ESLint recommends everyone use to avoid potential errors
+* `js.configs.all` - enables all of the rules shipped with ESLint
 
-To include these predefined configurations, you can insert the string values into the returned array and then make any modifications to other properties in subsequent configuration objects:
+To include these predefined configurations, install the `@eslint/js` package and then make any modifications to other properties in subsequent configuration objects:
 
 ```js
+import js from "@eslint/js";
+
 export default [
-    "eslint:recommended",
+    js.configs.recommended,
     {
         rules: {
             semi: ["warn", "always"]
@@ -580,7 +582,20 @@ export default [
 ];
 ```
 
-Here, the `eslint:recommended` predefined configuration is applied first and then another configuration object adds the desired configuration for `semi`.
+Here, the `js.configs.recommended` predefined configuration is applied first and then another configuration object adds the desired configuration for `semi`.
+
+You can apply these predefined configs to just a subset of files by specifying a config object with a `files` key, like this:
+
+```js
+import js from "@eslint/js";
+
+export default [
+    {
+        files: ["**/src/safe/*.js"],
+        ...js.configs.recommended
+    }
+];
+```
 
 ## Configuration File Resolution
 

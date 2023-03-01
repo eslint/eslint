@@ -850,6 +850,23 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
+        // https://github.com/eslint/eslint/issues/14742
+        it("should run", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath("{curly-path}", "server")
+            });
+            const results = await eslint.lintFiles(["src/**/*.{js,json}"]);
+
+            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results[0].messages.length, 1);
+            assert.strictEqual(results[0].messages[0].ruleId, "no-console");
+            assert.strictEqual(
+                results[0].filePath,
+                getFixturePath("{curly-path}/server/src/two.js")
+            );
+            assert.strictEqual(results[0].suppressedMessages.length, 0);
+        });
+
         // https://github.com/eslint/eslint/issues/16265
         describe("Dot files in searches", () => {
 

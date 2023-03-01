@@ -1051,6 +1051,25 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code: "foo\n/* this is pragmatic */",
             options: [{ applyDefaultIgnorePatterns: false, ignorePattern: "pragma" }]
+        },
+
+        // Hashbang comment
+        {
+            code: "#!comment\n\nvar a = 1;",
+            options: [{ afterHashbangComment: true }]
+        },
+        "#!comment\nvar a = 1;",
+        {
+            code: "#!comment\nvar a = 1;",
+            options: [{}]
+        },
+        {
+            code: "#!comment\nvar a = 1;",
+            options: [{ afterHashbangComment: false }]
+        },
+        {
+            code: "#!comment\nvar a = 1;",
+            options: [{ afterLineComment: true, afterBlockComment: true }]
         }
     ],
 
@@ -2193,6 +2212,14 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true
             }],
             errors: [{ messageId: "before", type: "Line" }]
+        },
+
+        // Hashbang comment
+        {
+            code: "#!foo\nvar a = 1;",
+            output: "#!foo\n\nvar a = 1;",
+            options: [{ afterHashbangComment: true }],
+            errors: [{ messageId: "after", type: "Shebang" }]
         }
     ]
 

@@ -1,7 +1,7 @@
 {
     "name": "docs-eslint",
     "private": true,
-    "version": "8.34.0",
+    "version": "8.35.0",
     "description": "",
     "main": "index.js",
     "keywords": [],
@@ -10,13 +10,16 @@
     "files": [],
     "scripts": {
         "images": "imagemin '_site/assets/images' --out-dir='_site/assets/images'",
-        "watch:sass": "sass --watch --poll src/assets/scss:src/assets/css",
+        "watch:postcss": "postcss src/assets/css -d src/assets/css --watch --poll",
+        "watch:sass": "sass --watch --poll src/assets/scss:src/assets/css --no-source-map",
         "watch:eleventy": "eleventy --serve --port=2023",
-        "build:sass": "sass --style=compressed src/assets/scss:src/assets/css --no-source-map",
+        "build:postcss": "postcss src/assets/css -d src/assets/css",
+        "build:sass": "sass src/assets/scss:src/assets/css --no-source-map",
         "build:eleventy": "npx @11ty/eleventy",
-        "start": "npm-run-all build:sass --parallel watch:*",
-        "build": "npm-run-all build:sass build:eleventy images",
+        "start": "npm-run-all build:sass build:postcss --parallel watch:*",
+        "build": "npm-run-all build:sass build:postcss build:eleventy images",
         "lint:scss": "stylelint \"**/*.{scss,html}\"",
+        "lint:links": "cross-env NODE_OPTIONS=--max-old-space-size=4096 node tools/validate-links.js",
         "lint:fix:scss": "npm run lint:scss -- --fix"
     },
     "devDependencies": {
@@ -25,13 +28,18 @@
         "@11ty/eleventy-navigation": "^0.3.2",
         "@11ty/eleventy-plugin-rss": "^1.1.1",
         "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.2",
+        "@munter/tap-render": "^0.2.0",
         "@types/markdown-it": "^12.2.3",
         "algoliasearch": "^4.12.1",
+        "autoprefixer": "^10.4.13",
+        "cross-env": "^7.0.3",
+        "cssnano": "^5.1.14",
         "dom-parser": "^0.1.6",
         "eleventy-plugin-nesting-toc": "^1.3.0",
         "eleventy-plugin-page-assets": "^0.3.0",
         "eleventy-plugin-reading-time": "^0.0.1",
         "github-slugger": "^1.5.0",
+        "hyperlink": "^5.0.4",
         "imagemin": "^8.0.1",
         "imagemin-cli": "^7.0.0",
         "js-yaml": "^3.14.1",
@@ -41,6 +49,7 @@
         "markdown-it-container": "^3.0.0",
         "netlify-cli": "^10.3.1",
         "npm-run-all": "^4.1.5",
+        "postcss-cli": "^10.0.0",
         "postcss-html": "^1.5.0",
         "prismjs": "^1.29.0",
         "rimraf": "^3.0.2",
@@ -48,9 +57,14 @@
         "stylelint": "^14.13.0",
         "stylelint-config-html": "^1.1.0",
         "stylelint-config-standard": "^29.0.0",
-        "stylelint-config-standard-scss": "^5.0.0"
+        "stylelint-config-standard-scss": "^5.0.0",
+        "tap-spot": "^1.1.2"
     },
     "engines": {
         "node": ">=14.0.0"
-    }
+    },
+    "browserslist": [
+        "defaults",
+        "IE 11"
+    ]
 }
