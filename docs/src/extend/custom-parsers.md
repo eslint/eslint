@@ -12,7 +12,7 @@ ESLint custom parsers let you extend ESLint to support linting new non-standard 
 
 ## Creating a Custom Parser
 
-A custom parser is a JavaScript object with either a `parse` or `parseForESLint` method. The `parse` method only returns the AST, whereas `parseForESLint` also returns additional values that let you customize the behavior of the parser even more.
+A custom parser is a JavaScript object with either a `parse` or `parseForESLint` method. The `parse` method only returns the AST, whereas `parseForESLint` also returns additional values that let the parser customize the behavior of ESLint even more.
 
 Both methods should take in the source code as the first argument, and an optional configuration object as the second argument, which is provided as [`parserOptions`](../use/configure/language-options#specifying-parser-options) in a configuration file.
 
@@ -21,7 +21,7 @@ Both methods should take in the source code as the first argument, and an option
 
 const espree = require("espree");
 
-// Logs the time before and after parsing each file.
+// Logs the duration it takes to parse each file.
 function parse(code, options) {
     const label = `Parsing file "${options.filePath}"`;
     console.time(label);
@@ -43,10 +43,10 @@ The `parseForESLint` method should return an object that contains the required p
 
 * `ast` should contain the [AST](#ast-specification) object.
 * `services` can contain any parser-dependent services (such as type checkers for nodes). The value of the `services` property is available to rules as `context.parserServices`. Default is an empty object.
-* `scopeManager` can be a [ScopeManager](./scope-manager-interface) object. Custom parsers can use customized scope analysis for experimental/enhancement syntaxes. Default is the `ScopeManager` object which is created by [eslint-scope](https://github.com/eslint/eslint-scope).
-    * Support for `scopeManager` was added in ESLint v4.14.0. ESLint versions which support `scopeManager` will provide an `eslintScopeManager: true` property in `parserOptions`, which can be used for feature detection.
-* `visitorKeys` can be an object to customize AST traversal. The keys of the object are the type of AST nodes. Each value is an array of the property names which should be traversed. Default is [KEYS of `eslint-visitor-keys`](https://github.com/eslint/eslint-visitor-keys#evkkeys).
-    * Support for `visitorKeys` was added in ESLint v4.14.0. ESLint versions which support `visitorKeys` will provide an `eslintVisitorKeys: true` property in `parserOptions`, which can be used for feature detection.
+* `scopeManager` can be a [ScopeManager](./scope-manager-interface) object. Custom parsers can use customized scope analysis for experimental/enhancement syntaxes. The default is the `ScopeManager` object which is created by [eslint-scope](https://github.com/eslint/eslint-scope).
+    * Support for `scopeManager` was added in ESLint v4.14.0. ESLint versions that support `scopeManager` will provide an `eslintScopeManager: true` property in `parserOptions`, which can be used for feature detection.
+* `visitorKeys` can be an object to customize AST traversal. The keys of the object are the type of AST nodes. Each value is an array of the property names which should be traversed. The default is [KEYS of `eslint-visitor-keys`](https://github.com/eslint/eslint-visitor-keys#evkkeys).
+    * Support for `visitorKeys` was added in ESLint v4.14.0. ESLint versions that support `visitorKeys` will provide an `eslintVisitorKeys: true` property in `parserOptions`, which can be used for feature detection.
 
 ## AST Specification
 
@@ -57,7 +57,7 @@ The AST that custom parsers should create is based on [ESTree](https://github.co
 All nodes must have `range` property.
 
 * `range` (`number[]`) is an array of two numbers. Both numbers are a 0-based index which is the position in the array of source code characters. The first is the start position of the node, the second is the end position of the node. `code.slice(node.range[0], node.range[1])` must be the text of the node. This range does not include spaces/parentheses which are around the node.
-* `loc` (`SourceLocation`) must not be `null`. [The `loc` property is defined as nullable by ESTree](https://github.com/estree/estree/blob/25834f7247d44d3156030f8e8a2d07644d771fdb/es5.md#node-objects), but ESLint requires this property. `SourceLocation#source` property can be `undefined`. ESLint does not use the `SourceLocation#source` property.
+* `loc` (`SourceLocation`) must not be `null`. [The `loc` property is defined as nullable by ESTree](https://github.com/estree/estree/blob/25834f7247d44d3156030f8e8a2d07644d771fdb/es5.md#node-objects), but ESLint requires this property. The `SourceLocation#source` property can be `undefined`. ESLint does not use the `SourceLocation#source` property.
 
 The `parent` property of all nodes must be rewritable. Before any rules have access to the AST, ESLint sets each node's `parent` property to its parent node while traversing.
 
