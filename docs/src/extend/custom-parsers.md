@@ -91,16 +91,16 @@ The `Literal` node must have `raw` property.
 To publish your custom parser to npm, perform the following:
 
 1. Create a custom parser following the [Creating a Custom Parser](#creating-a-custom-parser) section above.
-1. Create an npm package for the custom parser.
+1. [Create an npm package](https://docs.npmjs.com/creating-node-js-modules) for the custom parser.
 1. In your `package.json` file, set the [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) field as the file that exports your custom parser.
-1. Publish the npm package.
+1. [Publish the npm package.](https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages)
 
 For more information on publishing an npm package, refer to the [npm documentation](https://docs.npmjs.com/).
 
 Once you've published the npm package, you can use it by adding the package to your project. For example:
 
 ```shell
-npm install eslint-parser-myParser
+npm install eslint-parser-myparser --save-dev
 ```
 
 Then add the custom parser to your ESLint configuration file with the `parser` property. For example:
