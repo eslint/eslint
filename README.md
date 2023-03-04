@@ -212,11 +212,6 @@ The people who manage releases, review feature requests, and meet regularly to e
 Nicholas C. Zakas
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/btmills">
-<img src="https://github.com/btmills.png?s=75" width="75" height="75"><br />
-Brandon Mills
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/mdjermanovic">
 <img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75"><br />
 Milos Djermanovic
@@ -249,9 +244,9 @@ The people who review and fix bugs and help triage issues.
 Bryan Mishkin
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/SaraSoueidan">
-<img src="https://github.com/SaraSoueidan.png?s=75" width="75" height="75"><br />
-Sara Soueidan
+<a href="https://github.com/btmills">
+<img src="https://github.com/btmills.png?s=75" width="75" height="75"><br />
+Brandon Mills
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/fasttime">
