@@ -85,7 +85,8 @@ module.exports = [
             "build/**",
             "coverage/**",
             "docs/*",
-            "!docs/.eleventy.js",
+            "!docs/*.js",
+            "!docs/tools/",
             "jsdoc/**",
             "templates/**",
             "tests/bench/**",
@@ -119,9 +120,10 @@ module.exports = [
         }
     },
     {
-        files: ["tools/*.js"],
+        files: ["tools/*.js", "docs/tools/*.js"],
         rules: {
-            "no-console": "off"
+            "no-console": "off",
+            "n/no-process-exit": "off"
         }
     },
     {

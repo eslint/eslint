@@ -83,9 +83,10 @@ module.exports = {
     },
     overrides: [
         {
-            files: ["tools/*.js"],
+            files: ["tools/*.js", "docs/tools/*.js"],
             rules: {
-                "no-console": "off"
+                "no-console": "off",
+                "n/no-process-exit": "off"
             }
         },
         {
