@@ -15,9 +15,7 @@ Releases are when a project formally publishes a new version so the community ca
 
 ## Release Team
 
-A two-person release team is assigned to each scheduled release.
-
-TODO: add a sentence or two about who the release team is composed of...just TSC members? how is the release team determined?
+One member of the Technical Steering Committee (TSC) is assigned to manage each scheduled release. The release manager is determined at the TSC meeting the day before the release.
 
 This two-person team is responsible for:
 
@@ -53,7 +51,7 @@ On the day of a scheduled release, the release team should follow these steps:
 1. Make a release announcement on the release issue. Document any problems that occurred during the release, and remind the team not to merge anything other than documentation changes and bugfixes. Leave the release issue open.
 1. Add the `patch release pending` label to the release issue. (When this label is present, `eslint-github-bot` will create a pending status check on non-semver-patch pull requests, to ensure that they aren't accidentally merged while a patch release is pending.)
 
-TODO: add a bit of info saying where the release communication happens.
+All release-related communications occur in the `#team` channel on Discord.
 
 On the Monday following the scheduled release, the release team needs to determine if a patch release is necessary. A patch release is considered necessary if any of the following occurred since the scheduled release:
 
