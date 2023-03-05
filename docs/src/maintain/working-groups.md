@@ -7,7 +7,7 @@ eleventyNavigation:
     order: 4
 ---
 
-The ESLint [Technical Steering Committee](../contribute/governance) (TSC) may form working groups to focus on a specific area of the project.
+The ESLint [Technical Steering Committee](../contribute/governance#technical-steering-committee-tsc) (TSC) may form working groups to focus on a specific area of the project.
 
 ## Creating a Working Group
 

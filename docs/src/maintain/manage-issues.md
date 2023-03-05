@@ -24,7 +24,7 @@ There are four primary issue categories:
 1. **Bug**: Something isn't working the way it's expected to work.
 1. **Enhancement**: A change to something that already exists. For instance, adding a new option to an existing rule or fixing a bug in a rule where fixing it will result in the rule reporting more problems (in this case, use both "Bug" and "Enhancement").
 1. **Feature**: Adding something that doesn't already exist. For example, adding a new rule, new formatter, or new command line flag.
-1. **Question**: An inquiry about how something works that won't result in a code change. We prefer if people use Github Discussions or Discord for questions, but sometimes they'll open an issue.
+1. **Question**: An inquiry about how something works that won't result in a code change. We prefer if people use GitHub Discussions or Discord for questions, but sometimes they'll open an issue.
 
 The first goal when evaluating an issue is to determine which category the issue falls into.
 
