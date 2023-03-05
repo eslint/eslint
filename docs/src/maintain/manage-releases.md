@@ -13,7 +13,7 @@ Releases are when a project formally publishes a new version so the community ca
 * Regular releases that follow [semantic versioning](https://semver.org/) and are considered production-ready.
 * Prereleases that are not considered production-ready and are intended to give the community a preview of upcoming changes.
 
-## Release Team
+## Release Manager
 
 One member of the Technical Steering Committee (TSC) is assigned to manage each scheduled release. The release manager is determined at the TSC meeting the day before the release.
 
