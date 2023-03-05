@@ -109,7 +109,7 @@ Then add the custom parser to your ESLint configuration file with the `parser` p
 // .eslintrc.js
 
 module.exports = {
-  parser: 'eslint-parser-myParser',
+  parser: 'eslint-parser-myparser',
   // ... rest of configuration
 };
 ```
