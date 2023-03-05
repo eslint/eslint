@@ -4,7 +4,7 @@ eleventyNavigation:
     key: review pull requests
     parent: maintain eslint
     title: Review Pull Requests
-    order: 2
+    order: 3
 
 ---
 

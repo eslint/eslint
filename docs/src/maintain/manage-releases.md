@@ -4,7 +4,7 @@ eleventyNavigation:
     key: manage releases
     parent: maintain eslint
     title: Manage Releases
-    order: 3
+    order: 4
 
 ---
 
