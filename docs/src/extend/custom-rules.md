@@ -655,7 +655,7 @@ Rules may export a `schema` property, which is a [JSON Schema](https://json-sche
 
 There are two formats for a rule's exported `schema`. The first is a full JSON Schema object describing all possible options the rule accepts, including the rule's error level as the first argument and any optional arguments thereafter.
 
-However, to simplify schema creation, rules may also export an array of schemas for each optional positional argument, and ESLint will automatically validate the required error level first. For example, the `yoda` rule accepts a primary mode argument, as well as an extra options object with named properties.
+However, to simplify schema creation, rules may also export an array of schemas for each optional positional argument. ESLint automatically validates the required error level first. For example, the `yoda` rule accepts a primary mode argument, as well as an extra options object with named properties.
 
 ```js
 // "yoda": [2, "never", { "exceptRange": true }]
@@ -683,14 +683,11 @@ In the preceding example, the error level is assumed to be the first argument. I
 
 To learn more about JSON Schema, we recommend looking at some examples in [website](https://json-schema.org/learn/) to start, and also reading [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/) (a free ebook).
 
-
-**Note:** Currently you need to use a full JSON Schema object rather than an array in case your schema has references ($ref), because, in the case of array format, ESLint transforms this array into a single schema without updating references that make them incorrect (they are ignored).
+**Note:** If your rule schema uses JSON schema [`$ref`](https://json-schema.org/understanding-json-schema/structuring.html#ref) properties, you must use the full JSON Schema object rather than the array of positional property schemas. This is because ESLint transforms the array shorthand into a single schema without updating references that makes them incorrect (they are ignored).
 
 ### Accessing Shebangs
 
-TODO: which methods to access shebang? also would be helpful to have a small example here.
-
-Shebangs are represented by tokens of type `"Shebang"`. They are treated as comments and can be accessed by the methods outlined above.
+[Shebangs (#!)](https://en.wikipedia.org/wiki/Shebang_(Unix)) are represented by the unique tokens of type `"Shebang"`. They are treated as comments and can be accessed by the methods outlined in the [Accessing Comments](#accessing-comments) section, such as `sourceCode.getAllComments()`.
 
 ### Accessing Code Paths
 
