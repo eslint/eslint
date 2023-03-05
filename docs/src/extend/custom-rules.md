@@ -38,9 +38,9 @@ module.exports = {
 
 The source file for a rule exports an object with the following properties. Both custom rules and core rules follow this format.
 
-`meta` (object) Contains metadata for the rule:
+`meta`: (object) Contains metadata for the rule:
 
-* `type`: (string) indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
+* `type`: (string) Indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
 
     * `"problem"`: The rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
     * `"suggestion"`: The rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
@@ -66,7 +66,7 @@ The source file for a rule exports an object with the following properties. Both
 
 * `replacedBy`: (array) In the case of a deprecated rule, specify replacement rule(s).
 
-`create`: (function) Returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
+`create()`: Returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
 
 * If a key is a node type or a [selector](./selectors), ESLint calls that **visitor** function while going **down** the tree.
 * If a key is a node type or a [selector](./selectors) plus `:exit`, ESLint calls that **visitor** function while going **up** the tree.
@@ -123,12 +123,11 @@ As the name implies, the `context` object contains information that is relevant 
 
 The `context` object has the following properties:
 
-* `parserOptions`: The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
-* `id`: The rule ID.
-* `options`: An array of the [configured options](../use/configure/rules#configuring-rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
-* `settings`: The [shared settings](../use/configure/configuration-files#adding-shared-settings) from configuration.
-* `parserPath`: The name of the `parser` from the configuration.
-* `parserServices`: An object containing parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
+* `id`: (string) The rule ID.
+* `options`: (array) An array of the [configured options](../use/configure/rules#configuring-rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
+* `settings`: (object) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from configuration.
+* `parserPath`: (string) The name of the `parser` from configuration.
+* `parserServices`: (object) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 
 Additionally, the `context` object has the following methods:
 
@@ -206,17 +205,17 @@ For examples of using `context.getScope()` to track variables, refer to the sour
 
 The main method you'll use when writing custom rules is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
 
-* `message`: The problem message.
-* `node`: (optional) The AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
-* `loc`: (optional) An object specifying the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
+* `message`: (string) The problem message.
+* `node`: (optional object) The AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
+* `loc`: (optional object) Specifies the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
     * `start`: An object of the start location.
-        * `line`: The 1-based line number at which the problem occurred.
-        * `column` The 0-based column number at which the problem occurred.
+        * `line`: (number) The 1-based line number at which the problem occurred.
+        * `column` (number) The 0-based column number at which the problem occurred.
     * `end`: An object of the end location.
-        * `line`: The 1-based line number at which the problem occurred.
-        * `column`: The 0-based column number at which the problem occurred.
-* `data`:(optional) [Placeholder](#using-message-placeholders) data for `message`.
-* `fix`: (optional) A function that applies a [fix](#applying-fixes) to resolve the problem.
+        * `line`: (number) The 1-based line number at which the problem occurred.
+        * `column`: (number) The 0-based column number at which the problem occurred.
+* `data`:(optional object) [Placeholder](#using-message-placeholders) data for `message`.
+* `fix(fixer)`: (optional function) Applies a [fix](#applying-fixes) to resolve the problem.
 
 Note that at least one of `node` or `loc` is required.
 
@@ -325,7 +324,7 @@ If you'd like ESLint to attempt to fix the problem you're reporting, you can do 
 context.report({
     node: node,
     message: "Missing semicolon",
-    fix: function(fixer) {
+    fix(fixer) {
         return fixer.insertTextAfter(node, ";");
     }
 });
@@ -588,28 +587,28 @@ Once you have an instance of `SourceCode`, you can use the following methods on 
 
 `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
 
-* `skip`: Positive integer, the number of skipping tokens. If the `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
-* `includeComments`: Boolean, the flag to include comment tokens into the result.
-* `filter`: Function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
+* `skip`: (number) Positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
+* `includeComments`: (boolean) The flag to include comment tokens into the result.
+* `filter(token)`: Function which gets a token as the first argument. If the function returns `false` then the result excludes the token.
 
 `countOptions` is an object which has 3 properties; `count`, `includeComments`, and `filter`. Default is `{count: 0, includeComments: false, filter: null}`.
 
-* `count`: Positive integer, the maximum number of returning tokens.
-* `includeComments`: Boolean, the flag to include comment tokens into the result.
-* `filter` Function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
+* `count`: (number) Positive integer, the maximum number of returning tokens.
+* `includeComments`: (boolean) The flag to include comment tokens into the result.
+* `filter(token)`: Function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
 
-`rangeOptions` is an object which has 1 property: `includeComments`.
+`rangeOptions`: (object) Has 1 property: `includeComments`.
 
-* `includeComments`: Boolean, the flag to include comment tokens into the result.
+* `includeComments`: (boolean) The flag to include comment tokens into the result.
 
 There are also some properties you can access:
 
-* `hasBOM`: The flag to indicate whether the source code has Unicode BOM.
-* `text`: The full text of the code being linted. Unicode BOM has been stripped from this text.
-* `ast`: `Program` node of the AST for the code being linted.
+* `hasBOM`: (boolean) The flag to indicate whether the source code has Unicode BOM.
+* `text`: (string) The full text of the code being linted. Unicode BOM has been stripped from this text.
+* `ast`: (object) `Program` node of the AST for the code being linted.
 * `scopeManager`: [ScopeManager](./scope-manager-interface#scopemanager-interface) object of the code.
-* `visitorKeys`: Visitor keys to traverse this AST.
-* `lines`: Array of lines, split according to the specification's definition of line breaks.
+* `visitorKeys`: (object) Visitor keys to traverse this AST.
+* `lines`: (array) Array of lines, split according to the specification's definition of line breaks.
 
 You should use a `SourceCode` object whenever you need to get more information about the code being linted.
 
@@ -701,7 +700,8 @@ Please note that the following `context` methods have been deprecated and will b
 * `getTokenOrCommentBefore()`: Replaced by `SourceCode#getTokenBefore()` with the `{ includeComments: true }` option.
 * `getTokenOrCommentAfter()`: Replaced by `SourceCode#getTokenAfter()` with the `{ includeComments: true }` option.
 * `isSpaceBetweenTokens()`: Replaced by `SourceCode#isSpaceBetween()`
-* `getJSDocComment()`.
+* `getJSDocComment()`
+* `parserOptions`: The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
 
 ## Rule Unit Tests
 
