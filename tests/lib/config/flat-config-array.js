@@ -16,6 +16,7 @@ const {
     recommended: recommendedConfig
 } = require("@eslint/js").configs;
 const stringify = require("json-stable-stringify-without-jsonify");
+const espree = require("espree");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -190,6 +191,7 @@ describe("FlatConfigArray", () => {
     });
 
     describe("Serialization of configs", () => {
+
         it("should convert config into normalized JSON object", () => {
 
             const configs = new FlatConfigArray([{
@@ -207,7 +209,7 @@ describe("FlatConfigArray", () => {
                 languageOptions: {
                     ecmaVersion: "latest",
                     sourceType: "module",
-                    parser: "@/espree",
+                    parser: `espree@${espree.version}`,
                     parserOptions: {}
                 },
                 processor: void 0
@@ -463,7 +465,7 @@ describe("FlatConfigArray", () => {
             assert.deepStrictEqual(config.toJSON(), {
                 languageOptions: {
                     ecmaVersion: "latest",
-                    parser: "@/espree",
+                    parser: `espree@${espree.version}`,
                     parserOptions: {},
                     sourceType: "module"
                 },
@@ -490,7 +492,7 @@ describe("FlatConfigArray", () => {
             assert.deepStrictEqual(config.toJSON(), {
                 languageOptions: {
                     ecmaVersion: "latest",
-                    parser: "@/espree",
+                    parser: `espree@${espree.version}`,
                     parserOptions: {},
                     sourceType: "module"
                 },
@@ -521,7 +523,7 @@ describe("FlatConfigArray", () => {
             assert.deepStrictEqual(config.toJSON(), {
                 languageOptions: {
                     ecmaVersion: "latest",
-                    parser: "@/espree",
+                    parser: `espree@${espree.version}`,
                     parserOptions: {},
                     sourceType: "module"
                 },
@@ -550,7 +552,7 @@ describe("FlatConfigArray", () => {
             assert.deepStrictEqual(config.toJSON(), {
                 languageOptions: {
                     ecmaVersion: "latest",
-                    parser: "@/espree",
+                    parser: `espree@${espree.version}`,
                     parserOptions: {},
                     sourceType: "module"
                 },
@@ -1340,21 +1342,10 @@ describe("FlatConfigArray", () => {
                                 parser: true
                             }
                         }
-                    ], "Expected an object or string.");
+                    ], "Key \"languageOptions\": Key \"parser\": Expected object with parse() or parseForESLint() method.");
                 });
 
-                it("should error when an unexpected value is found", async () => {
-
-                    await assertInvalidConfig([
-                        {
-                            languageOptions: {
-                                parser: "true"
-                            }
-                        }
-                    ], /Expected string in the form "pluginName\/objectName"/u);
-                });
-
-                it("should error when a plugin parser can't be found", async () => {
+                it("should error when a parser is a string", async () => {
 
                     await assertInvalidConfig([
                         {
@@ -1362,7 +1353,7 @@ describe("FlatConfigArray", () => {
                                 parser: "foo/bar"
                             }
                         }
-                    ], "Key \"parser\": Could not find \"bar\" in plugin \"foo\".");
+                    ], "Key \"languageOptions\": Key \"parser\": Expected object with parse() or parseForESLint() method.");
                 });
 
                 it("should error when a value doesn't have a parse() method", async () => {
@@ -1373,7 +1364,7 @@ describe("FlatConfigArray", () => {
                                 parser: {}
                             }
                         }
-                    ], "Expected object to have a parse() or parseForESLint() method.");
+                    ], "Key \"languageOptions\": Key \"parser\": Expected object with parse() or parseForESLint() method.");
                 });
 
                 it("should merge two objects when second object has overrides", () => {
@@ -1388,24 +1379,12 @@ describe("FlatConfigArray", () => {
                             }
                         },
                         {
-                            plugins: {
-                                "@foo/baz": {
-                                    parsers: {
-                                        bar: stubParser
-                                    }
-                                }
-                            },
                             languageOptions: {
-                                parser: "@foo/baz/bar"
+                                parser: stubParser
                             }
                         }
                     ], {
                         plugins: {
-                            "@foo/baz": {
-                                parsers: {
-                                    bar: stubParser
-                                }
-                            },
                             ...baseConfig.plugins
                         },
                         languageOptions: {
@@ -1420,27 +1399,14 @@ describe("FlatConfigArray", () => {
 
                     return assertMergedResult([
                         {
-                            plugins: {
-                                foo: {
-                                    parsers: {
-                                        bar: stubParser
-                                    }
-                                }
-                            },
-
                             languageOptions: {
-                                parser: "foo/bar"
+                                parser: stubParser
                             }
                         },
                         {
                         }
                     ], {
                         plugins: {
-                            foo: {
-                                parsers: {
-                                    bar: stubParser
-                                }
-                            },
                             ...baseConfig.plugins
                         },
 
@@ -1460,25 +1426,12 @@ describe("FlatConfigArray", () => {
                         {
                         },
                         {
-                            plugins: {
-                                foo: {
-                                    parsers: {
-                                        bar: stubParser
-                                    }
-                                }
-                            },
-
                             languageOptions: {
-                                parser: "foo/bar"
+                                parser: stubParser
                             }
                         }
                     ], {
                         plugins: {
-                            foo: {
-                                parsers: {
-                                    bar: stubParser
-                                }
-                            },
                             ...baseConfig.plugins
                         },
 

@@ -41,8 +41,8 @@ Each configuration object contains all of the information ESLint needs to execut
     * `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
     * `sourceType` - The type of JavaScript source code. Possible values are `"script"` for traditional script files, `"module"` for ECMAScript modules (ESM), and `"commonjs"` for CommonJS files. (default: `"module"` for `.js` and `.mjs` files; `"commonjs"` for `.cjs` files)
     * `globals` - An object specifying additional objects that should be added to the global scope during linting.
-    * `parser` - Either an object containing a `parse()` method or a string indicating the name of a parser inside of a plugin (i.e., `"pluginName/parserName"`). (default: `"@/espree"`)
-    * `parserOptions` - An object specifying additional options that are passed directly to the `parser()` method on the parser. The available options are parser-dependent.
+    * `parser` - An object containing a `parse()` method or a `parseForESLint()` method. (default: [`espree`](https://github.com/eslint/espree))
+    * `parserOptions` - An object specifying additional options that are passed directly to the `parse()` or `parseForESLint()` method on the parser. The available options are parser-dependent.
 * `linterOptions` - An object containing settings related to the linting process.
     * `noInlineConfig` - A Boolean value indicating if inline configuration is allowed.
     * `reportUnusedDisableDirectives` - A Boolean value indicating if unused disable directives should be tracked and reported.
@@ -251,7 +251,7 @@ export default [
 
 #### Configuring a custom parser and its options
 
-In many cases, you can use the default parser that ESLint ships with for parsing your JavaScript code. You can optionally override the default parser by using the `parser` property. The `parser` property can be either a string in the format `"pluginName/parserName"` (indicating to retrieve the parser from a plugin) or an object containing either a `parse()` method or a `parseForESLint()` method. For example, you can use the [`@babel/eslint-parser`](https://www.npmjs.com/package/@babel/eslint-parser) package to allow ESLint to parse experimental syntax:
+In many cases, you can use the default parser that ESLint ships with for parsing your JavaScript code. You can optionally override the default parser by using the `parser` property. The `parser` property must be an object containing either a `parse()` method or a `parseForESLint()` method. For example, you can use the [`@babel/eslint-parser`](https://www.npmjs.com/package/@babel/eslint-parser) package to allow ESLint to parse experimental syntax:
 
 ```js
 import babelParser from "@babel/eslint-parser";
