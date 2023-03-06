@@ -1,3 +1,5 @@
+"use strict";
+
 const path = require("path");
 const TapRender = require("@munter/tap-render");
 const spot = require("tap-spot");
@@ -16,13 +18,19 @@ const skipPatterns = [
     "/team",
     "/donate",
     "/docs/latest",
-    `src="null"`,
+    'src="null"'
 ];
 
-const skipFilter = (report) =>
-    Object.values(report).some((value) =>
-        skipPatterns.some((pattern) => String(value).includes(pattern))
-    );
+/**
+ * Filter function to mark tests as skipped.
+ * Tests for which this function returns `true' are not considered failed.
+ * @param {Object} report hyperlink's test report for a link.
+ * @returns {boolean} `true` if the report contains any of `skipPatterns`.
+ */
+function skipFilter(report) {
+    return Object.values(report).some(value =>
+        skipPatterns.some(pattern => String(value).includes(pattern)));
+}
 
 (async () => {
     try {
@@ -35,7 +43,7 @@ const skipFilter = (report) =>
                 internalOnly: true,
                 pretty: true,
                 concurrency: 25,
-                skipFilter,
+                skipFilter
             },
             tapRenderInstance
         );
