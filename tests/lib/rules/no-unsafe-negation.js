@@ -57,200 +57,283 @@ ruleTester.run("no-unsafe-negation", rule, {
         {
             code: "foo = a > b;",
             options: [{ enforceForOrderingRelations: true }]
-        }
+        },
+        // tests cases for enforceForEqualRelations option:
+        {
+            code: "foo = ! a === b;",
+            options: [{ enforceForEqualRelations: false }]
+        },
+        {
+            code: "foo = (!a) == b;",
+            options: [{ enforceForEqualRelations: true }]
+        },
+        {
+            code: "a === b",
+            options: [{ enforceForEqualRelations: true }]
+        },
+        {
+            code: "!(a === b)",
+            options: [{ enforceForEqualRelations: true }]
+        },
+        {
+            code: "foo = a === b;",
+            options: [{ enforceForEqualRelations: true }]
+        },
     ],
     invalid: [
         {
             code: "!a in b",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "in" },
-                suggestions: [
-                    {
-                        desc: "Negate 'in' expression instead of its left operand. This changes the current behavior.",
-                        output: "!(a in b)"
-                    },
-                    {
-                        desc: "Wrap negation in '()' to make the intention explicit. This preserves the current behavior.",
-                        output: "(!a) in b"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "in" },
+                    suggestions: [
+                        {
+                            desc: "Negate 'in' expression instead of its left operand. This changes the current behavior.",
+                            output: "!(a in b)"
+                        },
+                        {
+                            desc: "Wrap negation in '()' to make the intention explicit. This preserves the current behavior.",
+                            output: "(!a) in b"
+                        }
+                    ]
+                },
+            ]
         },
         {
             code: "(!a in b)",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "in" },
-                suggestions: [
-                    {
-                        messageId: "suggestNegatedExpression",
-                        output: "(!(a in b))"
-                    },
-                    {
-                        messageId: "suggestParenthesisedNegation",
-                        output: "((!a) in b)"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "in" },
+                    suggestions: [
+                        {
+                            messageId: "suggestNegatedExpression",
+                            output: "(!(a in b))"
+                        },
+                        {
+                            messageId: "suggestParenthesisedNegation",
+                            output: "((!a) in b)"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "!(a) in b",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "in" },
-                suggestions: [
-                    {
-                        messageId: "suggestNegatedExpression",
-                        output: "!((a) in b)"
-                    },
-                    {
-                        messageId: "suggestParenthesisedNegation",
-                        output: "(!(a)) in b"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "in" },
+                    suggestions: [
+                        {
+                            messageId: "suggestNegatedExpression",
+                            output: "!((a) in b)"
+                        },
+                        {
+                            messageId: "suggestParenthesisedNegation",
+                            output: "(!(a)) in b"
+                        },
+                    ]
+                }
+            ]
         },
         {
             code: "!a instanceof b",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "instanceof" },
-                suggestions: [
-                    {
-                        messageId: "suggestNegatedExpression",
-                        output: "!(a instanceof b)"
-                    },
-                    {
-                        messageId: "suggestParenthesisedNegation",
-                        output: "(!a) instanceof b"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "instanceof" },
+                    suggestions: [
+                        {
+                            messageId: "suggestNegatedExpression",
+                            output: "!(a instanceof b)"
+                        },
+                        {
+                            messageId: "suggestParenthesisedNegation",
+                            output: "(!a) instanceof b"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "(!a instanceof b)",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "instanceof" },
-                suggestions: [
-                    {
-                        messageId: "suggestNegatedExpression",
-                        output: "(!(a instanceof b))"
-                    },
-                    {
-                        messageId: "suggestParenthesisedNegation",
-                        output: "((!a) instanceof b)"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "instanceof" },
+                    suggestions: [
+                        {
+                            messageId: "suggestNegatedExpression",
+                            output: "(!(a instanceof b))"
+                        },
+                        {
+                            messageId: "suggestParenthesisedNegation",
+                            output: "((!a) instanceof b)"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "!(a) instanceof b",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "instanceof" },
-                suggestions: [
-                    {
-                        messageId: "suggestNegatedExpression",
-                        output: "!((a) instanceof b)"
-                    },
-                    {
-                        messageId: "suggestParenthesisedNegation",
-                        output: "(!(a)) instanceof b"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "instanceof" },
+                    suggestions: [
+                        {
+                            messageId: "suggestNegatedExpression",
+                            output: "!((a) instanceof b)"
+                        },
+                        {
+                            messageId: "suggestParenthesisedNegation",
+                            output: "(!(a)) instanceof b"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "if (! a < b) {}",
             options: [{ enforceForOrderingRelations: true }],
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "<" },
-                suggestions: [
-                    {
-                        messageId: "suggestNegatedExpression",
-                        output: "if (!( a < b)) {}"
-                    },
-                    {
-                        messageId: "suggestParenthesisedNegation",
-                        output: "if ((! a) < b) {}"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "<" },
+                    suggestions: [
+                        {
+                            messageId: "suggestNegatedExpression",
+                            output: "if (!( a < b)) {}",
+                        },
+                        {
+                            messageId: "suggestParenthesisedNegation",
+                            output: "if ((! a) < b) {}"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "while (! a > b) {}",
             options: [{ enforceForOrderingRelations: true }],
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: ">" },
-                suggestions: [
-                    {
-                        messageId: "suggestNegatedExpression",
-                        output: "while (!( a > b)) {}"
-                    },
-                    {
-                        messageId: "suggestParenthesisedNegation",
-                        output: "while ((! a) > b) {}"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: ">" },
+                    suggestions: [
+                        {
+                            messageId: "suggestNegatedExpression",
+                            output: "while (!( a > b)) {}"
+                        },
+                        {
+                            messageId: "suggestParenthesisedNegation",
+                            output: "while ((! a) > b) {}"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "foo = ! a <= b;",
             options: [{ enforceForOrderingRelations: true }],
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "<=" },
-                suggestions: [
-                    {
-                        messageId: "suggestNegatedExpression",
-                        output: "foo = !( a <= b);"
-                    },
-                    {
-                        messageId: "suggestParenthesisedNegation",
-                        output: "foo = (! a) <= b;"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "<=" },
+                    suggestions: [
+                        {
+                            messageId: "suggestNegatedExpression",
+                            output: "foo = !( a <= b);"
+                        },
+                        {
+                            messageId: "suggestParenthesisedNegation",
+                            output: "foo = (! a) <= b;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "foo = ! a >= b;",
             options: [{ enforceForOrderingRelations: true }],
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: ">=" },
-                suggestions: [
-                    {
-                        messageId: "suggestNegatedExpression",
-                        output: "foo = !( a >= b);"
-                    },
-                    {
-                        messageId: "suggestParenthesisedNegation",
-                        output: "foo = (! a) >= b;"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: ">=" },
+                    suggestions: [
+                        {
+                            messageId: "suggestNegatedExpression",
+                            output: "foo = !( a >= b);"
+                        },
+                        {
+                            messageId: "suggestParenthesisedNegation",
+                            output: "foo = (! a) >= b;"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "! a <= b",
             options: [{ enforceForOrderingRelations: true }],
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "<=" },
-                suggestions: [
-                    {
-                        messageId: "suggestNegatedExpression",
-                        output: "!( a <= b)"
-                    },
-                    {
-                        messageId: "suggestParenthesisedNegation",
-                        output: "(! a) <= b"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "<=" },
+                    suggestions: [
+                        {
+                            messageId: "suggestNegatedExpression",
+                            output: "!( a <= b)"
+                        },
+                        {
+                            messageId: "suggestParenthesisedNegation",
+                            output: "(! a) <= b"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "! a === b",
+            options: [{ enforceForEqualRelations: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "===" },
+                    suggestions: [
+                        {
+                            messageId: "suggestNegatedExpression",
+                            output: "!( a === b)"
+                        },
+                        {
+                            messageId: "suggestParenthesisedNegation",
+                            output: "(! a) === b"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "foo = ! a == b;",
+            options: [{ enforceForEqualRelations: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "==" },
+                    suggestions: [
+                        {
+                            messageId: "suggestNegatedExpression",
+                            output: "foo = !( a == b);"
+                        },
+                        {
+                            messageId: "suggestParenthesisedNegation",
+                            output: "foo = (! a) == b;"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 });
