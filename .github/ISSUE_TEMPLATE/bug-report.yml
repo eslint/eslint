@@ -14,11 +14,11 @@ body:
     description: |
       Please tell us about how you're running ESLint (Run `npx eslint --env-info`.)
     value: |
-        Node version: 
-        npm version: 
-        Local ESLint version: 
-        Global ESLint version: 
-        Operating System: 
+        Node version: 12.7.0
+        npm version: 6.10.0
+        Local ESLint version: 7.32.0 
+        Global ESLint version: 7.32.0
+        Operating System: macos
   validations:
     required: true
 - type: dropdown
@@ -33,6 +33,7 @@ body:
       - "vue-eslint-parser"
       - "@angular-eslint/template-parser"
       - Other
+    value: "Default (Espree)"
   validations:
     required: true
 - type: textarea
@@ -45,12 +46,12 @@ body:
       <summary>Configuration</summary>
 
       ```
-      <!-- Paste your configuration here -->
+      <!-- Paste your configuration here --> I have tried to use padding-line-netween-statements to but a rule that mast be at least one line padding between any two sucessive funtions but this doesn't work in case the two function is in shape of one line arrow function so i have added a arrow function statemnet that work well in this case 
       ```
       </details>
 
       ```js
-      <!-- Paste your code here -->
+      <!-- Paste your code here --> https://eslint.org/play/#eyJ0ZXh0IjoiLyplc2xpbnQgcGFkZGluZy1saW5lLWJldHdlZW4tc3RhdGVtZW50czogW1xuICAgIFwiZXJyb3JcIixcbiAgICB7IGJsYW5rTGluZTogXCJhbHdheXNcIiwgcHJldjogXCIqXCIsIG5leHQ6IFwiZnVuY3Rpb25cIiB9LFxuICAgIHsgYmxhbmtMaW5lOiBcImFsd2F5c1wiLCBwcmV2OiBcIipcIiwgbmV4dDogXCJibG9jay1saWtlXCIgfVxuXSovXG5cbi8vaXQgZG9lc24ndCBkZXRlY3QgYW55IGVycm9yXG5jb25zdCBmaXJzdEZ1bmMgPSAoKSA9PiBcImZpcnN0RnVuY1wiIC8vZXJyb3IgaXMgdGhlcmUgaXMgbm8gcGFkZGluZyBiZXR3ZWVuIHRoZSB0d28gYXJyb3cgZnVuY3Rpb25zXG5jb25zdCBzZWNvbmRGdW5jID0gKCkgPT4gXCJzZWNvbmRGdW5jXCJcblxuZmlyc3RGdW5jKClcbnNlY29uZEZ1bmMoKSIsIm9wdGlvbnMiOnsicGFyc2VyT3B0aW9ucyI6eyJlY21hVmVyc2lvbiI6ImxhdGVzdCIsInNvdXJjZVR5cGUiOiJzY3JpcHQiLCJlY21hRmVhdHVyZXMiOnt9fSwicnVsZXMiOnsiY29uc3RydWN0b3Itc3VwZXIiOlsiZXJyb3IiXSwiZm9yLWRpcmVjdGlvbiI6WyJlcnJvciJdLCJnZXR0ZXItcmV0dXJuIjpbImVycm9yIl0sIm5vLWFzeW5jLXByb21pc2UtZXhlY3V0b3IiOlsiZXJyb3IiXSwibm8tY2FzZS1kZWNsYXJhdGlvbnMiOlsiZXJyb3IiXSwibm8tY2xhc3MtYXNzaWduIjpbImVycm9yIl0sIm5vLWNvbXBhcmUtbmVnLXplcm8iOlsiZXJyb3IiXSwibm8tY29uZC1hc3NpZ24iOlsiZXJyb3IiXSwibm8tY29uc3QtYXNzaWduIjpbImVycm9yIl0sIm5vLWNvbnN0YW50LWNvbmRpdGlvbiI6WyJlcnJvciJdLCJuby1jb250cm9sLXJlZ2V4IjpbImVycm9yIl0sIm5vLWRlYnVnZ2VyIjpbImVycm9yIl0sIm5vLWRlbGV0ZS12YXIiOlsiZXJyb3IiXSwibm8tZHVwZS1hcmdzIjpbImVycm9yIl0sIm5vLWR1cGUtY2xhc3MtbWVtYmVycyI6WyJlcnJvciJdLCJuby1kdXBlLWVsc2UtaWYiOlsiZXJyb3IiXSwibm8tZHVwZS1rZXlzIjpbImVycm9yIl0sIm5vLWR1cGxpY2F0ZS1jYXNlIjpbImVycm9yIl0sIm5vLWVtcHR5IjpbImVycm9yIl0sIm5vLWVtcHR5LWNoYXJhY3Rlci1jbGFzcyI6WyJlcnJvciJdLCJuby1lbXB0eS1wYXR0ZXJuIjpbImVycm9yIl0sIm5vLWV4LWFzc2lnbiI6WyJlcnJvciJdLCJuby1leHRyYS1ib29sZWFuLWNhc3QiOlsiZXJyb3IiXSwibm8tZXh0cmEtc2VtaSI6WyJlcnJvciJdLCJuby1mYWxsdGhyb3VnaCI6WyJlcnJvciJdLCJuby1mdW5jLWFzc2lnbiI6WyJlcnJvciJdLCJuby1nbG9iYWwtYXNzaWduIjpbImVycm9yIl0sIm5vLWltcG9ydC1hc3NpZ24iOlsiZXJyb3IiXSwibm8taW5uZXItZGVjbGFyYXRpb25zIjpbImVycm9yIl0sIm5vLWludmFsaWQtcmVnZXhwIjpbImVycm9yIl0sIm5vLWlycmVndWxhci13aGl0ZXNwYWNlIjpbImVycm9yIl0sIm5vLWxvc3Mtb2YtcHJlY2lzaW9uIjpbImVycm9yIl0sIm5vLW1pc2xlYWRpbmctY2hhcmFjdGVyLWNsYXNzIjpbImVycm9yIl0sIm5vLW1peGVkLXNwYWNlcy1hbmQtdGFicyI6WyJlcnJvciJdLCJuby1uZXctc3ltYm9sIjpbImVycm9yIl0sIm5vLW5vbm9jdGFsLWRlY2ltYWwtZXNjYXBlIjpbImVycm9yIl0sIm5vLW9iai1jYWxscyI6WyJlcnJvciJdLCJuby1vY3RhbCI6WyJlcnJvciJdLCJuby1wcm90b3R5cGUtYnVpbHRpbnMiOlsiZXJyb3IiXSwibm8tcmVkZWNsYXJlIjpbImVycm9yIl0sIm5vLXJlZ2V4LXNwYWNlcyI6WyJlcnJvciJdLCJuby1zZWxmLWFzc2lnbiI6WyJlcnJvciJdLCJuby1zZXR0ZXItcmV0dXJuIjpbImVycm9yIl0sIm5vLXNoYWRvdy1yZXN0cmljdGVkLW5hbWVzIjpbImVycm9yIl0sIm5vLXNwYXJzZS1hcnJheXMiOlsiZXJyb3IiXSwibm8tdGhpcy1iZWZvcmUtc3VwZXIiOlsiZXJyb3IiXSwibm8tdW5kZWYiOlsiZXJyb3IiXSwibm8tdW5leHBlY3RlZC1tdWx0aWxpbmUiOlsiZXJyb3IiXSwibm8tdW5yZWFjaGFibGUiOlsiZXJyb3IiXSwibm8tdW5zYWZlLWZpbmFsbHkiOlsiZXJyb3IiXSwibm8tdW5zYWZlLW5lZ2F0aW9uIjpbImVycm9yIl0sIm5vLXVuc2FmZS1vcHRpb25hbC1jaGFpbmluZyI6WyJlcnJvciJdLCJuby11bnVzZWQtbGFiZWxzIjpbImVycm9yIl0sIm5vLXVudXNlZC12YXJzIjpbImVycm9yIl0sIm5vLXVzZWxlc3MtYmFja3JlZmVyZW5jZSI6WyJlcnJvciJdLCJuby11c2VsZXNzLWNhdGNoIjpbImVycm9yIl0sIm5vLXVzZWxlc3MtZXNjYXBlIjpbImVycm9yIl0sInJlcXVpcmUteWllbGQiOlsiZXJyb3IiXSwidXNlLWlzbmFuIjpbImVycm9yIl0sInZhbGlkLXR5cGVvZiI6WyJlcnJvciJdLCJwYWRkaW5nLWxpbmUtYmV0d2Vlbi1zdGF0ZW1lbnRzIjpbImVycm9yIl19LCJlbnYiOnsiZXM2Ijp0cnVlfX19
       ```
   validations:
     required: true
@@ -59,6 +60,8 @@ body:
     label: What did you expect to happen?
     description: |
       You can use Markdown in this field.
+    value: |
+      i expect to solve the problem and detect the padding lint error between any two successive one line arrow function
   validations:
     required: true
 - type: textarea
@@ -66,6 +69,8 @@ body:
     label: What actually happened?
     description: |
       Please copy-paste the actual ESLint output. You can use Markdown in this field.
+    value: |
+      it detects no linting error
   validations:
     required: true
 - type: checkboxes
@@ -74,6 +79,7 @@ body:
     options:
       - label: I am willing to submit a pull request for this issue.
         required: false
+    value: true
 - type: textarea
   attributes:
     label: Additional comments

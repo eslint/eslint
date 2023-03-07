@@ -50,6 +50,7 @@ You can supply any number of configurations. If a statement pair matches multipl
 
 * `STATEMENT_TYPE` is one of the following, or an array of the following.
     * `"*"` is wildcard. This matches any statements.
+    * `"arrow-function"` is arrow Arrow Function decleration
     * `"block"` is lonely blocks.
     * `"block-like"` is block like statements. This matches statements that the last token is the closing brace of blocks; e.g. `{ }`, `if (a) { }`, and `while (a) { }`. Also matches immediately invoked function expression statements.
     * `"break"` is `break` statements.
