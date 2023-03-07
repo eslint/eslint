@@ -16,7 +16,7 @@ This rule aims to enforce a particular style for multiline comments.
 This rule has a string option, which can have one of the following values:
 
 * `"starred-block"` (default): Disallows consecutive line comments in favor of block comments. Additionally, requires block comments to have an aligned `*` character before each line.
-* `"bare-block"`: Disallows consecutive line comments in favor of block comments, and disallows block comments from having a `"*"` character before each line.
+* `"bare-block"`: Disallows consecutive line comments in favor of block comments, and disallows block comments from having a `"*"` character before each line. This option ignores JSDoc comments.
 * `"separate-lines"`: Disallows block comments in favor of consecutive line comments. By default, this option ignores JSDoc comments. To also apply this rule to JSDoc comments, set the `checkJSDoc` option to `true`.
 
 The rule always ignores directive comments such as `/* eslint-disable */`.
