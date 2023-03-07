@@ -258,6 +258,29 @@ describe("FlatConfigArray", () => {
 
         });
 
+        it("should throw an error when config with unnamed parser object with only meta version is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                languageOptions: {
+                    parser: {
+                        meta: {
+                            version: "0.1.1"
+                        },
+                        parse() { /* empty */ }
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.throws(() => {
+                config.toJSON();
+            }, /Could not serialize parser/u);
+
+        });
+
         it("should not throw an error when config with named parser object is normalized", () => {
 
             const configs = new FlatConfigArray([{
