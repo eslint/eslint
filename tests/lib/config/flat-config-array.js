@@ -219,7 +219,7 @@ describe("FlatConfigArray", () => {
             assert.strictEqual(stringify(actual), stringify(expected));
         });
 
-        it("should throw an error when config with parser object is normalized", () => {
+        it("should throw an error when config with unnamed parser object is normalized", () => {
 
             const configs = new FlatConfigArray([{
                 languageOptions: {
@@ -235,11 +235,176 @@ describe("FlatConfigArray", () => {
 
             assert.throws(() => {
                 config.toJSON();
-            }, /Caching is not supported/u);
+            }, /Could not serialize parser/u);
 
         });
 
-        it("should throw an error when config with processor object is normalized", () => {
+        it("should throw an error when config with unnamed parser object with empty meta object is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                languageOptions: {
+                    parser: {
+                        meta: {},
+                        parse() { /* empty */ }
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.throws(() => {
+                config.toJSON();
+            }, /Could not serialize parser/u);
+
+        });
+
+        it("should throw an error when config with unnamed parser object with only meta version is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                languageOptions: {
+                    parser: {
+                        meta: {
+                            version: "0.1.1"
+                        },
+                        parse() { /* empty */ }
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.throws(() => {
+                config.toJSON();
+            }, /Could not serialize parser/u);
+
+        });
+
+        it("should not throw an error when config with named parser object is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                languageOptions: {
+                    parser: {
+                        meta: {
+                            name: "custom-parser"
+                        },
+                        parse() { /* empty */ }
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.toJSON(), {
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    parser: "custom-parser",
+                    parserOptions: {},
+                    sourceType: "module"
+                },
+                plugins: ["@"],
+                processor: void 0
+            });
+
+        });
+
+        it("should not throw an error when config with named and versioned parser object is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                languageOptions: {
+                    parser: {
+                        meta: {
+                            name: "custom-parser",
+                            version: "0.1.0"
+                        },
+                        parse() { /* empty */ }
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.toJSON(), {
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    parser: "custom-parser@0.1.0",
+                    parserOptions: {},
+                    sourceType: "module"
+                },
+                plugins: ["@"],
+                processor: void 0
+            });
+
+        });
+
+        it("should not throw an error when config with meta-named and versioned parser object is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                languageOptions: {
+                    parser: {
+                        meta: {
+                            name: "custom-parser"
+                        },
+                        version: "0.1.0",
+                        parse() { /* empty */ }
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.toJSON(), {
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    parser: "custom-parser@0.1.0",
+                    parserOptions: {},
+                    sourceType: "module"
+                },
+                plugins: ["@"],
+                processor: void 0
+            });
+
+        });
+
+        it("should not throw an error when config with named and versioned parser object outside of meta object is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                languageOptions: {
+                    parser: {
+                        name: "custom-parser",
+                        version: "0.1.0",
+                        parse() { /* empty */ }
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.toJSON(), {
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    parser: "custom-parser@0.1.0",
+                    parserOptions: {},
+                    sourceType: "module"
+                },
+                plugins: ["@"],
+                processor: void 0
+            });
+
+        });
+
+        it("should throw an error when config with unnamed processor object is normalized", () => {
 
             const configs = new FlatConfigArray([{
                 processor: {
@@ -254,10 +419,146 @@ describe("FlatConfigArray", () => {
 
             assert.throws(() => {
                 config.toJSON();
-            }, /Caching is not supported/u);
+            }, /Could not serialize processor/u);
 
         });
 
+        it("should throw an error when config with processor object with empty meta object is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                processor: {
+                    meta: {},
+                    preprocess() { /* empty */ },
+                    postprocess() { /* empty */ }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.throws(() => {
+                config.toJSON();
+            }, /Could not serialize processor/u);
+
+        });
+
+
+        it("should not throw an error when config with named processor object is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                processor: {
+                    meta: {
+                        name: "custom-processor"
+                    },
+                    preprocess() { /* empty */ },
+                    postprocess() { /* empty */ }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.toJSON(), {
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    parser: "@/espree",
+                    parserOptions: {},
+                    sourceType: "module"
+                },
+                plugins: ["@"],
+                processor: "custom-processor"
+            });
+
+        });
+
+        it("should not throw an error when config with named processor object without meta is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                processor: {
+                    name: "custom-processor",
+                    preprocess() { /* empty */ },
+                    postprocess() { /* empty */ }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.toJSON(), {
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    parser: "@/espree",
+                    parserOptions: {},
+                    sourceType: "module"
+                },
+                plugins: ["@"],
+                processor: "custom-processor"
+            });
+
+        });
+
+        it("should not throw an error when config with named and versioned processor object is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                processor: {
+                    meta: {
+                        name: "custom-processor",
+                        version: "1.2.3"
+                    },
+                    preprocess() { /* empty */ },
+                    postprocess() { /* empty */ }
+                }
+            }]);
+
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.toJSON(), {
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    parser: "@/espree",
+                    parserOptions: {},
+                    sourceType: "module"
+                },
+                plugins: ["@"],
+                processor: "custom-processor@1.2.3"
+            });
+
+        });
+
+        it("should not throw an error when config with named and versioned processor object without meta is normalized", () => {
+
+            const configs = new FlatConfigArray([{
+                processor: {
+                    name: "custom-processor",
+                    version: "1.2.3",
+                    preprocess() { /* empty */ },
+                    postprocess() { /* empty */ }
+                }
+            }]);
+
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.toJSON(), {
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    parser: "@/espree",
+                    parserOptions: {},
+                    sourceType: "module"
+                },
+                plugins: ["@"],
+                processor: "custom-processor@1.2.3"
+            });
+
+        });
 
     });
 
