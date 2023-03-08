@@ -630,6 +630,20 @@ ruleTester.run("multiline-comment-style", rule, {
         },
         {
             code: `
+                /**
+                 * JSDoc
+                 * Comment
+                 */
+            `,
+            output: `
+                // JSDoc
+                // Comment
+            `,
+            options: ["separate-lines", { checkJSDoc: true }],
+            errors: [{ messageId: "expectedLines", line: 2 }]
+        },
+        {
+            code: `
                 /* foo
                  *bar
                  baz
