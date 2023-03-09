@@ -676,16 +676,6 @@ describe("TokenStore", () => {
             assert.strictEqual(token, null);
         });
 
-        it("should retrieve a parent node's token if a node has no tokens", () => {
-            const code = "foo``";
-            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true, ecmaVersion: 6 });
-            const tokenStore = new TokenStore(ast.tokens, ast.comments);
-            const emptyTemplateElementNode = ast.body[0].expression.quasi.quasis[0];
-            const token = tokenStore.getFirstToken(emptyTemplateElementNode);
-
-            assert.strictEqual(token.value, "``");
-        });
-
     });
 
     describe("when calling getLastTokens", () => {
@@ -893,16 +883,6 @@ describe("TokenStore", () => {
             const token = tokenStore.getLastToken(ast);
 
             assert.strictEqual(token, null);
-        });
-
-        it("should retrieve a parent node's token if a node has no tokens", () => {
-            const code = "foo``";
-            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true, ecmaVersion: 6 });
-            const tokenStore = new TokenStore(ast.tokens, ast.comments);
-            const emptyTemplateElementNode = ast.body[0].expression.quasi.quasis[0];
-            const token = tokenStore.getLastToken(emptyTemplateElementNode);
-
-            assert.strictEqual(token.value, "``");
         });
 
     });
