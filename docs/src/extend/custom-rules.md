@@ -60,7 +60,7 @@ The source file for a rule exports an object with the following properties. Both
 
   **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
-* `schema`: (array) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules#configuring-rules).
+* `schema`: (array) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules).
 
 * `deprecated`: (boolean) Indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.
 
@@ -124,7 +124,7 @@ As the name implies, the `context` object contains information that is relevant 
 The `context` object has the following properties:
 
 * `id`: (string) The rule ID.
-* `options`: (array) An array of the [configured options](../use/configure/rules#configuring-rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
+* `options`: (array) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
 * `settings`: (object) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from configuration.
 * `parserPath`: (string) The name of the `parser` from configuration.
 * `parserServices`: (object) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
@@ -569,7 +569,7 @@ module.exports = {
 
 Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
-* `getText(node)`: Return the source code for the given node. Omit `node` to get the whole source (see the [dedicated section](#getting-the-source-text)).
+* `getText(node)`: Return the source code for the given node. Omit `node` to get the whole source (see the [dedicated section](#accessing-the-source-text)).
 * `getAllComments()`: Return an array of all comments in the source.
 * `getCommentsBefore(nodeOrToken)`: Return an array of comment tokens that occur directly before the given node or token.
 * `getCommentsAfter(nodeOrToken)`: Return an array of comment tokens that occur directly after the given node or token.
