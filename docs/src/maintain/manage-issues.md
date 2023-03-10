@@ -81,7 +81,7 @@ When an issue has been moved to the "Ready for Dev Team" column, any dev team me
 
 1. Move the issue into the "Evaluating" column.
 1. Next steps:
-    * **Bugs** :If you can verify the bug, add the "accepted" label and ask if they would like to submit a pull request.
+    * **Bugs**: If you can verify the bug, add the "accepted" label and ask if they would like to submit a pull request.
     * **New Rules**: If you are willing to champion the rule (meaning you believe it should be included in ESLint core and you will take ownership of the process for including it), add a comment saying you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
     * **Rule Changes**: If you are willing to champion the change and it would not be a breaking change (requiring a major version increment), add a comment saying that you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
     * **Breaking Changes**: If you suspect or can verify that a change would be breaking, label it as "Breaking".

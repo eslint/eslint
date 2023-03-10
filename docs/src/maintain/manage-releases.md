@@ -37,7 +37,7 @@ Each scheduled release should be associated with a release issue ([example](http
 On the day of a scheduled release, the release manager should follow these steps:
 
 1. Review open pull requests to see if any should be merged. In general, you can merge pull requests that:
-    * Have been open at least two days and have been approved (these are just waiting for merge).
+    * Have been open for at least two days and approved (these are just waiting for merge).
     * Important pull requests (as determined by the team). You should stop and have people review before merging if they haven't been already.
     * Documentation changes.
     * Small bugfixes written by a team member.
@@ -45,7 +45,7 @@ On the day of a scheduled release, the release manager should follow these steps
 1. Watch the console output of the build on Jenkins. At some point, the build will pause and a link will be produced with an input field for a six-digit 2FA code.
 1. Enter the current six-digit 2FA code from your authenticator app.
 1. Continue the build and wait for it to finish.
-1. Create a release blog post with a "Highlights" section, including new rules and anything else that's important.
+1. Update a release blog post with a "Highlights" section, including new rules and anything else that's important.
 1. Make a release announcement in the public chatroom.
 1. Make a release announcement on Twitter.
 1. Make a release announcement on the release issue. Document any problems that occurred during the release, and remind the team not to merge anything other than documentation changes and bugfixes. Leave the release issue open.
@@ -68,6 +68,6 @@ After the patch release has been published (or no patch release is necessary), c
 
 An emergency release is unplanned and isn't the regularly scheduled release or the anticipated patch release.
 
-In general, we try not to do emergency releases. Even if there is a regression, it's best to wait the weekend to see if any other problems arise so a patch release can fix as many issues as possible.
+In general, we try not to do emergency releases. Even if there is a regression, it's best to wait until Monday to see if any other problems arise so a patch release can fix as many issues as possible.
 
 The only real exception is if ESLint is completely unusable by most of the current users. For instance, we once pushed a release that errored for everyone because it was missing some core files. In that case, an emergency release is appropriate.
