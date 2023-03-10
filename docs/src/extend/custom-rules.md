@@ -235,6 +235,7 @@ The node contains all the information necessary to figure out the line and colum
 You can also use placeholders in the message and provide `data`:
 
 ```js
+{% raw %}
 context.report({
     node: node,
     message: "Unexpected identifier: {{ identifier }}",
@@ -242,6 +243,7 @@ context.report({
         identifier: node.name
     }
 });
+{% endraw %}
 ```
 
 Note that leading and trailing whitespace is optional in message parameters.
@@ -257,6 +259,7 @@ This allows you to avoid retyping error messages. It also prevents errors report
 Rule file:
 
 ```js
+{% raw %}
 // avoid-name.js
 
 module.exports = {
@@ -281,6 +284,7 @@ module.exports = {
         };
     }
 };
+{% endraw %}
 ```
 
 In the file to lint:
@@ -411,6 +415,7 @@ In some cases fixes aren't appropriate to be automatically applied, for example,
 To provide suggestions, use the `suggest` key in the report argument with an array of suggestion objects. The suggestion objects represent individual suggestions that could be applied and require either a `desc` key string that describes what applying the suggestion would do or a `messageId` key (see [below](#suggestion-messageids)), and a `fix` key that is a function defining the suggestion result. This `fix` function follows the same API as regular fixes (described above in [applying fixes](#applying-fixes)).
 
 ```js
+{% raw %}
 context.report({
     node: node,
     message: "Unnecessary escape character: \\{{character}}.",
@@ -430,6 +435,7 @@ context.report({
         }
     ]
 });
+{% endraw %}
 ```
 
 **Important:** The `meta.hasSuggestions` property is mandatory for rules that provide suggestions. ESLint will throw an error if a rule attempts to produce a suggestion but does not [export](#rule-structure) this property.
@@ -448,6 +454,7 @@ Suggestions are intended to provide fixes. ESLint will automatically remove the 
 Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageids)). Here is an example of how to use a suggestion `messageId` in a rule:
 
 ```js
+{% raw %}
 module.exports = {
     meta: {
         messages: {
@@ -480,6 +487,7 @@ module.exports = {
         });
     }
 };
+{% endraw %}
 ```
 
 #### Placeholders in Suggestion Messages
@@ -489,6 +497,7 @@ You can also use placeholders in the suggestion message. This works the same way
 Please note that you have to provide `data` on the suggestion's object. Suggestion messages cannot use properties from the overall error's `data`.
 
 ```js
+{% raw %}
 module.exports = {
     meta: {
         messages: {
@@ -515,6 +524,7 @@ module.exports = {
         });
     }
 };
+{% endraw %}
 ```
 
 ### Accessing Options Passed to a Rule
