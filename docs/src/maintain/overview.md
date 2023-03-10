@@ -16,8 +16,6 @@ The ESLint team work together to develop and maintain ESLint. To learn more abou
 
 ## Organization Structure
 
-TODO: provide a little more info about what the OpenJS foundation actually does vis-a-vis ESLint.
-
 ESLint is part of the [OpenJS Foundation](https://openjsf.org/), a nonprofit organization that supports open-source projects and communities in the JavaScript ecosystem.
 
 The OpenJS Foundation provides legal infrastructure for JavaScript projects like ESLint. It is the owner of the intellectual property related to ESLint, including copyrights and trademarks, and ensures the independence of the project. They are also a resource for ESLint if we need legal advice or representation.
