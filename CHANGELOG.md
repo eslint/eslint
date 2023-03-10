@@ -1,3 +1,21 @@
+v8.36.0 - March 10, 2023
+
+* [`602b111`](https://github.com/eslint/eslint/commit/602b11121910a97ab2bc4a95a46dd0ccd0a89309) chore: upgrade @eslint/js@8.36.0 (#16978) (Milos Djermanovic)
+* [`43c2345`](https://github.com/eslint/eslint/commit/43c2345c27024aeab6127e6bbfd55c8b70bd317e) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`00afb84`](https://github.com/eslint/eslint/commit/00afb84e5039874c8745a45c953fceaf0c71c454) chore: upgrade @eslint/eslintrc@2.0.1 (#16977) (Milos Djermanovic)
+* [`698c5aa`](https://github.com/eslint/eslint/commit/698c5aad50e628ff00281dbc786e42de79834035) chore: upgrade espree@9.5.0 (#16976) (Milos Djermanovic)
+* [`b98fdd4`](https://github.com/eslint/eslint/commit/b98fdd413a3b07b262bfce6f704c1c1bb8582770) docs: Update README (GitHub Actions Bot)
+* [`c89a485`](https://github.com/eslint/eslint/commit/c89a485c49450532ee3db74f2638429f1f37d0dd) feat: Add `checkJSDoc` option to multiline-comment-style (#16807) (Laurent Cozic)
+* [`f5f5e11`](https://github.com/eslint/eslint/commit/f5f5e11bd5fd3daab9ccae41e270739c836c305e) feat: Serialize parsers/processors in flat config (#16944) (Nicholas C. Zakas)
+* [`caf08ce`](https://github.com/eslint/eslint/commit/caf08ce0cc74917f7c0eec92d25fd784dc33ac4d) docs: fix estree link in custom formatters docs (#16967) (Milos Djermanovic)
+* [`75acdd2`](https://github.com/eslint/eslint/commit/75acdd21c5ce7024252e9d41ed77d2f30587caac) chore: lint more js files in docs (#16964) (Milos Djermanovic)
+* [`3398431`](https://github.com/eslint/eslint/commit/3398431574b903757bc78b08c8ed36b7b9fce8eb) docs: Custom Parsers cleanup/expansion (#16887) (Ben Perlmutter)
+* [`19d3531`](https://github.com/eslint/eslint/commit/19d3531d9b54e1004318d28f9a6e18305c5bcc18) docs: Update README (GitHub Actions Bot)
+* [`4799297`](https://github.com/eslint/eslint/commit/4799297ea582c81fd1e5623d32a7ddf7a7f3a126) feat: use @eslint-community dependencies (#16784) (Michaël De Boey)
+* [`b09a512`](https://github.com/eslint/eslint/commit/b09a512107249a4eb19ef5a37b0bd672266eafdb) docs: detect and fix broken links (#16837) (Nitin Kumar)
+* [`92c1943`](https://github.com/eslint/eslint/commit/92c1943ba73ea01e87086236e8736539b0eed558) fix: correctly iterate files matched by glob patterns (#16831) (Nitin Kumar)
+* [`89d9844`](https://github.com/eslint/eslint/commit/89d9844b3151f09b5b21b6eeeda671009ec301e9) ci: bump actions/add-to-project from 0.4.0 to 0.4.1 (#16943) (dependabot[bot])
+
 v8.35.0 - February 26, 2023
 
 * [`cdcbe12`](https://github.com/eslint/eslint/commit/cdcbe127de20cbcc4e24131a808c13b1024e61a2) chore: upgrade @eslint/js@8.35.0 (#16935) (Brandon Mills)
