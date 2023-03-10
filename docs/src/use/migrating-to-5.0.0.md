@@ -221,7 +221,7 @@ Previously, the `context.getScope()` method changed its behavior based on the `p
 
 Additionally, `context.getScope()` incorrectly returned the parent scope of the proper scope on `CatchClause` (in ES5), `ForStatement` (in ≧ES2015), `ForInStatement` (in ≧ES2015), `ForOfStatement`, and `WithStatement` nodes.
 
-In ESLint v5, the `context.getScope()` method has the same behavior regardless of `parserOptions.ecmaVersion` and returns the proper scope. See [the documentation](../extend/custom-rules#accessing-scope-of-a-node) for more details on which scopes are returned.
+In ESLint v5, the `context.getScope()` method has the same behavior regardless of `parserOptions.ecmaVersion` and returns the proper scope. See [the documentation](../extend/custom-rules#accessing-the-scope-of-a-node) for more details on which scopes are returned.
 
 **To address:** If you have written a custom rule that uses the `context.getScope()` method in node handlers, you may need to update it to account for the modified scope information.
 
