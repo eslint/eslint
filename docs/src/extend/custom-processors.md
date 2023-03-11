@@ -163,7 +163,7 @@ module.exports = {
 }
 ```
 
-You can also use the same custom processor with multiple filename extensions. The following example shows using same processor for both `.md` and `.mdx` files:
+You can also use the same custom processor with multiple filename extensions. The following example shows using the same processor for both `.md` and `.mdx` files:
 
 ```js
 const myCustomProcessor = { /* processor methods */ };
