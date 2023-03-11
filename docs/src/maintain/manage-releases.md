@@ -45,7 +45,7 @@ On the day of a scheduled release, the release manager should follow these steps
 1. Watch the console output of the build on Jenkins. At some point, the build will pause and a link will be produced with an input field for a six-digit 2FA code.
 1. Enter the current six-digit 2FA code from your authenticator app.
 1. Continue the build and wait for it to finish.
-1. Update a release blog post with a "Highlights" section, including new rules and anything else that's important.
+1. Update the release blog post with a "Highlights" section, including new rules and anything else that's important.
 1. Make a release announcement in the public chatroom.
 1. Make a release announcement on Twitter.
 1. Make a release announcement on the release issue. Document any problems that occurred during the release, and remind the team not to merge anything other than documentation changes and bugfixes. Leave the release issue open.
