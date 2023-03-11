@@ -38,33 +38,33 @@ module.exports = {
 
 The source file for a rule exports an object with the following properties. Both custom rules and core rules follow this format.
 
-`meta`: (object) Contains metadata for the rule:
+`meta`: (`object`) Contains metadata for the rule:
 
-* `type`: (string) Indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
+* `type`: (`string`) Indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
 
     * `"problem"`: The rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
     * `"suggestion"`: The rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
     * `"layout"`: The rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
 
-* `docs`: (object) Required for core rules and optional for custom rules. Core rules have specific entries inside of `docs` while custom rules can include any properties that you need. The following properties are only relevant when working on core rules.
+* `docs`: (`object`) Required for core rules and optional for custom rules. Core rules have specific entries inside of `docs` while custom rules can include any properties that you need. The following properties are only relevant when working on core rules.
 
-    * `description`: (string) Provides the short description of the rule in the [rules index](../rules/).
-    * `recommended`: (boolean) Specifies whether the `"extends":  "eslint:recommended"` property in a [configuration file](../use/configure/configuration-files#extending-configuration-files) enables the rule.
-    * `url`: (string) Specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations).
+    * `description`: (`string`) Provides the short description of the rule in the [rules index](../rules/).
+    * `recommended`: (`boolean`) Specifies whether the `"extends":  "eslint:recommended"` property in a [configuration file](../use/configure/configuration-files#extending-configuration-files) enables the rule.
+    * `url`: (`string`) Specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations).
 
-* `fixable`: (string) Either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
+* `fixable`: (`string`) Either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
 
   **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
 
-* `hasSuggestions`: (boolean) Specifies whether rules can return suggestions (defaults to `false` if omitted).
+* `hasSuggestions`: (`boolean`) Specifies whether rules can return suggestions (defaults to `false` if omitted).
 
   **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
 * `schema`: (array) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules).
 
-* `deprecated`: (boolean) Indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.
+* `deprecated`: (`boolean`) Indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.
 
-* `replacedBy`: (array) In the case of a deprecated rule, specify replacement rule(s).
+* `replacedBy`: (`array`) In the case of a deprecated rule, specify replacement rule(s).
 
 `create()`: Returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
 
@@ -123,11 +123,11 @@ As the name implies, the `context` object contains information that is relevant 
 
 The `context` object has the following properties:
 
-* `id`: (string) The rule ID.
-* `options`: (array) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
-* `settings`: (object) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from configuration.
-* `parserPath`: (string) The name of the `parser` from configuration.
-* `parserServices`: (object) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
+* `id`: (`string`) The rule ID.
+* `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
+* `settings`: (`object`) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from configuration.
+* `parserPath`: (`string`) The name of the `parser` from configuration.
+* `parserServices`: (`object`) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 
 Additionally, the `context` object has the following methods:
 
@@ -205,17 +205,17 @@ For examples of using `context.getScope()` to track variables, refer to the sour
 
 The main method you'll use when writing custom rules is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
 
-* `message`: (string) The problem message.
-* `node`: (optional object) The AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
-* `loc`: (optional object) Specifies the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
+* `message`: (`string`) The problem message.
+* `node`: (optional `object`) The AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
+* `loc`: (optional `object`) Specifies the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
     * `start`: An object of the start location.
-        * `line`: (number) The 1-based line number at which the problem occurred.
-        * `column` (number) The 0-based column number at which the problem occurred.
+        * `line`: (`number`) The 1-based line number at which the problem occurred.
+        * `column` (`number`) The 0-based column number at which the problem occurred.
     * `end`: An object of the end location.
-        * `line`: (number) The 1-based line number at which the problem occurred.
-        * `column`: (number) The 0-based column number at which the problem occurred.
-* `data`:(optional object) [Placeholder](#using-message-placeholders) data for `message`.
-* `fix(fixer)`: (optional function) Applies a [fix](#applying-fixes) to resolve the problem.
+        * `line`: (`number`) The 1-based line number at which the problem occurred.
+        * `column`: (`number`) The 0-based column number at which the problem occurred.
+* `data`:(optional `object`) [Placeholder](#using-message-placeholders) data for `message`.
+* `fix(fixer)`: (optional `function`) Applies a [fix](#applying-fixes) to resolve the problem.
 
 Note that at least one of `node` or `loc` is required.
 
@@ -597,28 +597,28 @@ Once you have an instance of `SourceCode`, you can use the following methods on 
 
 `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
 
-* `skip`: (number) Positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
-* `includeComments`: (boolean) The flag to include comment tokens into the result.
+* `skip`: (`number`) Positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
+* `includeComments`: (`boolean`) The flag to include comment tokens into the result.
 * `filter(token)`: Function which gets a token as the first argument. If the function returns `false` then the result excludes the token.
 
 `countOptions` is an object which has 3 properties; `count`, `includeComments`, and `filter`. Default is `{count: 0, includeComments: false, filter: null}`.
 
-* `count`: (number) Positive integer, the maximum number of returning tokens.
-* `includeComments`: (boolean) The flag to include comment tokens into the result.
+* `count`: (`number`) Positive integer, the maximum number of returning tokens.
+* `includeComments`: (`boolean`) The flag to include comment tokens into the result.
 * `filter(token)`: Function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
 
 `rangeOptions`: (object) Has 1 property: `includeComments`.
 
-* `includeComments`: (boolean) The flag to include comment tokens into the result.
+* `includeComments`: (`boolean`) The flag to include comment tokens into the result.
 
 There are also some properties you can access:
 
-* `hasBOM`: (boolean) The flag to indicate whether the source code has Unicode BOM.
-* `text`: (string) The full text of the code being linted. Unicode BOM has been stripped from this text.
-* `ast`: (object) `Program` node of the AST for the code being linted.
+* `hasBOM`: (`boolean`) The flag to indicate whether the source code has Unicode BOM.
+* `text`: (`string`) The full text of the code being linted. Unicode BOM has been stripped from this text.
+* `ast`: (`object`) `Program` node of the AST for the code being linted.
 * `scopeManager`: [ScopeManager](./scope-manager-interface#scopemanager-interface) object of the code.
-* `visitorKeys`: (object) Visitor keys to traverse this AST.
-* `lines`: (array) Array of lines, split according to the specification's definition of line breaks.
+* `visitorKeys`: (`object`) Visitor keys to traverse this AST.
+* `lines`: (`array`) Array of lines, split according to the specification's definition of line breaks.
 
 You should use a `SourceCode` object whenever you need to get more information about the code being linted.
 
