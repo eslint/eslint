@@ -12,7 +12,7 @@ This page explains the different roles and structures involved in maintaining ES
 
 ## The ESLint Team
 
-The ESLint team work together to develop and maintain ESLint. To learn more about the different roles on the ESLint team, refer to [Governance](../contribute/governance). To see the current team members, refer to [Team](https://eslint.org/team/).
+The ESLint team works together to develop and maintain ESLint. To learn more about the different roles on the ESLint team, refer to [Governance](../contribute/governance). To see the current team members, refer to [Team](https://eslint.org/team/).
 
 ## Organization Structure
 
@@ -34,11 +34,11 @@ ESLint is funded through several sources, including:
 
 ESLint uses this funding for the following purposes:
 
-* Pay team members
+* Pay team members and contractors
 * Fund projects
 * Pay for services that keep ESLint running (web hosting, software subscriptions, etc.)
 * Provide financial support to our dependencies and ecosystem
 
 ## Joining the Maintainer Team
 
-ESLint is an open-source project, and anyone can contribute to the project. If you're interested in becoming part of the maintainer team, stop by our Discord and introduce yourself.
+ESLint is an open-source project, and anyone can contribute to the project. If you're interested in becoming part of the maintainer team, stop by our [Discord](https://eslint.org/chat) and introduce yourself.
