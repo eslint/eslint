@@ -11,7 +11,7 @@ This guide is intended for those who work as part of the ESLint project team.
 
 ## [Manage Issues](manage-issues)
 
-Describes how to deal with issues when they're opened, when interacting with users, and how to close them effectively.
+Describes how to deal with issues when they're opened, how to interact with users who open issues, and how to close issues effectively.
 
 ## [Review Pull Requests](review-pull-requests)
 
