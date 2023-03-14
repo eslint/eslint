@@ -29,7 +29,7 @@ ESLint is funded through several sources, including:
 * [**Open Collective**](https://opencollective.com/eslint): A platform for financing open source projects.
 * [**GitHub Sponsors**](https://github.com/sponsors/eslint): A platform for funding open source projects associated with Github.
 * [**Tidelift**](https://tidelift.com/subscription/pkg/npm-eslint): A subscription service that lets enterprises manage and fund the open source projects that their organization uses.
-* [**Carbon Ads**](https://www.carbonads.net/open-source): Developer-centric advertising provider used on eslint.org.
+* [**Carbon Ads**](https://www.carbonads.net/open-source): Developer-centric advertising provider used on [eslint.org](https://eslint.org/).
 * [**Stackaid.us**](https://simulation.stackaid.us/github/eslint/eslint): Tool that developers can use to allocate funding to the open source projects they use.
 
 ESLint uses this funding for the following purposes:
