@@ -45,6 +45,12 @@ Examples of **correct** code for this rule:
 /*eslint guard-for-in: "error"*/
 
 for (key in foo) {
+    if (Object.hasOwn(foo, key)) {
+        doSomething(key);
+    }
+}
+
+for (key in foo) {
     if (Object.prototype.hasOwnProperty.call(foo, key)) {
         doSomething(key);
     }
