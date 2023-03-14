@@ -1345,6 +1345,17 @@ describe("FlatConfigArray", () => {
                     ], "Key \"languageOptions\": Key \"parser\": Expected object with parse() or parseForESLint() method.");
                 });
 
+                it("should error when a null is found", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            languageOptions: {
+                                parser: null
+                            }
+                        }
+                    ], "Key \"languageOptions\": Key \"parser\": Expected object with parse() or parseForESLint() method.");
+                });
+
                 it("should error when a parser is a string", async () => {
 
                     await assertInvalidConfig([
