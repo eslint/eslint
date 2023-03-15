@@ -12,7 +12,7 @@ This page explains the different roles and structures involved in maintaining ES
 
 ## The ESLint Team
 
-The ESLint team works together to develop and maintain ESLint. To learn more about the different roles on the ESLint team, refer to [Governance](../contribute/governance). To see the current team members, refer to [Team](https://eslint.org/team/).
+The ESLint team works together to develop and maintain ESLint. To learn more about the different roles on the ESLint team, refer to [Governance](../contribute/governance). To see the current team members, refer to [Team](/team/).
 
 ## Organization Structure
 
