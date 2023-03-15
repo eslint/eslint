@@ -9,6 +9,10 @@ eleventyNavigation:
 
 This guide is intended for those who work as part of the ESLint project team.
 
+## [How ESLint is Maintained](overview)
+
+Explains how ESLint is maintained, including information about team, governance, and funding.
+
 ## [Manage Issues](manage-issues)
 
 Describes how to deal with issues when they're opened, how to interact with users who open issues, and how to close issues effectively.

@@ -4,7 +4,7 @@ eleventyNavigation:
     key: manage issues
     parent: maintain eslint
     title: Manage Issues
-    order: 1
+    order: 2
 
 ---
 
