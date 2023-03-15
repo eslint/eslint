@@ -2,6 +2,7 @@
 title: guard-for-in
 rule_type: suggestion
 related_rules:
+- prefer-object-has-own
 - no-prototype-builtins
 further_reading:
 - https://javascriptweblog.wordpress.com/2011/01/04/exploring-javascript-for-in-loops/
@@ -16,6 +17,10 @@ for (key in foo) {
     doSomething(key);
 }
 ```
+
+For codebases that do not support ES2022, `Object.prototype.hasOwnProperty.call(foo, key)` can be used as a check that the property is not inherited.
+
+For codebases that do support ES2022, `Object.hasOwn(foo, key)` can be used as a shorter alternative; see [prefer-object-has-own](prefer-object-has-own).
 
 Note that simply checking `foo.hasOwnProperty(key)` is likely to cause an error in some cases; see [no-prototype-builtins](no-prototype-builtins).
 
