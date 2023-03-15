@@ -49,7 +49,7 @@ The source file for a rule exports an object with the following properties. Both
 * `docs`: (`object`) Required for core rules and optional for custom rules. Core rules have specific entries inside of `docs` while custom rules can include any properties that you need. The following properties are only relevant when working on core rules.
 
     * `description`: (`string`) Provides the short description of the rule in the [rules index](../rules/).
-    * `recommended`: (`boolean`) Specifies whether the `"extends":  "eslint:recommended"` property in a [configuration file](../use/configure/configuration-files#extending-configuration-files) enables the rule.
+    * `recommended`: (`boolean`) Specifies whether the `"extends": "eslint:recommended"` property in a [configuration file](../use/configure/configuration-files#extending-configuration-files) enables the rule.
     * `url`: (`string`) Specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations).
 
 * `fixable`: (`string`) Either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
@@ -60,7 +60,7 @@ The source file for a rule exports an object with the following properties. Both
 
   **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
-* `schema`: (array) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules).
+* `schema`: (`object | array`) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules).
 
 * `deprecated`: (`boolean`) Indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.
 
@@ -125,14 +125,14 @@ The `context` object has the following properties:
 
 * `id`: (`string`) The rule ID.
 * `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
-* `settings`: (`object`) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from configuration.
-* `parserPath`: (`string`) The name of the `parser` from configuration.
+* `settings`: (`object`) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from the configuration.
+* `parserPath`: (`string`) The name of the `parser` from the configuration.
 * `parserServices`: (`object`) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 
 Additionally, the `context` object has the following methods:
 
 * `getAncestors()`: Returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
-* `getCwd()`: Returns the `cwd` passed to [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
+* `getCwd()`: Returns the `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
 * `getDeclaredVariables(node)`: Returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
     * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
     * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
@@ -210,11 +210,11 @@ The main method you'll use when writing custom rules is `context.report()`, whic
 * `loc`: (optional `object`) Specifies the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
     * `start`: An object of the start location.
         * `line`: (`number`) The 1-based line number at which the problem occurred.
-        * `column` (`number`) The 0-based column number at which the problem occurred.
+        * `column`: (`number`) The 0-based column number at which the problem occurred.
     * `end`: An object of the end location.
         * `line`: (`number`) The 1-based line number at which the problem occurred.
         * `column`: (`number`) The 0-based column number at which the problem occurred.
-* `data`:(optional `object`) [Placeholder](#using-message-placeholders) data for `message`.
+* `data`: (optional `object`) [Placeholder](#using-message-placeholders) data for `message`.
 * `fix(fixer)`: (optional `function`) Applies a [fix](#applying-fixes) to resolve the problem.
 
 Note that at least one of `node` or `loc` is required.
@@ -301,7 +301,7 @@ In your tests:
 ```javascript
 // avoid-name.test.js
 
-var rule = require("../../../lib/rules/my-rule");
+var rule = require("../../../lib/rules/avoid-name");
 var RuleTester = require("eslint").RuleTester;
 
 var ruleTester = new RuleTester();
@@ -569,31 +569,31 @@ module.exports = {
 
 Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
-* `getText(node)`: Return the source code for the given node. Omit `node` to get the whole source (see the [dedicated section](#accessing-the-source-text)).
-* `getAllComments()`: Return an array of all comments in the source.
-* `getCommentsBefore(nodeOrToken)`: Return an array of comment tokens that occur directly before the given node or token.
-* `getCommentsAfter(nodeOrToken)`: Return an array of comment tokens that occur directly after the given node or token.
-* `getCommentsInside(node)`: Return an array of all comment tokens inside a given node.
-* `isSpaceBetween(nodeOrToken, nodeOrToken)`: Return true if there is a whitespace character between the two tokens or, if given a node, the last token of the first node and the first token of the second node.
-* `getFirstToken(node, skipOptions)`: Return the first token representing the given node.
-* `getFirstTokens(node, countOptions)`: Return the first `count` tokens representing the given node.
-* `getLastToken(node, skipOptions)`: Return the last token representing the given node.
-* `getLastTokens(node, countOptions)`: Return the last `count` tokens representing the given node.
-* `getTokenAfter(nodeOrToken, skipOptions)`: Return the first token after the given node or token.
-* `getTokensAfter(nodeOrToken, countOptions)`: Return `count` tokens after the given node or token.
-* `getTokenBefore(nodeOrToken, skipOptions)`: Return the first token before the given node or token.
-* `getTokensBefore(nodeOrToken, countOptions)`: Return `count` tokens before the given node or token.
-* `getFirstTokenBetween(nodeOrToken1, nodeOrToken2, skipOptions)`: Return the first token between two nodes or tokens.
-* `getFirstTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)`: Return the first `count` tokens between two nodes or tokens.
-* `getLastTokenBetween(nodeOrToken1, nodeOrToken2, skipOptions)`: Return the last token between two nodes or tokens.
-* `getLastTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)`: Return the last `count` tokens between two nodes or tokens.
-* `getTokens(node)`: Return all tokens for the given node.
-* `getTokensBetween(nodeOrToken1, nodeOrToken2)`: Return all tokens between two nodes.
-* `getTokenByRangeStart(index, rangeOptions)`: Return the token whose range starts at the given index in the source.
-* `getNodeByRangeIndex(index)`: Return the deepest node in the AST containing the given source index.
-* `getLocFromIndex(index)`: Return an object with `line` and `column` properties, corresponding to the location of the given source index. `line` is 1-based and `column` is 0-based.
-* `getIndexFromLoc(loc)`: Return the index of a given location in the source code, where `loc` is an object with a 1-based `line` key and a 0-based `column` key.
-* `commentsExistBetween(nodeOrToken1, nodeOrToken2)`: Return `true` if comments exist between two nodes.
+* `getText(node)`: Returns the source code for the given node. Omit `node` to get the whole source (see the [dedicated section](#accessing-the-source-text)).
+* `getAllComments()`: Returns an array of all comments in the source.
+* `getCommentsBefore(nodeOrToken)`: Returns an array of comment tokens that occur directly before the given node or token.
+* `getCommentsAfter(nodeOrToken)`: Returns an array of comment tokens that occur directly after the given node or token.
+* `getCommentsInside(node)`: Returns an array of all comment tokens inside a given node.
+* `isSpaceBetween(nodeOrToken, nodeOrToken)`: Returns true if there is a whitespace character between the two tokens or, if given a node, the last token of the first node and the first token of the second node.
+* `getFirstToken(node, skipOptions)`: Returns the first token representing the given node.
+* `getFirstTokens(node, countOptions)`: Returns the first `count` tokens representing the given node.
+* `getLastToken(node, skipOptions)`: Returns the last token representing the given node.
+* `getLastTokens(node, countOptions)`: Returns the last `count` tokens representing the given node.
+* `getTokenAfter(nodeOrToken, skipOptions)`: Returns the first token after the given node or token.
+* `getTokensAfter(nodeOrToken, countOptions)`: Returns `count` tokens after the given node or token.
+* `getTokenBefore(nodeOrToken, skipOptions)`: Returns the first token before the given node or token.
+* `getTokensBefore(nodeOrToken, countOptions)`: Returns `count` tokens before the given node or token.
+* `getFirstTokenBetween(nodeOrToken1, nodeOrToken2, skipOptions)`: Returns the first token between two nodes or tokens.
+* `getFirstTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)`: Returns the first `count` tokens between two nodes or tokens.
+* `getLastTokenBetween(nodeOrToken1, nodeOrToken2, skipOptions)`: Returns the last token between two nodes or tokens.
+* `getLastTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)`: Returns the last `count` tokens between two nodes or tokens.
+* `getTokens(node)`: Returns all tokens for the given node.
+* `getTokensBetween(nodeOrToken1, nodeOrToken2)`: Returns all tokens between two nodes.
+* `getTokenByRangeStart(index, rangeOptions)`: Returns the token whose range starts at the given index in the source.
+* `getNodeByRangeIndex(index)`: Returns the deepest node in the AST containing the given source index.
+* `getLocFromIndex(index)`: Returns an object with `line` and `column` properties, corresponding to the location of the given source index. `line` is 1-based and `column` is 0-based.
+* `getIndexFromLoc(loc)`: Returns the index of a given location in the source code, where `loc` is an object with a 1-based `line` key and a 0-based `column` key.
+* `commentsExistBetween(nodeOrToken1, nodeOrToken2)`: Returns `true` if comments exist between two nodes.
 
 `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
 
@@ -607,7 +607,7 @@ Once you have an instance of `SourceCode`, you can use the following methods on 
 * `includeComments`: (`boolean`) The flag to include comment tokens into the result.
 * `filter(token)`: Function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
 
-`rangeOptions`: (object) Has 1 property: `includeComments`.
+`rangeOptions` is an object that has 1 property, `includeComments`. Default is `{includeComments: false}`.
 
 * `includeComments`: (`boolean`) The flag to include comment tokens into the result.
 
