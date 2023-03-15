@@ -3,7 +3,6 @@ description: "Request a change that is not a bug fix, rule change, or new rule"
 title: "Change Request: (fill in)"
 labels:
   - enhancement
-  - triage
   - core
 body:
 - type: markdown
