@@ -44,7 +44,7 @@ module.exports = {
 };
 ```
 
-While the `meta` object is the preferred way to provide plugin name and version, this format is also acceptable and is provided for backwards compatibility.
+While the `meta` object is the preferred way to provide the plugin name and version, this format is also acceptable and is provided for backward compatibility.
 
 ### Rules in Plugins
 
