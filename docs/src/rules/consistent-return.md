@@ -14,7 +14,7 @@ A confusing aspect of JavaScript is that a function returns `undefined` if any o
 * it executes `return void` followed by an expression (for example, a function call)
 * it executes `return` followed by any other expression which evaluates to `undefined`
 
-If any code paths in a function return a value explicitly but some code path do not return a value explicitly, it might be a typing mistake, especially in a large function. In the following example:
+If almost any code paths in a function return a value explicitly but some code path do not return a value explicitly, it might be a typing mistake, especially in a large function. In the following example:
 
 * a code path through the function returns a Boolean value `true`
 * another code path does not return a value explicitly, therefore returns `undefined` implicitly
