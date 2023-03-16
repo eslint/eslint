@@ -536,21 +536,11 @@ ruleTester.run("no-useless-return", rule, {
         {
             code: "function foo() { return; return; }",
             output: "function foo() {  return; }",
-            errors: [
-                {
-                    messageId: "unnecessaryReturn",
-                    type: "ReturnStatement",
-                    column: 18
-                }
-            ]
+            errors: [{
+                messageId: "unnecessaryReturn",
+                type: "ReturnStatement",
+                column: 18
+            }]
         }
-    ].map(invalidCase =>
-        Object.assign(
-            {
-                errors: [
-                    { messageId: "unnecessaryReturn", type: "ReturnStatement" }
-                ]
-            },
-            invalidCase
-        ))
+    ].map(invalidCase => Object.assign({ errors: [{ messageId: "unnecessaryReturn", type: "ReturnStatement" }] }, invalidCase))
 });
