@@ -241,7 +241,7 @@ describe("FlatConfigArray", () => {
                 languageOptions: {
                     ecmaVersion: "latest",
                     sourceType: "module",
-                    parser: "@/espree",
+                    parser: `espree@${espree.version}`,
                     parserOptions: {}
                 },
                 processor: void 0
@@ -275,7 +275,7 @@ describe("FlatConfigArray", () => {
                 languageOptions: {
                     ecmaVersion: "latest",
                     sourceType: "module",
-                    parser: "@/espree",
+                    parser: `espree@${espree.version}`,
                     parserOptions: {}
                 },
                 processor: void 0
