@@ -98,6 +98,26 @@ ruleTester.run("no-useless-return", rule, {
         `,
         `
           function foo() {
+            try {
+              bar();
+              return;
+            } catch (err) {}
+            baz();
+          }
+        `,
+        `
+          function foo() {
+              if (something) {
+                  try {
+                      bar();
+                      return;
+                  } catch (err) {}
+              }
+              baz();
+          }
+        `,
+        `
+          function foo() {
             return;
             doSomething();
           }
@@ -386,12 +406,90 @@ ruleTester.run("no-useless-return", rule, {
               }
             `
         },
-
-        /*
-         * FIXME: Re-add this case (removed due to https://github.com/eslint/eslint/issues/7481):
-         * https://github.com/eslint/eslint/blob/261d7287820253408ec87c344beccdba2fe829a4/tests/lib/rules/no-useless-return.js#L308-L329
-         */
-
+        {
+            code: `
+              function foo() {
+                try {
+                  foo();
+                  return;
+                } catch (err) {
+                  return 5;
+                }
+              }
+            `,
+            output: `
+              function foo() {
+                try {
+                  foo();
+                  
+                } catch (err) {
+                  return 5;
+                }
+              }
+            `
+        },
+        {
+            code: `
+              function foo() {
+                  if (something) {
+                      try {
+                          bar();
+                          return;
+                      } catch (err) {}
+                  }
+              }
+            `,
+            output: `
+              function foo() {
+                  if (something) {
+                      try {
+                          bar();
+                          
+                      } catch (err) {}
+                  }
+              }
+            `
+        },
+        {
+            code: `
+              function foo() {
+                try {
+                  return;
+                } catch (err) {
+                  foo();
+                }
+              }
+            `,
+            output: `
+              function foo() {
+                try {
+                  
+                } catch (err) {
+                  foo();
+                }
+              }
+            `
+        },
+        {
+            code: `
+              function foo() {
+                  try {
+                      return;
+                  } finally {
+                      bar();
+                  }
+              }
+            `,
+            output: `
+              function foo() {
+                  try {
+                      
+                  } finally {
+                      bar();
+                  }
+              }
+            `
+        },
         {
             code: `
               function foo() {
@@ -438,11 +536,21 @@ ruleTester.run("no-useless-return", rule, {
         {
             code: "function foo() { return; return; }",
             output: "function foo() {  return; }",
-            errors: [{
-                messageId: "unnecessaryReturn",
-                type: "ReturnStatement",
-                column: 18
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryReturn",
+                    type: "ReturnStatement",
+                    column: 18
+                }
+            ]
         }
-    ].map(invalidCase => Object.assign({ errors: [{ messageId: "unnecessaryReturn", type: "ReturnStatement" }] }, invalidCase))
+    ].map(invalidCase =>
+        Object.assign(
+            {
+                errors: [
+                    { messageId: "unnecessaryReturn", type: "ReturnStatement" }
+                ]
+            },
+            invalidCase
+        ))
 });
