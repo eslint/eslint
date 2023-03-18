@@ -19,7 +19,6 @@ const rule = require("../../../lib/rules/no-useless-return"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-useless-return", rule, {
-
     valid: [
         "function foo() { return 5; }",
         "function foo() { return null; }",
@@ -493,6 +492,36 @@ ruleTester.run("no-useless-return", rule, {
         {
             code: `
               function foo() {
+                try {
+                  bar();
+                } catch (e) {
+                  try {
+                    baz();
+                    return;
+                  } catch (e) {
+                    qux();
+                  }
+                }
+              }
+            `,
+            output: `
+              function foo() {
+                try {
+                  bar();
+                } catch (e) {
+                  try {
+                    baz();
+                    
+                  } catch (e) {
+                    qux();
+                  }
+                }
+              }
+            `
+        },
+        {
+            code: `
+              function foo() {
                 try {} finally {}
                 return;
               }
@@ -536,11 +565,21 @@ ruleTester.run("no-useless-return", rule, {
         {
             code: "function foo() { return; return; }",
             output: "function foo() {  return; }",
-            errors: [{
-                messageId: "unnecessaryReturn",
-                type: "ReturnStatement",
-                column: 18
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryReturn",
+                    type: "ReturnStatement",
+                    column: 18
+                }
+            ]
         }
-    ].map(invalidCase => Object.assign({ errors: [{ messageId: "unnecessaryReturn", type: "ReturnStatement" }] }, invalidCase))
+    ].map(invalidCase =>
+        Object.assign(
+            {
+                errors: [
+                    { messageId: "unnecessaryReturn", type: "ReturnStatement" }
+                ]
+            },
+            invalidCase
+        ))
 });
