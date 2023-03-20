@@ -654,6 +654,16 @@ describe("TokenStore", () => {
             assert.strictEqual(token.value, "c");
         });
 
+        it("should retrieve the first token if the root node contains a trailing comment", () => {
+            const parser = require("../../fixtures/parsers/all-comments-parser");
+            const code = "foo // comment";
+            const ast = parser.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const token = tokenStore.getFirstToken(ast);
+
+            assert.strictEqual(token, ast.tokens[0]);
+        });
+
         it("should return null if the source contains only comments", () => {
             const code = "// comment";
             const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
@@ -861,6 +871,16 @@ describe("TokenStore", () => {
             );
 
             assert.strictEqual(token.value, "b");
+        });
+
+        it("should retrieve the last token if the root node contains a trailing comment", () => {
+            const parser = require("../../fixtures/parsers/all-comments-parser");
+            const code = "foo // comment";
+            const ast = parser.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const token = tokenStore.getLastToken(ast);
+
+            assert.strictEqual(token, ast.tokens[0]);
         });
 
         it("should return null if the source contains only comments", () => {
