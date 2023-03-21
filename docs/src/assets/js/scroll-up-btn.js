@@ -1,5 +1,5 @@
 (function () {
-    const scrollUpBtn = document.getElementById("scroll_up_btn");
+    const scrollUpBtn = document.getElementById("scroll-up-btn");
 
     if(window.innerWidth < 1400) {
         window.addEventListener("scroll", function () {

@@ -158,7 +158,7 @@ pre[class*="language-"] {
     }
 }
 
-#scroll_up_btn {
+#scroll-up-btn {
     width: 50px;
     height: 50px;
     display: none;
@@ -167,12 +167,11 @@ pre[class*="language-"] {
     bottom: 35px;
     font-size: 1.5rem;
     border-radius: 50%;
-    color: #fff;
+    color: var(--body-background-color);
     text-decoration: none;
     justify-content: center;
     align-items: center;
-    background-color: rgba(75, 50, 195, 0.9); // rgba of #4b32c3
-    box-shadow: 4px 4px 15px #8e8a8a;
+    background-color: var(--link-color);
 
     @media (max-width: 800px) {
         right: 35px;
@@ -180,11 +179,5 @@ pre[class*="language-"] {
 
     @media (max-width: 600px) {
         right: 25px;
-    }
-
-    [data-theme="dark"] & {
-        background-color: rgba(251, 251, 255, 0.9); // rgba of #fbfbff
-        color: #000;
-        box-shadow: none;
     }
 }
