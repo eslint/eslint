@@ -570,10 +570,10 @@ module.exports = {
 Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
 * `getText(node)`: Returns the source code for the given node. Omit `node` to get the whole source (see the [dedicated section](#accessing-the-source-text)).
-* `getAllComments()`: Returns an array of all comments in the source.
-* `getCommentsBefore(nodeOrToken)`: Returns an array of comment tokens that occur directly before the given node or token.
-* `getCommentsAfter(nodeOrToken)`: Returns an array of comment tokens that occur directly after the given node or token.
-* `getCommentsInside(node)`: Returns an array of all comment tokens inside a given node.
+* `getAllComments()`: Returns an array of all comments in the source (see the [dedicated section](#accessing-comments)).
+* `getCommentsBefore(nodeOrToken)`: Returns an array of comment tokens that occur directly before the given node or token (see the [dedicated section](#accessing-comments)).
+* `getCommentsAfter(nodeOrToken)`: Returns an array of comment tokens that occur directly after the given node or token (see the [dedicated section](#accessing-comments)).
+* `getCommentsInside(node)`: Returns an array of all comment tokens inside a given node (see the [dedicated section](#accessing-comments)).
 * `isSpaceBetween(nodeOrToken, nodeOrToken)`: Returns true if there is a whitespace character between the two tokens or, if given a node, the last token of the first node and the first token of the second node.
 * `getFirstToken(node, skipOptions)`: Returns the first token representing the given node.
 * `getFirstTokens(node, countOptions)`: Returns the first `count` tokens representing the given node.
@@ -645,12 +645,7 @@ In this way, you can look for patterns in the JavaScript text itself when the AS
 
 #### Accessing Comments
 
-While comments are not technically part of the AST, ESLint provides a few ways for rules to access them:
-
-* `sourceCode.getAllComments()`: Return an array of all the comments found in the program. This is useful for rules that need to check all comments regardless of location.
-* `sourceCode.getCommentsBefore()`: Return an array of comments that appear directly before nodes.
-* `sourceCode.getCommentsAfter()`: Return an array of comments that appear directly after nodes.
-* `sourceCode.getCommentsInside()` Return an array of comments that appear inside nodes.
+While comments are not technically part of the AST, ESLint provides the `sourceCode.getAllComments()`, `sourceCode.getCommentsBefore()`, `sourceCode.getCommentsAfter()`, and `sourceCode.getCommentsInside()` to access them.
 
 `sourceCode.getCommentsBefore()`, `sourceCode.getCommentsAfter()`, and `sourceCode.getCommentsInside()` are useful for rules that need to check comments in relation to a given node or token.
 
@@ -702,9 +697,9 @@ To learn more about JSON Schema, we recommend looking at some examples in [websi
 
 ESLint analyzes code paths while traversing AST. You can access code path objects with five events related to code paths. For more information, refer to [Code Path Analysis](code-path-analysis).
 
-### Deprecated `context` Methods
+### Deprecated `SourceCode` Methods
 
-Please note that the following `context` methods have been deprecated and will be removed in a future version of ESLint:
+Please note that the following `SourceCode` methods have been deprecated and will be removed in a future version of ESLint:
 
 * `getComments()`: Replaced by `SourceCode#getCommentsBefore()`, `SourceCode#getCommentsAfter()`, and `SourceCode#getCommentsInside()`.
 * `getTokenOrCommentBefore()`: Replaced by `SourceCode#getTokenBefore()` with the `{ includeComments: true }` option.
