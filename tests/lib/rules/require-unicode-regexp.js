@@ -46,58 +46,162 @@ ruleTester.run("require-unicode-regexp", rule, {
     invalid: [
         {
             code: "/foo/",
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "/foo/u"
+                    }
+                ]
+            }]
         },
         {
             code: "/foo/gimy",
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "/foo/gimyu"
+                    }
+                ]
+            }]
         },
         {
             code: "RegExp('foo')",
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "RegExp('foo', \"u\")"
+                    }
+                ]
+            }]
         },
         {
             code: "RegExp('foo', '')",
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "RegExp('foo', 'u')"
+                    }
+                ]
+            }]
         },
         {
             code: "RegExp('foo', 'gimy')",
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "RegExp('foo', 'gimyu')"
+                    }
+                ]
+            }]
         },
         {
             code: "new RegExp('foo')",
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "new RegExp('foo', \"u\")"
+                    }
+                ]
+            }]
         },
         {
             code: "new RegExp('foo', '')",
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "new RegExp('foo', 'u')"
+                    }
+                ]
+            }]
         },
         {
             code: "new RegExp('foo', 'gimy')",
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "new RegExp('foo', 'gimyu')"
+                    }
+                ]
+            }]
         },
         {
             code: "const flags = 'gi'; new RegExp('foo', flags)",
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "const flags = 'gi'; new RegExp('foo', flags + \"u\")"
+                    }
+                ]
+            }]
         },
         {
             code: "const flags = 'gimu'; new RegExp('foo', flags[0])",
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "const flags = 'gimu'; new RegExp('foo', flags[0] + \"u\")"
+                    }
+                ]
+            }]
         },
         {
             code: "new window.RegExp('foo')",
             env: { browser: true },
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "new window.RegExp('foo', \"u\")"
+                    }
+                ]
+            }]
         },
         {
             code: "new global.RegExp('foo')",
             env: { node: true },
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "new global.RegExp('foo', \"u\")"
+                    }
+                ]
+            }]
         },
         {
             code: "new globalThis.RegExp('foo')",
             env: { es2020: true },
-            errors: [{ messageId: "requireUFlag" }]
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "new globalThis.RegExp('foo', \"u\")"
+                    }
+                ]
+            }]
         }
     ]
 });
