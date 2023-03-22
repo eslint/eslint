@@ -84,7 +84,7 @@ footer:
     change_language: 更改语言
     language: 语言
   copyright: >
-    &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>
+    &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>. Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
   links:
     open_jsf: OpenJS 基金会
     terms: 使用条款
