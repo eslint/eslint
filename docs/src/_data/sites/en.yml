@@ -85,6 +85,7 @@ footer:
     description: Selecting a language will take you to the ESLint website in that language.
     change_language: Change Language
     language: Language
+    latest: Latest
   copyright: >
     &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>
   links:
