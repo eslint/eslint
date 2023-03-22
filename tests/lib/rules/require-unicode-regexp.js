@@ -131,6 +131,30 @@ ruleTester.run("require-unicode-regexp", rule, {
             }]
         },
         {
+            code: "new RegExp('foo', false)",
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "new RegExp('foo', false + \"u\")"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "new RegExp('foo', 1)",
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "new RegExp('foo', 1 + \"u\")"
+                    }
+                ]
+            }]
+        },
+        {
             code: "new RegExp('foo', '')",
             errors: [{
                 messageId: "requireUFlag",
