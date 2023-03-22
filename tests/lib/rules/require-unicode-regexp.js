@@ -45,6 +45,13 @@ ruleTester.run("require-unicode-regexp", rule, {
     ],
     invalid: [
         {
+            code: "/\\a/",
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: null
+            }]
+        },
+        {
             code: "/foo/",
             errors: [{
                 messageId: "requireUFlag",
@@ -78,6 +85,13 @@ ruleTester.run("require-unicode-regexp", rule, {
                         output: "RegExp('foo', \"u\")"
                     }
                 ]
+            }]
+        },
+        {
+            code: "RegExp('\\\\a')",
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: null
             }]
         },
         {
@@ -141,6 +155,30 @@ ruleTester.run("require-unicode-regexp", rule, {
             }]
         },
         {
+            code: "new RegExp(('foo'))",
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "new RegExp(('foo'), \"u\")"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "new RegExp(('unrelated', 'foo'))",
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "new RegExp(('unrelated', 'foo'), \"u\")"
+                    }
+                ]
+            }]
+        },
+        {
             code: "const flags = 'gi'; new RegExp('foo', flags)",
             errors: [{
                 messageId: "requireUFlag",
@@ -148,6 +186,18 @@ ruleTester.run("require-unicode-regexp", rule, {
                     {
                         messageId: "addUFlag",
                         output: "const flags = 'gi'; new RegExp('foo', flags + \"u\")"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "const flags = 'gi'; new RegExp('foo', ('unrelated', flags))",
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "const flags = 'gi'; new RegExp('foo', ('unrelated', flags + \"u\"))"
                     }
                 ]
             }]
