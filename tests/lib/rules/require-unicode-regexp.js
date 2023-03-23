@@ -134,24 +134,14 @@ ruleTester.run("require-unicode-regexp", rule, {
             code: "new RegExp('foo', false)",
             errors: [{
                 messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "new RegExp('foo', false + \"u\")"
-                    }
-                ]
+                suggestions: null
             }]
         },
         {
             code: "new RegExp('foo', 1)",
             errors: [{
                 messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "new RegExp('foo', 1 + \"u\")"
-                    }
-                ]
+                suggestions: null
             }]
         },
         {
@@ -206,36 +196,21 @@ ruleTester.run("require-unicode-regexp", rule, {
             code: "const flags = 'gi'; new RegExp('foo', flags)",
             errors: [{
                 messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "const flags = 'gi'; new RegExp('foo', flags + \"u\")"
-                    }
-                ]
+                suggestions: null
             }]
         },
         {
             code: "const flags = 'gi'; new RegExp('foo', ('unrelated', flags))",
             errors: [{
                 messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "const flags = 'gi'; new RegExp('foo', ('unrelated', flags + \"u\"))"
-                    }
-                ]
+                suggestions: null
             }]
         },
         {
             code: "const flags = 'gimu'; new RegExp('foo', flags[0])",
             errors: [{
                 messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "const flags = 'gimu'; new RegExp('foo', flags[0] + \"u\")"
-                    }
-                ]
+                suggestions: null
             }]
         },
         {
