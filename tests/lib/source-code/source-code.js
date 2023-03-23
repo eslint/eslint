@@ -3013,6 +3013,27 @@ describe("SourceCode", () => {
 
     describe("getScope()", () => {
 
+        it("should throw an error when argument is missing", () => {
+
+            linter.defineRule("get-scope", {
+                create: context => ({
+                    Program() {
+                        context.getSourceCode().getScope();
+                    }
+                })
+            });
+
+            assert.throws(() => {
+                linter.verify(
+                    "foo",
+                    {
+                        rules: { "get-scope": 2 }
+                    }
+                );
+            }, /Missing required argument: node/u);
+
+        });
+
         /**
          * Get the scope on the node `astSelector` specified.
          * @param {string} code The source code to verify.
