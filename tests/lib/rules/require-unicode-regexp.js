@@ -25,8 +25,10 @@ ruleTester.run("require-unicode-regexp", rule, {
         "/foo/u",
         "/foo/gimuy",
         "RegExp('', 'u')",
+        "RegExp('', `u`)",
         "new RegExp('', 'u')",
         "RegExp('', 'gimuy')",
+        "RegExp('', `gimuy`)",
         "new RegExp('', 'gimuy')",
         "const flags = 'u'; new RegExp('', flags)",
         "const flags = 'g'; new RegExp('', flags + 'u')",
@@ -119,6 +121,18 @@ ruleTester.run("require-unicode-regexp", rule, {
             }]
         },
         {
+            code: "RegExp('foo', `gimy`)",
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "RegExp('foo', `gimyu`)"
+                    }
+                ]
+            }]
+        },
+        {
             code: "new RegExp('foo')",
             errors: [{
                 messageId: "requireUFlag",
@@ -201,6 +215,20 @@ ruleTester.run("require-unicode-regexp", rule, {
         },
         {
             code: "const flags = 'gi'; new RegExp('foo', ('unrelated', flags))",
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: null
+            }]
+        },
+        {
+            code: "let flags; new RegExp('foo', flags = 'g')",
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: null
+            }]
+        },
+        {
+            code: "const flags = `gi`; new RegExp(`foo`, (`unrelated`, flags))",
             errors: [{
                 messageId: "requireUFlag",
                 suggestions: null
