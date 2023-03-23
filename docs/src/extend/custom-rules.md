@@ -637,9 +637,9 @@ Shebangs are represented by tokens of type `"Shebang"`. They are treated as comm
 
 ### Accessing Variable Scopes
 
-**Deprecated:** Use `SourceCode#getScope()` instead of `context.getScope()`.
-
 The `SourceCode#getScope(node)` method returns the scope of the given node. It is a useful method for finding information about the variables in a given scope and how they are used in other scopes.
+
+**Deprecated:** The `context.getScope()` is deprecated; make sure to use `SourceCode#getScope(node)` instead.
 
 #### Scope types
 
