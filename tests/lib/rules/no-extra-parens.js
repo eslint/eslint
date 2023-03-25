@@ -3444,6 +3444,33 @@ ruleTester.run("no-extra-parens", rule, {
                 `a ${operator} function () {};`,
                 "Identifier"
             )
-        )
+        ),
+
+        // Potential directives (no autofix)
+        invalid("('use strict');", "('use strict');"),
+        invalid("function f() { ('abc'); }", "function f() { ('abc'); }"),
+        invalid("(function () { ('abc'); })();", "(function () { ('abc'); })();"),
+        invalid("_ = () => { ('abc'); };", "_ = () => { ('abc'); };"),
+        invalid("'use strict';(\"foobar\");", "'use strict';(\"foobar\");"),
+
+        // Directive lookalikes
+        invalid("(12345);", "12345;"),
+        invalid("(('foobar'));", "('foobar');"),
+        invalid("(`foobar`);", "`foobar`;"),
+        invalid("void ('foobar');", "void 'foobar';"),
+        invalid("try { ('error'); } catch { }", "try { 'error'; } catch { }"),
+        invalid("{('')}", "{''}"),
+        invalid("_ = () => ('abc');", "_ = () => 'abc';"),
+        invalid("; ('abc');", "; 'abc';"),
+        invalid("label: ('abc')", "label: 'abc'"),
+        {
+            code: "('foo');('bar');(\"baz\")",
+            output: "('foo');'bar';\"baz\"",
+            errors: [
+                { messageId: "unexpected", type: "Literal" },
+                { messageId: "unexpected", type: "Literal" },
+                { messageId: "unexpected", type: "Literal" }
+            ]
+        }
     ]
 });
