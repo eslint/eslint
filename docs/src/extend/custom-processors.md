@@ -4,7 +4,7 @@ eleventyNavigation:
     key: custom processors
     parent: create plugins
     title: Custom Processors
-    order: 2
+    order: 3
 
 ---
 

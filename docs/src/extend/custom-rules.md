@@ -4,7 +4,7 @@ eleventyNavigation:
     key: custom rules
     parent: create plugins
     title: Custom Rules
-    order: 1
+    order: 2
 
 ---
 
