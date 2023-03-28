@@ -221,6 +221,72 @@ describe("FlatConfigArray", () => {
             assert.strictEqual(stringify(actual), stringify(expected));
         });
 
+        it("should convert config with plugin name/version into normalized JSON object", () => {
+
+            const configs = new FlatConfigArray([{
+                plugins: {
+                    a: {},
+                    b: {
+                        name: "b-plugin",
+                        version: "2.3.1"
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+            const expected = {
+                plugins: ["@", "a", "b:b-plugin@2.3.1"],
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    sourceType: "module",
+                    parser: `espree@${espree.version}`,
+                    parserOptions: {}
+                },
+                processor: void 0
+            };
+            const actual = config.toJSON();
+
+            assert.deepStrictEqual(actual, expected);
+
+            assert.strictEqual(stringify(actual), stringify(expected));
+        });
+
+        it("should convert config with plugin meta into normalized JSON object", () => {
+
+            const configs = new FlatConfigArray([{
+                plugins: {
+                    a: {},
+                    b: {
+                        meta: {
+                            name: "b-plugin",
+                            version: "2.3.1"
+                        }
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+            const expected = {
+                plugins: ["@", "a", "b:b-plugin@2.3.1"],
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    sourceType: "module",
+                    parser: `espree@${espree.version}`,
+                    parserOptions: {}
+                },
+                processor: void 0
+            };
+            const actual = config.toJSON();
+
+            assert.deepStrictEqual(actual, expected);
+
+            assert.strictEqual(stringify(actual), stringify(expected));
+        });
+
         it("should throw an error when config with unnamed parser object is normalized", () => {
 
             const configs = new FlatConfigArray([{

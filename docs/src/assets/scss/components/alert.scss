@@ -16,6 +16,7 @@
         color: var(--color-rose-600);
 
         [data-theme="dark"] & {
+            border: 1px solid var(--color-rose-300);
             color: var(--color-rose-300);
             background-color: var(--color-rose-900);
         }
@@ -27,6 +28,7 @@
 
         [data-theme="dark"] & {
             color: var(--color-warning-300);
+            border: 1px solid var(--color-warning-300);
             background-color: var(--color-warning-900);
         }
     }
@@ -37,23 +39,8 @@
 
         [data-theme="dark"] & {
             color: var(--color-success-300);
-            background-color: var(--color-success-900);
-        }
-    }
-}
-
-[data-theme="dark"] {
-    .alert {
-        &.alert--warning {
-            border: 1px solid var(--color-rose-300);
-        }
-
-        &.alert--important {
-            border: 1px solid var(--color-warning-300);
-        }
-
-        &.alert--tip {
             border: 1px solid var(--color-success-300);
+            background-color: var(--color-success-900);
         }
     }
 }
