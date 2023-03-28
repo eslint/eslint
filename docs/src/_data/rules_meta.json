@@ -534,7 +534,7 @@
     "logical-assignment-operators": {
         "type": "suggestion",
         "docs": {
-            "description": "Require or disallow logical assignment logical operator shorthand",
+            "description": "Require or disallow logical assignment operator shorthand",
             "recommended": false,
             "url": "https://eslint.org/docs/rules/logical-assignment-operators"
         },
@@ -2261,7 +2261,8 @@
             "description": "Enforce the use of `u` flag on RegExp",
             "recommended": false,
             "url": "https://eslint.org/docs/rules/require-unicode-regexp"
-        }
+        },
+        "hasSuggestions": true
     },
     "require-yield": {
         "type": "suggestion",

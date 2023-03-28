@@ -588,7 +588,7 @@
                 },
                 {
                     "name": "logical-assignment-operators",
-                    "description": "Require or disallow logical assignment logical operator shorthand",
+                    "description": "Require or disallow logical assignment operator shorthand",
                     "recommended": false,
                     "fixable": true,
                     "hasSuggestions": true
@@ -1382,7 +1382,7 @@
                     "description": "Enforce the use of `u` flag on RegExp",
                     "recommended": false,
                     "fixable": false,
-                    "hasSuggestions": false
+                    "hasSuggestions": true
                 },
                 {
                     "name": "require-yield",
