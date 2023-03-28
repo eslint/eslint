@@ -1,3 +1,33 @@
+v8.37.0 - March 28, 2023
+
+* [`c67f299`](https://github.com/eslint/eslint/commit/c67f2992a743de4765bb6f11c12622e3651324b9) chore: upgrade @eslint/js@8.37.0 (#17033) (Milos Djermanovic)
+* [`ee9ddbd`](https://github.com/eslint/eslint/commit/ee9ddbd63e262aed0052853760866c7a054af561) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`dddb475`](https://github.com/eslint/eslint/commit/dddb47528816cd7e2e737bfde108ed4d62e6a219) chore: upgrade @eslint/eslintrc@2.0.2 (#17032) (Milos Djermanovic)
+* [`522431e`](https://github.com/eslint/eslint/commit/522431e5206bac2fcb41c0d6dc98a84929203bee) chore: upgrade espree@9.5.1 (#17031) (Milos Djermanovic)
+* [`f5f9a88`](https://github.com/eslint/eslint/commit/f5f9a88c79b32222c0331a9bac1c02571d953b69) chore: upgrade eslint-visitor-keys@3.4.0 (#17030) (Milos Djermanovic)
+* [`75339df`](https://github.com/eslint/eslint/commit/75339df99418df4d7e05a77e42ed7e22eabcc9e0) docs: fix typos and missing info in id-match docs (#17029) (Ed Lucas)
+* [`b6ab8b2`](https://github.com/eslint/eslint/commit/b6ab8b2a2ca8807baca121407f5bfb0a0a839427) feat: `require-unicode-regexp` add suggestions (#17007) (Josh Goldberg)
+* [`4dd8d52`](https://github.com/eslint/eslint/commit/4dd8d524e0fc9e8e2019df13f8b968021600e85c) ci: bump actions/stale from 7 to 8 (#17026) (dependabot[bot])
+* [`619f3fd`](https://github.com/eslint/eslint/commit/619f3fd17324c7b71bf17e02047d0c6dc7e5109e) fix: correctly handle `null` default config in `RuleTester` (#17023) (Brad Zacher)
+* [`ec2d830`](https://github.com/eslint/eslint/commit/ec2d8307850dd039e118c001416606e1e0342bc8) docs: Fix typos in the `semi` rule docs (#17012) (Andrii Lundiak)
+* [`e39f28d`](https://github.com/eslint/eslint/commit/e39f28d8578a00f4da8d4ddad559547950128a0d) docs: add back to top button (#16979) (Tanuj Kanti)
+* [`ad9dd6a`](https://github.com/eslint/eslint/commit/ad9dd6a933fd098a0d99c6a9aa059850535c23ee) chore: remove duplicate scss, (#17005) (Strek)
+* [`10022b1`](https://github.com/eslint/eslint/commit/10022b1f4bda1ad89193512ecf18c2ee61db8202) feat: Copy getScope() to SourceCode (#17004) (Nicholas C. Zakas)
+* [`1665c02`](https://github.com/eslint/eslint/commit/1665c029acb92bf8812267f1647ad1a7054cbcb4) feat: Use plugin metadata for flat config serialization (#16992) (Nicholas C. Zakas)
+* [`b3634f6`](https://github.com/eslint/eslint/commit/b3634f695ddab6a82c0a9b1d8695e62b60d23366) feat: docs license (#17010) (Samuel Roldan)
+* [`721c717`](https://github.com/eslint/eslint/commit/721c71782a7c11025689a1500e7690fb3794fcce) docs: Custom Processors cleanup and expansion (#16838) (Ben Perlmutter)
+* [`1fbf118`](https://github.com/eslint/eslint/commit/1fbf1184fed57df02640aad4659afb54dc26a2e9) fix: `getFirstToken`/`getLastToken` on comment-only node (#16889) (Francesco Trotta)
+* [`129e252`](https://github.com/eslint/eslint/commit/129e252132c7c476d7de17f40b54a333ddb2e6bb) fix: Fix typo in `logical-assignment-operators` rule description (#17000) (Francesco Trotta)
+* [`892e6e5`](https://github.com/eslint/eslint/commit/892e6e58c5a07a549d3104de3b6b5879797dc97f) feat: languageOptions.parser must be an object. (#16985) (Nicholas C. Zakas)
+* [`ada6a3e`](https://github.com/eslint/eslint/commit/ada6a3e6e3607523958f35e1260537630ec0e976) ci: unpin Node 19 (#16993) (Milos Djermanovic)
+* [`c3da975`](https://github.com/eslint/eslint/commit/c3da975e69fde46f35338ce48528841a8dc1ffd2) chore: Remove triage label from template (#16990) (Nicholas C. Zakas)
+* [`d049f97`](https://github.com/eslint/eslint/commit/d049f974103e530ef76ede25af701635caf1f405) docs: 'How ESLint is Maintained' page (#16961) (Ben Perlmutter)
+* [`5251a92`](https://github.com/eslint/eslint/commit/5251a921866e8d3b380dfe8db8a6e6ab97773d5e) docs: Describe guard options for guard-for-in (#16986) (alope107)
+* [`69bc0e2`](https://github.com/eslint/eslint/commit/69bc0e2f4412998f9384600a100d7882ea4dd3f3) ci: pin Node 19 to 19.7.0 (#16987) (Milos Djermanovic)
+* [`6157d81`](https://github.com/eslint/eslint/commit/6157d813e19b80481a46f8cbdf9eae18a55e5619) docs: Add example to guard-for-in docs. (#16983) (alope107)
+* [`fd47998`](https://github.com/eslint/eslint/commit/fd47998af6efadcdf5ba93e0bd1f4c02d97d22b3) docs: update `Array.prototype.toSorted` specification link (#16982) (Milos Djermanovic)
+* [`3e1cf6b`](https://github.com/eslint/eslint/commit/3e1cf6bfc5ebc29314ddbe462d6cb580e9ab085c) docs: Copy edits on Maintain ESLint docs (#16939) (Ben Perlmutter)
+
 v8.36.0 - March 10, 2023
 
 * [`602b111`](https://github.com/eslint/eslint/commit/602b11121910a97ab2bc4a95a46dd0ccd0a89309) chore: upgrade @eslint/js@8.36.0 (#16978) (Milos Djermanovic)
