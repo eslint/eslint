@@ -8,7 +8,7 @@ eleventyNavigation:
 ---
 This tutorial covers how to create a custom rule and plugin for ESLint.
 
-You can create custom rules to validates if your code meets a certain expectation, and determine what to do if it does not meet that expectation.  Plugins package custom rules and other configuration, allowing you to easily share and reuse them in different projects.
+You can create custom rules to validate if your code meets a certain expectation, and determine what to do if it does not meet that expectation. Plugins package custom rules and other configuration, allowing you to easily share and reuse them in different projects.
 
 To learn more about custom rules and plugins refer to the following documentation:
 
@@ -19,7 +19,7 @@ To learn more about custom rules and plugins refer to the following documentatio
 
 Create a custom rule if the ESLint [built-in rules](../rules/) and community-published custom rules do not meet your needs.
 
-Before creating a custom rule, it's worth investigating around the web if someone has published a plugin with a custom rule that solves your use case. Very often the rule will already exist.
+Before creating a custom rule, it's worth investigating on the web if someone has published a plugin with a custom rule that solves your use case. Very often the rule will already exist.
 
 ## Prerequisites
 
@@ -32,9 +32,9 @@ This tutorial also assumes that you have a basic understanding of ESLint and ESL
 
 ## The Custom Rule You Make
 
-The custom rule that you make in this tutorial requires that all `const` variables named `foo` are assigned the string `"bar"`. The rule is defined in the file `foo-bar.js`. It also suggests replacing any other value assigned to `const foo` with `"bar"`
+The custom rule that you make in this tutorial requires that all `const` variables named `foo` are assigned the string `"bar"`. The rule is defined in the file `foo-bar.js`. The rule also suggests replacing any other value assigned to `const foo` with `"bar"`
 
-Then you run the custom rule on the file to report and fix any problems.
+You can run the custom rule on a file to report and fix any problems.
 
 For example, say you had the following `foo.js` file:
 
@@ -54,31 +54,27 @@ const foo = "bar";
 
 ## Step 1: Set up Project
 
-First create a new project for your custom rule. Create new a directory,  initiate a new npm project in it, and create a new file for the custom rule:
+First create a new project for your custom rule. Create a new directory, initiate a new npm project in it, and create a new file for the custom rule:
 
 ```shell
-mkdir foo-bar-rule
-cd foo-bar-rule
-npm init -y
-touch foo-bar.js
+mkdir foo-bar-rule # create directory
+cd foo-bar-rule # enter the directory
+npm init -y # init new npm project
+touch foo-bar.js # create file foo-bar.js
 ```
 
 ## Step 2: Stub Out Rule File
 
 In the `foo-bar.js` file, add some scaffolding for the `foo-bar` custom rule. Also add a `meta` object with some basic information about the rule.
 
-All ESLint rules are objects that follow this basic form.
+All ESLint rules are objects that follow this structure.
 
 ```javascript
 // foo-bar.js
 
 module.exports = {
-    meta: {
-        type: "suggestion",
-        docs: {
-            description: "Can only assign 'bar' to `const foo`.",
-        },
-         fixable: "code"
+  meta: {
+     // TODO: add metadata
     },
     create(context) {
         return {
@@ -92,7 +88,7 @@ module.exports = {
 
 Before writing the rule, add some metadata to the rule object. ESLint uses this information when running the rule.
 
-Start by exporting a module with a `meta` object containing the rule's metadata, such as the rule type, documentation, and fixability. In this case, the rule type is "fix," the description is "Can only assign 'bar' to const foo," and the rule is fixable by modifying the code.
+Start by exporting a module with a `meta` object containing the rule's metadata, such as the rule type, documentation, and fixability. In this case, the rule type is "fix," the description is "Can only assign 'bar' to const foo.", and the rule is fixable by modifying the code.
 
 ```javascript
 // foo-bar.js
@@ -103,7 +99,7 @@ module.exports = {
         docs: {
             description: "Can only assign 'bar' to `const foo`.",
         },
-         fixable: "code"
+        fixable: "code"
     },
     create(context) {
         return {
@@ -118,12 +114,12 @@ To learn more about rule metadata, refer to [Rule Structure](custom-rules#rule-s
 
 ## Step 4: Add Rule Callback Functions
 
-Define the `create` function, which accepts a `context` object and returns an object with a property for each syntax node type you want to handle. In this case, we want to handle `"VariableDeclaration"` nodes.
+Define the rule's `create` function, which accepts a `context` object and returns an object with a property for each syntax node type you want to handle. In this case, we want to handle `"VariableDeclaration"` nodes.
 You can choose any [ESTree node type](https://github.com/estree/estree) or [selector](selectors).
 
 Inside the `"VariableDeclaration"` function, check if the node represents a `const` variable declaration, if its name is `foo`, and if it's not assigned to the string `"bar"`. You do this by evaluating the `node` passed to the `"VariableDeclaration"` function.
 
-If the `const foo` declaration is assigned to `"bar"` the rule does nothing. If `const foo` **is not** assigned to `"bar"`, then `context.report()` reports an error to ESLint. The error report include information about the error and how to fix it.
+If the `const foo` declaration_is assigned to `"bar"` the rule does nothing. If `const foo` **is not** assigned to `"bar"`, then `context.report()` reports an error to ESLint. The error report include information about the error and how to fix it.
 
 ```javascript
 // foo-bar.js
@@ -143,8 +139,8 @@ module.exports = {
                 if(node.kind === "const") {
                     // Check if variable name is `foo`
                     if(node.declarations[0].id.name === "foo") {
-                        // Check if value of variable is "bar"
-                        if (node.declaration.init.value !== "bar") {
+                        // Check if the value of the variable is "bar"
+                        if (node.declaration[0].init.value !== "bar") {
                             // Report error to ESLint. Error message uses
                             // a message placeholder to include the incorrect value
                             // in the error message.
@@ -171,9 +167,9 @@ module.exports = {
 
 ## Step 5: Set up Testing
 
-With the rule written, you can test it to make sure it's working as expected. ESLint provides the built-in [RuleTester](../integrate/nodejs-api#ruletester) class to test rules.
+With the rule written, you can test it to make sure it's working as expected.
 
-To test ESLint rules, you do not need to use 3rd-party testing libraries.
+ESLint provides the built-in [RuleTester](../integrate/nodejs-api#ruletester) class to test rules. You do not need to use 3rd-party testing libraries to test ESLint rules.
 
 Next create the file for the tests, `foo-bar.test.js`:
 
@@ -194,7 +190,7 @@ And add a test script to your `package.json` file to run the tests:
 }
 ```
 
-## Step 5: Write the Test
+## Step 6: Write the Test
 
 To write the test using `RuleTester`, import the class and your custom rule into the `foo-bar.test.js` file.
 
@@ -232,9 +228,9 @@ ruleTester.run(
 console.log("All tests passed!");
 ```
 
-## Step 6: Bundle the Custom Rule in a Plugin
+## Step 7: Bundle the Custom Rule in a Plugin
 
-Now that you've written the custom rule and validated that it works, you can include it in a plugin. Using a plugin, you can share the rule in an npm package to use it in other projects.
+Now that you've written the custom rule and validated that it works, you can include it in a plugin. Using a plugin, you can share the rule in an npm package to use in other projects.
 
 Create the file for the plugin:
 
@@ -253,7 +249,7 @@ const fooBarRule = require("./foo-bar");
 module.exports = { rules: { "foo-bar": fooBarRule } };
 ```
 
-## Step 7: Publish the Plugin
+## Step 8: Publish the Plugin
 
 To publish a plugin containing a rule to npm, you need to do a bit of set up in your project's `package.json` file.
 
@@ -322,7 +318,7 @@ To publish the package, run `npm run pub` and follow the CLI prompts.
 
 You should see the package live on npm!
 
-## Step 8: Use the Published Custom Rule
+## Step 9: Use the Published Custom Rule
 
 To use the package now that it's published, run the following command in your project to download your published package:
 
@@ -373,7 +369,6 @@ Add the following code to `example.js`:
 // example.js
 /* eslint-disable no-unused-vars -- Disable other rule causing problem for this file */
 
-
 function correctFooBar() {
   const foo = "bar";
 }
@@ -423,13 +418,15 @@ function incorrectFoo(){
 
 ## Summary
 
-That's it for the tutorial! In it, you've done the following:
+In this tutorial, you've learned how to create a custom rule and plugin for ESLint. You've made a custom rule that requires all `const` variables named `foo` to be assigned the string `"bar"` and suggests replacing any other value assigned to `const foo` with `"bar"`. You've also added the rule to a plugin, and published the plugin on npm.
 
-1. Created an ESLint custom rule
-1. Tested the custom rule
-1. Bundled the rule in a plugin
-1. Published the plugin
-1. Use the rule from the plugin
+Through doing this, you've learned the following practices which you can apply to creating other custom rules and plugins:
+
+1. Creating an ESLint custom rule
+1. Testing the custom rule
+1. Bundling the rule in a plugin
+1. Publishing the plugin
+1. Using the rule from the plugin
 
 ## View the Tutorial Code
 
