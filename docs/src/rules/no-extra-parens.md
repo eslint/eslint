@@ -21,6 +21,8 @@ This rule always ignores extra parentheses around the following:
 * immediately-invoked function expressions (also known as IIFEs) such as `var x = (function () {})();` and `var x = (function () {}());` to avoid conflicts with the [wrap-iife](wrap-iife) rule
 * arrow function arguments to avoid conflicts with the [arrow-parens](arrow-parens) rule
 
+Problems reported by this rule can be fixed automatically, except when removing the parentheses would create a new directive.
+
 ## Options
 
 This rule has a string option:
