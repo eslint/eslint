@@ -8,11 +8,12 @@ eleventyNavigation:
 ---
 This tutorial covers how to create a custom rule and plugin for ESLint.
 
-You can create custom rules to validates if your code meets a certain expectation, and determine what to do if it does not meet that expectation.
+You can create custom rules to validates if your code meets a certain expectation, and determine what to do if it does not meet that expectation.  Plugins package custom rules and other configuration, allowing you to easily share and reuse them in different projects.
 
-TODO: 1 sentence plugin overview
+To learn more about custom rules and plugins refer to the following documentation:
 
-TODO: more about plugins in intro bits
+* [Custom Rules](custom-rules)
+* [Plugins](plugins)
 
 ## Why Create a Custom Rule?
 
