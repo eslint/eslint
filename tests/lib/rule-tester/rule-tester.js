@@ -1412,12 +1412,14 @@ describe("RuleTester", () => {
                 RuleTester.setDefaultConfig(config);
             };
         }
-        assert.throw(setConfig());
-        assert.throw(setConfig(1));
-        assert.throw(setConfig(3.14));
-        assert.throw(setConfig("foo"));
-        assert.throw(setConfig(null));
-        assert.throw(setConfig(true));
+        const errorMessage = "RuleTester.setDefaultConfig: config must be an object";
+
+        assert.throw(setConfig(), errorMessage);
+        assert.throw(setConfig(1), errorMessage);
+        assert.throw(setConfig(3.14), errorMessage);
+        assert.throw(setConfig("foo"), errorMessage);
+        assert.throw(setConfig(null), errorMessage);
+        assert.throw(setConfig(true), errorMessage);
     });
 
     it("should pass-through the globals config to the tester then to the to rule", () => {
