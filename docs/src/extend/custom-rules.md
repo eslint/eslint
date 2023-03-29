@@ -130,61 +130,12 @@ Additionally, the `context` object has the following methods:
     * Otherwise, if the node does not declare any variables, an empty array is returned.
 * `getFilename()` - returns the filename associated with the source.
 * `getPhysicalFilename()` - when linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
-* `getScope()` - returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
+* `getScope()` - (**Deprecated: Use `SourceCode.getScope(node)` instead.**) returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
 * `getSourceCode()` - returns a [`SourceCode`](#contextgetsourcecode) object that you can use to work with the source that was passed to ESLint.
 * `markVariableAsUsed(name)` - marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
 * `report(descriptor)` - reports a problem in the code (see the [dedicated section](#contextreport)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
-
-### context.getScope()
-
-This method returns the scope of the current node. It is a useful method for finding information about the variables in a given scope, and how they are used in other scopes.
-
-#### Scope types
-
-The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface#scope-interface).
-
-| AST Node Type             | Scope Type |
-|:--------------------------|:-----------|
-| `Program`                 | `global`   |
-| `FunctionDeclaration`     | `function` |
-| `FunctionExpression`      | `function` |
-| `ArrowFunctionExpression` | `function` |
-| `ClassDeclaration`        | `class`    |
-| `ClassExpression`         | `class`    |
-| `BlockStatement` ※1      | `block`    |
-| `SwitchStatement` ※1     | `switch`   |
-| `ForStatement` ※2        | `for`      |
-| `ForInStatement` ※2      | `for`      |
-| `ForOfStatement` ※2      | `for`      |
-| `WithStatement`           | `with`     |
-| `CatchClause`             | `catch`    |
-| others                    | ※3        |
-
-**※1** Only if the configured parser provided the block-scope feature. The default parser provides the block-scope feature if `parserOptions.ecmaVersion` is not less than `6`.<br>
-**※2** Only if the `for` statement defines the iteration variable as a block-scoped variable (E.g., `for (let i = 0;;) {}`).<br>
-**※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).
-
-#### Scope Variables
-
-The `Scope#variables` property contains an array of [`Variable` objects](./scope-manager-interface#variable-interface). These are the variables declared in current scope. You can use these `Variable` objects to track references to a variable throughout the entire module.
-
-Inside of each `Variable`, the `Variable#references` property contains an array of [`Reference` objects](./scope-manager-interface#reference-interface). The `Reference` array contains all the locations where the variable is referenced in the module's source code.
-
-Also inside of each `Variable`, the `Variable#defs` property contains an array of [`Definition` objects](./scope-manager-interface#definition-interface). You can use the `Definitions` to find where the variable was defined.
-
-Global variables have the following additional properties:
-
-* `Variable#writeable` (`boolean | undefined`) ... If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
-* `Variable#eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
-* `Variable#eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
-* `Variable#eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
-
-For examples of using `context.getScope()` to track variables, refer to the source code for the following built-in rules:
-
-* [no-shadow](https://github.com/eslint/eslint/blob/main/lib/rules/no-shadow.js): Calls `context.getScopes()` at the global scope and parses all child scopes to make sure a variable name is not reused at a lower scope. ([no-shadow](../rules/no-shadow) documentation)
-* [no-redeclare](https://github.com/eslint/eslint/blob/main/lib/rules/no-redeclare.js): Calls `context.getScope()` at each scope to make sure that a variable is not declared twice at that scope. ([no-redeclare](../rules/no-redeclare) documentation)
 
 ### context.report()
 
@@ -685,6 +636,57 @@ Finally, comments can be accessed through many of `sourceCode`'s methods using t
 ### Accessing Shebangs
 
 Shebangs are represented by tokens of type `"Shebang"`. They are treated as comments and can be accessed by the methods outlined above.
+
+### Accessing Variable Scopes
+
+The `SourceCode#getScope(node)` method returns the scope of the given node. It is a useful method for finding information about the variables in a given scope and how they are used in other scopes.
+
+**Deprecated:** The `context.getScope()` is deprecated; make sure to use `SourceCode#getScope(node)` instead.
+
+#### Scope types
+
+The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface#scope-interface).
+
+| AST Node Type             | Scope Type |
+|:--------------------------|:-----------|
+| `Program`                 | `global`   |
+| `FunctionDeclaration`     | `function` |
+| `FunctionExpression`      | `function` |
+| `ArrowFunctionExpression` | `function` |
+| `ClassDeclaration`        | `class`    |
+| `ClassExpression`         | `class`    |
+| `BlockStatement` ※1      | `block`    |
+| `SwitchStatement` ※1     | `switch`   |
+| `ForStatement` ※2        | `for`      |
+| `ForInStatement` ※2      | `for`      |
+| `ForOfStatement` ※2      | `for`      |
+| `WithStatement`           | `with`     |
+| `CatchClause`             | `catch`    |
+| others                    | ※3        |
+
+**※1** Only if the configured parser provided the block-scope feature. The default parser provides the block-scope feature if `parserOptions.ecmaVersion` is not less than `6`.<br>
+**※2** Only if the `for` statement defines the iteration variable as a block-scoped variable (E.g., `for (let i = 0;;) {}`).<br>
+**※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).
+
+#### Scope Variables
+
+The `Scope#variables` property contains an array of [`Variable` objects](./scope-manager-interface#variable-interface). These are the variables declared in current scope. You can use these `Variable` objects to track references to a variable throughout the entire module.
+
+Inside of each `Variable`, the `Variable#references` property contains an array of [`Reference` objects](./scope-manager-interface#reference-interface). The `Reference` array contains all the locations where the variable is referenced in the module's source code.
+
+Also inside of each `Variable`, the `Variable#defs` property contains an array of [`Definition` objects](./scope-manager-interface#definition-interface). You can use the `Definitions` to find where the variable was defined.
+
+Global variables have the following additional properties:
+
+* `Variable#writeable` (`boolean | undefined`) ... If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
+* `Variable#eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
+* `Variable#eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
+* `Variable#eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
+
+For examples of using `SourceCode#getScope()` to track variables, refer to the source code for the following built-in rules:
+
+* [no-shadow](https://github.com/eslint/eslint/blob/main/lib/rules/no-shadow.js): Calls `sourceCode.getScope()` at the `Program` node and inspects all child scopes to make sure a variable name is not reused at a lower scope. ([no-shadow](../rules/no-shadow) documentation)
+* [no-redeclare](https://github.com/eslint/eslint/blob/main/lib/rules/no-redeclare.js): Calls `sourceCode.getScope()` at each scope to make sure that a variable is not declared twice in the same scope. ([no-redeclare](../rules/no-redeclare) documentation)
 
 ### Accessing Code Paths
 
