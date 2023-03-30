@@ -520,7 +520,7 @@
                     "name": "eqeqeq",
                     "description": "Require the use of `===` and `!==`",
                     "recommended": false,
-                    "fixable": true,
+                    "fixable": false,
                     "hasSuggestions": false
                 },
                 {
