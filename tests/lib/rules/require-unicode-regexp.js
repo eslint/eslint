@@ -29,6 +29,7 @@ ruleTester.run("require-unicode-regexp", rule, {
         "new RegExp('', 'u')",
         "RegExp('', 'gimuy')",
         "RegExp('', `gimuy`)",
+        "RegExp(...patternAndFlags)",
         "new RegExp('', 'gimuy')",
         "const flags = 'u'; new RegExp('', flags)",
         "const flags = 'g'; new RegExp('', flags + 'u')",
