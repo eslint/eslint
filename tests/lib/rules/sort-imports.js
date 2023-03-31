@@ -139,6 +139,16 @@ ruleTester.run("sort-imports", rule, {
         {
             code: "import c from 'c';\n\nimport b from 'b';\n\nimport a from 'a';",
             options: [{ allowSeparatedGroups: true }]
+        },
+
+        // sortMembersByOriginalName
+        {
+            code: "import {B, a, c as e, d} from 'foo.js';",
+            options: [{ sortMembersByOriginalName: true }]
+        },
+        {
+            code: "import {B, a, d, c as e} from 'foo.js';",
+            options: [{ sortMembersByOriginalName: false }]
         }
     ],
     invalid: [
@@ -440,6 +450,26 @@ ruleTester.run("sort-imports", rule, {
             code: "import b from 'b';\n\nimport { c, a } from 'c';",
             output: "import b from 'b';\n\nimport { a, c } from 'c';",
             options: [{ allowSeparatedGroups: true }],
+            errors: [{
+                messageId: "sortMembersAlphabetically",
+                type: "ImportSpecifier"
+            }]
+        },
+
+        // sortMembersByOriginalName
+        {
+            code: "import { c as a, b, D } from 'foo.js';",
+            output: "import { D, b, c as a } from 'foo.js';",
+            options: [{ sortMembersByOriginalName: true }],
+            errors: [{
+                messageId: "sortMembersAlphabetically",
+                type: "ImportSpecifier"
+            }]
+        },
+        {
+            code: "import { c as a, b, D } from 'foo.js';",
+            output: "import { D, c as a, b } from 'foo.js';",
+            options: [{ sortMembersByOriginalName: false }],
             errors: [{
                 messageId: "sortMembersAlphabetically",
                 type: "ImportSpecifier"
