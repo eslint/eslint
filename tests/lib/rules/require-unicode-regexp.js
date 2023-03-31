@@ -29,6 +29,7 @@ ruleTester.run("require-unicode-regexp", rule, {
         "new RegExp('', 'u')",
         "RegExp('', 'gimuy')",
         "RegExp('', `gimuy`)",
+        "RegExp(...patternAndFlags)",
         "new RegExp('', 'gimuy')",
         "const flags = 'u'; new RegExp('', flags)",
         "const flags = 'g'; new RegExp('', flags + 'u')",
@@ -36,6 +37,7 @@ ruleTester.run("require-unicode-regexp", rule, {
         "new RegExp('', flags)",
         "function f(flags) { return new RegExp('', flags) }",
         "function f(RegExp) { return new RegExp('foo') }",
+        "function f(patternAndFlags) { return new RegExp(...patternAndFlags) }",
         { code: "new globalThis.RegExp('foo')", env: { es6: true } },
         { code: "new globalThis.RegExp('foo')", env: { es2017: true } },
         { code: "new globalThis.RegExp('foo', 'u')", env: { es2020: true } },
@@ -75,6 +77,13 @@ ruleTester.run("require-unicode-regexp", rule, {
                         output: "/foo/gimyu"
                     }
                 ]
+            }]
+        },
+        {
+            code: "RegExp()",
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: null
             }]
         },
         {
