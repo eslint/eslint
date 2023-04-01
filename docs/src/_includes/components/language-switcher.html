@@ -14,9 +14,13 @@
         <select name="language selector" id="language-select" aria-describedby="language-infobox"
             class="c-custom-select switcher__select">
             {% for key, other_site in sites %}
-            <option value="{{ other_site.language.code }}" data-url="https://{{ other_site.hostname }}" {% if
-                site.language.code==other_site.language.code %} selected {% endif %}>
+            <option
+                value="{{ other_site.language.code }}"
+                data-url="https://{{ other_site.hostname }}/docs/latest{{ page.url | prettyURL }}"
+                {% if site.language.code==other_site.language.code %}selected{% endif %}
+            >
                 {{ other_site.language.flag }} {{ other_site.language.name }}
+                {% if site.language.code!=other_site.language.code or GIT_BRANCH=="latest" %}({{ other_site.footer.language_switcher.latest }}){% endif %}
             </option>
             {% endfor %}
         </select>
