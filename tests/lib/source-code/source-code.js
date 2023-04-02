@@ -2009,7 +2009,6 @@ describe("SourceCode", () => {
 
     });
 
-
     describe("getNodeByRangeIndex()", () => {
 
         let sourceCode;
@@ -3009,6 +3008,279 @@ describe("SourceCode", () => {
 
         it("should not throw if the location one spot past the last character is given", () => {
             assert.strictEqual(sourceCode.getIndexFromLoc({ line: 8, column: 0 }), CODE.length);
+        });
+    });
+
+    describe("getScope()", () => {
+
+        it("should throw an error when argument is missing", () => {
+
+            linter.defineRule("get-scope", {
+                create: context => ({
+                    Program() {
+                        context.getSourceCode().getScope();
+                    }
+                })
+            });
+
+            assert.throws(() => {
+                linter.verify(
+                    "foo",
+                    {
+                        rules: { "get-scope": 2 }
+                    }
+                );
+            }, /Missing required argument: node/u);
+
+        });
+
+        /**
+         * Get the scope on the node `astSelector` specified.
+         * @param {string} code The source code to verify.
+         * @param {string} astSelector The AST selector to get scope.
+         * @param {number} [ecmaVersion=5] The ECMAScript version.
+         * @returns {{node: ASTNode, scope: escope.Scope}} Gotten scope.
+         */
+        function getScope(code, astSelector, ecmaVersion = 5) {
+            let node, scope;
+
+            linter.defineRule("get-scope", {
+                create: context => ({
+                    [astSelector](node0) {
+                        node = node0;
+                        scope = context.getSourceCode().getScope(node);
+                    }
+                })
+            });
+            linter.verify(
+                code,
+                {
+                    parserOptions: { ecmaVersion },
+                    rules: { "get-scope": 2 }
+                }
+            );
+
+            return { node, scope };
+        }
+
+        it("should return 'function' scope on FunctionDeclaration (ES5)", () => {
+            const { node, scope } = getScope("function f() {}", "FunctionDeclaration");
+
+            assert.strictEqual(scope.type, "function");
+            assert.strictEqual(scope.block, node);
+        });
+
+        it("should return 'function' scope on FunctionExpression (ES5)", () => {
+            const { node, scope } = getScope("!function f() {}", "FunctionExpression");
+
+            assert.strictEqual(scope.type, "function");
+            assert.strictEqual(scope.block, node);
+        });
+
+        it("should return 'function' scope on the body of FunctionDeclaration (ES5)", () => {
+            const { node, scope } = getScope("function f() {}", "BlockStatement");
+
+            assert.strictEqual(scope.type, "function");
+            assert.strictEqual(scope.block, node.parent);
+        });
+
+        it("should return 'function' scope on the body of FunctionDeclaration (ES2015)", () => {
+            const { node, scope } = getScope("function f() {}", "BlockStatement", 2015);
+
+            assert.strictEqual(scope.type, "function");
+            assert.strictEqual(scope.block, node.parent);
+        });
+
+        it("should return 'function' scope on BlockStatement in functions (ES5)", () => {
+            const { node, scope } = getScope("function f() { { var b; } }", "BlockStatement > BlockStatement");
+
+            assert.strictEqual(scope.type, "function");
+            assert.strictEqual(scope.block, node.parent.parent);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "b"]);
+        });
+
+        it("should return 'block' scope on BlockStatement in functions (ES2015)", () => {
+            const { node, scope } = getScope("function f() { { let a; var b; } }", "BlockStatement > BlockStatement", 2015);
+
+            assert.strictEqual(scope.type, "block");
+            assert.strictEqual(scope.upper.type, "function");
+            assert.strictEqual(scope.block, node);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["a"]);
+            assert.deepStrictEqual(scope.variableScope.variables.map(v => v.name), ["arguments", "b"]);
+        });
+
+        it("should return 'block' scope on nested BlockStatement in functions (ES2015)", () => {
+            const { node, scope } = getScope("function f() { { let a; { let b; var c; } } }", "BlockStatement > BlockStatement > BlockStatement", 2015);
+
+            assert.strictEqual(scope.type, "block");
+            assert.strictEqual(scope.upper.type, "block");
+            assert.strictEqual(scope.upper.upper.type, "function");
+            assert.strictEqual(scope.block, node);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["b"]);
+            assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["a"]);
+            assert.deepStrictEqual(scope.variableScope.variables.map(v => v.name), ["arguments", "c"]);
+        });
+
+        it("should return 'function' scope on SwitchStatement in functions (ES5)", () => {
+            const { node, scope } = getScope("function f() { switch (a) { case 0: var b; } }", "SwitchStatement");
+
+            assert.strictEqual(scope.type, "function");
+            assert.strictEqual(scope.block, node.parent.parent);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "b"]);
+        });
+
+        it("should return 'switch' scope on SwitchStatement in functions (ES2015)", () => {
+            const { node, scope } = getScope("function f() { switch (a) { case 0: let b; } }", "SwitchStatement", 2015);
+
+            assert.strictEqual(scope.type, "switch");
+            assert.strictEqual(scope.block, node);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["b"]);
+        });
+
+        it("should return 'function' scope on SwitchCase in functions (ES5)", () => {
+            const { node, scope } = getScope("function f() { switch (a) { case 0: var b; } }", "SwitchCase");
+
+            assert.strictEqual(scope.type, "function");
+            assert.strictEqual(scope.block, node.parent.parent.parent);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "b"]);
+        });
+
+        it("should return 'switch' scope on SwitchCase in functions (ES2015)", () => {
+            const { node, scope } = getScope("function f() { switch (a) { case 0: let b; } }", "SwitchCase", 2015);
+
+            assert.strictEqual(scope.type, "switch");
+            assert.strictEqual(scope.block, node.parent);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["b"]);
+        });
+
+        it("should return 'catch' scope on CatchClause in functions (ES5)", () => {
+            const { node, scope } = getScope("function f() { try {} catch (e) { var a; } }", "CatchClause");
+
+            assert.strictEqual(scope.type, "catch");
+            assert.strictEqual(scope.block, node);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["e"]);
+        });
+
+        it("should return 'catch' scope on CatchClause in functions (ES2015)", () => {
+            const { node, scope } = getScope("function f() { try {} catch (e) { let a; } }", "CatchClause", 2015);
+
+            assert.strictEqual(scope.type, "catch");
+            assert.strictEqual(scope.block, node);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["e"]);
+        });
+
+        it("should return 'catch' scope on the block of CatchClause in functions (ES5)", () => {
+            const { node, scope } = getScope("function f() { try {} catch (e) { var a; } }", "CatchClause > BlockStatement");
+
+            assert.strictEqual(scope.type, "catch");
+            assert.strictEqual(scope.block, node.parent);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["e"]);
+        });
+
+        it("should return 'block' scope on the block of CatchClause in functions (ES2015)", () => {
+            const { node, scope } = getScope("function f() { try {} catch (e) { let a; } }", "CatchClause > BlockStatement", 2015);
+
+            assert.strictEqual(scope.type, "block");
+            assert.strictEqual(scope.block, node);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["a"]);
+        });
+
+        it("should return 'function' scope on ForStatement in functions (ES5)", () => {
+            const { node, scope } = getScope("function f() { for (var i = 0; i < 10; ++i) {} }", "ForStatement");
+
+            assert.strictEqual(scope.type, "function");
+            assert.strictEqual(scope.block, node.parent.parent);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "i"]);
+        });
+
+        it("should return 'for' scope on ForStatement in functions (ES2015)", () => {
+            const { node, scope } = getScope("function f() { for (let i = 0; i < 10; ++i) {} }", "ForStatement", 2015);
+
+            assert.strictEqual(scope.type, "for");
+            assert.strictEqual(scope.block, node);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["i"]);
+        });
+
+        it("should return 'function' scope on the block body of ForStatement in functions (ES5)", () => {
+            const { node, scope } = getScope("function f() { for (var i = 0; i < 10; ++i) {} }", "ForStatement > BlockStatement");
+
+            assert.strictEqual(scope.type, "function");
+            assert.strictEqual(scope.block, node.parent.parent.parent);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "i"]);
+        });
+
+        it("should return 'block' scope on the block body of ForStatement in functions (ES2015)", () => {
+            const { node, scope } = getScope("function f() { for (let i = 0; i < 10; ++i) {} }", "ForStatement > BlockStatement", 2015);
+
+            assert.strictEqual(scope.type, "block");
+            assert.strictEqual(scope.upper.type, "for");
+            assert.strictEqual(scope.block, node);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), []);
+            assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["i"]);
+        });
+
+        it("should return 'function' scope on ForInStatement in functions (ES5)", () => {
+            const { node, scope } = getScope("function f() { for (var key in obj) {} }", "ForInStatement");
+
+            assert.strictEqual(scope.type, "function");
+            assert.strictEqual(scope.block, node.parent.parent);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "key"]);
+        });
+
+        it("should return 'for' scope on ForInStatement in functions (ES2015)", () => {
+            const { node, scope } = getScope("function f() { for (let key in obj) {} }", "ForInStatement", 2015);
+
+            assert.strictEqual(scope.type, "for");
+            assert.strictEqual(scope.block, node);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["key"]);
+        });
+
+        it("should return 'function' scope on the block body of ForInStatement in functions (ES5)", () => {
+            const { node, scope } = getScope("function f() { for (var key in obj) {} }", "ForInStatement > BlockStatement");
+
+            assert.strictEqual(scope.type, "function");
+            assert.strictEqual(scope.block, node.parent.parent.parent);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "key"]);
+        });
+
+        it("should return 'block' scope on the block body of ForInStatement in functions (ES2015)", () => {
+            const { node, scope } = getScope("function f() { for (let key in obj) {} }", "ForInStatement > BlockStatement", 2015);
+
+            assert.strictEqual(scope.type, "block");
+            assert.strictEqual(scope.upper.type, "for");
+            assert.strictEqual(scope.block, node);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), []);
+            assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["key"]);
+        });
+
+        it("should return 'for' scope on ForOfStatement in functions (ES2015)", () => {
+            const { node, scope } = getScope("function f() { for (let x of xs) {} }", "ForOfStatement", 2015);
+
+            assert.strictEqual(scope.type, "for");
+            assert.strictEqual(scope.block, node);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), ["x"]);
+        });
+
+        it("should return 'block' scope on the block body of ForOfStatement in functions (ES2015)", () => {
+            const { node, scope } = getScope("function f() { for (let x of xs) {} }", "ForOfStatement > BlockStatement", 2015);
+
+            assert.strictEqual(scope.type, "block");
+            assert.strictEqual(scope.upper.type, "for");
+            assert.strictEqual(scope.block, node);
+            assert.deepStrictEqual(scope.variables.map(v => v.name), []);
+            assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["x"]);
+        });
+
+        it("should shadow the same name variable by the iteration variable.", () => {
+            const { node, scope } = getScope("let x; for (let x of x) {}", "ForOfStatement", 2015);
+
+            assert.strictEqual(scope.type, "for");
+            assert.strictEqual(scope.upper.type, "global");
+            assert.strictEqual(scope.block, node);
+            assert.strictEqual(scope.upper.variables[0].references.length, 0);
+            assert.strictEqual(scope.references[0].identifier, node.left.declarations[0].id);
+            assert.strictEqual(scope.references[1].identifier, node.right);
+            assert.strictEqual(scope.references[1].resolved, scope.variables[0]);
         });
     });
 });

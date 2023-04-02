@@ -773,7 +773,7 @@ describe("FlatESLint", () => {
                 overrideConfigFile: true
             });
 
-            await assert.rejects(async () => await eslint.lintFiles(["lib/cli.js"]), /Expected string in the form "pluginName\/objectName" but found "test11"/u);
+            await assert.rejects(async () => await eslint.lintFiles(["lib/cli.js"]), /Expected object with parse\(\) or parseForESLint\(\) method/u);
         });
 
         it("should report zero messages when given a directory with a .js2 file", async () => {

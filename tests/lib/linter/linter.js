@@ -7878,15 +7878,8 @@ describe("Linter with FlatConfigArray", () => {
                     };
 
                     const config = {
-                        plugins: {
-                            test: {
-                                parsers: {
-                                    "test-parser": parser
-                                }
-                            }
-                        },
                         languageOptions: {
-                            parser: "test/test-parser"
+                            parser
                         }
                     };
 
@@ -7925,15 +7918,8 @@ describe("Linter with FlatConfigArray", () => {
 
                 it("should use parseForESLint() in custom parser when custom parser is specified", () => {
                     const config = {
-                        plugins: {
-                            test: {
-                                parsers: {
-                                    "enhanced-parser": testParsers.enhancedParser
-                                }
-                            }
-                        },
                         languageOptions: {
-                            parser: "test/enhanced-parser"
+                            parser: testParsers.enhancedParser
                         }
                     };
 
@@ -7949,9 +7935,6 @@ describe("Linter with FlatConfigArray", () => {
                     const config = {
                         plugins: {
                             test: {
-                                parsers: {
-                                    "enhanced-parser": testParsers.enhancedParser
-                                },
                                 rules: {
                                     "test-service-rule": {
                                         create: context => ({
@@ -7967,7 +7950,7 @@ describe("Linter with FlatConfigArray", () => {
                             }
                         },
                         languageOptions: {
-                            parser: "test/enhanced-parser"
+                            parser: testParsers.enhancedParser
                         },
                         rules: {
                             "test/test-service-rule": 2
@@ -7988,9 +7971,6 @@ describe("Linter with FlatConfigArray", () => {
                     const config = {
                         plugins: {
                             test: {
-                                parsers: {
-                                    "enhanced-parser": testParsers.enhancedParser
-                                },
                                 rules: {
                                     "test-service-rule": {
                                         create: context => ({
@@ -8006,7 +7986,7 @@ describe("Linter with FlatConfigArray", () => {
                             }
                         },
                         languageOptions: {
-                            parser: "test/enhanced-parser"
+                            parser: testParsers.enhancedParser
                         },
                         rules: {
                             "test/test-service-rule": 2

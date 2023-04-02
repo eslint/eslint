@@ -4,7 +4,7 @@ eleventyNavigation:
     key: manage releases
     parent: maintain eslint
     title: Manage Releases
-    order: 3
+    order: 4
 
 ---
 
@@ -13,18 +13,20 @@ Releases are when a project formally publishes a new version so the community ca
 * Regular releases that follow [semantic versioning](https://semver.org/) and are considered production-ready.
 * Prereleases that are not considered production-ready and are intended to give the community a preview of upcoming changes.
 
-## Release Team
+## Release Manager
 
-A two-person release team is assigned to each scheduled release. This two-person team is responsible for:
+One member of the Technical Steering Committee (TSC) is assigned to manage each scheduled release. The release manager is determined at the TSC meeting the day before the release.
+
+The release manager is responsible for:
 
 1. The scheduled release on Friday
 1. Monitoring issues over the weekend
 1. Determining if a patch release is necessary on Monday
 1. Publishing the patch release (if necessary)
 
-The two-person team should seek input from the whole team on the Monday following a release to double-check if a patch release is necessary.
+The release manager should seek input from the whole team on the Monday following a release to double-check if a patch release is necessary.
 
-At least one member of the release team needs to have access to eslint's two-factor authentication for npm in order to do a release.
+The release manager needs to have access to ESLint's two-factor authentication for npm in order to do a release.
 
 ## Release Communication
 
@@ -32,10 +34,10 @@ Each scheduled release should be associated with a release issue ([example](http
 
 ## Process
 
-On the day of a scheduled release, the release team should follow these steps:
+On the day of a scheduled release, the release manager should follow these steps:
 
 1. Review open pull requests to see if any should be merged. In general, you can merge pull requests that:
-    * Have been open at least two days and have been reviewed (these are just waiting for merge).
+    * Have been open for at least two days and approved (these are just waiting for merge).
     * Important pull requests (as determined by the team). You should stop and have people review before merging if they haven't been already.
     * Documentation changes.
     * Small bugfixes written by a team member.
@@ -49,19 +51,23 @@ On the day of a scheduled release, the release team should follow these steps:
 1. Make a release announcement on the release issue. Document any problems that occurred during the release, and remind the team not to merge anything other than documentation changes and bugfixes. Leave the release issue open.
 1. Add the `patch release pending` label to the release issue. (When this label is present, `eslint-github-bot` will create a pending status check on non-semver-patch pull requests, to ensure that they aren't accidentally merged while a patch release is pending.)
 
-On the Monday following the scheduled release, the release team needs to determine if a patch release is necessary. A patch release is considered necessary if any of the following occurred since the scheduled release:
+All release-related communications occur in the `#team` channel on Discord.
+
+On the Monday following the scheduled release, the release manager needs to determine if a patch release is necessary. A patch release is considered necessary if any of the following occurred since the scheduled release:
 
 * A regression bug is causing people's lint builds to fail when it previously passed.
 * Any bug that is causing a lot of problems for users (frequently happens due to new functionality).
 
 The patch release decision should be made as early on Monday as possible. If a patch release is necessary, then follow the same steps as the scheduled release process.
 
-In rare cases, a second patch release might be necessary if the release is known to have a severe regression that hasn't been fixed by Monday. If this occurs, the release team should announce the situation on the release issue, and leave the issue open until all patch releases are complete. However, it's usually better to fix bugs for the next release cycle rather than doing a second patch release.
+In rare cases, a second patch release might be necessary if the release is known to have a severe regression that hasn't been fixed by Monday. If this occurs, the release manager should announce the situation on the release issue, and leave the issue open until all patch releases are complete. However, it's usually better to fix bugs for the next release cycle rather than doing a second patch release.
 
 After the patch release has been published (or no patch release is necessary), close the release issue and inform the team that they can start merging in semver-minor changes again.
 
 ## Emergency Releases
 
-In general, we try not to do emergency releases (an emergency release is unplanned and isn't the regularly scheduled release or the anticipated patch release). Even if there is a regression, it's best to wait the weekend to see if any other problems arise so a patch release can fix as many issues as possible.
+An emergency release is unplanned and isn't the regularly scheduled release or the anticipated patch release.
+
+In general, we try not to do emergency releases. Even if there is a regression, it's best to wait until Monday to see if any other problems arise so a patch release can fix as many issues as possible.
 
 The only real exception is if ESLint is completely unusable by most of the current users. For instance, we once pushed a release that errored for everyone because it was missing some core files. In that case, an emergency release is appropriate.

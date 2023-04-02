@@ -110,7 +110,7 @@ Each `message` object contains information about the ESLint rule that was trigge
 * **message**: the human readable description of the error.
 * **line**: the line where the issue is located.
 * **column**: the column where the issue is located.
-* **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/spec.md#node-objects)
+* **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/es5.md#node-objects)
 
 ### The `context` Argument
 

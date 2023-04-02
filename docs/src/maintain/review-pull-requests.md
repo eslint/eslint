@@ -4,7 +4,7 @@ eleventyNavigation:
     key: review pull requests
     parent: maintain eslint
     title: Review Pull Requests
-    order: 2
+    order: 3
 
 ---
 
@@ -28,10 +28,10 @@ Once the bot checks have been satisfied, you check the following:
 
 1. Double-check that the commit message tag ("Fix:", "New:", etc.) is correct based on the issue (or, if no issue is referenced, based on the stated problem).
 1. If the pull request makes a change to core, ensure that an issue exists and the pull request references the issue in the commit message.
-1. Does the code follow our conventions (including header comments, JSDoc comments, etc.)? If not, please leave that feedback and reference the conventions document.
+1. Does the code follow our conventions (including header comments, JSDoc comments, etc.)? If not, please leave that feedback and reference the [Code Conventions](../contribute/code-conventions) documentation.
 1. For code changes:
     * Are there tests that verify the change? If not, please ask for them.
-    * Is documentation needed for the change? If yes, please let the submitter know.
+    * Is documentation needed for the change? If yes, please ask the submitter to add the necessary documentation.
 1. Are there any automated testing errors? If yes, please ask the submitter to check on them.
 1. If you've reviewed the pull request and there are no outstanding issues, leave a comment "LGTM" to indicate your approval. If you would like someone else to verify the change, comment "LGTM but would like someone else to verify."
 
@@ -91,8 +91,8 @@ If the pull request was created from a branch on the `eslint/eslint` repository 
 
 There are several times when it's appropriate to close a pull request without merging:
 
-1. The pull request addresses an issue that is already fixed
-1. The pull request hasn't been updated in 17 days
+1. The pull request addresses an issue that is already fixed.
+1. The pull request hasn't been updated in 17 days.
 1. The pull request submitter isn't willing to follow project guidelines.
 
 In any of these cases, please be sure to leave a comment stating why the pull request is being closed.

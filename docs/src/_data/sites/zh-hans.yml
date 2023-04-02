@@ -83,8 +83,9 @@ footer:
     description: 切换到你所选择语言版本对应的 ESLint 网站。
     change_language: 更改语言
     language: 语言
+    latest: 最新
   copyright: >
-    &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>
+    &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>. Content licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
   links:
     open_jsf: OpenJS 基金会
     terms: 使用条款
