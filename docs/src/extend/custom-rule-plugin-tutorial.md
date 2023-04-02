@@ -326,33 +326,31 @@ To use the package now that it's published, run the following command in your pr
 npm install --save-dev <YOUR-PLUGIN-PACKAGE-NAME>
 ```
 
-Then create an ESLint configuration for your project by running the following command:
+Then create an ESLint configuration for your project using a [flat configuration file](../use/configure/configuration-files-new), `eslint.config.js`.
 
-```shell
-npx init @eslint
-```
-
-Select the following options in the CLI prompts:
-
-1. **How would you like to use ESLint?** To check syntax and find problems
-1. **What type of modules does your project use?**  CommonJS (require/exports)
-1. **Which framework does your project use?** None of these
-1. **Does your project use TypeScript?** No
-1. **Where does your code run?** Node
-1. **What format do you want your config file to be in?** JavaScript
-
-This generates a configuration file `.eslintrc.js` with some configuration. Add the following code to add the plugin and custom rule to the configuration:
+Add the following code to `eslint.config.js`:
 
 ```javascript
-module.exports = {
-    // ... other configuration
+// eslint.config.js
+"use strict";
 
-    // Using the eslint-plugin-foo-bar plugin downloaded from npm
-    plugins: ["foo-bar"],
-    rules: {
-        "foo-bar/foo-bar": "error",
-    },
-}
+// Import the ESLint plugin
+const eslintPluginFooBar = require("./eslint-plugin-foo-bar");
+
+module.exports = [
+    {
+        files: ["**/*.js"],
+        languageOptions: {
+            sourceType: "commonjs",
+            ecmaVersion: "latest",
+        },
+        // Using the eslint-plugin-foo-bar plugin downloaded from npm
+        plugins: {"foo-bar": eslintPluginFooBar},
+        rules: {
+            "foo-bar/foo-bar": "error",
+        },
+    }
+]
 ```
 
 Before you can test the rule, you must create a file to test the rule on.

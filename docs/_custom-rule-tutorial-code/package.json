@@ -1,0 +1,25 @@
+{
+  "name": "eslint-plugin-foo-bar",
+  "version": "1.2.0",
+  "description": "ESLint plugin for foo-bar rule.",
+  "main": "eslint-plugin-foo-bar.js",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "peerDependencies": {
+    "eslint": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "node foo-bar.test.js",
+    "pub": "np --yarn false"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.36.0",
+    "eslint-plugin-foo-bar": "^1.1.0",
+    "np": "^7.6.3"
+  }
+}
