@@ -42,6 +42,8 @@ Examples of **correct** code for this rule:
 /*eslint no-new: "error"*/
 
 var thing = new Thing();
+
+Foo();
 ```
 
 :::
