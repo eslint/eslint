@@ -65,7 +65,7 @@ console.error("Log an error level message.");
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you're using Node.js, however, `console` is used to output information to the user and so is not strictly used for debugging purposes. If you are developing for Node.js then you most likely do not want this rule enabled.
 

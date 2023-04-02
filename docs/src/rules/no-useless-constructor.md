@@ -78,6 +78,6 @@ class B extends A {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about unnecessary constructors, you can safely disable this rule.

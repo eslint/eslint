@@ -107,6 +107,6 @@ p = {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If your project will not be using ES5 property getters you do not need this rule.

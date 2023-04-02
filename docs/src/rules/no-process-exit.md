@@ -57,6 +57,6 @@ var exit = process.exit;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 There may be a part of a Node.js application that is responsible for determining the correct exit code to return upon exiting. In that case, you should turn this rule off to allow proper handling of the exit code.

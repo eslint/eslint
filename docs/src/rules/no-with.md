@@ -42,6 +42,6 @@ const r = ({x, y}) => Math.sqrt(x * x + y * y);
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you intentionally use `with` statements then you can disable this rule.

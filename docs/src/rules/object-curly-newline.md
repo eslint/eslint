@@ -596,7 +596,7 @@ export { foo as f, bar } from 'foo-bar';
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to enforce consistent line breaks after opening and before closing braces, then it's safe to disable this rule.
 

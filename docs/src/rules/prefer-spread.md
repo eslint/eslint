@@ -81,7 +81,7 @@ a[i++].foo.apply(a[i++], args);
 a[++i].foo.apply(a[i], args);
 ```
 
-## When Not To Use It
+## When not to Use It
 
 This rule should not be used in ES3/5 environments.
 

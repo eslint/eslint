@@ -91,6 +91,6 @@ function foo() {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't care about disallowing redundant return statements, you can turn off this rule.

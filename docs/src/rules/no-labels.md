@@ -136,6 +136,6 @@ label:
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you need to use labeled statements everywhere, then you can safely disable this rule.

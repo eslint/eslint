@@ -194,6 +194,6 @@ setTimeout(() => {}, 10); // since it's an anonymous arrow function
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you do not require JSDoc for your functions, then you can leave this rule off.

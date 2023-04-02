@@ -75,6 +75,6 @@ foo.
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 Turn this rule off if you do not care about allowing whitespace around the dot or before the opening bracket before properties of objects if they are on the same line.

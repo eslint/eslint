@@ -89,6 +89,6 @@ foo instanceof bar;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to restrict your code from using any JavaScript features or syntax, you should not use this rule.

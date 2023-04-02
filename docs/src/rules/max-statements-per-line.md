@@ -100,6 +100,6 @@ var foo = function foo() { bar = 1; };
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You can turn this rule off if you are not concerned with the number of statements on each line.

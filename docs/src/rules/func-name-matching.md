@@ -201,7 +201,7 @@ module['exports'] = function foo(name) {};
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 Do not use this rule if you want to allow named functions to have different names from the variable or property to which they are assigned.
 

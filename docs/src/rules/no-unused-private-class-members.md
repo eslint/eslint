@@ -85,6 +85,6 @@ class Foo {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about unused private class members, you can safely turn this rule off.

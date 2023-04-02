@@ -51,7 +51,7 @@ Each configuration object contains all of the information ESLint needs to execut
 * `rules` - An object containing the configured rules. When `files` or `ignores` are specified, these rule configurations are only available to the matching files.
 * `settings` - An object containing name-value pairs of information that should be available to all rules.
 
-### Specifying `files` and `ignores`
+### Specify `files` and `ignores`
 
 ::: tip
 Patterns specified in `files` and `ignores` use [`minimatch`](https://www.npmjs.com/package/minimatch) syntax and are evaluated relative to the location of the `eslint.config.js` file.
@@ -71,7 +71,7 @@ export default [
 
 With this configuration, the `semi` rule is enabled for all files that match the default files in ESLint. So if you pass `example.js` to ESLint, the `semi` rule is applied. If you pass a non-JavaScript file, like `example.txt`, the `semi` rule is not applied because there are no other configuration objects that match that filename. (ESLint outputs an error message letting you know that the file was ignored due to missing configuration.)
 
-#### Excluding files with `ignores`
+#### Exclude Files with `ignores`
 
 You can limit which files a configuration object applies to by specifying a combination of `files` and `ignores` patterns. For example, you may want certain rules to apply only to files in your `src` directory:
 
@@ -131,7 +131,7 @@ export default [
 
 This configuration object applies to all files except those ending with `.config.js`. Effectively, this is like having `files` set to `**/*`. In general, it's a good idea to always include `files` if you are specifying `ignores`.
 
-#### Globally ignoring files with `ignores`
+#### Globally Ignore Files with `ignores`
 
 If `ignores` is used without any other keys in the configuration object, then the patterns act as global ignores. Here's an example:
 
@@ -145,7 +145,7 @@ export default [
 
 This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/**", ".git/**"]`.
 
-#### Cascading configuration objects
+#### Cascading Configuration Objects
 
 When more than one configuration object matches a given filename, the configuration objects are merged with later objects overriding previous objects when there is a conflict. For example:
 
@@ -173,11 +173,11 @@ export default [
 
 Using this configuration, all JavaScript files define a custom global object defined called `MY_CUSTOM_GLOBAL` while those JavaScript files in the `tests` directory have `it` and `describe` defined as global objects in addition to `MY_CUSTOM_GLOBAL`. For any JavaScript file in the tests directory, both configuration objects are applied, so `languageOptions.globals` are merged to create a final result.
 
-### Configuring linter options
+### Configure Linter Options
 
 Options specific to the linting process can be configured using the `linterOptions` object. These effect how linting proceeds and does not affect how the source code of the file is interpreted.
 
-#### Disabling inline configuration
+#### Disable Inline Configuration
 
 Inline configuration is implemented using an `/*eslint*/` comment, such as `/*eslint semi: error*/`. You can disallow inline configuration by setting `noInlineConfig` to `true`. When enabled, all inline configuration is ignored. Here's an example:
 
@@ -192,7 +192,7 @@ export default [
 ];
 ```
 
-#### Reporting unused disable directives
+#### Report Unused Disable Directives
 
 Disable directives such as `/*eslint-disable*/` and `/*eslint-disable-next-line*/` are used to disable ESLint rules around certain portions of code. As code changes, it's possible for these directives to no longer be needed because the code has changed in such a way that the rule is no longer triggered. You can enable reporting of these unused disable directives by setting the `reportUnusedDisableDirectives` option to `true`, as in this example:
 
@@ -209,11 +209,11 @@ export default [
 
 By default, unused disable directives are reported as warnings. You can change this setting using the `--report-unused-disable-directives` command line option.
 
-### Configuring language options
+### Configure Language Options
 
 Options specific to how ESLint evaluates your JavaScript code can be configured using the `languageOptions` object.
 
-#### Configuring the JavaScript version
+#### Configure the JavaScript Version
 
 To configure the version of JavaScript (ECMAScript) that ESLint uses to evaluate your JavaScript, use the `ecmaVersion` property. This property determines which global variables and syntax are valid in your code and can be set to the version number (such as `6`), the year number (such as `2022`), or `"latest"` (for the most recent version that ESLint supports). By default, `ecmaVersion` is set to `"latest"` and it's recommended to keep this default unless you need to ensure that your JavaScript code is evaluated as an older version. For example, some older runtimes might only allow ECMAScript 5, in which case you can configure ESLint like this:
 
@@ -228,7 +228,7 @@ export default [
 ];
 ```
 
-#### Configuring the JavaScript source type
+#### Configure the JavaScript Source Type
 
 ESLint can evaluate your code in one of three ways:
 
@@ -249,7 +249,7 @@ export default [
 ];
 ```
 
-#### Configuring a custom parser and its options
+#### Configure a Custom Parser and its Options
 
 In many cases, you can use the default parser that ESLint ships with for parsing your JavaScript code. You can optionally override the default parser by using the `parser` property. The `parser` property must be an object containing either a `parse()` method or a `parseForESLint()` method. For example, you can use the [`@babel/eslint-parser`](https://www.npmjs.com/package/@babel/eslint-parser) package to allow ESLint to parse experimental syntax:
 
@@ -292,7 +292,7 @@ export default [
 ];
 ```
 
-#### Configuring global variables
+#### Configure Global Variables
 
 To configure global variables inside of a configuration object, set the `globals` configuration property to an object containing keys named for each of the global variables you want to use. For each global variable key, set the corresponding value equal to `"writable"` to allow the variable to be overwritten or `"readonly"` to disallow overwriting. For example:
 
@@ -328,11 +328,11 @@ export default [
 
 For historical reasons, the boolean value `false` and the string value `"readable"` are equivalent to `"readonly"`. Similarly, the boolean value `true` and the string value `"writeable"` are equivalent to `"writable"`. However, the use of older values is deprecated.
 
-### Using plugins in your configuration
+### Use Plugins in your Configuration
 
 Plugins are used to share rules, processors, configurations, parsers, and more across ESLint projects.
 
-#### Using plugin rules
+#### Use Plugin Rules
 
 You can use specific rules included in a plugin. To do this, specify the plugin
 in a configuration object using the `plugins` key. The value for the `plugin` key
@@ -397,7 +397,7 @@ export default [
 
 This configuration object uses `jsd` as the prefix plugin instead of `jsdoc`.
 
-#### Using configurations included in plugins
+#### Use Configurations Included in Plugins
 
 You can use a configuration included in a plugin by adding that configuration
 directly to the `eslint.config.js` configurations array.
@@ -422,7 +422,7 @@ export default [
 ];
 ```
 
-### Using processors
+### Use Processors
 
 Processors allow ESLint to transform text into pieces of code that ESLint can lint. You can specify the processor to use for a given file type by defining a `processor` property that contains either the processor name in the format `"pluginName/processorName"` to reference a processor in a plugin or an object containing both a `preprocess()` and a `postprocess()` method. For example, to extract JavaScript code blocks from a Markdown file, you might add this to your configuration:
 
@@ -472,7 +472,7 @@ export default [
 ];
 ```
 
-### Configuring rules
+### Configure Rules
 
 You can configure any number of rules in a configuration object by add a `rules` property containing an object with your rule configurations. The names in this object are the names of the rules and the values are the configurations for each of those rules. Here's an example:
 
@@ -500,7 +500,7 @@ export default [
 
 Each rule specifies its own options and can be any valid JSON data type. Please check the documentation for the rule you want to configure for more information about its available options.
 
-#### Rule severities
+#### Rule Severities
 
 There are three possible severities you can specify for a rule
 
@@ -508,7 +508,7 @@ There are three possible severities you can specify for a rule
 * `"warn"` (or `1`) - the reported problem should be treated as a warning. When using the ESLint CLI, warnings are reported but do not change the exit code. If only warnings are reported, the exit code is 0.
 * `"off"` (or `0`) - the rule should be turned off completely.
 
-#### Rule configuration cascade
+#### Rule Configuration Cascade
 
 When more than one configuration object specifies the same rule, the rule configuration is merged with the later object taking precedence over any previous objects. For example:
 
@@ -546,7 +546,7 @@ export default [
 
 Here, the second configuration object only overrides the severity, so the final configuration for `semi` is `["warn", "never"]`.
 
-### Configuring shared settings
+### Configure Shared Settings
 
 ESLint supports adding shared settings into configuration files. When you add a `settings` object to a configuration object, it is supplied to every rule. By convention, plugins namespace the settings they are interested in to avoid collisions with others. Plugins can use `settings` to specify the information that should be shared across all of their rules. This may be useful if you are adding custom rules and want them to have access to the same information. Here's an example:
 
@@ -560,7 +560,7 @@ export default [
 ];
 ```
 
-### Using predefined configurations
+### Use Predefined Configurations
 
 ESLint has two predefined configurations for JavaScript:
 

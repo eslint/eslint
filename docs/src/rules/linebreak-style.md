@@ -87,7 +87,7 @@ function foo(params) { // \r\n
 
 :::
 
-### Using this rule with version control systems
+### Use This Rule with Version Control Systems
 
 Version control systems sometimes have special behavior for linebreaks. To make it easy for developers to contribute to your codebase from different platforms, you may want to configure your VCS to handle linebreaks appropriately.
 
@@ -97,7 +97,7 @@ For example, the default behavior of [git](https://git-scm.com/) on Windows syst
 *.js text eol=lf
 ```
 
-## When Not To Use It
+## When not to Use It
 
 If you aren't concerned about having different line endings within your code, then you can safely turn this rule off.
 

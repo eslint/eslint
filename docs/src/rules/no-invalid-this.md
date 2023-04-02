@@ -284,6 +284,6 @@ obj.Foo = function Foo() {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about usage of `this` keyword outside of classes or class-like objects, you can safely disable this rule.

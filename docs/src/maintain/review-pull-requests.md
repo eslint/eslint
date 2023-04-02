@@ -14,7 +14,7 @@ Pull requests are submitted frequently and represent our best opportunity to int
 
 Anyone, both team members and the public, may leave comments on pull requests.
 
-## Reviewing a Pull Request
+## Review a Pull Request
 
 When a pull request is opened, the bot will check the following:
 

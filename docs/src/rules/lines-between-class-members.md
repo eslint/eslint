@@ -148,7 +148,7 @@ class Foo{
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to enforce empty lines between class members, you can disable this rule.
 

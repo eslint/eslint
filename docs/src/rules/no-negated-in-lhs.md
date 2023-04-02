@@ -46,6 +46,6 @@ if(('' + !key) in object) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 Never.

@@ -261,6 +261,6 @@ var arr = [[ 1, 2 ], 2, [ 3, 4 ]];
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You can turn this rule off if you are not concerned with the consistency of spacing between array brackets.

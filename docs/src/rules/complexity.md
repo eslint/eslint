@@ -154,6 +154,6 @@ is equivalent to
 
 **Deprecated:** the object property `maximum` is deprecated. Please use the property `max` instead.
 
-## When Not To Use It
+## When not to Use It
 
 If you can't determine an appropriate complexity limit for your code, then it's best to disable this rule.

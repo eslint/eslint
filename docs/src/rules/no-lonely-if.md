@@ -92,6 +92,6 @@ if (condition) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 Disable this rule if the code is clearer without requiring the `else if` form.

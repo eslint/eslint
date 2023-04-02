@@ -363,6 +363,6 @@ new foo(a, b,);
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You can turn this rule off if you are not concerned with dangling commas.

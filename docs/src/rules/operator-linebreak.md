@@ -378,6 +378,6 @@ answer = everything
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If your project will not be using a common operator line break style, turn this rule off.

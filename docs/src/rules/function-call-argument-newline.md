@@ -221,6 +221,6 @@ baz(
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to enforce line breaks between arguments, don't enable this rule.

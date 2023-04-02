@@ -203,6 +203,6 @@ var b = ~foo.indexOf(".");
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about shorter notations for the type conversion, you can safely disable this rule.

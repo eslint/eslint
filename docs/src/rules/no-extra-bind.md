@@ -92,6 +92,6 @@ var x = function (a) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you are not concerned about unnecessary calls to `bind()`, you can safely disable this rule.

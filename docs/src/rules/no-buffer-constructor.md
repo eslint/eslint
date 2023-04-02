@@ -48,6 +48,6 @@ Buffer.from(res.body.values);
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't use Node.js, or you still need to support versions of Node.js that lack methods like `Buffer.from`, then you should not enable this rule.

@@ -252,6 +252,6 @@ const foo = (..._bar) => {};
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you want to allow dangling underscores in identifiers, then you can safely turn this rule off.

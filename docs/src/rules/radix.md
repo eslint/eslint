@@ -108,6 +108,6 @@ var num = parseFloat(someValue);
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to enforce either presence or omission of the `10` radix value you can turn this rule off.

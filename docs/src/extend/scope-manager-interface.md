@@ -196,7 +196,7 @@ Those members are defined but not used in ESLint.
 
 ----
 
-## Variable interface
+## Variable Interface
 
 `Variable` object is variable's information.
 
@@ -229,7 +229,7 @@ Those members are defined but not used in ESLint.
 * **Type:** `Definition[]`
 * **Description:** The array of the definitions of this variable.
 
-### Deprecated members
+### Deprecated Members
 
 Those members are defined but not used in ESLint.
 
@@ -245,7 +245,7 @@ Those members are defined but not used in ESLint.
 
 ----
 
-## Reference interface
+## Reference Interface
 
 `Reference` object is reference's information.
 
@@ -308,7 +308,7 @@ Those members are defined but not used in ESLint.
 * **Return type:** `boolean`
 * **Description:** `true` if this reference is reading and writing.
 
-### Deprecated members
+### Deprecated Members
 
 Those members are defined but not used in ESLint.
 
@@ -335,7 +335,7 @@ Those members are defined but not used in ESLint.
 
 ----
 
-## Definition interface
+## Definition Interface
 
 `Definition` object is variable definition's information.
 
@@ -381,7 +381,7 @@ Those members are defined but not used in ESLint.
 | `"Parameter"`              | `null`
 | `"Variable"`               | `VariableDeclaration`
 
-### Deprecated members
+### Deprecated Members
 
 Those members are defined but not used in ESLint.
 

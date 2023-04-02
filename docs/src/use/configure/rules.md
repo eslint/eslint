@@ -24,7 +24,7 @@ Rules are typically set to `"error"` to enforce compliance with the rule during 
 
 If you don't want to enforce compliance with a rule but would still like ESLint to report the rule's violations, set the severity to `"warn"`. This is typically used when introducing a new rule that will eventually be set to `"error"`, when a rule is flagging something other than a potential buildtime or runtime error (such as an unused variable), or when a rule cannot determine with certainty that a problem has been found (when a rule might have false positives and need manual review).
 
-### Using configuration comments
+### Use Configuration Comments
 
 To configure rules inside of a file using configuration comments, use a comment in the following format:
 
@@ -69,7 +69,7 @@ Configuration comments can include descriptions to explain why the comment is ne
  */
 ```
 
-### Using configuration files
+### Use Configuration Files
 
 To configure rules inside of a configuration file, use the `rules` key along with an error level and any options you want to use. For example:
 
@@ -140,9 +140,9 @@ You can also use this format with configuration comments, such as:
 
 **Note:** When specifying rules from plugins, make sure to omit `eslint-plugin-`. ESLint uses only the unprefixed name internally to locate rules.
 
-## Disabling Rules
+## Disable Rules
 
-### Using configuration comments
+### Use Configuration Comments
 
 To disable rule warnings in a part of a file, use block comments in the following format:
 
@@ -249,7 +249,7 @@ foo(); /* eslint-disable-line example/rule-name */
 
 **Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint still parses the entire file, however, so disabled code still needs to be syntactically valid JavaScript.
 
-#### Comment descriptions
+#### Comment Descriptions
 
 Configuration comments can include descriptions to explain why disabling or re-enabling the rule is necessary. The description must come after the configuration and needs to be separated from the configuration by two or more consecutive `-` characters. For example:
 
@@ -264,7 +264,7 @@ console.log('hello');
 console.log('hello');
 ```
 
-### Using configuration files
+### Use Configuration Files
 
 To disable rules inside of a configuration file for a group of files, use the `overrides` key along with a `files` key. For example:
 
@@ -282,7 +282,7 @@ To disable rules inside of a configuration file for a group of files, use the `o
 }
 ```
 
-### Disabling Inline Comments
+### Disable Inline Comments
 
 To disable all inline config comments, use the `noInlineConfig` setting in your configuration file. For example:
 
@@ -295,7 +295,7 @@ To disable all inline config comments, use the `noInlineConfig` setting in your 
 
 You can also use the [--no-inline-config](../command-line-interface#--no-inline-config) CLI option to disable rule comments, in addition to other in-line configuration.
 
-#### Report unused `eslint-disable` comments
+#### Report Unused `eslint-disable` Comments
 
 To report unused `eslint-disable` comments, use the `reportUnusedDisableDirectives` setting. For example:
 

@@ -101,6 +101,6 @@ f(x ? x : 1);
 
 Note that `defaultAssignment: false` still allows expressions of the form `x ? expr : x` (where the identifier is on the right hand side of the ternary).
 
-## When Not To Use It
+## When not to Use It
 
 You can turn this rule off if you are not concerned with unnecessary complexity in conditional expressions.

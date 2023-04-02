@@ -76,6 +76,6 @@ fs.readFileSync(somePath).toString();
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you want to allow synchronous operations in your script, do not enable this rule.

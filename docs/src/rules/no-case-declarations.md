@@ -81,6 +81,6 @@ switch (foo) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you depend on fall through behavior and want access to bindings introduced in the case block.

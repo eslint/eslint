@@ -46,7 +46,7 @@ var c = { __proto__: a };
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You might want to turn this rule off if you need to support legacy browsers which implement the
 `__proto__` property but not `Object.getPrototypeOf` or `Object.setPrototypeOf`.

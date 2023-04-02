@@ -395,6 +395,6 @@ var bar;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about unused variables or function arguments, you can safely turn this rule off.

@@ -40,7 +40,7 @@ Wondering if ESLint will work with your favorite editor or build system? This pa
 
 The ESLint team is committed to making upgrading as easy and painless as possible. This section outlines the guidelines the team has set in place for the deprecation of rules in future releases.
 
-## Migrating
+## Migration
 
 If you were using a prior version of ESLint, you can get help with the transition by reading:
 

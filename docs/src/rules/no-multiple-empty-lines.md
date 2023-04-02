@@ -154,6 +154,6 @@ var bar = 3;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you do not care about extra blank lines, turn this off.

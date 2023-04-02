@@ -112,7 +112,7 @@ Examples of **correct** code for this rule with the `"below"` option:
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you're not concerned about consistent locations of implicitly returned arrow function expressions, you should not turn on this rule.
 

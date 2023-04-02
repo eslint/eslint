@@ -28,7 +28,7 @@ There are four primary issue categories:
 
 The first goal when evaluating an issue is to determine which category the issue falls into.
 
-## Triaging Process
+## Triage Process
 
 All of ESLint's issues, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/2). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
 
@@ -92,7 +92,7 @@ When an issue has been moved to the "Ready for Dev Team" column, any dev team me
 
 **Note:** "Good first issue" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance to work on these issues, issues labeled "good first issue" must be open for 30 days *from the day the issue was labeled* before a team member is permitted to work on them.
 
-## Accepting Issues
+## Accept Issues
 
 Issues may be labeled as "accepted" when the issue is:
 
@@ -103,7 +103,7 @@ The "accepted" label will be added to other issues by a TSC member if it's appro
 
 When an issue is accepted and implementation can begin, it should be moved to the "Ready to Implement" column.
 
-## Championing Issues
+## Champion Issues
 
 New rules and rule changes require a champion. As champion, it's your job to:
 
@@ -125,7 +125,7 @@ If consensus cannot be reached on an issue, or an issue's progress has been stal
 
 The issue will be discussed at the next TSC meeting and the resolution will be posted back to the issue.
 
-## Evaluating Core Features and Enhancements (TSC members only)
+## Evaluate Core Features and Enhancements (TSC members only)
 
 In addition to the above, changes to the core (including CLI changes) that would result in a minor or major version release must be approved by the TSC by standard TSC motion. Add the label "tsc agenda" to the issue and it will be discussed at the next TSC meeting. In general, requests should meet the following criteria to be considered:
 

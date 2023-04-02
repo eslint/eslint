@@ -96,7 +96,7 @@ foo(function() { (() => this); });
 someArray.map(function(item) { return this.doSomething(item); }, someObject);
 ```
 
-## When Not To Use It
+## When not to Use It
 
 * In environments that have not yet adopted ES6 language features (ES3/5).
 

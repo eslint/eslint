@@ -126,6 +126,6 @@ obj
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you have conflicting rules or when you are fine with chained calls on one line, you can safely turn this rule off.

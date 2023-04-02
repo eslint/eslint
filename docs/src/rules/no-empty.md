@@ -99,6 +99,6 @@ finally {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you intentionally use empty block statements then you can disable this rule.

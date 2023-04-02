@@ -271,7 +271,7 @@ var global_var = 42;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 In the case of a browser script, if you want to be able to explicitly declare variables and functions in the global scope,
 and your code is in strict mode or you don't want this rule to warn you about undeclared variables,

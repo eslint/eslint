@@ -180,6 +180,6 @@ while (foo)
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you're not concerned about consistent locations of single-line statements, you should not turn on this rule. You can also disable this rule if you're using the `"all"` option for the [`curly`](curly) rule, because this will disallow single-line statements entirely.

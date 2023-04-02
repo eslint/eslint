@@ -335,6 +335,6 @@ function UNSAFE_componentWillMount() {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you have established coding standards using a different naming convention (separating words with underscores), turn this rule off.

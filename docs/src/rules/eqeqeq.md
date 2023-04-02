@@ -145,6 +145,6 @@ foo == null
 ["error", "always", {"null": "ignore"}]
 ```
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to enforce a style for using equality operators, then it's safe to disable this rule.

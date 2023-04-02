@@ -129,6 +129,6 @@ foo = ! a >= b;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to notify unsafe logical negations, then it's safe to disable this rule.

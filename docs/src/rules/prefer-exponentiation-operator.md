@@ -52,6 +52,6 @@ let quux = (-1) ** n;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 This rule should not be used unless ES2016 is supported in your codebase.

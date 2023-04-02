@@ -100,6 +100,6 @@ x.y = x.y / a.b;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 Use of operator assignment shorthand is a stylistic choice. Leaving this rule turned off would allow developers to choose which style is more readable on a case-by-case basis.

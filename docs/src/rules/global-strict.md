@@ -61,6 +61,6 @@ Requires that every file have a top-level `"use strict"` statement.
 
 Warns whenever `"use strict"` is used in the global scope such that it could contaminate concatenated files.
 
-## When Not To Use It
+## When not to Use It
 
 When a project may use non-strict-mode code side by side with strict-mode code and the files are not concatenated, the decision to use global strict mode can be made on an individual basis, rendering this rule unnecessary.

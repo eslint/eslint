@@ -74,6 +74,6 @@ new RegExp("\\t"); // allowed since the pattern is: \t
 
 There is no difference in behavior between `new RegExp("\t")` and `new RegExp("\\t")`, and the intention to match the TAB character is clear in both cases. They are equally valid for the purpose of this rule, but it only allows `new RegExp("\\t")`.
 
-## When Not To Use It
+## When not to Use It
 
 If you need to use control character pattern matching, then you should turn this rule off.

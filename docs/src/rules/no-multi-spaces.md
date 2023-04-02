@@ -209,6 +209,6 @@ import someOtherMod from 'some-other-mod';
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to check and disallow multiple spaces, then you should turn this rule off.

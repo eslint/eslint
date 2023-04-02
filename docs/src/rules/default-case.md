@@ -134,6 +134,6 @@ switch(a) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to enforce a `default` case for `switch` statements, you can safely disable this rule.

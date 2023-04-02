@@ -80,6 +80,6 @@ try {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you do not need to support IE 8 and earlier, you should turn this rule off.

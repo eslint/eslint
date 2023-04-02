@@ -213,6 +213,6 @@ var foo = (a + b) - c;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about mixed operators, then it's safe to disable this rule.

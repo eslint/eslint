@@ -99,6 +99,6 @@ that = this;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you need to capture nested context, `consistent-this` is going to be problematic. Code of that nature is usually difficult to read and maintain and you should consider refactoring it.

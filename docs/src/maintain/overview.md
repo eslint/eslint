@@ -39,6 +39,6 @@ ESLint uses this funding for the following purposes:
 * Pay for services that keep ESLint running (web hosting, software subscriptions, etc.)
 * Provide financial support to our dependencies and ecosystem
 
-## Joining the Maintainer Team
+## Join the Maintainer Team
 
 ESLint is an open-source project, and anyone can contribute to the project. If you're interested in becoming part of the maintainer team, stop by our [Discord](https://eslint.org/chat) and introduce yourself.

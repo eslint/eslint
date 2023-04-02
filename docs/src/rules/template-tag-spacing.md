@@ -88,6 +88,6 @@ func `Hello world`;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about usage of spacing between tag functions and their template literals, then it's safe to disable this rule.

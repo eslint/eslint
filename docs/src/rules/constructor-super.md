@@ -66,6 +66,6 @@ class A extends B {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about invalid/missing `super()` callings in constructors, you can safely disable this rule.

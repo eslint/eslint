@@ -121,7 +121,7 @@ By default, ESLint does not perform autofixes when a custom processor is used, e
 
 You can have both rules and custom processors in a single plugin. You can also have multiple processors in one plugin. To support multiple extensions, add each one to the `processors` element and point them to the same object.
 
-## Specifying Processor in Config Files
+## Specify Processor in Config Files
 
 To use a processor, add its ID to a `processor` section in the config file. Processor ID is a concatenated string of plugin name and processor name with a slash as a separator. This can also be added to a `overrides` section of the config, to specify which processors should handle which files.
 

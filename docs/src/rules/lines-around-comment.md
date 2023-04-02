@@ -747,6 +747,6 @@ var day = "great"
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 Many people enjoy a terser code style and don't mind comments bumping up against code. If you fall into that category this rule is not for you.

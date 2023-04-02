@@ -167,7 +167,7 @@ context.report({
 
 The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
 
-### Using message placeholders
+### Use Message Placeholders
 
 You can also use placeholders in the message and provide `data`:
 

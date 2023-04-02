@@ -133,7 +133,7 @@ module.exports = function() {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If explicit declaration of global variables is not to your taste.
 

@@ -130,7 +130,7 @@ Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }`
 
 **Deprecated:** the object property `applyDefaultPatterns` is deprecated. Please use the property `applyDefaultIgnorePatterns` instead.
 
-## When Not To Use It
+## When not to Use It
 
 If you aren't concerned about having different line comment styles, then you can turn off this rule.
 

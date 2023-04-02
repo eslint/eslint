@@ -59,6 +59,6 @@ var fullPath = dirname + "/foo.js";
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you want to allow string concatenation of path names.

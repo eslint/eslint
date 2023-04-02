@@ -179,6 +179,6 @@ foo();
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to enforce a particular style for multiline comments, you can disable the rule.

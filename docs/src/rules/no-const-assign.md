@@ -92,6 +92,6 @@ for (const a of [1, 2, 3]) { // `a` is re-defined (not modified) on each loop st
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about modifying variables that are declared using `const` keyword, you can safely disable this rule.

@@ -105,6 +105,6 @@ var x = require("x"),
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you have a module that must be initialized with information that comes from the file-system or if a module is only used in very rare situations and will cause significant overhead to load it may make sense to disable the rule. If you need to `require()` an optional dependency inside of a `try`/`catch`, you can disable this rule for just that dependency using the `// eslint-disable-line global-require` comment.

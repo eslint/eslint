@@ -76,6 +76,6 @@ for (let i = 0; i < 10; ++i) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about unused labels, then it's safe to disable this rule.

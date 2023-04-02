@@ -392,6 +392,6 @@ class A {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about empty functions, then it's safe to disable this rule.

@@ -192,6 +192,6 @@ function thing() {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you decide that you wish to use whitespace other than tabs and spaces outside of strings in your application.

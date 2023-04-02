@@ -14,7 +14,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ## Table of Contents
 
-### Breaking changes for users
+### Breaking Changes for Users
 
 * [Node.js 10, 13, and 15 are no longer supported](#drop-old-node)
 * [Removed `codeframe` and `table` formatters](#removed-formatters)
@@ -22,7 +22,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [Unused disable directives are now fixable](#directives)
 * [`eslint:recommended` has been updated](#eslint-recommended)
 
-### Breaking changes for plugin developers
+### Breaking Changes for Plugin Developers
 
 * [Node.js 10, 13, and 15 are no longer supported](#drop-old-node)
 * [Rules require `meta.hasSuggestions` to provide suggestions](#suggestions)
@@ -30,7 +30,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [`SourceCode#getComments()` fails in `RuleTester`](#get-comments)
 * [Changes to shorthand property AST format](#ast-format)
 
-### Breaking changes for integration developers
+### Breaking Changes for Integration Developers
 
 * [Node.js 10, 13, and 15 are no longer supported](#drop-old-node)
 * [The `CLIEngine` class has been removed](#remove-cliengine)

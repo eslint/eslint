@@ -344,7 +344,7 @@ function foo() {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You can safely disable this rule if you do not have any strict conventions about whether or not directive prologues should have blank newlines before or after them.
 

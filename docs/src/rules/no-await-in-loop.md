@@ -82,7 +82,7 @@ async function foo(things) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 In many cases the iterations of a loop are not actually independent of each-other. For example, the
 output of one iteration might be used as the input to another. Or, loops may be used to retry

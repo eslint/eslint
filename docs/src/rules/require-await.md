@@ -77,7 +77,7 @@ async function noop() {}
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 Asynchronous functions are designed to work with promises such that throwing an error will cause a promise's rejection handler (such as `catch()`) to be called. For example:
 

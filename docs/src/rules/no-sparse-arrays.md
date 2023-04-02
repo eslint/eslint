@@ -56,6 +56,6 @@ var colors = [ "red", "blue", ];
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you want to use sparse arrays, then it is safe to disable this rule.

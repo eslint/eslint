@@ -76,6 +76,6 @@ class C {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you intentionally use extra semicolons then you can disable this rule.

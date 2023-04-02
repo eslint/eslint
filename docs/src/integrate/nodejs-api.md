@@ -847,7 +847,7 @@ Any additional properties of a test case will be passed directly to the linter a
 
 If a valid test case only uses the `code` property, it can optionally be provided as a string containing the code, rather than an object with a `code` key.
 
-### Testing errors with `messageId`
+### Test Errors with `messageId`
 
 If the rule under test uses `messageId`s, you can use `messageId` property in a test case to assert reported error's `messageId` instead of its `message`.
 
@@ -869,7 +869,7 @@ For messages with placeholders, a test case can also use `data` property to addi
 
 Please note that `data` in a test case does not assert `data` passed to `context.report`. Instead, it is used to form the expected message text which is then compared with the received `message`.
 
-### Testing Suggestions
+### Test Suggestions
 
 Suggestions can be tested by defining a `suggestions` key on an errors object. The options to check for the suggestions are the following (all are optional):
 
@@ -913,7 +913,7 @@ ruleTester.run("my-rule-for-no-foo", rule, {
 })
 ```
 
-### Customizing RuleTester
+### Customize RuleTester
 
 `RuleTester` depends on two functions to run tests: `describe` and `it`. These functions can come from various places:
 

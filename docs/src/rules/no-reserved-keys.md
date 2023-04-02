@@ -59,6 +59,6 @@ var values = {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If your code is only going to be executed in an ECMAScript 5 or higher environment, then you can safely leave this rule off.

@@ -60,6 +60,6 @@ foo({
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If your code will not be run in IE8 or below (a Node.js application, for example) and you'd prefer to allow trailing commas, turn this rule off.

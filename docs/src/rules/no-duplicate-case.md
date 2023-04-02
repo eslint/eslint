@@ -103,7 +103,7 @@ switch (a) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 In rare cases where identical test expressions in `case` clauses produce different values, which necessarily means that the expressions are causing and relying on side effects, you will have to disable this rule.
 

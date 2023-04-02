@@ -64,6 +64,6 @@ try {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about unnecessary catch clauses, you can safely disable this rule.

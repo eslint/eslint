@@ -9,7 +9,7 @@ Some rules and APIs allow the use of selectors to query an AST. This page is int
 2. Describe the syntax for creating selectors
 3. Describe what selectors can be used for
 
-## What is a selector?
+## What is a Selector?
 
 A selector is a string that can be used to match nodes in an Abstract Syntax Tree (AST). This is useful for describing a particular syntax pattern in your code.
 
@@ -26,7 +26,7 @@ The selector "`Identifier`" will match all `Identifier` nodes in the program. In
 
 Selectors are not limited to matching against single node types. For example, the selector `VariableDeclarator > Identifier` will match all `Identifier` nodes that have a `VariableDeclarator` as a direct parent. In the program above, this will match the node for `foo`, but not the nodes for `bar` and `baz`.
 
-## What syntax can selectors have?
+## What Syntax Can Selectors Have?
 
 The following selectors are supported:
 
@@ -53,11 +53,11 @@ This syntax is very powerful, and can be used to precisely select many syntactic
 
 <sup>The examples in this section were adapted from the [esquery](https://github.com/estools/esquery) documentation.</sup>
 
-## What can selectors be used for?
+## What Can Selectors Be Used for?
 
 If you're writing custom ESLint rules, you might be interested in using selectors to examine specific parts of the AST. If you're configuring ESLint for your codebase, you might be interested in restricting particular syntax patterns with selectors.
 
-### Listening for selectors in rules
+### Listen for Selectors in Rules
 
 When writing a custom ESLint rule, you can listen for nodes that match a particular selector as the AST is traversed.
 
@@ -91,7 +91,7 @@ If two or more selectors match the same node, their listeners will be called in 
 
 If multiple selectors have equal specificity, their listeners will be called in alphabetical order for that node.
 
-### Restricting syntax with selectors
+### Restrict Syntax with Selectors
 
 With the [no-restricted-syntax](../rules/no-restricted-syntax) rule, you can restrict the usage of particular syntax in your code. For example, you can use the following configuration to disallow using `if` statements that do not have block statements as their body:
 

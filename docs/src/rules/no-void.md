@@ -114,6 +114,6 @@ void someFunction();
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you intentionally use the `void` operator then you can disable this rule.

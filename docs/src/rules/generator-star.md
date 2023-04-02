@@ -123,6 +123,6 @@ var generator = function*() {
 
 The shortened object literal syntax for generators is not affected by this rule.
 
-## When Not To Use It
+## When not to Use It
 
 If your project will not be using generators you do not need this rule.

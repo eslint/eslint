@@ -440,7 +440,7 @@ var [i = function foo() {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to enforce linebreaks between array elements, don't enable this rule.
 

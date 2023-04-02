@@ -318,6 +318,6 @@ export { C as"my class" };
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to enforce consistency on keyword spacing, then it's safe to disable this rule.

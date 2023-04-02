@@ -83,6 +83,6 @@ typeof bar === typeof qux
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You may want to turn this rule off if you will be using the `typeof` operator on host objects.

@@ -376,6 +376,6 @@ foo(
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If don't want to enforce consistent linebreaks inside function parentheses, do not turn on this rule.

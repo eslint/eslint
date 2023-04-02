@@ -78,7 +78,7 @@ class Foo {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 There is one situation where initializing to `undefined` behaves differently than omitting the initialization, and that's when a `var` declaration occurs inside of a loop. For example:
 

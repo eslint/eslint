@@ -128,6 +128,6 @@ try{}catch(e) {}
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you do not wish to enforce consistency on keyword spacing.

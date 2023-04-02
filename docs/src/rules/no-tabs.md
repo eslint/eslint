@@ -68,7 +68,7 @@ function test() {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you have established a standard where having tabs is fine, then you can disable this rule.
 

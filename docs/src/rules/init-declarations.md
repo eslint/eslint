@@ -150,6 +150,6 @@ for (var i = 0; i < 1; i++) {}
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 When you are indifferent as to how your variables are initialized.

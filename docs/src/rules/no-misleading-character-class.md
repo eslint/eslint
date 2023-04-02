@@ -83,6 +83,6 @@ Examples of **correct** code for this rule:
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You can turn this rule off if you don't want to check RegExp character class syntax for multiple code point characters.

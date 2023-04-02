@@ -62,6 +62,6 @@ function f(flags) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to notify regular expressions with no `u` flag, then it's safe to disable this rule.

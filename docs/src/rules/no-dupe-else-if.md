@@ -188,6 +188,6 @@ if (a) {
 }
 ```
 
-## When Not To Use It
+## When not to Use It
 
 In rare cases where you really need identical test conditions in the same chain, which necessarily means that the expressions in the chain are causing and relying on side effects, you will have to turn this rule off.

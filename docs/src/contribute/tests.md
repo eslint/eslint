@@ -17,7 +17,7 @@ npm test
 
 This automatically starts Mocha and runs all tests in the `tests` directory. You need only add yours and it will automatically be picked up when running tests.
 
-## Running Individual Tests
+## Runn Individual Tests
 
 If you want to quickly run just one test file, you can do so by running Mocha directly and passing in the filename. For example:
 

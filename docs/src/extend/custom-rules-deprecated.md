@@ -157,7 +157,7 @@ Note that leading and trailing whitespace is optional in message parameters.
 
 The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
 
-### Applying Fixes
+### Apply Fixes
 
 If you'd like ESLint to attempt to fix the problem you're reporting, you can do so by specifying the `fix` function when using `context.report()`. The `fix` function receives a single argument, a `fixer` object, that you can use to apply a fix. For example:
 
@@ -287,7 +287,7 @@ In the preceding example, the error level is assumed to be the first argument. I
 
 To learn more about JSON Schema, we recommend looking at some [examples](http://json-schema.org/examples.html) to start, and also reading [Understanding JSON Schema](http://spacetelescope.github.io/understanding-json-schema/) (a free ebook).
 
-### Getting the Source
+### Get the Source
 
 If your rule needs to get the actual JavaScript source to work with, then use the `sourceCode.getText()` method. This method works as follows:
 
@@ -308,7 +308,7 @@ var nodeSourceWithFollowing = sourceCode.getText(node, 0, 2);
 
 In this way, you can look for patterns in the JavaScript text itself when the AST isn't providing the appropriate data (such as location of commas, semicolons, parentheses, etc.).
 
-### Accessing comments
+### Access Comments
 
 If you need to access comments for a specific node you can use `sourceCode.getComments(node)`:
 
@@ -322,7 +322,7 @@ Keep in mind that comments are technically not a part of the AST and are only at
 
 **Note:** One of the libraries adds AST node properties for comments - do not use these properties. Always use `sourceCode.getComments()` as this is the only guaranteed API for accessing comments (we will likely change how comments are handled later).
 
-### Accessing Code Paths
+### Access Code Paths
 
 ESLint analyzes code paths while traversing AST.
 You can access that code path objects with five events related to code paths.
@@ -444,7 +444,7 @@ invalid: [
 ]
 ```
 
-### Specifying Parser Options
+### Specify Parser Options
 
 Some tests require that a certain parser configuration must be used. This can be specified in test specifications via the `parserOptions` setting.
 

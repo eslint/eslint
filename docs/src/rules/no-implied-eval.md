@@ -67,6 +67,6 @@ setInterval(function() {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you want to allow `setTimeout()` and `setInterval()` with string arguments, then you can safely disable this rule.

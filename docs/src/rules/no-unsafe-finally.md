@@ -164,6 +164,6 @@ let foo = function(a) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you want to allow control flow operations in `finally` blocks, you can turn this rule off.

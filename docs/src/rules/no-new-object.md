@@ -58,6 +58,6 @@ new Object();
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you wish to allow the use of the `Object` constructor, you can safely turn this rule off.

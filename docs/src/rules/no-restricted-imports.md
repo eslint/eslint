@@ -355,6 +355,6 @@ import { hasValues } from 'utils/collection-utils';
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 Don't use this rule or don't include a module in the list for this rule if you want to be able to import a module in your project without an ESLint error or warning.

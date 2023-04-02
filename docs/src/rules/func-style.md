@@ -148,6 +148,6 @@ var foo = () => {};
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you want to allow developers to each decide how they want to write functions on their own, then you can disable this rule.

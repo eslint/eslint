@@ -96,7 +96,7 @@ class Foo {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 This rule should not be used in ES3/5 environments.
 

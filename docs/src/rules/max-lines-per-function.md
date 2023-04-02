@@ -244,6 +244,6 @@ Examples of **correct** code for this rule with the `{ "IIFEs": true }` option:
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You can turn this rule off if you are not concerned with the number of lines in your functions.

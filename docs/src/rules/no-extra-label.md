@@ -88,6 +88,6 @@ C: switch (a) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about usage of labels, then it's safe to disable this rule.

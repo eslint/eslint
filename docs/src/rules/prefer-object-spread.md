@@ -59,6 +59,6 @@ Object.assign(foo, { ...baz });
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 This rule should not be used unless ES2018 is supported in your codebase.

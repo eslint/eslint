@@ -47,7 +47,7 @@ var num = -0.7;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you aren't concerned about misinterpreting floating decimal point values, then you can safely turn this rule off.
 

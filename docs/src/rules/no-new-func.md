@@ -51,6 +51,6 @@ var x = function (a, b) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 In more advanced cases where you really need to use the `Function` constructor.

@@ -78,7 +78,7 @@ tag `hello`
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You can turn this rule off if you are confident that you will not accidentally introduce code like this.
 

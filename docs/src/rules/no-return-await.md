@@ -61,7 +61,7 @@ async function foo() {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 There are a few reasons you might want to turn this rule off:
 

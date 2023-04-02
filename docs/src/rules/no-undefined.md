@@ -85,6 +85,6 @@ bar(void 0, "lorem");
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you want to allow the use of `undefined` in your code, then you can safely turn this rule off.

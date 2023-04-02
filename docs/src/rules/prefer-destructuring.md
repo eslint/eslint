@@ -195,7 +195,7 @@ Examples of **correct** code when array destructuring in `AssignmentExpression` 
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you want to be able to access array indices or object properties directly, you can either configure the rule to your tastes or disable the rule entirely.
 

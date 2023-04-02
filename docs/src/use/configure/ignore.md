@@ -97,7 +97,7 @@ There are also some exceptions to these rules:
   eslint --ignore-pattern '!.build' --ignore-pattern '.build/*' --ignore-pattern '!.build/test.js' parent-folder/
   ```
 
-## Using an Alternate File
+## Use an Alternate File
 
 If you'd prefer to use a different file than the `.eslintignore` in the current working directory, you can specify it on the command line using the `--ignore-path` option. For example, you can use `.jshintignore` file because it has the same format:
 
@@ -113,7 +113,7 @@ eslint --ignore-path .gitignore file.js
 
 Any file that follows the standard ignore file format can be used. Keep in mind that specifying `--ignore-path` means that the existing `.eslintignore` file is not used. Note that globbing rules in `.eslintignore` follow those of `.gitignore`.
 
-## Using eslintIgnore in package.json
+## Use eslintIgnore in package.json
 
 If an `.eslintignore` file is not found and an alternate file is not specified, ESLint looks in `package.json` for the `eslintIgnore` key to check for files to ignore.
 

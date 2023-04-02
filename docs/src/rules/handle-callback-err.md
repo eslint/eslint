@@ -91,7 +91,7 @@ If the configured name of the error variable begins with a `^` it is considered 
 * If the option is `"^.+Error$"`, the rule reports unhandled errors where the parameter name ends with `Error` (for example, `connectionError` or `validationError` will match).
 * If the option is `"^.*(e|E)rr"`, the rule reports unhandled errors where the parameter name matches any string that contains `err` or `Err` (for example, `err`, `error`, `anyError`, `some_err` will match).
 
-## When Not To Use It
+## When not to Use It
 
 There are cases where it may be safe for your application to ignore errors, however only ignore errors if you are
 confident that some other form of monitoring will help you catch the problem.

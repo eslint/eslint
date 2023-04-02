@@ -78,7 +78,7 @@ var abc;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you use some UTF-16 or UTF-32 files and you want to allow a file to
 optionally begin with a Unicode BOM, you should turn this rule off.

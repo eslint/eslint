@@ -242,7 +242,7 @@ Examples of **incorrect** code with `ignoreConsecutiveComments` set to `true`:
 
 :::
 
-### Using Different Options for Line and Block Comments
+### Use Different Options for Line and Block Comments
 
 If you wish to have a different configuration for line comments and block comments, you can do so by using two different object configurations (note that the capitalization option will be enforced consistently for line and block comments):
 
@@ -292,7 +292,7 @@ Examples of **correct** code with different line and block comment configuration
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 This rule can be disabled if you do not care about the grammatical style of comments in your codebase.
 

@@ -157,6 +157,6 @@ a ,b
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If your project will not be following a consistent comma-spacing pattern, turn this rule off.

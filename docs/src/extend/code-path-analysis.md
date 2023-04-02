@@ -249,7 +249,7 @@ See Also:
 [no-fallthrough](https://github.com/eslint/eslint/blob/HEAD/lib/rules/no-fallthrough.js),
 [consistent-return](https://github.com/eslint/eslint/blob/HEAD/lib/rules/consistent-return.js)
 
-### To check state of a code path
+### Check the State of a Code Path
 
 This example is checking whether or not the parameter `cb` is called in every path.
 Instances of `CodePath` and `CodePathSegment` are shared to every rule.
@@ -571,7 +571,7 @@ for (let key in obj) {
 ![`ForInStatement`](../assets/images/code-path-analysis/example-forinstatement.svg)
 :::
 
-### When there is a function
+### When There Is a Function
 
 ```js
 function foo(a) {

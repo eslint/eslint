@@ -130,7 +130,7 @@ Because it is difficult to understand the meaning of a program through static an
 * *false negatives* when this rule reports correct code, but the program calls the callback more than one time (which is incorrect behavior)
 * *false positives* when this rule reports incorrect code, but the program calls the callback only one time (which is correct behavior)
 
-### Passing the callback by reference
+### Pass the Callback by Reference
 
 The static analysis of this rule does not detect that the program calls the callback if it is an argument of a function (for example,  `setTimeout`).
 
@@ -147,7 +147,7 @@ function foo(err, callback) {
 }
 ```
 
-### Triggering the callback within a nested function
+### Trigger the Callback within a Nested Function
 
 The static analysis of this rule does not detect that the program calls the callback from within a nested function or an immediately-invoked function expression (IIFE).
 
@@ -184,7 +184,7 @@ function foo(err, callback) {
 }
 ```
 
-## When Not To Use It
+## When not to Use It
 
 There are some cases where you might want to call a callback function more than once. In those cases this rule
  may lead to incorrect behavior. In those cases you may want to reserve a special name for those callbacks and

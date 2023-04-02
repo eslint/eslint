@@ -95,6 +95,6 @@ switch (a) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to notify spacing around colons of switch statements, then it's safe to disable this rule.

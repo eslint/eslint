@@ -276,7 +276,7 @@ const obj3 = {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You can turn this rule off if you want to decide, case-by-case, whether to place property specifications on separate lines.
 

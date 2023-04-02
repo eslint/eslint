@@ -144,7 +144,7 @@ function foo({ bar: bar }) {}
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You can safely disable this rule if you do not care about redundantly renaming import, export, and destructuring assignments.
 

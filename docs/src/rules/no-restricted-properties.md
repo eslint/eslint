@@ -141,6 +141,6 @@ require('foo');
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't have any object/property combinations to restrict, you should not use this rule.

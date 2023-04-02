@@ -202,6 +202,6 @@ var { category_id: category_id } = query;
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to enforce any particular naming convention for all identifiers, or your naming convention is too complex to be enforced by configuring this rule, then you should not enable this rule.

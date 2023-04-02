@@ -9,7 +9,7 @@ eleventyNavigation:
 
 If you want to contribute to an ESLint repo, please use a GitHub pull request. This is the fastest way for us to evaluate your code and to merge it into the code base. Please don't file an issue with snippets of code. Doing so means that we need to manually merge the changes in and update any appropriate tests. That decreases the likelihood that your code is going to get included in a timely manner. Please use pull requests.
 
-## Getting Started
+## Get Started
 
 If you'd like to work on a pull request and you've never submitted code before, follow these steps:
 
@@ -18,7 +18,7 @@ If you'd like to work on a pull request and you've never submitted code before, 
 
 After that, you're ready to start working on code.
 
-## Working with Code
+## Work with Code
 
 The process of submitting a pull request is fairly straightforward and generally follows the same pattern each time:
 
@@ -32,7 +32,7 @@ The process of submitting a pull request is fairly straightforward and generally
 
 Details about each step are found below.
 
-### Step 1: Create a new branch<a name="step1"></a>
+### Step 1: Create a New Branch<a name="step1"></a>
 
 The first step to sending a pull request is to create a new branch in your ESLint fork. Give the branch a descriptive name that describes what it is you're fixing, such as:
 
@@ -44,7 +44,7 @@ You should do all of your development for the issue in this branch.
 
 **Note:** Do not combine fixes for multiple issues into one branch. Use a separate branch for each issue you're working on.
 
-### Step 2: Make your changes<a name="step2"></a>
+### Step 2: Make Your Changes<a name="step2"></a>
 
 Make the changes to the code and tests, following the [code conventions](./code-conventions) as you go. Once you have finished, commit the changes to your branch:
 
@@ -93,7 +93,7 @@ chore: Upgrade Esprima to 1.2, switch to using comment attachment
 
 The commit message format is important because these messages are used to create a changelog for each release. The tag and issue number help to create more consistent and useful changelogs.
 
-### Step 3: Rebase onto upstream<a name="step3"></a>
+### Step 3: Rebase onto Upstream<a name="step3"></a>
 
 Before you send the pull request, be sure to rebase onto the upstream source. This ensures your code is running on the latest available code.
 
@@ -102,7 +102,7 @@ git fetch upstream
 git rebase upstream/main
 ```
 
-### Step 4: Run the tests<a name="step4"></a>
+### Step 4: Run the Tests<a name="step4"></a>
 
 After rebasing, be sure to run all of the tests once again to make sure nothing broke:
 
@@ -112,7 +112,7 @@ npm test
 
 If there are any failing tests, update your code until all tests pass.
 
-### Step 5: Double check your submission<a name="step5"></a>
+### Step 5: Double Check Your Submission<a name="step5"></a>
 
 With your code ready to go, this is a good time to double-check your submission to make sure it follows our conventions. Here are the things to check:
 
@@ -125,7 +125,7 @@ With your code ready to go, this is a good time to double-check your submission 
 * All user-facing changes must be accompanied by appropriate documentation.
 * Follow the [Code Conventions](./code-conventions).
 
-### Step 6: Push your changes<a name="step6"></a>
+### Step 6: Push Your Changes<a name="step6"></a>
 
 Next, push your changes to your clone:
 
@@ -139,13 +139,13 @@ If you are unable to push because some references are old, do a forced push inst
 git push -f origin issue1234
 ```
 
-### Step 7: Send the pull request<a name="step7"></a>
+### Step 7: Send The Pull Request<a name="step7"></a>
 
 Now you're ready to send the pull request. Go to your ESLint fork and then follow the [GitHub documentation](https://help.github.com/articles/creating-a-pull-request) on how to send a pull request.
 
 In order to submit code or documentation to an ESLint project, you’ll be asked to sign our CLA when you send your first pull request. (Read more about the Open JS Foundation CLA process at <https://cla.openjsf.org/>.)
 
-## Following Up
+## Follow Up
 
 Once your pull request is sent, it's time for the team to review it. As such, please make sure to:
 
@@ -153,7 +153,7 @@ Once your pull request is sent, it's time for the team to review it. As such, pl
 1. Respond to comments left on the pull request from team members. Remember, we want to help you land your code, so please be receptive to our feedback.
 1. We may ask you to make changes, rebase, or squash your commits.
 
-### Updating the Commit Message
+### Update the Commit Message
 
 If your commit message is in the incorrect format, you'll be asked to update it. You can do so via:
 
@@ -167,7 +167,7 @@ This will open up your editor so you can make changes. After that, you'll need t
 git push origin issue1234 -f
 ```
 
-### Updating the Code
+### Update the Code
 
 If we ask you to make code changes, there's no need to close the pull request and create a new one. Just go back to the branch on your fork and make your changes. Then, when you're ready, you can add your changes into the branch:
 
@@ -181,7 +181,7 @@ When updating the code, it's usually better to add additional commits to your br
 
 The commit messages in subsequent commits do not need to be in any specific format because these commits do not show up in the changelog.
 
-### Rebasing
+### Rebase
 
 If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](./development-environment) and then you can rebase using these commands:
 

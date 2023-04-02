@@ -25,7 +25,7 @@ We use labels to indicate the status of issues. The most complete documentation 
 
     Some issues have had monetary rewards attached to them. Those are labeled `bounty`. Bounties are assigned via [BountySource](https://www.bountysource.com/teams/eslint/issues).
 
-## Starting Work
+## Start Work
 
 If you're going to work on an issue, please add a comment to that issue saying so and indicating when you think you will complete it. It will help us to avoid duplication of effort. Some examples of good comments are:
 

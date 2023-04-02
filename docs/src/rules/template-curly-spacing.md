@@ -98,6 +98,6 @@ Examples of **correct** code for this rule with the `"always"` option:
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about usage of spacing inside of template strings, then it's safe to disable this rule.

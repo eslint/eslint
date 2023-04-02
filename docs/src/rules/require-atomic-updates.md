@@ -201,6 +201,6 @@ async function foo(obj) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't use async or generator functions, you don't need to enable this rule.

@@ -122,7 +122,7 @@ fn
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 This rule can safely be turned off if your project does not care about enforcing a consistent style for spacing within function calls.
 

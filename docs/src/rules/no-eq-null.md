@@ -52,7 +52,7 @@ while (qux !== null) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you want to enforce type-checking operations in general, use the more powerful [eqeqeq](./eqeqeq) instead.
 

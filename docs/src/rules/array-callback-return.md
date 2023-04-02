@@ -175,6 +175,6 @@ myArray.forEach(item => {
 
 This rule checks callback functions of methods with the given names, *even if* the object which has the method is *not* an array.
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to warn about usage of `return` statement in callbacks of array's methods, then it's safe to disable this rule.

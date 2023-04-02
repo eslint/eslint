@@ -47,7 +47,7 @@ new Array(someOtherArray.length)
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 This rule enforces a nearly universal stylistic concern. That being said, this
 rule may be disabled if the constructor style is preferred.

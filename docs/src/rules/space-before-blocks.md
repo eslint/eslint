@@ -257,6 +257,6 @@ class Foo {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You can turn this rule off if you are not concerned with the consistency of spacing before blocks.

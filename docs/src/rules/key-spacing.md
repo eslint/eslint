@@ -410,6 +410,6 @@ var obj2 = {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you have another convention for property spacing that might not be consistent with the available options, or if you want to permit multiple styles concurrently you can safely disable this rule.

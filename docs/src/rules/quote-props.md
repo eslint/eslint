@@ -314,6 +314,6 @@ var x = {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't care if property names are consistently wrapped in quotes or not, and you don't target legacy ES3 environments, turn this rule off.

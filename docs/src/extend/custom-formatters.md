@@ -14,7 +14,7 @@ ESLint also has [built-in formatters](../use/formatters/) that you can use.
 
 You can include custom formatters in your project directly or create an npm package to distribute them separately.
 
-## Creating a Custom Formatter
+## Create a Custom Formatter
 
 Each formatter is a function that receives a `results` object and a `context` as arguments and returns a string. For example, the following is how the built-in [JSON formatter](../use/formatters/#json) is implemented:
 
@@ -151,11 +151,11 @@ For example, here's what the object would look like if the rule `no-extra-semi` 
 
 **Note:** if a linting is executed by the deprecated `CLIEngine` class, the `context` argument may be a different value because it is up to the API users. Please check whether the `context` argument is an expected value or not if you want to support legacy environments.
 
-### Passing Arguments to Formatters
+### Pass Arguments to Formatters
 
 While formatter functions do not receive arguments in addition to the results object and the context, it is possible to pass additional data into custom formatters using the methods described below.
 
-#### Using Environment Variables
+#### Use Environment Variables
 
 Custom formatters have access to environment variables and so can change their behavior based on environment variable data.
 
@@ -246,7 +246,7 @@ eslint -f json src/ | your-program-that-reads-JSON --option
 
 In this example, the `your-program-that-reads-json` program can accept the raw JSON of ESLint results and process it before outputting its own format of the results. You can pass as many command line arguments to that program as are necessary to customize the output.
 
-### Formatting for Terminals
+### Format for Terminals
 
 Modern terminals like [iTerm2](https://www.iterm2.com/) or [Guake](http://guake-project.org/) expect a specific results format to automatically open filenames when they are clicked. Most terminals support this format for that purpose:
 
@@ -254,7 +254,7 @@ Modern terminals like [iTerm2](https://www.iterm2.com/) or [Guake](http://guake-
 file:line:column
 ```
 
-## Packaging a Custom Formatter
+## Package a Custom Formatter
 
 Custom formatters can be distributed through npm packages. To do so, create an npm package with a name in the format `eslint-formatter-*`, where `*` is the name of your formatter (such as `eslint-formatter-awesome`). Projects should then install the package and use the custom formatter with the [`-f` (or `--format`)](../use/command-line-interface#-f---format) flag like this:
 

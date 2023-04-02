@@ -318,6 +318,6 @@ See [no-dupe-keys](no-dupe-keys) if you also want to disallow duplicate keys in 
 
 See [no-dupe-class-members](no-dupe-class-members) if you also want to disallow duplicate names in class definitions.
 
-## When Not To Use It
+## When not to Use It
 
 You can turn this rule off if you are not concerned with the simultaneous presence of setters and getters on objects.

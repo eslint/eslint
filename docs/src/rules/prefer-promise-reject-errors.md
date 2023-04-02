@@ -88,6 +88,6 @@ Due to the limits of static analysis, this rule cannot guarantee that you will o
 
 To avoid conflicts between rules, this rule does not report non-error values used in `throw` statements in async functions, even though these lead to Promise rejections. To lint for these cases, use the [`no-throw-literal`](no-throw-literal) rule.
 
-## When Not To Use It
+## When not to Use It
 
 If you're using custom non-error values as Promise rejection reasons, you can turn off this rule.

@@ -112,6 +112,6 @@ This rule accepts an `exceptions` option, which can be used to specify a list of
 }
 ```
 
-## When Not To Use It
+## When not to Use It
 
 If you are trying to override one of the native objects.

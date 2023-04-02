@@ -246,6 +246,6 @@ import a from "a"
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you do not want to enforce semicolon usage (or omission) in any particular way, then you can turn this rule off.

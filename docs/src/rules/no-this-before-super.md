@@ -83,6 +83,6 @@ class A extends B {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about using `this`/`super` before `super()` in constructors, you can safely disable this rule.

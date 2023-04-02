@@ -426,6 +426,6 @@ class D { static { foo(); } }
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to enforce a particular brace style, don't enable this rule.

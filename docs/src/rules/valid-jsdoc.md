@@ -433,6 +433,6 @@ function add(num1, num2) {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you aren't using JSDoc, then you can safely turn this rule off.

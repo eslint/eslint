@@ -55,7 +55,7 @@ const CONFIG = {};
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 In addition to non-ES6 environments, existing JavaScript projects that are beginning to introduce ES6 into their
 codebase may not want to apply this rule if the cost of migrating from `var` to `let` is too costly.

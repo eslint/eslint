@@ -384,7 +384,7 @@ var obj = {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to notify about properties' order, then it's safe to disable this rule.
 

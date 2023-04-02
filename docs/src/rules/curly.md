@@ -345,6 +345,6 @@ if (foo)
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you have no strict conventions about when to use block statements and when not to, you can safely disable this rule.

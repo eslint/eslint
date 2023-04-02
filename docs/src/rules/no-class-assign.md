@@ -121,6 +121,6 @@ class A {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about modifying variables of class declarations, you can safely disable this rule.

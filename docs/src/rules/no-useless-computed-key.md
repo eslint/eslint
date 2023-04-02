@@ -150,6 +150,6 @@ class Foo {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If you don't want to be notified about unnecessary computed property keys, you can safely disable this rule.

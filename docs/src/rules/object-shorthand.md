@@ -295,7 +295,7 @@ var foo = {
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 Anyone not yet in an ES6 environment would not want to apply this rule. Others may find the terseness of the shorthand
 syntax harder to read and may not want to encourage it with this rule.

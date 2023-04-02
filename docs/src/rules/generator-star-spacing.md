@@ -229,6 +229,6 @@ class Class { static * method() {} }
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 If your project will not be using generators or you are not concerned with spacing consistency, you do not need this rule.

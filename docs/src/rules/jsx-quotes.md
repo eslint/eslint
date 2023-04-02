@@ -87,6 +87,6 @@ Examples of **correct** code for this rule with the `"prefer-single"` option:
 
 :::
 
-## When Not To Use It
+## When not to Use It
 
 You can turn this rule off if you don’t use JSX or if you aren’t concerned with a consistent usage of quotes within JSX attributes.
