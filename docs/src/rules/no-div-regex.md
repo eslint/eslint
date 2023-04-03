@@ -8,7 +8,7 @@ related_rules:
 
 
 
-Require regex literals to escape equal signs at the beginning.
+Characters `/=` at the beginning of a regular expression literal can be confused with a division assignment operator.
 
 ```js
 function bar() { return /=foo/; }
