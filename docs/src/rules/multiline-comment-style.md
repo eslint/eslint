@@ -172,7 +172,7 @@ Examples of **correct** code for this rule with the `"separate-lines"` option an
 /* eslint multiline-comment-style: ["error", "separate-lines", { "checkJSDoc": true }] */
 
 // I am a JSDoc comment
-// and I'm not allowed
+// and I'm allowed
 foo();
 
 ```
