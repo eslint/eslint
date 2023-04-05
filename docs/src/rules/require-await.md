@@ -24,7 +24,7 @@ async function fetchData(processDataItem) {
 
 Asynchronous functions that don't use `await` might not need to be asynchronous functions and could be the unintentional result of refactoring.
 
-If the call to the asynchronous function is rejected and not caught with `await` or `catch()`, Node.js will terminate the process with [`unhandledRejection` event](https://nodejs.org/api/process.html#event-unhandledrejection).
+If the call to the asynchronous function is rejected and not caught with `await` or `catch()`, Node.js will terminate the process with [`unhandledRejection` event](https://nodejs.org/api/process.html#event-unhandledrejection). This could be undesirable.
 
 Note: this rule ignores async generator functions. This is because generators yield rather than return a value and async generators might yield all the values of another async generator without ever actually needing to use await.
 
