@@ -3346,6 +3346,37 @@ describe("SourceCode", () => {
             flatLinter.verify(code, config);
             assert(spy && spy.calledOnce, "Spy was not called.");
         });
+
+        it("should throw an error when the argument is missing", () => {
+            let spy;
+
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: {
+                                create(context) {
+                                    spy = sinon.spy(() => {
+                                        const sourceCode = context.getSourceCode();
+
+                                        assert.throws(() => {
+                                            sourceCode.getAncestors();
+                                        }, /Missing required argument: node/u);
+
+                                    });
+
+                                    return { Program: spy };
+                                }
+                            }
+                        }
+                    }
+                },
+                rules: { "test/checker": "error" }
+            };
+
+            flatLinter.verify(code, config);
+            assert(spy && spy.calledOnce, "Spy was not called.");
+        });
     });
 
 
