@@ -93,16 +93,16 @@ Additionally, the `context` object has the following methods:
 **Deprecated:** The following methods on the `context` object are deprecated. Please use the corresponding methods on `SourceCode` instead:
 
 * `getAllComments()` - returns an array of all comments in the source. Use `sourceCode.getAllComments()` instead.
-* `getAncestors()` - returns an array of ancestor nodes based on the current traversal.
+* `getAncestors()` - returns an array of ancestor nodes based on the current traversal. Use `sourceCode.getAncestors(node)` instead.
 * `getComments(node)` - returns the leading and trailing comments arrays for the given node. Use `sourceCode.getComments(node)` instead.
-* `getDeclaredVariables(node)` - returns the declared variables on the given node.
+* `getDeclaredVariables(node)` - returns the declared variables on the given node. Use `sourceCode.getDeclaredVariables(node)` instead.
 * `getFirstToken(node)` - returns the first token representing the given node. Use `sourceCode.getFirstToken(node)` instead.
 * `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node. Use `sourceCode.getFirstTokens(node, count)` instead.
 * `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none. Use `sourceCode.getJSDocComment(node)` instead.
 * `getLastToken(node)` - returns the last token representing the given node.  Use `sourceCode.getLastToken(node)` instead.
 * `getLastTokens(node, count)` - returns the last `count` tokens representing the given node. Use `sourceCode.getLastTokens(node, count)` instead.
 * `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index. Use `sourceCode.getNodeByRangeIndex(index)` instead.
-* `getScope()` - returns the current scope.
+* `getScope()` - returns the current scope. Use `sourceCode.getScope(node)` instead.
 * `getSource(node)` - returns the source code for the given node. Omit `node` to get the whole source. Use `sourceCode.getText(node)` instead.
 * `getSourceLines()` - returns the entire source code split into an array of string lines. Use `sourceCode.lines` instead.
 * `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token. Use `sourceCode.getTokenAfter(nodeOrToken)` instead.
