@@ -34,16 +34,8 @@ If you would like to recommend an integration to be added to this page, [submit 
 ## Build tools
 
 * Grunt: [grunt-eslint](https://www.npmjs.com/package/grunt-eslint)
-* Gulp: [gulp-eslint](https://www.npmjs.com/package/gulp-eslint)
-* Mimosa: [mimosa-eslint](https://www.npmjs.com/package/mimosa-eslint)
-* Broccoli: [broccoli-eslint](https://www.npmjs.com/package/broccoli-eslint)
-* Browserify: [eslintify](https://www.npmjs.com/package/eslintify)
 * Webpack: [eslint-webpack-plugin](https://www.npmjs.com/package/eslint-webpack-plugin)
 * Rollup: [@rollup/plugin-eslint](https://www.npmjs.com/package/@rollup/plugin-eslint)
-* Ember-cli: [ember-cli-eslint](https://www.npmjs.com/package/ember-cli-eslint)
-* Sails.js: [sails-hook-lint](https://www.npmjs.com/package/sails-hook-lint), [sails-eslint](https://www.npmjs.com/package/sails-eslint)
-* Start: [@start/plugin-lib-eslint](https://www.npmjs.com/package/@start/plugin-lib-eslint)
-* Brunch: [eslint-brunch](https://www.npmjs.com/package/eslint-brunch)
 
 ## Command Line Tools
 
@@ -58,10 +50,6 @@ If you would like to recommend an integration to be added to this page, [submit 
 * [overcommit Git hook manager](https://github.com/brigade/overcommit)
 * [Mega-Linter](https://megalinter.io/latest/): Linters aggregator for CI, [embedding eslint](https://megalinter.io/latest/descriptors/javascript_eslint/)
 
-
-## Testing
-
-* Mocha.js: [mocha-eslint](https://www.npmjs.com/package/mocha-eslint)
 
 ## Other Integration Lists
 
