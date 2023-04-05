@@ -3352,7 +3352,7 @@ describe("SourceCode", () => {
     describe("getDeclaredVariables(node)", () => {
 
         /**
-         * Assert `context.getDeclaredVariables(node)` is valid.
+         * Assert `sourceCode.getDeclaredVariables(node)` is valid.
          * @param {string} code A code to check.
          * @param {string} type A type string of ASTNode. This method checks variables on the node of the type.
          * @param {Array<Array<string>>} expectedNamesList An array of expected variable names. The expected variable names is an array of string.
