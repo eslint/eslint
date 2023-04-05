@@ -3425,7 +3425,7 @@ describe("SourceCode", () => {
 
                         rule[type] = function(node) {
                             const expectedNames = expectedNamesList.shift();
-                            const variables = context.getDeclaredVariables(node);
+                            const variables = sourceCode.getDeclaredVariables(node);
 
                             assert(Array.isArray(expectedNames));
                             assert(Array.isArray(variables));
