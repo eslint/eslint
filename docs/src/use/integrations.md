@@ -26,9 +26,6 @@ If you would like to recommend an integration to be added to this page, [submit 
 * TextMate 2:
     * [eslint.tmbundle](https://github.com/ryanfitzer/eslint.tmbundle)
     * [javascript-eslint.tmbundle](https://github.com/natesilva/javascript-eslint.tmbundle)
-* Atom:
-    * [linter-eslint](https://atom.io/packages/linter-eslint)
-    * [fast-eslint-8](https://atom.io/packages/fast-eslint-8)
 * IntelliJ IDEA, WebStorm, PhpStorm, PyCharm, RubyMine, and other JetBrains IDEs: [How to use ESLint](https://www.jetbrains.com/help/webstorm/eslint.html)
 * Visual Studio: [Linting JavaScript in VS](https://learn.microsoft.com/en-us/visualstudio/javascript/linting-javascript?view=vs-2022)
 * Visual Studio Code: [ESLint Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
