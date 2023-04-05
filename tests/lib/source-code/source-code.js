@@ -3366,7 +3366,7 @@ describe("SourceCode", () => {
                         const sourceCode = context.getSourceCode();
 
                         /**
-                         * Assert `context.getDeclaredVariables(node)` is empty.
+                         * Assert `sourceCode.getDeclaredVariables(node)` is empty.
                          * @param {ASTNode} node A node to check.
                          * @returns {void}
                          */
