@@ -55,7 +55,7 @@ Node.js 10, 13, 15 all reached end of life either in 2020 or early 2021. ESLint 
 
 ESLint v8.0.0 has removed the `codeframe` and `table` formatters from the core. These formatters required dependencies that weren't used anywhere else in ESLint, and removing them allows us to reduce the size of ESLint, allowing for faster installation.
 
-**To address:** If you are using the `codeframe` or `table` formatters, you'll need to install the standalone [`eslint-formatter-codeframe`](https://github.com/fregante/eslint-formatter-codeframe) or [`eslint-formatter-table`](https://github.com/fregante/eslint-formatter-table) packages, respectively, to be able to use them in ESLint v8.0.0.
+**To address:** If you are using the `codeframe` or `table` formatters, you'll need to install the standalone [`eslint-formatter-codeframe`](https://github.com/eslint-community/eslint-formatter-codeframe) or [`eslint-formatter-table`](https://github.com/eslint-community/eslint-formatter-table) packages, respectively, to be able to use them in ESLint v8.0.0.
 
 **Related issue(s):** [#14277](https://github.com/eslint/eslint/issues/14277), [#14316](https://github.com/eslint/eslint/pull/14316)
 
