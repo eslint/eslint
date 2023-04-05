@@ -135,7 +135,7 @@ module.exports = {
 };
 ```
 
-The [eslint-plugin/require-meta-has-suggestions](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-has-suggestions.md) rule can automatically fix and enforce that your rules are properly specifying `meta.hasSuggestions`.
+The [eslint-plugin/require-meta-has-suggestions](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-has-suggestions.md) rule can automatically fix and enforce that your rules are properly specifying `meta.hasSuggestions`.
 
 **Related issue(s):** [#14312](https://github.com/eslint/eslint/issues/14312)
 
@@ -164,9 +164,9 @@ module.exports = {
 };
 ```
 
-The [eslint-plugin/require-meta-fixable](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-fixable.md) rule can automatically fix and enforce that your rules are properly specifying `meta.fixable`.
+The [eslint-plugin/require-meta-fixable](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-fixable.md) rule can automatically fix and enforce that your rules are properly specifying `meta.fixable`.
 
-The [eslint-plugin/prefer-object-rule](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-object-rule.md) rule can automatically fix and enforce that your rules are written with the object format instead of the deprecated function format.
+The [eslint-plugin/prefer-object-rule](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-object-rule.md) rule can automatically fix and enforce that your rules are written with the object format instead of the deprecated function format.
 
 See the [rule documentation](../extend/custom-rules) for more information on writing rules.
 
