@@ -50,7 +50,6 @@ If you would like to recommend an integration to be added to this page, [submit 
 * [overcommit Git hook manager](https://github.com/brigade/overcommit)
 * [Mega-Linter](https://megalinter.io/latest/): Linters aggregator for CI, [embedding eslint](https://megalinter.io/latest/descriptors/javascript_eslint/)
 
-
 ## Other Integration Lists
 
 You can find a curated list of other popular integrations for ESLint in the [awesome-eslint](https://github.com/dustinspecker/awesome-eslint) GitHub repository.
