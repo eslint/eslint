@@ -15,10 +15,10 @@ If you would like to recommend an integration to be added to this page, [submit 
 ## Editors
 
 * Sublime Text 3:
-    * [SublimeLinter-eslint](https://github.com/roadhump/SublimeLinter-eslint)
+    * [SublimeLinter-eslint](https://github.com/SublimeLinter/SublimeLinter-eslint)
     * [Build Next](https://github.com/albertosantini/sublimetext-buildnext)
 * Vim:
-    * [ALE](https://github.com/w0rp/ale)
+    * [ALE](https://github.com/dense-analysis/ale)
     * [Syntastic](https://github.com/vim-syntastic/syntastic/tree/master/syntax_checkers/javascript)
 * Emacs: [Flycheck](http://www.flycheck.org/) supports ESLint with the [javascript-eslint](http://www.flycheck.org/en/latest/languages.html#javascript) checker.
 * Eclipse Orion: ESLint is the [default linter](https://dev.eclipse.org/mhonarc/lists/orion-dev/msg02718.html)
@@ -59,7 +59,8 @@ If you would like to recommend an integration to be added to this page, [submit 
 * [Git Precommit Hook](https://coderwall.com/p/zq8jlq/eslint-pre-commit-hook)
 * [Git pre-commit hook that only lints staged changes](https://gist.github.com/dahjelle/8ddedf0aebd488208a9a7c829f19b9e8)
 * [overcommit Git hook manager](https://github.com/brigade/overcommit)
-* [Mega-Linter](https://nvuillam.github.io/mega-linter): Linters aggregator for CI, [embedding eslint](https://nvuillam.github.io/mega-linter/descriptors/javascript_eslint/)
+* [Mega-Linter](https://megalinter.io/latest/): Linters aggregator for CI, [embedding eslint](https://megalinter.io/latest/descriptors/javascript_eslint/)
+
 
 ## Testing
 
