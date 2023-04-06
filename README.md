@@ -244,11 +244,6 @@ The people who review and fix bugs and help triage issues.
 Bryan Mishkin
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/btmills">
-<img src="https://github.com/btmills.png?s=75" width="75" height="75"><br />
-Brandon Mills
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/fasttime">
 <img src="https://github.com/fasttime.png?s=75" width="75" height="75"><br />
 Francesco Trotta
