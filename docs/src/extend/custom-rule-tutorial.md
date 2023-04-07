@@ -57,10 +57,10 @@ const foo = "bar";
 First create a new project for your custom rule. Create a new directory, initiate a new npm project in it, and create a new file for the custom rule:
 
 ```shell
-mkdir foo-bar-rule # create directory
-cd foo-bar-rule # enter the directory
+mkdir eslint-custom-rule-example # create directory
+cd eslint-custom-rule-example # enter the directory
 npm init -y # init new npm project
-touch foo-bar.js # create file foo-bar.js
+touch enforce-foo-bar.js # create file foo-bar.js
 ```
 
 ## Step 2: Stub Out Rule File
@@ -70,7 +70,7 @@ In the `foo-bar.js` file, add some scaffolding for the `foo-bar` custom rule. Al
 All ESLint rules are objects that follow this structure.
 
 ```javascript
-// foo-bar.js
+// enforce-foo-bar.js
 
 module.exports = {
   meta: {
@@ -91,7 +91,7 @@ Before writing the rule, add some metadata to the rule object. ESLint uses this 
 Start by exporting a module with a `meta` object containing the rule's metadata, such as the rule type, documentation, and fixability. In this case, the rule type is "fix," the description is "Can only assign 'bar' to const foo.", and the rule is fixable by modifying the code.
 
 ```javascript
-// foo-bar.js
+// enforce-foo-bar.js
 
 module.exports = {
     meta: {
@@ -122,7 +122,7 @@ Inside the `"VariableDeclaration"` visitor method, check if the node represents 
 If the `const foo` declaration_is assigned to `"bar"` the rule does nothing. If `const foo` **is not** assigned to `"bar"`, then `context.report()` reports an error to ESLint. The error report include information about the error and how to fix it.
 
 ```javascript
-// foo-bar.js
+// enforce-foo-bar.js
 module.exports = {
     meta: {
         type: "fix",
@@ -184,7 +184,7 @@ And add a test script to your `package.json` file to run the tests:
 {
     // ...other configuration
     "scripts": {
-        "test": "node foo-bar.test.js"
+        "test": "node enforce-foo-bar.test.js"
     },
     // ...other configuration
 }
@@ -197,9 +197,9 @@ To write the test using `RuleTester`, import the class and your custom rule into
 The `RuleTester#run()` method tests the rule against valid and invalid test cases. If the rule doesn't match any of the criteria in the tests, the method throws an error.
 
 ```javascript
-// foo-bar.test.js
+// enforce-foo-bar.test.js
 const {RuleTester} = require("eslint");
-const fooBarRule = require("./foo-bar");
+const fooBarRule = require("./enforce-foo-bar");
 
 const ruleTester = new RuleTester({
   // Must use at least ecmaVersion 2015 because
@@ -235,7 +235,7 @@ Now that you've written the custom rule and validated that it works, you can inc
 Create the file for the plugin:
 
 ```shell
-touch eslint-plugin-foo-bar.js
+touch eslint-plugin-example.js
 ```
 
 And now write the plugin code. Plugins are just exported JavaScript objects. To include a rule in a plugin, include it in the plugin's `rules` object, which contains key-value pairs of rule names and their source code.
@@ -243,40 +243,21 @@ And now write the plugin code. Plugins are just exported JavaScript objects. To 
 To learn more about creating plugins, refer to [Create Plugins](plugins).
 
 ```javascript
-// eslint-plugin-foo-bar.js
+// eslint-plugin-example.js
 
-const fooBarRule = require("./foo-bar");
-module.exports = { rules: { "foo-bar": fooBarRule } };
+const fooBarRule = require("./enforce-foo-bar");
+const plugin = { rules: { "foo-bar": fooBarRule } };
+module.exports = plugin;
 ```
 
 ## Step 8: Publish the Plugin
 
-To publish a plugin containing a rule to npm, you need to do a bit of set up in your project's `package.json` file.
-
-To help publish the package easily, install the dependency [np](https://www.npmjs.com/package/np):
-
-```shell
-npm install --save-dev np
-```
-
-Add a script to run `np`:
-
-```javascript
-// package.json
-// ...rest of package.json
-  "scripts": {
-    "test": "node foo-bar.test.js",
-    "pub": "np --yarn false" // new publication script
-  },
-// ...rest of package.json
-```
-
-Next, configure the `package.json` to be ready for publishing the plugin. Add the following in the corresponding fields:
+To publish a plugin containing a rule to npm, you need configure the `package.json`. Add the following in the corresponding fields:
 
 1. `"name"`: A unique name for the package. No other package on npm can have the same name.
-1. `"main"`: The relative path to the plugin file. Following this example, the path is `"eslint-plugin-foo-bar.js"`.
+1. `"main"`: The relative path to the plugin file. Following this example, the path is `"eslint-plugin-example.js"`.
 1. `"description"`: A description of the package that's viewable on npm.
-1. `"peerDependencies"`: Add `"eslint": ">=0.8.0"` as a peer dependency. Plugins were introduced in eslint@0.8.0, so any version greater than or equal to that is necessary to use the plugin. By declaring `eslint` as a peer dependency, it requires that users add the package to the project separately from the plugin.
+1. `"peerDependencies"`: Add `"eslint": ">=8.0.0"` as a peer dependency. Any version greater than or equal to that is necessary to use the plugin. By declaring `eslint` as a peer dependency, it requires that users add the package to the project separately from the plugin.
 1. `"keyworkds"`: Include the standard keywords `["eslint", "eslintplugin", "eslint-plugin"]` to make the package easy to find. You can add any other keywords that might be relevant to your plugin as well.
 
 A complete annotated example of what a plugin's `package.json` file should look like:
@@ -284,20 +265,18 @@ A complete annotated example of what a plugin's `package.json` file should look 
 ```javascript
 // package.json
 {
-  // name npm package.
-  // Add your own package name. eslint-plugin-foo-bar is taken!
-  "name": "eslint-plugin-foo-bar",
+  // Name npm package.
+  // Add your own package name. eslint-plugin-example is taken!
+  "name": "eslint-plugin-example",
   "version": "1.2.0",
   "description": "ESLint plugin for foo-bar rule.",
-  "main": "eslint-plugin-foo-bar.js", // plugin entry point
+  "main": "eslint-plugin-example.js", // plugin entry point
   "scripts": {
-    "test": "node foo-bar.test.js",
-    "pub": "np --yarn false"
+    "test": "node example-foo-bar.test.js"
   },
-  // Add eslint>=0.8.0 as a peer dependency.
-  // This was the ESLint version where plugins were introduced.
+  // Add eslint>=8.0.0 as a peer dependency.
   "peerDependencies": {
-    "eslint": ">=0.8.0"
+    "eslint": ">=8.0.0"
   },
   // Add these standard keywords to make plugin easy to find!
   "keywords": [
@@ -314,7 +293,7 @@ A complete annotated example of what a plugin's `package.json` file should look 
 }
 ```
 
-To publish the package, run `npm run pub` and follow the CLI prompts.
+To publish the package, run `npm publish` and follow the CLI prompts.
 
 You should see the package live on npm!
 
@@ -323,7 +302,7 @@ You should see the package live on npm!
 To use the package now that it's published, run the following command in your project to download your published package:
 
 ```shell
-npm install --save-dev <YOUR-PLUGIN-PACKAGE-NAME>
+npm install --save-dev eslint-plugin-example # Add your package name here
 ```
 
 Then create an ESLint configuration for your project using a [flat configuration file](../use/configure/configuration-files-new), `eslint.config.js`.
@@ -335,7 +314,7 @@ Add the following code to `eslint.config.js`:
 "use strict";
 
 // Import the ESLint plugin
-const eslintPluginFooBar = require("./eslint-plugin-foo-bar");
+const eslintPluginExample = require("./eslint-plugin-example");
 
 module.exports = [
     {
@@ -345,9 +324,9 @@ module.exports = [
             ecmaVersion: "latest",
         },
         // Using the eslint-plugin-foo-bar plugin downloaded from npm
-        plugins: {"foo-bar": eslintPluginFooBar},
+        plugins: {"example": eslintPluginExample},
         rules: {
-            "foo-bar/foo-bar": "error",
+            "example/foo-bar": "error",
         },
     }
 ]
@@ -387,7 +366,7 @@ npx eslint example.js
 This produces the following output in the terminal:
 
 ```text
-/<path-to-directory>/eslint-plugin-foo-bar/example.js
+/<path-to-directory>/eslint-custom-rule-example/example.js
   14:3  error  Value other than "bar" assigned to `const foo`. Unexpected value: baz  foo-bar/foo-bar
 
 ✖ 1 problem (1 error, 0 warnings)

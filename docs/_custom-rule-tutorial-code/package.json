@@ -9,7 +9,7 @@
     "eslint-plugin"
   ],
   "peerDependencies": {
-    "eslint": ">=0.8.0"
+    "eslint": ">=8.0.0"
   },
   "scripts": {
     "test": "node enforce-foo-bar.test.js",
