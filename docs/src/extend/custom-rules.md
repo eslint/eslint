@@ -128,6 +128,7 @@ The `context` object has the following properties:
 * `settings`: (`object`) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from the configuration.
 * `parserPath`: (`string`) The name of the `parser` from the configuration.
 * `parserServices`: (`object`) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
+* `parserOptions`: The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
 
 Additionally, the `context` object has the following methods:
 
@@ -145,7 +146,7 @@ Additionally, the `context` object has the following methods:
     * Otherwise, if the node does not declare any variables, an empty array is returned.
 * `getFilename()`: Returns the filename associated with the source.
 * `getPhysicalFilename()`: When linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
-* `getScope()`: (**Deprecated: Use `SourceCode.getScope(node)` instead.**) Returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables (see [Accessing the Scope of a Node](#accessing-the-scope-of-a-node)).
+* `getScope()`: (**Deprecated:** Use `SourceCode.getScope(node)` instead.) Returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables (see [Accessing the Scope of a Node](#accessing-the-scope-of-a-node)).
 * `getSourceCode()`: Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
 * `markVariableAsUsed(name)`: Marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
 * `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#reporting-problems)).
@@ -757,7 +758,6 @@ Please note that the following `SourceCode` methods have been deprecated and wil
 * `getTokenOrCommentAfter()`: Replaced by `SourceCode#getTokenAfter()` with the `{ includeComments: true }` option.
 * `isSpaceBetweenTokens()`: Replaced by `SourceCode#isSpaceBetween()`
 * `getJSDocComment()`
-* `parserOptions`: The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
 
 ## Rule Unit Tests
 
