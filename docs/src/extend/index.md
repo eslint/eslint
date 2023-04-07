@@ -25,6 +25,10 @@ This page summarizes the various ways that you can extend ESLint and how these e
 
 You've developed custom rules for ESLint and you want to share them with the community. You can publish an ESLint plugin on npm.
 
+## [Custom Rule Tutorial](custom-rule-tutorial)
+
+Tutorial that walks you through creating a custom rule for ESLint.
+
 ## [Custom Rules](custom-rules)
 
 This section explains how to create custom rules to use with ESLint.

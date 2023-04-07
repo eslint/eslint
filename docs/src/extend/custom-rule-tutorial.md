@@ -1,9 +1,9 @@
 ---
-title: Custom Rule & Plugin Tutorial
+title: Custom Rule Tutorial
 eleventyNavigation:
-    key: custom rule plugin tutorial
+    key: custom rule tutorial
     parent: create plugins
-    title: Custom Rule & Plugin Tutorial
+    title: Custom Rule Tutorial
     order: 1
 ---
 This tutorial covers how to create a custom rule for ESLint and distribute it with a plugin.
