@@ -1,3 +1,20 @@
+v8.38.0 - April 7, 2023
+
+* [`59ed060`](https://github.com/eslint/eslint/commit/59ed06041d4670781956221086ea0fca6683788d) chore: upgrade @eslint/js@8.38.0 (#17069) (Milos Djermanovic)
+* [`88c0898`](https://github.com/eslint/eslint/commit/88c08984ec259ac22d839397c06beec8ef213120) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`7162d34`](https://github.com/eslint/eslint/commit/7162d34df9a66c817c3bd4aafd3a03d226b58dd5) docs: Mention new config system is complete (#17068) (Nicholas C. Zakas)
+* [`a1d561d`](https://github.com/eslint/eslint/commit/a1d561d18ed653b56bddbfb1bab1ebe957293563) feat: Move getDeclaredVariables and getAncestors to SourceCode (#17059) (Nicholas C. Zakas)
+* [`0fd6bb2`](https://github.com/eslint/eslint/commit/0fd6bb213ad2de77543c936eda21501653182e52) docs: Update README (GitHub Actions Bot)
+* [`c83531c`](https://github.com/eslint/eslint/commit/c83531c1a6026675f36aa9e33fef14458043974a) docs: Update/remove external links, eg. point to `eslint-community` (#17061) (Pelle Wessman)
+* [`cf682d2`](https://github.com/eslint/eslint/commit/cf682d249f04a6a304407d5b9ddbbc4a9714dd62) refactor: simplify new-parens rule schema (#17060) (MHO)
+* [`a3aa6f5`](https://github.com/eslint/eslint/commit/a3aa6f5f146534ed7999ebf8930c524a4871ec0b) docs: Clarify `no-div-regex` rule docs (#17051) (Francesco Trotta)
+* [`0dde022`](https://github.com/eslint/eslint/commit/0dde02211268394bcbc2b0beef55ea2409b6f55d) ci: bump actions/add-to-project from 0.4.1 to 0.5.0 (#17055) (dependabot[bot])
+* [`b0f11cf`](https://github.com/eslint/eslint/commit/b0f11cf977a4180bf7c3042e7faeaaa067ffafd0) docs: Update README (GitHub Actions Bot)
+* [`da8d52a`](https://github.com/eslint/eslint/commit/da8d52a9d4edd9b2016cd4a15cd78f1ddadf20c7) docs: Update the second object instance for the "no-new" rule (#17020) (Ahmadou Waly NDIAYE)
+* [`518130a`](https://github.com/eslint/eslint/commit/518130ae79a16d7bf4d752c211ae88152cc5a6f0) docs: switch language based on current path (#16687) (Percy Ma)
+* [`24206c4`](https://github.com/eslint/eslint/commit/24206c49a138d4390f815ae122ee12f564bc604b) docs: Update README (GitHub Actions Bot)
+* [`1c1ece2`](https://github.com/eslint/eslint/commit/1c1ece26d1da61e523b83dda25353ec9379eb6c9) fix: do not report on `RegExp(...args)` in `require-unicode-regexp` (#17037) (Francesco Trotta)
+
 v8.37.0 - March 28, 2023
 
 * [`c67f299`](https://github.com/eslint/eslint/commit/c67f2992a743de4765bb6f11c12622e3651324b9) chore: upgrade @eslint/js@8.37.0 (#17033) (Milos Djermanovic)
