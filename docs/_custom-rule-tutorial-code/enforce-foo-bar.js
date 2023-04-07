@@ -8,9 +8,9 @@
 // The enforce-foo-bar rule definition
 module.exports = {
     meta: {
-        type: "fix",
+        type: "problem",
         docs: {
-            description: "Can only assign 'bar' to `const foo`.",
+            description: "Enforce that a variable named `foo` can only be assigned a value of 'bar'.",
         },
          fixable: "code"
     },

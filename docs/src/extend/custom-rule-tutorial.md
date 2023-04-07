@@ -95,9 +95,9 @@ Start by exporting a module with a `meta` object containing the rule's metadata,
 
 module.exports = {
     meta: {
-        type: "fix",
+        type: "problem",
         docs: {
-            description: "Can only assign 'bar' to `const foo`.",
+            description: "Enforce that a variable named `foo` can only be assigned a value of 'bar'.",
         },
         fixable: "code"
     },
@@ -125,9 +125,9 @@ If the `const foo` declaration_is assigned to `"bar"` the rule does nothing. If 
 // enforce-foo-bar.js
 module.exports = {
     meta: {
-        type: "fix",
+        type: "problem",
         docs: {
-            description: "Can only assign 'bar' to `const foo`.",
+            description: "Enforce that a variable named `foo` can only be assigned a value of 'bar'.",
         },
          fixable: "code"
     },
