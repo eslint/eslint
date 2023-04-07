@@ -1,8 +1,8 @@
 {
-  "name": "eslint-plugin-foo-bar",
+  "name": "eslint-plugin-example",
   "version": "1.2.0",
-  "description": "ESLint plugin for foo-bar rule.",
-  "main": "eslint-plugin-foo-bar.js",
+  "description": "ESLint plugin for enforce-foo-bar rule.",
+  "main": "eslint-plugin-example.js",
   "keywords": [
     "eslint",
     "eslintplugin",
@@ -12,7 +12,7 @@
     "eslint": ">=0.8.0"
   },
   "scripts": {
-    "test": "node foo-bar.test.js",
+    "test": "node enforce-foo-bar.test.js",
     "pub": "np --yarn false"
   },
   "author": "",

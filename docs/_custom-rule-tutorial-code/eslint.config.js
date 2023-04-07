@@ -1,7 +1,7 @@
 "use strict";
 
 // Import the ESLint plugin
-const eslintPluginFooBar = require("./eslint-plugin-foo-bar");
+const eslintPluginExample = require("./eslint-plugin-example");
 
 module.exports = [
     {
@@ -10,10 +10,10 @@ module.exports = [
             sourceType: "commonjs",
             ecmaVersion: "latest",
         },
-        // Using the eslint-plugin-foo-bar plugin downloaded from npm
-        plugins: {"foo-bar": eslintPluginFooBar},
+        // Using the eslint-plugin-example plugin downloaded from npm
+        plugins: {"example": eslintPluginExample},
         rules: {
-            "foo-bar/foo-bar": "error",
+            "example/foo-bar": "error",
         },
     }
 ]

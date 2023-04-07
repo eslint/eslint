@@ -1,7 +1,7 @@
 "use strict";
 
 const {RuleTester} = require("eslint");
-const fooBarRule = require("./foo-bar");
+const fooBarRule = require("./enforce-foo-bar");
 
 const ruleTester = new RuleTester({
   // Must use at least ecmaVersion 2015 because

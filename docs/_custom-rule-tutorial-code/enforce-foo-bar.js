@@ -1,6 +1,11 @@
+/** 
+ * @fileoverview Rule to enforce that `const foo` is assigned "bar".
+ * @author Ben Perlmutter
+*/
+ 
 "use strict";
 
-// The foo-bar rule definition
+// The enforce-foo-bar rule definition
 module.exports = {
     meta: {
         type: "fix",
