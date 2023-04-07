@@ -721,7 +721,7 @@
                 },
                 {
                     "name": "no-div-regex",
-                    "description": "Disallow division operators explicitly at the beginning of regular expressions",
+                    "description": "Disallow equal signs explicitly at the beginning of regular expressions",
                     "recommended": false,
                     "fixable": true,
                     "hasSuggestions": false
