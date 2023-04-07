@@ -17,7 +17,7 @@ module.exports = {
     create: function (context) {
         return {
             // Performs action in the function on every variable declaration
-            "VariableDeclaration": function(node) {
+            VariableDeclaration (node) {
                 // Check if a `const` variable declaration
                 if(node.kind === "const") {
                     // Check if variable name is `foo`

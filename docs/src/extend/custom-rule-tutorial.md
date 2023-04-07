@@ -114,10 +114,10 @@ To learn more about rule metadata, refer to [Rule Structure](custom-rules#rule-s
 
 ## Step 4: Add Rule Visitor Methods
 
-Define the rule's `create` function, which accepts a `context` object and returns an object with a property for each syntax node type you want to handle. In this case, we want to handle `"VariableDeclaration"` nodes.
+Define the rule's `create` function, which accepts a `context` object and returns an object with a property for each syntax node type you want to handle. In this case, we want to handle `VariableDeclaration` nodes.
 You can choose any [ESTree node type](https://github.com/estree/estree) or [selector](selectors).
 
-Inside the `"VariableDeclaration"` visitor method, check if the node represents a `const` variable declaration, if its name is `foo`, and if it's not assigned to the string `"bar"`. You do this by evaluating the `node` passed to the `"VariableDeclaration"` method.
+Inside the `VariableDeclaration` visitor method, check if the node represents a `const` variable declaration, if its name is `foo`, and if it's not assigned to the string `"bar"`. You do this by evaluating the `node` passed to the `VariableDeclaration` method.
 
 If the `const foo` declaration_is assigned to `"bar"` the rule does nothing. If `const foo` **is not** assigned to `"bar"`, then `context.report()` reports an error to ESLint. The error report include information about the error and how to fix it.
 
