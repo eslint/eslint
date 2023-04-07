@@ -6,7 +6,7 @@ eleventyNavigation:
     title: Custom Rule & Plugin Tutorial
     order: 1
 ---
-This tutorial covers how to create a custom rule and plugin for ESLint.
+This tutorial covers how to create a custom rule for ESLint and distribute it with a plugin.
 
 You can create custom rules to validate if your code meets a certain expectation, and determine what to do if it does not meet that expectation. Plugins package custom rules and other configuration, allowing you to easily share and reuse them in different projects.
 
@@ -17,9 +17,9 @@ To learn more about custom rules and plugins refer to the following documentatio
 
 ## Why Create a Custom Rule?
 
-Create a custom rule if the ESLint [built-in rules](../rules/) and community-published custom rules do not meet your needs.
+Create a custom rule if the ESLint [built-in rules](../rules/) and community-published custom rules do not meet your needs. You might create a custom rule to enforce a best practice for your company or project, to prevent a particular bug from recurring, or to ensure compliance with a style guide.   
 
-Before creating a custom rule, it's worth investigating on the web if someone has published a plugin with a custom rule that solves your use case. Very often the rule will already exist.
+Before creating a custom rule that isn't specific to your company or project, it's worth searching the web to see someone has published a plugin with a custom rule that solves your use case. It's quite possible the rule may already exist.
 
 ## Prerequisites
 
@@ -112,12 +112,12 @@ module.exports = {
 
 To learn more about rule metadata, refer to [Rule Structure](custom-rules#rule-structure).
 
-## Step 4: Add Rule Callback Functions
+## Step 4: Add Rule Visitor Methods
 
 Define the rule's `create` function, which accepts a `context` object and returns an object with a property for each syntax node type you want to handle. In this case, we want to handle `"VariableDeclaration"` nodes.
 You can choose any [ESTree node type](https://github.com/estree/estree) or [selector](selectors).
 
-Inside the `"VariableDeclaration"` function, check if the node represents a `const` variable declaration, if its name is `foo`, and if it's not assigned to the string `"bar"`. You do this by evaluating the `node` passed to the `"VariableDeclaration"` function.
+Inside the `"VariableDeclaration"` visitor method, check if the node represents a `const` variable declaration, if its name is `foo`, and if it's not assigned to the string `"bar"`. You do this by evaluating the `node` passed to the `"VariableDeclaration"` method.
 
 If the `const foo` declaration_is assigned to `"bar"` the rule does nothing. If `const foo` **is not** assigned to `"bar"`, then `context.report()` reports an error to ESLint. The error report include information about the error and how to fix it.
 
@@ -134,7 +134,7 @@ module.exports = {
     create(context) {
         return {
             // Performs action in the function on every variable declaration
-            "VariableDeclaration": function(node) {
+            VariableDeclaration(node) {
                 // Check if a `const` variable declaration
                 if(node.kind === "const") {
                     // Check if variable name is `foo`
@@ -169,7 +169,7 @@ module.exports = {
 
 With the rule written, you can test it to make sure it's working as expected.
 
-ESLint provides the built-in [RuleTester](../integrate/nodejs-api#ruletester) class to test rules. You do not need to use 3rd-party testing libraries to test ESLint rules.
+ESLint provides the built-in [`RuleTester`](../integrate/nodejs-api#ruletester) class to test rules. You do not need to use third-party testing libraries to test ESLint rules, but `RuleTester` works seamlessly with tools like Mocha and Jest.
 
 Next create the file for the tests, `foo-bar.test.js`:
 
