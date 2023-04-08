@@ -5057,6 +5057,7 @@ describe("FlatESLint", () => {
                         fixableWarningCount: 0,
                         messages: [
                             {
+                                ruleId: null,
                                 fatal: false,
                                 message: "File ignored by default. Use \"--ignore-pattern '!node_modules/*'\" to override.",
                                 severity: 1
