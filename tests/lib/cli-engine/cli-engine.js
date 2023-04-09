@@ -577,7 +577,8 @@ describe("CLIEngine", () => {
                                 severity: 2,
                                 message: "Parsing error: Unexpected token is",
                                 line: 1,
-                                column: 19
+                                column: 19,
+                                nodeType: null
                             }
                         ],
                         suppressedMessages: [],
@@ -622,7 +623,8 @@ describe("CLIEngine", () => {
                                 severity: 2,
                                 message: "Parsing error: Unexpected token",
                                 line: 1,
-                                column: 10
+                                column: 10,
+                                nodeType: null
                             }
                         ],
                         suppressedMessages: [],
@@ -713,7 +715,8 @@ describe("CLIEngine", () => {
                                 severity: 2,
                                 message: "Parsing error: Unexpected token is",
                                 line: 1,
-                                column: 19
+                                column: 19,
+                                nodeType: null
                             }
                         ],
                         suppressedMessages: [],
