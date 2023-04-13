@@ -73,7 +73,7 @@
     "debug": "^4.3.2",
     "doctrine": "^3.0.0",
     "escape-string-regexp": "^4.0.0",
-    "eslint-scope": "^7.1.1",
+    "eslint-scope": "^7.2.0",
     "eslint-visitor-keys": "^3.4.0",
     "espree": "^9.5.1",
     "esquery": "^1.4.2",

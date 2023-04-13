@@ -34,6 +34,18 @@ const AST = espree.parse("let foo = bar;", DEFAULT_CONFIG),
     TEST_CODE = "var answer = 6 * 7;",
     SHEBANG_TEST_CODE = `#!/usr/bin/env node\n${TEST_CODE}`;
 
+/**
+ * Get variables in the current scope
+ * @param {Object} scope current scope
+ * @param {string} name name of the variable to look for
+ * @returns {ASTNode|null} The variable object
+ * @private
+ */
+function getVariable(scope, name) {
+    return scope.variables.find(v => v.name === name) || null;
+}
+
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -3623,4 +3635,205 @@ describe("SourceCode", () => {
         });
     });
 
+    describe("markVariableAsUsed()", () => {
+
+        it("should mark variables in current scope as used", () => {
+            const code = "var a = 1, b = 2;";
+            let spy, idSpy;
+
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: {
+                                create(context) {
+                                    const sourceCode = context.getSourceCode();
+
+                                    spy = sinon.spy(node => {
+                                        const scope = sourceCode.getScope(node);
+
+                                        assert.isTrue(getVariable(scope, "a").eslintUsed);
+                                        assert.notOk(getVariable(scope, "b").eslintUsed);
+                                    });
+
+                                    idSpy = sinon.spy(node => {
+                                        if (node.name === "a") {
+                                            sourceCode.markVariableAsUsed(node);
+                                        }
+                                    });
+
+                                    return { Identifier: idSpy, "Program:exit": spy };
+                                }
+                            }
+                        }
+                    }
+                },
+                languageOptions: {
+                    sourceType: "script"
+                },
+                rules: { "test/checker": "error" }
+            };
+
+            flatLinter.verify(code, config);
+            assert(spy && spy.calledOnce, "Program:exit wasn't called.");
+            assert(idSpy && idSpy.calledTwice, "Identifier wasn't called twice.");
+        });
+
+        it("should mark variables in function args as used", () => {
+            const code = "function abc(a, b) { return 1; }";
+            let spy, idSpy;
+
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: {
+                                create(context) {
+                                    const sourceCode = context.getSourceCode();
+
+                                    spy = sinon.spy(node => {
+                                        const scope = sourceCode.getScope(node);
+
+                                        assert.isTrue(getVariable(scope, "a").eslintUsed);
+                                        assert.notOk(getVariable(scope, "b").eslintUsed);
+                                    });
+
+                                    idSpy = sinon.spy(node => {
+                                        if (node.name === "a") {
+                                            sourceCode.markVariableAsUsed(node);
+                                        }
+                                    });
+
+                                    return { Identifier: idSpy, ReturnStatement: spy };
+                                }
+                            }
+                        }
+                    }
+                },
+                rules: { "test/checker": "error" }
+            };
+
+            flatLinter.verify(code, config);
+            assert(spy && spy.calledOnce, "ReturnStatement wasn't called");
+            assert(idSpy && idSpy.called, "Identifier wasn't called");
+        });
+
+        it("should mark variables as used when sourceType is commonjs", () => {
+            const code = "var a = 1, b = 2;";
+            let spy, idSpy;
+
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: {
+                                create(context) {
+                                    const sourceCode = context.getSourceCode();
+
+                                    spy = sinon.spy(node => {
+                                        const globalScope = sourceCode.getScope(node),
+                                            childScope = globalScope.childScopes[0];
+
+                                        assert.isTrue(getVariable(childScope, "a").eslintUsed, "'a' should be marked as used.");
+                                        assert.isUndefined(getVariable(childScope, "b").eslintUsed, "'b' should be marked as used.");
+                                    });
+
+                                    idSpy = sinon.spy(node => {
+                                        if (node.name === "a") {
+                                            sourceCode.markVariableAsUsed(node);
+                                        }
+                                    });
+
+
+                                    return { Identifier: idSpy, "Program:exit": spy };
+                                }
+                            }
+                        }
+                    }
+                },
+                languageOptions: {
+                    sourceType: "commonjs"
+                },
+                rules: { "test/checker": "error" }
+            };
+
+            flatLinter.verify(code, config);
+            assert(spy && spy.calledOnce, "Program:exit wasn't called.");
+            assert(idSpy && idSpy.called, "Identifier wasn't called.");
+        });
+
+        it("should mark variables in modules as used", () => {
+            const code = "var a = 1, b = 2;";
+            let spy, idSpy;
+
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: {
+                                create(context) {
+
+                                    const sourceCode = context.getSourceCode();
+
+                                    spy = sinon.spy(node => {
+                                        const globalScope = sourceCode.getScope(node),
+                                            childScope = globalScope.childScopes[0];
+
+                                        assert.isTrue(getVariable(childScope, "a").eslintUsed);
+                                        assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                                    });
+
+                                    idSpy = sinon.spy(node => {
+                                        if (node.name === "a") {
+                                            sourceCode.markVariableAsUsed(node);
+                                        }
+                                    });
+
+                                    return { Identifier: idSpy, "Program:exit": spy };
+                                }
+                            }
+                        }
+                    }
+                },
+                languageOptions: {
+                    ecmaVersion: 6,
+                    sourceType: "module"
+                },
+                rules: { "test/checker": "error" }
+            };
+
+            flatLinter.verify(code, config);
+            assert(spy && spy.calledOnce, "Program:exit wasn't called");
+            assert(idSpy && idSpy.called, "Identifier wasn't called");
+        });
+
+        it("should return false if the given variable is not found", () => {
+            const code = "var a = 1, b = 2;";
+            let spy;
+
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: {
+                                create(context) {
+                                    const sourceCode = context.getSourceCode();
+
+                                    spy = sinon.spy(() => {
+                                        assert.isFalse(sourceCode.markVariableAsUsed({ name: "c" }));
+                                    });
+
+                                    return { "Program:exit": spy };
+                                }
+                            }
+                        }
+                    }
+                },
+                rules: { "test/checker": "error" }
+            };
+
+            flatLinter.verify(code, config);
+            assert(spy && spy.calledOnce, "Program:exit wasn't called");
+        });
+    });
 });
