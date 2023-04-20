@@ -131,6 +131,7 @@ The `context` object has the following properties:
 * `parserOptions`: The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
 
 Additionally, the `context` object has the following methods:
+
 * `getAncestors()` - (**Deprecated:** Use `SourceCode#getAncestors(node)` instead.) Returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
 * `getCwd()` - Returns the `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
 * `getDeclaredVariables(node)` - (**Deprecated:** Use `SourceCode#getDeclaredVariables(node)` instead.) Returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
@@ -147,7 +148,7 @@ Additionally, the `context` object has the following methods:
 * `getPhysicalFilename()`: When linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
 * `getScope()`: (**Deprecated:** Use `SourceCode#getScope(node)` instead.) Returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
 * `getSourceCode()`: Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
-* `markVariableAsUsed(name)`: Marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
+* `markVariableAsUsed(name)` - (**Deprecated:** Use `SourceCode#markVariableAsUsed(name, node)` instead.)  Marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
 * `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#reporting-problems)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
@@ -694,6 +695,36 @@ For examples of using `SourceCode#getScope()` to track variables, refer to the s
 
 * [no-shadow](https://github.com/eslint/eslint/blob/main/lib/rules/no-shadow.js): Calls `sourceCode.getScope()` at the `Program` node and inspects all child scopes to make sure a variable name is not reused at a lower scope. ([no-shadow](../rules/no-shadow) documentation)
 * [no-redeclare](https://github.com/eslint/eslint/blob/main/lib/rules/no-redeclare.js): Calls `sourceCode.getScope()` at each scope to make sure that a variable is not declared twice in the same scope. ([no-redeclare](../rules/no-redeclare) documentation)
+
+### Marking Variables as Used
+
+**Deprecated:** The `context.markVariableAsUsed()` method is deprecated in favor of `sourceCode.markVariableAsUsed()`.
+
+Certain ESLint rules, such as [`no-unused-vars`](../rules/no-unused-vars), check to see if a variable has been used. ESLint itself only knows about the standard rules of variable access and so custom ways of accessing variables may not register as "used".
+
+To help with this, you can use the `sourceCode.markVariableAsUsed()` method. This method takes two arguments: the name of the variable to mark as used and an option reference node indicating the scope in which you are working. Here's an example:
+
+```js
+module.exports = {
+    create: function(context) {
+        var sourceCode = context.getSourceCode();
+
+        return {
+            ReturnStatement(node) {
+
+                // look in the scope of the function for myCustomVar and mark as used
+                sourceCode.markVariableAsUsed("myCustomVar", node);
+
+                // or: look in the global scope for myCustomVar and mark as used
+                sourceCode.markVariableAsUsed("myCustomVar");
+            }
+        }
+        // ...
+    }
+};
+```
+
+Here, the `myCustomVar` variable is marked as used relative to a `ReturnStatement` node, which means ESLint will start searching from the scope closest to that node. If you omit the second argument, then the top-level scope is used. (For ESM files, the top-level scope is the module scope; for CommonJS files, the top-level scope is the first function scope.)
 
 ### Accessing Code Paths
 

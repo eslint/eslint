@@ -33,6 +33,19 @@ const flatLinter = new Linter({ configType: "flat" });
 const AST = espree.parse("let foo = bar;", DEFAULT_CONFIG),
     TEST_CODE = "var answer = 6 * 7;",
     SHEBANG_TEST_CODE = `#!/usr/bin/env node\n${TEST_CODE}`;
+const filename = "foo.js";
+
+/**
+ * Get variables in the current scope
+ * @param {Object} scope current scope
+ * @param {string} name name of the variable to look for
+ * @returns {ASTNode|null} The variable object
+ * @private
+ */
+function getVariable(scope, name) {
+    return scope.variables.find(v => v.name === name) || null;
+}
+
 
 //------------------------------------------------------------------------------
 // Tests
@@ -3287,7 +3300,6 @@ describe("SourceCode", () => {
 
     describe("getAncestors()", () => {
         const code = TEST_CODE;
-        const filename = "foo.js";
 
         it("should retrieve all ancestors when used", () => {
 
@@ -3623,4 +3635,156 @@ describe("SourceCode", () => {
         });
     });
 
+    describe("markVariableAsUsed()", () => {
+
+        it("should mark variables in current scope as used", () => {
+            const code = "var a = 1, b = 2;";
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    const sourceCode = context.getSourceCode();
+
+                    spy = sinon.spy(() => {
+                        assert.isTrue(sourceCode.markVariableAsUsed("a"));
+
+                        const scope = context.getScope();
+
+                        assert.isTrue(getVariable(scope, "a").eslintUsed);
+                        assert.notOk(getVariable(scope, "b").eslintUsed);
+                    });
+
+                    return { "Program:exit": spy };
+                }
+            });
+
+            linter.verify(code, { rules: { checker: "error" } });
+            assert(spy && spy.calledOnce);
+        });
+
+        it("should mark variables in function args as used", () => {
+            const code = "function abc(a, b) { return 1; }";
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    const sourceCode = context.getSourceCode();
+
+                    spy = sinon.spy(node => {
+                        assert.isTrue(sourceCode.markVariableAsUsed("a", node));
+
+                        const scope = context.getScope();
+
+                        assert.isTrue(getVariable(scope, "a").eslintUsed);
+                        assert.notOk(getVariable(scope, "b").eslintUsed);
+                    });
+
+                    return { ReturnStatement: spy };
+                }
+            });
+
+            linter.verify(code, { rules: { checker: "error" } });
+            assert(spy && spy.calledOnce);
+        });
+
+        it("should mark variables in higher scopes as used", () => {
+            const code = "var a, b; function abc() { return 1; }";
+            let returnSpy, exitSpy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    const sourceCode = context.getSourceCode();
+
+                    returnSpy = sinon.spy(node => {
+                        assert.isTrue(sourceCode.markVariableAsUsed("a", node));
+                    });
+                    exitSpy = sinon.spy(() => {
+                        const scope = context.getScope();
+
+                        assert.isTrue(getVariable(scope, "a").eslintUsed);
+                        assert.notOk(getVariable(scope, "b").eslintUsed);
+                    });
+
+                    return { ReturnStatement: returnSpy, "Program:exit": exitSpy };
+                }
+            });
+
+            linter.verify(code, { rules: { checker: "error" } });
+            assert(returnSpy && returnSpy.calledOnce);
+            assert(exitSpy && exitSpy.calledOnce);
+        });
+
+        it("should mark variables in Node.js environment as used", () => {
+            const code = "var a = 1, b = 2;";
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    const sourceCode = context.getSourceCode();
+
+                    spy = sinon.spy(() => {
+                        const globalScope = context.getScope(),
+                            childScope = globalScope.childScopes[0];
+
+                        assert.isTrue(sourceCode.markVariableAsUsed("a"));
+
+                        assert.isTrue(getVariable(childScope, "a").eslintUsed);
+                        assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                    });
+
+                    return { "Program:exit": spy };
+                }
+            });
+
+            linter.verify(code, { rules: { checker: "error" }, env: { node: true } });
+            assert(spy && spy.calledOnce);
+        });
+
+        it("should mark variables in modules as used", () => {
+            const code = "var a = 1, b = 2;";
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    const sourceCode = context.getSourceCode();
+
+                    spy = sinon.spy(() => {
+                        const globalScope = context.getScope(),
+                            childScope = globalScope.childScopes[0];
+
+                        assert.isTrue(sourceCode.markVariableAsUsed("a"));
+
+                        assert.isTrue(getVariable(childScope, "a").eslintUsed);
+                        assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                    });
+
+                    return { "Program:exit": spy };
+                }
+            });
+
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } }, filename, true);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("should return false if the given variable is not found", () => {
+            const code = "var a = 1, b = 2;";
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    const sourceCode = context.getSourceCode();
+
+                    spy = sinon.spy(() => {
+                        assert.isFalse(sourceCode.markVariableAsUsed("c"));
+                    });
+
+                    return { "Program:exit": spy };
+                }
+            });
+
+            linter.verify(code, { rules: { checker: "error" } });
+            assert(spy && spy.calledOnce);
+        });
+
+    });
 });

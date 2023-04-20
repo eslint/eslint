@@ -21,13 +21,16 @@ const ruleTester = new RuleTester();
 ruleTester.defineRule("use-every-a", {
     create(context) {
 
+        const sourceCode = context.getSourceCode();
+
         /**
          * Mark a variable as used
+         * @param {ASTNode} node The node representing the scope to search
          * @returns {void}
          * @private
          */
-        function useA() {
-            context.markVariableAsUsed("a");
+        function useA(node) {
+            sourceCode.markVariableAsUsed("a", node);
         }
         return {
             VariableDeclaration: useA,
