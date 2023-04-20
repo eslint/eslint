@@ -697,7 +697,7 @@ For examples of using `SourceCode#getScope()` to track variables, refer to the s
 
 ### Marking Variables as Used
 
-**Deprecated:** The `context.markVariableAsUsed()` method is deprecated in favor of `sourceCode.markVariableAsUsEd()`.
+**Deprecated:** The `context.markVariableAsUsed()` method is deprecated in favor of `sourceCode.markVariableAsUsed()`.
 
 Certain ESLint rules, such as [`no-unused-vars`](/docs/latest/rules/no-unused-vars), check to see if a rule has been used. ESLint itself only knows about the standard rules of variable access and so custom ways of accessing variables may not register as "used."
 
