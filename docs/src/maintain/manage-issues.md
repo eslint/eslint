@@ -30,7 +30,7 @@ The first goal when evaluating an issue is to determine which category the issue
 
 ## Triaging Process
 
-All of ESLint's issues, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/2). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
+All of ESLint's issues, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/3). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
 
 * **Needs Triage**: Issues that have not yet been reviewed by anyone
 * **Triaging**: Issues that someone has reviewed but has not been able to fully triage yet
@@ -120,8 +120,8 @@ Consensus is reached on issues when there are at least three team members who be
 
 If consensus cannot be reached on an issue, or an issue's progress has been stalled and it's not clear if the issue should be closed, then you can refer the issue to the TSC for resolution. To do so, add the "tsc agenda" label to the issue and add a comment including the following information:
 
-1. A one-paragraph summary of the discussion to this point.
-2. The question you would like the TSC to answer.
+1. A one-paragraph summary of the discussion to this point. This should begin with "TSC Summary:".
+2. The question you would like the TSC to answer. This should begin with "TSC Question:".
 
 The issue will be discussed at the next TSC meeting and the resolution will be posted back to the issue.
 
