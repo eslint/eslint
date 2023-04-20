@@ -723,7 +723,7 @@ module.exports = {
 };
 ```
 
-Here, the `myCustomVar` variable is marked as used relative to a `ReturnStatement` node, which means ESLint will start searching from the scope closest to that node. If you omit the second argument, then the global scope is used.
+Here, the `myCustomVar` variable is marked as used relative to a `ReturnStatement` node, which means ESLint will start searching from the scope closest to that node. If you omit the second argument, then the top-level scope is used. (For ESM files, the top-level scope is the module scope; for CommonJS files, the top-level scope is the first function scope.)
 
 ### Accessing Code Paths
 
