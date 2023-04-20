@@ -293,13 +293,13 @@ Here, the `fix()` function is used to insert a semicolon after the node. Note th
 The `fixer` object has the following methods:
 
 * `insertTextAfter(nodeOrToken, text)`: Insert text after the given node or token.
-* `insertTextAfterRange(range, text)`: Insert text after the given range
-* `insertTextBefore(nodeOrToken, text)`: Insert text before the given node or token
-* `insertTextBeforeRange(range, text)`: Insert text before the given range
-* `remove(nodeOrToken)`: Remove the given node or token
-* `removeRange(range)`: Remove text in the given range
-* `replaceText(nodeOrToken, text)`: Replace the text in the given node or token
-* `replaceTextRange(range, text)`: Replace the text in the given range
+* `insertTextAfterRange(range, text)`: Insert text after the given range.
+* `insertTextBefore(nodeOrToken, text)`: Insert text before the given node or token.
+* `insertTextBeforeRange(range, text)`: Insert text before the given range.
+* `remove(nodeOrToken)`: Remove the given node or token.
+* `removeRange(range)`: Remove text in the given range.
+* `replaceText(nodeOrToken, text)`: Replace the text in the given node or token.
+* `replaceTextRange(range, text)`: Replace the text in the given range.
 
 A `range` is a two-item array containing character indices inside the source code. The first item is the start of the range (inclusive) and the second item is the end of the range (exclusive). Every node and token has a `range` property to identify the source code range they represent.
 
