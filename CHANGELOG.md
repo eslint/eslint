@@ -1,3 +1,21 @@
+v8.39.0 - April 21, 2023
+
+* [`60a6f26`](https://github.com/eslint/eslint/commit/60a6f2694deb4aa1c54de2a28d0357cddfd16644) chore: upgrade @eslint/js@8.39.0 (#17102) (Milos Djermanovic)
+* [`d5ba5c0`](https://github.com/eslint/eslint/commit/d5ba5c0a85e7a10777761f5d46c104ab7f25845b) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`6987dc5`](https://github.com/eslint/eslint/commit/6987dc59e46f4e345d0d6c20c1f2c6846bbd7acc) docs: Fix formatting in Custom Rules docs (#17097) (Milos Djermanovic)
+* [`4ee92e5`](https://github.com/eslint/eslint/commit/4ee92e5cbdeba6fea2147901ce926de16946958a) docs: Update README (GitHub Actions Bot)
+* [`3f7af9f`](https://github.com/eslint/eslint/commit/3f7af9f408625dbc486af914706d34c4b483b5ba) feat: Implement `SourceCode#markVariableAsUsed()` (#17086) (Nicholas C. Zakas)
+* [`d8e9887`](https://github.com/eslint/eslint/commit/d8e9887c2c384d24d586d08ee9ae2ada79bd234c) docs: Custom Rules cleanup/expansion (#16906) (Ben Perlmutter)
+* [`f57eff2`](https://github.com/eslint/eslint/commit/f57eff20f5789408e95061f1af5354bb9b4f4784) ci: run tests on Node.js v20 (#17093) (Nitin Kumar)
+* [`1fea279`](https://github.com/eslint/eslint/commit/1fea2797801a82a2718814c83dad641dab092bcc) docs: Clarify how to add to tsc agenda (#17084) (Nicholas C. Zakas)
+* [`970ef1c`](https://github.com/eslint/eslint/commit/970ef1c868235a58297682513842f1256cdfbd03) docs: Update triage board location (Nicholas C. Zakas)
+* [`9d1b8fc`](https://github.com/eslint/eslint/commit/9d1b8fc60cc31f12618e58c10a2669506b7ce9bf) perf: Binary search in token store `utils.search` (#17066) (Francesco Trotta)
+* [`07a4435`](https://github.com/eslint/eslint/commit/07a4435a0c08cb63ebf11b71f735bac20318829b) chore: Add request for minimal repro to bug report (#17081) (Nicholas C. Zakas)
+* [`eac4943`](https://github.com/eslint/eslint/commit/eac4943ba2e4edb3dbfea0470e5d4b15a4926c40) refactor: remove unnecessary use of `SourceCode#getAncestors` in rules (#17075) (Milos Djermanovic)
+* [`6d8bffd`](https://github.com/eslint/eslint/commit/6d8bffdf45d50e272dc45e6d2d05b4a737514468) docs: Update README (GitHub Actions Bot)
+* [`0a7b60a`](https://github.com/eslint/eslint/commit/0a7b60a9d5621dbbc1a8a8adda3b7c2060c779ca) chore: update description of `SourceCode#getDeclaredVariables` (#17072) (Milos Djermanovic)
+* [`6e2df71`](https://github.com/eslint/eslint/commit/6e2df71cc390252aaca212abe3dc0467fe397450) chore: remove unnecessary references to the LICENSE file (#17071) (Milos Djermanovic)
+
 v8.38.0 - April 7, 2023
 
 * [`59ed060`](https://github.com/eslint/eslint/commit/59ed06041d4670781956221086ea0fca6683788d) chore: upgrade @eslint/js@8.38.0 (#17069) (Milos Djermanovic)
