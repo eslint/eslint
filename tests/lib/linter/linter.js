@@ -116,7 +116,7 @@ describe("Linter", () => {
 
         it("has all the `parent` properties on nodes when the rule listeners are created", () => {
             const spy = sinon.spy(context => {
-                const ast = context.getSourceCode().ast;
+                const ast = context.sourceCode.ast;
 
                 assert.strictEqual(ast.body[0].parent, ast);
                 assert.strictEqual(ast.body[0].expression.parent, ast.body[0]);

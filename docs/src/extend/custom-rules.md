@@ -150,7 +150,8 @@ Additionally, the `context` object has the following methods:
 * `getFilename()`: (**Deprecated:** Use `context.filename` instead.) Returns the filename associated with the source.
 * `getPhysicalFilename()`: (**Deprecated:** Use `context.physicalFilename` instead.) When linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
 * `getScope()`: (**Deprecated:** Use `SourceCode#getScope(node)` instead.) Returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
-* `getSourceCode()`: Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
+* `getSourceCode()`: (**Deprecated:** Use `context#sourceCode` instead.) Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
+* `sourceCode`: Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
 * `markVariableAsUsed(name)`: (**Deprecated:** Use `SourceCode#markVariableAsUsed(name, node)` instead.)  Marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
 * `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#reporting-problems)).
 
@@ -514,7 +515,7 @@ The `SourceCode` object is the main object for getting more information about th
 ```js
 module.exports = {
     create: function(context) {
-        var sourceCode = context.getSourceCode();
+        var sourceCode = context.sourceCode; // or use "context.getSourceCode()", but that is deprecated.
 
         // ...
     }
@@ -712,7 +713,7 @@ To help with this, you can use the `sourceCode.markVariableAsUsed()` method. Thi
 ```js
 module.exports = {
     create: function(context) {
-        var sourceCode = context.getSourceCode();
+        var sourceCode = context.sourceCode;
 
         return {
             ReturnStatement(node) {
