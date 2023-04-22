@@ -520,7 +520,7 @@ const linter1 = new Linter({ cwd: 'path/to/project' });
 const linter2 = new Linter();
 ```
 
-In this example, rules run on `linter1` will get `path/to/project` when calling `context.getCwd()`.
+In this example, rules run on `linter1` will get `path/to/project` when calling `context.getCwd()` or `context.cwd`.
 Those run on `linter2` will get `process.cwd()` if the global `process` object is defined or `undefined` otherwise (e.g. on the browser <https://eslint.org/demo>).
 
 ### Linter#verify
