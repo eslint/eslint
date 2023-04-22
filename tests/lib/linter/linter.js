@@ -1826,7 +1826,7 @@ describe("Linter", () => {
             linter.defineRule(code, {
                 create: context => ({
                     Literal(node) {
-                        context.report(node, context.getFilename());
+                        context.report(node, context.filename);
                     }
                 })
             });
@@ -1866,7 +1866,7 @@ describe("Linter", () => {
             linter.defineRule(code, {
                 create: context => ({
                     Literal(node) {
-                        context.report(node, context.getFilename());
+                        context.report(node, context.filename);
                     }
                 })
             });
@@ -4817,7 +4817,7 @@ var a = "test2";
         describe("filenames", () => {
             it("should allow filename to be passed on options object", () => {
                 const filenameChecker = sinon.spy(context => {
-                    assert.strictEqual(context.getFilename(), "foo.js");
+                    assert.strictEqual(context.filename, "foo.js");
                     return {};
                 });
 
@@ -4828,7 +4828,7 @@ var a = "test2";
 
             it("should allow filename to be passed as third argument", () => {
                 const filenameChecker = sinon.spy(context => {
-                    assert.strictEqual(context.getFilename(), "bar.js");
+                    assert.strictEqual(context.filename, "bar.js");
                     return {};
                 });
 
@@ -4839,7 +4839,7 @@ var a = "test2";
 
             it("should default filename to <input> when options object doesn't have filename", () => {
                 const filenameChecker = sinon.spy(context => {
-                    assert.strictEqual(context.getFilename(), "<input>");
+                    assert.strictEqual(context.filename, "<input>");
                     return {};
                 });
 
@@ -4850,7 +4850,7 @@ var a = "test2";
 
             it("should default filename to <input> when only two arguments are passed", () => {
                 const filenameChecker = sinon.spy(context => {
-                    assert.strictEqual(context.getFilename(), "<input>");
+                    assert.strictEqual(context.filename, "<input>");
                     return {};
                 });
 
@@ -6751,7 +6751,7 @@ var a = "test2";
             linter.defineRule("report-original-text", {
                 create: context => ({
                     Program(ast) {
-                        receivedFilenames.push(context.getFilename());
+                        receivedFilenames.push(context.filename);
                         receivedPhysicalFilenames.push(context.getPhysicalFilename());
                         context.report({ node: ast, message: context.getSourceCode().text });
                     }
@@ -9109,6 +9109,67 @@ describe("Linter with FlatConfigArray", () => {
                 });
             });
 
+            describe("context.filename", () => {
+                const ruleId = "filename-rule";
+
+                it("has access to the filename", () => {
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    [ruleId]: {
+                                        create: context => ({
+                                            Literal(node) {
+                                                context.report(node, context.filename);
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                        },
+                        rules: {
+                            [`test/${ruleId}`]: 1
+                        }
+                    };
+
+                    const messages = linter.verify("0", config, filename);
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages[0].message, filename);
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("defaults filename to '<input>'", () => {
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    [ruleId]: {
+                                        create: context => ({
+                                            Literal(node) {
+                                                context.report(node, context.filename);
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                        },
+                        rules: {
+                            [`test/${ruleId}`]: 1
+                        }
+                    };
+
+
+                    const messages = linter.verify("0", config);
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages[0].message, "<input>");
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+            });
+
             describe("context.getPhysicalFilename()", () => {
 
                 const ruleId = "filename-rule";
@@ -11063,7 +11124,7 @@ describe("Linter with FlatConfigArray", () => {
             describe("filename", () => {
                 it("should allow filename to be passed on options object", () => {
                     const filenameChecker = sinon.spy(context => {
-                        assert.strictEqual(context.getFilename(), "foo.js");
+                        assert.strictEqual(context.filename, "foo.js");
                         return {};
                     });
 
@@ -11086,7 +11147,7 @@ describe("Linter with FlatConfigArray", () => {
 
                 it("should allow filename to be passed as third argument", () => {
                     const filenameChecker = sinon.spy(context => {
-                        assert.strictEqual(context.getFilename(), "bar.js");
+                        assert.strictEqual(context.filename, "bar.js");
                         return {};
                     });
 
@@ -11109,7 +11170,7 @@ describe("Linter with FlatConfigArray", () => {
 
                 it("should default filename to <input> when options object doesn't have filename", () => {
                     const filenameChecker = sinon.spy(context => {
-                        assert.strictEqual(context.getFilename(), "<input>");
+                        assert.strictEqual(context.filename, "<input>");
                         return {};
                     });
 
@@ -11132,7 +11193,7 @@ describe("Linter with FlatConfigArray", () => {
 
                 it("should default filename to <input> when only two arguments are passed", () => {
                     const filenameChecker = sinon.spy(context => {
-                        assert.strictEqual(context.getFilename(), "<input>");
+                        assert.strictEqual(context.filename, "<input>");
                         return {};
                     });
 
@@ -15369,7 +15430,7 @@ var a = "test2";
                             create(context) {
                                 return {
                                     Program(ast) {
-                                        receivedFilenames.push(context.getFilename());
+                                        receivedFilenames.push(context.filename);
                                         receivedPhysicalFilenames.push(context.getPhysicalFilename());
                                         context.report({ node: ast, message: context.getSourceCode().text });
                                     }
