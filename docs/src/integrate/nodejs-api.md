@@ -510,7 +510,7 @@ The `Linter` object does the actual evaluation of the JavaScript code. It doesn'
 
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
-* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` (see [The Context Object](../extend/custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
+* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` or `context.cwd` (see [The Context Object](../extend/custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
 
 For example:
 
