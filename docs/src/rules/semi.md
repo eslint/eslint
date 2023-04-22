@@ -133,6 +133,51 @@ class Foo {
 
 :::
 
+#### omitLastInOneLineBlock
+
+Examples of additional **correct** code for this rule with the `"always", { "omitLastInOneLineBlock": true }` options:
+
+::: correct
+
+```js
+/*eslint semi: ["error", "always", { "omitLastInOneLineBlock": true}] */
+
+if (foo) { bar() }
+
+if (foo) { bar(); baz() }
+
+function f() { bar(); baz() }
+
+class C {
+    foo() { bar(); baz() }
+
+    static { bar(); baz() }
+}
+```
+
+:::
+
+#### omitLastInOneLineClassBody
+
+Examples of additional **correct** code for this rule with the `"always", { "omitLastInOneLineClassBody": true }` options:
+
+::: correct
+
+```js
+/*eslint semi: ["error", "always", { "omitLastInOneLineClassBody": true}] */
+
+export class SomeClass{
+    logType(){
+        console.log(this.type);
+    }
+}
+
+export class Variant1 extends SomeClass{type=1}
+export class Variant2 extends SomeClass{type=2}
+```
+
+:::
+
 ### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
@@ -187,51 +232,6 @@ import b from "b"
 class Foo {
     bar = 1
 }
-```
-
-:::
-
-#### omitLastInOneLineBlock
-
-Examples of additional **correct** code for this rule with the `"always", { "omitLastInOneLineBlock": true }` options:
-
-::: correct
-
-```js
-/*eslint semi: ["error", "always", { "omitLastInOneLineBlock": true}] */
-
-if (foo) { bar() }
-
-if (foo) { bar(); baz() }
-
-function f() { bar(); baz() }
-
-class C {
-    foo() { bar(); baz() }
-
-    static { bar(); baz() }
-}
-```
-
-:::
-
-#### omitLastInOneLineClassBody
-
-Examples of additional **correct** code for this rule with the `"always", { "omitLastInOneLineClassBody": true }` options:
-
-::: correct
-
-```js
-/*eslint semi: ["error", "always", { "omitLastInOneLineClassBody": true}] */
-
-export class SomeClass{
-    logType(){
-        console.log(this.type);
-    }
-}
-
-export class Variant1 extends SomeClass{type=1}
-export class Variant2 extends SomeClass{type=2}
 ```
 
 :::
