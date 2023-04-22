@@ -111,6 +111,42 @@ ruleTester.run("semi", rule, {
         { code: "class C {\n static {\n bar(); baz(); } \n}", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 2022 } },
         { code: "class C {\n static { bar(); baz(); \n} \n}", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 2022 } },
 
+        // omitLastInOneLineClassBody: true
+        {
+            code: `
+                export class SomeClass{
+                    logType(){
+                        console.log(this.type);
+                    }
+                }
+
+                export class Variant1 extends SomeClass{type=1}
+                export class Variant2 extends SomeClass{type=2}
+                export class Variant3 extends SomeClass{type=3}
+                export class Variant4 extends SomeClass{type=4}
+                export class Variant5 extends SomeClass{type=5}
+            `,
+            options: ["always", { omitLastInOneLineClassBody: true }],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: `
+                export class SomeClass{
+                    logType(){
+                        console.log(this.type);
+                    }
+                }
+
+                export class Variant1 extends SomeClass{type=1;}
+                export class Variant2 extends SomeClass{type=2;}
+                export class Variant3 extends SomeClass{type=3;}
+                export class Variant4 extends SomeClass{type=4;}
+                export class Variant5 extends SomeClass{type=5;}
+            `,
+            options: ["always", { omitLastInOneLineClassBody: false }],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+
         // method definitions and static blocks don't have a semicolon.
         { code: "class A { a() {} b() {} }", parserOptions: { ecmaVersion: 6 } },
         { code: "var A = class { a() {} b() {} };", parserOptions: { ecmaVersion: 6 } },
@@ -2309,6 +2345,101 @@ ruleTester.run("semi", rule, {
                 endLine: 1,
                 endColumn: 18
             }]
+        },
+
+        // omitLastInOneLineClassBody
+        {
+            code: `
+                export class SomeClass{
+                    logType(){
+                        console.log(this.type);
+                    }
+                }
+
+                export class Variant1 extends SomeClass{type=1}
+            `,
+            output: `
+                export class SomeClass{
+                    logType(){
+                        console.log(this.type);
+                    }
+                }
+
+                export class Variant1 extends SomeClass{type=1;}
+            `,
+            options: ["always", { omitLastInOneLineClassBody: false }],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "missingSemi",
+                    line: 8,
+                    column: 63,
+                    endLine: 8,
+                    endColumn: 64
+                }
+            ]
+        },
+        {
+            code: `
+                export class SomeClass{
+                    logType(){
+                        console.log(this.type);
+                    }
+                }
+
+                export class Variant1 extends SomeClass{type=1}
+            `,
+            output: `
+                export class SomeClass{
+                    logType(){
+                        console.log(this.type);
+                    }
+                }
+
+                export class Variant1 extends SomeClass{type=1;}
+            `,
+            options: ["always", { omitLastInOneLineClassBody: false, omitLastInOneLineBlock: true }],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "missingSemi",
+                    line: 8,
+                    column: 63,
+                    endLine: 8,
+                    endColumn: 64
+                }
+            ]
+        },
+        {
+            code: `
+                export class SomeClass{
+                    logType(){
+                        console.log(this.type);
+                    }
+                }
+
+                export class Variant1 extends SomeClass{type=1;}
+            `,
+            output: `
+                export class SomeClass{
+                    logType(){
+                        console.log(this.type);
+                    }
+                }
+
+                export class Variant1 extends SomeClass{type=1}
+            `,
+            options: ["always", { omitLastInOneLineClassBody: true, omitLastInOneLineBlock: false }],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "extraSemi",
+                    line: 8,
+                    column: 63,
+                    endLine: 8,
+                    endColumn: 64
+                }
+            ]
         }
     ]
 });
