@@ -1498,7 +1498,7 @@ describe("RuleTester", () => {
         const usesStartEndRule = {
             create(context) {
 
-                const sourceCode = context.getSourceCode();
+                const sourceCode = context.sourceCode;
 
                 return {
                     CallExpression(node) {
@@ -2793,7 +2793,7 @@ describe("RuleTester", () => {
         const useGetCommentsRule = {
             create: context => ({
                 Program(node) {
-                    const sourceCode = context.getSourceCode();
+                    const sourceCode = context.sourceCode;
 
                     sourceCode.getComments(node);
                 }

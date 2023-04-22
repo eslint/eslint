@@ -44,7 +44,7 @@ ruleTester.defineRule("add-named-import", {
     create(context) {
         return {
             ImportDeclaration(node) {
-                const sourceCode = context.getSourceCode();
+                const sourceCode = context.sourceCode;
                 const closingBrace = sourceCode.getLastToken(node, token => token.value === "}");
                 const addComma = sourceCode.getTokenBefore(closingBrace).value !== ",";
 

@@ -3032,7 +3032,7 @@ describe("SourceCode", () => {
             linter.defineRule("get-scope", {
                 create: context => ({
                     Program() {
-                        context.getSourceCode().getScope();
+                        context.sourceCode.getScope();
                     }
                 })
             });
@@ -3062,7 +3062,7 @@ describe("SourceCode", () => {
                 create: context => ({
                     [astSelector](node0) {
                         node = node0;
-                        scope = context.getSourceCode().getScope(node);
+                        scope = context.sourceCode.getScope(node);
                     }
                 })
             });
@@ -3312,7 +3312,7 @@ describe("SourceCode", () => {
                             checker: {
                                 create(context) {
                                     spy = sinon.spy(node => {
-                                        const sourceCode = context.getSourceCode();
+                                        const sourceCode = context.sourceCode;
                                         const ancestors = sourceCode.getAncestors(node);
 
                                         assert.strictEqual(ancestors.length, 3);
@@ -3340,7 +3340,7 @@ describe("SourceCode", () => {
                             checker: {
                                 create(context) {
                                     spy = sinon.spy(node => {
-                                        const sourceCode = context.getSourceCode();
+                                        const sourceCode = context.sourceCode;
                                         const ancestors = sourceCode.getAncestors(node);
 
                                         assert.strictEqual(ancestors.length, 0);
@@ -3369,7 +3369,7 @@ describe("SourceCode", () => {
                             checker: {
                                 create(context) {
                                     spy = sinon.spy(() => {
-                                        const sourceCode = context.getSourceCode();
+                                        const sourceCode = context.sourceCode;
 
                                         assert.throws(() => {
                                             sourceCode.getAncestors();
@@ -3406,7 +3406,7 @@ describe("SourceCode", () => {
                 test: {
                     create(context) {
 
-                        const sourceCode = context.getSourceCode();
+                        const sourceCode = context.sourceCode;
 
                         /**
                          * Assert `sourceCode.getDeclaredVariables(node)` is empty.
@@ -3643,7 +3643,7 @@ describe("SourceCode", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    const sourceCode = context.getSourceCode();
+                    const sourceCode = context.sourceCode;
 
                     spy = sinon.spy(() => {
                         assert.isTrue(sourceCode.markVariableAsUsed("a"));
@@ -3668,7 +3668,7 @@ describe("SourceCode", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    const sourceCode = context.getSourceCode();
+                    const sourceCode = context.sourceCode;
 
                     spy = sinon.spy(node => {
                         assert.isTrue(sourceCode.markVariableAsUsed("a", node));
@@ -3693,7 +3693,7 @@ describe("SourceCode", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    const sourceCode = context.getSourceCode();
+                    const sourceCode = context.sourceCode;
 
                     returnSpy = sinon.spy(node => {
                         assert.isTrue(sourceCode.markVariableAsUsed("a", node));
@@ -3720,7 +3720,7 @@ describe("SourceCode", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    const sourceCode = context.getSourceCode();
+                    const sourceCode = context.sourceCode;
 
                     spy = sinon.spy(() => {
                         const globalScope = context.getScope(),
@@ -3746,7 +3746,7 @@ describe("SourceCode", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    const sourceCode = context.getSourceCode();
+                    const sourceCode = context.sourceCode;
 
                     spy = sinon.spy(() => {
                         const globalScope = context.getScope(),
@@ -3772,7 +3772,7 @@ describe("SourceCode", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    const sourceCode = context.getSourceCode();
+                    const sourceCode = context.sourceCode;
 
                     spy = sinon.spy(() => {
                         assert.isFalse(sourceCode.markVariableAsUsed("c"));

@@ -3777,7 +3777,7 @@ var a = "test2";
                     create: context => ({
                         Program() {
                             const scope = context.getScope();
-                            const sourceCode = context.getSourceCode();
+                            const sourceCode = context.sourceCode;
                             const comments = sourceCode.getAllComments();
 
                             assert.strictEqual(1, comments.length);
@@ -5433,7 +5433,7 @@ var a = "test2";
                     create: context => ({
                         Program() {
                             const scope = context.getScope();
-                            const sourceCode = context.getSourceCode();
+                            const sourceCode = context.sourceCode;
                             const comments = sourceCode.getAllComments();
 
                             assert.strictEqual(2, comments.length);
@@ -6765,7 +6765,8 @@ var a = "test2";
 
                         receivedFilenames.push(context.filename);
                         receivedPhysicalFilenames.push(context.physicalFilename);
-                        context.report({ node: ast, message: context.getSourceCode().text });
+
+                        context.report({ node: ast, message: context.sourceCode.text });
                     }
                 })
             });
@@ -7384,7 +7385,7 @@ var a = "test2";
                 });
                 linter.defineRule("save-scope-manager", {
                     create(context) {
-                        scopeManager = context.getSourceCode().scopeManager;
+                        scopeManager = context.sourceCode.scopeManager;
 
                         return {};
                     }
@@ -8206,7 +8207,7 @@ describe("Linter with FlatConfigArray", () => {
                                             },
                                             "save-scope-manager": {
                                                 create(context) {
-                                                    scopeManager = context.getSourceCode().scopeManager;
+                                                    scopeManager = context.sourceCode.scopeManager;
 
                                                     return {};
                                                 }
@@ -8961,7 +8962,7 @@ describe("Linter with FlatConfigArray", () => {
 
             it("should have all the `parent` properties on nodes when the rule visitors are created", () => {
                 const spy = sinon.spy(context => {
-                    const ast = context.getSourceCode().ast;
+                    const ast = context.sourceCode.ast;
 
                     assert.strictEqual(ast.body[0].parent, ast);
                     assert.strictEqual(ast.body[0].expression.parent, ast.body[0]);
@@ -11613,7 +11614,7 @@ describe("Linter with FlatConfigArray", () => {
                                         create: context => ({
                                             Program() {
                                                 const scope = context.getScope();
-                                                const sourceCode = context.getSourceCode();
+                                                const sourceCode = context.sourceCode;
                                                 const comments = sourceCode.getAllComments();
 
                                                 assert.strictEqual(2, comments.length);
@@ -13895,7 +13896,7 @@ var a = "test2";
                                             create: context => ({
                                                 Program() {
                                                     const scope = context.getScope();
-                                                    const sourceCode = context.getSourceCode();
+                                                    const sourceCode = context.sourceCode;
                                                     const comments = sourceCode.getAllComments();
 
                                                     assert.strictEqual(1, comments.length);
@@ -15572,7 +15573,8 @@ var a = "test2";
 
                                         receivedFilenames.push(context.filename);
                                         receivedPhysicalFilenames.push(context.physicalFilename);
-                                        context.report({ node: ast, message: context.getSourceCode().text });
+
+                                        context.report({ node: ast, message: context.sourceCode.text });
                                     }
                                 };
                             }
