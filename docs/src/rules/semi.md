@@ -81,6 +81,7 @@ String option:
 Object option (when `"always"`):
 
 * `"omitLastInOneLineBlock": true` ignores the last semicolon in a block in which its braces (and therefore the content of the block) are in the same line
+* `"omitLastInOneLineClassBody": true` ignores the last semicolon in a class body in which its braces (and therefore the content of the class body) are in the same line
 
 Object option (when `"never"`):
 
@@ -210,6 +211,27 @@ class C {
 
     static { bar(); baz() }
 }
+```
+
+:::
+
+#### omitLastInOneLineClassBody
+
+Examples of additional **correct** code for this rule with the `"always", { "omitLastInOneLineClassBody": true }` options:
+
+::: correct
+
+```js
+/*eslint semi: ["error", "always", { "omitLastInOneLineClassBody": true}] */
+
+export class SomeClass{
+    logType(){
+        console.log(this.type);
+    }
+}
+
+export class Variant1 extends SomeClass{type=1}
+export class Variant2 extends SomeClass{type=2}
 ```
 
 :::
