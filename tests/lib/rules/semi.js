@@ -134,6 +134,20 @@ ruleTester.run("semi", rule, {
                 export class SomeClass{
                     logType(){
                         console.log(this.type);
+                        console.log(this.anotherType);
+                    }
+                }
+
+                export class Variant1 extends SomeClass{type=1; anotherType=2}
+            `,
+            options: ["always", { omitLastInOneLineClassBody: true }],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+        },
+        {
+            code: `
+                export class SomeClass{
+                    logType(){
+                        console.log(this.type);
                     }
                 }
 
@@ -2438,6 +2452,39 @@ ruleTester.run("semi", rule, {
                     column: 63,
                     endLine: 8,
                     endColumn: 64
+                }
+            ]
+        },
+        {
+            code: `
+                export class SomeClass{
+                    logType(){
+                        console.log(this.type);
+                        console.log(this.anotherType);
+                    }
+                }
+
+                export class Variant1 extends SomeClass{type=1; anotherType=2}
+            `,
+            output: `
+                export class SomeClass{
+                    logType(){
+                        console.log(this.type);
+                        console.log(this.anotherType);
+                    }
+                }
+
+                export class Variant1 extends SomeClass{type=1; anotherType=2;}
+            `,
+            options: ["always", { omitLastInOneLineClassBody: false, omitLastInOneLineBlock: true }],
+            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "missingSemi",
+                    line: 9,
+                    column: 78,
+                    endLine: 9,
+                    endColumn: 79
                 }
             ]
         }

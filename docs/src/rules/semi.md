@@ -80,8 +80,8 @@ String option:
 
 Object option (when `"always"`):
 
-* `"omitLastInOneLineBlock": true` ignores the last semicolon in a block in which its braces (and therefore the content of the block) are in the same line
-* `"omitLastInOneLineClassBody": true` ignores the last semicolon in a class body in which its braces (and therefore the content of the class body) are in the same line
+* `"omitLastInOneLineBlock": true` disallows the last semicolon in a block in which its braces (and therefore the content of the block) are in the same line
+* `"omitLastInOneLineClassBody": true` disallows the last semicolon in a class body in which its braces (and therefore the content of the class body) are in the same line
 
 Object option (when `"never"`):
 
@@ -169,11 +169,12 @@ Examples of additional **correct** code for this rule with the `"always", { "omi
 export class SomeClass{
     logType(){
         console.log(this.type);
+        console.log(this.anotherType);
     }
 }
 
 export class Variant1 extends SomeClass{type=1}
-export class Variant2 extends SomeClass{type=2}
+export class Variant2 extends SomeClass{type=2; anotherType=3}
 ```
 
 :::
