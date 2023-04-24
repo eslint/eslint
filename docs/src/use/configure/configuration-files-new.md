@@ -334,6 +334,7 @@ To enable native variables, like `console` (browser) or `$` (jQuery), you must u
 
 ```js
 import globals from "globals";
+
 export default [
     {
         languageOptions: {
