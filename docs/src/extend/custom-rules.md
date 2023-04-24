@@ -606,14 +606,19 @@ You can also access comments through many of `sourceCode`'s methods using the `i
 
 ### Options Schemas
 
-Rules may export a `schema` property, which is a [JSON Schema](https://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
+Rules may export a `schema` property, which is a [JSON Schema](https://json-schema.org/learn/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
 
-There are two formats for a rule's exported `schema`. The first is a full JSON Schema object describing all possible options the rule accepts, including the rule's error level as the first argument and any optional arguments thereafter.
+There are two formats for a rule's exported `schema`:
 
-However, to simplify schema creation, rules may also export an array of schemas for each optional positional argument. ESLint automatically validates the required error level first. For example, the `yoda` rule accepts a primary mode argument, as well as an extra options object with named properties.
+1. A full JSON Schema object describing all possible options the rule accepts.
+2. An array of JSON Schema objects for each optional positional argument.
+
+In both cases, these should exclude the [severity](../use/configure/rules#rule-severities), as ESLint automatically validates this first.
+
+For example, the `yoda` rule accepts a primary mode argument of `"always"` or `"never"`, as well as an extra options object with an optional property `exceptRange`:
 
 ```js
-// "yoda": [2, "never", { "exceptRange": true }]
+// "yoda": ["error", "never", { "exceptRange": true }]
 module.exports = {
     meta: {
         schema: [
@@ -633,10 +638,6 @@ module.exports = {
     },
 };
 ```
-
-In the preceding example, the error level is assumed to be the first argument. It is followed by the first optional argument, a string that may be either `"always"` or `"never"`. The final optional argument is an object, which may have a boolean property named `exceptRange`.
-
-To learn more about JSON Schema, we recommend looking at some examples in [website](https://json-schema.org/learn/) to start, and also reading [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/) (a free ebook).
 
 **Note:** If your rule schema uses JSON schema [`$ref`](https://json-schema.org/understanding-json-schema/structuring.html#ref) properties, you must use the full JSON Schema object rather than the array of positional property schemas. This is because ESLint transforms the array shorthand into a single schema without updating references that makes them incorrect (they are ignored).
 
