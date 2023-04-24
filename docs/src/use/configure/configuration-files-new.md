@@ -328,6 +328,24 @@ export default [
 
 For historical reasons, the boolean value `false` and the string value `"readable"` are equivalent to `"readonly"`. Similarly, the boolean value `true` and the string value `"writeable"` are equivalent to `"writable"`. However, the use of older values is deprecated.
 
+##### Predefined global variables
+
+Apart from the ECMAScript standard built-in globals, which are automatically enabled based on the configured `languageOptions.ecmaVersion`, ESLint doesn't provide predefined sets of global variables. You can use the [`globals`](https://www.npmjs.com/package/globals) package to additionally enable all globals for a specific environment. For example, here is how you can add `console`, amongst other browser globals, into your configuration.
+
+```js
+import globals from "globals";
+
+export default [
+    {
+        languageOptions: {
+            globals: {
+                ...globals.browser
+            }
+        }
+    }
+];
+```
+
 ### Using plugins in your configuration
 
 Plugins are used to share rules, processors, configurations, parsers, and more across ESLint projects.
