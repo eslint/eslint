@@ -606,7 +606,7 @@ You can also access comments through many of `sourceCode`'s methods using the `i
 
 ### Options Schemas
 
-Rules may export a `schema` property, which is a [JSON Schema](https://json-schema.org/learn/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
+Rules may export a `schema` property, which is a [JSON Schema](https://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
 
 There are two formats for a rule's exported `schema`:
 
@@ -640,6 +640,8 @@ module.exports = {
 ```
 
 **Note:** If your rule schema uses JSON schema [`$ref`](https://json-schema.org/understanding-json-schema/structuring.html#ref) properties, you must use the full JSON Schema object rather than the array of positional property schemas. This is because ESLint transforms the array shorthand into a single schema without updating references that makes them incorrect (they are ignored).
+
+To learn more about JSON Schema, we recommend looking at some examples on the [JSON Schema website](https://json-schema.org/learn/), or reading the free [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/) ebook.
 
 ### Accessing Shebangs
 
