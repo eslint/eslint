@@ -17,7 +17,6 @@ const { upperCaseFirst, getGraphemeCount } = require("../../../lib/shared/string
 // Helpers
 //------------------------------------------------------------------------------
 
-
 /**
  * Replaces raw control characters with the `\xXX` form.
  * @param {string} text The text to process.
