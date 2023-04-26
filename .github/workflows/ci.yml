@@ -75,6 +75,6 @@ jobs:
     - name: Install Packages
       run: npm install
     - name: Test
-      run: node Makefile karma
+      run: node Makefile wdio
     - name: Fuzz Test
       run: node Makefile fuzz
