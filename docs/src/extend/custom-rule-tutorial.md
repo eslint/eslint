@@ -257,8 +257,8 @@ You can use a locally defined plugin in your project by specifying the path to t
 
 You might want to use a locally defined plugin in one of the following scenarios:
 
-- You want to test the plugin before publishing it to npm.
-- You want to use a plugin, but do not want to publish it to npm.
+* You want to test the plugin before publishing it to npm.
+* You want to use a plugin, but do not want to publish it to npm.
 
 First create the ESLint configuration file to include the plugin.
 
