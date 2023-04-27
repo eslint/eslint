@@ -251,7 +251,84 @@ const plugin = { rules: { "foo-bar": fooBarRule } };
 module.exports = plugin;
 ```
 
-## Step 8: Publish the Plugin
+## Step 8: Use the Plugin Locally
+
+You can use a locally defined plugin in your project by specifying the path to the plugin in the `plugins` property of your ESLint configuration file.
+
+You might want to use a locally defined plugin in one of the following scenarios:
+
+- You want to test the plugin before publishing it to npm.
+- You want to use a plugin, but do not want to publish it to npm.
+
+First create the ESLint configuration file to include the plugn.
+
+Add the following code to `eslint.config.js`:
+
+```javascript
+// eslint.config.js
+"use strict";
+
+// Import the ESLint plugin locally
+const eslintPluginExample = require("./eslint-plugin-example");
+
+module.exports = [
+    {
+        files: ["**/*.js"],
+        languageOptions: {
+            sourceType: "commonjs",
+            ecmaVersion: "latest",
+        },
+        // Using the eslint-plugin-example plugin downloaded from npm
+        plugins: {"example": eslintPluginExample},
+        rules: {
+            "example/foo-bar": "error",
+        },
+    }
+]
+```
+
+Before you can test the rule, you must create a file to test the rule on.
+
+Create a file `example.js`:
+
+```shell
+touch example.js
+```
+
+Add the following code to `example.js`:
+
+```javascript
+// example.js
+/* eslint-disable no-unused-vars -- Disable other rule causing problem for this file */
+
+function correctFooBar() {
+  const foo = "bar";
+}
+
+function incorrectFoo(){
+  const foo = "baz"; // Problem!
+}
+```
+
+Now you're ready to test the custom rule with the locally defined plugin.
+
+Run ESLint on `example.js`:
+
+```shell
+npx eslint example.js
+```
+
+This produces the following output in the terminal:
+
+```text
+/<path-to-directory>/eslint-custom-rule-example/example.js
+  14:3  error  Value other than "bar" assigned to `const foo`. Unexpected value: baz  foo-bar/foo-bar
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+```
+
+## Step 9: Publish the Plugin
 
 To publish a plugin containing a rule to npm, you need to configure the `package.json`. Add the following in the corresponding fields:
 
@@ -298,67 +375,31 @@ To publish the package, run `npm publish` and follow the CLI prompts.
 
 You should see the package live on npm!
 
-## Step 9: Use the Published Custom Rule
+## Step 10: Use the Published Custom Rule
 
-To use the package now that it's published, run the following command in your project to download your published package:
+Next, you can use the published plugin.
+
+Run the following command in your project to download the package:
 
 ```shell
 npm install --save-dev eslint-plugin-example # Add your package name here
 ```
 
-Then create an ESLint configuration for your project using a [flat configuration file](../use/configure/configuration-files-new), `eslint.config.js`.
-
-Add the following code to `eslint.config.js`:
+Update the `eslint.config.js` to use the packaged version of the plugin:
 
 ```javascript
 // eslint.config.js
 "use strict";
 
-// Import the ESLint plugin
-const eslintPluginExample = require("./eslint-plugin-example");
+// Import the plugin downloaded from npm
+const eslintPluginExample = require("eslint-plugin-example");
 
-module.exports = [
-    {
-        files: ["**/*.js"],
-        languageOptions: {
-            sourceType: "commonjs",
-            ecmaVersion: "latest",
-        },
-        // Using the eslint-plugin-example plugin downloaded from npm
-        plugins: {"example": eslintPluginExample},
-        rules: {
-            "example/foo-bar": "error",
-        },
-    }
-]
-```
-
-Before you can test the rule, you must create a file to test the rule on.
-
-Create a file `example.js`:
-
-```shell
-touch example.js
-```
-
-Add the following code to `example.js`:
-
-```javascript
-// example.js
-/* eslint-disable no-unused-vars -- Disable other rule causing problem for this file */
-
-function correctFooBar() {
-  const foo = "bar";
-}
-
-function incorrectFoo(){
-  const foo = "baz"; // Problem!
-}
+// ... rest of configuration
 ```
 
 Now you're ready to test the custom rule.
 
-Run ESLint on `example.js`:
+Run ESLint on the `example.js` file you created in step 8, now with the downloaded plugin:
 
 ```shell
 npx eslint example.js
