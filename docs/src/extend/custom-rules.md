@@ -124,6 +124,7 @@ As the name implies, the `context` object contains information that is relevant 
 The `context` object has the following properties:
 
 * `id`: (`string`) The rule ID.
+* `filename`: (`string`) Returns the filename associated with the source.
 * `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
 * `settings`: (`object`) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from the configuration.
 * `parserPath`: (`string`) The name of the `parser` from the configuration.
@@ -144,8 +145,7 @@ Additionally, the `context` object has the following methods:
     * If the node is an `ImportDeclaration`, variables for all of its specifiers are returned.
     * If the node is an `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`, the declared variable is returned.
     * Otherwise, if the node does not declare any variables, an empty array is returned.
-* `getFilename()`: (**Deprecated:** Use `context#filename` instead.) Returns the filename associated with the source.
-* `filename`: Returns the filename associated with the source.
+* `getFilename()`: (**Deprecated:** Use `context.filename` instead.) Returns the filename associated with the source.
 * `getPhysicalFilename()`: When linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
 * `getScope()`: (**Deprecated:** Use `SourceCode#getScope(node)` instead.) Returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
 * `getSourceCode()`: Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).

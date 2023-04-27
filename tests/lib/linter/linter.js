@@ -1826,6 +1826,7 @@ describe("Linter", () => {
             linter.defineRule(code, {
                 create: context => ({
                     Literal(node) {
+                        assert.strictEqual(context.getFilename(), context.filename);
                         context.report(node, context.filename);
                     }
                 })
@@ -1866,6 +1867,7 @@ describe("Linter", () => {
             linter.defineRule(code, {
                 create: context => ({
                     Literal(node) {
+                        assert.strictEqual(context.getFilename(), context.filename);
                         context.report(node, context.filename);
                     }
                 })
@@ -9121,6 +9123,7 @@ describe("Linter with FlatConfigArray", () => {
                                     [ruleId]: {
                                         create: context => ({
                                             Literal(node) {
+                                                assert.strictEqual(context.getFilename(), context.filename);
                                                 context.report(node, context.filename);
                                             }
                                         })
@@ -9149,6 +9152,7 @@ describe("Linter with FlatConfigArray", () => {
                                     [ruleId]: {
                                         create: context => ({
                                             Literal(node) {
+                                                assert.strictEqual(context.getFilename(), context.filename);
                                                 context.report(node, context.filename);
                                             }
                                         })
