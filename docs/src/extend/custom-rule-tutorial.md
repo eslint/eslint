@@ -17,9 +17,9 @@ To learn more about custom rules and plugins refer to the following documentatio
 
 ## Why Create a Custom Rule?
 
-Create a custom rule if the ESLint [built-in rules](../rules/) and community-published custom rules do not meet your needs. You might create a custom rule to enforce a best practice for your company or project, to prevent a particular bug from recurring, or to ensure compliance with a style guide.   
+Create a custom rule if the ESLint [built-in rules](../rules/) and community-published custom rules do not meet your needs. You might create a custom rule to enforce a best practice for your company or project, prevent a particular bug from recurring or ensure compliance with a style guide.
 
-Before creating a custom rule that isn't specific to your company or project, it's worth searching the web to see someone has published a plugin with a custom rule that solves your use case. It's quite possible the rule may already exist.
+Before creating a custom rule that isn't specific to your company or project, it's worth searching the web to see if someone has published a plugin with a custom rule that solves your use case. It's quite possible the rule may already exist.
 
 ## Prerequisites
 
@@ -32,7 +32,7 @@ This tutorial also assumes that you have a basic understanding of ESLint and ESL
 
 ## The Custom Rule You Make
 
-The custom rule that you make in this tutorial requires that all `const` variables named `foo` are assigned the string `"bar"`. The rule is defined in the file `foo-bar.js`. The rule also suggests replacing any other value assigned to `const foo` with `"bar"`
+The custom rule that you make in this tutorial requires that all `const` variables named `foo` are assigned the string `"bar"`. The rule is defined in the file `foo-bar.js`. The rule also suggests replacing any other value assigned to `const foo` with `"bar"`.
 
 You can run the custom rule on a file to report and fix any problems.
 
@@ -54,7 +54,7 @@ const foo = "bar";
 
 ## Step 1: Set up Project
 
-First create a new project for your custom rule. Create a new directory, initiate a new npm project in it, and create a new file for the custom rule:
+First, create a new project for your custom rule. Create a new directory, initiate a new npm project in it, and create a new file for the custom rule:
 
 ```shell
 mkdir eslint-custom-rule-example # create directory
@@ -65,7 +65,7 @@ touch enforce-foo-bar.js # create file foo-bar.js
 
 ## Step 2: Stub Out Rule File
 
-In the `foo-bar.js` file, add some scaffolding for the `foo-bar` custom rule. Also add a `meta` object with some basic information about the rule.
+In the `foo-bar.js` file, add some scaffolding for the `foo-bar` custom rule. Also, add a `meta` object with some basic information about the rule.
 
 All ESLint rules are objects that follow this structure.
 
@@ -119,7 +119,7 @@ You can choose any [ESTree node type](https://github.com/estree/estree) or [sele
 
 Inside the `VariableDeclaration` visitor method, check if the node represents a `const` variable declaration, if its name is `foo`, and if it's not assigned to the string `"bar"`. You do this by evaluating the `node` passed to the `VariableDeclaration` method.
 
-If the `const foo` declaration_is assigned to `"bar"` the rule does nothing. If `const foo` **is not** assigned to `"bar"`, then `context.report()` reports an error to ESLint. The error report include information about the error and how to fix it.
+If the `const foo` declaration_is assigned to `"bar"` the rule does nothing. If `const foo` **is not** assigned to `"bar"`, then `context.report()` reports an error to ESLint. The error report includes information about the error and how to fix it.
 
 ```javascript
 // enforce-foo-bar.js
@@ -171,10 +171,10 @@ With the rule written, you can test it to make sure it's working as expected.
 
 ESLint provides the built-in [`RuleTester`](../integrate/nodejs-api#ruletester) class to test rules. You do not need to use third-party testing libraries to test ESLint rules, but `RuleTester` works seamlessly with tools like Mocha and Jest.
 
-Next create the file for the tests, `foo-bar.test.js`:
+Next, create the file for the tests, `foo-bar.test.js`:
 
 ```shell
-touch foo-bar.test.js
+touch enforce-foo-bar.test.js
 ```
 
 And add a test script to your `package.json` file to run the tests:
@@ -194,7 +194,8 @@ And add a test script to your `package.json` file to run the tests:
 
 To write the test using `RuleTester`, import the class and your custom rule into the `foo-bar.test.js` file.
 
-The `RuleTester#run()` method tests the rule against valid and invalid test cases. If the rule doesn't match any of the criteria in the tests, the method throws an error.
+The `RuleTester#run()` method tests the rule against valid and invalid test cases. If the rule fails to pass any of the test scenarios, this method throws an error.
+`RuleTester` requires that at least one valid and one invalid test scenarios be present.
 
 ```javascript
 // enforce-foo-bar.test.js
@@ -252,13 +253,13 @@ module.exports = plugin;
 
 ## Step 8: Publish the Plugin
 
-To publish a plugin containing a rule to npm, you need configure the `package.json`. Add the following in the corresponding fields:
+To publish a plugin containing a rule to npm, you need to configure the `package.json`. Add the following in the corresponding fields:
 
 1. `"name"`: A unique name for the package. No other package on npm can have the same name.
 1. `"main"`: The relative path to the plugin file. Following this example, the path is `"eslint-plugin-example.js"`.
 1. `"description"`: A description of the package that's viewable on npm.
-1. `"peerDependencies"`: Add `"eslint": ">=8.0.0"` as a peer dependency. Any version greater than or equal to that is necessary to use the plugin. By declaring `eslint` as a peer dependency, it requires that users add the package to the project separately from the plugin.
-1. `"keyworkds"`: Include the standard keywords `["eslint", "eslintplugin", "eslint-plugin"]` to make the package easy to find. You can add any other keywords that might be relevant to your plugin as well.
+1. `"peerDependencies"`: Add `"eslint": ">=8.0.0"` as a peer dependency. Any version greater than or equal to that is necessary to use the plugin. Declaring `eslint` as a peer dependency requires that users add the package to the project separately from the plugin.
+1. `"keywords"`: Include the standard keywords `["eslint", "eslintplugin", "eslint-plugin"]` to make the package easy to find. You can add any other keywords that might be relevant to your plugin as well.
 
 A complete annotated example of what a plugin's `package.json` file should look like:
 
@@ -323,7 +324,7 @@ module.exports = [
             sourceType: "commonjs",
             ecmaVersion: "latest",
         },
-        // Using the eslint-plugin-foo-bar plugin downloaded from npm
+        // Using the eslint-plugin-example plugin downloaded from npm
         plugins: {"example": eslintPluginExample},
         rules: {
             "example/foo-bar": "error",
@@ -397,7 +398,7 @@ function incorrectFoo(){
 
 In this tutorial, you've learned how to create a custom rule and plugin for ESLint. You've made a custom rule that requires all `const` variables named `foo` to be assigned the string `"bar"` and suggests replacing any other value assigned to `const foo` with `"bar"`. You've also added the rule to a plugin, and published the plugin on npm.
 
-Through doing this, you've learned the following practices which you can apply to creating other custom rules and plugins:
+Through doing this, you've learned the following practices which you can apply to create other custom rules and plugins:
 
 1. Creating an ESLint custom rule
 1. Testing the custom rule

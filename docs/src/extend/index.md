@@ -27,7 +27,7 @@ You've developed custom rules for ESLint and you want to share them with the com
 
 ## [Custom Rule Tutorial](custom-rule-tutorial)
 
-Tutorial that walks you through creating a custom rule for ESLint.
+A tutorial that walks you through creating a custom rule for ESLint.
 
 ## [Custom Rules](custom-rules)
 
