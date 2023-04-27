@@ -160,6 +160,31 @@ ruleTester.run("semi", rule, {
             options: ["always", { omitLastInOneLineClassBody: false }],
             parserOptions: { ecmaVersion: 2022, sourceType: "module" }
         },
+        {
+            code: "class C {\nfoo;}",
+            options: ["always", { omitLastInOneLineClassBody: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C {foo;\n}",
+            options: ["always", { omitLastInOneLineClassBody: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C {foo;\nbar;}",
+            options: ["always", { omitLastInOneLineClassBody: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "{ foo; }",
+            options: ["always", { omitLastInOneLineClassBody: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C\n{ foo }",
+            options: ["always", { omitLastInOneLineClassBody: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
 
         // method definitions and static blocks don't have a semicolon.
         { code: "class A { a() {} b() {} }", parserOptions: { ecmaVersion: 6 } },
