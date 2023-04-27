@@ -3965,6 +3965,7 @@ var a = "test2";
                 create(context) {
 
                     spy = sinon.spy(() => {
+                        assert.strictEqual(context.getCwd(), context.cwd);
                         assert.strictEqual(context.cwd, process.cwd());
                     });
                     return { Program: spy };
@@ -3982,6 +3983,7 @@ var a = "test2";
                 create(context) {
 
                     spy = sinon.spy(() => {
+                        assert.strictEqual(context.getCwd(), context.cwd);
                         assert.strictEqual(context.cwd, process.cwd());
                     });
                     return { Program: spy };
@@ -11062,6 +11064,7 @@ describe("Linter with FlatConfigArray", () => {
                                         create(context) {
 
                                             spy = sinon.spy(() => {
+                                                assert.strictEqual(context.getCwd(), context.cwd);
                                                 assert.strictEqual(context.cwd, process.cwd());
                                             });
                                             return { Program: spy };
@@ -11087,6 +11090,7 @@ describe("Linter with FlatConfigArray", () => {
                                         create(context) {
 
                                             spy = sinon.spy(() => {
+                                                assert.strictEqual(context.getCwd(), context.cwd);
                                                 assert.strictEqual(context.cwd, process.cwd());
                                             });
                                             return { Program: spy };
