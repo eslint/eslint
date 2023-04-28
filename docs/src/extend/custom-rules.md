@@ -124,7 +124,7 @@ As the name implies, the `context` object contains information that is relevant 
 The `context` object has the following properties:
 
 * `id`: (`string`) The rule ID.
-* `filename`: (`string`) Returns the filename associated with the source.
+* `filename`: (`string`) The filename associated with the source.
 * `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
 * `settings`: (`object`) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from the configuration.
 * `parserPath`: (`string`) The name of the `parser` from the configuration.
