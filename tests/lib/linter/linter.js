@@ -116,6 +116,7 @@ describe("Linter", () => {
 
         it("has all the `parent` properties on nodes when the rule listeners are created", () => {
             const spy = sinon.spy(context => {
+                assert.strictEqual(context.getSourceCode(), context.sourceCode);
                 const ast = context.sourceCode.ast;
 
                 assert.strictEqual(ast.body[0].parent, ast);
@@ -3780,6 +3781,7 @@ var a = "test2";
                             const sourceCode = context.sourceCode;
                             const comments = sourceCode.getAllComments();
 
+                            assert.strictEqual(context.getSourceCode(), sourceCode);
                             assert.strictEqual(1, comments.length);
 
                             const foo = getVariable(scope, "foo");
@@ -5436,6 +5438,7 @@ var a = "test2";
                             const sourceCode = context.sourceCode;
                             const comments = sourceCode.getAllComments();
 
+                            assert.strictEqual(context.getSourceCode(), sourceCode);
                             assert.strictEqual(2, comments.length);
 
                             const foo = getVariable(scope, "foo");
@@ -8962,6 +8965,7 @@ describe("Linter with FlatConfigArray", () => {
 
             it("should have all the `parent` properties on nodes when the rule visitors are created", () => {
                 const spy = sinon.spy(context => {
+                    assert.strictEqual(context.getSourceCode(), context.sourceCode);
                     const ast = context.sourceCode.ast;
 
                     assert.strictEqual(ast.body[0].parent, ast);
@@ -11617,6 +11621,7 @@ describe("Linter with FlatConfigArray", () => {
                                                 const sourceCode = context.sourceCode;
                                                 const comments = sourceCode.getAllComments();
 
+                                                assert.strictEqual(context.getSourceCode(), sourceCode);
                                                 assert.strictEqual(2, comments.length);
 
                                                 const foo = getVariable(scope, "foo");
@@ -13899,6 +13904,7 @@ var a = "test2";
                                                     const sourceCode = context.sourceCode;
                                                     const comments = sourceCode.getAllComments();
 
+                                                    assert.strictEqual(context.getSourceCode(), sourceCode);
                                                     assert.strictEqual(1, comments.length);
 
                                                     const foo = getVariable(scope, "foo");
