@@ -3947,6 +3947,7 @@ var a = "test2";
             linterWithOption.defineRule("checker", {
                 create(context) {
                     spy = sinon.spy(() => {
+                        assert.strictEqual(context.getCwd(), context.cwd);
                         assert.strictEqual(context.cwd, cwd);
                     });
                     return { Program: spy };
