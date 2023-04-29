@@ -6760,6 +6760,9 @@ var a = "test2";
             linter.defineRule("report-original-text", {
                 create: context => ({
                     Program(ast) {
+                        assert.strictEqual(context.getFilename(), context.filename);
+                        assert.strictEqual(context.getPhysicalFilename(), context.physicalFilename);
+
                         receivedFilenames.push(context.filename);
                         receivedPhysicalFilenames.push(context.physicalFilename);
                         context.report({ node: ast, message: context.getSourceCode().text });
@@ -15564,6 +15567,9 @@ var a = "test2";
                             create(context) {
                                 return {
                                     Program(ast) {
+                                        assert.strictEqual(context.getFilename(), context.filename);
+                                        assert.strictEqual(context.getPhysicalFilename(), context.physicalFilename);
+
                                         receivedFilenames.push(context.filename);
                                         receivedPhysicalFilenames.push(context.physicalFilename);
                                         context.report({ node: ast, message: context.getSourceCode().text });
