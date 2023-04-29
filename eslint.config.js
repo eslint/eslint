@@ -145,7 +145,7 @@ module.exports = [
         files: ["lib/rules/*"],
         ignores: ["index.js"],
         rules: {
-            "eslint-plugin/require-meta-docs-url": ["error", { pattern: "https://eslint.org/docs/rules/{{name}}" }]
+            "eslint-plugin/require-meta-docs-url": ["error", { pattern: "https://eslint.org/docs/latest/rules/{{name}}" }]
         }
     },
     {
