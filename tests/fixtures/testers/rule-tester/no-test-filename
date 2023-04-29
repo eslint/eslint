@@ -17,7 +17,7 @@ module.exports = {
     create(context) {
         return {
             "Program": function(node) {
-                if (context.getFilename() === '<input>') {
+                if (context.filename === '<input>') {
                     context.report(node, "Filename test was not defined.");
                 }
             }
