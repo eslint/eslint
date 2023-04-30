@@ -182,6 +182,7 @@ describe("FlatESLint", () => {
                     fixTypes: ["xyz"],
                     globInputPaths: "",
                     ignore: "",
+                    ignorePatterns: "",
                     overrideConfig: "",
                     overrideConfigFile: "",
                     plugins: "",
@@ -199,12 +200,40 @@ describe("FlatESLint", () => {
                     "- 'fixTypes' must be an array of any of \"directive\", \"problem\", \"suggestion\", and \"layout\".",
                     "- 'globInputPaths' must be a boolean.",
                     "- 'ignore' must be a boolean.",
+                    "- 'ignorePatterns' must be a non-empty string, an array of non-empty strings, or null.",
                     "- 'overrideConfig' must be an object or null.",
                     "- 'overrideConfigFile' must be a non-empty string, null, or true.",
                     "- 'plugins' must be an object or null.",
                     "- 'reportUnusedDisableDirectives' must be any of \"error\", \"warn\", \"off\", and null."
                 ].join("\n")), "u")
             );
+        });
+
+        it("should throw readable messages if 'ignorePatterns' is not a non-empty string or an array of non-empty strings.", () => {
+            const invalidIgnorePatterns = [
+                () => {},
+                false,
+                {},
+                "",
+                [[]],
+                [() => {}],
+                [false],
+                [{}],
+                [""],
+                ["foo", ""],
+                ["foo", "", "bar"],
+                ["foo", false, "bar"]
+            ];
+
+            invalidIgnorePatterns.forEach(ignorePatterns => {
+                assert.throws(
+                    () => new FlatESLint({ ignorePatterns }),
+                    new RegExp(escapeStringRegExp([
+                        "Invalid Options:",
+                        "- 'ignorePatterns' must be a non-empty string, an array of non-empty strings, or null."
+                    ].join("\n")), "u")
+                );
+            });
         });
 
         it("should throw readable messages if 'plugins' option contains empty key", () => {
