@@ -17,7 +17,7 @@ To learn more about custom rules and plugins refer to the following documentatio
 
 ## Why Create a Custom Rule?
 
-Create a custom rule if the ESLint [built-in rules](../rules/) and community-published custom rules do not meet your needs. You might create a custom rule to enforce a best practice for your company or project, prevent a particular bug from recurring or ensure compliance with a style guide.
+Create a custom rule if the ESLint [built-in rules](../rules/) and community-published custom rules do not meet your needs. You might create a custom rule to enforce a best practice for your company or project, prevent a particular bug from recurring, or ensure compliance with a style guide.
 
 Before creating a custom rule that isn't specific to your company or project, it's worth searching the web to see if someone has published a plugin with a custom rule that solves your use case. It's quite possible the rule may already exist.
 
@@ -260,7 +260,7 @@ You might want to use a locally defined plugin in one of the following scenarios
 * You want to test the plugin before publishing it to npm.
 * You want to use a plugin, but do not want to publish it to npm.
 
-First create the ESLint configuration file to include the plugin.
+First, create the ESLint configuration file to include the plugin.
 
 create an ESLint configuration for your project using a [flat configuration file](../use/configure/configuration-files-new), `eslint.config.js`.
 
@@ -271,9 +271,6 @@ touch eslint.config.js
 ```
 
 Then add the following code to `eslint.config.js`:
-
-```javascript
-```
 
 ```javascript
 // eslint.config.js
@@ -452,7 +449,7 @@ In this tutorial, you've learned how to create a custom rule and plugin for ESLi
 
 Through doing this, you've learned the following practices which you can apply to create other custom rules and plugins:
 
-1. Creating an ESLint custom rule
+1. Creating a custom ESLint rule
 1. Testing the custom rule
 1. Bundling the rule in a plugin
 1. Publishing the plugin
