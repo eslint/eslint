@@ -1,3 +1,7 @@
+/** 
+ * @fileoverview Example ESLint config file that uses the custom rule from this tutorial.
+ * @author Ben Perlmutter
+*/
 "use strict";
 
 // Import the ESLint plugin

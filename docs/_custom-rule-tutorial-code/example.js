@@ -1,3 +1,7 @@
+/** 
+ * @fileoverview Example of a file that will fail the custom rule in this tutorial.
+ * @author Ben Perlmutter
+*/
 "use strict";
 
 /* eslint-disable no-unused-vars -- Disable other rule causing problem for this file */

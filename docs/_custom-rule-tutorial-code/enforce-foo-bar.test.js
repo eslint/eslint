@@ -1,3 +1,7 @@
+/** 
+ * @fileoverview Tests for enforce-foo-bar.js rule.
+ * @author Ben Perlmutter
+*/
 "use strict";
 
 const {RuleTester} = require("eslint");
