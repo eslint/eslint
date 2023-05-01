@@ -1712,7 +1712,7 @@ describe("FlatConfigArray", () => {
                             foo: true
                         }
                     }
-                ], "Key \"rules\": Key \"foo\": Expected a string, number, or array.");
+                ], "Key \"rules\": Configuration for rule \"foo\" is invalid. Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.");
             });
 
             it("should error when an invalid rule severity of the right type is set", async () => {
@@ -1723,7 +1723,7 @@ describe("FlatConfigArray", () => {
                             foo: 3
                         }
                     }
-                ], "Key \"rules\": Key \"foo\": Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.");
+                ], "Key \"rules\": Configuration for rule \"foo\" is invalid. Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.");
             });
 
             it("should error when an invalid rule severity is set in an array", async () => {
@@ -1734,7 +1734,7 @@ describe("FlatConfigArray", () => {
                             foo: [true]
                         }
                     }
-                ], "Key \"rules\": Key \"foo\": Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.");
+                ], "Configuration for rule \"foo\" is invalid. Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.");
             });
 
             it("should error when rule doesn't exist", async () => {

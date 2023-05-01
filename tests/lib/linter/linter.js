@@ -8811,7 +8811,7 @@ describe("Linter with FlatConfigArray", () => {
 
                 assert.throws(() => {
                     linter.verify(code, config, filename, true);
-                }, /Key "rules": Key "semi"/u);
+                }, /Key "rules": Configuration for rule "semi"/u);
             });
 
             it("should process empty config", () => {
