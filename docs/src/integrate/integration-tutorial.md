@@ -2,9 +2,9 @@
 title: Create Integration with the Node.js API Tutorial
 eleventyNavigation:
     key: create integration with nodejs api tutorial
-    parent: extend eslint
+    parent: integrate eslint
     title: Create Integration with the Node.js API Tutorial
-    order: 6
+    order: 1
 ---
 
 This guide walks you through integrating the `ESLint` class to lint files and retrieve results, which can be useful for creating integrations with other projects.

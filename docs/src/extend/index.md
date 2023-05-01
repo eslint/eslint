@@ -44,7 +44,3 @@ This section explains how you can use a custom processor to have ESLint process 
 ## [Share Configurations](shareable-configs)
 
 This section explains how you can bundle and share ESLint configuration in a JavaScript package.
-
-## [Node.js API Reference](../integrate/nodejs-api)
-
-If you're interested in writing a tool that uses ESLint, then you can use the Node.js API to get programmatic access to functionality.
