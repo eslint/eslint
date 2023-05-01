@@ -195,6 +195,19 @@ ruleTester.run("no-useless-return", rule, {
             }
             console.log(arg);
           }
+        `,
+
+        // https://github.com/eslint/eslint/pull/16996#discussion_r1138622844
+        `
+        function foo() {
+          try {
+              bar();
+              return;
+          } finally {
+              baz();
+          }
+          qux();
+        }
         `
     ],
 
