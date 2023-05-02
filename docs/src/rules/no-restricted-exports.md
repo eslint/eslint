@@ -23,6 +23,7 @@ This rule has an object option:
     * `defaultFrom`: restricts `export { default } from 'foo';` declarations.
     * `namedFrom`: restricts `export { foo as default } from 'foo';` declarations.
     * `namespaceFrom`: restricts `export * as default from 'foo';` declarations.
+    * `anonymous`: restrict `export default "value";` or `export default () => {};` declarations.
 
 ### restrictedNamedExports
 
@@ -205,6 +206,40 @@ Examples of **incorrect** code for the `"restrictDefaultExports": { "namespaceFr
 /*eslint no-restricted-exports: ["error", { "restrictDefaultExports": { "namespaceFrom": true } }]*/
 
 export * as default from 'foo';
+```
+
+:::
+
+#### anonymous
+
+With `"restrictDefaultExports": { "anonymous": true }` option, only identifiers and named function/class declarations are allowed for `default export`.
+
+Examples of **incorrect** code for the `"restrictDefaultExports": { "anonymous": true }` option:
+
+::: incorrect
+
+```js
+/*eslint no-restricted-exports: ["error", { "restrictDefaultExports": { "namespaceFrom": true } }]*/
+
+export default 123;
+export default num + 1;
+export default (value) => value * 2;
+export default function() {};
+export default class {};
+```
+
+:::
+
+Examples of **correct** code for the `"restrictDefaultExports": { "anonymous": true }` option:
+
+::: correct
+
+```js
+/*eslint no-restricted-exports: ["error", { "restrictDefaultExports": { "namespaceFrom": true } }]*/
+
+export default num;
+export default function myFunc() {};
+export default class MyClass {};
 ```
 
 :::
