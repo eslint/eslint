@@ -131,7 +131,16 @@ ruleTester.run("no-restricted-exports", rule, {
         { code: "export { 'default' } from 'mod'; ", options: [{ restrictDefaultExports: { defaultFrom: false, namedFrom: true } }] },
 
         // restrictDefaultExports.namespaceFrom option
-        { code: "export * as default from 'mod';", options: [{ restrictDefaultExports: { namespaceFrom: false } }] }
+        { code: "export * as default from 'mod';", options: [{ restrictDefaultExports: { namespaceFrom: false } }] },
+
+        // restrictDefaultExports.anonymous option
+        { code: "export default 123;", options: [{ restrictDefaultExports: { anonymous: false } }] },
+        { code: "export default a + 1;", options: [{ restrictDefaultExports: { anonymous: false } }] },
+        { code: "export default a;", options: [{ restrictDefaultExports: { anonymous: true } }] },
+        { code: "export default function() {};", options: [{ restrictDefaultExports: { anonymous: false } }] },
+        { code: "export default function f() {};", options: [{ restrictDefaultExports: { anonymous: true } }] },
+        { code: "export default class {};", options: [{ restrictDefaultExports: { anonymous: false } }] },
+        { code: "export default class C {};", options: [{ restrictDefaultExports: { anonymous: true } }] }
     ],
 
     invalid: [
@@ -603,6 +612,33 @@ ruleTester.run("no-restricted-exports", rule, {
             code: "export * as default from 'mod';",
             options: [{ restrictDefaultExports: { namespaceFrom: true } }],
             errors: [{ messageId: "restrictedDefault", type: "Identifier", line: 1, column: 13 }]
+        },
+
+        // restrictDefaultExports.anonymous option
+        {
+            code: "export default 123;",
+            options: [{ restrictDefaultExports: { anonymous: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "Literal", line: 1, column: 16 }]
+        },
+        {
+            code: "export default a + 1;",
+            options: [{ restrictDefaultExports: { anonymous: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "BinaryExpression", line: 1, column: 16 }]
+        },
+        {
+            code: "export default function() {};",
+            options: [{ restrictDefaultExports: { anonymous: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "FunctionDeclaration", line: 1, column: 16 }]
+        },
+        {
+            code: "export default () => {};",
+            options: [{ restrictDefaultExports: { anonymous: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "ArrowFunctionExpression", line: 1, column: 16 }]
+        },
+        {
+            code: "export default class {};",
+            options: [{ restrictDefaultExports: { anonymous: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "ClassDeclaration", line: 1, column: 16 }]
         }
     ]
 });
