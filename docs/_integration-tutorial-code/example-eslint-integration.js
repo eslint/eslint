@@ -38,9 +38,6 @@ function handleLintingResults(results) {
 }
 
 // Put previous function all together
-
-
-
 async function lintFiles(filePaths) {
 
     // The ESLint configuration. Alternatively, you could load the configuration

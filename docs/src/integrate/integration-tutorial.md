@@ -37,32 +37,30 @@ To follow this tutorial, you'll need to have the following:
 - npm or Yarn package manager
 - A text editor
 
-TODO: put the example integration in a little project, `_integration-tutorial-code`
-
 ## Step 1: Setup
 
 First, create a new project directory:
 
-```sh
+```shell
 mkdir eslint-integration
 cd eslint-integration
 ```
 
 Initialize the project with a `package.json` file:
 
-```sh
+```shell
 npm init -y
 ```
 
 Install the `eslint` package as a dependency:
 
-```sh
+```shell
 npm install eslint
 ```
 
 Create a new file called `example-eslint-integration.js` in the project root:
 
-```sh
+```shell
 touch example-eslint-integration.js
 ```
 
@@ -79,9 +77,9 @@ const { ESLint } = require("eslint");
 
 function createESLintInstance(eslintConfig){
     if (eslintConfig) {
-        return new ESLint({ overrideConfig: eslintConfig });
+        return new ESLint({ useEslintrc: false, overrideConfig: eslintConfig });
     } else {
-        return new ESLint();
+        return new ESLint({ useEslintrc: false });
     }
 }
 ```
@@ -102,9 +100,9 @@ so deal with that.
 
 // ... previous step's code to instantiate the ESLint instance
 
-// Define a function that lints the specified files and returns the error results
+/// Define a function that lints the specified files and returns the error results
 async function getLintingResults(eslint, filePaths) {
-  const results = await eslint.getLintResults(filePaths);
+  const results = await eslint.lintFiles(filePaths);
 
   // Apply automatic fixes and output fixed code
   await ESLint.outputFixes(results);
@@ -135,53 +133,20 @@ function handleLintingResults(results) {
   } else {
     console.log("No linting errors found.");
   }
+  return results;
 }
+
+
 ``` 
 
 ## Step 5: Put It All Together
 
-Here's the complete code example for `example-eslint-integration.js`:
+Put the above functions together in a new function called `lintFiles`. This function will be the main entry point for your integration:
 
 ```javascript
 // example-eslint-integration.js
-// Combine code examples from the previous few steps:
-const { ESLint } = require("eslint");
-
-function createESLintInstance(eslintConfig){
-    if (eslintConfig) {
-        return new ESLint({ overrideConfig: eslintConfig });
-    } else {
-        return new ESLint();
-    }
-}
-
-// Define a function that lints the specified files and returns the error results
-async function getLintingResults(eslint, filePaths) {
-  const results = await eslint.getLintResults(filePaths);
-
-  // Apply automatic fixes and output fixed code
-  await ESLint.outputFixes(results);
-
-  // Get error results
-  const errorResults = ESLint.getErrorResults(results);
-
-  return errorResults;
-}
-
-// Log results to console if there are any problems
-function handleLintingResults(results) {
-  if (results.length) {
-    console.log("Linting errors found!");
-    console.log(results);
-  } else {
-    console.log("No linting errors found.");
-  }
-}
 
 // Put previous function all together
-
-
-
 function lintFiles(filePaths) {
 
     // The ESLint configuration. Alternatively, you could load the configuration
@@ -208,6 +173,76 @@ function lintFiles(filePaths) {
     handleLintingResults(results);
 }
 
+// Export integration
+module.exports = { lintFiles }
+```
+
+Here's the complete code example for `example-eslint-integration.js`:
+
+```javascript
+/** 
+ * @fileoverview An example of how to integrate ESLint into your own tool
+ * @author Ben Perlmutter
+ */
+
+const { ESLint } = require("eslint");
+
+function createESLintInstance(eslintConfig){
+    if (eslintConfig) {
+        return new ESLint({ useEslintrc: false, overrideConfig: eslintConfig });
+    } else {
+        return new ESLint({ useEslintrc: false });
+    }
+}
+
+// Define a function that lints the specified files and returns the error results
+async function getLintingResults(eslint, filePaths) {
+  const results = await eslint.lintFiles(filePaths);
+
+  // Apply automatic fixes and output fixed code
+  await ESLint.outputFixes(results);
+
+  // Get error results
+  const errorResults = ESLint.getErrorResults(results);
+
+  return errorResults;
+}
+
+// Log results to console if there are any problems
+function handleLintingResults(results) {
+  if (results.length) {
+    console.log("Linting errors found!");
+    console.log(results);
+  } else {
+    console.log("No linting errors found.");
+  }
+  return results;
+}
+
+// Put previous function all together
+async function lintFiles(filePaths) {
+
+    // The ESLint configuration. Alternatively, you could load the configuration
+    // from a .eslintrc file or just use the default config.
+    const overrideConfig = {
+        env: {
+            es6: true,
+            node: true,
+        },
+        parserOptions: {
+            ecmaVersion: 2018,
+        },
+        rules: {
+            "no-console": "error",
+            "no-unused-vars": "warn",
+        },
+    };
+
+    const eslint = createESLintInstance(overrideConfig);
+    const results = await getLintingResults(eslint, filePaths);
+    return handleLintingResults(results);
+}
+
 module.exports = { lintFiles }
 ```
 
@@ -216,7 +251,5 @@ module.exports = { lintFiles }
 In this tutorial, we have covered the essentials of using the `ESLint` class to lint files and retrieve results in your projects. This knowledge can be applied to create custom integrations, such as code editor plugins, to provide real-time feedback on code quality.
 
 ## View the Tutorial Code
-
-TODO: make sure link correct before publishing
 
 You can view the annotated source code for the tutorial [here](https://github.com/eslint/eslint/tree/main/docs/_integration-tutorial-code).
