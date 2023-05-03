@@ -1,9 +1,9 @@
 ---
-title: Create Integration with the Node.js API Tutorial
+title: Integrate with the Node.js API Tutorial
 eleventyNavigation:
-    key: create integration with nodejs api tutorial
+    key: integrate with the node.js api tutorial
     parent: integrate eslint
-    title: Create Integration with the Node.js API Tutorial
+    title: Integrate with the Node.js API Tutorial
     order: 1
 ---
 
@@ -144,7 +144,7 @@ Here's the complete code example for `example-eslint-integration.js`:
 
 ```javascript
 // example-eslint-integration.js
-// combine code examples from the previous few steps:
+// Combine code examples from the previous few steps:
 const { ESLint } = require("eslint");
 
 function createESLintInstance(eslintConfig){
@@ -194,6 +194,9 @@ function lintFiles(filePaths) {
         parserOptions: {
             ecmaVersion: 2018,
         },
+        extends: [
+        "eslint:recommended",
+        ],
         rules: {
             "no-console": "error",
             "no-unused-vars": "warn",
