@@ -3954,6 +3954,43 @@ describe("FlatESLint", () => {
         });
     });
 
+    describe("findConfigFile()", () => {
+
+        it("should return null when overrideConfigFile is true", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: true
+            });
+
+            assert.strictEqual(await engine.findConfigFile(), void 0);
+        });
+
+        it("should return custom config file path when overrideConfigFile is a nonempty string", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: "my-config.js"
+            });
+            const configFilePath = path.resolve(__dirname, "../../../my-config.js");
+
+            assert.strictEqual(await engine.findConfigFile(), configFilePath);
+        });
+
+        it("should return root level eslint.config.js when overrideConfigFile is null", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: null
+            });
+            const configFilePath = path.resolve(__dirname, "../../../eslint.config.js");
+
+            assert.strictEqual(await engine.findConfigFile(), configFilePath);
+        });
+
+        it("should return root level eslint.config.js when overrideConfigFile is not specified", async () => {
+            const engine = new FlatESLint();
+            const configFilePath = path.resolve(__dirname, "../../../eslint.config.js");
+
+            assert.strictEqual(await engine.findConfigFile(), configFilePath);
+        });
+
+    });
+
     describe("getRulesMetaForResults()", () => {
 
         it("should throw an error when this instance did not lint any files", async () => {
