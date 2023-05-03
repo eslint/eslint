@@ -32,9 +32,7 @@ This tutorial also assumes that you have a basic understanding of ESLint and ESL
 
 ## The Custom Rule
 
-The custom rule  in this tutorial requires that all `const` variables named `foo` are assigned the string `"bar"`. The rule is defined in the file `foo-bar.js`. The rule also suggests replacing any other value assigned to `const foo` with `"bar"`.
-
-You can run the custom rule on a file to report and fix any problems.
+The custom rule  in this tutorial requires that all `const` variables named `foo` are assigned the string `"bar"`. The rule is defined in the file `enforce-foo-bar.js`. The rule also suggests replacing any other value assigned to `const foo` with `"bar"`.
 
 For example, say you had the following `foo.js` file:
 
@@ -66,8 +64,6 @@ touch enforce-foo-bar.js # create file foo-bar.js
 ## Step 2: Stub Out the Rule File
 
 In the `enforce-foo-bar.js` file, add some scaffolding for the `enforce-foo-bar` custom rule. Also, add a `meta` object with some basic information about the rule.
-
-All ESLint rules are objects that follow this structure.
 
 ```javascript
 // enforce-foo-bar.js
@@ -171,7 +167,7 @@ With the rule written, you can test it to make sure it's working as expected.
 
 ESLint provides the built-in [`RuleTester`](../integrate/nodejs-api#ruletester) class to test rules. You do not need to use third-party testing libraries to test ESLint rules, but `RuleTester` works seamlessly with tools like Mocha and Jest.
 
-Next, create the file for the tests, `foo-bar.test.js`:
+Next, create the file for the tests, `enforce-foo-bar.test.js`:
 
 ```shell
 touch enforce-foo-bar.test.js
@@ -192,7 +188,7 @@ And add a test script to your `package.json` file to run the tests:
 
 ## Step 6: Write the Test
 
-To write the test using `RuleTester`, import the class and your custom rule into the `foo-bar.test.js` file.
+To write the test using `RuleTester`, import the class and your custom rule into the `enforce-foo-bar.test.js` file.
 
 The `RuleTester#run()` method tests the rule against valid and invalid test cases. If the rule fails to pass any of the test scenarios, this method throws an error.
 `RuleTester` requires that at least one valid and one invalid test scenarios be present.
@@ -266,7 +262,7 @@ Before you can add the plugin to the project, create an ESLint configuration for
 touch eslint.config.js
 ```
 
-Then add the following code to `eslint.config.js`:
+Then, add the following code to `eslint.config.js`:
 
 ```javascript
 // eslint.config.js
@@ -354,7 +350,7 @@ A complete annotated example of what a plugin's `package.json` file should look 
   "description": "ESLint plugin for foo-bar rule.",
   "main": "eslint-plugin-example.js", // plugin entry point
   "scripts": {
-    "test": "node example-foo-bar.test.js"
+    "test": "node enforce-foo-bar.test.js"
   },
   // Add eslint>=8.0.0 as a peer dependency.
   "peerDependencies": {
