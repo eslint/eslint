@@ -522,7 +522,7 @@ module.exports = {
 };
 ```
 
-**Deprecated:** The `context.getScope()` method is deprecated; make sure to use `context.sourceCode` property instead.
+**Deprecated:** The `context.getSourceCode()` method is deprecated; make sure to use `context.sourceCode` property instead.
 
 Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
