@@ -30,9 +30,9 @@ Before you begin, make sure you have the following installed in your development
 
 This tutorial also assumes that you have a basic understanding of ESLint and ESLint rules.
 
-## The Custom Rule You Make
+## The Custom Rule
 
-The custom rule that you make in this tutorial requires that all `const` variables named `foo` are assigned the string `"bar"`. The rule is defined in the file `foo-bar.js`. The rule also suggests replacing any other value assigned to `const foo` with `"bar"`.
+The custom rule  in this tutorial requires that all `const` variables named `foo` are assigned the string `"bar"`. The rule is defined in the file `foo-bar.js`. The rule also suggests replacing any other value assigned to `const foo` with `"bar"`.
 
 You can run the custom rule on a file to report and fix any problems.
 
@@ -44,7 +44,7 @@ For example, say you had the following `foo.js` file:
 const foo = "baz123";
 ```
 
-Running ESLint with the rule would fix the file to contain the following:
+Running ESLint with the rule would flag `"baz123"` as an incorrect value for variable `foo`. If ESLint is running in autofix mode, then ESLint would fix the file to contain the following:
 
 ```javascript
 // foo.js
@@ -52,7 +52,7 @@ Running ESLint with the rule would fix the file to contain the following:
 const foo = "bar";
 ```
 
-## Step 1: Set up Project
+## Step 1: Set up Your Project
 
 First, create a new project for your custom rule. Create a new directory, initiate a new npm project in it, and create a new file for the custom rule:
 
@@ -63,9 +63,9 @@ npm init -y # init new npm project
 touch enforce-foo-bar.js # create file foo-bar.js
 ```
 
-## Step 2: Stub Out Rule File
+## Step 2: Stub Out the Rule File
 
-In the `foo-bar.js` file, add some scaffolding for the `foo-bar` custom rule. Also, add a `meta` object with some basic information about the rule.
+In the `enforce-foo-bar.js` file, add some scaffolding for the `enforce-foo-bar` custom rule. Also, add a `meta` object with some basic information about the rule.
 
 All ESLint rules are objects that follow this structure.
 
@@ -73,8 +73,8 @@ All ESLint rules are objects that follow this structure.
 // enforce-foo-bar.js
 
 module.exports = {
-  meta: {
-     // TODO: add metadata
+    meta: {
+       // TODO: add metadata
     },
     create(context) {
         return {
@@ -88,7 +88,7 @@ module.exports = {
 
 Before writing the rule, add some metadata to the rule object. ESLint uses this information when running the rule.
 
-Start by exporting a module with a `meta` object containing the rule's metadata, such as the rule type, documentation, and fixability. In this case, the rule type is "fix," the description is "Can only assign 'bar' to const foo.", and the rule is fixable by modifying the code.
+Start by exporting an object with a `meta` property containing the rule's metadata, such as the rule type, documentation, and fixability. In this case, the rule type is "problem," the description is "Enforce that a variable named `foo` can only be assigned a value of 'bar'.", and the rule is fixable by modifying the code.
 
 ```javascript
 // enforce-foo-bar.js
@@ -114,12 +114,12 @@ To learn more about rule metadata, refer to [Rule Structure](custom-rules#rule-s
 
 ## Step 4: Add Rule Visitor Methods
 
-Define the rule's `create` function, which accepts a `context` object and returns an object with a property for each syntax node type you want to handle. In this case, we want to handle `VariableDeclaration` nodes.
+Define the rule's `create` function, which accepts a `context` object and returns an object with a property for each syntax node type you want to handle. In this case, you want to handle `VariableDeclaration` nodes.
 You can choose any [ESTree node type](https://github.com/estree/estree) or [selector](selectors).
 
 Inside the `VariableDeclaration` visitor method, check if the node represents a `const` variable declaration, if its name is `foo`, and if it's not assigned to the string `"bar"`. You do this by evaluating the `node` passed to the `VariableDeclaration` method.
 
-If the `const foo` declaration_is assigned to `"bar"` the rule does nothing. If `const foo` **is not** assigned to `"bar"`, then `context.report()` reports an error to ESLint. The error report includes information about the error and how to fix it.
+If the `const foo` declaration is assigned a value of `"bar"`, then the rule does nothing. If `const foo` **is not** assigned a value of `"bar"`, then `context.report()` reports an error to ESLint. The error report includes information about the error and how to fix it.
 
 ```javascript
 // enforce-foo-bar.js
@@ -441,7 +441,7 @@ function incorrectFoo(){
 
 ## Summary
 
-In this tutorial, you've learned how to create a custom rule and plugin for ESLint. You've made a custom rule that requires all `const` variables named `foo` to be assigned the string `"bar"` and suggests replacing any other value assigned to `const foo` with `"bar"`. You've also added the rule to a plugin, and published the plugin on npm.
+In this tutorial, you've made a custom rule that requires all `const` variables named `foo` to be assigned the string `"bar"` and suggests replacing any other value assigned to `const foo` with `"bar"`. You've also added the rule to a plugin, and published the plugin on npm.
 
 Through doing this, you've learned the following practices which you can apply to create other custom rules and plugins:
 
