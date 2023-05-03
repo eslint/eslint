@@ -92,9 +92,6 @@ The `filePaths` argument passed to `ESLint#lintFiles()` can be a string or an ar
 
 To format the linting results for better readability, use the `outputFixes` and `getErrorResults` methods:
 
-TODO: work on the await outputFixes. also i think eslint is all sync,
-so deal with that.
-
 ```javascript
 // example-eslint-integration.js
 
