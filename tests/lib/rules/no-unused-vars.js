@@ -21,7 +21,7 @@ const ruleTester = new RuleTester();
 ruleTester.defineRule("use-every-a", {
     create(context) {
 
-        const sourceCode = context.getSourceCode();
+        const sourceCode = context.sourceCode;
 
         /**
          * Mark a variable as used

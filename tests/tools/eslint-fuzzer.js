@@ -52,7 +52,7 @@ describe("eslint-fuzzer", function() {
                 linter.defineRule("test-fuzzer-rule", {
                     create: context => ({
                         Program() {
-                            if (context.getSourceCode().text === "foo") {
+                            if (context.sourceCode.text === "foo") {
                                 throw CRASH_BUG;
                             }
                         }
@@ -93,7 +93,7 @@ describe("eslint-fuzzer", function() {
                 linter.defineRule("test-fuzzer-rule", {
                     create: context => ({
                         Program() {
-                            if (context.getSourceCode().text === "foo") {
+                            if (context.sourceCode.text === "foo") {
                                 throw CRASH_BUG;
                             }
                         }
@@ -118,7 +118,7 @@ describe("eslint-fuzzer", function() {
                     meta: { fixable: "code" },
                     create: context => ({
                         Program(node) {
-                            if (context.getSourceCode().text === `foo ${disableFixableRulesComment}`) {
+                            if (context.sourceCode.text === `foo ${disableFixableRulesComment}`) {
                                 context.report({
                                     node,
                                     message: "no foos allowed",
@@ -153,7 +153,7 @@ describe("eslint-fuzzer", function() {
                     meta: { fixable: "code" },
                     create: context => ({
                         Program(node) {
-                            const sourceCode = context.getSourceCode();
+                            const sourceCode = context.sourceCode;
 
                             if (sourceCode.text === `foo ${disableFixableRulesComment}`) {
                                 context.report({
@@ -197,7 +197,7 @@ describe("eslint-fuzzer", function() {
                     meta: { fixable: "code" },
                     create: context => ({
                         Program(node) {
-                            const sourceCode = context.getSourceCode();
+                            const sourceCode = context.sourceCode;
 
                             if (sourceCode.text.startsWith("foo") || sourceCode.text === intermediateCode) {
                                 context.report({
@@ -245,7 +245,7 @@ describe("eslint-fuzzer", function() {
                     meta: { fixable: "code" },
                     create: context => ({
                         Program(node) {
-                            const sourceCode = context.getSourceCode();
+                            const sourceCode = context.sourceCode;
 
                             if (sourceCode.text.startsWith("foo")) {
                                 context.report({
