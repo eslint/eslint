@@ -200,7 +200,7 @@ describe("FlatESLint", () => {
                     "- 'fixTypes' must be an array of any of \"directive\", \"problem\", \"suggestion\", and \"layout\".",
                     "- 'globInputPaths' must be a boolean.",
                     "- 'ignore' must be a boolean.",
-                    "- 'ignorePatterns' must be a non-empty string, an array of non-empty strings, or null.",
+                    "- 'ignorePatterns' must be an array of non-empty strings or null.",
                     "- 'overrideConfig' must be an object or null.",
                     "- 'overrideConfigFile' must be a non-empty string, null, or true.",
                     "- 'plugins' must be an object or null.",
@@ -209,12 +209,13 @@ describe("FlatESLint", () => {
             );
         });
 
-        it("should throw readable messages if 'ignorePatterns' is not a non-empty string or an array of non-empty strings.", () => {
+        it("should throw readable messages if 'ignorePatterns' is not an array of non-empty strings.", () => {
             const invalidIgnorePatterns = [
                 () => {},
                 false,
                 {},
                 "",
+                "foo",
                 [[]],
                 [() => {}],
                 [false],
@@ -230,7 +231,7 @@ describe("FlatESLint", () => {
                     () => new FlatESLint({ ignorePatterns }),
                     new RegExp(escapeStringRegExp([
                         "Invalid Options:",
-                        "- 'ignorePatterns' must be a non-empty string, an array of non-empty strings, or null."
+                        "- 'ignorePatterns' must be an array of non-empty strings or null."
                     ].join("\n")), "u")
                 );
             });
@@ -3578,7 +3579,7 @@ describe("FlatESLint", () => {
                 const engine = new FlatESLint({
                     cwd,
                     overrideConfigFile: true,
-                    ignorePatterns: "!node_modules/package/**"
+                    ignorePatterns: ["!node_modules/package/**"]
                 });
 
                 const result = await engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js"));
@@ -4064,7 +4065,7 @@ describe("FlatESLint", () => {
             const engine = new FlatESLint({
                 overrideConfigFile: true,
                 cwd: path.join(fixtureDir, "foo", "bar"),
-                ignorePatterns: "*/**", // ignore all subdirectories of `cwd`
+                ignorePatterns: ["*/**"], // ignore all subdirectories of `cwd`
                 overrideConfig: {
                     rules: {
                         eqeqeq: "warn"
@@ -4082,7 +4083,7 @@ describe("FlatESLint", () => {
             const engine = new FlatESLint({
                 overrideConfigFile: true,
                 cwd: path.join(fixtureDir, "foo", "bar"),
-                ignorePatterns: "**"
+                ignorePatterns: ["**"]
             });
 
             const results = await engine.lintText("", { warnIgnored: true });
@@ -4095,7 +4096,7 @@ describe("FlatESLint", () => {
             const engine = new FlatESLint({
                 overrideConfigFile: true,
                 cwd: getFixturePath(),
-                ignorePatterns: "passing*",
+                ignorePatterns: ["passing*"],
                 overrideConfig: {
                     rules: {
                         "no-undef": 2,
@@ -4209,7 +4210,7 @@ describe("FlatESLint", () => {
         it("should ignore messages not related to a rule", async () => {
             const engine = new FlatESLint({
                 overrideConfigFile: true,
-                ignorePatterns: "ignored.js",
+                ignorePatterns: ["ignored.js"],
                 overrideConfig: {
                     rules: {
                         "no-var": "warn"
