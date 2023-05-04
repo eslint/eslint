@@ -12,7 +12,8 @@
  * @returns {string} The value, stringified.
  */
 function stringifyValueForError(value, indentation) {
-    return JSON.stringify(value, null, 4).replace(/\n/gu, `\n${" ".repeat(indentation)}`);
+    // eslint-disable-next-line no-undefined -- Users may provide it
+    return value === undefined ? `${value}` : JSON.stringify(value, null, 4).replace(/\n/gu, `\n${" ".repeat(indentation)}`);
 }
 
 module.exports = { stringifyValueForError };
