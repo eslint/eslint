@@ -3956,9 +3956,17 @@ describe("FlatESLint", () => {
 
     describe("findConfigFile()", () => {
 
-        it("should return null when overrideConfigFile is true", async () => {
+        it("should return undefined when overrideConfigFile is true", async () => {
             const engine = new FlatESLint({
                 overrideConfigFile: true
+            });
+
+            assert.strictEqual(await engine.findConfigFile(), void 0);
+        });
+
+        it("should return undefined when a config file isn't found", async () => {
+            const engine = new FlatESLint({
+                cwd: path.resolve(__dirname, "../../../../")
             });
 
             assert.strictEqual(await engine.findConfigFile(), void 0);
