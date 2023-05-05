@@ -4,7 +4,7 @@
         "docs": {
             "description": "Enforce getter and setter pairs in objects and classes",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/accessor-pairs"
+            "url": "https://eslint.org/docs/latest/rules/accessor-pairs"
         }
     },
     "array-bracket-newline": {
@@ -12,7 +12,7 @@
         "docs": {
             "description": "Enforce linebreaks after opening and before closing array brackets",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/array-bracket-newline"
+            "url": "https://eslint.org/docs/latest/rules/array-bracket-newline"
         },
         "fixable": "whitespace"
     },
@@ -21,7 +21,7 @@
         "docs": {
             "description": "Enforce consistent spacing inside array brackets",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/array-bracket-spacing"
+            "url": "https://eslint.org/docs/latest/rules/array-bracket-spacing"
         },
         "fixable": "whitespace"
     },
@@ -30,7 +30,7 @@
         "docs": {
             "description": "Enforce `return` statements in callbacks of array methods",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/array-callback-return"
+            "url": "https://eslint.org/docs/latest/rules/array-callback-return"
         }
     },
     "array-element-newline": {
@@ -38,7 +38,7 @@
         "docs": {
             "description": "Enforce line breaks after each array element",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/array-element-newline"
+            "url": "https://eslint.org/docs/latest/rules/array-element-newline"
         },
         "fixable": "whitespace"
     },
@@ -47,7 +47,7 @@
         "docs": {
             "description": "Require braces around arrow function bodies",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/arrow-body-style"
+            "url": "https://eslint.org/docs/latest/rules/arrow-body-style"
         },
         "fixable": "code"
     },
@@ -56,7 +56,7 @@
         "docs": {
             "description": "Require parentheses around arrow function arguments",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/arrow-parens"
+            "url": "https://eslint.org/docs/latest/rules/arrow-parens"
         },
         "fixable": "code"
     },
@@ -65,7 +65,7 @@
         "docs": {
             "description": "Enforce consistent spacing before and after the arrow in arrow functions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/arrow-spacing"
+            "url": "https://eslint.org/docs/latest/rules/arrow-spacing"
         },
         "fixable": "whitespace"
     },
@@ -74,7 +74,7 @@
         "docs": {
             "description": "Enforce the use of variables within the scope they are defined",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/block-scoped-var"
+            "url": "https://eslint.org/docs/latest/rules/block-scoped-var"
         }
     },
     "block-spacing": {
@@ -82,7 +82,7 @@
         "docs": {
             "description": "Disallow or enforce spaces inside of blocks after opening block and before closing block",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/block-spacing"
+            "url": "https://eslint.org/docs/latest/rules/block-spacing"
         },
         "fixable": "whitespace"
     },
@@ -91,7 +91,7 @@
         "docs": {
             "description": "Enforce consistent brace style for blocks",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/brace-style"
+            "url": "https://eslint.org/docs/latest/rules/brace-style"
         },
         "fixable": "whitespace"
     },
@@ -102,7 +102,7 @@
         "docs": {
             "description": "Require `return` statements after callbacks",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/callback-return"
+            "url": "https://eslint.org/docs/latest/rules/callback-return"
         }
     },
     "camelcase": {
@@ -110,7 +110,7 @@
         "docs": {
             "description": "Enforce camelcase naming convention",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/camelcase"
+            "url": "https://eslint.org/docs/latest/rules/camelcase"
         }
     },
     "capitalized-comments": {
@@ -118,7 +118,7 @@
         "docs": {
             "description": "Enforce or disallow capitalization of the first letter of a comment",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/capitalized-comments"
+            "url": "https://eslint.org/docs/latest/rules/capitalized-comments"
         },
         "fixable": "code"
     },
@@ -127,7 +127,7 @@
         "docs": {
             "description": "Enforce that class methods utilize `this`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/class-methods-use-this"
+            "url": "https://eslint.org/docs/latest/rules/class-methods-use-this"
         }
     },
     "comma-dangle": {
@@ -135,7 +135,7 @@
         "docs": {
             "description": "Require or disallow trailing commas",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/comma-dangle"
+            "url": "https://eslint.org/docs/latest/rules/comma-dangle"
         },
         "fixable": "code"
     },
@@ -144,7 +144,7 @@
         "docs": {
             "description": "Enforce consistent spacing before and after commas",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/comma-spacing"
+            "url": "https://eslint.org/docs/latest/rules/comma-spacing"
         },
         "fixable": "whitespace"
     },
@@ -153,7 +153,7 @@
         "docs": {
             "description": "Enforce consistent comma style",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/comma-style"
+            "url": "https://eslint.org/docs/latest/rules/comma-style"
         },
         "fixable": "code"
     },
@@ -162,7 +162,7 @@
         "docs": {
             "description": "Enforce a maximum cyclomatic complexity allowed in a program",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/complexity"
+            "url": "https://eslint.org/docs/latest/rules/complexity"
         }
     },
     "computed-property-spacing": {
@@ -170,7 +170,7 @@
         "docs": {
             "description": "Enforce consistent spacing inside computed property brackets",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/computed-property-spacing"
+            "url": "https://eslint.org/docs/latest/rules/computed-property-spacing"
         },
         "fixable": "whitespace"
     },
@@ -179,7 +179,7 @@
         "docs": {
             "description": "Require `return` statements to either always or never specify values",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/consistent-return"
+            "url": "https://eslint.org/docs/latest/rules/consistent-return"
         }
     },
     "consistent-this": {
@@ -187,7 +187,7 @@
         "docs": {
             "description": "Enforce consistent naming when capturing the current execution context",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/consistent-this"
+            "url": "https://eslint.org/docs/latest/rules/consistent-this"
         }
     },
     "constructor-super": {
@@ -195,7 +195,7 @@
         "docs": {
             "description": "Require `super()` calls in constructors",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/constructor-super"
+            "url": "https://eslint.org/docs/latest/rules/constructor-super"
         }
     },
     "curly": {
@@ -203,7 +203,7 @@
         "docs": {
             "description": "Enforce consistent brace style for all control statements",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/curly"
+            "url": "https://eslint.org/docs/latest/rules/curly"
         },
         "fixable": "code"
     },
@@ -212,7 +212,7 @@
         "docs": {
             "description": "Require `default` cases in `switch` statements",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/default-case"
+            "url": "https://eslint.org/docs/latest/rules/default-case"
         }
     },
     "default-case-last": {
@@ -220,7 +220,7 @@
         "docs": {
             "description": "Enforce default clauses in switch statements to be last",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/default-case-last"
+            "url": "https://eslint.org/docs/latest/rules/default-case-last"
         }
     },
     "default-param-last": {
@@ -228,7 +228,7 @@
         "docs": {
             "description": "Enforce default parameters to be last",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/default-param-last"
+            "url": "https://eslint.org/docs/latest/rules/default-param-last"
         }
     },
     "dot-location": {
@@ -236,7 +236,7 @@
         "docs": {
             "description": "Enforce consistent newlines before and after dots",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/dot-location"
+            "url": "https://eslint.org/docs/latest/rules/dot-location"
         },
         "fixable": "code"
     },
@@ -245,7 +245,7 @@
         "docs": {
             "description": "Enforce dot notation whenever possible",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/dot-notation"
+            "url": "https://eslint.org/docs/latest/rules/dot-notation"
         },
         "fixable": "code"
     },
@@ -254,7 +254,7 @@
         "docs": {
             "description": "Require or disallow newline at the end of files",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/eol-last"
+            "url": "https://eslint.org/docs/latest/rules/eol-last"
         },
         "fixable": "whitespace"
     },
@@ -263,7 +263,7 @@
         "docs": {
             "description": "Require the use of `===` and `!==`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/eqeqeq"
+            "url": "https://eslint.org/docs/latest/rules/eqeqeq"
         },
         "fixable": "code"
     },
@@ -272,7 +272,7 @@
         "docs": {
             "description": "Enforce \"for\" loop update clause moving the counter in the right direction",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/for-direction"
+            "url": "https://eslint.org/docs/latest/rules/for-direction"
         },
         "fixable": null
     },
@@ -281,7 +281,7 @@
         "docs": {
             "description": "Require or disallow spacing between function identifiers and their invocations",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/func-call-spacing"
+            "url": "https://eslint.org/docs/latest/rules/func-call-spacing"
         },
         "fixable": "whitespace"
     },
@@ -290,7 +290,7 @@
         "docs": {
             "description": "Require function names to match the name of the variable or property to which they are assigned",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/func-name-matching"
+            "url": "https://eslint.org/docs/latest/rules/func-name-matching"
         }
     },
     "func-names": {
@@ -298,7 +298,7 @@
         "docs": {
             "description": "Require or disallow named `function` expressions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/func-names"
+            "url": "https://eslint.org/docs/latest/rules/func-names"
         }
     },
     "func-style": {
@@ -306,7 +306,7 @@
         "docs": {
             "description": "Enforce the consistent use of either `function` declarations or expressions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/func-style"
+            "url": "https://eslint.org/docs/latest/rules/func-style"
         }
     },
     "function-call-argument-newline": {
@@ -314,7 +314,7 @@
         "docs": {
             "description": "Enforce line breaks between arguments of a function call",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/function-call-argument-newline"
+            "url": "https://eslint.org/docs/latest/rules/function-call-argument-newline"
         },
         "fixable": "whitespace"
     },
@@ -323,7 +323,7 @@
         "docs": {
             "description": "Enforce consistent line breaks inside function parentheses",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/function-paren-newline"
+            "url": "https://eslint.org/docs/latest/rules/function-paren-newline"
         },
         "fixable": "whitespace"
     },
@@ -332,7 +332,7 @@
         "docs": {
             "description": "Enforce consistent spacing around `*` operators in generator functions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/generator-star-spacing"
+            "url": "https://eslint.org/docs/latest/rules/generator-star-spacing"
         },
         "fixable": "whitespace"
     },
@@ -341,7 +341,7 @@
         "docs": {
             "description": "Enforce `return` statements in getters",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/getter-return"
+            "url": "https://eslint.org/docs/latest/rules/getter-return"
         },
         "fixable": null
     },
@@ -352,7 +352,7 @@
         "docs": {
             "description": "Require `require()` calls to be placed at top-level module scope",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/global-require"
+            "url": "https://eslint.org/docs/latest/rules/global-require"
         }
     },
     "grouped-accessor-pairs": {
@@ -360,7 +360,7 @@
         "docs": {
             "description": "Require grouped accessor pairs in object literals and classes",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/grouped-accessor-pairs"
+            "url": "https://eslint.org/docs/latest/rules/grouped-accessor-pairs"
         }
     },
     "guard-for-in": {
@@ -368,7 +368,7 @@
         "docs": {
             "description": "Require `for-in` loops to include an `if` statement",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/guard-for-in"
+            "url": "https://eslint.org/docs/latest/rules/guard-for-in"
         }
     },
     "handle-callback-err": {
@@ -378,7 +378,7 @@
         "docs": {
             "description": "Require error handling in callbacks",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/handle-callback-err"
+            "url": "https://eslint.org/docs/latest/rules/handle-callback-err"
         }
     },
     "id-blacklist": {
@@ -390,7 +390,7 @@
         "docs": {
             "description": "Disallow specified identifiers",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/id-blacklist"
+            "url": "https://eslint.org/docs/latest/rules/id-blacklist"
         }
     },
     "id-denylist": {
@@ -398,7 +398,7 @@
         "docs": {
             "description": "Disallow specified identifiers",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/id-denylist"
+            "url": "https://eslint.org/docs/latest/rules/id-denylist"
         }
     },
     "id-length": {
@@ -406,7 +406,7 @@
         "docs": {
             "description": "Enforce minimum and maximum identifier lengths",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/id-length"
+            "url": "https://eslint.org/docs/latest/rules/id-length"
         }
     },
     "id-match": {
@@ -414,7 +414,7 @@
         "docs": {
             "description": "Require identifiers to match a specified regular expression",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/id-match"
+            "url": "https://eslint.org/docs/latest/rules/id-match"
         }
     },
     "implicit-arrow-linebreak": {
@@ -422,7 +422,7 @@
         "docs": {
             "description": "Enforce the location of arrow function bodies",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/implicit-arrow-linebreak"
+            "url": "https://eslint.org/docs/latest/rules/implicit-arrow-linebreak"
         },
         "fixable": "whitespace"
     },
@@ -431,7 +431,7 @@
         "docs": {
             "description": "Enforce consistent indentation",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/indent"
+            "url": "https://eslint.org/docs/latest/rules/indent"
         },
         "fixable": "whitespace"
     },
@@ -440,7 +440,7 @@
         "docs": {
             "description": "Enforce consistent indentation",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/indent-legacy"
+            "url": "https://eslint.org/docs/latest/rules/indent-legacy"
         },
         "deprecated": true,
         "replacedBy": [
@@ -453,7 +453,7 @@
         "docs": {
             "description": "Require or disallow initialization in variable declarations",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/init-declarations"
+            "url": "https://eslint.org/docs/latest/rules/init-declarations"
         }
     },
     "jsx-quotes": {
@@ -461,7 +461,7 @@
         "docs": {
             "description": "Enforce the consistent use of either double or single quotes in JSX attributes",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/jsx-quotes"
+            "url": "https://eslint.org/docs/latest/rules/jsx-quotes"
         },
         "fixable": "whitespace"
     },
@@ -470,7 +470,7 @@
         "docs": {
             "description": "Enforce consistent spacing between keys and values in object literal properties",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/key-spacing"
+            "url": "https://eslint.org/docs/latest/rules/key-spacing"
         },
         "fixable": "whitespace"
     },
@@ -479,7 +479,7 @@
         "docs": {
             "description": "Enforce consistent spacing before and after keywords",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/keyword-spacing"
+            "url": "https://eslint.org/docs/latest/rules/keyword-spacing"
         },
         "fixable": "whitespace"
     },
@@ -488,7 +488,7 @@
         "docs": {
             "description": "Enforce position of line comments",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/line-comment-position"
+            "url": "https://eslint.org/docs/latest/rules/line-comment-position"
         }
     },
     "linebreak-style": {
@@ -496,7 +496,7 @@
         "docs": {
             "description": "Enforce consistent linebreak style",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/linebreak-style"
+            "url": "https://eslint.org/docs/latest/rules/linebreak-style"
         },
         "fixable": "whitespace"
     },
@@ -505,7 +505,7 @@
         "docs": {
             "description": "Require empty lines around comments",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/lines-around-comment"
+            "url": "https://eslint.org/docs/latest/rules/lines-around-comment"
         },
         "fixable": "whitespace"
     },
@@ -514,7 +514,7 @@
         "docs": {
             "description": "Require or disallow newlines around directives",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/lines-around-directive"
+            "url": "https://eslint.org/docs/latest/rules/lines-around-directive"
         },
         "fixable": "whitespace",
         "deprecated": true,
@@ -527,7 +527,7 @@
         "docs": {
             "description": "Require or disallow an empty line between class members",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/lines-between-class-members"
+            "url": "https://eslint.org/docs/latest/rules/lines-between-class-members"
         },
         "fixable": "whitespace"
     },
@@ -536,7 +536,7 @@
         "docs": {
             "description": "Require or disallow logical assignment operator shorthand",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/logical-assignment-operators"
+            "url": "https://eslint.org/docs/latest/rules/logical-assignment-operators"
         },
         "fixable": "code",
         "hasSuggestions": true
@@ -546,7 +546,7 @@
         "docs": {
             "description": "Enforce a maximum number of classes per file",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/max-classes-per-file"
+            "url": "https://eslint.org/docs/latest/rules/max-classes-per-file"
         }
     },
     "max-depth": {
@@ -554,7 +554,7 @@
         "docs": {
             "description": "Enforce a maximum depth that blocks can be nested",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/max-depth"
+            "url": "https://eslint.org/docs/latest/rules/max-depth"
         }
     },
     "max-len": {
@@ -562,7 +562,7 @@
         "docs": {
             "description": "Enforce a maximum line length",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/max-len"
+            "url": "https://eslint.org/docs/latest/rules/max-len"
         }
     },
     "max-lines": {
@@ -570,7 +570,7 @@
         "docs": {
             "description": "Enforce a maximum number of lines per file",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/max-lines"
+            "url": "https://eslint.org/docs/latest/rules/max-lines"
         }
     },
     "max-lines-per-function": {
@@ -578,7 +578,7 @@
         "docs": {
             "description": "Enforce a maximum number of lines of code in a function",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/max-lines-per-function"
+            "url": "https://eslint.org/docs/latest/rules/max-lines-per-function"
         }
     },
     "max-nested-callbacks": {
@@ -586,7 +586,7 @@
         "docs": {
             "description": "Enforce a maximum depth that callbacks can be nested",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/max-nested-callbacks"
+            "url": "https://eslint.org/docs/latest/rules/max-nested-callbacks"
         }
     },
     "max-params": {
@@ -594,7 +594,7 @@
         "docs": {
             "description": "Enforce a maximum number of parameters in function definitions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/max-params"
+            "url": "https://eslint.org/docs/latest/rules/max-params"
         }
     },
     "max-statements": {
@@ -602,7 +602,7 @@
         "docs": {
             "description": "Enforce a maximum number of statements allowed in function blocks",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/max-statements"
+            "url": "https://eslint.org/docs/latest/rules/max-statements"
         }
     },
     "max-statements-per-line": {
@@ -610,7 +610,7 @@
         "docs": {
             "description": "Enforce a maximum number of statements allowed per line",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/max-statements-per-line"
+            "url": "https://eslint.org/docs/latest/rules/max-statements-per-line"
         }
     },
     "multiline-comment-style": {
@@ -618,7 +618,7 @@
         "docs": {
             "description": "Enforce a particular style for multiline comments",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/multiline-comment-style"
+            "url": "https://eslint.org/docs/latest/rules/multiline-comment-style"
         },
         "fixable": "whitespace"
     },
@@ -627,7 +627,7 @@
         "docs": {
             "description": "Enforce newlines between operands of ternary expressions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/multiline-ternary"
+            "url": "https://eslint.org/docs/latest/rules/multiline-ternary"
         },
         "fixable": "whitespace"
     },
@@ -636,7 +636,7 @@
         "docs": {
             "description": "Require constructor names to begin with a capital letter",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/new-cap"
+            "url": "https://eslint.org/docs/latest/rules/new-cap"
         }
     },
     "new-parens": {
@@ -644,7 +644,7 @@
         "docs": {
             "description": "Enforce or disallow parentheses when invoking a constructor with no arguments",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/new-parens"
+            "url": "https://eslint.org/docs/latest/rules/new-parens"
         },
         "fixable": "code"
     },
@@ -653,7 +653,7 @@
         "docs": {
             "description": "Require or disallow an empty line after variable declarations",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/newline-after-var"
+            "url": "https://eslint.org/docs/latest/rules/newline-after-var"
         },
         "fixable": "whitespace",
         "deprecated": true,
@@ -666,7 +666,7 @@
         "docs": {
             "description": "Require an empty line before `return` statements",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/newline-before-return"
+            "url": "https://eslint.org/docs/latest/rules/newline-before-return"
         },
         "fixable": "whitespace",
         "deprecated": true,
@@ -679,7 +679,7 @@
         "docs": {
             "description": "Require a newline after each call in a method chain",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/newline-per-chained-call"
+            "url": "https://eslint.org/docs/latest/rules/newline-per-chained-call"
         },
         "fixable": "whitespace"
     },
@@ -688,7 +688,7 @@
         "docs": {
             "description": "Disallow the use of `alert`, `confirm`, and `prompt`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-alert"
+            "url": "https://eslint.org/docs/latest/rules/no-alert"
         }
     },
     "no-array-constructor": {
@@ -696,7 +696,7 @@
         "docs": {
             "description": "Disallow `Array` constructors",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-array-constructor"
+            "url": "https://eslint.org/docs/latest/rules/no-array-constructor"
         }
     },
     "no-async-promise-executor": {
@@ -704,7 +704,7 @@
         "docs": {
             "description": "Disallow using an async function as a Promise executor",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-async-promise-executor"
+            "url": "https://eslint.org/docs/latest/rules/no-async-promise-executor"
         },
         "fixable": null
     },
@@ -713,7 +713,7 @@
         "docs": {
             "description": "Disallow `await` inside of loops",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-await-in-loop"
+            "url": "https://eslint.org/docs/latest/rules/no-await-in-loop"
         }
     },
     "no-bitwise": {
@@ -721,7 +721,7 @@
         "docs": {
             "description": "Disallow bitwise operators",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-bitwise"
+            "url": "https://eslint.org/docs/latest/rules/no-bitwise"
         }
     },
     "no-buffer-constructor": {
@@ -731,7 +731,7 @@
         "docs": {
             "description": "Disallow use of the `Buffer()` constructor",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-buffer-constructor"
+            "url": "https://eslint.org/docs/latest/rules/no-buffer-constructor"
         }
     },
     "no-caller": {
@@ -739,7 +739,7 @@
         "docs": {
             "description": "Disallow the use of `arguments.caller` or `arguments.callee`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-caller"
+            "url": "https://eslint.org/docs/latest/rules/no-caller"
         }
     },
     "no-case-declarations": {
@@ -747,7 +747,7 @@
         "docs": {
             "description": "Disallow lexical declarations in case clauses",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-case-declarations"
+            "url": "https://eslint.org/docs/latest/rules/no-case-declarations"
         }
     },
     "no-catch-shadow": {
@@ -755,7 +755,7 @@
         "docs": {
             "description": "Disallow `catch` clause parameters from shadowing variables in the outer scope",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-catch-shadow"
+            "url": "https://eslint.org/docs/latest/rules/no-catch-shadow"
         },
         "replacedBy": [
             "no-shadow"
@@ -767,7 +767,7 @@
         "docs": {
             "description": "Disallow reassigning class members",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-class-assign"
+            "url": "https://eslint.org/docs/latest/rules/no-class-assign"
         }
     },
     "no-compare-neg-zero": {
@@ -775,7 +775,7 @@
         "docs": {
             "description": "Disallow comparing against -0",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-compare-neg-zero"
+            "url": "https://eslint.org/docs/latest/rules/no-compare-neg-zero"
         },
         "fixable": null
     },
@@ -784,7 +784,7 @@
         "docs": {
             "description": "Disallow assignment operators in conditional expressions",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-cond-assign"
+            "url": "https://eslint.org/docs/latest/rules/no-cond-assign"
         }
     },
     "no-confusing-arrow": {
@@ -792,7 +792,7 @@
         "docs": {
             "description": "Disallow arrow functions where they could be confused with comparisons",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-confusing-arrow"
+            "url": "https://eslint.org/docs/latest/rules/no-confusing-arrow"
         },
         "fixable": "code"
     },
@@ -801,7 +801,7 @@
         "docs": {
             "description": "Disallow the use of `console`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-console"
+            "url": "https://eslint.org/docs/latest/rules/no-console"
         }
     },
     "no-const-assign": {
@@ -809,7 +809,7 @@
         "docs": {
             "description": "Disallow reassigning `const` variables",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-const-assign"
+            "url": "https://eslint.org/docs/latest/rules/no-const-assign"
         }
     },
     "no-constant-binary-expression": {
@@ -817,7 +817,7 @@
         "docs": {
             "description": "Disallow expressions where the operation doesn't affect the value",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-constant-binary-expression"
+            "url": "https://eslint.org/docs/latest/rules/no-constant-binary-expression"
         }
     },
     "no-constant-condition": {
@@ -825,7 +825,7 @@
         "docs": {
             "description": "Disallow constant expressions in conditions",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-constant-condition"
+            "url": "https://eslint.org/docs/latest/rules/no-constant-condition"
         }
     },
     "no-constructor-return": {
@@ -833,7 +833,7 @@
         "docs": {
             "description": "Disallow returning value from constructor",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-constructor-return"
+            "url": "https://eslint.org/docs/latest/rules/no-constructor-return"
         },
         "fixable": null
     },
@@ -842,7 +842,7 @@
         "docs": {
             "description": "Disallow `continue` statements",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-continue"
+            "url": "https://eslint.org/docs/latest/rules/no-continue"
         }
     },
     "no-control-regex": {
@@ -850,7 +850,7 @@
         "docs": {
             "description": "Disallow control characters in regular expressions",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-control-regex"
+            "url": "https://eslint.org/docs/latest/rules/no-control-regex"
         }
     },
     "no-debugger": {
@@ -858,7 +858,7 @@
         "docs": {
             "description": "Disallow the use of `debugger`",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-debugger"
+            "url": "https://eslint.org/docs/latest/rules/no-debugger"
         },
         "fixable": null
     },
@@ -867,7 +867,7 @@
         "docs": {
             "description": "Disallow deleting variables",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-delete-var"
+            "url": "https://eslint.org/docs/latest/rules/no-delete-var"
         }
     },
     "no-div-regex": {
@@ -875,7 +875,7 @@
         "docs": {
             "description": "Disallow equal signs explicitly at the beginning of regular expressions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-div-regex"
+            "url": "https://eslint.org/docs/latest/rules/no-div-regex"
         },
         "fixable": "code"
     },
@@ -884,7 +884,7 @@
         "docs": {
             "description": "Disallow duplicate arguments in `function` definitions",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-dupe-args"
+            "url": "https://eslint.org/docs/latest/rules/no-dupe-args"
         }
     },
     "no-dupe-class-members": {
@@ -892,7 +892,7 @@
         "docs": {
             "description": "Disallow duplicate class members",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-dupe-class-members"
+            "url": "https://eslint.org/docs/latest/rules/no-dupe-class-members"
         }
     },
     "no-dupe-else-if": {
@@ -900,7 +900,7 @@
         "docs": {
             "description": "Disallow duplicate conditions in if-else-if chains",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-dupe-else-if"
+            "url": "https://eslint.org/docs/latest/rules/no-dupe-else-if"
         }
     },
     "no-dupe-keys": {
@@ -908,7 +908,7 @@
         "docs": {
             "description": "Disallow duplicate keys in object literals",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-dupe-keys"
+            "url": "https://eslint.org/docs/latest/rules/no-dupe-keys"
         }
     },
     "no-duplicate-case": {
@@ -916,7 +916,7 @@
         "docs": {
             "description": "Disallow duplicate case labels",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-duplicate-case"
+            "url": "https://eslint.org/docs/latest/rules/no-duplicate-case"
         }
     },
     "no-duplicate-imports": {
@@ -924,7 +924,7 @@
         "docs": {
             "description": "Disallow duplicate module imports",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-duplicate-imports"
+            "url": "https://eslint.org/docs/latest/rules/no-duplicate-imports"
         }
     },
     "no-else-return": {
@@ -932,7 +932,7 @@
         "docs": {
             "description": "Disallow `else` blocks after `return` statements in `if` statements",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-else-return"
+            "url": "https://eslint.org/docs/latest/rules/no-else-return"
         },
         "fixable": "code"
     },
@@ -942,7 +942,7 @@
         "docs": {
             "description": "Disallow empty block statements",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-empty"
+            "url": "https://eslint.org/docs/latest/rules/no-empty"
         }
     },
     "no-empty-character-class": {
@@ -950,7 +950,7 @@
         "docs": {
             "description": "Disallow empty character classes in regular expressions",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-empty-character-class"
+            "url": "https://eslint.org/docs/latest/rules/no-empty-character-class"
         }
     },
     "no-empty-function": {
@@ -958,7 +958,7 @@
         "docs": {
             "description": "Disallow empty functions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-empty-function"
+            "url": "https://eslint.org/docs/latest/rules/no-empty-function"
         }
     },
     "no-empty-pattern": {
@@ -966,7 +966,7 @@
         "docs": {
             "description": "Disallow empty destructuring patterns",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-empty-pattern"
+            "url": "https://eslint.org/docs/latest/rules/no-empty-pattern"
         }
     },
     "no-empty-static-block": {
@@ -974,7 +974,7 @@
         "docs": {
             "description": "Disallow empty static blocks",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-empty-static-block"
+            "url": "https://eslint.org/docs/latest/rules/no-empty-static-block"
         }
     },
     "no-eq-null": {
@@ -982,7 +982,7 @@
         "docs": {
             "description": "Disallow `null` comparisons without type-checking operators",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-eq-null"
+            "url": "https://eslint.org/docs/latest/rules/no-eq-null"
         }
     },
     "no-eval": {
@@ -990,7 +990,7 @@
         "docs": {
             "description": "Disallow the use of `eval()`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-eval"
+            "url": "https://eslint.org/docs/latest/rules/no-eval"
         }
     },
     "no-ex-assign": {
@@ -998,7 +998,7 @@
         "docs": {
             "description": "Disallow reassigning exceptions in `catch` clauses",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-ex-assign"
+            "url": "https://eslint.org/docs/latest/rules/no-ex-assign"
         }
     },
     "no-extend-native": {
@@ -1006,7 +1006,7 @@
         "docs": {
             "description": "Disallow extending native types",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-extend-native"
+            "url": "https://eslint.org/docs/latest/rules/no-extend-native"
         }
     },
     "no-extra-bind": {
@@ -1014,7 +1014,7 @@
         "docs": {
             "description": "Disallow unnecessary calls to `.bind()`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-extra-bind"
+            "url": "https://eslint.org/docs/latest/rules/no-extra-bind"
         },
         "fixable": "code"
     },
@@ -1023,7 +1023,7 @@
         "docs": {
             "description": "Disallow unnecessary boolean casts",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-extra-boolean-cast"
+            "url": "https://eslint.org/docs/latest/rules/no-extra-boolean-cast"
         },
         "fixable": "code"
     },
@@ -1032,7 +1032,7 @@
         "docs": {
             "description": "Disallow unnecessary labels",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-extra-label"
+            "url": "https://eslint.org/docs/latest/rules/no-extra-label"
         },
         "fixable": "code"
     },
@@ -1041,7 +1041,7 @@
         "docs": {
             "description": "Disallow unnecessary parentheses",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-extra-parens"
+            "url": "https://eslint.org/docs/latest/rules/no-extra-parens"
         },
         "fixable": "code"
     },
@@ -1050,7 +1050,7 @@
         "docs": {
             "description": "Disallow unnecessary semicolons",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-extra-semi"
+            "url": "https://eslint.org/docs/latest/rules/no-extra-semi"
         },
         "fixable": "code"
     },
@@ -1059,7 +1059,7 @@
         "docs": {
             "description": "Disallow fallthrough of `case` statements",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-fallthrough"
+            "url": "https://eslint.org/docs/latest/rules/no-fallthrough"
         }
     },
     "no-floating-decimal": {
@@ -1067,7 +1067,7 @@
         "docs": {
             "description": "Disallow leading or trailing decimal points in numeric literals",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-floating-decimal"
+            "url": "https://eslint.org/docs/latest/rules/no-floating-decimal"
         },
         "fixable": "code"
     },
@@ -1076,7 +1076,7 @@
         "docs": {
             "description": "Disallow reassigning `function` declarations",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-func-assign"
+            "url": "https://eslint.org/docs/latest/rules/no-func-assign"
         }
     },
     "no-global-assign": {
@@ -1084,7 +1084,7 @@
         "docs": {
             "description": "Disallow assignments to native objects or read-only global variables",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-global-assign"
+            "url": "https://eslint.org/docs/latest/rules/no-global-assign"
         }
     },
     "no-implicit-coercion": {
@@ -1092,7 +1092,7 @@
         "docs": {
             "description": "Disallow shorthand type conversions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-implicit-coercion"
+            "url": "https://eslint.org/docs/latest/rules/no-implicit-coercion"
         },
         "fixable": "code"
     },
@@ -1101,7 +1101,7 @@
         "docs": {
             "description": "Disallow declarations in the global scope",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-implicit-globals"
+            "url": "https://eslint.org/docs/latest/rules/no-implicit-globals"
         }
     },
     "no-implied-eval": {
@@ -1109,7 +1109,7 @@
         "docs": {
             "description": "Disallow the use of `eval()`-like methods",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-implied-eval"
+            "url": "https://eslint.org/docs/latest/rules/no-implied-eval"
         }
     },
     "no-import-assign": {
@@ -1117,7 +1117,7 @@
         "docs": {
             "description": "Disallow assigning to imported bindings",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-import-assign"
+            "url": "https://eslint.org/docs/latest/rules/no-import-assign"
         }
     },
     "no-inline-comments": {
@@ -1125,7 +1125,7 @@
         "docs": {
             "description": "Disallow inline comments after code",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-inline-comments"
+            "url": "https://eslint.org/docs/latest/rules/no-inline-comments"
         }
     },
     "no-inner-declarations": {
@@ -1133,7 +1133,7 @@
         "docs": {
             "description": "Disallow variable or `function` declarations in nested blocks",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-inner-declarations"
+            "url": "https://eslint.org/docs/latest/rules/no-inner-declarations"
         }
     },
     "no-invalid-regexp": {
@@ -1141,7 +1141,7 @@
         "docs": {
             "description": "Disallow invalid regular expression strings in `RegExp` constructors",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-invalid-regexp"
+            "url": "https://eslint.org/docs/latest/rules/no-invalid-regexp"
         }
     },
     "no-invalid-this": {
@@ -1149,7 +1149,7 @@
         "docs": {
             "description": "Disallow use of `this` in contexts where the value of `this` is `undefined`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-invalid-this"
+            "url": "https://eslint.org/docs/latest/rules/no-invalid-this"
         }
     },
     "no-irregular-whitespace": {
@@ -1157,7 +1157,7 @@
         "docs": {
             "description": "Disallow irregular whitespace",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-irregular-whitespace"
+            "url": "https://eslint.org/docs/latest/rules/no-irregular-whitespace"
         }
     },
     "no-iterator": {
@@ -1165,7 +1165,7 @@
         "docs": {
             "description": "Disallow the use of the `__iterator__` property",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-iterator"
+            "url": "https://eslint.org/docs/latest/rules/no-iterator"
         }
     },
     "no-label-var": {
@@ -1173,7 +1173,7 @@
         "docs": {
             "description": "Disallow labels that share a name with a variable",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-label-var"
+            "url": "https://eslint.org/docs/latest/rules/no-label-var"
         }
     },
     "no-labels": {
@@ -1181,7 +1181,7 @@
         "docs": {
             "description": "Disallow labeled statements",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-labels"
+            "url": "https://eslint.org/docs/latest/rules/no-labels"
         }
     },
     "no-lone-blocks": {
@@ -1189,7 +1189,7 @@
         "docs": {
             "description": "Disallow unnecessary nested blocks",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-lone-blocks"
+            "url": "https://eslint.org/docs/latest/rules/no-lone-blocks"
         }
     },
     "no-lonely-if": {
@@ -1197,7 +1197,7 @@
         "docs": {
             "description": "Disallow `if` statements as the only statement in `else` blocks",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-lonely-if"
+            "url": "https://eslint.org/docs/latest/rules/no-lonely-if"
         },
         "fixable": "code"
     },
@@ -1206,7 +1206,7 @@
         "docs": {
             "description": "Disallow function declarations that contain unsafe references inside loop statements",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-loop-func"
+            "url": "https://eslint.org/docs/latest/rules/no-loop-func"
         }
     },
     "no-loss-of-precision": {
@@ -1214,7 +1214,7 @@
         "docs": {
             "description": "Disallow literal numbers that lose precision",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-loss-of-precision"
+            "url": "https://eslint.org/docs/latest/rules/no-loss-of-precision"
         }
     },
     "no-magic-numbers": {
@@ -1222,7 +1222,7 @@
         "docs": {
             "description": "Disallow magic numbers",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-magic-numbers"
+            "url": "https://eslint.org/docs/latest/rules/no-magic-numbers"
         }
     },
     "no-misleading-character-class": {
@@ -1230,7 +1230,7 @@
         "docs": {
             "description": "Disallow characters which are made with multiple code points in character class syntax",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-misleading-character-class"
+            "url": "https://eslint.org/docs/latest/rules/no-misleading-character-class"
         },
         "hasSuggestions": true
     },
@@ -1239,7 +1239,7 @@
         "docs": {
             "description": "Disallow mixed binary operators",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-mixed-operators"
+            "url": "https://eslint.org/docs/latest/rules/no-mixed-operators"
         }
     },
     "no-mixed-requires": {
@@ -1249,7 +1249,7 @@
         "docs": {
             "description": "Disallow `require` calls to be mixed with regular variable declarations",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-mixed-requires"
+            "url": "https://eslint.org/docs/latest/rules/no-mixed-requires"
         }
     },
     "no-mixed-spaces-and-tabs": {
@@ -1257,7 +1257,7 @@
         "docs": {
             "description": "Disallow mixed spaces and tabs for indentation",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-mixed-spaces-and-tabs"
+            "url": "https://eslint.org/docs/latest/rules/no-mixed-spaces-and-tabs"
         }
     },
     "no-multi-assign": {
@@ -1265,7 +1265,7 @@
         "docs": {
             "description": "Disallow use of chained assignment expressions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-multi-assign"
+            "url": "https://eslint.org/docs/latest/rules/no-multi-assign"
         }
     },
     "no-multi-spaces": {
@@ -1273,7 +1273,7 @@
         "docs": {
             "description": "Disallow multiple spaces",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-multi-spaces"
+            "url": "https://eslint.org/docs/latest/rules/no-multi-spaces"
         },
         "fixable": "whitespace"
     },
@@ -1282,7 +1282,7 @@
         "docs": {
             "description": "Disallow multiline strings",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-multi-str"
+            "url": "https://eslint.org/docs/latest/rules/no-multi-str"
         }
     },
     "no-multiple-empty-lines": {
@@ -1290,7 +1290,7 @@
         "docs": {
             "description": "Disallow multiple empty lines",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-multiple-empty-lines"
+            "url": "https://eslint.org/docs/latest/rules/no-multiple-empty-lines"
         },
         "fixable": "whitespace"
     },
@@ -1299,7 +1299,7 @@
         "docs": {
             "description": "Disallow assignments to native objects or read-only global variables",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-native-reassign"
+            "url": "https://eslint.org/docs/latest/rules/no-native-reassign"
         },
         "deprecated": true,
         "replacedBy": [
@@ -1311,7 +1311,7 @@
         "docs": {
             "description": "Disallow negated conditions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-negated-condition"
+            "url": "https://eslint.org/docs/latest/rules/no-negated-condition"
         }
     },
     "no-negated-in-lhs": {
@@ -1319,7 +1319,7 @@
         "docs": {
             "description": "Disallow negating the left operand in `in` expressions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-negated-in-lhs"
+            "url": "https://eslint.org/docs/latest/rules/no-negated-in-lhs"
         },
         "replacedBy": [
             "no-unsafe-negation"
@@ -1331,7 +1331,7 @@
         "docs": {
             "description": "Disallow nested ternary expressions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-nested-ternary"
+            "url": "https://eslint.org/docs/latest/rules/no-nested-ternary"
         }
     },
     "no-new": {
@@ -1339,7 +1339,7 @@
         "docs": {
             "description": "Disallow `new` operators outside of assignments or comparisons",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-new"
+            "url": "https://eslint.org/docs/latest/rules/no-new"
         }
     },
     "no-new-func": {
@@ -1347,7 +1347,7 @@
         "docs": {
             "description": "Disallow `new` operators with the `Function` object",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-new-func"
+            "url": "https://eslint.org/docs/latest/rules/no-new-func"
         }
     },
     "no-new-native-nonconstructor": {
@@ -1355,7 +1355,7 @@
         "docs": {
             "description": "Disallow `new` operators with global non-constructor functions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-new-native-nonconstructor"
+            "url": "https://eslint.org/docs/latest/rules/no-new-native-nonconstructor"
         }
     },
     "no-new-object": {
@@ -1363,7 +1363,7 @@
         "docs": {
             "description": "Disallow `Object` constructors",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-new-object"
+            "url": "https://eslint.org/docs/latest/rules/no-new-object"
         }
     },
     "no-new-require": {
@@ -1373,7 +1373,7 @@
         "docs": {
             "description": "Disallow `new` operators with calls to `require`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-new-require"
+            "url": "https://eslint.org/docs/latest/rules/no-new-require"
         }
     },
     "no-new-symbol": {
@@ -1381,7 +1381,7 @@
         "docs": {
             "description": "Disallow `new` operators with the `Symbol` object",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-new-symbol"
+            "url": "https://eslint.org/docs/latest/rules/no-new-symbol"
         }
     },
     "no-new-wrappers": {
@@ -1389,7 +1389,7 @@
         "docs": {
             "description": "Disallow `new` operators with the `String`, `Number`, and `Boolean` objects",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-new-wrappers"
+            "url": "https://eslint.org/docs/latest/rules/no-new-wrappers"
         }
     },
     "no-nonoctal-decimal-escape": {
@@ -1397,7 +1397,7 @@
         "docs": {
             "description": "Disallow `\\8` and `\\9` escape sequences in string literals",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-nonoctal-decimal-escape"
+            "url": "https://eslint.org/docs/latest/rules/no-nonoctal-decimal-escape"
         },
         "hasSuggestions": true
     },
@@ -1406,7 +1406,7 @@
         "docs": {
             "description": "Disallow calling global object properties as functions",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-obj-calls"
+            "url": "https://eslint.org/docs/latest/rules/no-obj-calls"
         }
     },
     "no-octal": {
@@ -1414,7 +1414,7 @@
         "docs": {
             "description": "Disallow octal literals",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-octal"
+            "url": "https://eslint.org/docs/latest/rules/no-octal"
         }
     },
     "no-octal-escape": {
@@ -1422,7 +1422,7 @@
         "docs": {
             "description": "Disallow octal escape sequences in string literals",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-octal-escape"
+            "url": "https://eslint.org/docs/latest/rules/no-octal-escape"
         }
     },
     "no-param-reassign": {
@@ -1430,7 +1430,7 @@
         "docs": {
             "description": "Disallow reassigning `function` parameters",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-param-reassign"
+            "url": "https://eslint.org/docs/latest/rules/no-param-reassign"
         }
     },
     "no-path-concat": {
@@ -1440,7 +1440,7 @@
         "docs": {
             "description": "Disallow string concatenation with `__dirname` and `__filename`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-path-concat"
+            "url": "https://eslint.org/docs/latest/rules/no-path-concat"
         }
     },
     "no-plusplus": {
@@ -1448,7 +1448,7 @@
         "docs": {
             "description": "Disallow the unary operators `++` and `--`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-plusplus"
+            "url": "https://eslint.org/docs/latest/rules/no-plusplus"
         }
     },
     "no-process-env": {
@@ -1458,7 +1458,7 @@
         "docs": {
             "description": "Disallow the use of `process.env`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-process-env"
+            "url": "https://eslint.org/docs/latest/rules/no-process-env"
         }
     },
     "no-process-exit": {
@@ -1468,7 +1468,7 @@
         "docs": {
             "description": "Disallow the use of `process.exit()`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-process-exit"
+            "url": "https://eslint.org/docs/latest/rules/no-process-exit"
         }
     },
     "no-promise-executor-return": {
@@ -1476,7 +1476,7 @@
         "docs": {
             "description": "Disallow returning values from Promise executor functions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-promise-executor-return"
+            "url": "https://eslint.org/docs/latest/rules/no-promise-executor-return"
         }
     },
     "no-proto": {
@@ -1484,7 +1484,7 @@
         "docs": {
             "description": "Disallow the use of the `__proto__` property",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-proto"
+            "url": "https://eslint.org/docs/latest/rules/no-proto"
         }
     },
     "no-prototype-builtins": {
@@ -1492,7 +1492,7 @@
         "docs": {
             "description": "Disallow calling some `Object.prototype` methods directly on objects",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-prototype-builtins"
+            "url": "https://eslint.org/docs/latest/rules/no-prototype-builtins"
         }
     },
     "no-redeclare": {
@@ -1500,7 +1500,7 @@
         "docs": {
             "description": "Disallow variable redeclaration",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-redeclare"
+            "url": "https://eslint.org/docs/latest/rules/no-redeclare"
         }
     },
     "no-regex-spaces": {
@@ -1508,7 +1508,7 @@
         "docs": {
             "description": "Disallow multiple spaces in regular expressions",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-regex-spaces"
+            "url": "https://eslint.org/docs/latest/rules/no-regex-spaces"
         },
         "fixable": "code"
     },
@@ -1517,7 +1517,7 @@
         "docs": {
             "description": "Disallow specified names in exports",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-restricted-exports"
+            "url": "https://eslint.org/docs/latest/rules/no-restricted-exports"
         }
     },
     "no-restricted-globals": {
@@ -1525,7 +1525,7 @@
         "docs": {
             "description": "Disallow specified global variables",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-restricted-globals"
+            "url": "https://eslint.org/docs/latest/rules/no-restricted-globals"
         }
     },
     "no-restricted-imports": {
@@ -1533,7 +1533,7 @@
         "docs": {
             "description": "Disallow specified modules when loaded by `import`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-restricted-imports"
+            "url": "https://eslint.org/docs/latest/rules/no-restricted-imports"
         }
     },
     "no-restricted-modules": {
@@ -1543,7 +1543,7 @@
         "docs": {
             "description": "Disallow specified modules when loaded by `require`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-restricted-modules"
+            "url": "https://eslint.org/docs/latest/rules/no-restricted-modules"
         }
     },
     "no-restricted-properties": {
@@ -1551,7 +1551,7 @@
         "docs": {
             "description": "Disallow certain properties on certain objects",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-restricted-properties"
+            "url": "https://eslint.org/docs/latest/rules/no-restricted-properties"
         }
     },
     "no-restricted-syntax": {
@@ -1559,7 +1559,7 @@
         "docs": {
             "description": "Disallow specified syntax",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-restricted-syntax"
+            "url": "https://eslint.org/docs/latest/rules/no-restricted-syntax"
         }
     },
     "no-return-assign": {
@@ -1567,7 +1567,7 @@
         "docs": {
             "description": "Disallow assignment operators in `return` statements",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-return-assign"
+            "url": "https://eslint.org/docs/latest/rules/no-return-assign"
         }
     },
     "no-return-await": {
@@ -1576,7 +1576,7 @@
         "docs": {
             "description": "Disallow unnecessary `return await`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-return-await"
+            "url": "https://eslint.org/docs/latest/rules/no-return-await"
         },
         "fixable": null
     },
@@ -1585,7 +1585,7 @@
         "docs": {
             "description": "Disallow `javascript:` urls",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-script-url"
+            "url": "https://eslint.org/docs/latest/rules/no-script-url"
         }
     },
     "no-self-assign": {
@@ -1593,7 +1593,7 @@
         "docs": {
             "description": "Disallow assignments where both sides are exactly the same",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-self-assign"
+            "url": "https://eslint.org/docs/latest/rules/no-self-assign"
         }
     },
     "no-self-compare": {
@@ -1601,7 +1601,7 @@
         "docs": {
             "description": "Disallow comparisons where both sides are exactly the same",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-self-compare"
+            "url": "https://eslint.org/docs/latest/rules/no-self-compare"
         }
     },
     "no-sequences": {
@@ -1609,7 +1609,7 @@
         "docs": {
             "description": "Disallow comma operators",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-sequences"
+            "url": "https://eslint.org/docs/latest/rules/no-sequences"
         }
     },
     "no-setter-return": {
@@ -1617,7 +1617,7 @@
         "docs": {
             "description": "Disallow returning values from setters",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-setter-return"
+            "url": "https://eslint.org/docs/latest/rules/no-setter-return"
         }
     },
     "no-shadow": {
@@ -1625,7 +1625,7 @@
         "docs": {
             "description": "Disallow variable declarations from shadowing variables declared in the outer scope",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-shadow"
+            "url": "https://eslint.org/docs/latest/rules/no-shadow"
         }
     },
     "no-shadow-restricted-names": {
@@ -1633,7 +1633,7 @@
         "docs": {
             "description": "Disallow identifiers from shadowing restricted names",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-shadow-restricted-names"
+            "url": "https://eslint.org/docs/latest/rules/no-shadow-restricted-names"
         }
     },
     "no-spaced-func": {
@@ -1641,7 +1641,7 @@
         "docs": {
             "description": "Disallow spacing between function identifiers and their applications (deprecated)",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-spaced-func"
+            "url": "https://eslint.org/docs/latest/rules/no-spaced-func"
         },
         "deprecated": true,
         "replacedBy": [
@@ -1654,7 +1654,7 @@
         "docs": {
             "description": "Disallow sparse arrays",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-sparse-arrays"
+            "url": "https://eslint.org/docs/latest/rules/no-sparse-arrays"
         }
     },
     "no-sync": {
@@ -1664,7 +1664,7 @@
         "docs": {
             "description": "Disallow synchronous methods",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-sync"
+            "url": "https://eslint.org/docs/latest/rules/no-sync"
         }
     },
     "no-tabs": {
@@ -1672,7 +1672,7 @@
         "docs": {
             "description": "Disallow all tabs",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-tabs"
+            "url": "https://eslint.org/docs/latest/rules/no-tabs"
         }
     },
     "no-template-curly-in-string": {
@@ -1680,7 +1680,7 @@
         "docs": {
             "description": "Disallow template literal placeholder syntax in regular strings",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-template-curly-in-string"
+            "url": "https://eslint.org/docs/latest/rules/no-template-curly-in-string"
         }
     },
     "no-ternary": {
@@ -1688,7 +1688,7 @@
         "docs": {
             "description": "Disallow ternary operators",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-ternary"
+            "url": "https://eslint.org/docs/latest/rules/no-ternary"
         }
     },
     "no-this-before-super": {
@@ -1696,7 +1696,7 @@
         "docs": {
             "description": "Disallow `this`/`super` before calling `super()` in constructors",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-this-before-super"
+            "url": "https://eslint.org/docs/latest/rules/no-this-before-super"
         }
     },
     "no-throw-literal": {
@@ -1704,7 +1704,7 @@
         "docs": {
             "description": "Disallow throwing literals as exceptions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-throw-literal"
+            "url": "https://eslint.org/docs/latest/rules/no-throw-literal"
         }
     },
     "no-trailing-spaces": {
@@ -1712,7 +1712,7 @@
         "docs": {
             "description": "Disallow trailing whitespace at the end of lines",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-trailing-spaces"
+            "url": "https://eslint.org/docs/latest/rules/no-trailing-spaces"
         },
         "fixable": "whitespace"
     },
@@ -1721,7 +1721,7 @@
         "docs": {
             "description": "Disallow the use of undeclared variables unless mentioned in `/*global */` comments",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-undef"
+            "url": "https://eslint.org/docs/latest/rules/no-undef"
         }
     },
     "no-undef-init": {
@@ -1729,7 +1729,7 @@
         "docs": {
             "description": "Disallow initializing variables to `undefined`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-undef-init"
+            "url": "https://eslint.org/docs/latest/rules/no-undef-init"
         },
         "fixable": "code"
     },
@@ -1738,7 +1738,7 @@
         "docs": {
             "description": "Disallow the use of `undefined` as an identifier",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-undefined"
+            "url": "https://eslint.org/docs/latest/rules/no-undefined"
         }
     },
     "no-underscore-dangle": {
@@ -1746,7 +1746,7 @@
         "docs": {
             "description": "Disallow dangling underscores in identifiers",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-underscore-dangle"
+            "url": "https://eslint.org/docs/latest/rules/no-underscore-dangle"
         }
     },
     "no-unexpected-multiline": {
@@ -1754,7 +1754,7 @@
         "docs": {
             "description": "Disallow confusing multiline expressions",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-unexpected-multiline"
+            "url": "https://eslint.org/docs/latest/rules/no-unexpected-multiline"
         }
     },
     "no-unmodified-loop-condition": {
@@ -1762,7 +1762,7 @@
         "docs": {
             "description": "Disallow unmodified loop conditions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-unmodified-loop-condition"
+            "url": "https://eslint.org/docs/latest/rules/no-unmodified-loop-condition"
         }
     },
     "no-unneeded-ternary": {
@@ -1770,7 +1770,7 @@
         "docs": {
             "description": "Disallow ternary operators when simpler alternatives exist",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-unneeded-ternary"
+            "url": "https://eslint.org/docs/latest/rules/no-unneeded-ternary"
         },
         "fixable": "code"
     },
@@ -1779,7 +1779,7 @@
         "docs": {
             "description": "Disallow unreachable code after `return`, `throw`, `continue`, and `break` statements",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-unreachable"
+            "url": "https://eslint.org/docs/latest/rules/no-unreachable"
         }
     },
     "no-unreachable-loop": {
@@ -1787,7 +1787,7 @@
         "docs": {
             "description": "Disallow loops with a body that allows only one iteration",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-unreachable-loop"
+            "url": "https://eslint.org/docs/latest/rules/no-unreachable-loop"
         }
     },
     "no-unsafe-finally": {
@@ -1795,7 +1795,7 @@
         "docs": {
             "description": "Disallow control flow statements in `finally` blocks",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-unsafe-finally"
+            "url": "https://eslint.org/docs/latest/rules/no-unsafe-finally"
         }
     },
     "no-unsafe-negation": {
@@ -1803,7 +1803,7 @@
         "docs": {
             "description": "Disallow negating the left operand of relational operators",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-unsafe-negation"
+            "url": "https://eslint.org/docs/latest/rules/no-unsafe-negation"
         },
         "hasSuggestions": true,
         "fixable": null
@@ -1813,7 +1813,7 @@
         "docs": {
             "description": "Disallow use of optional chaining in contexts where the `undefined` value is not allowed",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-unsafe-optional-chaining"
+            "url": "https://eslint.org/docs/latest/rules/no-unsafe-optional-chaining"
         },
         "fixable": null
     },
@@ -1822,7 +1822,7 @@
         "docs": {
             "description": "Disallow unused expressions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-unused-expressions"
+            "url": "https://eslint.org/docs/latest/rules/no-unused-expressions"
         }
     },
     "no-unused-labels": {
@@ -1830,7 +1830,7 @@
         "docs": {
             "description": "Disallow unused labels",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-unused-labels"
+            "url": "https://eslint.org/docs/latest/rules/no-unused-labels"
         },
         "fixable": "code"
     },
@@ -1839,7 +1839,7 @@
         "docs": {
             "description": "Disallow unused private class members",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-unused-private-class-members"
+            "url": "https://eslint.org/docs/latest/rules/no-unused-private-class-members"
         }
     },
     "no-unused-vars": {
@@ -1847,7 +1847,7 @@
         "docs": {
             "description": "Disallow unused variables",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-unused-vars"
+            "url": "https://eslint.org/docs/latest/rules/no-unused-vars"
         }
     },
     "no-use-before-define": {
@@ -1855,7 +1855,7 @@
         "docs": {
             "description": "Disallow the use of variables before they are defined",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-use-before-define"
+            "url": "https://eslint.org/docs/latest/rules/no-use-before-define"
         }
     },
     "no-useless-backreference": {
@@ -1863,7 +1863,7 @@
         "docs": {
             "description": "Disallow useless backreferences in regular expressions",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-useless-backreference"
+            "url": "https://eslint.org/docs/latest/rules/no-useless-backreference"
         }
     },
     "no-useless-call": {
@@ -1871,7 +1871,7 @@
         "docs": {
             "description": "Disallow unnecessary calls to `.call()` and `.apply()`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-useless-call"
+            "url": "https://eslint.org/docs/latest/rules/no-useless-call"
         }
     },
     "no-useless-catch": {
@@ -1879,7 +1879,7 @@
         "docs": {
             "description": "Disallow unnecessary `catch` clauses",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-useless-catch"
+            "url": "https://eslint.org/docs/latest/rules/no-useless-catch"
         }
     },
     "no-useless-computed-key": {
@@ -1887,7 +1887,7 @@
         "docs": {
             "description": "Disallow unnecessary computed property keys in objects and classes",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-useless-computed-key"
+            "url": "https://eslint.org/docs/latest/rules/no-useless-computed-key"
         },
         "fixable": "code"
     },
@@ -1896,7 +1896,7 @@
         "docs": {
             "description": "Disallow unnecessary concatenation of literals or template literals",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-useless-concat"
+            "url": "https://eslint.org/docs/latest/rules/no-useless-concat"
         }
     },
     "no-useless-constructor": {
@@ -1904,7 +1904,7 @@
         "docs": {
             "description": "Disallow unnecessary constructors",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-useless-constructor"
+            "url": "https://eslint.org/docs/latest/rules/no-useless-constructor"
         }
     },
     "no-useless-escape": {
@@ -1912,7 +1912,7 @@
         "docs": {
             "description": "Disallow unnecessary escape characters",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-useless-escape"
+            "url": "https://eslint.org/docs/latest/rules/no-useless-escape"
         },
         "hasSuggestions": true
     },
@@ -1921,7 +1921,7 @@
         "docs": {
             "description": "Disallow renaming import, export, and destructured assignments to the same name",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-useless-rename"
+            "url": "https://eslint.org/docs/latest/rules/no-useless-rename"
         },
         "fixable": "code"
     },
@@ -1930,7 +1930,7 @@
         "docs": {
             "description": "Disallow redundant return statements",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-useless-return"
+            "url": "https://eslint.org/docs/latest/rules/no-useless-return"
         },
         "fixable": "code"
     },
@@ -1939,7 +1939,7 @@
         "docs": {
             "description": "Require `let` or `const` instead of `var`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-var"
+            "url": "https://eslint.org/docs/latest/rules/no-var"
         },
         "fixable": "code"
     },
@@ -1948,7 +1948,7 @@
         "docs": {
             "description": "Disallow `void` operators",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-void"
+            "url": "https://eslint.org/docs/latest/rules/no-void"
         }
     },
     "no-warning-comments": {
@@ -1956,7 +1956,7 @@
         "docs": {
             "description": "Disallow specified warning terms in comments",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-warning-comments"
+            "url": "https://eslint.org/docs/latest/rules/no-warning-comments"
         }
     },
     "no-whitespace-before-property": {
@@ -1964,7 +1964,7 @@
         "docs": {
             "description": "Disallow whitespace before properties",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/no-whitespace-before-property"
+            "url": "https://eslint.org/docs/latest/rules/no-whitespace-before-property"
         },
         "fixable": "whitespace"
     },
@@ -1973,7 +1973,7 @@
         "docs": {
             "description": "Disallow `with` statements",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/no-with"
+            "url": "https://eslint.org/docs/latest/rules/no-with"
         }
     },
     "nonblock-statement-body-position": {
@@ -1981,7 +1981,7 @@
         "docs": {
             "description": "Enforce the location of single-line statements",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/nonblock-statement-body-position"
+            "url": "https://eslint.org/docs/latest/rules/nonblock-statement-body-position"
         },
         "fixable": "whitespace"
     },
@@ -1990,7 +1990,7 @@
         "docs": {
             "description": "Enforce consistent line breaks after opening and before closing braces",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/object-curly-newline"
+            "url": "https://eslint.org/docs/latest/rules/object-curly-newline"
         },
         "fixable": "whitespace"
     },
@@ -1999,7 +1999,7 @@
         "docs": {
             "description": "Enforce consistent spacing inside braces",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/object-curly-spacing"
+            "url": "https://eslint.org/docs/latest/rules/object-curly-spacing"
         },
         "fixable": "whitespace"
     },
@@ -2008,7 +2008,7 @@
         "docs": {
             "description": "Enforce placing object properties on separate lines",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/object-property-newline"
+            "url": "https://eslint.org/docs/latest/rules/object-property-newline"
         },
         "fixable": "whitespace"
     },
@@ -2017,7 +2017,7 @@
         "docs": {
             "description": "Require or disallow method and property shorthand syntax for object literals",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/object-shorthand"
+            "url": "https://eslint.org/docs/latest/rules/object-shorthand"
         },
         "fixable": "code"
     },
@@ -2026,7 +2026,7 @@
         "docs": {
             "description": "Enforce variables to be declared either together or separately in functions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/one-var"
+            "url": "https://eslint.org/docs/latest/rules/one-var"
         },
         "fixable": "code"
     },
@@ -2035,7 +2035,7 @@
         "docs": {
             "description": "Require or disallow newlines around variable declarations",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/one-var-declaration-per-line"
+            "url": "https://eslint.org/docs/latest/rules/one-var-declaration-per-line"
         },
         "fixable": "whitespace"
     },
@@ -2044,7 +2044,7 @@
         "docs": {
             "description": "Require or disallow assignment operator shorthand where possible",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/operator-assignment"
+            "url": "https://eslint.org/docs/latest/rules/operator-assignment"
         },
         "fixable": "code"
     },
@@ -2053,7 +2053,7 @@
         "docs": {
             "description": "Enforce consistent linebreak style for operators",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/operator-linebreak"
+            "url": "https://eslint.org/docs/latest/rules/operator-linebreak"
         },
         "fixable": "code"
     },
@@ -2062,7 +2062,7 @@
         "docs": {
             "description": "Require or disallow padding within blocks",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/padded-blocks"
+            "url": "https://eslint.org/docs/latest/rules/padded-blocks"
         },
         "fixable": "whitespace"
     },
@@ -2071,7 +2071,7 @@
         "docs": {
             "description": "Require or disallow padding lines between statements",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/padding-line-between-statements"
+            "url": "https://eslint.org/docs/latest/rules/padding-line-between-statements"
         },
         "fixable": "whitespace"
     },
@@ -2080,7 +2080,7 @@
         "docs": {
             "description": "Require using arrow functions for callbacks",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-arrow-callback"
+            "url": "https://eslint.org/docs/latest/rules/prefer-arrow-callback"
         },
         "fixable": "code"
     },
@@ -2089,7 +2089,7 @@
         "docs": {
             "description": "Require `const` declarations for variables that are never reassigned after declared",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-const"
+            "url": "https://eslint.org/docs/latest/rules/prefer-const"
         },
         "fixable": "code"
     },
@@ -2098,7 +2098,7 @@
         "docs": {
             "description": "Require destructuring from arrays and/or objects",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-destructuring"
+            "url": "https://eslint.org/docs/latest/rules/prefer-destructuring"
         },
         "fixable": "code"
     },
@@ -2107,7 +2107,7 @@
         "docs": {
             "description": "Disallow the use of `Math.pow` in favor of the `**` operator",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-exponentiation-operator"
+            "url": "https://eslint.org/docs/latest/rules/prefer-exponentiation-operator"
         },
         "fixable": "code"
     },
@@ -2116,7 +2116,7 @@
         "docs": {
             "description": "Enforce using named capture group in regular expression",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-named-capture-group"
+            "url": "https://eslint.org/docs/latest/rules/prefer-named-capture-group"
         },
         "hasSuggestions": true
     },
@@ -2125,7 +2125,7 @@
         "docs": {
             "description": "Disallow `parseInt()` and `Number.parseInt()` in favor of binary, octal, and hexadecimal literals",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-numeric-literals"
+            "url": "https://eslint.org/docs/latest/rules/prefer-numeric-literals"
         },
         "fixable": "code"
     },
@@ -2134,7 +2134,7 @@
         "docs": {
             "description": "Disallow use of `Object.prototype.hasOwnProperty.call()` and prefer use of `Object.hasOwn()`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-object-has-own"
+            "url": "https://eslint.org/docs/latest/rules/prefer-object-has-own"
         },
         "fixable": "code"
     },
@@ -2143,7 +2143,7 @@
         "docs": {
             "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-object-spread"
+            "url": "https://eslint.org/docs/latest/rules/prefer-object-spread"
         },
         "fixable": "code"
     },
@@ -2152,7 +2152,7 @@
         "docs": {
             "description": "Require using Error objects as Promise rejection reasons",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-promise-reject-errors"
+            "url": "https://eslint.org/docs/latest/rules/prefer-promise-reject-errors"
         },
         "fixable": null
     },
@@ -2161,7 +2161,7 @@
         "docs": {
             "description": "Require `Reflect` methods where applicable",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-reflect"
+            "url": "https://eslint.org/docs/latest/rules/prefer-reflect"
         },
         "deprecated": true,
         "replacedBy": []
@@ -2171,7 +2171,7 @@
         "docs": {
             "description": "Disallow use of the `RegExp` constructor in favor of regular expression literals",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-regex-literals"
+            "url": "https://eslint.org/docs/latest/rules/prefer-regex-literals"
         },
         "hasSuggestions": true
     },
@@ -2180,7 +2180,7 @@
         "docs": {
             "description": "Require rest parameters instead of `arguments`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-rest-params"
+            "url": "https://eslint.org/docs/latest/rules/prefer-rest-params"
         }
     },
     "prefer-spread": {
@@ -2188,7 +2188,7 @@
         "docs": {
             "description": "Require spread operators instead of `.apply()`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-spread"
+            "url": "https://eslint.org/docs/latest/rules/prefer-spread"
         },
         "fixable": null
     },
@@ -2197,7 +2197,7 @@
         "docs": {
             "description": "Require template literals instead of string concatenation",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/prefer-template"
+            "url": "https://eslint.org/docs/latest/rules/prefer-template"
         },
         "fixable": "code"
     },
@@ -2206,7 +2206,7 @@
         "docs": {
             "description": "Require quotes around object literal property names",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/quote-props"
+            "url": "https://eslint.org/docs/latest/rules/quote-props"
         },
         "fixable": "code"
     },
@@ -2215,7 +2215,7 @@
         "docs": {
             "description": "Enforce the consistent use of either backticks, double, or single quotes",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/quotes"
+            "url": "https://eslint.org/docs/latest/rules/quotes"
         },
         "fixable": "code"
     },
@@ -2224,7 +2224,7 @@
         "docs": {
             "description": "Enforce the consistent use of the radix argument when using `parseInt()`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/radix"
+            "url": "https://eslint.org/docs/latest/rules/radix"
         },
         "hasSuggestions": true
     },
@@ -2233,7 +2233,7 @@
         "docs": {
             "description": "Disallow assignments that can lead to race conditions due to usage of `await` or `yield`",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/require-atomic-updates"
+            "url": "https://eslint.org/docs/latest/rules/require-atomic-updates"
         },
         "fixable": null
     },
@@ -2242,7 +2242,7 @@
         "docs": {
             "description": "Disallow async functions which have no `await` expression",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/require-await"
+            "url": "https://eslint.org/docs/latest/rules/require-await"
         }
     },
     "require-jsdoc": {
@@ -2250,7 +2250,7 @@
         "docs": {
             "description": "Require JSDoc comments",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/require-jsdoc"
+            "url": "https://eslint.org/docs/latest/rules/require-jsdoc"
         },
         "deprecated": true,
         "replacedBy": []
@@ -2260,7 +2260,7 @@
         "docs": {
             "description": "Enforce the use of `u` flag on RegExp",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/require-unicode-regexp"
+            "url": "https://eslint.org/docs/latest/rules/require-unicode-regexp"
         },
         "hasSuggestions": true
     },
@@ -2269,7 +2269,7 @@
         "docs": {
             "description": "Require generator functions to contain `yield`",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/require-yield"
+            "url": "https://eslint.org/docs/latest/rules/require-yield"
         }
     },
     "rest-spread-spacing": {
@@ -2277,7 +2277,7 @@
         "docs": {
             "description": "Enforce spacing between rest and spread operators and their expressions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/rest-spread-spacing"
+            "url": "https://eslint.org/docs/latest/rules/rest-spread-spacing"
         },
         "fixable": "whitespace"
     },
@@ -2286,7 +2286,7 @@
         "docs": {
             "description": "Require or disallow semicolons instead of ASI",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/semi"
+            "url": "https://eslint.org/docs/latest/rules/semi"
         },
         "fixable": "code"
     },
@@ -2295,7 +2295,7 @@
         "docs": {
             "description": "Enforce consistent spacing before and after semicolons",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/semi-spacing"
+            "url": "https://eslint.org/docs/latest/rules/semi-spacing"
         },
         "fixable": "whitespace"
     },
@@ -2304,7 +2304,7 @@
         "docs": {
             "description": "Enforce location of semicolons",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/semi-style"
+            "url": "https://eslint.org/docs/latest/rules/semi-style"
         },
         "fixable": "whitespace"
     },
@@ -2313,7 +2313,7 @@
         "docs": {
             "description": "Enforce sorted import declarations within modules",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/sort-imports"
+            "url": "https://eslint.org/docs/latest/rules/sort-imports"
         },
         "fixable": "code"
     },
@@ -2322,7 +2322,7 @@
         "docs": {
             "description": "Require object keys to be sorted",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/sort-keys"
+            "url": "https://eslint.org/docs/latest/rules/sort-keys"
         }
     },
     "sort-vars": {
@@ -2330,7 +2330,7 @@
         "docs": {
             "description": "Require variables within the same declaration block to be sorted",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/sort-vars"
+            "url": "https://eslint.org/docs/latest/rules/sort-vars"
         },
         "fixable": "code"
     },
@@ -2339,7 +2339,7 @@
         "docs": {
             "description": "Enforce consistent spacing before blocks",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/space-before-blocks"
+            "url": "https://eslint.org/docs/latest/rules/space-before-blocks"
         },
         "fixable": "whitespace"
     },
@@ -2348,7 +2348,7 @@
         "docs": {
             "description": "Enforce consistent spacing before `function` definition opening parenthesis",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/space-before-function-paren"
+            "url": "https://eslint.org/docs/latest/rules/space-before-function-paren"
         },
         "fixable": "whitespace"
     },
@@ -2357,7 +2357,7 @@
         "docs": {
             "description": "Enforce consistent spacing inside parentheses",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/space-in-parens"
+            "url": "https://eslint.org/docs/latest/rules/space-in-parens"
         },
         "fixable": "whitespace"
     },
@@ -2366,7 +2366,7 @@
         "docs": {
             "description": "Require spacing around infix operators",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/space-infix-ops"
+            "url": "https://eslint.org/docs/latest/rules/space-infix-ops"
         },
         "fixable": "whitespace"
     },
@@ -2375,7 +2375,7 @@
         "docs": {
             "description": "Enforce consistent spacing before or after unary operators",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/space-unary-ops"
+            "url": "https://eslint.org/docs/latest/rules/space-unary-ops"
         },
         "fixable": "whitespace"
     },
@@ -2384,7 +2384,7 @@
         "docs": {
             "description": "Enforce consistent spacing after the `//` or `/*` in a comment",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/spaced-comment"
+            "url": "https://eslint.org/docs/latest/rules/spaced-comment"
         },
         "fixable": "whitespace"
     },
@@ -2393,7 +2393,7 @@
         "docs": {
             "description": "Require or disallow strict mode directives",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/strict"
+            "url": "https://eslint.org/docs/latest/rules/strict"
         },
         "fixable": "code"
     },
@@ -2402,7 +2402,7 @@
         "docs": {
             "description": "Enforce spacing around colons of switch statements",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/switch-colon-spacing"
+            "url": "https://eslint.org/docs/latest/rules/switch-colon-spacing"
         },
         "fixable": "whitespace"
     },
@@ -2411,7 +2411,7 @@
         "docs": {
             "description": "Require symbol descriptions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/symbol-description"
+            "url": "https://eslint.org/docs/latest/rules/symbol-description"
         },
         "fixable": null
     },
@@ -2420,7 +2420,7 @@
         "docs": {
             "description": "Require or disallow spacing around embedded expressions of template strings",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/template-curly-spacing"
+            "url": "https://eslint.org/docs/latest/rules/template-curly-spacing"
         },
         "fixable": "whitespace"
     },
@@ -2429,7 +2429,7 @@
         "docs": {
             "description": "Require or disallow spacing between template tags and their literals",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/template-tag-spacing"
+            "url": "https://eslint.org/docs/latest/rules/template-tag-spacing"
         },
         "fixable": "whitespace"
     },
@@ -2438,7 +2438,7 @@
         "docs": {
             "description": "Require or disallow Unicode byte order mark (BOM)",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/unicode-bom"
+            "url": "https://eslint.org/docs/latest/rules/unicode-bom"
         },
         "fixable": "whitespace"
     },
@@ -2447,7 +2447,7 @@
         "docs": {
             "description": "Require calls to `isNaN()` when checking for `NaN`",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/use-isnan"
+            "url": "https://eslint.org/docs/latest/rules/use-isnan"
         }
     },
     "valid-jsdoc": {
@@ -2455,7 +2455,7 @@
         "docs": {
             "description": "Enforce valid JSDoc comments",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/valid-jsdoc"
+            "url": "https://eslint.org/docs/latest/rules/valid-jsdoc"
         },
         "fixable": "code",
         "deprecated": true,
@@ -2466,7 +2466,7 @@
         "docs": {
             "description": "Enforce comparing `typeof` expressions against valid strings",
             "recommended": true,
-            "url": "https://eslint.org/docs/rules/valid-typeof"
+            "url": "https://eslint.org/docs/latest/rules/valid-typeof"
         },
         "hasSuggestions": true
     },
@@ -2475,7 +2475,7 @@
         "docs": {
             "description": "Require `var` declarations be placed at the top of their containing scope",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/vars-on-top"
+            "url": "https://eslint.org/docs/latest/rules/vars-on-top"
         }
     },
     "wrap-iife": {
@@ -2483,7 +2483,7 @@
         "docs": {
             "description": "Require parentheses around immediate `function` invocations",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/wrap-iife"
+            "url": "https://eslint.org/docs/latest/rules/wrap-iife"
         },
         "fixable": "code"
     },
@@ -2492,7 +2492,7 @@
         "docs": {
             "description": "Require parenthesis around regex literals",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/wrap-regex"
+            "url": "https://eslint.org/docs/latest/rules/wrap-regex"
         },
         "fixable": "code"
     },
@@ -2501,7 +2501,7 @@
         "docs": {
             "description": "Require or disallow spacing around the `*` in `yield*` expressions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/yield-star-spacing"
+            "url": "https://eslint.org/docs/latest/rules/yield-star-spacing"
         },
         "fixable": "whitespace"
     },
@@ -2510,7 +2510,7 @@
         "docs": {
             "description": "Require or disallow \"Yoda\" conditions",
             "recommended": false,
-            "url": "https://eslint.org/docs/rules/yoda"
+            "url": "https://eslint.org/docs/latest/rules/yoda"
         },
         "fixable": "code"
     }
