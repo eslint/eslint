@@ -1,3 +1,26 @@
+v8.40.0 - May 5, 2023
+
+* [`4053004`](https://github.com/eslint/eslint/commit/4053004c951813473d1c43f9f9959a9a3484242f) chore: upgrade @eslint/js@8.40.0 (#17156) (Milos Djermanovic)
+* [`50fed1d`](https://github.com/eslint/eslint/commit/50fed1da4449ad7ecbb558294438273cfce603d4) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`f076e54`](https://github.com/eslint/eslint/commit/f076e54ecdb0fae70d9b43ad6888606097beef97) fix: Ensure FlatESLint#findConfigFile() doesn't throw. (#17151) (Nicholas C. Zakas)
+* [`4c7a170`](https://github.com/eslint/eslint/commit/4c7a170b04c5a746e401bef7ce79766ff66a1168) chore: upgrade @eslint/eslintrc@2.0.3 (#17155) (Milos Djermanovic)
+* [`e80b7cc`](https://github.com/eslint/eslint/commit/e80b7cce640b60c00802148dbb51d03c7223afa9) chore: upgrade espree@9.5.2 (#17154) (Milos Djermanovic)
+* [`ce3ac91`](https://github.com/eslint/eslint/commit/ce3ac91b510576e2afba1657aa5f09e162b4ab07) chore: upgrade eslint-visitor-keys@3.4.1 (#17153) (Milos Djermanovic)
+* [`5db7808`](https://github.com/eslint/eslint/commit/5db7808139c1f2172797285a0700f01644bda254) feat: improve flat config errors for invalid rule options and severities (#17140) (Josh Goldberg ✨)
+* [`f5574dc`](https://github.com/eslint/eslint/commit/f5574dc739fcc74a7841217ba1f31cce02bee1ff) feat: Add findConfigFile() method to FlatESLint (#17142) (Nicholas C. Zakas)
+* [`e52b98b`](https://github.com/eslint/eslint/commit/e52b98bf25d882da4efd5559ce5974b6697cf701) feat: add `sourceCode` property to the rule context (#17107) (Nitin Kumar)
+* [`e980bf3`](https://github.com/eslint/eslint/commit/e980bf38cf441f2eb29c458b93df77dc0111b391) docs: Update README (GitHub Actions Bot)
+* [`9094d79`](https://github.com/eslint/eslint/commit/9094d79fb42c0ebb6100426a3f2f851e8d42a0ee) chore: add `latest/` to `meta.docs.url` in all core rules (#17136) (Milos Djermanovic)
+* [`1468f5b`](https://github.com/eslint/eslint/commit/1468f5b640cfa6fdd8a5ec895337f692def2780b) feat: add `physicalFilename` property to the rule context (#17111) (Nitin Kumar)
+* [`0df4d4f`](https://github.com/eslint/eslint/commit/0df4d4f658c214e51310a986c03d44d34ceae3ec) feat: add `cwd` to rule context (#17106) (Nitin Kumar)
+* [`52018f2`](https://github.com/eslint/eslint/commit/52018f21c19b3e461cae32843cddd17ed42f19cd) feat: add `filename` property to the rule context (#17108) (Nitin Kumar)
+* [`559ff4e`](https://github.com/eslint/eslint/commit/559ff4e4bc54a8b6e6b54825d83c532d724204b3) feat: add new `omitLastInOneLineClassBody` option to the `semi` rule (#17105) (Nitin Kumar)
+* [`e92a6fc`](https://github.com/eslint/eslint/commit/e92a6fc7ed2a427f5e95f4b3a1c21d71553c97ee) docs: Update README (GitHub Actions Bot)
+* [`d85efad`](https://github.com/eslint/eslint/commit/d85efad655deacc0dc3fdbbace33307094c3b91b) perf: don't use `grapheme-splitter` on ASCII strings in key-spacing rule (#17122) (Milos Djermanovic)
+* [`af5fe64`](https://github.com/eslint/eslint/commit/af5fe64c398c9bd4206c3c6c1ade81768b291031) docs: Fix custom rule schema docs (#17115) (Adam Jones)
+* [`4a352a9`](https://github.com/eslint/eslint/commit/4a352a957ba9e721bec9f6f403b419a22b0ec423) docs: explain how to include predefined globals (#17114) (Marcus Wyatt)
+* [`5ea15d9`](https://github.com/eslint/eslint/commit/5ea15d92ee358e8f3f652c94c019cac96aaec651) docs: add mastodon link in readme (#17110) (唯然)
+
 v8.39.0 - April 21, 2023
 
 * [`60a6f26`](https://github.com/eslint/eslint/commit/60a6f2694deb4aa1c54de2a28d0357cddfd16644) chore: upgrade @eslint/js@8.39.0 (#17102) (Milos Djermanovic)
