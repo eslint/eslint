@@ -52738,10 +52738,12 @@ module.exports=require('nr+AlQ');
 /*!
  * JSHint, by JSHint Community.
  *
- * This file (and this file only) is licensed under the same slightly modified
- * MIT license that JSLint is. It stops evil-doers everywhere:
+ * This file (and this file only) was licensed under the same slightly modified
+ * MIT license that JSLint is. After a relicensing in 2020 this is now MIT License (Expat).
+ * Relicensing: https://jshint.com/relicensing-2020/
+ * License-Url: https://github.com/jshint/jshint/blob/main/LICENSE
  *
- *   Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
+ *   Copyright 2012 Anton Kovalyov (http://jshint.com)
  *
  *   Permission is hereby granted, free of charge, to any person obtaining
  *   a copy of this software and associated documentation files (the "Software"),
@@ -52752,8 +52754,6 @@ module.exports=require('nr+AlQ');
  *
  *   The above copyright notice and this permission notice shall be included
  *   in all copies or substantial portions of the Software.
- *
- *   The Software shall be used for Good, not Evil.
  *
  *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
