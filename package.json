@@ -89,7 +89,6 @@
     "imurmurhash": "^0.1.4",
     "is-glob": "^4.0.0",
     "is-path-inside": "^3.0.3",
-    "js-sdsl": "^4.1.4",
     "js-yaml": "^4.1.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
     "levn": "^0.4.1",
