@@ -63,7 +63,7 @@ describe("cli", () => {
 
         const localCLI = proxyquire("../../lib/cli", {
             "./eslint": { ESLint: fakeESLint },
-            "./flat-eslint": { FlatESLint: fakeESLint, findFlatConfigFile: () => null },
+            "./flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
             "./shared/logging": log
         });
 
@@ -940,7 +940,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, findFlatConfigFile: () => null },
+                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
                     "./shared/logging": log
                 });
 
@@ -959,7 +959,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, findFlatConfigFile: () => null },
+                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
                     "./shared/logging": log
                 });
 
@@ -990,7 +990,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, findFlatConfigFile: () => null },
+                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
                     "./shared/logging": log
                 });
 
@@ -1026,7 +1026,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, findFlatConfigFile: () => null },
+                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
 
                     "./shared/logging": log
                 });
@@ -1063,7 +1063,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, findFlatConfigFile: () => null },
+                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
 
                     "./shared/logging": log
                 });
@@ -1081,7 +1081,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, findFlatConfigFile: () => null },
+                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
 
                     "./shared/logging": log
                 });
@@ -1112,7 +1112,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, findFlatConfigFile: () => null },
+                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
 
                     "./shared/logging": log
                 });
@@ -1140,7 +1140,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, findFlatConfigFile: () => null },
+                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
 
                     "./shared/logging": log
                 });
@@ -1175,7 +1175,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, findFlatConfigFile: () => null },
+                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
 
                     "./shared/logging": log
                 });
@@ -1212,7 +1212,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, findFlatConfigFile: () => null },
+                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
 
                     "./shared/logging": log
                 });
@@ -1248,7 +1248,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, findFlatConfigFile: () => null },
+                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
 
                     "./shared/logging": log
                 });
@@ -1265,7 +1265,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, findFlatConfigFile: () => null },
+                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
 
                     "./shared/logging": log
                 });
