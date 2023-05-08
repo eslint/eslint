@@ -76,7 +76,8 @@ describe("getGraphemeCount", () => {
         "👨‍👩‍👦a👨‍👩‍👦": 3,
         "a👨‍👩‍👦b👨‍👩‍👦c": 5,
         "👨‍👩‍👦👍": 2,
-        "👶🏽👨‍👩‍👦": 2
+        "👶🏽👨‍👩‍👦": 2,
+        "👩‍🦰👩‍👩‍👦‍👦🏳️‍🌈": 3 // 3 grapheme, 14 code points, 22 code units
     };
     /* eslint-enable quote-props -- Make consistent here for readability */
 
