@@ -118,6 +118,7 @@ If the `const foo` declaration is assigned a value of `"bar"`, then the rule doe
 
 ```javascript
 // enforce-foo-bar.js
+{% raw %}
 module.exports = {
     meta: {
         type: "problem",
@@ -158,7 +159,7 @@ module.exports = {
         };
     }
 };
-```
+{% endraw %}
 
 ## Step 5: Set up Testing
 
