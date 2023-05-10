@@ -27,6 +27,10 @@ describe("unsupported-api", () => {
         assert.isFunction(api.FlatESLint);
     });
 
+    it("should have shouldUseFlatConfig exposed", () => {
+        assert.isFunction(api.shouldUseFlatConfig);
+    });
+
     it("should have FlatRuleTester exposed", () => {
         assert.isFunction(api.FlatRuleTester);
     });

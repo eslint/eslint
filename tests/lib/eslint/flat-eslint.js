@@ -23,6 +23,7 @@ const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 const shell = require("shelljs");
 const hash = require("../../../lib/cli-engine/hash");
 const { unIndent, createCustomTeardown } = require("../../_utils");
+const { shouldUseFlatConfig } = require("../../../lib/eslint/flat-eslint");
 const coreRules = require("../../../lib/rules");
 
 //------------------------------------------------------------------------------
@@ -5477,4 +5478,78 @@ describe("FlatESLint", () => {
         });
     });
 
+});
+
+describe("shouldUseFlatConfig", () => {
+
+    /**
+     * Check that `shouldUseFlatConfig` returns the expected value from a CWD
+     * with a flat config and one without a flat config.
+     * @param {boolean} expectedValueWithConfig the expected return value of
+     * `shouldUseFlatConfig` when in a directory with a flat config present
+     * @param {boolean} expectedValueWithoutConfig the expected return value of
+     * `shouldUseFlatConfig` when in a directory without any flat config present
+     * @returns {void}
+     */
+    function testShouldUseFlatConfig(expectedValueWithConfig, expectedValueWithoutConfig) {
+        describe("when there is a flat config file present", () => {
+            const originalDir = process.cwd();
+
+            beforeEach(() => {
+                process.chdir(__dirname);
+            });
+
+            afterEach(() => {
+                process.chdir(originalDir);
+            });
+
+            it(`is \`${expectedValueWithConfig}\``, async () => {
+                assert.strictEqual(await shouldUseFlatConfig(), expectedValueWithConfig);
+            });
+        });
+
+        describe("when there is no flat config file present", () => {
+            const originalDir = process.cwd();
+
+            beforeEach(() => {
+                process.chdir(os.tmpdir());
+            });
+
+            afterEach(() => {
+                process.chdir(originalDir);
+            });
+
+            it(`is \`${expectedValueWithoutConfig}\``, async () => {
+                assert.strictEqual(await shouldUseFlatConfig(), expectedValueWithoutConfig);
+            });
+        });
+    }
+
+    describe("when the env variable `ESLINT_USE_FLAT_CONFIG` is `'true'`", () => {
+        beforeEach(() => {
+            process.env.ESLINT_USE_FLAT_CONFIG = true;
+        });
+
+        afterEach(() => {
+            delete process.env.ESLINT_USE_FLAT_CONFIG;
+        });
+
+        testShouldUseFlatConfig(true, true);
+    });
+
+    describe("when the env variable `ESLINT_USE_FLAT_CONFIG` is `'false'`", () => {
+        beforeEach(() => {
+            process.env.ESLINT_USE_FLAT_CONFIG = false;
+        });
+
+        afterEach(() => {
+            delete process.env.ESLINT_USE_FLAT_CONFIG;
+        });
+
+        testShouldUseFlatConfig(false, false);
+    });
+
+    describe("when the env variable `ESLINT_USE_FLAT_CONFIG` is unset", () => {
+        testShouldUseFlatConfig(true, false);
+    });
 });
