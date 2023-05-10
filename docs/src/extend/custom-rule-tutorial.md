@@ -148,7 +148,7 @@ module.exports = {
                                     notBar: node.declaration.init.value
                                 },
                                 fix(fixer) {
-                                    return fixer.replaceText(node.declaration.init, "bar");
+                                    return fixer.replaceText(node.declarations[0].init, '"bar"');
                                 }
                             });
                         }
