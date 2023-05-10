@@ -160,6 +160,7 @@ module.exports = {
     }
 };
 {% endraw %}
+```
 
 ## Step 5: Set up Testing
 
