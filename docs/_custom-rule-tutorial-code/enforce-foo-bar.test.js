@@ -15,7 +15,7 @@ const ruleTester = new RuleTester({
 
 // Throws error if the tests in ruleTester.run() do not pass
 ruleTester.run(
-  "foo-bar", // rule name
+  "enforce-foo-bar", // rule name
   fooBarRule, // rule code
   { // checks
     // 'valid' checks cases that should pass

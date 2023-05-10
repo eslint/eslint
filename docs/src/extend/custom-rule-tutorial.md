@@ -207,7 +207,7 @@ const ruleTester = new RuleTester({
 
 // Throws error if the tests in ruleTester.run() do not pass
 ruleTester.run(
-  "foo-bar", // rule name
+  "enforce-foo-bar", // rule name
   fooBarRule, // rule code
   { // checks
     // 'valid' checks cases that should pass
@@ -244,7 +244,7 @@ To learn more about creating plugins, refer to [Create Plugins](plugins).
 // eslint-plugin-example.js
 
 const fooBarRule = require("./enforce-foo-bar");
-const plugin = { rules: { "foo-bar": fooBarRule } };
+const plugin = { rules: { "enforce-foo-bar": fooBarRule } };
 module.exports = plugin;
 ```
 
