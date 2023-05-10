@@ -100,7 +100,6 @@ module.exports = {
     create(context) {
         return {
             // TODO: add callback function(s)
-            }
         };
     }
 };
@@ -125,7 +124,7 @@ module.exports = {
         docs: {
             description: "Enforce that a variable named `foo` can only be assigned a value of 'bar'.",
         },
-         fixable: "code"
+        fixable: "code"
     },
     create(context) {
         return {
@@ -200,7 +199,7 @@ const fooBarRule = require("./enforce-foo-bar");
 
 const ruleTester = new RuleTester({
   // Must use at least ecmaVersion 2015 because
-  // that's when `const` variable introduced.
+  // that's when `const` variables were introduced.
   parserOptions: { ecmaVersion: 2015 }
 });
 
@@ -215,7 +214,7 @@ ruleTester.run(
     }],
     // 'invalid' checks cases that should not pass
     invalid: [{
-      code:"const foo = 'baz';",
+      code: "const foo = 'baz';",
       output: 'const foo = "bar";',
       errors: 1,
     }],
