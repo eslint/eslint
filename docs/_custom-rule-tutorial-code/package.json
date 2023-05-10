@@ -13,13 +13,10 @@
   },
   "scripts": {
     "test": "node enforce-foo-bar.test.js",
-    "pub": "np --yarn false"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.36.0",
-    "eslint-plugin-foo-bar": "^1.1.0",
-    "np": "^7.6.3"
   }
 }

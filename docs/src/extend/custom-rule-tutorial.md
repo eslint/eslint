@@ -365,7 +365,6 @@ A complete annotated example of what a plugin's `package.json` file should look 
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.36.0",
-    "np": "^7.6.3"
   }
 }
 ```
