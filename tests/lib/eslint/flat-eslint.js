@@ -676,7 +676,7 @@ describe("FlatESLint", () => {
                 cwd: getFixturePath(""),
                 overrideConfigFile: "does-not-exist.js"
             });
-            await assert.rejects(() => eslint.lintText("var foo = 'bar';"));
+            await assert.rejects(() => eslint.lintText("var foo = 'bar';"), { code: "ENOENT" });
         });
 
         it("should throw if non-string value is given to 'code' parameter", async () => {
@@ -822,7 +822,7 @@ describe("FlatESLint", () => {
                 cwd: getFixturePath(),
                 overrideConfigFile: "does-not-exist.js"
             });
-            await assert.rejects(() => eslint.lintFiles("undef*.js"));
+            await assert.rejects(() => eslint.lintFiles("undef*.js"), { code: "ENOENT" });
         });
 
         it("should throw an error when given a config file and a valid file and invalid parser", async () => {
