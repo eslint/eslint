@@ -4631,6 +4631,99 @@ describe("FlatESLint", () => {
         });
     });
 
+    describe("configs with 'ignores' and without 'files'", () => {
+
+        // https://github.com/eslint/eslint/issues/17103
+        describe("config with ignores: ['error.js']", () => {
+            const cwd = getFixturePath("config-with-ignores-without-files");
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd,
+                files: {
+                    "eslint.config.js": `module.exports = [
+                        {
+                            rules: {
+                                "no-unused-vars": "error",
+                            },
+                        },
+                        {
+                            ignores: ["error.js"],
+                            rules: {
+                                "no-unused-vars": "warn",
+                            },
+                        },
+                      ];`,
+                    "error.js": "let unusedVar;",
+                    "warn.js": "let unusedVar;"
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("should apply to all files except for 'error.js'", async () => {
+                const engine = new FlatESLint({
+                    cwd
+                });
+
+                const results = await engine.lintFiles("{error,warn}.js");
+
+                assert.strictEqual(results.length, 2);
+
+                const [errorResult, warnResult] = results;
+
+                assert.strictEqual(errorResult.filePath, path.join(getPath(), "error.js"));
+                assert.strictEqual(errorResult.messages.length, 1);
+                assert.strictEqual(errorResult.messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(errorResult.messages[0].severity, 2);
+
+                assert.strictEqual(warnResult.filePath, path.join(getPath(), "warn.js"));
+                assert.strictEqual(warnResult.messages.length, 1);
+                assert.strictEqual(warnResult.messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(warnResult.messages[0].severity, 1);
+            });
+        });
+
+        describe("config with ignores: ['**/*.json']", () => {
+            const cwd = getFixturePath("config-with-ignores-without-files");
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd,
+                files: {
+                    "eslint.config.js": `module.exports = [
+                        {
+                            rules: {
+                                "no-undef": "error",
+                            },
+                        },
+                        {
+                            ignores: ["**/*.json"],
+                            rules: {
+                                "no-unused-vars": "error",
+                            },
+                        },
+                      ];`,
+                    "foo.js": "",
+                    "foo.json": ""
+                }
+            });
+
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("should not add json files as lint targets", async () => {
+                const engine = new FlatESLint({
+                    cwd
+                });
+
+                const results = await engine.lintFiles("foo*");
+
+                // should not lint `foo.json`
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, path.join(getPath(), "foo.js"));
+            });
+        });
+
+    });
+
     describe("with ignores config", () => {
         const root = getFixturePath("cli-engine/ignore-patterns");
 
