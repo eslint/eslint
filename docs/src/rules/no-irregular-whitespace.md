@@ -63,6 +63,7 @@ This rule has an object option for exceptions:
 * `"skipComments": true` allows any whitespace characters in comments
 * `"skipRegExps": true` allows any whitespace characters in regular expression literals
 * `"skipTemplates": true` allows any whitespace characters in template literals
+* `"skipJSXText": true` allows any whitespace characters in JSX text
 
 ### skipStrings
 
@@ -187,6 +188,21 @@ Examples of additional **correct** code for this rule with the `{ "skipTemplates
 
 function thing() {
     return `template <NBSP>string`;
+}
+```
+
+### skipJSXText
+
+Examples of additional **correct** code for this rule with the `{ "skipJSXText": true }` option:
+
+::: correct
+
+```js
+/*eslint no-irregular-whitespace: ["error", { "skipJSXText": true }]*/
+/*eslint-env es6*/
+
+function Thing() {
+    return <div>text in <NBSP>JSX</div>;
 }
 ```
 
