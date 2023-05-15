@@ -3578,12 +3578,12 @@ describe("FlatESLint", () => {
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
             });
 
-            it("should allow subfolders of defaultPatterns to be unignored by ignorePattern", async () => {
+            it("should allow subfolders of defaultPatterns to be unignored by ignorePattern constructor option", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new FlatESLint({
                     cwd,
                     overrideConfigFile: true,
-                    ignorePatterns: ["!node_modules/package/**"]
+                    ignorePatterns: ["!node_modules/", "node_modules/*", "!node_modules/package/"]
                 });
 
                 const result = await engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js"));
@@ -3591,13 +3591,13 @@ describe("FlatESLint", () => {
                 assert(!result, "File should not be ignored");
             });
 
-            it("should allow subfolders of defaultPatterns to be unignored by ignorePath", async () => {
+            it("should allow subfolders of defaultPatterns to be unignored by ignores in overrideConfig", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new FlatESLint({
                     cwd,
                     overrideConfigFile: true,
                     overrideConfig: {
-                        ignores: ["!node_modules/package/**"]
+                        ignores: ["!node_modules/", "node_modules/*", "!node_modules/package/"]
                     }
                 });
 
@@ -4608,13 +4608,13 @@ describe("FlatESLint", () => {
         });
 
 
-        describe("ignores can unignore '/node_modules/foo'.", () => {
+        describe("ignores can unignore '/node_modules/foo' with patterns ['!node_modules/', 'node_modules/*', '!node_modules/foo/'].", () => {
 
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: `${root}-unignores`,
                 files: {
                     "eslint.config.js": `module.exports = {
-                        ignores: ["!**/node_modules/foo"]
+                        ignores: ["!node_modules/", "node_modules/*", "!node_modules/foo/"]
                     };`,
                     "node_modules/foo/index.js": "",
                     "node_modules/foo/.dot.js": "",
@@ -4659,13 +4659,13 @@ describe("FlatESLint", () => {
             });
         });
 
-        describe("ignores can unignore '/node_modules/foo/**'.", () => {
+        describe("ignores can unignore '/node_modules/foo' with patterns ['!node_modules/', 'node_modules/*', '!node_modules/foo/**'].", () => {
 
             const { prepare, cleanup, getPath } = createCustomTeardown({
                 cwd: `${root}-unignores`,
                 files: {
                     "eslint.config.js": `module.exports = {
-                        ignores: ["!**/node_modules/foo/**"]
+                        ignores: ["!node_modules/", "node_modules/*", "!node_modules/foo/**"]
                     };`,
                     "node_modules/foo/index.js": "",
                     "node_modules/foo/.dot.js": "",
@@ -5194,7 +5194,7 @@ describe("FlatESLint", () => {
                 cwd: `${root}a3`,
                 files: {
                     "node_modules/myconf/eslint.config.js": `module.exports = [{
-                        ignores: ["!node_modules/myconf", "foo/*.js"],
+                        ignores: ["!node_modules", "node_modules/*", "!node_modules/myconf", "foo/*.js"],
                     }, {
                         rules: {
                             eqeqeq: "error"
