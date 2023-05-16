@@ -440,7 +440,7 @@ ruleTester.run("quotes", rule, {
         },
         {
             code: "() => { foo(); `use strict`; }",
-            output: "() => { foo(); \"use strict\"; }",
+            output: null, // no autofix
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
@@ -450,7 +450,7 @@ ruleTester.run("quotes", rule, {
         },
         {
             code: "foo(); `use strict`;",
-            output: "foo(); \"use strict\";",
+            output: null, // no autofix
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
@@ -725,6 +725,43 @@ ruleTester.run("quotes", rule, {
                     type: "Literal"
                 }
             ]
+        },
+
+        // https://github.com/eslint/eslint/pull/17022
+        {
+            code: "() => { foo(); (`use strict`); }",
+            output: "() => { foo(); (\"use strict\"); }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
+        },
+        {
+            code: "('foo'); \"bar\";",
+            output: "(`foo`); `bar`;",
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "backtick" },
+                type: "Literal"
+            }, {
+                messageId: "wrongQuotes",
+                data: { description: "backtick" },
+                type: "Literal"
+            }]
+        },
+        {
+            code: "; 'use asm';",
+            output: "; \"use asm\";",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "Literal"
+            }]
         }
     ]
 });

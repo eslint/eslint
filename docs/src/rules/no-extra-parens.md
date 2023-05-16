@@ -21,7 +21,24 @@ This rule always ignores extra parentheses around the following:
 * immediately-invoked function expressions (also known as IIFEs) such as `var x = (function () {})();` and `var x = (function () {}());` to avoid conflicts with the [wrap-iife](wrap-iife) rule
 * arrow function arguments to avoid conflicts with the [arrow-parens](arrow-parens) rule
 
-Problems reported by this rule can be fixed automatically, except when removing the parentheses would create a new directive.
+Problems reported by this rule can be fixed automatically, except when removing the parentheses would create a new directive, because that could change the semantics of the code.
+For example, the following script prints `object` to the console, but if the parentheses around `"use strict"` were removed, it would print `undefined` instead.
+
+```js
+<!--
+// this is a script
+// -->
+
+("use strict");
+
+function test() {
+    console.log(typeof this);
+}
+
+test();
+```
+
+In this case, the rule will not try to remove the parentheses around `"use strict"` but will still report them as a problem.
 
 ## Options
 

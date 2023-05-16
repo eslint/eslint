@@ -3458,19 +3458,6 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(('foobar'));", "('foobar');"),
         invalid("(`foobar`);", "`foobar`;"),
         invalid("void ('foobar');", "void 'foobar';"),
-        invalid("try { ('error'); } catch { }", "try { 'error'; } catch { }"),
-        invalid("{('')}", "{''}"),
-        invalid("_ = () => ('abc');", "_ = () => 'abc';"),
-        invalid("; ('abc');", "; 'abc';"),
-        invalid("label: ('abc')", "label: 'abc'"),
-        {
-            code: "('foo');('bar');(\"baz\")",
-            output: "('foo');'bar';\"baz\"",
-            errors: [
-                { messageId: "unexpected", type: "Literal" },
-                { messageId: "unexpected", type: "Literal" },
-                { messageId: "unexpected", type: "Literal" }
-            ]
-        }
+        invalid("_ = () => ('abc');", "_ = () => 'abc';")
     ]
 });
