@@ -13,7 +13,7 @@ function createESLintInstance(eslintConfig){
     }
 }
 
-// Define a function that lints the specified files and returns the error results
+// a function that lints the specified files and returns the error results
 async function getLintingResults(eslint, filePaths) {
   const results = await eslint.lintFiles(filePaths);
 
@@ -27,7 +27,7 @@ async function getLintingResults(eslint, filePaths) {
 }
 
 // Log results to console if there are any problems
-function handleLintingResults(results) {
+function outputLintingResults(results) {
   if (results.length) {
     console.log("Linting errors found!");
     console.log(results);
@@ -37,7 +37,7 @@ function handleLintingResults(results) {
   return results;
 }
 
-// Put previous function all together
+// Put previous functions all together
 async function lintFiles(filePaths) {
 
     // The ESLint configuration. Alternatively, you could load the configuration

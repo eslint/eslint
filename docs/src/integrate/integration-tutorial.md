@@ -9,7 +9,7 @@ eleventyNavigation:
 
 This guide walks you through integrating the `ESLint` class to lint files and retrieve results, which can be useful for creating integrations with other projects.
 
-## Why Create a Custom Integration?
+## Why Create an Integration?
 
 You might want to create an ESLint integration if you're creating developer tooling, such as the following:
 
@@ -113,7 +113,7 @@ async function getLintingResults(eslint, filePaths) {
 
 ## Step 4: Handle Results
 
-Define a custom function to handle the linting results. This should be custom to your integration's needs.
+Define a function to output the linting results to the consoles. This should be specific to your integration's needs.
 For example, you could report the linting results to a user interface. In this example, we'll simply log the results to the console:
 
 ```javascript

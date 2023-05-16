@@ -7,7 +7,7 @@ eleventyNavigation:
 
 ---
 
-This guide is intended for those who wish to integrate the functionality of ESLint.
+This guide is intended for those who wish to integrate the functionality of ESLint into other applications by using the ESLint API.
 
 In order to integrate ESLint, it's recommended that:
 
