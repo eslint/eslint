@@ -13,15 +13,15 @@ This guide walks you through integrating the `ESLint` class to lint files and re
 
 You might want to create an ESLint integration if you're creating developer tooling, such as the following:
 
-- **Code editors and IDEs**: Integrating ESLint with code editors and IDEs can provide real-time feedback on code quality and automatically highlight potential issues as you type. Many editors already have ESLint plugins available, but you may need to create a custom integration if the existing plugins do not meet your specific requirements.
+* **Code editors and IDEs**: Integrating ESLint with code editors and IDEs can provide real-time feedback on code quality and automatically highlight potential issues as you type. Many editors already have ESLint plugins available, but you may need to create a custom integration if the existing plugins do not meet your specific requirements.
 
-- **Custom linter tools**: If you're building a custom linter tool that combines multiple linters or adds specific functionality, you may want to integrate ESLint into your tool to provide JavaScript linting capabilities.
+* **Custom linter tools**: If you're building a custom linter tool that combines multiple linters or adds specific functionality, you may want to integrate ESLint into your tool to provide JavaScript linting capabilities.
 
-- **Code review tools**: Integrating ESLint with code review tools can help automate the process of identifying potential issues in the codebase.
+* **Code review tools**: Integrating ESLint with code review tools can help automate the process of identifying potential issues in the codebase.
 
-- **Learning platforms**: If you are developing a learning platform or coding tutorial, integrating ESLint can provide real-time feedback to users as they learn JavaScript, helping them improve their coding skills and learn best practices.
+* **Learning platforms**: If you are developing a learning platform or coding tutorial, integrating ESLint can provide real-time feedback to users as they learn JavaScript, helping them improve their coding skills and learn best practices.
 
-- **Developer tools** If you're creating developer tools, like a testing framework or a bundler, you may want to integrate ESLint to provide linting capabilities.
+* **Developer tools** If you're creating developer tools, like a testing framework or a bundler, you may want to integrate ESLint to provide linting capabilities.
 
 ## What You'll Build
 
@@ -33,9 +33,9 @@ This tutorial assumes you are familiar with JavaScript and Node.js.
 
 To follow this tutorial, you'll need to have the following:
 
-- Node.js (v12.0.0 or higher)
-- npm or Yarn package manager
-- A text editor
+* Node.js (v12.0.0 or higher)
+* npm or Yarn package manager
+* A text editor
 
 ## Step 1: Setup
 
@@ -66,7 +66,7 @@ touch example-eslint-integration.js
 
 ## Step 2: Import and Configure the `ESLint` Instance
 
-Import the `ESLint` class from the `eslint` package and create a new instance. 
+Import the `ESLint` class from the `eslint` package and create a new instance.
 
 You can customize the ESLint configuration by passing an options object to the `ESLint` constructor:
 
@@ -105,8 +105,9 @@ async function lintAndFix(eslint, filePaths) {
 
 ## Step 4: Handle Results
 
-Define a function to output the linting results to the consoles. This should be specific to your integration's needs.
-For example, you could report the linting results to a user interface. In this example, we'll simply log the results to the console:
+Define a function to output the linting results to the consoles. This should be specific to your integration's needs. For example, you could report the linting results to a user interface.
+
+In this example, we'll simply log the results to the console:
 
 ```javascript
 // example-eslint-integration.js
