@@ -10,18 +10,18 @@ async function testExampleEslintIntegration(){
     const lintResults = await lintFiles(filePaths);
 
     // Test cases
-    if(lintResults[0].messages.length !== 3){
-        throw new Error("Expected 3 linting errors, got " + lintResults.length);
+    if(lintResults[0].messages.length !== 6){
+        throw new Error("Expected 3 linting errors, got " + lintResults[0].messages.length);
     }
     const messageRuleIds = new Set()
     lintResults[0].messages.forEach(msg => messageRuleIds.add(msg.ruleId));
-    if(messageRuleIds.size !== 1){
+    if(messageRuleIds.size !== 2){
         throw new Error("Expected 1 linting rule, got " + messageRuleIds.size);
     }
     if(!messageRuleIds.has("no-console")){
         throw new Error("Expected linting rule 'no-console', got " + messageRuleIds);
     }
-
+    console.log("All tests passed!");
 }
 
 testExampleEslintIntegration()

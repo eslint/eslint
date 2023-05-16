@@ -5,25 +5,19 @@
 
 const { ESLint } = require("eslint");
 
-function createESLintInstance(eslintConfig){
-    if (eslintConfig) {
-        return new ESLint({ useEslintrc: false, overrideConfig: eslintConfig });
-    } else {
-        return new ESLint({ useEslintrc: false });
-    }
+// Create an instance of ESLint with the configuration passed to the function
+function createESLintInstance(overrideConfig){
+  return new ESLint({ useEslintrc: false, overrideConfig: overrideConfig });
 }
 
-// a function that lints the specified files and returns the error results
-async function getLintingResults(eslint, filePaths) {
+// Lint the specified files and return the error results
+async function lintAndFix(eslint, filePaths) {
   const results = await eslint.lintFiles(filePaths);
 
   // Apply automatic fixes and output fixed code
   await ESLint.outputFixes(results);
 
-  // Get error results
-  const errorResults = ESLint.getErrorResults(results);
-
-  return errorResults;
+  return results;
 }
 
 // Log results to console if there are any problems
@@ -57,8 +51,8 @@ async function lintFiles(filePaths) {
     };
 
     const eslint = createESLintInstance(overrideConfig);
-    const results = await getLintingResults(eslint, filePaths);
-    return handleLintingResults(results);
+    const results = await lintAndFix(eslint, filePaths);
+    return outputLintingResults(results);
 }
 
 module.exports = { lintFiles }
