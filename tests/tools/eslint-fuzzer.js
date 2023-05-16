@@ -183,7 +183,8 @@ describe("eslint-fuzzer", function() {
                     severity: 2,
                     message: `Parsing error: ${expectedSyntaxError.message}`,
                     line: expectedSyntaxError.lineNumber,
-                    column: expectedSyntaxError.column
+                    column: expectedSyntaxError.column,
+                    nodeType: null
                 });
             });
         });
@@ -232,7 +233,8 @@ describe("eslint-fuzzer", function() {
                     severity: 2,
                     message: `Parsing error: ${expectedSyntaxError.message}`,
                     line: expectedSyntaxError.lineNumber,
-                    column: expectedSyntaxError.column
+                    column: expectedSyntaxError.column,
+                    nodeType: null
                 });
             });
         });

@@ -506,7 +506,8 @@ describe("FlatESLint", () => {
                             severity: 2,
                             message: "Parsing error: Unexpected token is",
                             line: 1,
-                            column: 19
+                            column: 19,
+                            nodeType: null
                         }
                     ],
                     suppressedMessages: [],
@@ -546,7 +547,8 @@ describe("FlatESLint", () => {
                             severity: 2,
                             message: "Parsing error: Unexpected token",
                             line: 1,
-                            column: 10
+                            column: 10,
+                            nodeType: null
                         }
                     ],
                     suppressedMessages: [],
@@ -636,7 +638,8 @@ describe("FlatESLint", () => {
                             severity: 2,
                             message: "Parsing error: Unexpected token is",
                             line: 1,
-                            column: 19
+                            column: 19,
+                            nodeType: null
                         }
                     ],
                     suppressedMessages: [],
@@ -5088,9 +5091,11 @@ describe("FlatESLint", () => {
                         fixableWarningCount: 0,
                         messages: [
                             {
+                                ruleId: null,
                                 fatal: false,
                                 message: "File ignored by default. Use \"--ignore-pattern '!node_modules/*'\" to override.",
-                                severity: 1
+                                severity: 1,
+                                nodeType: null
                             }
                         ],
                         usedDeprecatedRules: [],

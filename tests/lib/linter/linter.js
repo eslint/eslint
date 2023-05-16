@@ -6882,7 +6882,8 @@ var a = "test2";
                         severity: 2,
                         message: "Preprocessing error: Invalid syntax",
                         line: 1,
-                        column: 1
+                        column: 1,
+                        nodeType: null
                     }
                 ]);
             });
@@ -8864,7 +8865,8 @@ describe("Linter with FlatConfigArray", () => {
                 severity: 1,
                 message: "No matching configuration found for filename.ts.",
                 line: 0,
-                column: 0
+                column: 0,
+                nodeType: null
             });
         });
 
@@ -15765,7 +15767,8 @@ var a = "test2";
                         severity: 2,
                         message: "Preprocessing error: Invalid syntax",
                         line: 1,
-                        column: 1
+                        column: 1,
+                        nodeType: null
                     }
                 ]);
             });
