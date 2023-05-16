@@ -661,7 +661,7 @@ describe("FlatESLint", () => {
                 ignore: false
             });
             const results = await eslint.lintText("var bar = foo;", { filePath: "node_modules/passing.js", warnIgnored: true });
-            const expectedMsg = "File ignored by default. Use \"--ignore-pattern '!node_modules/*'\" to override.";
+            const expectedMsg = "File ignored by default because it is located under the node_modules directory. Use ignore pattern \"!**/node_modules/\" to override.";
 
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].filePath, getFixturePath("node_modules/passing.js"));
@@ -1196,7 +1196,7 @@ describe("FlatESLint", () => {
                     cwd: getFixturePath("cli-engine")
                 });
                 const results = await eslint.lintFiles(["node_modules/foo.js"]);
-                const expectedMsg = "File ignored by default. Use \"--ignore-pattern '!node_modules/*'\" to override.";
+                const expectedMsg = "File ignored by default because it is located under the node_modules directory. Use ignore pattern \"!**/node_modules/\" to override.";
 
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].errorCount, 0);
@@ -5093,7 +5093,7 @@ describe("FlatESLint", () => {
                             {
                                 ruleId: null,
                                 fatal: false,
-                                message: "File ignored by default. Use \"--ignore-pattern '!node_modules/*'\" to override.",
+                                message: "File ignored by default because it is located under the node_modules directory. Use ignore pattern \"!**/node_modules/\" to override.",
                                 severity: 1,
                                 nodeType: null
                             }
