@@ -55,4 +55,5 @@ async function lintFiles(filePaths) {
     return outputLintingResults(results);
 }
 
+// Export integration
 module.exports = { lintFiles }
