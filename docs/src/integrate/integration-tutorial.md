@@ -125,7 +125,7 @@ function outputLintingResults(results) {
   }
   return results;
 }
-``` 
+```
 
 ## Step 5: Put It All Together
 
