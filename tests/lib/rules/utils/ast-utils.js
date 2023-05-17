@@ -1802,4 +1802,62 @@ describe("ast-utils", () => {
             });
         });
     });
+
+    describe("isTopLevelExpressionStatement", () => {
+        it("should return false for a Program node", () => {
+            const node = { type: "Program", parent: null };
+
+            assert.strictEqual(astUtils.isTopLevelExpressionStatement(node), false);
+        });
+
+        it("should return false if the node is not an ExpressionStatement", () => {
+            linter.defineRule("checker", {
+                create: mustCall(context => ({
+                    ":expression": mustCall(node => {
+                        const sourceCode = context.getSourceCode();
+
+                        assert.strictEqual(astUtils.isTopLevelExpressionStatement(sourceCode, node), false);
+                    })
+                }))
+            });
+
+            linter.verify("var foo = () => \"use strict\";", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 2022 } });
+        });
+
+        const expectedResults = [
+            ["if (foo) { \"use strict\"; }", "\"use strict\";", false],
+            ["{ \"use strict\"; }", "\"use strict\";", false],
+            ["switch (foo) { case bar: \"use strict\"; }", "\"use strict\";", false],
+            ["foo; bar;", "foo;", true],
+            ["foo; bar;", "bar;", true],
+            ["function foo() { bar; }", "bar;", true],
+            ["var foo = function () { foo(); };", "foo();", true],
+            ["var foo = () => { 'bar'; }", "'bar';", true],
+            ["\"use strict\"", "\"use strict\"", true],
+            ["(`use strict`)", "(`use strict`)", true]
+        ];
+
+        expectedResults.forEach(([code, nodeText, expectedRetVal]) => {
+            it(`should return ${expectedRetVal} for \`${nodeText}\` in \`${code}\``, () => {
+                linter.defineRule("checker", {
+                    create: mustCall(context => {
+                        const sourceCode = context.getSourceCode();
+                        const assertForNode = mustCall(
+                            node => assert.strictEqual(astUtils.isTopLevelExpressionStatement(node), expectedRetVal)
+                        );
+
+                        return ({
+                            ExpressionStatement(node) {
+                                if (sourceCode.getText(node) === nodeText) {
+                                    assertForNode(node);
+                                }
+                            }
+                        });
+                    })
+                });
+
+                linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 2022 } });
+            });
+        });
+    });
 });

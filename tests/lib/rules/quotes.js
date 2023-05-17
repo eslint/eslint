@@ -756,11 +756,30 @@ ruleTester.run("quotes", rule, {
         {
             code: "; 'use asm';",
             output: "; \"use asm\";",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "Literal"
+            }]
+        },
+        {
+            code: "{ `foobar`; }",
+            output: "{ \"foobar\"; }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
+        },
+        {
+            code: "foo(() => `bar`);",
+            output: "foo(() => \"bar\");",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
             }]
         }
     ]

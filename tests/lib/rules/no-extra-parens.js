@@ -3447,17 +3447,19 @@ ruleTester.run("no-extra-parens", rule, {
         ),
 
         // Potential directives (no autofix)
-        invalid("('use strict');", "('use strict');"),
-        invalid("function f() { ('abc'); }", "function f() { ('abc'); }"),
-        invalid("(function () { ('abc'); })();", "(function () { ('abc'); })();"),
-        invalid("_ = () => { ('abc'); };", "_ = () => { ('abc'); };"),
-        invalid("'use strict';(\"foobar\");", "'use strict';(\"foobar\");"),
+        invalid("('use strict');", null),
+        invalid("function f() { ('abc'); }", null),
+        invalid("(function () { ('abc'); })();", null),
+        invalid("_ = () => { ('abc'); };", null),
+        invalid("'use strict';(\"foobar\");", null),
 
         // Directive lookalikes
         invalid("(12345);", "12345;"),
         invalid("(('foobar'));", "('foobar');"),
         invalid("(`foobar`);", "`foobar`;"),
         invalid("void ('foobar');", "void 'foobar';"),
-        invalid("_ = () => ('abc');", "_ = () => 'abc';")
+        invalid("_ = () => ('abc');", "_ = () => 'abc';"),
+        invalid("if (foo) ('bar');", "if (foo) 'bar';"),
+        invalid("const foo = () => ('bar');", "const foo = () => 'bar';")
     ]
 });
