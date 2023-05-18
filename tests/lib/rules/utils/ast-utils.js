@@ -64,7 +64,7 @@ describe("ast-utils", () => {
             linter.defineRule("checker", {
                 create: mustCall(context => ({
                     BlockStatement: mustCall(node => {
-                        assert.isFalse(astUtils.isTokenOnSameLine(context.getTokenBefore(node), node));
+                        assert.isFalse(astUtils.isTokenOnSameLine(context.sourceCode.getTokenBefore(node), node));
                     })
                 }))
             });
@@ -77,7 +77,7 @@ describe("ast-utils", () => {
             linter.defineRule("checker", {
                 create: mustCall(context => ({
                     BlockStatement: mustCall(node => {
-                        assert.isTrue(astUtils.isTokenOnSameLine(context.getTokenBefore(node), node));
+                        assert.isTrue(astUtils.isTokenOnSameLine(context.sourceCode.getTokenBefore(node), node));
                     })
                 }))
             });
@@ -123,7 +123,7 @@ describe("ast-utils", () => {
             linter.defineRule("checker", {
                 create: mustCall(context => ({
                     CatchClause: mustCall(node => {
-                        const variables = context.getDeclaredVariables(node);
+                        const variables = context.sourceCode.getDeclaredVariables(node);
 
                         assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
                     })
@@ -138,7 +138,7 @@ describe("ast-utils", () => {
             linter.defineRule("checker", {
                 create: mustCall(context => ({
                     VariableDeclaration: mustCall(node => {
-                        const variables = context.getDeclaredVariables(node);
+                        const variables = context.sourceCode.getDeclaredVariables(node);
 
                         assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
                     })
@@ -152,7 +152,7 @@ describe("ast-utils", () => {
             linter.defineRule("checker", {
                 create: mustCall(context => ({
                     VariableDeclaration: mustCall(node => {
-                        const variables = context.getDeclaredVariables(node);
+                        const variables = context.sourceCode.getDeclaredVariables(node);
 
                         assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
                     })
@@ -167,7 +167,7 @@ describe("ast-utils", () => {
             linter.defineRule("checker", {
                 create: mustCall(context => ({
                     ClassDeclaration: mustCall(node => {
-                        const variables = context.getDeclaredVariables(node);
+                        const variables = context.sourceCode.getDeclaredVariables(node);
 
                         assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
                         assert.lengthOf(astUtils.getModifyingReferences(variables[1].references), 0);
@@ -182,7 +182,7 @@ describe("ast-utils", () => {
             linter.defineRule("checker", {
                 create: mustCall(context => ({
                     ClassDeclaration: mustCall(node => {
-                        const variables = context.getDeclaredVariables(node);
+                        const variables = context.sourceCode.getDeclaredVariables(node);
 
                         assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
                     })
