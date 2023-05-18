@@ -1812,11 +1812,9 @@ describe("ast-utils", () => {
 
         it("should return false if the node is not an ExpressionStatement", () => {
             linter.defineRule("checker", {
-                create: mustCall(context => ({
+                create: mustCall(() => ({
                     ":expression": mustCall(node => {
-                        const sourceCode = context.getSourceCode();
-
-                        assert.strictEqual(astUtils.isTopLevelExpressionStatement(sourceCode, node), false);
+                        assert.strictEqual(astUtils.isTopLevelExpressionStatement(node), false);
                     })
                 }))
             });
@@ -1841,14 +1839,13 @@ describe("ast-utils", () => {
             it(`should return ${expectedRetVal} for \`${nodeText}\` in \`${code}\``, () => {
                 linter.defineRule("checker", {
                     create: mustCall(context => {
-                        const sourceCode = context.getSourceCode();
                         const assertForNode = mustCall(
                             node => assert.strictEqual(astUtils.isTopLevelExpressionStatement(node), expectedRetVal)
                         );
 
                         return ({
                             ExpressionStatement(node) {
-                                if (sourceCode.getText(node) === nodeText) {
+                                if (context.sourceCode.getText(node) === nodeText) {
                                     assertForNode(node);
                                 }
                             }
