@@ -1340,6 +1340,26 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
 
+            it("should return a warning about matching ignore patterns when an explicitly given dotfile is ignored", async () => {
+                eslint = new FlatESLint({
+                    overrideConfigFile: "eslint.config_with_ignores.js",
+                    cwd: getFixturePath()
+                });
+                const filePath = getFixturePath("dot-files/.a.js");
+                const results = await eslint.lintFiles([filePath]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, filePath);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
+                assert.strictEqual(results[0].errorCount, 0);
+                assert.strictEqual(results[0].warningCount, 1);
+                assert.strictEqual(results[0].fatalErrorCount, 0);
+                assert.strictEqual(results[0].fixableErrorCount, 0);
+                assert.strictEqual(results[0].fixableWarningCount, 0);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
             it("should return two messages when given a file in excluded files list while ignore is off", async () => {
                 eslint = new FlatESLint({
                     cwd: getFixturePath(),
