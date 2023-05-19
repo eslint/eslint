@@ -9,6 +9,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+import { mock, fn } from "@wdio/browser-runner"
+import { expect } from "@wdio/globals"
+
 const { assert } = require("chai"),
     sinon = require("sinon"),
     espree = require("espree"),
@@ -17,6 +20,22 @@ const { assert } = require("chai"),
 
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 const { Linter } = require("../../../build/eslint.js");
+const StubParser = require("../../fixtures/parsers/stub-parser.js")
+
+//------------------------------------------------------------------------------
+// Mocks
+//------------------------------------------------------------------------------
+mock('../../fixtures/parsers/stub-parser.js', () => ({
+    parse: fn().mockReturnValue({
+        type: "Program",
+        loc: {},
+        range: [],
+        body: [],
+        comments: [],
+        errors: [],
+        tokens: []
+    })
+}))
 
 //------------------------------------------------------------------------------
 // Constants
@@ -7266,14 +7285,15 @@ var a = "test2";
         /**
          * fails due to "ES Modules cannot be spied"
          */
-        it.skip("should have file path passed to it", () => {
+        it("should have file path passed to it", () => {
             const code = "/* this is code */";
-            const parseSpy = sinon.spy(testParsers.stubParser, "parse");
-
             linter.defineParser("stub-parser", testParsers.stubParser);
             linter.verify(code, { parser: "stub-parser" }, filename, true);
 
-            sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
+            expect(StubParser.parse).toBeCalledTimes(1);
+            const [arg0, arg1] = StubParser.parse.mock.calls[0];
+            expect(arg0).toBe(code);
+            expect(arg1.filePath).toBe(filename);
         });
 
         it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
@@ -7515,6 +7535,10 @@ var a = "test2";
 
             assert.strictEqual(messages.length, 0);
             assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        beforeEach(() => {
+            StubParser.parse.mockClear()
         });
     });
 
@@ -8074,9 +8098,8 @@ describe("Linter with FlatConfigArray", () => {
                     /**
                      * fails due to: "ES Modules cannot be spied"
                      */
-                    it.skip("should have file path passed to it", () => {
+                    it("should have file path passed to it", () => {
                         const code = "/* this is code */";
-                        const parseSpy = sinon.spy(testParsers.stubParser, "parse");
                         const config = {
                             languageOptions: {
                                 parser: testParsers.stubParser
@@ -8084,8 +8107,10 @@ describe("Linter with FlatConfigArray", () => {
                         };
 
                         linter.verify(code, config, filename, true);
-
-                        sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
+                        expect(StubParser.parse).toBeCalledTimes(1);
+                        const [arg0, arg1] = StubParser.parse.mock.calls[0];
+                        expect(arg0).toBe(code);
+                        expect(arg1.filePath).toBe(filename);
                     });
 
                     it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
@@ -8389,6 +8414,10 @@ describe("Linter with FlatConfigArray", () => {
                             sourceType: "module"
                         }));
                     });
+
+                    afterEach(() => {
+                        StubParser.parse.mockClear()
+                    })
                 });
 
 
