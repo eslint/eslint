@@ -15,8 +15,8 @@ const { assert } = require("chai"),
     esprima = require("esprima"),
     testParsers = require("../../fixtures/parsers/linter-test-parsers");
 
-const { Linter } = require("../../../lib/linter");
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
+const { Linter } = require("../../../build/eslint.js");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -47,6 +47,8 @@ function getVariable(scope, name) {
  * like that appear in the code.
  */
 const ESLINT_ENV = "eslint-env";
+
+process.cwd = () => "/";
 
 //------------------------------------------------------------------------------
 // Tests

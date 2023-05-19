@@ -1,7 +1,6 @@
 "use strict";
 
 const commonjs = require("vite-plugin-commonjs");
-const dynamicImport = require("vite-plugin-dynamic-import");
 
 exports.config = {
 
@@ -21,10 +20,7 @@ exports.config = {
                     assert: "rollup-plugin-node-polyfills/polyfills/assert"
                 }
             },
-            plugins: [
-                commonjs(),
-                dynamicImport.default()
-            ]
+            plugins: [commonjs()]
         }
     }],
 
