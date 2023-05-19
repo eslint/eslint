@@ -1,3 +1,21 @@
+v8.41.0 - May 19, 2023
+
+* [`f43216a`](https://github.com/eslint/eslint/commit/f43216a8c77ab6cf1d0823978e8c728786b4cba7) chore: upgrade @eslint/js@8.41.0 (#17200) (Milos Djermanovic)
+* [`95c3007`](https://github.com/eslint/eslint/commit/95c300780a1cfd9ad680bc78850542eb55d7fbf4) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`4f5440d`](https://github.com/eslint/eslint/commit/4f5440db631707b17140c4e5cc7beb223afbd2b9) fix: incorrect warning message for ignored dotfiles (#17196) (Milos Djermanovic)
+* [`ddc5291`](https://github.com/eslint/eslint/commit/ddc5291debd90ff476e17c532af7577e26720b91) chore: don't use deprecated `context` methods in `ast-utils` tests (#17194) (Milos Djermanovic)
+* [`880a431`](https://github.com/eslint/eslint/commit/880a4317b949e575a4a6c5e8baaba1eea7674cc6) feat: change default ignore pattern to `**/node_modules/` in flat config (#17184) (Milos Djermanovic)
+* [`94da96c`](https://github.com/eslint/eslint/commit/94da96cbf0fb2bb6694fa2e757eb1b3e74c40db7) fix: unify `LintMessage` type (#17076) (Brandon Mills)
+* [`7709b14`](https://github.com/eslint/eslint/commit/7709b14e18ad4e11c1119ed6575454243b8e7084) docs: Update README (GitHub Actions Bot)
+* [`8bf5505`](https://github.com/eslint/eslint/commit/8bf550594fca6d29fab1a3453e701c1a457767e1) feat: expose `shouldUseFlatConfig` (#17169) (Connor Prussin)
+* [`7f183e0`](https://github.com/eslint/eslint/commit/7f183e020579380fa57473caaf9ed154470c25b3) docs: Update triage process description (#17157) (Nicholas C. Zakas)
+* [`0c415cd`](https://github.com/eslint/eslint/commit/0c415cda5d76dbe5120ab9f3c4c81320538e35f0) fix: validate `ignorePatterns` constructor option in `FlatESLint` class (#17139) (Milos Djermanovic)
+* [`b1516db`](https://github.com/eslint/eslint/commit/b1516db51514032ed06e1425c4b1f955238dc682) chore: Fix return type of `findFlatConfigFile` (#17161) (Milos Djermanovic)
+* [`b68346b`](https://github.com/eslint/eslint/commit/b68346b290d55324e73868ca42b3854157b27375) docs: fix license to reflect relicensing of jshint (#17165) (Stefan Bischof)
+* [`9682d66`](https://github.com/eslint/eslint/commit/9682d669e4ee8641293914e21679f40fee8bc354) fix: switch `grapheme-splitter` to `graphemer` (#17160) (fisker Cheung)
+* [`918b0fd`](https://github.com/eslint/eslint/commit/918b0fd21723e84bd7acb17942a36606f1d8360a) perf: Store indent descriptors in a plain array (#17148) (Francesco Trotta)
+* [`4caa344`](https://github.com/eslint/eslint/commit/4caa34449555d8a680222ec2049d97c59476c11e) refactor: locateConfigFileToUse returns an Error object (#17159) (唯然)
+
 v8.40.0 - May 5, 2023
 
 * [`4053004`](https://github.com/eslint/eslint/commit/4053004c951813473d1c43f9f9959a9a3484242f) chore: upgrade @eslint/js@8.40.0 (#17156) (Milos Djermanovic)
