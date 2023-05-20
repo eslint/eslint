@@ -27,10 +27,12 @@
 
 const path = require("path");
 const internalPlugin = require("eslint-plugin-internal-rules");
-const eslintPlugin = require("eslint-plugin-eslint-plugin");
+const eslintPluginRulesRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/rules-recommended");
+const eslintPluginTestsRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/tests-recommended");
 const { FlatCompat } = require("@eslint/eslintrc");
 const js = require("./packages/js");
 const globals = require("globals");
+const merge = require("lodash.merge");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -99,8 +101,7 @@ module.exports = [
     },
     {
         plugins: {
-            "internal-rules": internalPlugin,
-            "eslint-plugin": eslintPlugin
+            "internal-rules": internalPlugin
         },
         languageOptions: {
             ecmaVersion: "latest"
@@ -129,33 +130,31 @@ module.exports = [
     {
         files: ["lib/rules/*", "tools/internal-rules/*"],
         ignores: ["**/index.js"],
-        rules: {
-            ...eslintPlugin.configs["rules-recommended"].rules,
-            "eslint-plugin/no-missing-message-ids": "error",
-            "eslint-plugin/no-unused-message-ids": "error",
-            "eslint-plugin/prefer-message-ids": "error",
-            "eslint-plugin/prefer-placeholders": "error",
-            "eslint-plugin/prefer-replace-text": "error",
-            "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
-            "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow) .+[^. ]$" }],
-            "internal-rules/no-invalid-meta": "error"
-        }
+        ...merge({}, eslintPluginRulesRecommendedConfig, {
+            rules: {
+                "eslint-plugin/prefer-placeholders": "error",
+                "eslint-plugin/prefer-replace-text": "error",
+                "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
+                "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow) .+[^. ]$" }],
+                "internal-rules/no-invalid-meta": "error"
+            }
+        })
     },
     {
         files: ["lib/rules/*"],
-        ignores: ["index.js"],
+        ignores: ["**/index.js"],
         rules: {
             "eslint-plugin/require-meta-docs-url": ["error", { pattern: "https://eslint.org/docs/latest/rules/{{name}}" }]
         }
     },
     {
         files: ["tests/lib/rules/*", "tests/tools/internal-rules/*"],
-        rules: {
-            ...eslintPlugin.configs["tests-recommended"].rules,
-            "eslint-plugin/prefer-output-null": "error",
-            "eslint-plugin/test-case-property-ordering": "error",
-            "eslint-plugin/test-case-shorthand-strings": "error"
-        }
+        ...merge({}, eslintPluginTestsRecommendedConfig, {
+            rules: {
+                "eslint-plugin/test-case-property-ordering": "error",
+                "eslint-plugin/test-case-shorthand-strings": "error"
+            }
+        })
     },
     {
         files: ["tests/**/*.js"],
