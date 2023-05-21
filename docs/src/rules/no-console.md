@@ -41,7 +41,7 @@ Examples of **correct** code for this rule:
 /* eslint no-console: "error" */
 
 // custom console
-Console.log("Hello world!");
+console.log("Hello world!");
 ```
 
 :::
