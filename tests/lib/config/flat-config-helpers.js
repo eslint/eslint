@@ -11,9 +11,11 @@
 
 const {
     parseRuleId,
-    getRuleFromConfig
+    getRuleFromConfig,
+    getRuleOptionsSchema
 } = require("../../../lib/config/flat-config-helpers");
 const assert = require("chai").assert;
+const ajv = require("../../../lib/shared/ajv")({ missingRefs: "fail" });
 
 //-----------------------------------------------------------------------------
 // Tests
@@ -96,6 +98,87 @@ describe("Config Helpers", () => {
 
             assert.strictEqual(result, rule);
 
+        });
+    });
+
+    describe("getRuleOptionsSchema", () => {
+
+        describe("Supports $ref in schema", () => {
+
+            it("should allow internal $refs to work", () => {
+
+                const schemas = [{
+
+                    type: "object",
+                    properties: {
+                        foo: { $ref: "#/definitions/someNamedEnum" }
+                    },
+
+                    definitions: {
+                        someNamedEnum: { enum: [0] }
+                    }
+                }];
+
+                const resultSchema = getRuleOptionsSchema({ schema: schemas });
+
+                assert.isTrue(ajv.validateSchema(resultSchema), "schema is valid");
+
+                const verifier = ajv.compile(resultSchema);
+
+                assert.isTrue(verifier([{ foo: 0 }]), "accepts valid data");
+                assert.isFalse(verifier([{ foo: 1 }]), "rejects invalid data [{ foo: 1 }]");
+            });
+
+            it("should allow $refs to other arguments", () => {
+
+                const schemas = [
+                    { enum: [0] },
+                    {
+                        type: "object",
+                        properties: {
+                            foo: { $ref: "/0" }
+                        }
+                    }
+                ];
+
+                const resultSchema = getRuleOptionsSchema({ schema: schemas });
+
+                assert.isTrue(ajv.validateSchema(resultSchema), "schema is valid");
+
+                const verifier = ajv.compile(resultSchema);
+
+                assert.isTrue(verifier([0, { foo: 0 }]), "accepts valid data");
+                assert.isFalse(verifier([0, { foo: 1 }]), "rejects invalid data [0, { foo: 1 }]");
+                assert.isFalse(verifier([1, { foo: 0 }]), "rejects invalid data [1, { foo: 0 }]");
+                assert.isFalse(verifier([1, { foo: 1 }]), "rejects invalid data [1, { foo: 1 }]");
+            });
+
+            it("should allow $refs to other arguments with explicit $id", () => {
+
+                const schemas = [
+                    {
+                        $id: "http://someotherthing.com/schema/blah",
+                        enum: [0]
+                    },
+                    {
+                        type: "object",
+                        properties: {
+                            foo: { $ref: "http://someotherthing.com/schema/blah" }
+                        }
+                    }
+                ];
+
+                const resultSchema = getRuleOptionsSchema({ schema: schemas });
+
+                assert.isTrue(ajv.validateSchema(resultSchema), "schema is valid");
+
+                const verifier = ajv.compile(resultSchema);
+
+                assert.isTrue(verifier([0, { foo: 0 }]), "accepts valid data");
+                assert.isFalse(verifier([0, { foo: 1 }]), "rejects invalid data [0, { foo: 1 }]");
+                assert.isFalse(verifier([1, { foo: 0 }]), "rejects invalid data [1, { foo: 0 }]");
+                assert.isFalse(verifier([1, { foo: 1 }]), "rejects invalid data [1, { foo: 1 }]");
+            });
         });
     });
 
