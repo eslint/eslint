@@ -1036,10 +1036,10 @@ describe("FlatConfigArray", () => {
                     await assertInvalidConfig([
                         {
                             linterOptions: {
-                                reportUnusedDisableDirectives: "true"
+                                reportUnusedDisableDirectives: {}
                             }
                         }
-                    ], /Expected a Boolean/u);
+                    ], /Expected a string or a boolean/u);
                 });
 
                 it("should merge two objects when second object has overrides", () => assertMergedResult([

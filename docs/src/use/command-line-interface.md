@@ -98,6 +98,7 @@ Output:
 Inline configuration comments:
   --no-inline-config              Prevent comments from changing config or rules
   --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
+  --report-unused-disable-directives-severity String  Choose what severity level that eslint-disable directives should be reported as
 
 Caching:
   --cache                         Only check changed files - default: false
@@ -572,7 +573,7 @@ npx eslint --no-inline-config file.js
 
 #### `--report-unused-disable-directives`
 
-This option causes ESLint to report directive comments like `// eslint-disable-line` when no errors would have been reported on that line anyway.
+This option causes ESLint to report disable directive comments like `// eslint-disable-line` as errors when there are no violations present.
 
 * **Argument Type**: No argument.
 
@@ -581,13 +582,23 @@ This can be useful to prevent future errors from unexpectedly being suppressed, 
 ::: warning
 When using this option, it is possible that new errors start being reported whenever ESLint or custom rules are upgraded.
 
-For example, suppose a rule has a bug that causes it to report a false positive, and an `eslint-disable` comment is added to suppress the incorrect report. If the bug is then fixed in a patch release of ESLint, the `eslint-disable` comment becomes unused since ESLint is no longer generating an incorrect report. This results in a new reported error for the unused directive if the `report-unused-disable-directives` option is used.
+For example, suppose a rule has a bug that causes it to report a false positive, and an `eslint-disable` comment is added to suppress the incorrect report. If the bug is then fixed in a patch release of ESLint, the `eslint-disable` comment becomes unused since ESLint is no longer generating an incorrect report. This results in a new reported error for the unused directive if the `--report-unused-disable-directives` option is used.
 :::
 
 ##### `--report-unused-disable-directives` example
 
 ```shell
 npx eslint --report-unused-disable-directives file.js
+```
+
+#### `--report-unused-disable-directives-severity`
+
+Same as [`--report-unused-disable-directives`](#--report-unused-disable-directives), but allows you to specify the severity level (`error`, `warn`, `off`) of the reported errors. Only one of these two options can be used at a time.
+
+##### `--report-unused-disable-directives-severity` example
+
+```shell
+npx eslint --report-unused-disable-directives-severity warn file.js
 ```
 
 ### Caching

@@ -45,7 +45,7 @@ Each configuration object contains all of the information ESLint needs to execut
     * `parserOptions` - An object specifying additional options that are passed directly to the `parse()` or `parseForESLint()` method on the parser. The available options are parser-dependent.
 * `linterOptions` - An object containing settings related to the linting process.
     * `noInlineConfig` - A Boolean value indicating if inline configuration is allowed.
-    * `reportUnusedDisableDirectives` - A Boolean value indicating if unused disable directives should be tracked and reported.
+    * `reportUnusedDisableDirectives` - A severity string indicating if and how unused disable directives should be tracked and reported. For legacy compatibility, `true` is equivalent to `"warn"` and `false` is equivalent to `"off"`. (default: `"off"`)
 * `processor` - Either an object containing `preprocess()` and `postprocess()` methods or a string indicating the name of a processor inside of a plugin (i.e., `"pluginName/processorName"`).
 * `plugins` - An object containing a name-value mapping of plugin names to plugin objects. When `files` is specified, these plugins are only available to the matching files.
 * `rules` - An object containing the configured rules. When `files` or `ignores` are specified, these rule configurations are only available to the matching files.
@@ -208,20 +208,22 @@ export default [
 
 #### Reporting unused disable directives
 
-Disable directives such as `/*eslint-disable*/` and `/*eslint-disable-next-line*/` are used to disable ESLint rules around certain portions of code. As code changes, it's possible for these directives to no longer be needed because the code has changed in such a way that the rule is no longer triggered. You can enable reporting of these unused disable directives by setting the `reportUnusedDisableDirectives` option to `true`, as in this example:
+Disable directives such as `/*eslint-disable*/` and `/*eslint-disable-next-line*/` are used to disable ESLint rules around certain portions of code. As code changes, it's possible for these directives to no longer be needed because the code has changed in such a way that the rule is no longer triggered. You can enable reporting of these unused disable directives by setting the `reportUnusedDisableDirectives` option to a severity string, as in this example:
 
 ```js
 export default [
     {
         files: ["**/*.js"],
         linterOptions: {
-            reportUnusedDisableDirectives: true
+            reportUnusedDisableDirectives: "error"
         }
     }
 ];
 ```
 
-By default, unused disable directives are reported as warnings. You can change this setting using the `--report-unused-disable-directives` command line option.
+You can override this setting using the [`--report-unused-disable-directives`](../command-line-interface#--report-unused-disable-directives) or the [`--report-unused-disable-directives-severity`](../command-line-interface#--report-unused-disable-directives-severity) command line options.
+
+For legacy compatibility, `true` is equivalent to `"warn"` and `false` is equivalent to `"off"`.
 
 ### Configuring language options
 

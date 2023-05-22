@@ -14165,7 +14165,7 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages.length, 0);
                 });
 
-                it("reports problems for unused eslint-disable comments (in config)", () => {
+                it("reports problems for unused eslint-disable comments (in config) (boolean value)", () => {
                     const messages = linter.verify("/* eslint-disable */", {
                         linterOptions: {
                             reportUnusedDisableDirectives: true
@@ -14192,6 +14192,51 @@ var a = "test2";
                     );
 
                     assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("reports problems for unused eslint-disable comments (in config) (string value)", () => {
+                    const messages = linter.verify("/* eslint-disable */", {
+                        linterOptions: {
+                            reportUnusedDisableDirectives: "error"
+                        }
+                    });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.deepStrictEqual(
+                        messages,
+                        [
+                            {
+                                ruleId: null,
+                                message: "Unused eslint-disable directive (no problems were reported).",
+                                line: 1,
+                                column: 1,
+                                fix: {
+                                    range: [0, 20],
+                                    text: " "
+                                },
+                                severity: 2,
+                                nodeType: null
+                            }
+                        ]
+                    );
+
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("throws with invalid string for reportUnusedDisableDirectives in config", () => {
+                    assert.throws(() => linter.verify("/* eslint-disable */", {
+                        linterOptions: {
+                            reportUnusedDisableDirectives: "foo"
+                        }
+                    }), "Invalid value for 'reportUnusedDisableDirectives' in config.");
+                });
+
+                it("throws with invalid type for reportUnusedDisableDirectives in config", () => {
+                    assert.throws(() => linter.verify("/* eslint-disable */", {
+                        linterOptions: {
+                            reportUnusedDisableDirectives: {}
+                        }
+                    }), 'Key "linterOptions": Key "reportUnusedDisableDirectives": Expected a string or a boolean.');
                 });
 
                 it("reports problems for partially unused eslint-disable comments (in config)", () => {
