@@ -645,7 +645,51 @@ module.exports = {
 };
 ```
 
-**Note:** If your rule schema uses JSON schema [`$ref`](https://json-schema.org/understanding-json-schema/structuring.html#ref) properties, you must use the full JSON Schema object rather than the array of positional property schemas. This is because ESLint transforms the array shorthand into a single schema without updating references that makes them incorrect (they are ignored).
+#### $ref
+
+It is possible to use [`$ref`](https://json-schema.org/understanding-json-schema/structuring.html#ref) in both the full object form, and in the array of schemas. However, the `$ref` must resolve locally within the schema, or, in the case of the array of schemas, the other array elements can be referenced by `/0`, `/1` etc. or by the explicit `$id` if you give them one (if you give your schema an explicit `$id`, ESLint will not override it, and the `/n` form will not be available).
+
+It is recommended that any schema parts you may wish to factor out are placed in the `definitions` key, as this causes your schema definition to be validated. In particular, `$defs` is not recognised.
+
+As an example:
+
+```js
+// Valid options:
+// "yoda": ["warn"]
+// "yoda": ["error", { someValue: 5 }, [1, 2, 3, 4], 20, 30]
+// Invalid options:
+// "yoda": ["error", { someValue: 11}, [1, 2, 3, 11], 0, 100]
+module.exports = {
+    meta: {
+        schema: [
+            {
+                type: "object",
+                properties: {
+                    someValue: { $ref: '#/definitions/numberLessThan10' } // Self-reference
+                }
+
+                definitions: {
+                    numberLessThan10: { type: "number", maximum: 10 }
+                }
+            },
+
+            {
+                type: "array",
+                items: { $ref: '/0/definitions/numberLessThan10' } // Reference schema at element 0
+            },
+
+            {
+                $ref: 'http://something.com/blah/meh' // Reference another schema element by explicit $id
+            },
+
+            {
+                $id: 'http://something.com/blah/meh', // This schema element can only be referred to by this $id, /3 is not available
+                enum: [10, 20, 30]
+            }
+        ]
+    }
+}
+```
 
 To learn more about JSON Schema, we recommend looking at some examples on the [JSON Schema website](https://json-schema.org/learn/), or reading the free [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/) ebook.
 
