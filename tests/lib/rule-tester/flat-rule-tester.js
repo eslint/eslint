@@ -1259,7 +1259,7 @@ describe("FlatRuleTester", () => {
                     { code: "var answer = 6 * 7;", options: ["bar"], errors: [{ message: "Expected nothing." }] }
                 ]
             });
-        }, "Schema for rule no-invalid-schema is invalid:,\titems: should be object\n\titems[0].enum: should NOT have fewer than 1 items\n\titems: should match some schema in anyOf");
+        }, "Schema for rule no-invalid-schema is invalid:,\tdefinitions['0'].enum: should NOT have fewer than 1 items");
 
     });
 
