@@ -204,10 +204,10 @@ describe("bin/eslint.js", () => {
     });
 
     describe("running on files", () => {
-        it("has exit code 0 if no linting errors occur", () => assertExitCode(runESLint(["bin/eslint.js"]), 0));
+        it("has exit code 0 if no linting errors occur", () => assertExitCode(runESLint(["bin/eslint.js", "--no-config-lookup"]), 0));
         it("has exit code 0 if a linting warning is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--no-config-lookup", "--rule", "semi: [1, never]"]), 0));
         it("has exit code 1 if a linting error is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--no-config-lookup", "--rule", "semi: [2, never]"]), 1));
-        it("has exit code 1 if a syntax error is thrown", () => assertExitCode(runESLint(["tests/fixtures/exit-on-fatal-error/fatal-error.js", "--no-ignore"]), 1));
+        it("has exit code 1 if a syntax error is thrown", () => assertExitCode(runESLint(["tests/fixtures/exit-on-fatal-error/fatal-error.js", "--no-config-lookup"]), 1));
     });
 
     describe("automatically fixing files", () => {
@@ -359,7 +359,7 @@ describe("bin/eslint.js", () => {
 
     describe("handling crashes", () => {
         it("prints the error message to stderr in the event of a crash", () => {
-            const child = runESLint(["--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']", "Makefile.js"]);
+            const child = runESLint(["--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']", "--no-config-lookup", "Makefile.js"]);
             const exitCodeAssertion = assertExitCode(child, 2);
             const outputAssertion = getOutput(child).then(output => {
                 const expectedSubstring = "Syntax error in selector";
@@ -372,7 +372,7 @@ describe("bin/eslint.js", () => {
         });
 
         it("prints the error message exactly once to stderr in the event of a crash", () => {
-            const child = runESLint(["--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']", "Makefile.js"]);
+            const child = runESLint(["--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']", "--no-config-lookup", "Makefile.js"]);
             const exitCodeAssertion = assertExitCode(child, 2);
             const outputAssertion = getOutput(child).then(output => {
                 const expectedSubstring = "Syntax error in selector";
