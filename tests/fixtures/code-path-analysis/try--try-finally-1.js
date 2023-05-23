@@ -19,7 +19,7 @@ digraph {
     node[shape=box,style="rounded,filled",fillcolor=white];
     initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
     final[label="",shape=doublecircle,style=filled,fillcolor=black,width=0.25,height=0.25];
-    thrown[label="✘",shape=circle,width=0.3,height=0.3,fixedsize];
+    thrown[label="✘",shape=circle,width=0.3,height=0.3,fixedsize=true];
     s1_1[label="Program\nTryStatement\nBlockStatement\nExpressionStatement\nCallExpression\nIdentifier (foo)"];
     s1_2[label="CallExpression:exit\nExpressionStatement:exit\nBlockStatement:exit"];
     s1_3[label="BlockStatement\nExpressionStatement\nCallExpression\nIdentifier (bar)\nExpressionStatement\nCallExpression\nIdentifier (last)"];
