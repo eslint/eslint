@@ -1191,7 +1191,7 @@ describe("FlatESLint", () => {
 
         describe("Ignoring Files", () => {
 
-            it("should report on all files passed explicitly, even if ignored by default", async () => {
+            it("should report on a file in the node_modules folder passed explicitly, even if ignored by default", async () => {
                 eslint = new FlatESLint({
                     cwd: getFixturePath("cli-engine")
                 });
@@ -1204,6 +1204,44 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].fatalErrorCount, 0);
                 assert.strictEqual(results[0].fixableErrorCount, 0);
                 assert.strictEqual(results[0].fixableWarningCount, 0);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].message, expectedMsg);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should report on a file in a node_modules subfolder passed explicitly, even if ignored by default", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("cli-engine")
+                });
+                const results = await eslint.lintFiles(["nested_node_modules/subdir/node_modules/text.js"]);
+                const expectedMsg = "File ignored by default because it is located under the node_modules directory. Use ignore pattern \"!**/node_modules/\" to override.";
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].errorCount, 0);
+                assert.strictEqual(results[0].warningCount, 1);
+                assert.strictEqual(results[0].fatalErrorCount, 0);
+                assert.strictEqual(results[0].fixableErrorCount, 0);
+                assert.strictEqual(results[0].fixableWarningCount, 0);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].message, expectedMsg);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should report on an ignored file with \"node_modules\" in its name", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("cli-engine"),
+                    ignorePatterns: ["*.js"]
+                });
+                const results = await eslint.lintFiles(["node_modules_cleaner.js"]);
+                const expectedMsg = "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.";
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].errorCount, 0);
+                assert.strictEqual(results[0].warningCount, 1);
+                assert.strictEqual(results[0].fatalErrorCount, 0);
+                assert.strictEqual(results[0].fixableErrorCount, 0);
+                assert.strictEqual(results[0].fixableWarningCount, 0);
+                assert.strictEqual(results[0].messages[0].severity, 1);
                 assert.strictEqual(results[0].messages[0].message, expectedMsg);
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
