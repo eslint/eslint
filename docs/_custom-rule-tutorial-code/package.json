@@ -12,11 +12,11 @@
     "eslint": ">=8.0.0"
   },
   "scripts": {
-    "test": "node enforce-foo-bar.test.js",
+    "test": "node enforce-foo-bar.test.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^8.36.0",
+    "eslint": "^8.36.0"
   }
 }

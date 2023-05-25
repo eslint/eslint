@@ -32,7 +32,7 @@ This tutorial also assumes that you have a basic understanding of ESLint and ESL
 
 ## The Custom Rule
 
-The custom rule  in this tutorial requires that all `const` variables named `foo` are assigned the string `"bar"`. The rule is defined in the file `enforce-foo-bar.js`. The rule also suggests replacing any other value assigned to `const foo` with `"bar"`.
+The custom rule  in this tutorial requires that all `const` variables named `foo` are assigned the string literal `"bar"`. The rule is defined in the file `enforce-foo-bar.js`. The rule also suggests replacing any other value assigned to `const foo` with `"bar"`.
 
 For example, say you had the following `foo.js` file:
 
@@ -95,7 +95,8 @@ module.exports = {
         docs: {
             description: "Enforce that a variable named `foo` can only be assigned a value of 'bar'.",
         },
-        fixable: "code"
+        fixable: "code",
+        schema: []
     },
     create(context) {
         return {
@@ -109,10 +110,10 @@ To learn more about rule metadata, refer to [Rule Structure](custom-rules#rule-s
 
 ## Step 4: Add Rule Visitor Methods
 
-Define the rule's `create` function, which accepts a `context` object and returns an object with a property for each syntax node type you want to handle. In this case, you want to handle `VariableDeclaration` nodes.
+Define the rule's `create` function, which accepts a `context` object and returns an object with a property for each syntax node type you want to handle. In this case, you want to handle `VariableDeclarator` nodes.
 You can choose any [ESTree node type](https://github.com/estree/estree) or [selector](selectors).
 
-Inside the `VariableDeclaration` visitor method, check if the node represents a `const` variable declaration, if its name is `foo`, and if it's not assigned to the string `"bar"`. You do this by evaluating the `node` passed to the `VariableDeclaration` method.
+Inside the `VariableDeclarator` visitor method, check if the node represents a `const` variable declaration, if its name is `foo`, and if it's not assigned to the string `"bar"`. You do this by evaluating the `node` passed to the `VariableDeclaration` method.
 
 If the `const foo` declaration is assigned a value of `"bar"`, then the rule does nothing. If `const foo` **is not** assigned a value of `"bar"`, then `context.report()` reports an error to ESLint. The error report includes information about the error and how to fix it.
 
@@ -123,33 +124,41 @@ module.exports = {
     meta: {
         type: "problem",
         docs: {
-            description: "Enforce that a variable named `foo` can only be assigned a value of 'bar'.",
+            description: "Enforce that a variable named `foo` can only be assigned a value of 'bar'."
         },
-        fixable: "code"
+        fixable: "code",
+        schema: []
     },
     create(context) {
         return {
-            // Performs action in the function on every variable declaration
-            VariableDeclaration(node) {
+
+            // Performs action in the function on every variable declarator
+            VariableDeclarator(node) {
+
                 // Check if a `const` variable declaration
-                if(node.kind === "const") {
+                if (node.parent.kind === "const") {
+
                     // Check if variable name is `foo`
-                    if(node.declarations[0].id.name === "foo") {
-                        // Check if the value of the variable is "bar"
-                        if (node.declaration[0].init.value !== "bar") {
-                            // Report error to ESLint. Error message uses
-                            // a message placeholder to include the incorrect value
-                            // in the error message.
-                            // Also includes a `fix(fixer)` function that replaces
-                            // any values assigned to `const foo` with "bar".
+                    if (node.id.type === "Identifier" && node.id.name === "foo") {
+
+                        // Check if value of variable is "bar"
+                        if (node.init && node.init.type === "Literal" && node.init.value !== "bar") {
+
+                            /*
+                             * Report error to ESLint. Error message uses
+                             * a message placeholder to include the incorrect value
+                             * in the error message.
+                             * Also includes a `fix(fixer)` function that replaces
+                             * any values assigned to `const foo` with "bar".
+                             */
                             context.report({
                                 node,
-                                message: 'Value other than "bar" assigned to \`const foo\`. Unexpected value: {{ notBar }}',
+                                message: 'Value other than "bar" assigned to `const foo`. Unexpected value: {{ notBar }}.',
                                 data: {
-                                    notBar: node.declaration.init.value
+                                    notBar: node.init.value
                                 },
                                 fix(fixer) {
-                                    return fixer.replaceText(node.declarations[0].init, '"bar"');
+                                    return fixer.replaceText(node.init, '"bar"');
                                 }
                             });
                         }
