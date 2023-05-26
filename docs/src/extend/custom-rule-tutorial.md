@@ -183,6 +183,12 @@ Next, create the file for the tests, `enforce-foo-bar.test.js`:
 touch enforce-foo-bar.test.js
 ```
 
+You will use the `eslint` package in the test file. Install it as a development dependency:
+
+```shell
+npm install eslint --save-dev
+```
+
 And add a test script to your `package.json` file to run the tests:
 
 ```javascript
@@ -194,12 +200,6 @@ And add a test script to your `package.json` file to run the tests:
     },
     // ...other configuration
 }
-```
-
-Also install `eslint` as a development dependency:
-
-```shell
-npm install eslint --save-dev
 ```
 
 ## Step 6: Write the Test
