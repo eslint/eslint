@@ -196,6 +196,12 @@ And add a test script to your `package.json` file to run the tests:
 }
 ```
 
+Also install `eslint` as a development dependency:
+
+```shell
+npm install eslint --save-dev
+```
+
 ## Step 6: Write the Test
 
 To write the test using `RuleTester`, import the class and your custom rule into the `enforce-foo-bar.test.js` file.
@@ -233,6 +239,18 @@ ruleTester.run(
 );
 
 console.log("All tests passed!");
+```
+
+Run the test with the following command:
+
+```shell
+npm test
+```
+
+If the test passes, you should see the following in your console:
+
+```shell
+All tests passed!
 ```
 
 ## Step 7: Bundle the Custom Rule in a Plugin
