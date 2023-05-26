@@ -291,7 +291,7 @@ module.exports = [
         // Using the eslint-plugin-example plugin defined locally
         plugins: {"example": eslintPluginExample},
         rules: {
-            "example/foo-bar": "error",
+            "example/enforce-foo-bar": "error",
         },
     }
 ]
@@ -309,7 +309,6 @@ Add the following code to `example.js`:
 
 ```javascript
 // example.js
-/* eslint-disable no-unused-vars -- Disable other rule causing problem for this file */
 
 function correctFooBar() {
   const foo = "bar";
@@ -332,7 +331,7 @@ This produces the following output in the terminal:
 
 ```text
 /<path-to-directory>/eslint-custom-rule-example/example.js
-  14:3  error  Value other than "bar" assigned to `const foo`. Unexpected value: baz  foo-bar/foo-bar
+  9:11  error  Value other than "bar" assigned to `const foo`. Unexpected value: baz  example/enforce-foo-bar
 
 ✖ 1 problem (1 error, 0 warnings)
   1 error and 0 warnings potentially fixable with the `--fix` option.
@@ -375,7 +374,7 @@ A complete annotated example of what a plugin's `package.json` file should look 
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^8.36.0",
+    "eslint": "^8.36.0"
   }
 }
 ```
@@ -418,7 +417,7 @@ This produces the following output in the terminal:
 
 ```text
 /<path-to-directory>/eslint-custom-rule-example/example.js
-  14:3  error  Value other than "bar" assigned to `const foo`. Unexpected value: baz  foo-bar/foo-bar
+  9:11  error  Value other than "bar" assigned to `const foo`. Unexpected value: baz  example/enforce-foo-bar
 
 ✖ 1 problem (1 error, 0 warnings)
   1 error and 0 warnings potentially fixable with the `--fix` option.
