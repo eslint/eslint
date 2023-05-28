@@ -14,10 +14,10 @@ module.exports = [
             sourceType: "commonjs",
             ecmaVersion: "latest",
         },
-        // Using the eslint-plugin-example plugin downloaded from npm
+        // Using the eslint-plugin-example plugin defined locally
         plugins: {"example": eslintPluginExample},
         rules: {
-            "example/foo-bar": "error",
+            "example/enforce-foo-bar": "error",
         },
     }
 ]

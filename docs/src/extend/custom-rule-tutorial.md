@@ -58,7 +58,7 @@ First, create a new project for your custom rule. Create a new directory, initia
 mkdir eslint-custom-rule-example # create directory
 cd eslint-custom-rule-example # enter the directory
 npm init -y # init new npm project
-touch enforce-foo-bar.js # create file foo-bar.js
+touch enforce-foo-bar.js # create file enforce-foo-bar.js
 ```
 
 ## Step 2: Stub Out the Rule File
@@ -349,7 +349,7 @@ This produces the following output in the terminal:
 
 ```text
 /<path-to-directory>/eslint-custom-rule-example/example.js
-  9:11  error  Value other than "bar" assigned to `const foo`. Unexpected value: baz  example/enforce-foo-bar
+  8:11  error  Value other than "bar" assigned to `const foo`. Unexpected value: baz  example/enforce-foo-bar
 
 ✖ 1 problem (1 error, 0 warnings)
   1 error and 0 warnings potentially fixable with the `--fix` option.
@@ -373,8 +373,8 @@ A complete annotated example of what a plugin's `package.json` file should look 
   // Name npm package.
   // Add your own package name. eslint-plugin-example is taken!
   "name": "eslint-plugin-example",
-  "version": "1.2.0",
-  "description": "ESLint plugin for foo-bar rule.",
+  "version": "1.0.0",
+  "description": "ESLint plugin for enforce-foo-bar rule.",
   "main": "eslint-plugin-example.js", // plugin entry point
   "scripts": {
     "test": "node enforce-foo-bar.test.js"
@@ -435,7 +435,7 @@ This produces the following output in the terminal:
 
 ```text
 /<path-to-directory>/eslint-custom-rule-example/example.js
-  9:11  error  Value other than "bar" assigned to `const foo`. Unexpected value: baz  example/enforce-foo-bar
+  8:11  error  Value other than "bar" assigned to `const foo`. Unexpected value: baz  example/enforce-foo-bar
 
 ✖ 1 problem (1 error, 0 warnings)
   1 error and 0 warnings potentially fixable with the `--fix` option.

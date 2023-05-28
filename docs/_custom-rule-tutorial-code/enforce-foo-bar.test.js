@@ -9,7 +9,7 @@ const fooBarRule = require("./enforce-foo-bar");
 
 const ruleTester = new RuleTester({
   // Must use at least ecmaVersion 2015 because
-  // that's when `const` variable introduced.
+  // that's when `const` variable were introduced.
   parserOptions: { ecmaVersion: 2015 }
 });
 
@@ -24,7 +24,7 @@ ruleTester.run(
     }],
     // 'invalid' checks cases that should not pass
     invalid: [{
-      code:"const foo = 'baz';",
+      code: "const foo = 'baz';",
       output: 'const foo = "bar";',
       errors: 1,
     }],
