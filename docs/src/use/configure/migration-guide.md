@@ -9,7 +9,7 @@ eleventyNavigation:
 
 This guide provides an overview of how you can migrate your ESLint configuration file from the `.eslintrc` format to the new configuration file format, `eslint.config.js`.
 
-To learn more about the `eslint.config.js `file format, refer to [this blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/).
+To learn more about the `eslint.config.js` file format, refer to [this blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/).
 
 For reference information on these configuration formats, refer to the following documentation:
 
@@ -42,7 +42,7 @@ String-based import system with the `plugins` property to load plugins and `exte
 
 #### eslint.config.js
 
-Uses CommonJS `requres()` or ESModule `import` to load pluginsand custom parsers.
+Uses CommonJS `requires()` or ESModule `import` to load pluginsand custom parsers.
 
 ```javascript
 // eslint.config.js
@@ -145,7 +145,7 @@ Basically, all configuration in the `eslint.config.js` file is like the .`eslint
 Here is a configuration with the default glob pattern (`**/*.{js,mjs,cjs}`):
 
 ```javascript
-// .eslint.config.js
+// eslint.config.js
 export default [
     "eslint:recommended", // Recommended config applied to all files
     // Override the recommended config
@@ -162,7 +162,7 @@ export default [
 To support multiple configs for different glob patterns:
 
 ```javascript
-// .eslint.config.js
+// eslint.config.js
 export default [
     "eslint:recommended", // Recommended config applied to all files
     // File-pattern specific overrides
@@ -182,58 +182,133 @@ export default [
 ];
 ```
 
-
-TODO: resume HERE!!!
-
 ### Configuring Language Options
 
 #### .eslintrc
 
 In `.eslintrc` files, you configure various language options across the `env`, `globals` and `parserOptions` properties.
 
-Global variables for specific runtimes (e.g `document` for browser JavaScript and `process` for Node.js ) are configured with the `env` property. 
+Global variables for specific runtimes (e.g `document` for browser JavaScript and `process` for Node.js ) are configured with the `env` property.
 
 ```javascript
 // .eslintrc
-// TODO: add example with env globals and parserOptions
+module.exports = {
+    env: {
+        browser: true,
+    },
+    globals: {
+        myCustomGlobal: "readonly",
+    },
+    parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: "module"
+    }
+    // ...other config
+}
 ```
 
 #### eslint.config.js
 
-In the `eslint.config.js`, the `env`, `globals`, and `parserOptions` are consolidated under the `languageOptions` key. 
+In the `eslint.config.js`, the `globals`, and `parserOptions` are consolidated under the `languageOptions` key.
 
-Global variables for specific runtimes are imported from the [globals](https://www.npmjs.com/package/globals) npm package.
+There is no longer the `env` property in `eslint.config.js`. Global variables for specific runtimes are imported from the [globals](https://www.npmjs.com/package/globals) npm package and included in the `globals` property. You can use the spread operator (`...`)to import all globals:
 
 ```javascript
-// .eslint.config.js
-// TODO: Add equivalent example with languageOptions key
+// eslint.config.js
+import globals from "globals";
+
+export default [
+    {
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+                myCustomGlobal: "readonly"
+            },
+            parserOptions: {
+                ecmaVersion: 2022,
+                sourceType: "module"
+            }
+        }
+        // ...other config
+    }
+];
 ```
 
 ### Predefined Configs
 
 #### .eslintrc
 
-To use predefined configs, TODO 
+To use predefined configs, use the `extends` property:
+
+```javascript
+// .eslintrc.js
+module.exports = {
+    // ...other config
+    extends: "eslint:recommended",
+    rules: {
+        semi: ["warn", "always"]
+    },
+    // ...other config
+}
+```
+
+ESLint comes with two predefined configs:
+
+- `eslint:recommended`: the rules recommended by ESLint
+- `eslint:all`: all rules shipped with ESLint
+
+You can also use the `extends` property to extend a custom config. Custom configs can either be paths to local config files or npm package names:
+
+```javascript
+// .eslintrc.js
+module.exports = {
+    // ...other config
+    extends: ["eslint:recommended", "./custom-config.js", "eslint-config-my-config"],
+    rules: {
+        semi: ["warn", "always"]
+    },
+    // ...other config
+}
+```
 
 #### eslint.config.js
 
-`eslint.config.js` comes with two predefined configs:
+`eslint.config.js` supports the built-in `eslint:recommended` and `eslint:all` configs, locally defined configs and npm package configs.
 
-- `Eslint:recommended`: the rules recommended by ESLint
-- `Eslint:all`: all rules shipped with ESLint
+You can add each of these configs to the exported array.
 
-You can include these as strings in your config array:
+You must import the modules for local config files and npm package configs with `eslint.config.js`:
+```javascript
+// eslint.config.js
+
+import customConfig from "./custom-config.js";
+import myConfig from "eslint-config-my-config";
+
+export default [
+    "eslint:recommended",
+    customConfig,
+    myConfig,
+    {
+        rules: {
+            semi: ["warn", "always"]
+        },
+        // ...other config
+    }
+];
+```
+
+Note that because you are just importing JavaScript modules, you can mutate the config objects before exporting them. For example, you might want to have a certain config object only apply to your test files:
 
 ```javascript
-// .eslint.config.js
-
-Export default [ "eslint:recommended",
-// add additional config
-{
-  Rules: {
-    Semi: ["warn", "always"]
-  }
-}
+// eslint.config.js
+import customTestConfig from "./custom-test-config.js";
+export default [
+    "eslint:recommended",
+    {
+        ...customTestConfig,
+        files: ["**/*.test.js"],
+    },
+];
 ```
 
 ## Things That Haven’t Changed between Configuration File Formats
