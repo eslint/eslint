@@ -16,6 +16,12 @@ For reference information on these configuration formats, refer to the following
 * [`.eslintrc` configuration files](configuration-files)
 * [`eslint.config.js` configuration files](configuration-files-new)
 
+## Start Using `eslint.config.js`
+
+As of ESLint v9.0.0, the `eslint.config.js` file format is the default configuration file format. If you are using ESLint v9.0.0 or later, you can start using the `eslint.config.js` file format without any additional configuration.
+
+To use `eslint.config.js` with ESLint v8.x.x, place a `eslint.config.js` file in the root of your project **or** set an `ESLINT_USE_FLAT_CONFIG` environment variable to `true`.
+
 ## Key Differences between Configuration Formats
 
 A few of the most notable differences between the `.eslintrc` and `eslint.config.js` formats are the following:
