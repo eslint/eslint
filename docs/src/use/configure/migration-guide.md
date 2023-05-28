@@ -254,8 +254,8 @@ module.exports = {
 
 ESLint comes with two predefined configs:
 
-- `eslint:recommended`: the rules recommended by ESLint
-- `eslint:all`: all rules shipped with ESLint
+* -`eslint:recommended`: the rules recommended by ESLint
+* -`eslint:all`: all rules shipped with ESLint
 
 You can also use the `extends` property to extend a custom config. Custom configs can either be paths to local config files or npm package names:
 
@@ -278,6 +278,7 @@ module.exports = {
 You can add each of these configs to the exported array.
 
 You must import the modules for local config files and npm package configs with `eslint.config.js`:
+
 ```javascript
 // eslint.config.js
 
