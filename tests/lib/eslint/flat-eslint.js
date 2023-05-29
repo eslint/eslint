@@ -682,6 +682,37 @@ describe("FlatESLint", () => {
             );
         });
 
+        it("should throw if eslint.config.js file is not present", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath("..")
+            });
+            await assert.rejects(() => eslint.lintText("var foo = 'bar';"), /Could not find config file/u);
+        });
+
+        it("should not throw if eslint.config.js file is not present and overrideConfigFile is `true`", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath(".."),
+                overrideConfigFile: true
+            });
+            await eslint.lintText("var foo = 'bar';");
+        });
+
+        it("should not throw if eslint.config.js file is not present and overrideConfigFile is path to a config file", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath(".."),
+                overrideConfigFile: "fixtures/configurations/quotes-error.js"
+            });
+            await eslint.lintText("var foo = 'bar';");
+        });
+
+        it("should throw if overrideConfigFile is path to a file that doesn't exist", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath(""),
+                overrideConfigFile: "does-not-exist.js"
+            });
+            await assert.rejects(() => eslint.lintText("var foo = 'bar';"), { code: "ENOENT" });
+        });
+
         it("should throw if non-string value is given to 'code' parameter", async () => {
             eslint = new FlatESLint();
             await assert.rejects(() => eslint.lintText(100), /'code' must be a string/u);
@@ -795,6 +826,37 @@ describe("FlatESLint", () => {
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].messages.length, 0);
             assert.strictEqual(results[0].suppressedMessages.length, 0);
+        });
+
+        it("should throw if eslint.config.js file is not present", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath("..")
+            });
+            await assert.rejects(() => eslint.lintFiles("fixtures/undef*.js"), /Could not find config file/u);
+        });
+
+        it("should not throw if eslint.config.js file is not present and overrideConfigFile is `true`", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath(".."),
+                overrideConfigFile: true
+            });
+            await eslint.lintFiles("fixtures/undef*.js");
+        });
+
+        it("should not throw if eslint.config.js file is not present and overrideConfigFile is path to a config file", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath(".."),
+                overrideConfigFile: "fixtures/configurations/quotes-error.js"
+            });
+            await eslint.lintFiles("fixtures/undef*.js");
+        });
+
+        it("should throw if overrideConfigFile is path to a file that doesn't exist", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath(),
+                overrideConfigFile: "does-not-exist.js"
+            });
+            await assert.rejects(() => eslint.lintFiles("undef*.js"), { code: "ENOENT" });
         });
 
         it("should throw an error when given a config file and a valid file and invalid parser", async () => {
