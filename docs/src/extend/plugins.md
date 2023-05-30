@@ -18,34 +18,6 @@ Each plugin is an npm module with a name in the format of `eslint-plugin-<plugin
 
 The easiest way to start creating a plugin is to use the [Yeoman generator](https://www.npmjs.com/package/generator-eslint). The generator will guide you through setting up the skeleton of a plugin.
 
-### Metadata in Plugins
-
-For easier debugging and more effective caching of plugins, it's recommended to provide a name and version in a `meta` object at the root of your plugin, like this:
-
-```js
-// preferred location of name and version
-module.exports = {
-    meta: {
-        name: "eslint-plugin-custom",
-        version: "1.2.3"
-    }
-};
-```
-
-The `meta.name` property should match the npm package name for your plugin and the `meta.version` property should match the npm package version for your plugin. The easiest way to accomplish this is by reading this information from your `package.json`.
-
-As an alternative, you can also expose `name` and `version` properties at the root of your plugin, such as:
-
-```js
-// alternate location of name and version
-module.exports = {
-    name: "eslint-plugin-custom",
-    version: "1.2.3"
-};
-```
-
-While the `meta` object is the preferred way to provide the plugin name and version, this format is also acceptable and is provided for backward compatibility.
-
 ### Rules in Plugins
 
 Plugins can expose custom rules for use in ESLint. To do so, the plugin must export a `rules` object containing a key-value mapping of rule ID to rule. The rule ID does not have to follow any naming convention (so it can just be `dollar-sign`, for instance). To learn more about creating custom rules in plugins, refer to [Custom Rules](custom-rules).
@@ -183,7 +155,7 @@ ESLint plugins should be linted too! It's suggested to lint your plugin with the
 
 * [eslint](https://www.npmjs.com/package/eslint)
 * [eslint-plugin-eslint-plugin](https://www.npmjs.com/package/eslint-plugin-eslint-plugin)
-* [eslint-plugin-n](https://www.npmjs.com/package/eslint-plugin-n)
+* [eslint-plugin-node](https://www.npmjs.com/package/eslint-plugin-node)
 
 ## Share Plugins
 

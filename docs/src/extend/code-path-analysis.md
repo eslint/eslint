@@ -259,8 +259,7 @@ Please use a map of information instead.
 ```js
 function hasCb(node, context) {
     if (node.type.indexOf("Function") !== -1) {
-        const sourceCode = context.sourceCode;
-        return sourceCode.getDeclaredVariables(node).some(function(v) {
+        return context.getDeclaredVariables(node).some(function(v) {
             return v.type === "Parameter" && v.name === "cb";
         });
     }

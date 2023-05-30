@@ -30,7 +30,7 @@ The first goal when evaluating an issue is to determine which category the issue
 
 ## Triaging Process
 
-All of ESLint's issues, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/3). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
+All of ESLint's issues, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/2). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
 
 * **Needs Triage**: Issues that have not yet been reviewed by anyone
 * **Triaging**: Issues that someone has reviewed but has not been able to fully triage yet
@@ -41,7 +41,7 @@ All of ESLint's issues, across all GitHub repositories, are managed on our [Tria
 * **RFC Opened**: An RFC is opened to address these issues
 * **Blocked**: The issue can't move forward due to some dependency
 * **Ready to Implement**: These issues have all the details necessary to start implementation
-* **Implementing**: There is an open pull request for each of these issues
+* **PR Opened**: There is an open pull request for each of these issues
 * **Completed**: The issue has been closed (either via pull request merge or by the team manually closing the issue)
 
 We make every attempt to automate movement between as many columns as we can, but sometimes moving issues needs to be done manually.
@@ -64,7 +64,7 @@ The steps for triaging an issue are:
         * If the issue is actually a question (rather than something the dev team needs to change), please [convert it to a discussion](https://docs.github.com/en/free-pro-team@latest/discussions/managing-discussions-for-your-community/moderating-discussions#converting-an-issue-to-a-discussion). You can continue the conversation as a discussion.
         * If the issue is reporting a bug, try to reproduce the issue following the instructions in the issue. If you can reproduce the bug, please add the "repro:yes" label. (The bot will automatically remove the "repro:needed" label.) If you can't reproduce the bug, ask the author for more information about their environment or to clarify reproduction steps.
         * If the issue is reporting something that works as intended, please add the "works as intended" label and close the issue.
-        * Please add labels describing the part of ESLint affected:
+        * For all issues, please add labels describing the part of ESLint affected:
             * **3rd party plugin**: Related to third-party functionality (plugins, parsers, rules, etc.)
             * **build**: Related to commands run during a build (testing, linting, release scripts, etc.)
             * **cli**: Related to command line input or output, or to `CLIEngine`
@@ -72,16 +72,6 @@ The steps for triaging an issue are:
             * **documentation**: Related to content on eslint.org
             * **infrastructure**: Related to resources needed for builds or deployment (VMs, CI tools, bots, etc.)
             * **rule**: Related to core rules
-        * Please assign an initial priority based on the importance of the issue. If you're not sure, use your best judgment. We can always change the priority later.
-            * **P1**: Urgent and important, we need to address this immediately.
-            * **P2**: Important but not urgent. Should be handled by a TSC member or reviewer.
-            * **P3**: Nice to have but not important. Can be handled by any team member.
-            * **P4**: A good idea that we'd like to have but may take a while for the team to get to it.
-            * **P5**: A good idea that the core team can't commit to. Will likely need to be done by an outside contributor.
-        * Please assign an initial impact assessement (make your best guess):
-            * **Low**: Doesn't affect many users.
-            * **Medium**: Affects most users or has a noticeable effect on user experience.
-            * **High**: Affects a lot of users, is a breaking change, or otherwise will be very noticeable to users.
         * If you can't properly triage the issue, move the issue back to the "Needs Triage" column in the Triage project so someone else can triage it.
         * If you have triaged the issue, move the issue to the "Ready for Dev Team" column in the Triage project.
 
@@ -130,8 +120,8 @@ Consensus is reached on issues when there are at least three team members who be
 
 If consensus cannot be reached on an issue, or an issue's progress has been stalled and it's not clear if the issue should be closed, then you can refer the issue to the TSC for resolution. To do so, add the "tsc agenda" label to the issue and add a comment including the following information:
 
-1. A one-paragraph summary of the discussion to this point. This should begin with "TSC Summary:".
-2. The question you would like the TSC to answer. This should begin with "TSC Question:".
+1. A one-paragraph summary of the discussion to this point.
+2. The question you would like the TSC to answer.
 
 The issue will be discussed at the next TSC meeting and the resolution will be posted back to the issue.
 

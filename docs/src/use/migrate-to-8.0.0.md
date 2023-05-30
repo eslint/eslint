@@ -55,7 +55,7 @@ Node.js 10, 13, 15 all reached end of life either in 2020 or early 2021. ESLint 
 
 ESLint v8.0.0 has removed the `codeframe` and `table` formatters from the core. These formatters required dependencies that weren't used anywhere else in ESLint, and removing them allows us to reduce the size of ESLint, allowing for faster installation.
 
-**To address:** If you are using the `codeframe` or `table` formatters, you'll need to install the standalone [`eslint-formatter-codeframe`](https://github.com/eslint-community/eslint-formatter-codeframe) or [`eslint-formatter-table`](https://github.com/eslint-community/eslint-formatter-table) packages, respectively, to be able to use them in ESLint v8.0.0.
+**To address:** If you are using the `codeframe` or `table` formatters, you'll need to install the standalone [`eslint-formatter-codeframe`](https://github.com/fregante/eslint-formatter-codeframe) or [`eslint-formatter-table`](https://github.com/fregante/eslint-formatter-table) packages, respectively, to be able to use them in ESLint v8.0.0.
 
 **Related issue(s):** [#14277](https://github.com/eslint/eslint/issues/14277), [#14316](https://github.com/eslint/eslint/pull/14316)
 
@@ -135,7 +135,7 @@ module.exports = {
 };
 ```
 
-The [eslint-plugin/require-meta-has-suggestions](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-has-suggestions.md) rule can automatically fix and enforce that your rules are properly specifying `meta.hasSuggestions`.
+The [eslint-plugin/require-meta-has-suggestions](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-has-suggestions.md) rule can automatically fix and enforce that your rules are properly specifying `meta.hasSuggestions`.
 
 **Related issue(s):** [#14312](https://github.com/eslint/eslint/issues/14312)
 
@@ -164,9 +164,9 @@ module.exports = {
 };
 ```
 
-The [eslint-plugin/require-meta-fixable](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-fixable.md) rule can automatically fix and enforce that your rules are properly specifying `meta.fixable`.
+The [eslint-plugin/require-meta-fixable](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-fixable.md) rule can automatically fix and enforce that your rules are properly specifying `meta.fixable`.
 
-The [eslint-plugin/prefer-object-rule](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-object-rule.md) rule can automatically fix and enforce that your rules are written with the object format instead of the deprecated function format.
+The [eslint-plugin/prefer-object-rule](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-object-rule.md) rule can automatically fix and enforce that your rules are written with the object format instead of the deprecated function format.
 
 See the [rule documentation](../extend/custom-rules) for more information on writing rules.
 
@@ -178,7 +178,7 @@ Back in ESLint v4.0.0, we deprecated `SourceCode#getComments()`, but we neglecte
 
 The `SourceCode#getComments()` method will be removed in v9.0.0.
 
-**To address:** If your rule uses `SourceCode#getComments()`, please use [`SourceCode#getCommentsBefore()`, `SourceCode#getCommentsAfter()`, or `SourceCode#getCommentsInside()`](../extend/custom-rules#accessing-comments).
+**To address:** If your rule uses `SourceCode#getComments()`, please use [`SourceCode#getCommentsBefore()`, `SourceCode#getCommentsAfter()`, or `SourceCode#getCommentsInside()`](../extend/custom-rules#sourcecodegetcommentsbefore-sourcecodegetcommentsafter-and-sourcecodegetcommentsinside).
 
 **Related issue(s):** [#14744](https://github.com/eslint/eslint/issues/14744)
 
