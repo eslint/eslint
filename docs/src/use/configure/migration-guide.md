@@ -48,7 +48,7 @@ String-based import system with the `plugins` property to load plugins and `exte
 
 #### eslint.config.js
 
-Uses CommonJS `requires()` or ESModule `import` to load pluginsand custom parsers.
+Uses CommonJS `requires()` or ESModule `import` to load plugins and custom parsers.
 
 ```javascript
 // eslint.config.js
@@ -109,7 +109,7 @@ export default [
 
 #### .eslintrc
 
-By default, .`eslintrc` files lint all files (except those covered by `.gitignore`) in the directory in which they’re placed and child directories:
+By default, .`eslintrc` files lint all files (except those covered by `.gitignore`) in the directory in which they’re placed and its child directories:
 
 ```javascript
 // .eslintrc.js
@@ -149,11 +149,11 @@ module.exports = {
 
 #### eslint.config.js
 
-By default, `eslint.config.js` files support different glob pattern-based configs in exported array.
+By default, `eslint.config.js` files support different glob pattern-based configs in exported array. You can include the glob pattern in a config object's `files` property. If you don't specify a `files` property, the config defaults to the glob pattern `"**/*.{js,mjs,cjs}"`.
 
 Basically, all configuration in the `eslint.config.js` file is like the .`eslintrc` `overrides` property.
 
-Here is a configuration with the default glob pattern (`**/*.{js,mjs,cjs}`):
+Here is a configuration with the default glob pattern:
 
 ```javascript
 // eslint.config.js
@@ -173,7 +173,7 @@ export default [
 ];
 ```
 
-To support multiple configs for different glob patterns:
+An example configuration supporting multiple configs for different glob patterns:
 
 ```javascript
 // eslint.config.js
@@ -229,7 +229,7 @@ module.exports = {
 
 In the `eslint.config.js`, the `globals`, and `parserOptions` are consolidated under the `languageOptions` key.
 
-There is no longer the `env` property in `eslint.config.js`. Global variables for specific runtimes are imported from the [globals](https://www.npmjs.com/package/globals) npm package and included in the `globals` property. You can use the spread operator (`...`)to import all globals:
+There is no longer the `env` property in `eslint.config.js`. Global variables for specific runtimes are imported from the [globals](https://www.npmjs.com/package/globals) npm package and included in the `globals` property. You can use the spread operator (`...`) to import all globals:
 
 ```javascript
 // eslint.config.js
@@ -274,8 +274,8 @@ module.exports = {
 
 ESLint comes with two predefined configs:
 
-* -`eslint:recommended`: the rules recommended by ESLint
-* -`eslint:all`: all rules shipped with ESLint
+* `eslint:recommended`: the rules recommended by ESLint
+* `eslint:all`: all rules shipped with ESLint
 
 You can also use the `extends` property to extend a custom config. Custom configs can either be paths to local config files or npm package names:
 
@@ -294,9 +294,9 @@ module.exports = {
 
 #### eslint.config.js
 
-Predefined configs are imported from separate packages for `eslint.config.js` files.
+Predefined configs are imported from separate modules into `eslint.config.js` files.
 
-The recommended and all rules configs are located in a separate [`@eslint/js`](https://www.npmjs.com/package/@eslint/js) package. You must import this package to use these configs:
+The recommended and all rules configs are located in the [`@eslint/js`](https://www.npmjs.com/package/@eslint/js) package. You must import this package to use these configs:
 
 ```shell
 npm install @eslint/js -D
@@ -349,7 +349,8 @@ While all the above mentioned features have changed from `.eslintrc` to `eslint.
 
 * Syntax for adding rules
 * Processors
-* All options. Just the way to configure them have changed.
+* All functionality. Just the way to configure it has changed.
+* The CLI
 
 ## TypeScript Types for eslint.config.js
 
