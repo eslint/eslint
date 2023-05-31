@@ -20,7 +20,7 @@ For reference information on these configuration formats, refer to the following
 
 As of ESLint v9.0.0, the `eslint.config.js` file format is the default configuration file format. If you are using ESLint v9.0.0 or later, you can start using the `eslint.config.js` file format without any additional configuration.
 
-To use `eslint.config.js` with ESLint v8.x.x, place a `eslint.config.js` file in the root of your project **or** set an `ESLINT_USE_FLAT_CONFIG` environment variable to `true`.
+To use `eslint.config.js` with ESLint v8, place a `eslint.config.js` file in the root of your project **or** set an `ESLINT_USE_FLAT_CONFIG` environment variable to `true`.
 
 ## Key Differences between Configuration Formats
 
@@ -91,6 +91,7 @@ To import a custom parser, import the parser as a module. Then assign it to the 
 
 ```javascript
 // eslint.config.js
+
 import babelParser from "@babel/eslint-parser";
 
 export default [
@@ -112,9 +113,12 @@ By default, .`eslintrc` files lint all files (except those covered by `.gitignor
 
 ```javascript
 // .eslintrc.js
+
 module.exports = {
     // ...other config
-    extends: "eslint:recommended",
+    rules: {
+        semi: ["warn", "always"]
+    }
 };
 ```
 
@@ -122,6 +126,7 @@ If you want to have different configurations for different file glob patterns, y
 
 ```javascript
 // .eslintrc.js
+
 module.exports = {
     // ...other config
     extends: "eslint:recommended",
@@ -152,13 +157,16 @@ Here is a configuration with the default glob pattern (`**/*.{js,mjs,cjs}`):
 
 ```javascript
 // eslint.config.js
+
+import js from "@eslint/js";
+
 export default [
-    "eslint:recommended", // Recommended config applied to all files
+   js.configs.recommended, // Recommended config applied to all files
     // Override the recommended config
     {
         rules: {
            indent: ["error", 2],
-            "no-unused-vars": "warn"
+           "no-unused-vars": "warn"
         }
         // ...other configuration
     }
@@ -169,8 +177,11 @@ To support multiple configs for different glob patterns:
 
 ```javascript
 // eslint.config.js
+
+import js from "@eslint/js";
+
 export default [
-    "eslint:recommended", // Recommended config applied to all files
+    js.configs.recommended, // Recommended config applied to all files
     // File-pattern specific overrides
     {
         files: ["src/**/*", "test/**/*"],
@@ -198,6 +209,7 @@ Global variables for specific runtimes (e.g `document` for browser JavaScript an
 
 ```javascript
 // .eslintrc
+
 module.exports = {
     env: {
         browser: true,
@@ -221,6 +233,7 @@ There is no longer the `env` property in `eslint.config.js`. Global variables fo
 
 ```javascript
 // eslint.config.js
+
 import globals from "globals";
 
 export default [
@@ -248,6 +261,7 @@ To use predefined configs, use the `extends` property:
 
 ```javascript
 // .eslintrc.js
+
 module.exports = {
     // ...other config
     extends: "eslint:recommended",
@@ -267,6 +281,7 @@ You can also use the `extends` property to extend a custom config. Custom config
 
 ```javascript
 // .eslintrc.js
+
 module.exports = {
     // ...other config
     extends: ["eslint:recommended", "./custom-config.js", "eslint-config-my-config"],
@@ -279,20 +294,27 @@ module.exports = {
 
 #### eslint.config.js
 
-`eslint.config.js` supports the built-in `eslint:recommended` and `eslint:all` configs, locally defined configs and npm package configs.
+Predefined configs are imported from separate packages for `eslint.config.js` files.
 
-You can add each of these configs to the exported array.
+The recommended and all rules configs are located in a separate [`@eslint/js`](https://www.npmjs.com/package/@eslint/js) package. You must import this package to use these configs:
+
+```shell
+npm install @eslint/js -D
+```
+
+You can add each of these configs to the exported array or expose specific rules from them.
 
 You must import the modules for local config files and npm package configs with `eslint.config.js`:
 
 ```javascript
 // eslint.config.js
 
+import js from "@eslint/js";
 import customConfig from "./custom-config.js";
 import myConfig from "eslint-config-my-config";
 
 export default [
-    "eslint:recommended",
+   js.configs.recommended,
     customConfig,
     myConfig,
     {
@@ -308,9 +330,12 @@ Note that because you are just importing JavaScript modules, you can mutate the 
 
 ```javascript
 // eslint.config.js
+
+import js from "@eslint/js";
 import customTestConfig from "./custom-test-config.js";
+
 export default [
-    "eslint:recommended",
+    js.configs.recommended,
     {
         ...customTestConfig,
         files: ["**/*.test.js"],
