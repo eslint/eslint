@@ -114,15 +114,16 @@ describe("cli", () => {
         describe("execute()", () => {
 
             it(`should return error when text with incorrect quotes is passed as argument with configType:${configType}`, async () => {
+                const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
                 const configFile = getFixturePath("configurations", "quotes-error.js");
-                const result = await cli.execute(`-c ${configFile} --stdin --stdin-filename foo.js`, "var foo = 'bar';", useFlatConfig);
+                const result = await cli.execute(`${flag} -c ${configFile} --stdin --stdin-filename foo.js`, "var foo = 'bar';", useFlatConfig);
 
                 assert.strictEqual(result, 1);
             });
 
             it(`should not print debug info when passed the empty string as text with configType:${configType}`, async () => {
                 const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
-                const result = await cli.execute(["--stdin", flag, "--stdin-filename", "foo.js"], "", useFlatConfig);
+                const result = await cli.execute(["argv0", "argv1", "--stdin", flag, "--stdin-filename", "foo.js"], "", useFlatConfig);
 
                 assert.strictEqual(result, 0);
                 assert.isTrue(log.info.notCalled);
@@ -206,20 +207,30 @@ describe("cli", () => {
 
         describe("when there is a local config file", () => {
 
+            const originalCwd = process.cwd;
+
+            beforeEach(() => {
+                process.cwd = () => getFixturePath();
+            });
+
+            afterEach(() => {
+                process.cwd = originalCwd;
+            });
+
             it(`should load the local config file with configType:${configType}`, async () => {
-                await cli.execute("lib/cli.js", null, useFlatConfig);
+                await cli.execute("cli/passing.js --no-ignore", null, useFlatConfig);
             });
 
             if (useFlatConfig) {
                 it(`should load the local config file with glob pattern and configType:${configType}`, async () => {
-                    await cli.execute("lib/cli*.js", null, useFlatConfig);
+                    await cli.execute("cli/pass*.js --no-ignore", null, useFlatConfig);
                 });
             }
 
             // only works on Windows
             if (os.platform() === "win32") {
                 it(`should load the local config file with Windows slashes glob pattern and configType:${configType}`, async () => {
-                    await cli.execute("lib\\cli*.js", null, useFlatConfig);
+                    await cli.execute("cli\\pass*.js --no-ignore", null, useFlatConfig);
                 });
             }
         });
@@ -336,10 +347,21 @@ describe("cli", () => {
             });
 
             describe("when given an invalid formatter path", () => {
+
+                const originalCwd = process.cwd;
+
+                beforeEach(() => {
+                    process.cwd = () => getFixturePath();
+                });
+
+                afterEach(() => {
+                    process.cwd = originalCwd;
+                });
+
                 it(`should execute with error with configType:${configType}`, async () => {
                     const formatterPath = getFixturePath("formatters", "file-does-not-exist.js");
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`-f ${formatterPath} ${filePath}`, null, useFlatConfig);
+                    const exit = await cli.execute(`--no-ignore -f ${formatterPath} ${filePath}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 2);
                 });
@@ -869,13 +891,15 @@ describe("cli", () => {
         });
 
         describe("when supplied with report output file path", () => {
+            const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
+
             afterEach(() => {
                 sh.rm("-rf", "tests/output");
             });
 
             it(`should write the file and create dirs if they don't exist with configType:${configType}`, async () => {
                 const filePath = getFixturePath("single-quoted.js");
-                const code = `--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt ${filePath}`;
+                const code = `${flag} --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt ${filePath}`;
 
                 await cli.execute(code, null, useFlatConfig);
 
@@ -885,7 +909,7 @@ describe("cli", () => {
 
             it(`should return an error if the path is a directory with configType:${configType}`, async () => {
                 const filePath = getFixturePath("single-quoted.js");
-                const code = `--no-ignore --rule 'quotes: [1, double]' --o tests/output ${filePath}`;
+                const code = `${flag} --rule 'quotes: [1, double]' --o tests/output ${filePath}`;
 
                 fs.mkdirSync("tests/output");
 
@@ -898,7 +922,7 @@ describe("cli", () => {
 
             it(`should return an error if the path could not be written to with configType:${configType}`, async () => {
                 const filePath = getFixturePath("single-quoted.js");
-                const code = `--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt ${filePath}`;
+                const code = `${flag} --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt ${filePath}`;
 
                 fs.writeFileSync("tests/output", "foo");
 
@@ -1277,8 +1301,19 @@ describe("cli", () => {
         });
 
         describe("when passing --print-config", () => {
+
+            const originalCwd = process.cwd;
+
+            beforeEach(() => {
+                process.cwd = () => getFixturePath();
+            });
+
+            afterEach(() => {
+                process.cwd = originalCwd;
+            });
+
             it(`should print out the configuration with configType:${configType}`, async () => {
-                const filePath = getFixturePath("xxxx");
+                const filePath = getFixturePath("xxx.js");
 
                 const exitCode = await cli.execute(`--print-config ${filePath}`, null, useFlatConfig);
 
