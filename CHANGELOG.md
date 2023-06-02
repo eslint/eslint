@@ -1,3 +1,17 @@
+v8.42.0 - June 2, 2023
+
+* [`6ca5b7c`](https://github.com/eslint/eslint/commit/6ca5b7ca3bac9e10c6cfee4cdc78446e94eb7607) chore: upgrade @eslint/js@8.42.0 (#17236) (Milos Djermanovic)
+* [`67fc5e7`](https://github.com/eslint/eslint/commit/67fc5e730e4dfc372dea11e15d3f5165bc812491) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`0892412`](https://github.com/eslint/eslint/commit/0892412556b2ba6c3d1b85152dafe47a3f4cba72) refactor: remove `Identifier` listener in no-irregular-whitespace (#17235) (Milos Djermanovic)
+* [`a589636`](https://github.com/eslint/eslint/commit/a5896360c3faa1e7d1fe81a9907a434b8b8f6b60) fix: Config with `ignores` and without `files` should not always apply (#17181) (Milos Djermanovic)
+* [`01d7142`](https://github.com/eslint/eslint/commit/01d7142642c87241135699571e8010f5e8fcda4f) docs: Update README (GitHub Actions Bot)
+* [`f67d298`](https://github.com/eslint/eslint/commit/f67d2984c3c3f26497842a04d5166707587c1fca) test: Add `FlatESLint` tests with missing config files (#17164) (Milos Djermanovic)
+* [`e5182b7`](https://github.com/eslint/eslint/commit/e5182b723ff82bb3b55c50c06d64626055414b31) docs: Update README (GitHub Actions Bot)
+* [`c4fad17`](https://github.com/eslint/eslint/commit/c4fad173c7149dbcd25695c19c68663102b9ec6b) fix: Correct ignore message for "node_modules" subfolders (#17217) (Francesco Trotta)
+* [`5b68d51`](https://github.com/eslint/eslint/commit/5b68d51e3e6bd003d6cf74d3434f7165691b4f4d) chore: Fix `fixedsize` attribute in code path analysis DOT debug output (#17202) (Milos Djermanovic)
+* [`b8448ff`](https://github.com/eslint/eslint/commit/b8448ff1ae1adf26a81dea07f340caa5b5c2f257) feat: correct no-useless-return behaviour in try statements (#16996) (Nitin Kumar)
+* [`37432f2`](https://github.com/eslint/eslint/commit/37432f27dc15817d66cf42377792197dc2aeb8b2) chore: update descriptions in key-spacing tests (#17195) (Milos Djermanovic)
+
 v8.41.0 - May 19, 2023
 
 * [`f43216a`](https://github.com/eslint/eslint/commit/f43216a8c77ab6cf1d0823978e8c728786b4cba7) chore: upgrade @eslint/js@8.41.0 (#17200) (Milos Djermanovic)
