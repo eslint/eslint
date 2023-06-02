@@ -1028,7 +1028,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1044,7 +1044,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1060,7 +1060,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1076,7 +1076,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1092,7 +1092,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1108,7 +1108,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1124,7 +1124,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1140,7 +1140,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1156,7 +1156,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1172,7 +1172,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1188,7 +1188,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1204,7 +1204,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1220,7 +1220,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1236,7 +1236,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1252,7 +1252,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1268,7 +1268,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1284,7 +1284,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1300,7 +1300,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1316,7 +1316,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1332,7 +1332,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         },
@@ -1348,7 +1348,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
-                    column: 6,
+                    column: 6
                 }
             ]
         }
