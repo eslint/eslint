@@ -191,6 +191,8 @@ function thing() {
 }
 ```
 
+:::
+
 ### skipJSXText
 
 Examples of additional **correct** code for this rule with the `{ "skipJSXText": true }` option:
