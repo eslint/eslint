@@ -34,7 +34,7 @@ This tutorial assumes you are familiar with JavaScript and Node.js.
 To follow this tutorial, you'll need to have the following:
 
 * Node.js (v12.0.0 or higher)
-* npm or Yarn package manager
+* npm
 * A text editor
 
 ## Step 1: Setup
@@ -81,11 +81,11 @@ function createESLintInstance(overrideConfig){
 }
 ```
 
-## Step 3: Get Linting Results
+## Step 3: Lint and Fix Files
 
 To lint a file, use the `lintFiles` method of the `ESLint` instance. The `filePaths` argument passed to `ESLint#lintFiles()` can be a string or an array of strings, representing the file path(s) you want to lint. The file paths can be globs or filenames.
 
-The static method `ESLint.outputFixes()` takes the linting results from the call to `ESLint#lintFiles()`, and then writes any automatic fixes to the source files.
+The static method `ESLint.outputFixes()` takes the linting results from the call to `ESLint#lintFiles()`, and then writes the fixed code back to the source files.
 
 ```javascript
 // example-eslint-integration.js
@@ -103,7 +103,7 @@ async function lintAndFix(eslint, filePaths) {
 }
 ```
 
-## Step 4: Handle Results
+## Step 4: Output Results
 
 Define a function to output the linting results to the consoles. This should be specific to your integration's needs. For example, you could report the linting results to a user interface.
 
