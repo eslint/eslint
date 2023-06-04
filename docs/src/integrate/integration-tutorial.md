@@ -21,7 +21,7 @@ You might want to create an ESLint integration if you're creating developer tool
 
 * **Learning platforms**: If you are developing a learning platform or coding tutorial, integrating ESLint can provide real-time feedback to users as they learn JavaScript, helping them improve their coding skills and learn best practices.
 
-* **Developer tools** If you're creating developer tools, like a testing framework or a bundler, you may want to integrate ESLint to provide linting capabilities.
+* **Developer tool integration**: If you're creating a plugin for a developer tool, such as a bundler or testing framework, you may want to integrate ESLint to provide linting capabilities. You can integrate ESLint directly into the tool or as a plugin.
 
 ## What You'll Build
 
@@ -52,7 +52,7 @@ Initialize the project with a `package.json` file:
 npm init -y
 ```
 
-Install the `eslint` package as a dependency:
+Install the `eslint` package as a dependency (**not** a dev dependency):
 
 ```shell
 npm install eslint
@@ -227,4 +227,4 @@ In this tutorial, we have covered the essentials of using the `ESLint` class to 
 
 ## View the Tutorial Code
 
-You can view the annotated source code for the tutorial [here](https://github.com/eslint/eslint/tree/main/docs/_integration-tutorial-code).
+You can view the annotated source code for the tutorial [here](https://github.com/eslint/eslint/tree/main/docs/_examples/integration-tutorial-code).
