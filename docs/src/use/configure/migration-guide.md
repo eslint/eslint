@@ -296,7 +296,7 @@ module.exports = {
 
 Predefined configs are imported from separate modules into `eslint.config.js` files.
 
-The recommended and all rules configs are located in the [`@eslint/js`](https://www.npmjs.com/package/@eslint/js) package. You must import this package to use these configs:
+The `recommended` and `all` rules configs are located in the [`@eslint/js`](https://www.npmjs.com/package/@eslint/js) package. You must import this package to use these configs:
 
 ```shell
 npm install @eslint/js -D
@@ -314,7 +314,7 @@ import customConfig from "./custom-config.js";
 import myConfig from "eslint-config-my-config";
 
 export default [
-   js.configs.recommended,
+    js.configs.recommended,
     customConfig,
     myConfig,
     {
