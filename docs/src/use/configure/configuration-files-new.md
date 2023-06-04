@@ -116,7 +116,7 @@ export default [
 
 Here, the configuration object excludes files ending with `.config.js` except for `eslint.config.js`. That file still has `semi` applied.
 
-If `ignores` is used without `files` and any other setting, then the configuration object applies to all files except the ones specified in `ignores`, for example:
+If `ignores` is used without `files` and there are other keys (such as `rules`), then the configuration object applies to all files except the ones specified in `ignores`, for example:
 
 ```js
 export default [
@@ -144,6 +144,9 @@ export default [
 ```
 
 This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/**", ".git/**"]`.
+
+Note that only global `ignores` patterns can ignore or unignore whole directories.
+`ignores` patterns that are specific to a configuration will only match file names.
 
 #### Cascading configuration objects
 
