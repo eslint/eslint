@@ -9,7 +9,7 @@ eleventyNavigation:
 ---
 
 ::: warning
-This config system is feature complete but not enabled by default. To opt-in, place an `eslint.config.js` file in the root of your project or set the `ESLINT_USE_FLAT_CONFIG` environment variable to `true`. To opt-out, even in the presence of an `eslint.config.js` file, set the environment variable to `false`. If you are using the API, you can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
+This is an experimental feature. To opt-in, place an `eslint.config.js` file in the root of your project or set the `ESLINT_USE_FLAT_CONFIG` environment variable to `true`. To opt-out, even in the presence of an `eslint.config.js` file, set the environment variable to `false`. If you are using the API, you can use the configuration system described on this page by using the `FlatESLint` class, the `FlatRuleTester` class, or by setting `configType: "flat"` in the `Linter` class.
 :::
 
 You can put your ESLint project configuration in a configuration file. You can include built-in rules, how you want them enforced, plugins with custom rules, shareable configurations, which files you want rules to apply to, and more.
@@ -143,21 +143,7 @@ export default [
 ];
 ```
 
-This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/", ".git/"]`.
-
-You can also unignore files and directories that are ignored by the default patterns. For example, this config unignores `node_modules/mylibrary`:
-
-```js
-export default [
-    {
-        ignores: [
-            "!node_modules/",           // unignore `node_modules/` directory
-            "node_modules/*",           // ignore its content
-            "!node_modules/mylibrary/"  // unignore `node_modules/mylibrary` directory
-        ]
-    }
-];
-```
+This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/**", ".git/**"]`.
 
 #### Cascading configuration objects
 
@@ -341,24 +327,6 @@ export default [
 ```
 
 For historical reasons, the boolean value `false` and the string value `"readable"` are equivalent to `"readonly"`. Similarly, the boolean value `true` and the string value `"writeable"` are equivalent to `"writable"`. However, the use of older values is deprecated.
-
-##### Predefined global variables
-
-Apart from the ECMAScript standard built-in globals, which are automatically enabled based on the configured `languageOptions.ecmaVersion`, ESLint doesn't provide predefined sets of global variables. You can use the [`globals`](https://www.npmjs.com/package/globals) package to additionally enable all globals for a specific environment. For example, here is how you can add `console`, amongst other browser globals, into your configuration.
-
-```js
-import globals from "globals";
-
-export default [
-    {
-        languageOptions: {
-            globals: {
-                ...globals.browser
-            }
-        }
-    }
-];
-```
 
 ### Using plugins in your configuration
 

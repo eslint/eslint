@@ -59,19 +59,19 @@ Reported problems have the following location information in each lint message:
 type LintMessage = {
 
   /// The 1-based line number where the message occurs.
-  line?: number;
+  line: number;
 
    /// The 1-based column number where the message occurs.
-  column?: number;
+  column: number;
 
   /// The 1-based line number of the end location.
-  endLine?: number;
+  endLine: number;
 
   /// The 1-based column number of the end location.
-  endColumn?: number;
+  endColumn: number;
 
   /// If `true`, this is a fatal error.
-  fatal?: boolean;
+  fatal: boolean;
 
   /// Information for an autofix.
   fix: Fix;

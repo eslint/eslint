@@ -8,7 +8,7 @@ related_rules:
 
 
 
-Characters `/=` at the beginning of a regular expression literal can be confused with a division assignment operator.
+Require regex literals to escape division operators.
 
 ```js
 function bar() { return /=foo/; }
@@ -16,7 +16,7 @@ function bar() { return /=foo/; }
 
 ## Rule Details
 
-This rule forbids equal signs (`=`) after the slash (`/`) at the beginning of a regular expression literal, because the characters `/=` can be confused with a division assignment operator.
+This is used to disambiguate the division operator to not confuse users.
 
 Examples of **incorrect** code for this rule:
 

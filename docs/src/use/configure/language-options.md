@@ -27,7 +27,7 @@ An environment provides predefined global variables. The available environments 
 * `es2021` - adds all ECMAScript 2021 globals and automatically sets the `ecmaVersion` parser option to 12.
 * `es2022` - adds all ECMAScript 2022 globals and automatically sets the `ecmaVersion` parser option to 13.
 * `worker` - web workers global variables.
-* `amd` - defines `require()` and `define()` as global variables as per the [amd](https://github.com/amdjs/amdjs-api/blob/master/AMD.md) spec.
+* `amd` - defines `require()` and `define()` as global variables as per the [amd](https://github.com/amdjs/amdjs-api/wiki/AMD) spec.
 * `mocha` - adds all of the Mocha testing global variables.
 * `jasmine` - adds all of the Jasmine testing global variables for version 1.3 and 2.0.
 * `jest` - Jest global variables.
@@ -187,7 +187,7 @@ For historical reasons, the boolean value `false` and the string value `"readabl
 
 ESLint allows you to specify the JavaScript language options you want to support. By default, ESLint expects ECMAScript 5 syntax. You can override that setting to enable support for other ECMAScript versions and JSX using parser options.
 
-Please note that supporting JSX syntax is not the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) if you are using React.
+Please note that supporting JSX syntax is not the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) if you are using React.
 
 By the same token, supporting ES6 syntax is not the same as supporting new ES6 globals (e.g., new types such as `Set`). For ES6 syntax, use `{ "parserOptions": { "ecmaVersion": 6 } }`; for new ES6 global variables, use `{ "env": { "es6": true } }`. Setting `{ "env": { "es6": true } }` enables ES6 syntax automatically, but `{ "parserOptions": { "ecmaVersion": 6 } }` does not enable ES6 globals automatically.
 

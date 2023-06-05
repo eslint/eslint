@@ -8,10 +8,6 @@ eleventyNavigation:
 
 ---
 
-::: warning
-We are transitioning to a new config system in ESLint v9.0.0. The config system shared on this page is currently the default but will be deprecated in v9.0.0. You can opt-in to the new config system by following the instructions in the [documentation](configuration-files-new).
-:::
-
 You can put your ESLint project configuration in a configuration file. You can include built-in rules, how you want them enforced, plugins with custom rules, shareable configurations, which files you want rules to apply to, and more.
 
 ## Configuration File Formats

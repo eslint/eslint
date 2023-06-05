@@ -91,10 +91,10 @@ This rule has an object option:
 
 * `"properties": false` (default) does not check object properties
 * `"properties": true` requires object literal properties and member expression assignment properties to match the specified regular expression
-* `"classFields": false` (default) does not check class field names
+* `"classFields": false` (default) does not class field names
 * `"classFields": true` requires class field names to match the specified regular expression
 * `"onlyDeclarations": false` (default) requires all variable names to match the specified regular expression
-* `"onlyDeclarations": true` requires only `var`, `const`, `let`, `function`, and `class` declarations to match the specified regular expression
+* `"onlyDeclarations": true` requires only `var`, `function`, and `class` declarations to match the specified regular expression
 * `"ignoreDestructuring": false` (default) enforces `id-match` for destructured identifiers
 * `"ignoreDestructuring": true` does not check destructured identifiers
 
