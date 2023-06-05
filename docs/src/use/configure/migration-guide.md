@@ -18,7 +18,7 @@ For reference information on these configuration formats, refer to the following
 
 ## Start Using `eslint.config.js`
 
-As of ESLint v9.0.0, the `eslint.config.js` file format is the default configuration file format. If you are using ESLint v9.0.0 or later, you can start using the `eslint.config.js` file format without any additional configuration.
+Starting with ESLint v9.0.0, the `eslint.config.js` file format will be the default configuration file format. Once ESLint v9.0.0 is released, you can start using the `eslint.config.js` file format without any additional configuration.
 
 To use `eslint.config.js` with ESLint v8, place a `eslint.config.js` file in the root of your project **or** set an `ESLINT_USE_FLAT_CONFIG` environment variable to `true`.
 
@@ -342,6 +342,63 @@ export default [
     },
 ];
 ```
+
+### Ignoring Files
+
+#### .eslintrc
+
+To make ESLint ignore files with `.eslintrc`, you can create a separate `.eslintignore` file in the root of your project. The `.eslintignore` file uses the same glob pattern syntax as `.gitignore` files.
+
+```shell
+# .eslintignore
+temp.js
+.config/*
+# ...other ignored files
+```
+
+Alternatively, you can use an `ignorePatterns` property in your `.eslintrc` file:
+
+```javascript
+// .eslintrc.js
+{
+    // ...other config
+    ignorePatterns: ["temp.js", ".config/*"],
+}
+```
+
+#### eslint.config.js
+
+To ignore files with `eslint.config.js`, you can use the `ignores` property in a config object:
+
+```javascript
+export default [
+    {
+        // ...other config
+        ignores: ["temp.js", ".config/*"]
+    }
+];
+```
+
+Also, dotfiles (e.g. `.dotfile.js`) are no longer ignored by default with `eslint.config.js`.
+
+### CLI Flag Changes
+
+The following CLI flags are no longer supported with the `eslint.config.js` file format:
+
+* `--rulesdir`
+* `--ext`
+* `--resolve-plugins-relative-to`
+
+The flag `--no-eslintrc` has been replaced with `--no-config-lookup`.
+
+### Additional Changes
+
+The following changes have been made from the `.eslintrc` to the `eslint.config.js` file format:
+
+* The `root` option no longer exists.
+* The `files` option cannot be a single string anymore, it must be an array.
+* The `sourceType` option now supports the new value `"commonjs"` (`.eslintrc` supports it too, but it was never documented).
+* You can configure `noInlineConfig` and `reportUnusedDisableDirectives` options under the setting `linterOptions`.
 
 ## Things That Haven’t Changed between Configuration File Formats
 
