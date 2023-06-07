@@ -29,19 +29,13 @@ const path = require("path");
 const internalPlugin = require("eslint-plugin-internal-rules");
 const eslintPluginRulesRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/rules-recommended");
 const eslintPluginTestsRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/tests-recommended");
-const { FlatCompat } = require("@eslint/eslintrc");
-const js = require("./packages/js");
 const globals = require("globals");
 const merge = require("lodash.merge");
+const baseConfig = require("eslint-config-eslint");
 
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
-
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended
-});
 
 const INTERNAL_FILES = {
     CLI_ENGINE_PATTERN: "lib/cli-engine/**/*",
@@ -81,7 +75,7 @@ function createInternalFilesPatterns(pattern = null) {
 }
 
 module.exports = [
-    ...compat.extends("eslint"),
+    ...baseConfig,
     {
         ignores: [
             "build/**",

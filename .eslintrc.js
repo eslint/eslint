@@ -63,7 +63,7 @@ module.exports = {
         "internal-rules"
     ],
     extends: [
-        "eslint"
+        "eslint/eslintrc"
     ],
     parserOptions: {
         ecmaVersion: 2021
