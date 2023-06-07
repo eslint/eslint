@@ -39,3 +39,7 @@ To autofix JS files, run this from the root folder (not the `docs` folder):
 ```shell
 npm run fix:docsjs
 ```
+
+## License
+
+© OpenJS Foundation and ESLint contributors, [www.openjsf.org](https://www.openjsf.org/). Content licensed under [MIT License](https://github.com/eslint/eslint/blob/main/LICENSE).

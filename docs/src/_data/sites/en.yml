@@ -87,7 +87,7 @@ footer:
     language: Language
     latest: Latest
   copyright: >
-    &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>
+    &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>. Content licensed under <a href="https://github.com/eslint/eslint/blob/main/LICENSE">MIT License</a>.
   links:
     open_jsf: The OpenJS Foundation
     terms: Terms of Use
