@@ -769,9 +769,9 @@ describe("FlatESLint", () => {
         it("should report zero messages when given a config file and a valid file", async () => {
             eslint = new FlatESLint({
                 cwd: originalDir,
-                overrideConfigFile: "eslint.config.js"
+                overrideConfigFile: "tests/fixtures/simple-valid-project/eslint.config.js"
             });
-            const results = await eslint.lintFiles(["lib/**/cli*.js"]);
+            const results = await eslint.lintFiles(["tests/fixtures/simple-valid-project/**/foo*.js"]);
 
             assert.strictEqual(results.length, 2);
             assert.strictEqual(results[0].messages.length, 0);
@@ -782,9 +782,13 @@ describe("FlatESLint", () => {
         it("should handle multiple patterns with overlapping files", async () => {
             eslint = new FlatESLint({
                 cwd: originalDir,
-                overrideConfigFile: "eslint.config.js"
+                overrideConfigFile: "tests/fixtures/simple-valid-project/eslint.config.js"
             });
-            const results = await eslint.lintFiles(["lib/**/cli*.js", "lib/cli.?s", "lib/{cli,cli-engine/cli-engine}.js"]);
+            const results = await eslint.lintFiles([
+                "tests/fixtures/simple-valid-project/**/foo*.js",
+                "tests/fixtures/simple-valid-project/foo.?s",
+                "tests/fixtures/simple-valid-project/{foo,src/foobar}.js"
+            ]);
 
             assert.strictEqual(results.length, 2);
             assert.strictEqual(results[0].messages.length, 0);
@@ -1408,11 +1412,10 @@ describe("FlatESLint", () => {
                 }, /All files matched by '\.\/tests\/fixtures\/cli-engine\/' are ignored\./u);
             });
 
-            it("should throw an error when all given files are ignored via ignore-pattern", async () => {
+            it("should throw an error when all given files are ignored via ignorePatterns", async () => {
                 eslint = new FlatESLint({
-                    overrideConfig: {
-                        ignorePatterns: "tests/fixtures/single-quoted.js"
-                    }
+                    overrideConfigFile: true,
+                    ignorePatterns: ["tests/fixtures/single-quoted.js"]
                 });
 
                 await assert.rejects(async () => {
@@ -1817,6 +1820,7 @@ describe("FlatESLint", () => {
             it("should warn when deprecated rules are configured", async () => {
                 eslint = new FlatESLint({
                     cwd: originalDir,
+                    overrideConfigFile: true,
                     overrideConfig: {
                         rules: {
                             "indent-legacy": 1,
@@ -1840,6 +1844,7 @@ describe("FlatESLint", () => {
             it("should not warn when deprecated rules are not configured", async () => {
                 eslint = new FlatESLint({
                     cwd: originalDir,
+                    overrideConfigFile: true,
                     overrideConfig: {
                         rules: { indent: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
                     }
