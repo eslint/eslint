@@ -475,4 +475,4 @@ Through doing this, you've learned the following practices which you can apply t
 
 ## View the Tutorial Code
 
-You can view the annotated source code for the tutorial [here](https://github.com/eslint/eslint/tree/main/docs/_custom-rule-tutorial-code).
+You can view the annotated source code for the tutorial [here](https://github.com/eslint/eslint/tree/main/docs/_examples/custom-rule-tutorial-code).
