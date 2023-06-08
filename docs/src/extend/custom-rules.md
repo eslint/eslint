@@ -4,7 +4,7 @@ eleventyNavigation:
     key: custom rules
     parent: create plugins
     title: Custom Rules
-    order: 2
+    order: 1
 
 ---
 
@@ -36,29 +36,30 @@ module.exports = {
 
 ## Rule Basics
 
-The source file for a rule exports an object with the following properties. Both custom rules and core rules follow this format.
+The source file for a rule exports an object with the following properties.
 
 `meta` (object) contains metadata for the rule:
 
 * `type` (string) indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
-
     * `"problem"` means the rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
     * `"suggestion"` means the rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
     * `"layout"` means the rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
 
-* `docs` (object) is required for **core rules** of ESLint. If you are creating a custom rule, you **do not** need to include the `docs` object or can include any properties that you need in it.
+* `docs` (object) is required for core rules of ESLint:
 
     * `description` (string) provides the short description of the rule in the [rules index](../rules/)
-    * `recommended` (boolean) is whether the `"extends":  "eslint:recommended"` property in a [configuration file](../use configure/configuration-files#extending-configuration-files) enables the rule
+    * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../use/configure/configuration-files#extending-configuration-files) enables the rule
     * `url` (string) specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations)
 
-* `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
+    In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
 
-  **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
+* `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule
+
+    **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
 
 * `hasSuggestions` (boolean) specifies whether rules can return suggestions (defaults to `false` if omitted)
 
-  **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
+     **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
 * `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules)
 
@@ -130,12 +131,61 @@ Additionally, the `context` object has the following methods:
     * Otherwise, if the node does not declare any variables, an empty array is returned.
 * `getFilename()` - returns the filename associated with the source.
 * `getPhysicalFilename()` - when linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
-* `getScope()` - (**Deprecated: Use `SourceCode.getScope(node)` instead.**) returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
+* `getScope()` - returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
 * `getSourceCode()` - returns a [`SourceCode`](#contextgetsourcecode) object that you can use to work with the source that was passed to ESLint.
 * `markVariableAsUsed(name)` - marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
 * `report(descriptor)` - reports a problem in the code (see the [dedicated section](#contextreport)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
+
+### context.getScope()
+
+This method returns the scope of the current node. It is a useful method for finding information about the variables in a given scope, and how they are used in other scopes.
+
+#### Scope types
+
+The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface#scope-interface).
+
+| AST Node Type             | Scope Type |
+|:--------------------------|:-----------|
+| `Program`                 | `global`   |
+| `FunctionDeclaration`     | `function` |
+| `FunctionExpression`      | `function` |
+| `ArrowFunctionExpression` | `function` |
+| `ClassDeclaration`        | `class`    |
+| `ClassExpression`         | `class`    |
+| `BlockStatement` ※1      | `block`    |
+| `SwitchStatement` ※1     | `switch`   |
+| `ForStatement` ※2        | `for`      |
+| `ForInStatement` ※2      | `for`      |
+| `ForOfStatement` ※2      | `for`      |
+| `WithStatement`           | `with`     |
+| `CatchClause`             | `catch`    |
+| others                    | ※3        |
+
+**※1** Only if the configured parser provided the block-scope feature. The default parser provides the block-scope feature if `parserOptions.ecmaVersion` is not less than `6`.<br>
+**※2** Only if the `for` statement defines the iteration variable as a block-scoped variable (E.g., `for (let i = 0;;) {}`).<br>
+**※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).
+
+#### Scope Variables
+
+The `Scope#variables` property contains an array of [`Variable` objects](./scope-manager-interface#variable-interface). These are the variables declared in current scope. You can use these `Variable` objects to track references to a variable throughout the entire module.
+
+Inside of each `Variable`, the `Variable#references` property contains an array of [`Reference` objects](./scope-manager-interface#reference-interface). The `Reference` array contains all the locations where the variable is referenced in the module's source code.
+
+Also inside of each `Variable`, the `Variable#defs` property contains an array of [`Definition` objects](./scope-manager-interface#definition-interface). You can use the `Definitions` to find where the variable was defined.
+
+Global variables have the following additional properties:
+
+* `Variable#writeable` (`boolean | undefined`) ... If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
+* `Variable#eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
+* `Variable#eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
+* `Variable#eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
+
+For examples of using `context.getScope()` to track variables, refer to the source code for the following built-in rules:
+
+* [no-shadow](https://github.com/eslint/eslint/blob/main/lib/rules/no-shadow.js): Calls `context.getScopes()` at the global scope and parses all child scopes to make sure a variable name is not reused at a lower scope. ([no-shadow](../rules/no-shadow) documentation)
+* [no-redeclare](https://github.com/eslint/eslint/blob/main/lib/rules/no-redeclare.js): Calls `context.getScope()` at each scope to make sure that a variable is not declared twice at that scope. ([no-redeclare](../rules/no-redeclare) documentation)
 
 ### context.report()
 
@@ -171,6 +221,7 @@ The node contains all of the information necessary to figure out the line and co
 You can also use placeholders in the message and provide `data`:
 
 ```js
+{% raw %}
 context.report({
     node: node,
     message: "Unexpected identifier: {{ identifier }}",
@@ -178,11 +229,12 @@ context.report({
         identifier: node.name
     }
 });
+{% endraw %}
 ```
 
 Note that leading and trailing whitespace is optional in message parameters.
 
-The node contains all the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
+The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
 
 ### `messageId`s
 
@@ -190,11 +242,9 @@ Instead of typing out messages in both the `context.report()` call and your test
 
 This allows you to avoid retyping error messages. It also prevents errors reported in different sections of your rule from having out-of-date messages.
 
-Rule file:
-
 ```js
-// avoidName.js
-
+{% raw %}
+// in your rule
 module.exports = {
     meta: {
         messages: {
@@ -217,22 +267,13 @@ module.exports = {
         };
     }
 };
-```
 
-In the file to lint:
-
-```javascript
-// someFile.js
+// in the file to lint:
 
 var foo = 2;
 //  ^ error: Avoid using variables named 'foo'
-```
 
-In your tests:
-
-```javascript
-// avoidName.test.js
-
+// In your tests:
 var rule = require("../../../lib/rules/my-rule");
 var RuleTester = require("eslint").RuleTester;
 
@@ -250,6 +291,7 @@ ruleTester.run("my-rule", rule, {
         }
     ]
 });
+{% endraw %}
 ```
 
 ### Applying Fixes
@@ -266,7 +308,7 @@ context.report({
 });
 ```
 
-Here, the `fix()` function is used to insert a semicolon after the node. Note that a fix is not immediately applied, and may not be applied at all if there are conflicts with other fixes. After applying fixes, ESLint will run all the enabled rules again on the fixed code, potentially applying more fixes. This process will repeat up to 10 times, or until no more fixable problems are found. Afterwards, any remaining problems will be reported as usual.
+Here, the `fix()` function is used to insert a semicolon after the node. Note that a fix is not immediately applied, and may not be applied at all if there are conflicts with other fixes. After applying fixes, ESLint will run all of the enabled rules again on the fixed code, potentially applying more fixes. This process will repeat up to 10 times, or until no more fixable problems are found. Afterwards, any remaining problems will be reported as usual.
 
 **Important:** The `meta.fixable` property is mandatory for fixable rules. ESLint will throw an error if a rule that implements `fix` functions does not [export](#rule-basics) the `meta.fixable` property.
 
@@ -281,7 +323,7 @@ The `fixer` object has the following methods:
 * `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
 * `replaceTextRange(range, text)` - replaces the text in the given range
 
-A range is a two-item array containing character indices inside the source code. The first item is the start of the range (inclusive) and the second item is the end of the range (exclusive). Every node and token has a `range` property to identify the source code range they represent.
+A range is a two-item array containing character indices inside of the source code. The first item is the start of the range (inclusive) and the second item is the end of the range (exclusive). Every node and token has a `range` property to identify the source code range they represent.
 
 The above methods return a `fixing` object.
 The `fix()` function can return the following values:
@@ -298,22 +340,21 @@ Best practices for fixes:
 1. Make fixes as small as possible. Fixes that are unnecessarily large could conflict with other fixes, and prevent them from being applied.
 1. Only make one fix per message. This is enforced because you must return the result of the fixer operation from `fix()`.
 1. Since all rules are run again after the initial round of fixes is applied, it's not necessary for a rule to check whether the code style of a fix will cause errors to be reported by another rule.
+    * For example, suppose a fixer would like to surround an object key with quotes, but it's not sure whether the user would prefer single or double quotes.
 
-* For example, suppose a fixer would like to surround an object key with quotes, but it's not sure whether the user would prefer single or double quotes.
+        ```js
+        ({ foo : 1 })
 
-  ```js
-  ({ foo : 1 })
+        // should get fixed to either
 
-  // should get fixed to either
+        ({ 'foo': 1 })
 
-  ({ 'foo': 1 })
+        // or
 
-  // or
+        ({ "foo": 1 })
+        ```
 
-  ({ "foo": 1 })
-  ```
-
-* This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](../rules/quotes) rule.
+    * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](../rules/quotes) rule.
 
 Note: Making fixes as small as possible is a best practice, but in some cases it may be correct to extend the range of the fix in order to intentionally prevent other rules from making fixes in a surrounding range in the same pass. For instance, if replacement text declares a new variable, it can be useful to prevent other changes in the scope of the variable as they might cause name collisions.
 
@@ -344,9 +385,10 @@ For example, if two fixes want to modify characters 0 through 5, only one is app
 
 In some cases fixes aren't appropriate to be automatically applied, for example, if a fix potentially changes functionality or if there are multiple valid ways to fix a rule depending on the implementation intent (see the best practices for [applying fixes](#applying-fixes) listed above). In these cases, there is an alternative `suggest` option on `context.report()` that allows other tools, such as editors, to expose helpers for users to manually apply a suggestion.
 
-To provide suggestions, use the `suggest` key in the report argument with an array of suggestion objects. The suggestion objects represent individual suggestions that could be applied and require either a `desc` key string that describes what applying the suggestion would do or a `messageId` key (see [below](#suggestion-messageids)), and a `fix` key that is a function defining the suggestion result. This `fix` function follows the same API as regular fixes (described above in [applying fixes](#applying-fixes)).
+In order to provide suggestions, use the `suggest` key in the report argument with an array of suggestion objects. The suggestion objects represent individual suggestions that could be applied and require either a `desc` key string that describes what applying the suggestion would do or a `messageId` key (see [below](#suggestion-messageids)), and a `fix` key that is a function defining the suggestion result. This `fix` function follows the same API as regular fixes (described above in [applying fixes](#applying-fixes)).
 
 ```js
+{% raw %}
 context.report({
     node: node,
     message: "Unnecessary escape character: \\{{character}}.",
@@ -366,6 +408,7 @@ context.report({
         }
     ]
 });
+{% endraw %}
 ```
 
 **Important:** The `meta.hasSuggestions` property is mandatory for rules that provide suggestions. ESLint will throw an error if a rule attempts to produce a suggestion but does not [export](#rule-basics) this property.
@@ -384,6 +427,7 @@ Suggestions are intended to provide fixes. ESLint will automatically remove the 
 Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageids)). Here is an example of how to use it in a rule:
 
 ```js
+{% raw %}
 module.exports = {
     meta: {
         messages: {
@@ -416,6 +460,7 @@ module.exports = {
         });
     }
 };
+{% endraw %}
 ```
 
 #### Placeholders in suggestion messages
@@ -425,6 +470,7 @@ You can also use placeholders in the suggestion message. This works the same way
 Please note that you have to provide `data` on the suggestion's object. Suggestion messages cannot use properties from the overall error's `data`.
 
 ```js
+{% raw %}
 module.exports = {
     meta: {
         messages: {
@@ -451,6 +497,7 @@ module.exports = {
         });
     }
 };
+{% endraw %}
 ```
 
 ### context.options
@@ -550,7 +597,7 @@ You should use a `SourceCode` object whenever you need to get more information a
 
 #### Deprecated
 
-Please note that the following `context` methods have been deprecated and will be removed in a future version of ESLint:
+Please note that the following methods have been deprecated and will be removed in a future version of ESLint:
 
 * `getComments()` - replaced by `getCommentsBefore()`, `getCommentsAfter()`, and `getCommentsInside()`
 * `getTokenOrCommentBefore()` - replaced by `getTokenBefore()` with the `{ includeComments: true }` option
@@ -636,57 +683,6 @@ Finally, comments can be accessed through many of `sourceCode`'s methods using t
 ### Accessing Shebangs
 
 Shebangs are represented by tokens of type `"Shebang"`. They are treated as comments and can be accessed by the methods outlined above.
-
-### Accessing Variable Scopes
-
-The `SourceCode#getScope(node)` method returns the scope of the given node. It is a useful method for finding information about the variables in a given scope and how they are used in other scopes.
-
-**Deprecated:** The `context.getScope()` is deprecated; make sure to use `SourceCode#getScope(node)` instead.
-
-#### Scope types
-
-The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface#scope-interface).
-
-| AST Node Type             | Scope Type |
-|:--------------------------|:-----------|
-| `Program`                 | `global`   |
-| `FunctionDeclaration`     | `function` |
-| `FunctionExpression`      | `function` |
-| `ArrowFunctionExpression` | `function` |
-| `ClassDeclaration`        | `class`    |
-| `ClassExpression`         | `class`    |
-| `BlockStatement` ※1      | `block`    |
-| `SwitchStatement` ※1     | `switch`   |
-| `ForStatement` ※2        | `for`      |
-| `ForInStatement` ※2      | `for`      |
-| `ForOfStatement` ※2      | `for`      |
-| `WithStatement`           | `with`     |
-| `CatchClause`             | `catch`    |
-| others                    | ※3        |
-
-**※1** Only if the configured parser provided the block-scope feature. The default parser provides the block-scope feature if `parserOptions.ecmaVersion` is not less than `6`.<br>
-**※2** Only if the `for` statement defines the iteration variable as a block-scoped variable (E.g., `for (let i = 0;;) {}`).<br>
-**※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).
-
-#### Scope Variables
-
-The `Scope#variables` property contains an array of [`Variable` objects](./scope-manager-interface#variable-interface). These are the variables declared in current scope. You can use these `Variable` objects to track references to a variable throughout the entire module.
-
-Inside of each `Variable`, the `Variable#references` property contains an array of [`Reference` objects](./scope-manager-interface#reference-interface). The `Reference` array contains all the locations where the variable is referenced in the module's source code.
-
-Also inside of each `Variable`, the `Variable#defs` property contains an array of [`Definition` objects](./scope-manager-interface#definition-interface). You can use the `Definitions` to find where the variable was defined.
-
-Global variables have the following additional properties:
-
-* `Variable#writeable` (`boolean | undefined`) ... If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
-* `Variable#eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
-* `Variable#eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
-* `Variable#eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
-
-For examples of using `SourceCode#getScope()` to track variables, refer to the source code for the following built-in rules:
-
-* [no-shadow](https://github.com/eslint/eslint/blob/main/lib/rules/no-shadow.js): Calls `sourceCode.getScope()` at the `Program` node and inspects all child scopes to make sure a variable name is not reused at a lower scope. ([no-shadow](../rules/no-shadow) documentation)
-* [no-redeclare](https://github.com/eslint/eslint/blob/main/lib/rules/no-redeclare.js): Calls `sourceCode.getScope()` at each scope to make sure that a variable is not declared twice in the same scope. ([no-redeclare](../rules/no-redeclare) documentation)
 
 ### Accessing Code Paths
 
