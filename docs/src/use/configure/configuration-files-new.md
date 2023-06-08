@@ -145,7 +145,21 @@ export default [
 ];
 ```
 
-This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/**", ".git/**"]`.
+This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/", ".git/"]`.
+
+You can also unignore files and directories that are ignored by the default patterns. For example, this config unignores `node_modules/mylibrary`:
+
+```js
+export default [
+    {
+        ignores: [
+            "!node_modules/",           // unignore `node_modules/` directory
+            "node_modules/*",           // ignore its content
+            "!node_modules/mylibrary/"  // unignore `node_modules/mylibrary` directory
+        ]
+    }
+];
+```
 
 Note that only global `ignores` patterns can match directories.
 `ignores` patterns that are specific to a configuration will only match file names.
