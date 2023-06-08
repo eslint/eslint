@@ -171,6 +171,28 @@ ruleTester.run("no-irregular-whitespace", rule, {
         { code: "const error = `\n\u3000\n`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "const error = `foo\u3000bar\nfoo\u3000bar`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
 
+        { code: "<div>\u000B</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u000C</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u0085</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u00A0</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u180E</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\ufeff</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u2000</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u2001</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u2002</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u2003</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u2004</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u2005</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u2006</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u2007</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u2008</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u2009</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u200A</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u200B</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u202F</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u205f</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u3000</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+
         // Unicode BOM.
         "\uFEFFconsole.log('hello BOM');"
     ],
@@ -991,6 +1013,342 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     column: 1,
                     endLine: 2,
                     endColumn: 2
+                }
+            ]
+        },
+        {
+            code: "<div>\u000B</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u000C</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u0085</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u00A0</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u180E</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\ufeff</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u2000</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u2001</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u2002</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u2003</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u2004</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u2005</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u2006</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u2007</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u2008</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u2009</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u200A</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u200B</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u202F</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u205f</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "<div>\u3000</div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 6
                 }
             ]
         }
