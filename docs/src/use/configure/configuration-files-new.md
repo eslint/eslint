@@ -147,7 +147,7 @@ export default [
 
 This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/**", ".git/**"]`.
 
-Note that only global `ignores` patterns can ignore or unignore whole directories.
+Note that only global `ignores` patterns can match directories.
 `ignores` patterns that are specific to a configuration will only match file names.
 
 #### Cascading configuration objects
