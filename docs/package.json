@@ -6,7 +6,7 @@
     "main": "index.js",
     "keywords": [],
     "author": "",
-    "license": "ISC",
+    "license": "MIT",
     "files": [],
     "scripts": {
         "images": "imagemin '_site/assets/images' --out-dir='_site/assets/images'",
