@@ -389,6 +389,77 @@ ruleTester.run("block-scoped-var", rule, {
                 column: 18,
                 type: "Identifier"
             }]
+        },
+        {
+            code: "if (foo) { var a = 1; } else if (bar) { var a = 2; } else { var a = 3; }",
+            errors: [
+                {
+                    messageId: "outOfScope",
+                    data: {
+                        name: "a",
+                        definitionLine: 1,
+                        definitionColumn: 45
+                    },
+                    line: 1,
+                    column: 16,
+                    type: "Identifier"
+                },
+                {
+                    messageId: "outOfScope",
+                    data: {
+                        name: "a",
+                        definitionLine: 1,
+                        definitionColumn: 65
+                    },
+                    line: 1,
+                    column: 16,
+                    type: "Identifier"
+                },
+                {
+                    messageId: "outOfScope",
+                    data: {
+                        name: "a",
+                        definitionLine: 1,
+                        definitionColumn: 16
+                    },
+                    line: 1,
+                    column: 45,
+                    type: "Identifier"
+                },
+                {
+                    messageId: "outOfScope",
+                    data: {
+                        name: "a",
+                        definitionLine: 1,
+                        definitionColumn: 65
+                    },
+                    line: 1,
+                    column: 45,
+                    type: "Identifier"
+                },
+                {
+                    messageId: "outOfScope",
+                    data: {
+                        name: "a",
+                        definitionLine: 1,
+                        definitionColumn: 16
+                    },
+                    line: 1,
+                    column: 65,
+                    type: "Identifier"
+                },
+                {
+                    messageId: "outOfScope",
+                    data: {
+                        name: "a",
+                        definitionLine: 1,
+                        definitionColumn: 45
+                    },
+                    line: 1,
+                    column: 65,
+                    type: "Identifier"
+                }
+            ]
         }
     ]
 });
