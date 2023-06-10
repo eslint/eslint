@@ -130,8 +130,8 @@ Consensus is reached on issues when there are at least three team members who be
 
 If consensus cannot be reached on an issue, or an issue's progress has been stalled and it's not clear if the issue should be closed, then you can refer the issue to the TSC for resolution. To do so, add the "tsc agenda" label to the issue and add a comment including the following information:
 
-1. A one-paragraph summary of the discussion to this point.
-2. The question you would like the TSC to answer.
+1. A one-paragraph summary of the discussion to this point. This should begin with "TSC Summary:".
+2. The question you would like the TSC to answer. This should begin with "TSC Question:".
 
 The issue will be discussed at the next TSC meeting and the resolution will be posted back to the issue.
 
