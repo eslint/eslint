@@ -30,7 +30,7 @@ The first goal when evaluating an issue is to determine which category the issue
 
 ## Triaging Process
 
-All of ESLint's issues, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/2). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
+All of ESLint's issues, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/3). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
 
 * **Needs Triage**: Issues that have not yet been reviewed by anyone
 * **Triaging**: Issues that someone has reviewed but has not been able to fully triage yet
