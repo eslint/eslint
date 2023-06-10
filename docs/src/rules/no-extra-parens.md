@@ -31,6 +31,7 @@ This rule has a string option:
 This rule has an object option for exceptions to the `"all"` option:
 
 * `"conditionalAssign": false` allows extra parentheses around assignments in conditional test expressions
+* `"conditionalTernary": false` allows extra parentheses around condition in ternary expressions
 * `"returnAssign": false` allows extra parentheses around assignments in `return` statements
 * `"nestedBinaryExpressions": false` allows extra parentheses in nested binary expressions
 * `"ignoreJSX": "none|all|multi-line|single-line"` allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to `none`.
@@ -129,6 +130,18 @@ for (;(a = b););
 ```
 
 :::
+
+### conditionalTernary
+
+Examples of **correct** code for this rule with the `"all"` and `{ "conditionalTernary": false }` options:
+
+```js
+/* eslint no-extra-parens: ["error", "all", { "conditionalTernary": false }] */
+
+(a && b) ? foo : bar
+
+(a - b > a) ? foo : bar
+```
 
 ### returnAssign
 
