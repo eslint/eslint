@@ -33,7 +33,7 @@ This tutorial assumes you are familiar with JavaScript and Node.js.
 
 To follow this tutorial, you'll need to have the following:
 
-* Node.js (v12.0.0 or higher)
+* Node.js (v12.22.0 or higher)
 * npm
 * A text editor
 

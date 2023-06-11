@@ -11,8 +11,8 @@ This guide is intended for those who wish to integrate the functionality of ESLi
 
 In order to integrate ESLint, it's recommended that:
 
-* You know JavaScript, since ESLint is written in JavaScript.
-* You have some familiarity with Node.js, since ESLint runs on it.
+* You know JavaScript since ESLint is written in JavaScript.
+* You have some familiarity with Node.js since ESLint runs on it.
 
 If that sounds like you, then continue reading to get started.
 
