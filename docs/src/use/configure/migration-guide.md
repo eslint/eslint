@@ -29,7 +29,7 @@ While the configuration file format has changed from eslintrc to flat config, th
 * Syntax for configuring rules
 * Processors
 * All functionality of ESLint. Just the way to configure it has changed.
-* The CLI
+* The CLI, except for the flag changes noted in [CLI Flag Changes](#cli-flag-changes).
 * Global variables are configured the same way, but on a different property (see [Configuring Language Options](#configuring-language-options)).
 
 ## Key Differences between Configuration Formats
@@ -405,7 +405,7 @@ The following changes have been made from the eslintrc to the flat config file f
 * The `sourceType` option now supports the new value `"commonjs"` (`.eslintrc` supports it too, but it was never documented).
 * You can configure `noInlineConfig` and `reportUnusedDisableDirectives` options under the setting `linterOptions`.
 
-## TypeScript Types for eslint.config.js
+## TypeScript Types for Flat Config Files
 
 You can see the TypeScript types for the eslint.config.js file format in the DefinitelyTyped project. The interface for the objects in the config’s array is called the `FlatConfig`.
 
