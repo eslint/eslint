@@ -16,21 +16,33 @@ For reference information on these configuration formats, refer to the following
 * [eslintrc configuration files](configuration-files)
 * [flat configuration files](configuration-files-new)
 
-## Start Using `eslint.config.js`
+## Start Using Flat Config Files
 
-Starting with ESLint v9.0.0, the `eslint.config.js` file format will be the default configuration file format. Once ESLint v9.0.0 is released, you can start using the `eslint.config.js` file format without any additional configuration.
+Starting with ESLint v9.0.0, the flat config file format will be the default configuration file format. Once ESLint v9.0.0 is released, you can start using the flat config file format without any additional configuration.
 
-To use `eslint.config.js` with ESLint v8, place a `eslint.config.js` file in the root of your project **or** set an `ESLINT_USE_FLAT_CONFIG` environment variable to `true`.
+To use flat config with ESLint v8, place a `eslint.config.js` file in the root of your project **or** set an `ESLINT_USE_FLAT_CONFIG` environment variable to `true`.
+
+## Things That Haven’t Changed between Configuration File Formats
+
+While the configuration file format has changed from eslintrc to flat config, the following has stayed the same:
+
+* Syntax for configuring rules
+* Processors
+* All functionality of ESLint. Just the way to configure it has changed.
+* The CLI
+* Global variables are configured the same way, but on a different property (see [Configuring Language Options](#configuring-language-options)).
 
 ## Key Differences between Configuration Formats
 
-A few of the most notable differences between the `.eslintrc` and `eslint.config.js` formats are the following:
+A few of the most notable differences between the eslintrc and flat config formats are the following:
 
 ### Importing Plugins and Custom Parsers
 
-#### .eslintrc
+Eslintrc files use string-based import system with the `plugins` property to load plugins and `extends` to load configurations from the plugins.
 
-String-based import system with the `plugins` property to load plugins and `extends` to load configurations from the plugins.
+Flat config files use CommonJS `requires()` or ESModule `import` to load plugins and custom parsers.
+
+#### eslintrc Example
 
 ```javascript
 // .eslintrc.js
@@ -46,9 +58,7 @@ String-based import system with the `plugins` property to load plugins and `exte
 }
 ```
 
-#### eslint.config.js
-
-Uses CommonJS `requires()` or ESModule `import` to load plugins and custom parsers.
+#### Flat Config Example
 
 ```javascript
 // eslint.config.js
@@ -71,9 +81,11 @@ export default [
 
 ### Custom Parsers
 
-#### .eslintrc
+In eslintrc files, importing a custom parser is very similar to importing a plugin. However, a parser must be a separate module.
 
-Importing a custom parser is very similar to importing a plugin. However, a parser must be a separate module.
+In flat config files, import a custom parser as a module. Then assign it to the `languageOptions.parser` property of a configuration object.
+
+#### eslintrc Example
 
 ```javascript
 // .eslintrc.js
@@ -85,9 +97,7 @@ Importing a custom parser is very similar to importing a plugin. However, a pars
 }
 ```
 
-#### eslint.config.js
-
-To import a custom parser, import the parser as a module. Then assign it to the `languageOptions.parser` property of a configuration object:
+#### Flat Config Example
 
 ```javascript
 // eslint.config.js
@@ -107,9 +117,13 @@ export default [
 
 ### Glob-Based Configs
 
-#### .eslintrc
+By default, eslintrc files lint all files (except those covered by `.gitignore`) in the directory in which they’re placed and its child directories. If you want to have different configurations for different file glob patterns, you can specify them in the `overrides` property.
 
-By default, .`eslintrc` files lint all files (except those covered by `.gitignore`) in the directory in which they’re placed and its child directories:
+By default, flat config files support different glob pattern-based configs in exported array. You can include the glob pattern in a config object's `files` property. If you don't specify a `files` property, the config defaults to the glob pattern `"**/*.{js,mjs,cjs}"`. Basically, all configuration in the flat config file is like the eslintrc `overrides` property.
+
+#### eslintrc Examples
+
+Default configuration:
 
 ```javascript
 // .eslintrc.js
@@ -122,7 +136,7 @@ module.exports = {
 };
 ```
 
-If you want to have different configurations for different file glob patterns, you can specify them in the `overrides` property:
+Multiple configurations with overrides:
 
 ```javascript
 // .eslintrc.js
@@ -146,11 +160,7 @@ module.exports = {
 };
 ```
 
-#### eslint.config.js
-
-By default, `eslint.config.js` files support different glob pattern-based configs in exported array. You can include the glob pattern in a config object's `files` property. If you don't specify a `files` property, the config defaults to the glob pattern `"**/*.{js,mjs,cjs}"`.
-
-Basically, all configuration in the `eslint.config.js` file is like the .`eslintrc` `overrides` property.
+#### Flat Config Examples
 
 Here is a configuration with the default glob pattern:
 
@@ -200,11 +210,11 @@ export default [
 
 ### Configuring Language Options
 
-#### .eslintrc
+In eslintrc files, you configure various language options across the `env`, `globals` and `parserOptions` properties. Global variables for specific runtimes (e.g `document` for browser JavaScript and `process` for Node.js ) are configured with the `env` property.
 
-In `.eslintrc` files, you configure various language options across the `env`, `globals` and `parserOptions` properties.
+In the flat config files, the `globals`, and `parserOptions` are consolidated under the `languageOptions` key. There is no longer the `env` property in `eslint.config.js`. Global variables for specific runtimes are imported from the [globals](https://www.npmjs.com/package/globals) npm package and included in the `globals` property. You can use the spread operator (`...`) to import all globals.
 
-Global variables for specific runtimes (e.g `document` for browser JavaScript and `process` for Node.js ) are configured with the `env` property.
+#### eslintrc Example
 
 ```javascript
 // .eslintrc
@@ -224,11 +234,7 @@ module.exports = {
 }
 ```
 
-#### eslint.config.js
-
-In the `eslint.config.js`, the `globals`, and `parserOptions` are consolidated under the `languageOptions` key.
-
-There is no longer the `env` property in `eslint.config.js`. Global variables for specific runtimes are imported from the [globals](https://www.npmjs.com/package/globals) npm package and included in the `globals` property. You can use the spread operator (`...`) to import all globals:
+#### Flat Config Example
 
 ```javascript
 // eslint.config.js
@@ -254,9 +260,24 @@ export default [
 
 ### Predefined Configs
 
-#### .eslintrc
+In eslintrc files, use the `extends` property to use predefined configs. ESLint comes with two predefined configs that you can access as strings:
 
-To use predefined configs, use the `extends` property:
+* `"eslint:recommended"`: the rules recommended by ESLint
+* `"eslint:all"`: all rules shipped with ESLint
+
+You can also use the `extends` property to extend a custom config. Custom configs can either be paths to local config files or npm package names.
+
+In flat config files, predefined configs are imported from separate modules into flat confg files. The `recommended` and `all` rules configs are located in the [`@eslint/js`](https://www.npmjs.com/package/@eslint/js) package. You must import this package to use these configs:
+
+```shell
+npm install @eslint/js --save-dev
+```
+
+You can add each of these configs to the exported array or expose specific rules from them. You must import the modules for local config files and npm package configs with flat confg.
+
+#### eslintrc Examples
+
+Use built-in config:
 
 ```javascript
 // .eslintrc.js
@@ -271,12 +292,7 @@ module.exports = {
 }
 ```
 
-ESLint comes with two predefined configs:
-
-* `eslint:recommended`: the rules recommended by ESLint
-* `eslint:all`: all rules shipped with ESLint
-
-You can also use the `extends` property to extend a custom config. Custom configs can either be paths to local config files or npm package names:
+Use built-in config, local custom config, and custom config from an npm package:
 
 ```javascript
 // .eslintrc.js
@@ -291,19 +307,9 @@ module.exports = {
 }
 ```
 
-#### eslint.config.js
+#### Flat Config Examples
 
-Predefined configs are imported from separate modules into `eslint.config.js` files.
-
-The `recommended` and `all` rules configs are located in the [`@eslint/js`](https://www.npmjs.com/package/@eslint/js) package. You must import this package to use these configs:
-
-```shell
-npm install @eslint/js -D
-```
-
-You can add each of these configs to the exported array or expose specific rules from them.
-
-You must import the modules for local config files and npm package configs with `eslint.config.js`:
+Use recommended config:
 
 ```javascript
 // eslint.config.js
@@ -344,9 +350,13 @@ export default [
 
 ### Ignoring Files
 
-#### .eslintrc
+With eslintrc, you can make ESLint ignore files by creating a separate `.eslintignore` file in the root of your project. The `.eslintignore` file uses the same glob pattern syntax as `.gitignore` files. Alternatively, you can use an `ignorePatterns` property in your eslintrc file.
 
-To make ESLint ignore files with `.eslintrc`, you can create a separate `.eslintignore` file in the root of your project. The `.eslintignore` file uses the same glob pattern syntax as `.gitignore` files.
+To ignore files with flat config, you can use the `ignores` property in a config object. The `ignores` property accepts an array of glob patterns. Note that flat config glob patterns do _not_ match dot files (e.g. `.dotfile.js`).
+
+#### eslintrc Examples
+
+`.eslintignore` example:
 
 ```shell
 # .eslintignore
@@ -355,7 +365,7 @@ temp.js
 # ...other ignored files
 ```
 
-Alternatively, you can use an `ignorePatterns` property in your `.eslintrc` file:
+`ignorePatterns` example:
 
 ```javascript
 // .eslintrc.js
@@ -365,9 +375,7 @@ Alternatively, you can use an `ignorePatterns` property in your `.eslintrc` file
 }
 ```
 
-#### eslint.config.js
-
-To ignore files with `eslint.config.js`, you can use the `ignores` property in a config object:
+#### Flat Config Examples
 
 ```javascript
 export default [
@@ -378,11 +386,9 @@ export default [
 ];
 ```
 
-Also, dotfiles (e.g. `.dotfile.js`) are no longer ignored by default with `eslint.config.js`.
-
 ### CLI Flag Changes
 
-The following CLI flags are no longer supported with the `eslint.config.js` file format:
+The following CLI flags are no longer supported with the flat config file format:
 
 * `--rulesdir`
 * `--ext`
@@ -392,21 +398,12 @@ The flag `--no-eslintrc` has been replaced with `--no-config-lookup`.
 
 ### Additional Changes
 
-The following changes have been made from the `.eslintrc` to the `eslint.config.js` file format:
+The following changes have been made from the eslintrc to the flat config file format:
 
 * The `root` option no longer exists.
 * The `files` option cannot be a single string anymore, it must be an array.
 * The `sourceType` option now supports the new value `"commonjs"` (`.eslintrc` supports it too, but it was never documented).
 * You can configure `noInlineConfig` and `reportUnusedDisableDirectives` options under the setting `linterOptions`.
-
-## Things That Haven’t Changed between Configuration File Formats
-
-While all the above mentioned features have changed from `.eslintrc` to `eslint.config.js` configurations, the following has stayed the same:
-
-* Syntax for adding rules
-* Processors
-* All functionality. Just the way to configure it has changed.
-* The CLI
 
 ## TypeScript Types for eslint.config.js
 
