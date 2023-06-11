@@ -7,14 +7,14 @@ eleventyNavigation:
     order: 8
 ---
 
-This guide provides an overview of how you can migrate your ESLint configuration file from the `.eslintrc` format to the new configuration file format, `eslint.config.js`.
+This guide provides an overview of how you can migrate your ESLint configuration file from the eslintrc format (typically configured in `.eslintrc.js` or `.eslintrc.json` files) to the new flat config format (typically configured in an `eslint.config.js` file).
 
-To learn more about the `eslint.config.js` file format, refer to [this blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/).
+To learn more about the flat config format, refer to [this blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/).
 
 For reference information on these configuration formats, refer to the following documentation:
 
-* [`.eslintrc` configuration files](configuration-files)
-* [`eslint.config.js` configuration files](configuration-files-new)
+* [eslintrc configuration files](configuration-files)
+* [flat configuration files](configuration-files-new)
 
 ## Start Using `eslint.config.js`
 
@@ -129,7 +129,6 @@ If you want to have different configurations for different file glob patterns, y
 
 module.exports = {
     // ...other config
-    extends: "eslint:recommended",
     overrides: [
         {
             files: ["src/**/*"],
