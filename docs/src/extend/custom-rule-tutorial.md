@@ -32,7 +32,7 @@ This tutorial also assumes that you have a basic understanding of ESLint and ESL
 
 ## The Custom Rule
 
-The custom rule  in this tutorial requires that all `const` variables named `foo` are assigned the string literal `"bar"`. The rule is defined in the file `enforce-foo-bar.js`. The rule also suggests replacing any other value assigned to `const foo` with `"bar"`.
+The custom rule in this tutorial requires that all `const` variables named `foo` are assigned the string literal `"bar"`. The rule is defined in the file `enforce-foo-bar.js`. The rule also suggests replacing any other value assigned to `const foo` with `"bar"`.
 
 For example, say you had the following `foo.js` file:
 
@@ -207,7 +207,7 @@ And add a test script to your `package.json` file to run the tests:
 To write the test using `RuleTester`, import the class and your custom rule into the `enforce-foo-bar.test.js` file.
 
 The `RuleTester#run()` method tests the rule against valid and invalid test cases. If the rule fails to pass any of the test scenarios, this method throws an error.
-`RuleTester` requires that at least one valid and one invalid test scenarios be present.
+`RuleTester` requires that at least one valid and one invalid test scenario be present.
 
 ```javascript
 // enforce-foo-bar.test.js
