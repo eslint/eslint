@@ -178,7 +178,7 @@ Back in ESLint v4.0.0, we deprecated `SourceCode#getComments()`, but we neglecte
 
 The `SourceCode#getComments()` method will be removed in v9.0.0.
 
-**To address:** If your rule uses `SourceCode#getComments()`, please use [`SourceCode#getCommentsBefore()`, `SourceCode#getCommentsAfter()`, or `SourceCode#getCommentsInside()`](../extend/custom-rules#sourcecodegetcommentsbefore-sourcecodegetcommentsafter-and-sourcecodegetcommentsinside).
+**To address:** If your rule uses `SourceCode#getComments()`, please use [`SourceCode#getCommentsBefore()`, `SourceCode#getCommentsAfter()`, or `SourceCode#getCommentsInside()`](../extend/custom-rules#accessing-comments).
 
 **Related issue(s):** [#14744](https://github.com/eslint/eslint/issues/14744)
 
