@@ -306,6 +306,8 @@ ruleTester.run("no-extra-parens", rule, {
         // ["all", { conditionalTernary: false }] enables extra parens around conditional ternary
         { code: "(a && b) ? foo : bar", options: ["all", { conditionalTernary: false }] },
         { code: "(a - b > a) ? foo : bar", options: ["all", { conditionalTernary: false }] },
+        { code: "foo ? (bar || baz) : qux", options: ["all", { conditionalTernary: false }] },
+        { code: "foo ? bar : (baz || qux)", options: ["all", { conditionalTernary: false }] },
 
         // ["all", { nestedBinaryExpressions: false }] enables extra parens around conditional assignments
         { code: "a + (b * c)", options: ["all", { nestedBinaryExpressions: false }] },
@@ -920,6 +922,7 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(c = d) ? (b) : c", "(c = d) ? b : c", "Identifier", null, { options: ["all", { conditionalAssign: false }] }),
         invalid("(c = d) ? b : (c)", "(c = d) ? b : c", "Identifier", null, { options: ["all", { conditionalAssign: false }] }),
         invalid("(a) ? foo : bar", "a ? foo : bar", "Identifier", null, { options: ["all", { conditionalTernary: false }] }),
+        invalid("(a()) ? foo : bar", "a() ? foo : bar", "CallExpression", null, { options: ["all", { conditionalTernary: false }] }),
         invalid("f((a = b))", "f(a = b)", "AssignmentExpression"),
         invalid("a, (b = c)", "a, b = c", "AssignmentExpression"),
         invalid("a = (b * c)", "a = b * c", "BinaryExpression"),
