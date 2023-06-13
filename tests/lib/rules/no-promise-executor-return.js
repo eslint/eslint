@@ -149,7 +149,13 @@ ruleTester.run("no-promise-executor-return", rule, {
         {
             code: "new Promise(function (resolve, reject) {}); return 1;",
             env: { node: true }
-        }
+        },
+
+        /*
+         * void
+         * arrow functions + void return is allowed
+         */
+        "new Promise((r) => void cbf(r));"
     ],
 
     invalid: [
@@ -223,6 +229,12 @@ ruleTester.run("no-promise-executor-return", rule, {
         },
         {
             code: "new Promise(function (resolve, reject) { while (foo){ if (bar) break; else return 1; } })",
+            errors: [error()]
+        },
+
+        // void return is not allowed unless arrow function expression
+        {
+            code: "new Promise(() => { return void 1; })",
             errors: [error()]
         },
 

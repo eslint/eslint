@@ -88,6 +88,7 @@ new Promise((resolve, reject) => {
     });
 });
 
+// Add curly braces
 new Promise((resolve, reject) => {
     getSomething((err, data) => {
         if (err) {
@@ -97,6 +98,15 @@ new Promise((resolve, reject) => {
         }
     });
 });
+
+// Or add `void`
+new Promise((resolve, reject) => void getSomething((err, data) => {
+    if (err) {
+        reject(err);
+    } else {
+        resolve(data);
+    }
+}));
 
 Promise.resolve(1);
 ```
