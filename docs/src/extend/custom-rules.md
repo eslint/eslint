@@ -132,9 +132,9 @@ The `context` object has the following properties:
 
 Additionally, the `context` object has the following methods:
 
-* `getAncestors()` - (**Deprecated:** Use `SourceCode#getAncestors(node)` instead.) Returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
-* `getCwd()` - Returns the `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
-* `getDeclaredVariables(node)` - (**Deprecated:** Use `SourceCode#getDeclaredVariables(node)` instead.) Returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
+* `getAncestors()`: (**Deprecated:** Use `SourceCode#getAncestors(node)` instead.) Returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
+* `getCwd()`: Returns the `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
+* `getDeclaredVariables(node)`: (**Deprecated:** Use `SourceCode#getDeclaredVariables(node)` instead.) Returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
     * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
     * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
     * If the node is a `FunctionDeclaration` or `FunctionExpression`, the variable for the function name is returned, in addition to variables for the function parameters.
@@ -148,7 +148,7 @@ Additionally, the `context` object has the following methods:
 * `getPhysicalFilename()`: When linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
 * `getScope()`: (**Deprecated:** Use `SourceCode#getScope(node)` instead.) Returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
 * `getSourceCode()`: Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
-* `markVariableAsUsed(name)` - (**Deprecated:** Use `SourceCode#markVariableAsUsed(name, node)` instead.)  Marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
+* `markVariableAsUsed(name)`: (**Deprecated:** Use `SourceCode#markVariableAsUsed(name, node)` instead.)  Marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
 * `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#reporting-problems)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
@@ -257,7 +257,7 @@ var rule = require("../../../lib/rules/avoid-name");
 var RuleTester = require("eslint").RuleTester;
 
 var ruleTester = new RuleTester();
-ruleTester.run("my-rule", rule, {
+ruleTester.run("avoid-name", rule, {
     valid: ["bar", "baz"],
     invalid: [
         {
@@ -318,22 +318,21 @@ Best practices for fixes:
 1. Make fixes as small as possible. Fixes that are unnecessarily large could conflict with other fixes, and prevent them from being applied.
 1. Only make one fix per message. This is enforced because you must return the result of the fixer operation from `fix()`.
 1. Since all rules are run again after the initial round of fixes is applied, it's not necessary for a rule to check whether the code style of a fix will cause errors to be reported by another rule.
+    * For example, suppose a fixer would like to surround an object key with quotes, but it's not sure whether the user would prefer single or double quotes.
 
-* For example, suppose a fixer would like to surround an object key with quotes, but it's not sure whether the user would prefer single or double quotes.
+        ```js
+        ({ foo : 1 })
 
-    ```js
-    ({ foo : 1 })
+        // should get fixed to either
 
-    // should get fixed to either
+        ({ 'foo': 1 })
 
-    ({ 'foo': 1 })
+        // or
 
-    // or
+        ({ "foo": 1 })
+        ```
 
-    ({ "foo": 1 })
-    ```
-
-* This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](../rules/quotes) rule.
+    * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](../rules/quotes) rule.
 
 Note: Making fixes as small as possible is a best practice, but in some cases it may be correct to extend the range of the fix in order to intentionally prevent other rules from making fixes in a surrounding range in the same pass. For instance, if replacement text declares a new variable, it can be useful to prevent other changes in the scope of the variable as they might cause name collisions.
 
