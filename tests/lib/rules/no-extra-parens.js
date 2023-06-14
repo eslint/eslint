@@ -923,6 +923,8 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(c = d) ? b : (c)", "(c = d) ? b : c", "Identifier", null, { options: ["all", { conditionalAssign: false }] }),
         invalid("(a) ? foo : bar", "a ? foo : bar", "Identifier", null, { options: ["all", { conditionalTernary: false }] }),
         invalid("(a()) ? foo : bar", "a() ? foo : bar", "CallExpression", null, { options: ["all", { conditionalTernary: false }] }),
+        invalid("(a.b) ? foo : bar", "a.b ? foo : bar", "MemberExpression", null, { options: ["all", { conditionalTernary: false }] }),
+        invalid("(a || b) ? foo : (bar)", "(a || b) ? foo : bar", "Identifier", null, { options: ["all", { conditionalTernary: false }] }),
         invalid("f((a = b))", "f(a = b)", "AssignmentExpression"),
         invalid("a, (b = c)", "a, b = c", "AssignmentExpression"),
         invalid("a = (b * c)", "a = b * c", "BinaryExpression"),
