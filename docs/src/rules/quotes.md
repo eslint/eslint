@@ -15,13 +15,15 @@ var single = 'single';
 var backtick = `backtick`;    // ES6 only
 ```
 
-Each of these lines creates a string and, in some cases, can be used interchangeably. The choice of how to define strings in a codebase is a stylistic one outside of template literals (which allow embedded of expressions to be interpreted).
+Each of these lines creates a string and, in some cases, can be used interchangeably. The choice of how to define strings in a codebase is a stylistic one outside of template literals (which allow embedded expressions to be interpreted).
 
 Many codebases require strings to be defined in a consistent manner.
 
 ## Rule Details
 
 This rule enforces the consistent use of either backticks, double, or single quotes.
+
+This rule is aware of directive prologues such as `"use strict";` and will not flag or autofix them unless doing so will not change how the directive prologue is interpreted.
 
 ## Options
 
@@ -125,7 +127,9 @@ Examples of **correct** code for this rule with the `"backtick"` option:
 /*eslint quotes: ["error", "backtick"]*/
 /*eslint-env es6*/
 
+"use strict"; // directives must use single or double quotes
 var backtick = `backtick`;
+var obj = { 'prop-name': `value` }; // backticks not allowed for property names
 ```
 
 :::
