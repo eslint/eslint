@@ -140,6 +140,30 @@ describe("FlatESLint", () => {
             }
         });
 
+        it("should normalize 'options.cwd'.", async () => {
+            const cwd = getFixturePath("example-app3");
+            const engine = new FlatESLint({
+                cwd: `${cwd}${path.sep}foo${path.sep}..`, // `<cwd>/foo/..` should be normalized to `<cwd>`
+                overrideConfigFile: true,
+                overrideConfig: {
+                    plugins: {
+                        test: require(path.join(cwd, "node_modules", "eslint-plugin-test"))
+                    },
+                    rules: {
+                        "test/report-cwd": "error"
+                    }
+                }
+            });
+            const results = await engine.lintText("");
+
+            assert.strictEqual(results[0].messages[0].ruleId, "test/report-cwd");
+            assert.strictEqual(results[0].messages[0].message, cwd);
+
+            const formatter = await engine.loadFormatter("cwd");
+
+            assert.strictEqual(formatter.format(results), cwd);
+        });
+
         // https://github.com/eslint/eslint/issues/2380
         it("should not modify baseConfig when format is specified", () => {
             const customBaseConfig = { root: true };
@@ -5700,6 +5724,54 @@ describe("FlatESLint", () => {
             assert.strictEqual(messages[0].line, 2);
         });
     });
+
+    // only works on a Windows machine
+    if (os.platform() === "win32") {
+
+        // https://github.com/eslint/eslint/issues/17042
+        describe("with cwd that is using forward slash on Windows", () => {
+            const cwd = getFixturePath("example-app3");
+            const cwdForwardSlash = cwd.replace(/\\/gu, "/");
+
+            it("should correctly handle ignore patterns", async () => {
+                const engine = new FlatESLint({ cwd: cwdForwardSlash });
+                const results = await engine.lintFiles(["./src"]);
+
+                // src/dist/2.js should be ignored
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, path.join(cwd, "src\\1.js"));
+            });
+
+            it("should pass cwd with backslashes to rules", async () => {
+                const engine = new FlatESLint({
+                    cwd: cwdForwardSlash,
+                    overrideConfigFile: true,
+                    overrideConfig: {
+                        plugins: {
+                            test: require(path.join(cwd, "node_modules", "eslint-plugin-test"))
+                        },
+                        rules: {
+                            "test/report-cwd": "error"
+                        }
+                    }
+                });
+                const results = await engine.lintText("");
+
+                assert.strictEqual(results[0].messages[0].ruleId, "test/report-cwd");
+                assert.strictEqual(results[0].messages[0].message, cwd);
+            });
+
+            it("should pass cwd with backslashes to formatters", async () => {
+                const engine = new FlatESLint({
+                    cwd: cwdForwardSlash
+                });
+                const results = await engine.lintText("");
+                const formatter = await engine.loadFormatter("cwd");
+
+                assert.strictEqual(formatter.format(results), cwd);
+            });
+        });
+    }
 
 });
 

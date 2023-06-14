@@ -126,6 +126,28 @@ describe("ESLint", () => {
             }
         });
 
+        it("should normalize 'options.cwd'.", async () => {
+            const cwd = getFixturePath("example-app3");
+            const engine = new ESLint({
+                cwd: `${cwd}${path.sep}foo${path.sep}..`, // `<cwd>/foo/..` should be normalized to `<cwd>`
+                useEslintrc: false,
+                overrideConfig: {
+                    plugins: ["test"],
+                    rules: {
+                        "test/report-cwd": "error"
+                    }
+                }
+            });
+            const results = await engine.lintText("");
+
+            assert.strictEqual(results[0].messages[0].ruleId, "test/report-cwd");
+            assert.strictEqual(results[0].messages[0].message, cwd);
+
+            const formatter = await engine.loadFormatter("cwd");
+
+            assert.strictEqual(formatter.format(results), cwd);
+        });
+
         it("should report one fatal message when given a path by --ignore-path that is not a file when ignore is true.", () => {
             assert.throws(() => {
                 // eslint-disable-next-line no-new -- Check for throwing
@@ -6945,4 +6967,50 @@ describe("ESLint", () => {
             });
         });
     });
+
+    // only works on a Windows machine
+    if (os.platform() === "win32") {
+
+        // https://github.com/eslint/eslint/issues/17042
+        describe("with cwd that is using forward slash on Windows", () => {
+            const cwd = getFixturePath("example-app3");
+            const cwdForwardSlash = cwd.replace(/\\/gu, "/");
+
+            it("should correctly handle ignore patterns", async () => {
+                const engine = new ESLint({ cwd: cwdForwardSlash });
+                const results = await engine.lintFiles(["./src"]);
+
+                // src/dist/2.js should be ignored
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, path.join(cwd, "src\\1.js"));
+            });
+
+            it("should pass cwd with backslashes to rules", async () => {
+                const engine = new ESLint({
+                    cwd: cwdForwardSlash,
+                    useEslintrc: false,
+                    overrideConfig: {
+                        plugins: ["test"],
+                        rules: {
+                            "test/report-cwd": "error"
+                        }
+                    }
+                });
+                const results = await engine.lintText("");
+
+                assert.strictEqual(results[0].messages[0].ruleId, "test/report-cwd");
+                assert.strictEqual(results[0].messages[0].message, cwd);
+            });
+
+            it("should pass cwd with backslashes to formatters", async () => {
+                const engine = new ESLint({
+                    cwd: cwdForwardSlash
+                });
+                const results = await engine.lintText("");
+                const formatter = await engine.loadFormatter("cwd");
+
+                assert.strictEqual(formatter.format(results), cwd);
+            });
+        });
+    }
 });
