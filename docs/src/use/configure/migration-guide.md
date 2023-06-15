@@ -37,7 +37,7 @@ A few of the most notable differences between the eslintrc and flat config forma
 
 ### Importing Plugins and Custom Parsers
 
-Eslintrc files use string-based import system with the `plugins` property to load plugins and `extends` to load configurations from the plugins.
+Eslintrc files use string-based import system with the `plugins` property to load plugins and and with the `extends` to load external configurations.
 
 Flat config files use CommonJS `require()` or ES module `import` statements to load plugins and custom parsers.
 
@@ -57,7 +57,7 @@ For example, this eslintrc config file loads `eslint-plugin-jsdoc` and configure
 }
 ```
 
-In flat config,  you would do the same thing like this:
+In flat config, you would do the same thing like this:
 
 ```javascript
 // eslint.config.js
@@ -84,7 +84,7 @@ In eslintrc files, importing a custom parser is similar to importing a plugin: y
 
 In flat config files, import a custom parser as a module, then assign it to the `languageOptions.parser` property of a configuration object.
 
-#### eslintrc Example
+For example, this eslintrc config file uses the `@babel/eslint-parser` parser:
 
 ```javascript
 // .eslintrc.js
@@ -96,7 +96,7 @@ In flat config files, import a custom parser as a module, then assign it to the 
 }
 ```
 
-#### Flat Config Example
+In flat config, you would do the same thing like this:
 
 ```javascript
 // eslint.config.js
@@ -122,7 +122,7 @@ By default, flat config files support different glob pattern-based configs in ex
 
 #### eslintrc Examples
 
-Default configuration:
+For example, this eslintrc file applies to all files in the directory where it is placed and its child directories:
 
 ```javascript
 // .eslintrc.js
@@ -135,7 +135,7 @@ module.exports = {
 };
 ```
 
-Multiple configurations with overrides:
+This eslintrc file supports multiple configs with overrides:
 
 ```javascript
 // .eslintrc.js
@@ -159,9 +159,7 @@ module.exports = {
 };
 ```
 
-#### Flat Config Examples
-
-Here is a configuration with the default glob pattern:
+For the flat config, here is a configuration with the default glob pattern:
 
 ```javascript
 // eslint.config.js
@@ -181,7 +179,7 @@ export default [
 ];
 ```
 
-An example configuration supporting multiple configs for different glob patterns:
+A flag config example configuration supporting multiple configs for different glob patterns:
 
 ```javascript
 // eslint.config.js
@@ -215,8 +213,10 @@ In flat config files, the `globals`, and `parserOptions` are consolidated under 
 
 #### eslintrc Example
 
+For example, here's a eslintrc file with language options:
+
 ```javascript
-// .eslintrc
+// .eslintrc.js
 
 module.exports = {
     env: {
@@ -233,7 +233,7 @@ module.exports = {
 }
 ```
 
-#### Flat Config Example
+Here's the same configuration in flat config:
 
 ```javascript
 // eslint.config.js
@@ -274,9 +274,7 @@ npm install @eslint/js --save-dev
 
 You can add each of these configs to the exported array or expose specific rules from them. You must import the modules for local config files and npm package configs with flat config.
 
-#### eslintrc Examples
-
-Use built-in config:
+For example, here's an eslintrc file using the built-in `eslint:recommended` config:
 
 ```javascript
 // .eslintrc.js
@@ -291,7 +289,7 @@ module.exports = {
 }
 ```
 
-Use built-in config, local custom config, and custom config from an npm package:
+This eslintrc file uses built-in config, local custom config, and custom config from an npm package:
 
 ```javascript
 // .eslintrc.js
@@ -306,9 +304,7 @@ module.exports = {
 }
 ```
 
-#### Flat Config Examples
-
-Use recommended config:
+To use the same configs in flat config, you would do the following:
 
 ```javascript
 // eslint.config.js
@@ -353,9 +349,7 @@ With eslintrc, you can make ESLint ignore files by creating a separate `.eslinti
 
 To ignore files with flat config, you can use the `ignores` property in a config object. The `ignores` property accepts an array of glob patterns. Note that flat config glob patterns do _not_ match dot files (e.g. `.dotfile.js`).
 
-#### eslintrc Examples
-
-`.eslintignore` example:
+For example, here's a `.eslintignore` example you can use with an eslintrc config:
 
 ```shell
 # .eslintignore
@@ -374,7 +368,7 @@ temp.js
 }
 ```
 
-#### Flat Config Examples
+Here's the same files ignored in flat config:
 
 ```javascript
 export default [
