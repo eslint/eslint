@@ -308,6 +308,7 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "(a - b > a) ? foo : bar", options: ["all", { conditionalTernary: false }] },
         { code: "foo ? (bar || baz) : qux", options: ["all", { conditionalTernary: false }] },
         { code: "foo ? bar : (baz || qux)", options: ["all", { conditionalTernary: false }] },
+        { code: "(a, b) ? (c, d) : (e, f)", options: ["all", { conditionalTernary: false }] },
 
         // ["all", { nestedBinaryExpressions: false }] enables extra parens around conditional assignments
         { code: "a + (b * c)", options: ["all", { nestedBinaryExpressions: false }] },
