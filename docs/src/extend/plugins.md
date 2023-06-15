@@ -183,7 +183,7 @@ ESLint plugins should be linted too! It's suggested to lint your plugin with the
 
 * [eslint](https://www.npmjs.com/package/eslint)
 * [eslint-plugin-eslint-plugin](https://www.npmjs.com/package/eslint-plugin-eslint-plugin)
-* [eslint-plugin-node](https://www.npmjs.com/package/eslint-plugin-node)
+* [eslint-plugin-n](https://www.npmjs.com/package/eslint-plugin-n)
 
 ## Share Plugins
 
