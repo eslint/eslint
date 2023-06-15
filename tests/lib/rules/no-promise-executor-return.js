@@ -52,6 +52,24 @@ function eUseVoid(column) {
     return errorObject;
 }
 
+/**
+ * Creates invalid object
+ * @param {string} [code] Original code.
+ * @param {string} [fixed1] Code after applying the first fix. (use void)
+ * @param {string} [fixed2] Code after applying the second fix. (use {})
+ * @returns {Object} The invalid object.
+ */
+function suggestion(code, fixed1, fixed2) {
+    return {
+        code,
+        errors: [{
+            suggestions: [
+                { output: fixed1 },
+                { output: fixed2 }].filter(o => o.output)
+        }]
+    };
+}
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -172,7 +190,19 @@ ruleTester.run("no-promise-executor-return", rule, {
          * void
          * arrow functions + void return is allowed
          */
-        "new Promise((r) => void cbf(r));"
+        {
+            code: "new Promise((r) => void cbf(r));",
+            options: [{
+                allowVoid: true
+            }]
+        },
+        {
+            code: "new Promise(r => void 0)",
+            options: [{
+                allowVoid: true
+            }]
+        },
+        "new Promise(r => {0})"
     ],
 
     invalid: [
@@ -180,12 +210,10 @@ ruleTester.run("no-promise-executor-return", rule, {
         // full error tests
         {
             code: "new Promise(function (resolve, reject) { return 1; })",
-            output: null,
             errors: [{ message: "Return values from promise executor functions cannot be read.", type: "ReturnStatement", column: 42, endColumn: 51 }]
         },
         {
             code: "new Promise((resolve, reject) => resolve(1))",
-            output: "new Promise((resolve, reject) => void resolve(1))",
             errors: [{
                 message: "Return values from promise executor functions cannot be read. If you prefer to use arrow functions without `{...}`, prepend `void` to the expression.",
                 type: "CallExpression",
@@ -197,185 +225,158 @@ ruleTester.run("no-promise-executor-return", rule, {
             }]
         },
 
+        // suggestions test
+        suggestion("new Promise(r => 1)", "new Promise(r => void 1)", "new Promise(r => {1})"),
+        suggestion("new Promise(r => (1))", "new Promise(r => (void 1))", "new Promise(r => {(1)})"),
+        suggestion("new Promise(r => () => {})", "new Promise(r => void (() => {}))", "new Promise(r => {() => {}})"),
+        suggestion("new Promise(r => null)", "new Promise(r => void null)", "new Promise(r => {null})"),
+        suggestion("new Promise(r => /*hi*/ ~0)", "new Promise(r => /*hi*/ void ~0)", "new Promise(r => /*hi*/ {~0})"),
+
+        // snapshot
+        suggestion("new Promise(r => ((1)))", "new Promise(r => ((void 1)))", "new Promise(r => {((1))})"),
+
         // other basic tests
         {
             code: "new Promise(function foo(resolve, reject) { return 1; })",
-            output: null,
             errors: [eReturnsValue()]
         },
         {
             code: "new Promise((resolve, reject) => { return 1; })",
-            output: null,
             errors: [eReturnsValue()]
         },
 
         // any returned value
         {
             code: "new Promise(function (resolve, reject) { return undefined; })",
-            output: null,
             errors: [eReturnsValue()]
         },
         {
             code: "new Promise((resolve, reject) => { return null; })",
-            output: null,
             errors: [eReturnsValue()]
         },
         {
             code: "new Promise(function (resolve, reject) { return false; })",
-            output: null,
             errors: [eReturnsValue()]
         },
         {
             code: "new Promise((resolve, reject) => resolve)",
-            output: "new Promise((resolve, reject) => void resolve)",
             errors: [eUseVoid(34)]
         },
         {
             code: "new Promise((resolve, reject) => null)",
-            output: "new Promise((resolve, reject) => void null)",
             errors: [eUseVoid(34)]
         },
         {
             code: "new Promise(function (resolve, reject) { return resolve(foo); })",
-            output: null,
             errors: [eReturnsValue()]
         },
         {
             code: "new Promise((resolve, reject) => { return reject(foo); })",
-            output: null,
             errors: [eReturnsValue()]
         },
         {
             code: "new Promise((resolve, reject) => x + y)",
-            output: "new Promise((resolve, reject) => void x + y)",
             errors: [eUseVoid(34)]
         },
         {
             code: "new Promise((resolve, reject) => { return Promise.resolve(42); })",
-            output: null,
             errors: [eReturnsValue()]
         },
 
         // any return statement location
         {
             code: "new Promise(function (resolve, reject) { if (foo) { return 1; } })",
-            output: null,
             errors: [eReturnsValue()]
         },
         {
             code: "new Promise((resolve, reject) => { try { return 1; } catch(e) {} })",
-            output: null,
             errors: [eReturnsValue()]
         },
         {
             code: "new Promise(function (resolve, reject) { while (foo){ if (bar) break; else return 1; } })",
-            output: null,
             errors: [eReturnsValue()]
         },
 
         // void return is not allowed unless arrow function expression
         {
             code: "new Promise(() => { return void 1; })",
-            output: null,
             errors: [eReturnsValue()]
         },
 
-        /*
-         * output snapshot; the behavior is not specified and can be changed in the future
-         * this is the current behavior
-         */
         {
             code: "new Promise(() => (1))",
-            output: "new Promise(() => (void 1))",
             errors: [eUseVoid(20)]
         },
         {
             code: "() => new Promise(() => ({}));",
-            output: "() => new Promise(() => (void {}));",
             errors: [eUseVoid(26)]
         },
 
         // absence of arguments has no effect
         {
             code: "new Promise(function () { return 1; })",
-            output: null,
             errors: [eReturnsValue()]
         },
         {
             code: "new Promise(() => { return 1; })",
-            output: null,
             errors: [eReturnsValue()]
         },
         {
             code: "new Promise(() => 1)",
-            output: "new Promise(() => void 1)",
             errors: [eUseVoid(19)]
         },
 
         // various scope tracking tests
         {
             code: "function foo() {} new Promise(function () { return 1; });",
-            output: null,
             errors: [eReturnsValue(45)]
         },
         {
             code: "function foo() { return; } new Promise(() => { return 1; });",
-            output: null,
             errors: [eReturnsValue(48)]
         },
         {
             code: "function foo() { return 1; } new Promise(() => { return 2; });",
-            output: null,
             errors: [eReturnsValue(50)]
         },
         {
             code: "function foo () { return new Promise(function () { return 1; }); }",
-            output: null,
             errors: [eReturnsValue(52)]
         },
         {
             code: "function foo() { return new Promise(() => { bar(() => { return 1; }); return false; }); }",
-            output: null,
             errors: [eReturnsValue(71)]
         },
         {
             code: "() => new Promise(() => { if (foo) { return 0; } else bar(() => { return 1; }); })",
-            output: null,
             errors: [eReturnsValue(38)]
         },
         {
             code: "function foo () { return 1; return new Promise(function () { return 2; }); return 3;}",
-            output: null,
             errors: [eReturnsValue(62)]
         },
         {
             code: "() => 1; new Promise(() => { return 1; })",
-            output: null,
             errors: [eReturnsValue(30)]
         },
         {
             code: "new Promise(function () { return 1; }); function foo() { return 1; } ",
-            output: null,
             errors: [eReturnsValue(27)]
         },
         {
             code: "() => new Promise(() => { return 1; });",
-            output: null,
             errors: [eReturnsValue(27)]
         },
         {
             code: "() => new Promise(() => 1);",
-            output: "() => new Promise(() => void 1);",
             errors: [eUseVoid(25, "Literal")]
         },
         {
             code: "() => new Promise(() => () => 1);",
-            output: "() => new Promise(() => void (() => 1));",
             errors: [eUseVoid(25)]
         },
         {
             code: "() => new Promise(() => async () => 1);",
-            output: "() => new Promise(() => void (async () => 1));",
             parserOptions: { ecmaVersion: 2017 },
 
             // for async
@@ -383,29 +384,24 @@ ruleTester.run("no-promise-executor-return", rule, {
         },
         {
             code: "() => new Promise(() => function () {});",
-            output: "() => new Promise(() => void function () {});",
             errors: [eUseVoid(25)]
         },
         {
             code: "() => new Promise(() => function foo() {});",
-            output: "() => new Promise(() => void function foo() {});",
             errors: [eUseVoid(25)]
         },
         {
             code: "() => new Promise(() => []);",
-            output: "() => new Promise(() => void []);",
             errors: [eUseVoid(25)]
         },
 
         // edge cases for global Promise reference
         {
             code: "new Promise((Promise) => { return 1; })",
-            output: null,
             errors: [eReturnsValue()]
         },
         {
             code: "new Promise(function Promise(resolve, reject) { return 1; })",
-            output: null,
             errors: [eReturnsValue()]
         }
     ]
