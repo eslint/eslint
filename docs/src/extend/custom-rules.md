@@ -124,7 +124,11 @@ As the name implies, the `context` object contains information that is relevant 
 The `context` object has the following properties:
 
 * `id`: (`string`) The rule ID.
+* `filename`: (`string`) The filename associated with the source.
+* `physicalFilename`: (`string`) When linting a file, it provides the full path of the file on disk without any code block information. When linting text, it provides the value passed to `—stdin-filename` or `<text>` if not specified.
+* `cwd`: (`string`) The `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
 * `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
+* `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
 * `settings`: (`object`) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from the configuration.
 * `parserPath`: (`string`) The name of the `parser` from the configuration.
 * `parserServices`: (`object`) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
@@ -133,7 +137,7 @@ The `context` object has the following properties:
 Additionally, the `context` object has the following methods:
 
 * `getAncestors()`: (**Deprecated:** Use `SourceCode#getAncestors(node)` instead.) Returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
-* `getCwd()`: Returns the `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
+* `getCwd()`: (**Deprecated:** Use `context.cwd` instead.) Returns the `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
 * `getDeclaredVariables(node)`: (**Deprecated:** Use `SourceCode#getDeclaredVariables(node)` instead.) Returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
     * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
     * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
@@ -144,10 +148,10 @@ Additionally, the `context` object has the following methods:
     * If the node is an `ImportDeclaration`, variables for all of its specifiers are returned.
     * If the node is an `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`, the declared variable is returned.
     * Otherwise, if the node does not declare any variables, an empty array is returned.
-* `getFilename()`: Returns the filename associated with the source.
-* `getPhysicalFilename()`: When linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
+* `getFilename()`: (**Deprecated:** Use `context.filename` instead.) Returns the filename associated with the source.
+* `getPhysicalFilename()`: (**Deprecated:** Use `context.physicalFilename` instead.) When linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
 * `getScope()`: (**Deprecated:** Use `SourceCode#getScope(node)` instead.) Returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
-* `getSourceCode()`: Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
+* `getSourceCode()`: (**Deprecated:** Use `context.sourceCode` instead.) Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
 * `markVariableAsUsed(name)`: (**Deprecated:** Use `SourceCode#markVariableAsUsed(name, node)` instead.)  Marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
 * `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#reporting-problems)).
 
@@ -506,17 +510,19 @@ When using options, make sure that your rule has some logical defaults in case t
 
 ### Accessing the Source Code
 
-The `SourceCode` object is the main object for getting more information about the source code being linted. You can retrieve the `SourceCode` object at any time by using the `context.getSourceCode()` method:
+The `SourceCode` object is the main object for getting more information about the source code being linted. You can retrieve the `SourceCode` object at any time by using the `context.sourceCode` property:
 
 ```js
 module.exports = {
     create: function(context) {
-        var sourceCode = context.getSourceCode();
+        var sourceCode = context.sourceCode;
 
         // ...
     }
 };
 ```
+
+**Deprecated:** The `context.getSourceCode()` method is deprecated; make sure to use `context.sourceCode` property instead.
 
 Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
@@ -706,7 +712,7 @@ To help with this, you can use the `sourceCode.markVariableAsUsed()` method. Thi
 ```js
 module.exports = {
     create: function(context) {
-        var sourceCode = context.getSourceCode();
+        var sourceCode = context.sourceCode;
 
         return {
             ReturnStatement(node) {
