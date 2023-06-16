@@ -23,7 +23,7 @@ Many codebases require strings to be defined in a consistent manner.
 
 This rule enforces the consistent use of either backticks, double, or single quotes.
 
-This rule is aware of directive prologues such as `"use strict";` and will not flag or autofix them unless doing so will not change how the directive prologue is interpreted.
+This rule is aware of directive prologues such as `"use strict"` and will not flag or autofix them if doing so will change how the directive prologue is interpreted.
 
 ## Options
 
