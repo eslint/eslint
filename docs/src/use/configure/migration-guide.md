@@ -37,7 +37,7 @@ A few of the most notable differences between the eslintrc and flat config forma
 
 ### Importing Plugins and Custom Parsers
 
-Eslintrc files use string-based import system with the `plugins` property to load plugins and and with the `extends` to load external configurations.
+Eslintrc files use string-based import system inside the `plugins` property to load plugins and inside the `extends` property to load external configurations.
 
 Flat config files use CommonJS `require()` or ES module `import` statements to load plugins and custom parsers.
 
@@ -159,7 +159,7 @@ module.exports = {
 };
 ```
 
-For the flat config, here is a configuration with the default glob pattern:
+For flat config, here is a configuration with the default glob pattern:
 
 ```javascript
 // eslint.config.js
@@ -211,7 +211,6 @@ In eslintrc files, you configure various language options across the `env`, `glo
 
 In flat config files, the `globals`, and `parserOptions` are consolidated under the `languageOptions` key; the `env` property doesn't exist. Groups of global variables for specific runtimes are imported from the [globals](https://www.npmjs.com/package/globals) npm package and included in the `globals` property. You can use the spread operator (`...`) to import multiple globals at once.
 
-#### eslintrc Example
 
 For example, here's a eslintrc file with language options:
 
@@ -368,7 +367,7 @@ temp.js
 }
 ```
 
-Here's the same files ignored in flat config:
+Here are the same files ignore patterns in flat config:
 
 ```javascript
 export default [
