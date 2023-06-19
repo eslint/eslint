@@ -22,7 +22,7 @@ async function lintAndFix(eslint, filePaths) {
 
 // Log results to console if there are any problems
 function outputLintingResults(results) {
-  // ID the number of problems found
+  // Identify the number of problems found
   const problems = results.reduce((acc, result) => acc + result.errorCount + result.warningCount, 0);
 
   if (problems > 0) {
