@@ -211,7 +211,6 @@ In eslintrc files, you configure various language options across the `env`, `glo
 
 In flat config files, the `globals`, and `parserOptions` are consolidated under the `languageOptions` key; the `env` property doesn't exist. Groups of global variables for specific runtimes are imported from the [globals](https://www.npmjs.com/package/globals) npm package and included in the `globals` property. You can use the spread operator (`...`) to import multiple globals at once.
 
-
 For example, here's a eslintrc file with language options:
 
 ```javascript
@@ -361,7 +360,7 @@ temp.js
 
 ```javascript
 // .eslintrc.js
-{
+module.exports = { 
     // ...other config
     ignorePatterns: ["temp.js", ".config/*"],
 }
@@ -374,6 +373,40 @@ export default [
     {
         // ...other config
         ignores: ["temp.js", ".config/*"]
+    }
+];
+```
+
+### Linter Options
+
+ESlintrc files let you configure the linter itself with the `noInlineConfig` and `reportUnusedDisableDirectives` properties.
+
+The flat config system introduces a new top-level property `linterOptions` that you can use to configure the linter. In the `linterOptions` object, you can include `noInlineConfig` and `reportUnusedDisableDirectives`.
+
+For example, here's an eslintrc file with linter options enabled:
+
+```javascript
+// .eslintrc.js
+
+module.exports = {
+    // ...other config
+    noInlineConfig: true,
+    reportUnusedDisableDirectives: true
+}
+```
+
+Here's the same options in flat config:
+
+```javascript
+// eslint.config.js
+
+export default [
+    {
+        // ...other config
+        linterOptions: {
+            noInlineConfig: true,
+            reportUnusedDisableDirectives: true
+        }
     }
 ];
 ```
@@ -395,7 +428,6 @@ The following changes have been made from the eslintrc to the flat config file f
 * The `root` option no longer exists. (Flat config files act as if `root: true` is set.)
 * The `files` option cannot be a single string anymore, it must be an array.
 * The `sourceType` option now supports the new value `"commonjs"` (`.eslintrc` supports it too, but it was never documented).
-* You can configure `noInlineConfig` and `reportUnusedDisableDirectives` options under the setting `linterOptions`.
 
 ## TypeScript Types for Flat Config Files
 
