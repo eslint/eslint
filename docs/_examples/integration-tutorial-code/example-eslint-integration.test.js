@@ -11,12 +11,12 @@ async function testExampleEslintIntegration(){
 
     // Test cases
     if(lintResults[0].messages.length !== 6){
-        throw new Error("Expected 3 linting errors, got " + lintResults[0].messages.length);
+        throw new Error("Expected 6 linting problems, got " + lintResults[0].messages.length);
     }
     const messageRuleIds = new Set()
     lintResults[0].messages.forEach(msg => messageRuleIds.add(msg.ruleId));
     if(messageRuleIds.size !== 2){
-        throw new Error("Expected 1 linting rule, got " + messageRuleIds.size);
+        throw new Error("Expected 2 linting rule, got " + messageRuleIds.size);
     }
     if(!messageRuleIds.has("no-console")){
         throw new Error("Expected linting rule 'no-console', got " + messageRuleIds);

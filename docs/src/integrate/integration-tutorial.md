@@ -172,7 +172,7 @@ function createESLintInstance(overrideConfig){
   return new ESLint({ useEslintrc: false, overrideConfig: overrideConfig });
 }
 
-// Lint the specified files and return the error results
+// Lint the specified files and return the lint results
 async function lintAndFix(eslint, filePaths) {
   const results = await eslint.lintFiles(filePaths);
 
