@@ -16,7 +16,7 @@ In order to integrate ESLint, it's recommended that:
 
 If that sounds like you, then continue reading to get started.
 
-## [Create Integration with the Node.js API Tutorial](integration-tutorial)
+## [Integrate with the Node.js API Tutorial](integration-tutorial)
 
 This tutorial walks you through the process of creating a basic integration with ESLint using the Node.js API.
 
