@@ -7,7 +7,7 @@ const { ESLint } = require("eslint");
 
 // Create an instance of ESLint with the configuration passed to the function
 function createESLintInstance(overrideConfig){
-  return new ESLint({ useEslintrc: false, overrideConfig: overrideConfig });
+  return new ESLint({ useEslintrc: false, overrideConfig: overrideConfig, fix: true });
 }
 
 // Lint the specified files and return the error results
@@ -22,7 +22,10 @@ async function lintAndFix(eslint, filePaths) {
 
 // Log results to console if there are any problems
 function outputLintingResults(results) {
-  if (results.length) {
+  // ID the number of problems found
+  const problems = results.reduce((acc, result) => acc + result.errorCount + result.warningCount, 0);
+
+  if (problems > 0) {
     console.log("Linting errors found!");
     console.log(results);
   } else {

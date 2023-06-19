@@ -77,7 +77,7 @@ const { ESLint } = require("eslint");
 
 // Create an instance of ESLint with the configuration passed to the function
 function createESLintInstance(overrideConfig){
-  return new ESLint({ useEslintrc: false, overrideConfig: overrideConfig });
+  return new ESLint({ useEslintrc: false, overrideConfig: overrideConfig, fix: true });
 }
 ```
 
@@ -92,7 +92,7 @@ The static method `ESLint.outputFixes()` takes the linting results from the call
 
 // ... previous step's code to instantiate the ESLint instance
 
-// Lint the specified files and return the error results
+// Lint the specified files and return the results
 async function lintAndFix(eslint, filePaths) {
   const results = await eslint.lintFiles(filePaths);
 
@@ -105,7 +105,7 @@ async function lintAndFix(eslint, filePaths) {
 
 ## Step 4: Output Results
 
-Define a function to output the linting results to the consoles. This should be specific to your integration's needs. For example, you could report the linting results to a user interface.
+Define a function to output the linting results to the console. This should be specific to your integration's needs. For example, you could report the linting results to a user interface.
 
 In this example, we'll simply log the results to the console:
 
@@ -117,7 +117,10 @@ In this example, we'll simply log the results to the console:
 
 // Log results to console if there are any problems
 function outputLintingResults(results) {
-  if (results.length) {
+  // ID the number of problems found
+  const problems = results.reduce((acc, result) => acc + result.errorCount + result.warningCount, 0);
+
+  if (problems > 0) {
     console.log("Linting errors found!");
     console.log(results);
   } else {
@@ -169,10 +172,10 @@ const { ESLint } = require("eslint");
 
 // Create an instance of ESLint with the configuration passed to the function
 function createESLintInstance(overrideConfig){
-  return new ESLint({ useEslintrc: false, overrideConfig: overrideConfig });
+  return new ESLint({ useEslintrc: false, overrideConfig: overrideConfig, fix: true });
 }
 
-// Lint the specified files and return the lint results
+// Lint the specified files and return the results
 async function lintAndFix(eslint, filePaths) {
   const results = await eslint.lintFiles(filePaths);
 
@@ -184,7 +187,10 @@ async function lintAndFix(eslint, filePaths) {
 
 // Log results to console if there are any problems
 function outputLintingResults(results) {
-  if (results.length) {
+  // ID the number of problems found
+  const problems = results.reduce((acc, result) => acc + result.errorCount + result.warningCount, 0);
+
+  if (problems > 0) {
     console.log("Linting errors found!");
     console.log(results);
   } else {
