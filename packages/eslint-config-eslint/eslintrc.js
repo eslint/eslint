@@ -1,7 +1,8 @@
 /**
  * TODO: the config will be removed in the future, please use the index config.
  * @deprecated
- * @fileoverview the eslintrc config - it's exported as some eslint's tests still rely on it.
+ * @fileoverview the eslintrc config - it's exported as ESLint VS Code extension
+ * expects eslintrc config files to be present to work correctly..
  * @author 唯然<weiran.zsd@outlook.com>
  */
 "use strict";
