@@ -16,6 +16,8 @@ Typing mistakes and misunderstandings about where semicolons are required can le
 
 This rule disallows unnecessary semicolons.
 
+Problems reported by this rule can be fixed automatically, except when removing a semicolon would cause a following statement to become a directive such as `"use strict"`.
+
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
