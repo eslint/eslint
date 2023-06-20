@@ -22,12 +22,11 @@ npm install eslint-config-eslint --save-dev
 
 ## Usage
 
-In your `.eslintrc` file, add:
+In your `eslint.config.js` file, add:
 
-```json
-{
-    "extends": "eslint"
-}
+```js
+const eslintConfig = require("eslint-config-eslint");
+module.exports = eslintConfig;
 ```
 
 ### Where to ask for help?

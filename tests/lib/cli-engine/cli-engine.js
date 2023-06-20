@@ -5184,9 +5184,9 @@ describe("CLIEngine", () => {
         });
 
         it("should expose the list of plugin rules", () => {
-            const engine = new CLIEngine({ plugins: ["n"] });
+            const engine = new CLIEngine({ plugins: ["internal-rules"] });
 
-            assert(engine.getRules().has("n/no-deprecated-api"), "n/no-deprecated-api is present");
+            assert(engine.getRules().has("internal-rules/no-invalid-meta"), "internal-rules/no-invalid-meta is present");
         });
 
         it("should expose the list of rules from a preloaded plugin", () => {
@@ -5194,11 +5194,11 @@ describe("CLIEngine", () => {
                 plugins: ["foo"]
             }, {
                 preloadedPlugins: {
-                    foo: require("eslint-plugin-n")
+                    foo: require("eslint-plugin-internal-rules")
                 }
             });
 
-            assert(engine.getRules().has("foo/no-deprecated-api"), "foo/no-deprecated-api is present");
+            assert(engine.getRules().has("foo/no-invalid-meta"), "foo/no-invalid-meta is present");
         });
     });
 

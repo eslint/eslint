@@ -69,7 +69,7 @@ describe("FlatESLint", () => {
     const originalDir = process.cwd();
     const fixtureDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint/fixtures");
 
-    /** @type {import("../../../lib/flat-eslint").FlatESLint} */
+    /** @type {import("../../../lib/eslint/flat-eslint").FlatESLint} */
     let FlatESLint;
 
     /**
@@ -4379,29 +4379,33 @@ describe("FlatESLint", () => {
         });
 
         it("should return multiple rule meta when there are multiple linting errors from a plugin", async () => {
-            const nodePlugin = require("eslint-plugin-n");
+            const customPlugin = {
+                rules: {
+                    "no-var": require("../../../lib/rules/no-var")
+                }
+            };
             const engine = new FlatESLint({
                 overrideConfigFile: true,
                 overrideConfig: {
                     plugins: {
-                        n: nodePlugin
+                        "custom-plugin": customPlugin
                     },
                     rules: {
-                        "n/no-new-require": 2,
+                        "custom-plugin/no-var": 2,
                         semi: 2,
                         quotes: [2, "double"]
                     }
                 }
             });
 
-            const results = await engine.lintText("new require('hi')");
+            const results = await engine.lintText("var foo = 0; var bar = '1'");
             const rulesMeta = engine.getRulesMetaForResults(results);
 
             assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
             assert.strictEqual(rulesMeta.quotes, coreRules.get("quotes").meta);
             assert.strictEqual(
-                rulesMeta["n/no-new-require"],
-                nodePlugin.rules["no-new-require"].meta
+                rulesMeta["custom-plugin/no-var"],
+                customPlugin.rules["no-var"].meta
             );
         });
 

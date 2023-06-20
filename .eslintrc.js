@@ -6,8 +6,7 @@
  * Internally, ESLint is using the eslint.config.js file to lint itself.
  * This file is needed too, because:
  *
- * 1. There are tests that expect .eslintrc.js to be present to actually run.
- * 2. ESLint VS Code extension expects eslintrc config files to be
+ * 1. ESLint VS Code extension expects eslintrc config files to be
  *    present to work correctly.
  *
  * Once we no longer need to support both eslintrc and flat config, we will
@@ -63,7 +62,7 @@ module.exports = {
         "internal-rules"
     ],
     extends: [
-        "eslint"
+        "eslint/eslintrc"
     ],
     parserOptions: {
         ecmaVersion: 2021
