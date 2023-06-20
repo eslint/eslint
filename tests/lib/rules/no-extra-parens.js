@@ -303,12 +303,12 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "while (((foo = bar()))) {}", options: ["all", { conditionalAssign: false }] },
         { code: "var a = (((b = c))) ? foo : bar;", options: ["all", { conditionalAssign: false }] },
 
-        // ["all", { conditionalTernary: false }] enables extra parens around conditional ternary
-        { code: "(a && b) ? foo : bar", options: ["all", { conditionalTernary: false }] },
-        { code: "(a - b > a) ? foo : bar", options: ["all", { conditionalTernary: false }] },
-        { code: "foo ? (bar || baz) : qux", options: ["all", { conditionalTernary: false }] },
-        { code: "foo ? bar : (baz || qux)", options: ["all", { conditionalTernary: false }] },
-        { code: "(a, b) ? (c, d) : (e, f)", options: ["all", { conditionalTernary: false }] },
+        // ["all", { ternaryOperandBinaryExpressions: false }] enables extra parens around conditional ternary
+        { code: "(a && b) ? foo : bar", options: ["all", { ternaryOperandBinaryExpressions: false }] },
+        { code: "(a - b > a) ? foo : bar", options: ["all", { ternaryOperandBinaryExpressions: false }] },
+        { code: "foo ? (bar || baz) : qux", options: ["all", { ternaryOperandBinaryExpressions: false }] },
+        { code: "foo ? bar : (baz || qux)", options: ["all", { ternaryOperandBinaryExpressions: false }] },
+        { code: "(a, b) ? (c, d) : (e, f)", options: ["all", { ternaryOperandBinaryExpressions: false }] },
 
         // ["all", { nestedBinaryExpressions: false }] enables extra parens around conditional assignments
         { code: "a + (b * c)", options: ["all", { nestedBinaryExpressions: false }] },
@@ -922,10 +922,10 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("a ? b : (c = d)", "a ? b : c = d", "AssignmentExpression"),
         invalid("(c = d) ? (b) : c", "(c = d) ? b : c", "Identifier", null, { options: ["all", { conditionalAssign: false }] }),
         invalid("(c = d) ? b : (c)", "(c = d) ? b : c", "Identifier", null, { options: ["all", { conditionalAssign: false }] }),
-        invalid("(a) ? foo : bar", "a ? foo : bar", "Identifier", null, { options: ["all", { conditionalTernary: false }] }),
-        invalid("(a()) ? foo : bar", "a() ? foo : bar", "CallExpression", null, { options: ["all", { conditionalTernary: false }] }),
-        invalid("(a.b) ? foo : bar", "a.b ? foo : bar", "MemberExpression", null, { options: ["all", { conditionalTernary: false }] }),
-        invalid("(a || b) ? foo : (bar)", "(a || b) ? foo : bar", "Identifier", null, { options: ["all", { conditionalTernary: false }] }),
+        invalid("(a) ? foo : bar", "a ? foo : bar", "Identifier", null, { options: ["all", { ternaryOperandBinaryExpressions: false }] }),
+        invalid("(a()) ? foo : bar", "a() ? foo : bar", "CallExpression", null, { options: ["all", { ternaryOperandBinaryExpressions: false }] }),
+        invalid("(a.b) ? foo : bar", "a.b ? foo : bar", "MemberExpression", null, { options: ["all", { ternaryOperandBinaryExpressions: false }] }),
+        invalid("(a || b) ? foo : (bar)", "(a || b) ? foo : bar", "Identifier", null, { options: ["all", { ternaryOperandBinaryExpressions: false }] }),
         invalid("f((a = b))", "f(a = b)", "AssignmentExpression"),
         invalid("a, (b = c)", "a, b = c", "AssignmentExpression"),
         invalid("a = (b * c)", "a = b * c", "BinaryExpression"),
