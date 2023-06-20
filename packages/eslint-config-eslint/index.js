@@ -25,6 +25,7 @@ const nodeConfigs = [nodeRecommendedConfig, {
     }
 }];
 
+// extends eslint recommended config
 const jsConfigs = [js.configs.recommended, {
     rules: {
         "array-bracket-spacing": "error",
@@ -394,6 +395,7 @@ const eslintCommentsConfigs = [eslintComments.configs.recommended, {
 }];
 
 module.exports = [
+    { linterOptions: { reportUnusedDisableDirectives: true } },
     ...jsConfigs,
     ...nodeConfigs,
     ...unicornConfigs,
