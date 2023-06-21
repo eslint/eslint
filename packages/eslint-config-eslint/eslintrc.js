@@ -101,7 +101,6 @@ module.exports = {
         "generator-star-spacing": "error",
         "grouped-accessor-pairs": "error",
         "guard-for-in": "error",
-        "jsdoc/check-line-alignment": ["error", "never"],
         "jsdoc/check-syntax": "error",
         "jsdoc/check-values": [
             "error",
@@ -109,8 +108,8 @@ module.exports = {
                 allowedLicenses: true
             }
         ],
-        "jsdoc/newline-after-description": ["error", "never"],
         "jsdoc/no-bad-blocks": "error",
+        "jsdoc/no-defaults": "off",
         "jsdoc/require-asterisk-prefix": "error",
         "jsdoc/require-description": [
             "error",
@@ -138,8 +137,10 @@ module.exports = {
                     fileoverview: {
                         lines: "any"
                     }
-                }
+                },
+                startLines: 0
             }
+
         ],
         "jsdoc/no-undefined-types": "off",
         "jsdoc/require-yields": "off",
