@@ -312,11 +312,10 @@ const jsdocConfigs = [jsdoc.configs.recommended, {
         }
     },
     rules: {
-        "jsdoc/check-line-alignment": ["error", "never"],
         "jsdoc/check-syntax": "error",
         "jsdoc/check-values": ["error", { allowedLicenses: true }],
-        "jsdoc/newline-after-description": ["error", "never"],
         "jsdoc/no-bad-blocks": "error",
+        "jsdoc/no-defaults": "off",
         "jsdoc/require-asterisk-prefix": "error",
         "jsdoc/require-description": ["error", { checkConstructors: false }],
         "jsdoc/require-hyphen-before-param-description": ["error", "never"],
@@ -330,13 +329,10 @@ const jsdocConfigs = [jsdoc.configs.recommended, {
         "jsdoc/tag-lines": ["error", "never",
             {
                 tags: {
-                    example: {
-                        lines: "always"
-                    },
-                    fileoverview: {
-                        lines: "any"
-                    }
-                }
+                    example: { lines: "always" },
+                    fileoverview: { lines: "any" }
+                },
+                startLines: 0
             }
         ],
         "jsdoc/no-undefined-types": "off",
