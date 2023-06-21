@@ -26,10 +26,37 @@ export default [
             "prefer-const": "error"
         }
     }
-]
+];
 ```
 
 In this example, the configuration array contains just one configuration object. The configuration object enables two rules: `semi` and `prefer-const`. These rules are applied to all of the files ESLint processes using this config file.
+
+If your project does not specify `"type":"module"` in its `package.json` file, then `eslint.config.js` must be in the CommonJS format:
+
+```js
+module.exports = [
+    {
+        rules: {
+            semi: "error",
+            "prefer-const": "error"
+        }
+    }
+];
+```
+
+The configuration file can also export a Promise that resolves to the configuration array. This can be useful for using ESM dependencies in CommonJS configuration files:
+
+```js
+module.exports = (async () => {
+
+    const someDependency = await import("some-esm-dependency");
+
+    return [
+        // ... use `someDependency` here
+    ];
+
+})();
+```
 
 ## Configuration Objects
 
