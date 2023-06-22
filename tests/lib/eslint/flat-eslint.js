@@ -761,6 +761,18 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint();
             await assert.rejects(() => eslint.lintText("var a = 0", { warnIgnored: "" }), /'options.warnIgnored' must be a boolean or undefined/u);
         });
+
+        it("should work with config file that exports a promise", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath("promise-config")
+            });
+            const results = await eslint.lintText('var foo = "bar";');
+
+            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results[0].messages.length, 1);
+            assert.strictEqual(results[0].messages[0].severity, 2);
+            assert.strictEqual(results[0].messages[0].ruleId, "quotes");
+        });
     });
 
     describe("lintFiles()", () => {
@@ -989,6 +1001,19 @@ describe("FlatESLint", () => {
                 getFixturePath("{curly-path}/server/src/two.js")
             );
             assert.strictEqual(results[0].suppressedMessages.length, 0);
+        });
+
+        it("should work with config file that exports a promise", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath("promise-config")
+            });
+            const results = await eslint.lintFiles(["a*.js"]);
+
+            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results[0].filePath, getFixturePath("promise-config", "a.js"));
+            assert.strictEqual(results[0].messages.length, 1);
+            assert.strictEqual(results[0].messages[0].severity, 2);
+            assert.strictEqual(results[0].messages[0].ruleId, "quotes");
         });
 
         // https://github.com/eslint/eslint/issues/16265
