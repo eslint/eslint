@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extra-boolean-cast"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -2421,6 +2422,16 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             code: "if (Boolean?.(a ?? b) || c) {}",
             output: "if ((a ?? b) || c) {}",
             options: [{ enforceForLogicalOperands: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/17173
+        {
+            code: "if (!Boolean(a as any)) {}",
+            output: "if (!(a as any)) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            parser: parser("typescript-parsers/boolean-cast-with-assertion"),
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall" }]
         }

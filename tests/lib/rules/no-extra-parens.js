@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extra-parens"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -783,6 +784,12 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "((a)) = function () {};",
             options: ["functions"]
+        },
+
+        // https://github.com/eslint/eslint/issues/17173
+        {
+            code: "const x = (1 satisfies number).toFixed();",
+            parser: parser("typescript-parsers/keyword-with-arrow-function")
         }
     ],
 

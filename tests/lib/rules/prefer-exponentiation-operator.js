@@ -11,6 +11,7 @@
 
 const rule = require("../../../lib/rules/prefer-exponentiation-operator");
 const { RuleTester } = require("../../../lib/rule-tester");
+const parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -357,6 +358,19 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         invalid("Math?.pow(a, b)", "a**b"),
         invalid("Math?.pow?.(a, b)", "a**b"),
         invalid("(Math?.pow)(a, b)", "a**b"),
-        invalid("(Math?.pow)?.(a, b)", "a**b")
+        invalid("(Math?.pow)?.(a, b)", "a**b"),
+
+        // https://github.com/eslint/eslint/issues/17173
+        {
+            code: "Math.pow(a, b as any)",
+            output: "a**(b as any)",
+            parser: parser("typescript-parsers/exponentiation-with-assertion"),
+            errors: [
+                {
+                    messageId: "useExponentiation",
+                    type: "CallExpression"
+                }
+            ]
+        }
     ]
 });

@@ -9,7 +9,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/logical-assignment-operators"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -1456,5 +1457,15 @@ ruleTester.run("logical-assignment-operators", rule, {
             output: "a = a ?? b + c",
             options: ["never"],
             errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "??=" } }]
-        }]
+        },
+
+        // https://github.com/eslint/eslint/issues/17173
+        {
+            code: "a ||= b as number;",
+            output: "a = a || (b as number);",
+            options: ["never"],
+            parser: parser("typescript-parsers/logical-assignment-with-assertion"),
+            errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "||=" } }]
+        }
+    ]
 });
