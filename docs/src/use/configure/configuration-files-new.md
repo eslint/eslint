@@ -31,7 +31,7 @@ export default [
 
 In this example, the configuration array contains just one configuration object. The configuration object enables two rules: `semi` and `prefer-const`. These rules are applied to all of the files ESLint processes using this config file.
 
-If your project does not specify `"type":"module"` in its `package.json` file, then `eslint.config.js` must be in the CommonJS format:
+If your project does not specify `"type":"module"` in its `package.json` file, then `eslint.config.js` must be in CommonJS format, such as:
 
 ```js
 module.exports = [
