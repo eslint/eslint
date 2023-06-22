@@ -44,7 +44,7 @@ module.exports = [
 ];
 ```
 
-The configuration file can also export a Promise that resolves to the configuration array. This can be useful for using ESM dependencies in CommonJS configuration files:
+The configuration file can also export a promise that resolves to the configuration array. This can be useful for using ESM dependencies in CommonJS configuration files, as in this example:
 
 ```js
 module.exports = (async () => {
