@@ -35,37 +35,22 @@ function eReturnsValue(column, type = "ReturnStatement") {
     return errorObject;
 }
 
-/**
- * Creates an error object.
- * @param {number} [column] Reported column.
- * @returns {Object} The error object.
- */
-function eUseVoid(column) {
-    const errorObject = {
-        messageId: "useVoid"
-    };
-
-    if (column) {
-        errorObject.column = column;
-    }
-
-    return errorObject;
-}
 
 /**
  * Creates invalid object
- * @param {string} [code] Original code.
- * @param {string} [fixed1] Code after applying the first fix. (use void)
- * @param {string} [fixed2] Code after applying the second fix. (use {})
+ * @param {Object} [properties] suggestion properties
+ * @param {string} [properties.code] code
+ * @param {number} [properties.options] rule options
+ * @param {string[]} [fixes] Code suggestions
  * @returns {Object} The invalid object.
  */
-function suggestion(code, fixed1, fixed2) {
+function suggestion(properties, fixes = []) {
     return {
-        code,
+        ...properties,
         errors: [{
-            suggestions: [
-                { output: fixed1 },
-                { output: fixed2 }].filter(o => o.output)
+            suggestions: fixes.map(fix => ({
+                output: fix
+            }))
         }]
     };
 }
@@ -202,6 +187,18 @@ ruleTester.run("no-promise-executor-return", rule, {
                 allowVoid: true
             }]
         },
+        {
+            code: "new Promise(r => { return void 0 })",
+            options: [{
+                allowVoid: true
+            }]
+        },
+        {
+            code: "new Promise(r => { if (foo) { return void 0 } return void 0 })",
+            options: [{
+                allowVoid: true
+            }]
+        },
         "new Promise(r => {0})"
     ],
 
@@ -214,26 +211,149 @@ ruleTester.run("no-promise-executor-return", rule, {
         },
         {
             code: "new Promise((resolve, reject) => resolve(1))",
+            options: [{
+                allowVoid: true
+            }],
             errors: [{
-                message: "Return values from promise executor functions cannot be read. If you prefer to use arrow functions without `{...}`, prepend `void` to the expression.",
+                message: "Return values from promise executor functions cannot be read.",
                 type: "CallExpression",
                 column: 34,
                 endColumn: 44,
                 suggestions: [
                     { output: "new Promise((resolve, reject) => void resolve(1))" },
-                    { output: "new Promise((resolve, reject) => {resolve(1)})" }]
+                    { output: "new Promise((resolve, reject) => {resolve(1)})" }
+                ]
+            }]
+        },
+        {
+            code: "new Promise((resolve, reject) => { return 1 })",
+            options: [{
+                allowVoid: true
+            }],
+            errors: [{
+                message: "Return values from promise executor functions cannot be read.",
+                type: "ReturnStatement",
+                column: 36,
+                endColumn: 44,
+                suggestions: [
+                    { output: "new Promise((resolve, reject) => { return void 1 })" }
+                ]
             }]
         },
 
-        // suggestions test
-        suggestion("new Promise(r => 1)", "new Promise(r => void 1)", "new Promise(r => {1})"),
-        suggestion("new Promise(r => (1))", "new Promise(r => (void 1))", "new Promise(r => {(1)})"),
-        suggestion("new Promise(r => () => {})", "new Promise(r => void (() => {}))", "new Promise(r => {() => {}})"),
-        suggestion("new Promise(r => null)", "new Promise(r => void null)", "new Promise(r => {null})"),
-        suggestion("new Promise(r => /*hi*/ ~0)", "new Promise(r => /*hi*/ void ~0)", "new Promise(r => /*hi*/ {~0})"),
+        // suggestions arrow function expression
+        suggestion({
+            code: "new Promise(r => 1)",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(r => void 1)",
+            "new Promise(r => {1})"
+        ]),
+        suggestion({
+            code:
+                "new Promise(r => (1))",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(r => (void 1))",
+            "new Promise(r => {(1)})"
+        ]),
+        suggestion({
+            code:
+                "new Promise(r => () => {})",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(r => void (() => {}))",
+            "new Promise(r => {() => {}})"
+        ]),
+
+        //
+        suggestion({
+            code:
+                "new Promise(r => null)",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(r => void null)",
+            "new Promise(r => {null})"
+        ]),
+        suggestion({
+            code:
+                "new Promise(r => null)",
+            options: [{
+                allowVoid: false
+            }]
+        }, [
+            "new Promise(r => {null})"
+        ]),
+
+        //
+        suggestion({
+            code:
+                "new Promise(r => /*hi*/ ~0)",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(r => /*hi*/ void ~0)",
+            "new Promise(r => /*hi*/ {~0})"
+        ]),
+        suggestion({
+            code:
+                "new Promise(r => /*hi*/ ~0)",
+            options: [{
+                allowVoid: false
+            }]
+        }, [
+            "new Promise(r => /*hi*/ {~0})"
+        ]),
+
+        // suggestions function
+        suggestion({
+            code:
+                "new Promise(r => { return 0 })",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(r => { return void 0 })"
+        ]),
+        suggestion({
+            code:
+                "new Promise(r => { return 0 })",
+            options: [{
+                allowVoid: false
+            }]
+        }),
+
+
+        suggestion({
+            code:
+                "new Promise(r => { if (foo) { return void 0 } return 0 })",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(r => { if (foo) { return void 0 } return void 0 })"
+        ]),
 
         // snapshot
-        suggestion("new Promise(r => ((1)))", "new Promise(r => ((void 1)))", "new Promise(r => {((1))})"),
+        suggestion({
+            code:
+                "new Promise(r => ((1)))",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(r => ((void 1)))",
+            "new Promise(r => {((1))})"
+        ]),
 
         // other basic tests
         {
@@ -260,11 +380,11 @@ ruleTester.run("no-promise-executor-return", rule, {
         },
         {
             code: "new Promise((resolve, reject) => resolve)",
-            errors: [eUseVoid(34)]
+            errors: [eReturnsValue(34, "Identifier")]
         },
         {
             code: "new Promise((resolve, reject) => null)",
-            errors: [eUseVoid(34)]
+            errors: [eReturnsValue(34, "Literal")]
         },
         {
             code: "new Promise(function (resolve, reject) { return resolve(foo); })",
@@ -276,7 +396,7 @@ ruleTester.run("no-promise-executor-return", rule, {
         },
         {
             code: "new Promise((resolve, reject) => x + y)",
-            errors: [eUseVoid(34)]
+            errors: [eReturnsValue(34, "BinaryExpression")]
         },
         {
             code: "new Promise((resolve, reject) => { return Promise.resolve(42); })",
@@ -305,11 +425,11 @@ ruleTester.run("no-promise-executor-return", rule, {
 
         {
             code: "new Promise(() => (1))",
-            errors: [eUseVoid(20)]
+            errors: [eReturnsValue(20, "Literal")]
         },
         {
             code: "() => new Promise(() => ({}));",
-            errors: [eUseVoid(26)]
+            errors: [eReturnsValue(26, "ObjectExpression")]
         },
 
         // absence of arguments has no effect
@@ -323,7 +443,7 @@ ruleTester.run("no-promise-executor-return", rule, {
         },
         {
             code: "new Promise(() => 1)",
-            errors: [eUseVoid(19)]
+            errors: [eReturnsValue(19, "Literal")]
         },
 
         // various scope tracking tests
@@ -369,30 +489,30 @@ ruleTester.run("no-promise-executor-return", rule, {
         },
         {
             code: "() => new Promise(() => 1);",
-            errors: [eUseVoid(25, "Literal")]
+            errors: [eReturnsValue(25, "Literal")]
         },
         {
             code: "() => new Promise(() => () => 1);",
-            errors: [eUseVoid(25)]
+            errors: [eReturnsValue(25, "ArrowFunctionExpression")]
         },
         {
             code: "() => new Promise(() => async () => 1);",
             parserOptions: { ecmaVersion: 2017 },
 
             // for async
-            errors: [eUseVoid(25)]
+            errors: [eReturnsValue(25, "ArrowFunctionExpression")]
         },
         {
             code: "() => new Promise(() => function () {});",
-            errors: [eUseVoid(25)]
+            errors: [eReturnsValue(25, "FunctionExpression")]
         },
         {
             code: "() => new Promise(() => function foo() {});",
-            errors: [eUseVoid(25)]
+            errors: [eReturnsValue(25, "FunctionExpression")]
         },
         {
             code: "() => new Promise(() => []);",
-            errors: [eUseVoid(25)]
+            errors: [eReturnsValue(25, "ArrayExpression")]
         },
 
         // edge cases for global Promise reference
