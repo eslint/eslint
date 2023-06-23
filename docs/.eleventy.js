@@ -179,14 +179,46 @@ module.exports = function(eleventyConfig) {
         `.trim();
     }
 
+    /**
+     * Encodes text in the base 64 format used in playground URL params.
+     * @param {string} text Text to be encoded to base 64.
+     * @see https://github.com/eslint/eslint.org/blob/1b2f2aabeac2955a076d61788da8a0008bca6fb6/src/playground/utils/unicode.js
+     * @returns {string} The base 64 encoded equivalent of the text.
+     */
+    function encodeToBase64(text) {
+        /* global btoa -- It does exist, and is what the playground uses. */
+        return btoa(unescape(encodeURIComponent(text)));
+    }
+
+    const withPlaygroundRender = {
+        render(tokens, index) {
+            if (tokens[index].nesting !== 1) {
+                return "</div>";
+            }
+
+            const state = encodeToBase64(
+                JSON.stringify({
+                    text: tokens[index + 1].content
+                })
+            );
+
+            return `
+                <div class="with-playground-link">
+                    <a class="open-in-playground" href="/play#${state}" target="_blank">
+                        Open in Playground ↗️
+                    </a>
+            `.trim();
+        }
+    };
+
     const markdownIt = require("markdown-it");
     const md = markdownIt({ html: true, linkify: true, typographer: true, highlight: (str, lang) => highlighter(md, str, lang) })
         .use(markdownItAnchor, {
             slugify: s => slug(s)
         })
         .use(markdownItContainer, "img-container", {})
-        .use(markdownItContainer, "correct", {})
-        .use(markdownItContainer, "incorrect", {})
+        .use(markdownItContainer, "correct", withPlaygroundRender)
+        .use(markdownItContainer, "incorrect", withPlaygroundRender)
         .use(markdownItContainer, "warning", {
             render(tokens, idx) {
                 return generateAlertMarkup("warning", tokens, idx);

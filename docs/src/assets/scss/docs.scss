@@ -126,6 +126,29 @@ div.incorrect {
     }
 }
 
+div.with-playground-link {
+    position: relative;
+}
+
+a.open-in-playground {
+    background-color: var(--lightest-background-color);
+    border-radius: 0.25rem;
+    border: 1px solid var(--border-color);
+    color: unset;
+    opacity: 0;
+    padding: 0.5rem 0.75rem;
+    position: absolute;
+    right: 0.5rem;
+    text-decoration: none;
+    top: 0.5rem;
+    transition: opacity 0.2s linear;
+    z-index: 1;
+}
+
+a.open-in-playground:is(:focus, :hover) {
+    opacity: 1;
+}
+
 div.img-container {
     background-color: var(--img-background-color);
     border-radius: var(--border-radius);
