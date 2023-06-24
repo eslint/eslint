@@ -789,7 +789,7 @@ ruleTester.run("no-extra-parens", rule, {
         // https://github.com/eslint/eslint/issues/17173
         {
             code: "const x = (1 satisfies number).toFixed();",
-            parser: parser("typescript-parsers/keyword-with-arrow-function")
+            parser: parser("typescript-parsers/member-call-expr-with-assertion")
         }
     ],
 
