@@ -235,5 +235,4 @@ exports.parse = () => ({
       column: 25,
     },
   },
-  parent: null,
 });

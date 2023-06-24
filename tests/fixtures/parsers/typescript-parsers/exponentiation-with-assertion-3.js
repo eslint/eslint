@@ -3,7 +3,7 @@
 /**
  * Parser: @typescript-eslint/parser 5.59.11 (TS 5.1.3)
  * Source code:
- * Math.pow(a, b as any)
+ * Math.pow(a, b) as any
  */
 
 exports.parse = () => ({
@@ -12,15 +12,48 @@ exports.parse = () => ({
     {
       type: "ExpressionStatement",
       expression: {
-        type: "CallExpression",
-        callee: {
-          type: "MemberExpression",
-          object: {
-            type: "Identifier",
-            decorators: [],
-            name: "Math",
+        type: "TSAsExpression",
+        expression: {
+          type: "CallExpression",
+          callee: {
+            type: "MemberExpression",
+            object: {
+              type: "Identifier",
+              decorators: [],
+              name: "Math",
+              optional: false,
+              range: [0, 4],
+              loc: {
+                start: {
+                  line: 1,
+                  column: 0,
+                },
+                end: {
+                  line: 1,
+                  column: 4,
+                },
+              },
+            },
+            property: {
+              type: "Identifier",
+              decorators: [],
+              name: "pow",
+              optional: false,
+              range: [5, 8],
+              loc: {
+                start: {
+                  line: 1,
+                  column: 5,
+                },
+                end: {
+                  line: 1,
+                  column: 8,
+                },
+              },
+            },
+            computed: false,
             optional: false,
-            range: [0, 4],
+            range: [0, 8],
             loc: {
               start: {
                 line: 1,
@@ -28,62 +61,29 @@ exports.parse = () => ({
               },
               end: {
                 line: 1,
-                column: 4,
-              },
-            },
-          },
-          property: {
-            type: "Identifier",
-            decorators: [],
-            name: "pow",
-            optional: false,
-            range: [5, 8],
-            loc: {
-              start: {
-                line: 1,
-                column: 5,
-              },
-              end: {
-                line: 1,
                 column: 8,
               },
             },
           },
-          computed: false,
-          optional: false,
-          range: [0, 8],
-          loc: {
-            start: {
-              line: 1,
-              column: 0,
-            },
-            end: {
-              line: 1,
-              column: 8,
-            },
-          },
-        },
-        arguments: [
-          {
-            type: "Identifier",
-            decorators: [],
-            name: "a",
-            optional: false,
-            range: [9, 10],
-            loc: {
-              start: {
-                line: 1,
-                column: 9,
-              },
-              end: {
-                line: 1,
-                column: 10,
+          arguments: [
+            {
+              type: "Identifier",
+              decorators: [],
+              name: "a",
+              optional: false,
+              range: [9, 10],
+              loc: {
+                start: {
+                  line: 1,
+                  column: 9,
+                },
+                end: {
+                  line: 1,
+                  column: 10,
+                },
               },
             },
-          },
-          {
-            type: "TSAsExpression",
-            expression: {
+            {
               type: "Identifier",
               decorators: [],
               name: "b",
@@ -100,34 +100,34 @@ exports.parse = () => ({
                 },
               },
             },
-            typeAnnotation: {
-              type: "TSAnyKeyword",
-              range: [17, 20],
-              loc: {
-                start: {
-                  line: 1,
-                  column: 17,
-                },
-                end: {
-                  line: 1,
-                  column: 20,
-                },
-              },
+          ],
+          optional: false,
+          range: [0, 14],
+          loc: {
+            start: {
+              line: 1,
+              column: 0,
             },
-            range: [12, 20],
-            loc: {
-              start: {
-                line: 1,
-                column: 12,
-              },
-              end: {
-                line: 1,
-                column: 20,
-              },
+            end: {
+              line: 1,
+              column: 14,
             },
           },
-        ],
-        optional: false,
+        },
+        typeAnnotation: {
+          type: "TSAnyKeyword",
+          range: [18, 21],
+          loc: {
+            start: {
+              line: 1,
+              column: 18,
+            },
+            end: {
+              line: 1,
+              column: 21,
+            },
+          },
+        },
         range: [0, 21],
         loc: {
           start: {
@@ -263,43 +263,43 @@ exports.parse = () => ({
       },
     },
     {
-      type: "Identifier",
-      value: "as",
-      range: [14, 16],
+      type: "Punctuator",
+      value: ")",
+      range: [13, 14],
       loc: {
         start: {
           line: 1,
-          column: 14,
+          column: 13,
         },
         end: {
           line: 1,
-          column: 16,
+          column: 14,
+        },
+      },
+    },
+    {
+      type: "Identifier",
+      value: "as",
+      range: [15, 17],
+      loc: {
+        start: {
+          line: 1,
+          column: 15,
+        },
+        end: {
+          line: 1,
+          column: 17,
         },
       },
     },
     {
       type: "Identifier",
       value: "any",
-      range: [17, 20],
+      range: [18, 21],
       loc: {
         start: {
           line: 1,
-          column: 17,
-        },
-        end: {
-          line: 1,
-          column: 20,
-        },
-      },
-    },
-    {
-      type: "Punctuator",
-      value: ")",
-      range: [20, 21],
-      loc: {
-        start: {
-          line: 1,
-          column: 20,
+          column: 18,
         },
         end: {
           line: 1,
@@ -318,5 +318,4 @@ exports.parse = () => ({
       column: 21,
     },
   },
-  parent: null,
 });

@@ -1466,6 +1466,36 @@ ruleTester.run("logical-assignment-operators", rule, {
             options: ["never"],
             parser: parser("typescript-parsers/logical-assignment-with-assertion"),
             errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "||=" } }]
+        },
+        {
+            code: "a.b.c || (a.b.c = d as number)",
+            output: null,
+            parser: parser("typescript-parsers/logical-with-assignment-with-assertion-1"),
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||=" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    data: { operator: "||=" },
+                    output: "a.b.c ||= d as number"
+                }]
+            }]
+        },
+        {
+            code: "a.b.c || (a.b.c = (d as number))",
+            output: null,
+            parser: parser("typescript-parsers/logical-with-assignment-with-assertion-2"),
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||=" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    data: { operator: "||=" },
+                    output: "a.b.c ||= (d as number)"
+                }]
+            }]
         }
     ]
 });

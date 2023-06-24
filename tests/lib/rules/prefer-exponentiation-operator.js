@@ -364,7 +364,29 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         {
             code: "Math.pow(a, b as any)",
             output: "a**(b as any)",
-            parser: parser("typescript-parsers/exponentiation-with-assertion"),
+            parser: parser("typescript-parsers/exponentiation-with-assertion-1"),
+            errors: [
+                {
+                    messageId: "useExponentiation",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "Math.pow(a as any, b)",
+            output: "(a as any)**b",
+            parser: parser("typescript-parsers/exponentiation-with-assertion-2"),
+            errors: [
+                {
+                    messageId: "useExponentiation",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "Math.pow(a, b) as any",
+            output: "(a**b) as any",
+            parser: parser("typescript-parsers/exponentiation-with-assertion-3"),
             errors: [
                 {
                     messageId: "useExponentiation",
