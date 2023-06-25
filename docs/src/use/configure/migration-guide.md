@@ -39,7 +39,7 @@ A few of the most notable differences between the eslintrc and flat config forma
 
 Eslintrc files use string-based import system inside the `plugins` property to load plugins and inside the `extends` property to load external configurations.
 
-Flat config files use CommonJS `require()` or ES module `import` statements to load plugins and custom parsers.
+Flat config files represent plugins and parsers as JavaScript objects. This means you can use CommonJS `require()` or ES module `import` statements to load plugins and custom parsers from external files.
 
 For example, this eslintrc config file loads `eslint-plugin-jsdoc` and configures rules from that plugin:
 
