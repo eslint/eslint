@@ -116,7 +116,7 @@ export default [
 
 ### Glob-Based Configs
 
-By default, eslintrc files lint all files (except those covered by `.gitignore`) in the directory in which they’re placed and its child directories. If you want to have different configurations for different file glob patterns, you can specify them in the `overrides` property.
+By default, eslintrc files lint all files (except those covered by `. eslintignore `) in the directory in which they’re placed and its child directories. If you want to have different configurations for different file glob patterns, you can specify them in the `overrides` property.
 
 By default, flat config files support different glob pattern-based configs in exported array. You can include the glob pattern in a config object's `files` property. If you don't specify a `files` property, the config defaults to the glob pattern `"**/*.{js,mjs,cjs}"`. Basically, all configuration in the flat config file is like the eslintrc `overrides` property.
 
@@ -210,7 +210,6 @@ export default [
 In eslintrc files, you configure various language options across the `env`, `globals` and `parserOptions` properties. Groups of global variables for specific runtimes (e.g `document` and `window` for browser JavaScript; `process` and `require` for Node.js ) are configured with the `env` property.
 
 In flat config files, the `globals`, and `parserOptions` are consolidated under the `languageOptions` key; the `env` property doesn't exist. Groups of global variables for specific runtimes are imported from the [globals](https://www.npmjs.com/package/globals) npm package and included in the `globals` property. You can use the spread operator (`...`) to import multiple globals at once.
-
 
 For example, here's a eslintrc file with language options:
 
