@@ -1197,9 +1197,10 @@ describe("Linter", () => {
             linter.defineRule("test-service-rule", {
                 create: context => ({
                     Literal(node) {
+                        assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
                         context.report({
                             node,
-                            message: context.parserServices.test.getMessage()
+                            message: context.sourceCode.parserServices.test.getMessage()
                         });
                     }
                 })
@@ -1219,9 +1220,10 @@ describe("Linter", () => {
             linter.defineRule("test-service-rule", {
                 create: context => ({
                     Literal(node) {
+                        assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
                         context.report({
                             node,
-                            message: context.parserServices.test.getMessage()
+                            message: context.sourceCode.parserServices.test.getMessage()
                         });
                     }
                 })
@@ -7956,9 +7958,10 @@ describe("Linter with FlatConfigArray", () => {
                                     "test-service-rule": {
                                         create: context => ({
                                             Literal(node) {
+                                                assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
                                                 context.report({
                                                     node,
-                                                    message: context.parserServices.test.getMessage()
+                                                    message: context.sourceCode.parserServices.test.getMessage()
                                                 });
                                             }
                                         })
@@ -7992,9 +7995,10 @@ describe("Linter with FlatConfigArray", () => {
                                     "test-service-rule": {
                                         create: context => ({
                                             Literal(node) {
+                                                assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
                                                 context.report({
                                                     node,
-                                                    message: context.parserServices.test.getMessage()
+                                                    message: context.sourceCode.parserServices.test.getMessage()
                                                 });
                                             }
                                         })
