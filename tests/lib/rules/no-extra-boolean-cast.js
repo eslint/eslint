@@ -2430,7 +2430,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!Boolean(a as any)) {}",
             output: "if (!(a as any)) {}",
-            options: [{ enforceForLogicalOperands: true }],
             parser: parser("typescript-parsers/boolean-cast-with-assertion"),
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall" }]

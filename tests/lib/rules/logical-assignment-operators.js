@@ -1496,6 +1496,21 @@ ruleTester.run("logical-assignment-operators", rule, {
                     output: "a.b.c ||= (d as number)"
                 }]
             }]
+        },
+        {
+            code: "(a.b.c || (a.b.c = d)) as number",
+            output: null,
+            parser: parser("typescript-parsers/logical-with-assignment-with-assertion-3"),
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||=" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    data: { operator: "||=" },
+                    output: "(a.b.c ||= d) as number"
+                }]
+            }]
         }
     ]
 });

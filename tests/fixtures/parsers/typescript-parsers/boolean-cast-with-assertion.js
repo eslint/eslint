@@ -136,7 +136,7 @@ exports.parse = () => ({
     },
   ],
   comments: [],
-  range: [0, 28],
+  range: [0, 27],
   sourceType: "script",
   tokens: [
     {
@@ -326,8 +326,8 @@ exports.parse = () => ({
       column: 0,
     },
     end: {
-      line: 2,
-      column: 0,
+      line: 1,
+      column: 27,
     },
   },
 });
