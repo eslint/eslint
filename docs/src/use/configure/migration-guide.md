@@ -104,13 +104,13 @@ In flat config, you would do the same thing like this:
 import babelParser from "@babel/eslint-parser";
 
 export default [
-   {
-       // ...other config
-       languageOptions: {
-           parser: babelParser
-       }
-       // ...other config
-   }
+    {
+        // ...other config
+        languageOptions: {
+            parser: babelParser
+        }
+        // ...other config
+    }
 ];
 ```
 
@@ -171,8 +171,8 @@ export default [
     // Override the recommended config
     {
         rules: {
-           indent: ["error", 2],
-           "no-unused-vars": "warn"
+            indent: ["error", 2],
+            "no-unused-vars": "warn"
         }
         // ...other configuration
     }
