@@ -3,7 +3,7 @@
 /**
  * Parser: @typescript-eslint/parser 5.59.11 (TS 5.1.3)
  * Source code:
- * if (!Boolean(a as any)) {}
+ * if (!Boolean(a as any)) { }
  */
 
 exports.parse = () => ({

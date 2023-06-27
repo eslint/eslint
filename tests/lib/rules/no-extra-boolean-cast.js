@@ -2428,8 +2428,8 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 
         // https://github.com/eslint/eslint/issues/17173
         {
-            code: "if (!Boolean(a as any)) {}",
-            output: "if (!(a as any)) {}",
+            code: "if (!Boolean(a as any)) { }",
+            output: "if (!(a as any)) { }",
             parser: parser("typescript-parsers/boolean-cast-with-assertion"),
             parserOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall" }]
