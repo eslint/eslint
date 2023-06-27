@@ -1857,4 +1857,22 @@ describe("ast-utils", () => {
             });
         });
     });
+
+    describe("isStaticTemplateLiteral", () => {
+        const expectedResults = {
+            "``": true,
+            "`foo`": true,
+            "`foo${bar}`": false,
+            "\"foo\"": false,
+            "foo`bar`": false
+        };
+
+        Object.entries(expectedResults).forEach(([code, expectedResult]) => {
+            it(`returns ${expectedResult} for ${code}`, () => {
+                const ast = espree.parse(code, { ecmaVersion: 6 });
+
+                assert.strictEqual(astUtils.isStaticTemplateLiteral(ast.body[0].expression), expectedResult);
+            });
+        });
+    });
 });
