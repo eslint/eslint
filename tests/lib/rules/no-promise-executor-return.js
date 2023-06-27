@@ -252,13 +252,31 @@ ruleTester.run("no-promise-executor-return", rule, {
             "new Promise(r => {1})"
         ]),
         suggestion({
+            code: "new Promise(r => 1 ? 2 : 3)",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(r => void (1 ? 2 : 3))",
+            "new Promise(r => {1 ? 2 : 3})"
+        ]),
+        suggestion({
+            code: "new Promise(r => (1 ? 2 : 3))",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(r => void (1 ? 2 : 3))",
+            "new Promise(r => {(1 ? 2 : 3)})"
+        ]),
+        suggestion({
             code:
                 "new Promise(r => (1))",
             options: [{
                 allowVoid: true
             }]
         }, [
-            "new Promise(r => (void 1))",
+            "new Promise(r => void (1))",
             "new Promise(r => {(1)})"
         ]),
         suggestion({
@@ -351,7 +369,7 @@ ruleTester.run("no-promise-executor-return", rule, {
                 allowVoid: true
             }]
         }, [
-            "new Promise(r => ((void 1)))",
+            "new Promise(r => void ((1)))",
             "new Promise(r => {((1))})"
         ]),
 
