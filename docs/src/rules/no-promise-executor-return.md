@@ -60,6 +60,10 @@ new Promise((resolve, reject) => getSomething((err, data) => {
     }
 }));
 
+new Promise(() => {
+    return 1;
+});
+
 new Promise(r => r(1));
 ```
 
@@ -95,15 +99,19 @@ new Promise((resolve, reject) => {
         } else {
             resolve(data);
         }
-    }
-}));
+    });
+});
 
 new Promise(r => { r(1) });
 // or just use Promise.resolve
 Promise.resolve(1);
 ```
 
-The option `allowVoid` will additionally allow returning `void` from the executor function.
+## Options
+
+This rule takes one option, an object, with the following properties:
+
+* `allowVoid`: If set to `true` (`false` by default), this rule will allow returning void values.
 
 ```js
 /*eslint no-promise-executor-return: ["error", { allowVoid: true }]*/
