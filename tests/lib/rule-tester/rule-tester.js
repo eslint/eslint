@@ -1248,7 +1248,9 @@ describe("RuleTester", () => {
         const disallowHiRule = {
             create: context => ({
                 Literal(node) {
-                    const disallowed = context.parserServices.test.getMessage(); // returns "Hi!"
+                    assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
+
+                    const disallowed = context.sourceCode.parserServices.test.getMessage(); // returns "Hi!"
 
                     if (node.value === disallowed) {
                         context.report({ node, message: `Don't use '${disallowed}'` });

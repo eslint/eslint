@@ -131,7 +131,7 @@ The `context` object has the following properties:
 * `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
 * `settings`: (`object`) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from the configuration.
 * `parserPath`: (`string`) The name of the `parser` from the configuration.
-* `parserServices`: (`object`) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
+* `parserServices`: (**Deprecated:** Use `SourceCode#parserServices` instead.) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 * `parserOptions`: The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
 
 Additionally, the `context` object has the following methods:
@@ -575,6 +575,7 @@ There are also some properties you can access:
 * `ast`: (`object`) `Program` node of the AST for the code being linted.
 * `scopeManager`: [ScopeManager](./scope-manager-interface#scopemanager-interface) object of the code.
 * `visitorKeys`: (`object`) Visitor keys to traverse this AST.
+* `parserServices`: (`object`) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 * `lines`: (`array`) Array of lines, split according to the specification's definition of line breaks.
 
 You should use a `SourceCode` object whenever you need to get more information about the code being linted.
