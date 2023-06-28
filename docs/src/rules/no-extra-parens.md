@@ -31,9 +31,9 @@ This rule has a string option:
 This rule has an object option for exceptions to the `"all"` option:
 
 * `"conditionalAssign": false` allows extra parentheses around assignments in conditional test expressions
-* `"ternaryOperandBinaryExpressions": false` allows extra parentheses around condition in ternary expressions
 * `"returnAssign": false` allows extra parentheses around assignments in `return` statements
 * `"nestedBinaryExpressions": false` allows extra parentheses in nested binary expressions
+* `"ternaryOperandBinaryExpressions": false` allows extra parentheses around binary expressions that are operands of ternary` ?:`
 * `"ignoreJSX": "none|all|multi-line|single-line"` allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to `none`.
 * `"enforceForArrowConditionals": false` allows extra parentheses around ternary expressions which are the body of an arrow function
 * `"enforceForSequenceExpressions": false` allows extra parentheses around sequence expressions
@@ -141,6 +141,12 @@ Examples of **correct** code for this rule with the `"all"` and `{ "ternaryOpera
 (a && b) ? foo : bar
 
 (a - b > a) ? foo : bar
+
+foo ? (bar || baz) : qux
+
+foo ? bar : (baz || qux)
+
+(a, b) ? (c, d) : (e, f)
 ```
 
 ### returnAssign
