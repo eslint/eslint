@@ -6361,7 +6361,156 @@ ruleTester.run("indent", rule, {
                 ;[1, 2, 3].forEach(x=>console.log(x))
             `,
             options: [4]
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/17316
+        {
+            code: unIndent`
+                if (foo)
+                \tif (bar) doSomething();
+                \telse doSomething();
+                else
+                \tif (bar) doSomething();
+                \telse doSomething();
+            `,
+            options: ["tab"]
+        },
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (bar) doSomething();
+                else doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (bar)
+                    doSomething();
+                else doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (bar) doSomething();
+                else
+                    doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (bar)
+                    doSomething();
+                else
+                    doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (bar) doSomething();
+            else doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (bar)
+                doSomething();
+            else doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (bar) doSomething();
+            else
+                doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (bar)
+                doSomething();
+            else
+                doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                    if (bar) doSomething();
+                    else doSomething();
+
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (foo)
+                    if (bar) doSomething();
+                    else
+                        if (bar) doSomething();
+                        else doSomething();
+                else doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (foo) doSomething();
+            else doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (foo) {
+                doSomething();
+            }
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (foo)
+            {
+                doSomething();
+            }
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (foo) {
+                    doSomething();
+                }
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (foo)
+                {
+                    doSomething();
+                }
+        `
     ],
 
     invalid: [
@@ -13381,6 +13530,31 @@ ruleTester.run("indent", rule, {
             `,
             options: [4],
             errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+
+        // https://github.com/eslint/eslint/issues/17316
+        {
+            code: unIndent`
+                if (foo)
+                \tif (bar) doSomething();
+                \telse doSomething();
+                else
+                if (bar) doSomething();
+                else doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                \tif (bar) doSomething();
+                \telse doSomething();
+                else
+                \tif (bar) doSomething();
+                \telse doSomething();
+            `,
+            options: ["tab"],
+            errors: expectedErrors("tab", [
+                [5, 1, 0, "Keyword"],
+                [6, 1, 0, "Keyword"]
+            ])
         }
     ]
 });
