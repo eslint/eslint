@@ -9,7 +9,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/logical-assignment-operators"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -1456,5 +1457,60 @@ ruleTester.run("logical-assignment-operators", rule, {
             output: "a = a ?? b + c",
             options: ["never"],
             errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "??=" } }]
-        }]
+        },
+
+        // https://github.com/eslint/eslint/issues/17173
+        {
+            code: "a ||= b as number;",
+            output: "a = a || (b as number);",
+            options: ["never"],
+            parser: parser("typescript-parsers/logical-assignment-with-assertion"),
+            errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "||=" } }]
+        },
+        {
+            code: "a.b.c || (a.b.c = d as number)",
+            output: null,
+            parser: parser("typescript-parsers/logical-with-assignment-with-assertion-1"),
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||=" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    data: { operator: "||=" },
+                    output: "a.b.c ||= d as number"
+                }]
+            }]
+        },
+        {
+            code: "a.b.c || (a.b.c = (d as number))",
+            output: null,
+            parser: parser("typescript-parsers/logical-with-assignment-with-assertion-2"),
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||=" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    data: { operator: "||=" },
+                    output: "a.b.c ||= (d as number)"
+                }]
+            }]
+        },
+        {
+            code: "(a.b.c || (a.b.c = d)) as number",
+            output: null,
+            parser: parser("typescript-parsers/logical-with-assignment-with-assertion-3"),
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||=" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    data: { operator: "||=" },
+                    output: "(a.b.c ||= d) as number"
+                }]
+            }]
+        }
+    ]
 });
