@@ -131,24 +131,6 @@ for (;(a = b););
 
 :::
 
-### ternaryOperandBinaryExpressions
-
-Examples of **correct** code for this rule with the `"all"` and `{ "ternaryOperandBinaryExpressions": false }` options:
-
-```js
-/* eslint no-extra-parens: ["error", "all", { "ternaryOperandBinaryExpressions": false }] */
-
-(a && b) ? foo : bar
-
-(a - b > a) ? foo : bar
-
-foo ? (bar || baz) : qux
-
-foo ? bar : (baz || qux)
-
-(a, b) ? (c, d) : (e, f)
-```
-
 ### returnAssign
 
 Examples of **correct** code for this rule with the `"all"` and `{ "returnAssign": false }` options:
@@ -188,6 +170,26 @@ x = (a * b) / c;
 ```
 
 :::
+
+### ternaryOperandBinaryExpressions
+
+Examples of **correct** code for this rule with the `"all"` and `{ "ternaryOperandBinaryExpressions": false }` options:
+
+```js
+/* eslint no-extra-parens: ["error", "all", { "ternaryOperandBinaryExpressions": false }] */
+
+(a && b) ? foo : bar;
+
+(a - b > a) ? foo : bar;
+
+foo ? (bar || baz) : qux;
+
+foo ? bar : (baz || qux);
+
+(a, b) ? (c, d) : (e, f);
+
+(a = b) ? c : d;
+```
 
 ### ignoreJSX
 
