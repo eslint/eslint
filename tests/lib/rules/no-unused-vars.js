@@ -417,6 +417,20 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "import.meta",
             parserOptions: { ecmaVersion: 2020, sourceType: "module" }
+        },
+
+        // https://github.com/eslint/eslint/issues/17299
+        {
+            code: "var a; a ||= 1;",
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "var a; a &&= 1;",
+            parserOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "var a; a ??= 1;",
+            parserOptions: { ecmaVersion: 2021 }
         }
     ],
     invalid: [
