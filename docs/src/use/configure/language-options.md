@@ -26,6 +26,8 @@ An environment provides predefined global variables. The available environments 
 * `es2020` - adds all ECMAScript 2020 globals and automatically sets the `ecmaVersion` parser option to 11.
 * `es2021` - adds all ECMAScript 2021 globals and automatically sets the `ecmaVersion` parser option to 12.
 * `es2022` - adds all ECMAScript 2022 globals and automatically sets the `ecmaVersion` parser option to 13.
+* `es2023` - adds all ECMAScript 2023 globals and automatically sets the `ecmaVersion` parser option to 14.
+* `es2024` - adds all ECMAScript 2024 globals and automatically sets the `ecmaVersion` parser option to 15.
 * `worker` - web workers global variables.
 * `amd` - defines `require()` and `define()` as global variables as per the [amd](https://github.com/amdjs/amdjs-api/blob/master/AMD.md) spec.
 * `mocha` - adds all of the Mocha testing global variables.

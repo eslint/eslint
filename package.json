@@ -62,7 +62,7 @@
   "dependencies": {
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.4.0",
-    "@eslint/eslintrc": "^2.0.3",
+    "@eslint/eslintrc": "github:eslint/eslintrc",
     "@eslint/js": "8.43.0",
     "@humanwhocodes/config-array": "^0.11.10",
     "@humanwhocodes/module-importer": "^1.0.1",
