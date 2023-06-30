@@ -175,6 +175,8 @@ x = (a * b) / c;
 
 Examples of **correct** code for this rule with the `"all"` and `{ "ternaryOperandBinaryExpressions": false }` options:
 
+::: correct
+
 ```js
 /* eslint no-extra-parens: ["error", "all", { "ternaryOperandBinaryExpressions": false }] */
 
@@ -186,6 +188,8 @@ foo ? (bar || baz) : qux;
 
 foo ? bar : (baz || qux);
 ```
+
+:::
 
 ### ignoreJSX
 
