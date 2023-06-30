@@ -4938,7 +4938,7 @@ var a = "test2";
             });
 
             it("supports ECMAScript version 'latest'", () => {
-                const messages = linter.verify("let x = 5 ** 7;", {
+                const messages = linter.verify("let x = /[\\q{abc|d}&&[A--B]]/v;", {
                     parserOptions: { ecmaVersion: "latest" }
                 });
                 const suppressedMessages = linter.getSuppressedMessages();
