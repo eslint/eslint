@@ -1,3 +1,28 @@
+v8.44.0 - June 30, 2023
+
+* [`49e46ed`](https://github.com/eslint/eslint/commit/49e46edf3c8dc71d691a97fc33b63ed80ae0db0c) chore: upgrade @eslint/js@8.44.0 (#17329) (Milos Djermanovic)
+* [`a1cb642`](https://github.com/eslint/eslint/commit/a1cb6421f9d185901cd99e5f696e912226ef6632) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`1766771`](https://github.com/eslint/eslint/commit/176677180a4a1209fc192771521c9192e1f67578) feat: add `es2023` and `es2024` environments (#17328) (Milos Djermanovic)
+* [`4c50400`](https://github.com/eslint/eslint/commit/4c5040022639ae804c15b366afc6e64982bd8ae3) feat: add `ecmaVersion: 2024`, regexp `v` flag parsing (#17324) (Milos Djermanovic)
+* [`4d411e4`](https://github.com/eslint/eslint/commit/4d411e4c7063274d6d346f1b7ee46f7575d0bbd2) feat: add ternaryOperandBinaryExpressions option to no-extra-parens rule (#17270) (Percy Ma)
+* [`840a264`](https://github.com/eslint/eslint/commit/840a26462bbf6c27c52c01b85ee2018062157951) test: More test cases for no-case-declarations (#17315) (Elian Cordoba)
+* [`e6e74f9`](https://github.com/eslint/eslint/commit/e6e74f9eef0448129dd4775628aba554a2d8c8c9) chore: package.json update for eslint-config-eslint release (ESLint Jenkins)
+* [`eb3d794`](https://github.com/eslint/eslint/commit/eb3d7946e1e9f70254008744dba2397aaa730114) chore: upgrade semver@7.5.3 (#17323) (Ziyad El Abid)
+* [`a36bcb6`](https://github.com/eslint/eslint/commit/a36bcb67f26be42c794797d0cc9948b9cfd4ff71) fix: no-unused-vars false positive with logical assignment operators (#17320) (Gweesin Chan)
+* [`c8b1f4d`](https://github.com/eslint/eslint/commit/c8b1f4d61a256727755d561bf53f889b6cd712e0) feat: Move `parserServices` to `SourceCode` (#17311) (Milos Djermanovic)
+* [`cf88439`](https://github.com/eslint/eslint/commit/cf884390ad8071d88eae05df9321100f1770363d) chore: upgrade optionator@0.9.3 (#17319) (Milos Djermanovic)
+* [`7620b89`](https://github.com/eslint/eslint/commit/7620b891e81c234f30f9dbcceb64a05fd0dde65e) fix: Remove `no-unused-labels` autofix before potential directives (#17314) (Francesco Trotta)
+* [`ef6e24e`](https://github.com/eslint/eslint/commit/ef6e24e42670f321d996948623846d9caaedac99) feat: treat unknown nodes as having the lowest precedence (#17302) (Brad Zacher)
+* [`9718a97`](https://github.com/eslint/eslint/commit/9718a9781d69d2c40b68c631aed97700b32c0082) refactor: remove unnecessary code in `flat-eslint.js` (#17308) (Milos Djermanovic)
+* [`1866e1d`](https://github.com/eslint/eslint/commit/1866e1df6175e4ba0ae4a0d88dc3c956bb310035) feat: allow flat config files to export a Promise (#17301) (Milos Djermanovic)
+* [`f82e56e`](https://github.com/eslint/eslint/commit/f82e56e9acfb9562ece76441472d5657d7d5e296) perf: various performance improvements (#17135) (moonlightaria)
+* [`da81e66`](https://github.com/eslint/eslint/commit/da81e66e22b4f3d3fe292cf70c388753304deaad) chore: update eslint-plugin-jsdoc to 46.2.5 (#17245) (唯然)
+* [`526e911`](https://github.com/eslint/eslint/commit/526e91106e6fe101578e9478a9d7f4844d4f72ac) docs: resubmit pr 17115 doc changes (#17291) (唯然)
+* [`b991640`](https://github.com/eslint/eslint/commit/b991640176d5dce4750f7cc71c56cd6f284c882f) chore: switch eslint-config-eslint to the flat format (#17247) (唯然)
+* [`391ed38`](https://github.com/eslint/eslint/commit/391ed38b09bd1a3abe85db65b8fcda980ab3d6f4) fix: Remove `no-extra-semi` autofix before potential directives (#17297) (Francesco Trotta)
+* [`e1314bf`](https://github.com/eslint/eslint/commit/e1314bf85a52bb0d05b1c9ca3b4c1732bae22172) docs: Integration section and tutorial (#17132) (Ben Perlmutter)
+* [`19a8c5d`](https://github.com/eslint/eslint/commit/19a8c5d84596a9f7f2aa428c1696ba86daf854e6) docs: Update README (GitHub Actions Bot)
+
 v8.43.0 - June 16, 2023
 
 * [`78350f6`](https://github.com/eslint/eslint/commit/78350f63045c82b7990bb7bfe5080c5ad5e1c3f5) chore: upgrade @eslint/js@8.43.0 (#17295) (Milos Djermanovic)
