@@ -185,10 +185,6 @@ Examples of **correct** code for this rule with the `"all"` and `{ "ternaryOpera
 foo ? (bar || baz) : qux;
 
 foo ? bar : (baz || qux);
-
-(a, b) ? (c, d) : (e, f);
-
-(a = b) ? c : d;
 ```
 
 ### ignoreJSX
