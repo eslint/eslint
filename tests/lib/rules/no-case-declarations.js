@@ -35,9 +35,49 @@ ruleTester.run("no-case-declarations", rule, {
         {
             code: "switch (a) { case 1: { class C {} break; } default: { class C {} break; } }",
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: `
+                switch (a) { 
+                    case 1: 
+                    case 2: {} 
+                }
+            `,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: `
+                switch (a) {
+                    case 1: var x; 
+                }
+            `,
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
+        {
+            code: `
+                switch (a) { 
+                    case 1: 
+                        {} 
+                        function f() {} 
+                        break; 
+                }
+            `,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "FunctionDeclaration" }]
+        },
+        {
+            code: `
+                switch (a) { 
+                    case 1: 
+                    case 2: 
+                        let x; 
+                }
+            `,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }]
+        },
         {
             code: "switch (a) { case 1: let x = 1; break; }",
             parserOptions: { ecmaVersion: 6 },
