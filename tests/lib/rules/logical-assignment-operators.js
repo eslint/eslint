@@ -336,6 +336,36 @@ ruleTester.run("logical-assignment-operators", rule, {
                 "}"
             ].join("\n"),
             options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (a == undefined) a ??= b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (a == null) a ??= b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (a === null || a === undefined) a ??= b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (a === undefined || a === null) a ??= b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (a === null || a === void 0) a ??= b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: "if (a === void 0 || a === null) a ??= b",
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: [
+                "{ const undefined = 0; }",
+                "if (a == undefined) a ??= b"
+            ].join("\n"),
+            options: ["always", { enforceForIfStatements: true }]
+        }, {
+            code: [
+                "if (a == undefined) a ??= b",
+                "{ const undefined = 0; }"
+            ].join("\n"),
+            options: ["always", { enforceForIfStatements: true }]
         },
 
         // Never
@@ -951,62 +981,10 @@ ruleTester.run("logical-assignment-operators", rule, {
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement", data: { operator: "||=" } }]
         }, {
-            code: "if (a == undefined) a ??= b",
-            output: "a ??= b",
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement", data: { operator: "??=" } }]
-        }, {
-            code: "if (a == null) a ??= b",
-            output: "a ??= b",
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement", data: { operator: "??=" } }]
-        }, {
-            code: "if (a === null || a === undefined) a ??= b",
-            output: "a ??= b",
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement", data: { operator: "??=" } }]
-        }, {
-            code: "if (a === undefined || a === null) a ??= b",
-            output: "a ??= b",
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement", data: { operator: "??=" } }]
-        }, {
-            code: "if (a === null || a === void 0) a ??= b",
-            output: "a ??= b",
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement", data: { operator: "??=" } }]
-        }, {
-            code: "if (a === void 0 || a === null) a ??= b",
-            output: "a ??= b",
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement", data: { operator: "??=" } }]
-        }, {
             code: "if (a) { a &&= b; }",
             output: "a &&= b;",
             options: ["always", { enforceForIfStatements: true }],
             errors: [{ messageId: "if", type: "IfStatement", data: { operator: "&&=" } }]
-        }, {
-            code: [
-                "{ const undefined = 0; }",
-                "if (a == undefined) a ??= b"
-            ].join("\n"),
-            output: [
-                "{ const undefined = 0; }",
-                "a ??= b"
-            ].join("\n"),
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement", data: { operator: "??=" } }]
-        }, {
-            code: [
-                "if (a == undefined) a ??= b",
-                "{ const undefined = 0; }"
-            ].join("\n"),
-            output: [
-                "a ??= b",
-                "{ const undefined = 0; }"
-            ].join("\n"),
-            options: ["always", { enforceForIfStatements: true }],
-            errors: [{ messageId: "if", type: "IfStatement", data: { operator: "??=" } }]
         },
 
         // > Yoda
