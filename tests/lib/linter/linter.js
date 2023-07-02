@@ -15917,6 +15917,171 @@ var a = "test2";
 
                 assert.strictEqual(suppressedMessages.length, 0);
             });
+
+            // https://github.com/eslint/eslint/issues/16716
+            it("should receive unique range arrays in suggestions", () => {
+                const configs = [
+                    {
+                        plugins: {
+                            "test-processors": {
+                                processors: {
+                                    "line-processor": (() => {
+                                        const blocksMap = new Map();
+
+                                        return {
+                                            preprocess(text, fileName) {
+                                                const lines = text.split("\n");
+
+                                                blocksMap.set(fileName, lines);
+
+                                                return lines.map((line, index) => ({
+                                                    text: line,
+                                                    filename: `${index}.js`
+                                                }));
+                                            },
+
+                                            postprocess(messageLists, fileName) {
+                                                const lines = blocksMap.get(fileName);
+                                                let rangeOffset = 0;
+
+                                                // intentionaly mutates objects and arrays
+                                                messageLists.forEach((messages, index) => {
+                                                    messages.forEach(message => {
+                                                        message.line += index;
+                                                        if (typeof message.endLine === "number") {
+                                                            message.endLine += index;
+                                                        }
+                                                        if (message.fix) {
+                                                            message.fix.range[0] += rangeOffset;
+                                                            message.fix.range[1] += rangeOffset;
+                                                        }
+                                                        if (message.suggestions) {
+                                                            message.suggestions.forEach(suggestion => {
+                                                                suggestion.fix.range[0] += rangeOffset;
+                                                                suggestion.fix.range[1] += rangeOffset;
+                                                            });
+                                                        }
+                                                    });
+                                                    rangeOffset += lines[index].length + 1;
+                                                });
+
+                                                return messageLists.flat();
+                                            },
+
+                                            supportsAutofix: true
+                                        };
+                                    })()
+                                }
+                            },
+
+                            "test-rules": {
+                                rules: {
+                                    "no-foo": {
+                                        meta: {
+                                            hasSuggestions: true,
+                                            messages: {
+                                                unexpected: "Don't use 'foo'.",
+                                                replaceWithBar: "Replace with 'bar'",
+                                                replaceWithBaz: "Replace with 'baz'"
+                                            }
+
+                                        },
+                                        create(context) {
+                                            return {
+                                                Identifier(node) {
+                                                    const { range } = node;
+
+                                                    if (node.name === "foo") {
+                                                        context.report({
+                                                            node,
+                                                            messageId: "unexpected",
+                                                            suggest: [
+                                                                {
+                                                                    messageId: "replaceWithBar",
+                                                                    fix: () => ({ range, text: "bar" })
+                                                                },
+                                                                {
+                                                                    messageId: "replaceWithBaz",
+                                                                    fix: () => ({ range, text: "baz" })
+                                                                }
+                                                            ]
+                                                        });
+                                                    }
+                                                }
+                                            };
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        files: ["**/*.txt"],
+                        processor: "test-processors/line-processor"
+                    },
+                    {
+                        files: ["**/*.js"],
+                        rules: {
+                            "test-rules/no-foo": 2
+                        }
+                    }
+                ];
+
+                const result = linter.verifyAndFix(
+                    "var a = 5;\nvar foo;\nfoo = a;",
+                    configs,
+                    { filename: "a.txt" }
+                );
+
+                assert.deepStrictEqual(result.messages, [
+                    {
+                        ruleId: "test-rules/no-foo",
+                        severity: 2,
+                        message: "Don't use 'foo'.",
+                        line: 2,
+                        column: 5,
+                        nodeType: "Identifier",
+                        messageId: "unexpected",
+                        endLine: 2,
+                        endColumn: 8,
+                        suggestions: [
+                            {
+                                messageId: "replaceWithBar",
+                                fix: { range: [15, 18], text: "bar" },
+                                desc: "Replace with 'bar'"
+                            },
+                            {
+                                messageId: "replaceWithBaz",
+                                fix: { range: [15, 18], text: "baz" },
+                                desc: "Replace with 'baz'"
+                            }
+                        ]
+                    },
+                    {
+                        ruleId: "test-rules/no-foo",
+                        severity: 2,
+                        message: "Don't use 'foo'.",
+                        line: 3,
+                        column: 1,
+                        nodeType: "Identifier",
+                        messageId: "unexpected",
+                        endLine: 3,
+                        endColumn: 4,
+                        suggestions: [
+                            {
+                                messageId: "replaceWithBar",
+                                fix: { range: [20, 23], text: "bar" },
+                                desc: "Replace with 'bar'"
+                            },
+                            {
+                                messageId: "replaceWithBaz",
+                                fix: { range: [20, 23], text: "baz" },
+                                desc: "Replace with 'baz'"
+                            }
+                        ]
+                    }
+                ]);
+            });
         });
     });
 
