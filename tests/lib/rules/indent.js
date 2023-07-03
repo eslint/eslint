@@ -6361,7 +6361,156 @@ ruleTester.run("indent", rule, {
                 ;[1, 2, 3].forEach(x=>console.log(x))
             `,
             options: [4]
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/17316
+        {
+            code: unIndent`
+                if (foo)
+                \tif (bar) doSomething();
+                \telse doSomething();
+                else
+                \tif (bar) doSomething();
+                \telse doSomething();
+            `,
+            options: ["tab"]
+        },
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (bar) doSomething();
+                else doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (bar)
+                    doSomething();
+                else doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (bar) doSomething();
+                else
+                    doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (bar)
+                    doSomething();
+                else
+                    doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (bar) doSomething();
+            else doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (bar)
+                doSomething();
+            else doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (bar) doSomething();
+            else
+                doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (bar)
+                doSomething();
+            else
+                doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                    if (bar) doSomething();
+                    else doSomething();
+
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (foo)
+                    if (bar) doSomething();
+                    else
+                        if (bar) doSomething();
+                        else doSomething();
+                else doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (foo) doSomething();
+            else doSomething();
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (foo) {
+                doSomething();
+            }
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else if (foo)
+            {
+                doSomething();
+            }
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (foo) {
+                    doSomething();
+                }
+        `,
+        unIndent`
+            if (foo)
+                if (bar) doSomething();
+                else doSomething();
+            else
+                if (foo)
+                {
+                    doSomething();
+                }
+        `
     ],
 
     invalid: [
@@ -13381,6 +13530,432 @@ ruleTester.run("indent", rule, {
             `,
             options: [4],
             errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+
+        // https://github.com/eslint/eslint/issues/17316
+        {
+            code: unIndent`
+                if (foo)
+                \tif (bar) doSomething();
+                \telse doSomething();
+                else
+                if (bar) doSomething();
+                else doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                \tif (bar) doSomething();
+                \telse doSomething();
+                else
+                \tif (bar) doSomething();
+                \telse doSomething();
+            `,
+            options: ["tab"],
+            errors: expectedErrors("tab", [
+                [5, 1, 0, "Keyword"],
+                [6, 1, 0, "Keyword"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                \tif (bar) doSomething();
+                \telse doSomething();
+                else
+                \t\tif (bar) doSomething();
+                \t\telse doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                \tif (bar) doSomething();
+                \telse doSomething();
+                else
+                \tif (bar) doSomething();
+                \telse doSomething();
+            `,
+            options: ["tab"],
+            errors: expectedErrors("tab", [
+                [5, 1, 2, "Keyword"],
+                [6, 1, 2, "Keyword"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                if (bar) doSomething();
+                else doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                    if (bar) doSomething();
+                    else doSomething();
+            `,
+            errors: expectedErrors([
+                [5, 4, 0, "Keyword"],
+                [6, 4, 0, "Keyword"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                if (bar)
+                doSomething();
+                else doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                    if (bar)
+                        doSomething();
+                    else doSomething();
+            `,
+            errors: expectedErrors([
+                [5, 4, 0, "Keyword"],
+                [6, 8, 0, "Identifier"],
+                [7, 4, 0, "Keyword"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                if (bar) doSomething();
+                else
+                doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                    if (bar) doSomething();
+                    else
+                        doSomething();
+            `,
+            errors: expectedErrors([
+                [5, 4, 0, "Keyword"],
+                [6, 4, 0, "Keyword"],
+                [7, 8, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                if (bar)
+                    doSomething();
+                else
+                doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                    if (bar)
+                        doSomething();
+                    else
+                        doSomething();
+            `,
+            errors: expectedErrors([
+                [5, 4, 0, "Keyword"],
+                [6, 8, 4, "Identifier"],
+                [7, 4, 0, "Keyword"],
+                [8, 8, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else if (bar) doSomething();
+                    else doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else if (bar) doSomething();
+                else doSomething();
+            `,
+            errors: expectedErrors([
+                [5, 0, 4, "Keyword"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                    else if (bar)
+                        doSomething();
+                    else doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else if (bar)
+                    doSomething();
+                else doSomething();
+            `,
+            errors: expectedErrors([
+                [4, 0, 4, "Keyword"],
+                [5, 4, 8, "Identifier"],
+                [6, 0, 4, "Keyword"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else if (bar) doSomething();
+                     else
+                         doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else if (bar) doSomething();
+                else
+                    doSomething();
+            `,
+            errors: expectedErrors([
+                [5, 0, 5, "Keyword"],
+                [6, 4, 9, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else if (bar)
+                doSomething();
+                else
+                doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else if (bar)
+                    doSomething();
+                else
+                    doSomething();
+            `,
+            errors: expectedErrors([
+                [5, 4, 0, "Identifier"],
+                [7, 4, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                    if (bar) doSomething();
+                    else doSomething();
+
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                    if (foo)
+                        if (bar) doSomething();
+                        else doSomething();
+                    else
+                        if (bar) doSomething();
+                        else doSomething();
+
+            `,
+            errors: expectedErrors([
+                [5, 4, 0, "Keyword"],
+                [6, 8, 4, "Keyword"],
+                [7, 8, 4, "Keyword"],
+                [8, 4, 0, "Keyword"],
+                [9, 8, 4, "Keyword"],
+                [10, 8, 4, "Keyword"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                if (foo)
+                if (bar) doSomething();
+                else
+                if (bar) doSomething();
+                else doSomething();
+                else doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                    if (foo)
+                        if (bar) doSomething();
+                        else
+                            if (bar) doSomething();
+                            else doSomething();
+                    else doSomething();
+            `,
+            errors: expectedErrors([
+                [5, 4, 0, "Keyword"],
+                [6, 8, 0, "Keyword"],
+                [7, 8, 0, "Keyword"],
+                [8, 12, 0, "Keyword"],
+                [9, 12, 0, "Keyword"],
+                [10, 4, 0, "Keyword"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                if (bar) doSomething();
+                else doSomething();
+                else if (foo) doSomething();
+                    else doSomething();
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else if (foo) doSomething();
+                else doSomething();
+            `,
+            errors: expectedErrors([
+                [2, 4, 0, "Keyword"],
+                [3, 4, 0, "Keyword"],
+                [5, 0, 4, "Keyword"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else if (foo) {
+                doSomething();
+                }
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else if (foo) {
+                    doSomething();
+                }
+            `,
+            errors: expectedErrors([
+                [5, 4, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else if (foo)
+                    {
+                        doSomething();
+                    }
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else if (foo)
+                {
+                    doSomething();
+                }
+            `,
+            errors: expectedErrors([
+                [5, 0, 4, "Punctuator"],
+                [6, 4, 8, "Identifier"],
+                [7, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                if (foo) {
+                    doSomething();
+                }
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                    if (foo) {
+                        doSomething();
+                    }
+            `,
+            errors: expectedErrors([
+                [5, 4, 0, "Keyword"],
+                [6, 8, 4, "Identifier"],
+                [7, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                if (foo)
+                {
+                    doSomething();
+                }
+            `,
+            output: unIndent`
+                if (foo)
+                    if (bar) doSomething();
+                    else doSomething();
+                else
+                    if (foo)
+                    {
+                        doSomething();
+                    }
+            `,
+            errors: expectedErrors([
+                [5, 4, 0, "Keyword"],
+                [6, 4, 0, "Punctuator"],
+                [7, 8, 4, "Identifier"],
+                [8, 4, 0, "Punctuator"]
+            ])
         }
     ]
 });
