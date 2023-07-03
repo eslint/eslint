@@ -75,7 +75,8 @@ function createInternalFilesPatterns(pattern = null) {
 }
 
 module.exports = [
-    ...baseConfig,
+    ...baseConfig.base,
+    baseConfig.commonjs,
     {
         ignores: [
             "build/**",

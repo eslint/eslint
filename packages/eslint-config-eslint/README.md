@@ -25,8 +25,20 @@ npm install eslint-config-eslint --save-dev
 In your `eslint.config.js` file, add:
 
 ```js
-const eslintConfig = require("eslint-config-eslint");
-module.exports = eslintConfig;
+// ESM project
+import eslintConfigEslint from "eslint-config-eslint";
+
+export default [
+    ...eslintConfigEslint.base,
+    {
+        files: ["**/*.js"],
+        ...eslintConfigEslint.esm
+    },
+    {
+        files: ["**/*.cjs"],
+        ...eslintConfigEslint.commonjs
+    }
+];
 ```
 
 ### Where to ask for help?

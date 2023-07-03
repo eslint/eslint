@@ -1,6 +1,7 @@
 "use strict";
 
-const nodeRecommendedConfig = require("eslint-plugin-n/configs/recommended-script");
+const nodeRecommendedScriptConfig = require("eslint-plugin-n/configs/recommended-script");
+const nodeRecommendedModuleConfig = require("eslint-plugin-n/configs/recommended-module");
 const js = require("@eslint/js");
 const jsdoc = require("eslint-plugin-jsdoc");
 const eslintComments = require("eslint-plugin-eslint-comments");
@@ -13,17 +14,28 @@ const unicorn = require("eslint-plugin-unicorn");
 jsdoc.configs.recommended.plugins = { jsdoc };
 eslintComments.configs.recommended.plugins = { "eslint-comments": eslintComments };
 
-// extends eslint-plugin-n's recommended config
-const nodeConfigs = [nodeRecommendedConfig, {
+// extends eslint-plugin-n's config
+const nodeSharedRules = {
+    "n/callback-return": ["error", ["cb", "callback", "next"]],
+    "n/handle-callback-err": ["error", "err"]
+};
+const nodeCommonJSConfig = {
+    ...nodeRecommendedScriptConfig,
     rules: {
-        "n/callback-return": ["error", ["cb", "callback", "next"]],
-        "n/handle-callback-err": ["error", "err"],
-        "n/no-deprecated-api": "error",
+        ...nodeRecommendedScriptConfig.rules,
+        ...nodeSharedRules,
         "n/no-mixed-requires": "error",
         "n/no-new-require": "error",
         "n/no-path-concat": "error"
     }
-}];
+};
+const nodeESMConfig = {
+    ...nodeRecommendedModuleConfig,
+    rules: {
+        ...nodeRecommendedModuleConfig.rules,
+        ...nodeSharedRules
+    }
+};
 
 // extends eslint recommended config
 const jsConfigs = [js.configs.recommended, {
@@ -391,11 +403,14 @@ const eslintCommentsConfigs = [eslintComments.configs.recommended, {
     }
 }];
 
-module.exports = [
-    { linterOptions: { reportUnusedDisableDirectives: true } },
-    ...jsConfigs,
-    ...nodeConfigs,
-    ...unicornConfigs,
-    ...jsdocConfigs,
-    ...eslintCommentsConfigs
-];
+module.exports = {
+    base: [
+        { linterOptions: { reportUnusedDisableDirectives: true } },
+        ...jsConfigs,
+        ...unicornConfigs,
+        ...jsdocConfigs,
+        ...eslintCommentsConfigs
+    ],
+    commonjs: nodeCommonJSConfig,
+    esm: nodeESMConfig
+};
