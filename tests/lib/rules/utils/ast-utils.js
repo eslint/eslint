@@ -1875,4 +1875,53 @@ describe("ast-utils", () => {
             });
         });
     });
+
+    describe("isDirective", () => {
+        const expectedResults = [
+            { code: '"use strict";', expectedRetVal: true },
+            { code: '"use strict"; "use asm";', nodeText: '"use asm";', expectedRetVal: true },
+            { code: 'const a = () => { "foo"; }', nodeText: '"foo";', expectedRetVal: true },
+            { code: '"";', expectedRetVal: true },
+            { code: '"use strict";', expectedRetVal: true },
+            { code: '"use strict"; "use asm";', nodeText: '"use asm";', expectedRetVal: true },
+            { code: 'const a = () => { "foo"; }', nodeText: '"foo";', expectedRetVal: true },
+            { code: '"";', expectedRetVal: true },
+            { code: '{ "foo"; }', nodeText: '"foo";', expectedRetVal: false },
+            { code: "foo();", expectedRetVal: false },
+            { code: '"foo" + "bar";', expectedRetVal: false },
+            { code: "12345;", expectedRetVal: false },
+            { code: "`foo`;", expectedRetVal: false },
+            { code: "('foo');", expectedRetVal: false },
+            { code: 'foo(); "use strict";', nodeText: '"use strict";', expectedRetVal: false }
+        ];
+
+        expectedResults.forEach(({ code, nodeText = code, expectedRetVal }) => {
+            it(`should return ${expectedRetVal} for \`${nodeText}\` in \`${code}\``, () => {
+                linter.defineRule("checker", {
+                    create: mustCall(({ sourceCode }) => {
+                        const assertForNode = mustCall(
+                            node => assert.strictEqual(astUtils.isDirective(node, sourceCode), expectedRetVal)
+                        );
+
+                        return ({
+                            ExpressionStatement(node) {
+                                if (sourceCode.getText(node) === nodeText) {
+                                    assertForNode(node);
+
+                                    if (expectedRetVal) {
+
+                                        // Some custom parsers do not set a `directive` property on directive nodes.
+                                        delete node.directive;
+                                        assertForNode(node);
+                                    }
+                                }
+                            }
+                        });
+                    })
+                });
+
+                linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 2022 } });
+            });
+        });
+    });
 });
