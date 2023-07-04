@@ -26,17 +26,17 @@ In your `eslint.config.js` file, add:
 
 ```js
 // ESM project
-import eslintConfigEslint from "eslint-config-eslint";
+import eslintConfigESLint from "eslint-config-eslint";
 
 export default [
-    ...eslintConfigEslint.base,
+    ...eslintConfigESLint.base,
     {
         files: ["**/*.js"],
-        ...eslintConfigEslint.esm
+        ...eslintConfigESLint.esm
     },
     {
         files: ["**/*.cjs"],
-        ...eslintConfigEslint.commonjs
+        ...eslintConfigESLint.commonjs
     }
 ];
 ```
