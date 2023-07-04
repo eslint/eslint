@@ -18,6 +18,7 @@ module.exports = {
     plugins: ["unicorn"],
     settings: {
         jsdoc: {
+            mode: "typescript",
             tagNamePreference: {
                 file: "fileoverview",
                 augments: "extends",

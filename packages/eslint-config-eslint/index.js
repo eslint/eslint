@@ -278,6 +278,7 @@ const jsConfigs = [js.configs.recommended, {
 const jsdocConfigs = [jsdoc.configs.recommended, {
     settings: {
         jsdoc: {
+            mode: "typescript",
             tagNamePreference: {
                 file: "fileoverview",
                 augments: "extends",
