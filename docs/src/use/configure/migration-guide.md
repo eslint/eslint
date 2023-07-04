@@ -431,12 +431,12 @@ The following changes have been made from the eslintrc to the flat config file f
 
 ## TypeScript Types for Flat Config Files
 
-You can see the TypeScript types for the eslint.config.js file format in the DefinitelyTyped project. The interface for the objects in the config’s array is called the `FlatConfig`.
+You can see the TypeScript types for the flat config file format in the DefinitelyTyped project. The interface for the objects in the config’s array is called the `FlatConfig`.
 
 You can view the type definitions in the [DefinitelyTyped repository on Github](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/eslint/index.d.ts).
 
 ## Further Reading
 
-* [Overview of the eslint.config.js file format blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/)
+* [Overview of the flat config file format blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/)
 * [API usage of new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-3/)
 * [Background to new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-1/)
