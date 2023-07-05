@@ -9,7 +9,7 @@
     "./cjs": "./cjs.js"
   },
   "scripts": {
-    "test": "node ./index.js",
+    "test": "node ./index.js && node ./cjs.js",
     "prepublish": "npm test"
   },
   "files": [
@@ -18,7 +18,7 @@
     "base.js",
     "cjs.js",
     "index.js",
-    "node.js"
+    "nodejs.js"
   ],
   "repository": {
     "type": "git",

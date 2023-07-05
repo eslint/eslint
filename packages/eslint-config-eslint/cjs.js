@@ -1,7 +1,7 @@
 "use strict";
 
 const baseConfigs = require("./base");
-const { cjsConfigs } = require("./node");
+const { cjsConfigs } = require("./nodejs");
 
 module.exports = [
     ...baseConfigs,
