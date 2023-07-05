@@ -3,6 +3,11 @@
   "version": "8.0.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "Default ESLint configuration for ESLint projects.",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": "./index.js",
+    "./cjs": "./cjs.js"
+  },
   "scripts": {
     "test": "node ./index.js",
     "prepublish": "npm test"
@@ -10,8 +15,10 @@
   "files": [
     "LICENSE",
     "README.md",
+    "base.js",
+    "cjs.js",
     "index.js",
-    "default.yml"
+    "node.js"
   ],
   "repository": {
     "type": "git",
@@ -33,6 +40,6 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": "^10.12.0 || >=12.0.0"
+    "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
   }
 }

@@ -31,7 +31,7 @@ const eslintPluginRulesRecommendedConfig = require("eslint-plugin-eslint-plugin/
 const eslintPluginTestsRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/tests-recommended");
 const globals = require("globals");
 const merge = require("lodash.merge");
-const baseConfig = require("eslint-config-eslint");
+const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -75,8 +75,7 @@ function createInternalFilesPatterns(pattern = null) {
 }
 
 module.exports = [
-    ...baseConfig.base,
-    baseConfig.commonjs,
+    ...eslintConfigESLintCJS,
     {
         ignores: [
             "build/**",
