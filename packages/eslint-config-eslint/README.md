@@ -29,15 +29,33 @@ In your `eslint.config.js` file, add:
 import eslintConfigESLint from "eslint-config-eslint";
 
 export default [
-    ...eslintConfigESLint.base,
-    {
+    ...eslintConfigESLint
+];
+```
+
+```js
+// ESM project containing .cjs files
+import eslintConfigESLint from "eslint-config-eslint";
+import eslintConfigESLintCJS from "eslint-config-eslint/cjs";
+
+export default [
+    ...eslintConfigESLint.map(config => ({
         files: ["**/*.js"],
-        ...eslintConfigESLint.esm
-    },
-    {
+        ...config
+    })),
+    ...eslintConfigESLintCJS.map(config => ({
         files: ["**/*.cjs"],
-        ...eslintConfigESLint.commonjs
-    }
+        ...config
+    }))
+];
+```
+
+```js
+// CommonJS project
+const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
+
+module.exports = [
+    ...eslintConfigESLintCJS
 ];
 ```
 
