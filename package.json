@@ -105,6 +105,7 @@
     "@wdio/browser-runner": "^8.10.4",
     "@wdio/cli": "^8.10.4",
     "@wdio/concise-reporter": "^8.10.4",
+    "@wdio/globals": "^8.11.3",
     "@wdio/mocha-framework": "^8.10.4",
     "babel-loader": "^8.0.5",
     "c8": "^7.12.0",

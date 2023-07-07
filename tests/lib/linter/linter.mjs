@@ -3,29 +3,29 @@
  * @author Nicholas C. Zakas
  */
 
-"use strict";
-
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-import { mock, fn } from "@wdio/browser-runner"
-import { expect } from "@wdio/globals"
+import { mock, fn } from "@wdio/browser-runner";
+import { expect } from "@wdio/globals";
 
-const { assert } = require("chai"),
-    sinon = require("sinon"),
-    espree = require("espree"),
-    esprima = require("esprima"),
-    testParsers = require("../../fixtures/parsers/linter-test-parsers");
+import { assert } from "chai";
+import sinon from "sinon";
+import * as espree from "espree";
+import * as esprima from "esprima";
+import testParsers from "../../fixtures/parsers/linter-test-parsers.js";
 
-const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
-const { Linter } = require("../../../build/eslint.js");
-const StubParser = require("../../fixtures/parsers/stub-parser.js")
+import { FlatConfigArray } from "../../../lib/config/flat-config-array.js";
+import eslint from "../../../build/eslint.js";
+import StubParser from "../../fixtures/parsers/stub-parser.js";
+
+const Linter = eslint.Linter;
 
 //------------------------------------------------------------------------------
 // Mocks
 //------------------------------------------------------------------------------
-mock('../../fixtures/parsers/stub-parser.js', () => ({
+mock("../../fixtures/parsers/stub-parser.js", () => ({
     parse: fn().mockReturnValue({
         type: "Program",
         loc: {},
@@ -35,7 +35,7 @@ mock('../../fixtures/parsers/stub-parser.js', () => ({
         errors: [],
         tokens: []
     })
-}))
+}));
 
 //------------------------------------------------------------------------------
 // Constants
@@ -7287,11 +7287,13 @@ var a = "test2";
          */
         it("should have file path passed to it", () => {
             const code = "/* this is code */";
+
             linter.defineParser("stub-parser", testParsers.stubParser);
             linter.verify(code, { parser: "stub-parser" }, filename, true);
 
             expect(StubParser.parse).toBeCalledTimes(1);
             const [arg0, arg1] = StubParser.parse.mock.calls[0];
+
             expect(arg0).toBe(code);
             expect(arg1.filePath).toBe(filename);
         });
@@ -7538,7 +7540,7 @@ var a = "test2";
         });
 
         beforeEach(() => {
-            StubParser.parse.mockClear()
+            StubParser.parse.mockClear();
         });
     });
 
@@ -8109,6 +8111,7 @@ describe("Linter with FlatConfigArray", () => {
                         linter.verify(code, config, filename, true);
                         expect(StubParser.parse).toBeCalledTimes(1);
                         const [arg0, arg1] = StubParser.parse.mock.calls[0];
+
                         expect(arg0).toBe(code);
                         expect(arg1.filePath).toBe(filename);
                     });
@@ -8416,8 +8419,8 @@ describe("Linter with FlatConfigArray", () => {
                     });
 
                     afterEach(() => {
-                        StubParser.parse.mockClear()
-                    })
+                        StubParser.parse.mockClear();
+                    });
                 });
 
 
