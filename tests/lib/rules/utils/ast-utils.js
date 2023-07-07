@@ -1900,7 +1900,7 @@ describe("ast-utils", () => {
                 linter.defineRule("checker", {
                     create: mustCall(({ sourceCode }) => {
                         const assertForNode = mustCall(
-                            node => assert.strictEqual(astUtils.isDirective(node, sourceCode), expectedRetVal)
+                            node => assert.strictEqual(astUtils.isDirective(node), expectedRetVal)
                         );
 
                         return ({
@@ -1908,12 +1908,7 @@ describe("ast-utils", () => {
                                 if (sourceCode.getText(node) === nodeText) {
                                     assertForNode(node);
 
-                                    if (expectedRetVal) {
-
-                                        // Some custom parsers do not set a `directive` property on directive nodes.
-                                        delete node.directive;
-                                        assertForNode(node);
-                                    } else {
+                                    if (!expectedRetVal) {
 
                                         // The flow parser sets `directive` to null on non-directive ExpressionStatement nodes.
                                         node.directive = null;
