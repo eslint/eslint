@@ -130,7 +130,7 @@ To restrict the use of all Node.js core imports (via <https://github.com/nodejs/
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -140,7 +140,7 @@ import fs from 'fs';
 
 :::
 
-::: incorrect
+::: incorrect { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -150,7 +150,7 @@ export { fs } from 'fs';
 
 :::
 
-::: incorrect
+::: incorrect { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -160,7 +160,7 @@ export * from 'fs';
 
 :::
 
-::: incorrect
+::: incorrect { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["cluster"] }]*/
@@ -170,7 +170,7 @@ import cluster from 'cluster';
 
 :::
 
-::: incorrect
+::: incorrect { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { "patterns": ["lodash/*"] }]*/
@@ -180,7 +180,7 @@ import pick from 'lodash/pick';
 
 :::
 
-::: incorrect
+::: incorrect { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -194,7 +194,7 @@ import DisallowedObject from "foo";
 
 :::
 
-::: incorrect
+::: incorrect { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -212,7 +212,7 @@ import { "DisallowedObject" as AllowedObject } from "foo";
 
 :::
 
-::: incorrect
+::: incorrect { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -226,7 +226,7 @@ import * as Foo from "foo";
 
 :::
 
-::: incorrect
+::: incorrect { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -239,7 +239,7 @@ import pick from 'lodash/pick';
 
 :::
 
-::: incorrect
+::: incorrect { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -252,7 +252,7 @@ import pick from 'fooBar';
 
 :::
 
-::: incorrect
+::: incorrect { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -268,7 +268,7 @@ import { isEmpty } from 'utils/collection-utils';
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -279,7 +279,7 @@ export { foo } from "bar";
 
 :::
 
-::: correct
+::: correct { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["fs"], "patterns": ["eslint/*"] }]*/
@@ -291,7 +291,7 @@ export * from "path";
 
 :::
 
-::: correct
+::: correct { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]*/
@@ -301,7 +301,7 @@ import DisallowedObject from "foo"
 
 :::
 
-::: correct
+::: correct { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -315,7 +315,7 @@ import { AllowedObject as DisallowedObject } from "foo";
 
 :::
 
-::: correct
+::: correct { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -328,7 +328,7 @@ import lodash from 'lodash';
 
 :::
 
-::: correct
+::: correct { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -341,7 +341,7 @@ import pick from 'food';
 
 :::
 
-::: correct
+::: correct { "parserOptions": { "sourceType": "module" } }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{

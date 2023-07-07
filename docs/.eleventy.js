@@ -190,26 +190,40 @@ module.exports = function(eleventyConfig) {
         return btoa(unescape(encodeURIComponent(text)));
     }
 
-    const withPlaygroundRender = {
-        render(tokens, index) {
-            if (tokens[index].nesting !== 1) {
-                return "</div>";
+    /**
+     * Creates markdownItContainer settings for a playground-linked codeblock.
+     * @param {string} name Plugin name and class name to add to the code block.
+     * @returns {[string, object]} Plugin name and options for markdown-it.
+     */
+    function withPlaygroundRender(name) {
+        return [
+            name,
+            {
+                render(tokens, index) {
+                    if (tokens[index].nesting !== 1) {
+                        return "</div>";
+                    }
+
+                    // See https://github.com/eslint/eslint.org/blob/ac38ab41f99b89a8798d374f74e2cce01171be8b/src/playground/App.js#L44
+                    const options = tokens[index].info?.split("correct ")[1]?.trim();
+                    const { content } = tokens[index + 1];
+                    const state = encodeToBase64(
+                        JSON.stringify({
+                            ...(options && { options: JSON.parse(options) }),
+                            text: content
+                        })
+                    );
+
+                    return `
+                        <div class="${name}">
+                            <a class="c-btn c-btn--secondary c-btn--playground" href="/play#${state}" target="_blank">
+                                Open in Playground ↗️
+                            </a>
+                    `.trim();
+                }
             }
-
-            const state = encodeToBase64(
-                JSON.stringify({
-                    text: tokens[index + 1].content
-                })
-            );
-
-            return `
-                <div class="with-playground-link">
-                    <a class="open-in-playground" href="/play#${state}" target="_blank">
-                        Open in Playground ↗️
-                    </a>
-            `.trim();
-        }
-    };
+        ];
+    }
 
     const markdownIt = require("markdown-it");
     const md = markdownIt({ html: true, linkify: true, typographer: true, highlight: (str, lang) => highlighter(md, str, lang) })
@@ -217,8 +231,8 @@ module.exports = function(eleventyConfig) {
             slugify: s => slug(s)
         })
         .use(markdownItContainer, "img-container", {})
-        .use(markdownItContainer, "correct", withPlaygroundRender)
-        .use(markdownItContainer, "incorrect", withPlaygroundRender)
+        .use(markdownItContainer, ...withPlaygroundRender("correct"))
+        .use(markdownItContainer, ...withPlaygroundRender("incorrect"))
         .use(markdownItContainer, "warning", {
             render(tokens, idx) {
                 return generateAlertMarkup("warning", tokens, idx);
