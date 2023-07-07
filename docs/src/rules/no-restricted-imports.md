@@ -3,14 +3,13 @@ title: no-restricted-imports
 rule_type: suggestion
 ---
 
-
 Imports are an ES6/ES2015 standard for making the functionality of other modules available in your current module. In CommonJS this is implemented through the `require()` call which makes this ESLint rule roughly equivalent to its CommonJS counterpart `no-restricted-modules`.
 
 Why would you want to restrict imports?
 
-* Some imports might not make sense in a particular environment. For example, Node.js' `fs` module would not make sense in an environment that didn't have a file system.
+-   Some imports might not make sense in a particular environment. For example, Node.js' `fs` module would not make sense in an environment that didn't have a file system.
 
-* Some modules provide similar or identical functionality, think `lodash` and `underscore`. Your project may have standardized on a module. You want to make sure that the other alternatives are not being used as this would unnecessarily bloat the project and provide a higher maintenance cost of two dependencies when one would suffice.
+-   Some modules provide similar or identical functionality, think `lodash` and `underscore`. Your project may have standardized on a module. You want to make sure that the other alternatives are not being used as this would unnecessarily bloat the project and provide a higher maintenance cost of two dependencies when one would suffice.
 
 ## Rule Details
 
@@ -130,57 +129,57 @@ To restrict the use of all Node.js core imports (via <https://github.com/nodejs/
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect { "parserOptions": { "sourceType": "module" } }
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
-import fs from 'fs';
+import fs from "fs";
 ```
 
 :::
 
-::: incorrect { "parserOptions": { "sourceType": "module" } }
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
-export { fs } from 'fs';
+export { fs } from "fs";
 ```
 
 :::
 
-::: incorrect { "parserOptions": { "sourceType": "module" } }
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
-export * from 'fs';
+export * from "fs";
 ```
 
 :::
 
-::: incorrect { "parserOptions": { "sourceType": "module" } }
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["cluster"] }]*/
 
-import cluster from 'cluster';
+import cluster from "cluster";
 ```
 
 :::
 
-::: incorrect { "parserOptions": { "sourceType": "module" } }
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { "patterns": ["lodash/*"] }]*/
 
-import pick from 'lodash/pick';
+import pick from "lodash/pick";
 ```
 
 :::
 
-::: incorrect { "parserOptions": { "sourceType": "module" } }
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -194,7 +193,7 @@ import DisallowedObject from "foo";
 
 :::
 
-::: incorrect { "parserOptions": { "sourceType": "module" } }
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -212,7 +211,7 @@ import { "DisallowedObject" as AllowedObject } from "foo";
 
 :::
 
-::: incorrect { "parserOptions": { "sourceType": "module" } }
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -226,7 +225,7 @@ import * as Foo from "foo";
 
 :::
 
-::: incorrect { "parserOptions": { "sourceType": "module" } }
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -234,12 +233,12 @@ import * as Foo from "foo";
     message: "Please use the default import from 'lodash' instead."
 }]}]*/
 
-import pick from 'lodash/pick';
+import pick from "lodash/pick";
 ```
 
 :::
 
-::: incorrect { "parserOptions": { "sourceType": "module" } }
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -247,12 +246,12 @@ import pick from 'lodash/pick';
     caseSensitive: true
 }]}]*/
 
-import pick from 'fooBar';
+import pick from "fooBar";
 ```
 
 :::
 
-::: incorrect { "parserOptions": { "sourceType": "module" } }
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -261,47 +260,47 @@ import pick from 'fooBar';
     message: "Use 'isEmpty' from lodash instead."
 }]}]*/
 
-import { isEmpty } from 'utils/collection-utils';
+import { isEmpty } from "utils/collection-utils";
 ```
 
 :::
 
 Examples of **correct** code for this rule:
 
-::: correct { "parserOptions": { "sourceType": "module" } }
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
-import crypto from 'crypto';
+import crypto from "crypto";
 export { foo } from "bar";
 ```
 
 :::
 
-::: correct { "parserOptions": { "sourceType": "module" } }
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["fs"], "patterns": ["eslint/*"] }]*/
 
-import crypto from 'crypto';
-import eslint from 'eslint';
+import crypto from "crypto";
+import eslint from "eslint";
 export * from "path";
 ```
 
 :::
 
-::: correct { "parserOptions": { "sourceType": "module" } }
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]*/
 
-import DisallowedObject from "foo"
+import DisallowedObject from "foo";
 ```
 
 :::
 
-::: correct { "parserOptions": { "sourceType": "module" } }
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -315,7 +314,7 @@ import { AllowedObject as DisallowedObject } from "foo";
 
 :::
 
-::: correct { "parserOptions": { "sourceType": "module" } }
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -323,12 +322,12 @@ import { AllowedObject as DisallowedObject } from "foo";
     message: "Please use the default import from 'lodash' instead."
 }]}]*/
 
-import lodash from 'lodash';
+import lodash from "lodash";
 ```
 
 :::
 
-::: correct { "parserOptions": { "sourceType": "module" } }
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -336,12 +335,12 @@ import lodash from 'lodash';
     caseSensitive: true
 }]}]*/
 
-import pick from 'food';
+import pick from "food";
 ```
 
 :::
 
-::: correct { "parserOptions": { "sourceType": "module" } }
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -350,7 +349,7 @@ import pick from 'food';
     message: "Use 'isEmpty' from lodash instead."
 }]}]*/
 
-import { hasValues } from 'utils/collection-utils';
+import { hasValues } from "utils/collection-utils";
 ```
 
 :::

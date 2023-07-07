@@ -205,11 +205,11 @@ module.exports = function(eleventyConfig) {
                     }
 
                     // See https://github.com/eslint/eslint.org/blob/ac38ab41f99b89a8798d374f74e2cce01171be8b/src/playground/App.js#L44
-                    const options = tokens[index].info?.split("correct ")[1]?.trim();
+                    const parserOptions = tokens[index].info?.split("correct ")[1]?.trim();
                     const { content } = tokens[index + 1];
                     const state = encodeToBase64(
                         JSON.stringify({
-                            ...(options && { options: JSON.parse(options) }),
+                            ...(parserOptions && { options: { parserOptions: JSON.parse(parserOptions) } }),
                             text: content
                         })
                     );
