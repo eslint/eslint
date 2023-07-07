@@ -630,7 +630,7 @@ target.mocha = () => {
 
 target.wdio = () => {
     echo("Running unit tests on browsers");
-
+    target.webpack("production");
     const lastReturn = exec(`${getBinFile("wdio")} run wdio.conf.js`);
 
     if (lastReturn.code !== 0) {
