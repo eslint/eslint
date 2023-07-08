@@ -213,10 +213,13 @@ module.exports = function(eleventyConfig) {
                             text: content
                         })
                     );
+                    const prefix = process.env.CONTEXT && process.env.CONTEXT !== "deploy-preview"
+                        ? ""
+                        : "https://eslint.org";
 
                     return `
                         <div class="${name}">
-                            <a class="c-btn c-btn--secondary c-btn--playground" href="/play#${state}" target="_blank">
+                            <a class="c-btn c-btn--secondary c-btn--playground" href="${prefix}/play#${state}" target="_blank">
                                 Open in Playground ↗️
                             </a>
                     `.trim();
