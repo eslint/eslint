@@ -290,7 +290,7 @@ ruleTester.run("no-promise-executor-return", rule, {
             "new Promise(r => {() => {}})"
         ]),
 
-        //
+        // primitives
         suggestion({
             code:
                 "new Promise(r => null)",
@@ -311,7 +311,7 @@ ruleTester.run("no-promise-executor-return", rule, {
             "new Promise(r => {null})"
         ]),
 
-        //
+        // inline comments
         suggestion({
             code:
                 "new Promise(r => /*hi*/ ~0)",
@@ -350,7 +350,7 @@ ruleTester.run("no-promise-executor-return", rule, {
             }]
         }),
 
-
+        // multiple returns
         suggestion({
             code:
                 "new Promise(r => { if (foo) { return void 0 } return 0 })",
@@ -359,6 +359,25 @@ ruleTester.run("no-promise-executor-return", rule, {
             }]
         }, [
             "new Promise(r => { if (foo) { return void 0 } return void 0 })"
+        ]),
+
+        // return assignment
+        suggestion({
+            code: "new Promise(resolve => { return (foo = resolve(1)); })",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(resolve => { return void (foo = resolve(1)); })"
+        ]),
+        suggestion({
+            code: "new Promise(resolve => r = resolve)",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(resolve => void (r = resolve))",
+            "new Promise(resolve => {r = resolve})"
         ]),
 
         // snapshot
