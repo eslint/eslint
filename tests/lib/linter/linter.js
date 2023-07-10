@@ -15184,7 +15184,6 @@ var a = "test2";
             });
         });
 
-
         describe("Error Conditions", () => {
             describe("when evaluating broken code", () => {
                 const code = BROKEN_TEST_CODE;
@@ -16258,6 +16257,51 @@ var a = "test2";
             assert(spy.calledOnce);
         });
 
+
+        describe("Disallowed SourceCode methods inside a rule", () => {
+            [
+                "applyLanguageOptions",
+                "applyInlineConfig",
+                "finalize"
+            ].forEach(methodName => {
+
+                it(`should throw error when accessing sourceCode.${methodName} inside a rule`, () => {
+                    let spy;
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: {
+                                        create(context) {
+                                            spy = sinon.spy(() => {
+                                                const sourceCode = context.sourceCode;
+
+                                                assert.throws(() => {
+                                                    sourceCode[methodName]();
+                                                }, /This method cannot be called inside of a rule/u);
+                                            });
+
+                                            return { Program: spy };
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            sourceType: "script"
+                        },
+                        rules: {
+                            "test/checker": "error"
+                        }
+                    };
+
+                    linter.verify("foo", config);
+                    assert(spy && spy.calledOnce);
+                });
+            });
+
+
+        });
 
         describe("when evaluating an empty string", () => {
             it("runs rules", () => {
