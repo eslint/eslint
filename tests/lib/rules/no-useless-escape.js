@@ -1066,6 +1066,43 @@ ruleTester.run("no-useless-escape", rule, {
                     output: "`\\\\a```"
                 }]
             }]
+        },
+
+        // https://github.com/eslint/eslint/issues/16988
+        {
+            code: String.raw`"use\ strict";`,
+            errors: [{
+                line: 1,
+                column: 5,
+                endColumn: 6,
+                message: "Unnecessary escape character: \\ .",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscapeDoNotKeepSemantics",
+                    output: String.raw`"use strict";`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`"use\\ strict";`
+                }]
+            }]
+        },
+        {
+            code: String.raw`({ foo() { "foo"; "bar"; "ba\z" } })`,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 1,
+                column: 29,
+                endColumn: 30,
+                message: "Unnecessary escape character: \\z.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscapeDoNotKeepSemantics",
+                    output: String.raw`({ foo() { "foo"; "bar"; "baz" } })`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`({ foo() { "foo"; "bar"; "ba\\z" } })`
+                }]
+            }]
         }
     ]
 });
