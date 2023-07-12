@@ -220,7 +220,7 @@ module.exports = function(eleventyConfig) {
                     return `
                         <div class="${name}">
                             <a class="c-btn c-btn--secondary c-btn--playground" href="${prefix}/play#${state}" target="_blank">
-                                Open in Playground ↗️
+                                Open in Playground
                             </a>
                     `.trim();
                 }
