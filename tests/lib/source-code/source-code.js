@@ -12,6 +12,7 @@ const fs = require("fs"),
     path = require("path"),
     assert = require("chai").assert,
     espree = require("espree"),
+    eslintScope = require("eslint-scope"),
     sinon = require("sinon"),
     { Linter } = require("../../../lib/linter"),
     SourceCode = require("../../../lib/source-code/source-code"),
@@ -3786,5 +3787,260 @@ describe("SourceCode", () => {
             assert(spy && spy.calledOnce);
         });
 
+    });
+
+    xdescribe("getInlineConfigComments()", () => {
+
+        it("should return inline config comments", () => {
+
+            const code = "/*eslint foo: 1*/ foo; /* non-config comment*/ /* eslint-disable bar */ bar; /* eslint-enable bar */";
+            const ast = espree.parse(code, DEFAULT_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const configComments = sourceCode.getInlineConfigComments();
+
+            assert.deepStrictEqual(configComments, [
+                {
+                    type: "Block",
+                    value: "eslint foo: 1",
+                    start: 0,
+                    end: 17,
+                    range: [
+                        0,
+                        17
+                    ],
+                    loc: {
+                        start: {
+                            line: 1,
+                            column: 0
+                        },
+                        end: {
+                            line: 1,
+                            column: 17
+                        }
+                    }
+                },
+                {
+                    type: "Block",
+                    value: " eslint-disable bar ",
+                    start: 47,
+                    end: 71,
+                    range: [
+                        47,
+                        71
+                    ],
+                    loc: {
+                        start: {
+                            line: 1,
+                            column: 47
+                        },
+                        end: {
+                            line: 1,
+                            column: 71
+                        }
+                    }
+                },
+                {
+                    type: "Block",
+                    value: " eslint-enable bar ",
+                    start: 77,
+                    end: 100,
+                    range: [
+                        77,
+                        100
+                    ],
+                    loc: {
+                        start: {
+                            line: 1,
+                            column: 77
+                        },
+                        end: {
+                            line: 1,
+                            column: 100
+                        }
+                    }
+                }
+            ]);
+
+
+        });
+
+    });
+
+    describe("applyLanguageOptions()", () => {
+
+        it("should add ES6 globals", () => {
+
+            const code = "foo";
+            const ast = espree.parse(code, DEFAULT_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const scopeManager = eslintScope.analyze(ast, {
+                ignoreEval: true,
+                ecmaVersion: 6
+            });
+
+            sourceCode.applyLanguageOptions({
+                ecmaVersion: 2015
+            });
+
+            sourceCode.scopeManager = scopeManager;
+            sourceCode.finalize();
+
+            const globalScope = sourceCode.scopeManager.scopes[0];
+            const variable = globalScope.set.get("Promise");
+
+            assert.isDefined(variable);
+
+        });
+
+        it("should add custom globals", () => {
+
+            const code = "foo";
+            const ast = espree.parse(code, DEFAULT_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const scopeManager = eslintScope.analyze(ast, {
+                ignoreEval: true,
+                ecmaVersion: 6
+            });
+
+            sourceCode.applyLanguageOptions({
+                ecmaVersion: 2015,
+                globals: {
+                    FOO: true
+                }
+            });
+
+            sourceCode.scopeManager = scopeManager;
+            sourceCode.finalize();
+
+            const globalScope = sourceCode.scopeManager.scopes[0];
+            const variable = globalScope.set.get("FOO");
+
+            assert.isDefined(variable);
+            assert.isTrue(variable.writeable);
+        });
+
+        it("should add commonjs globals", () => {
+
+            const code = "foo";
+            const ast = espree.parse(code, DEFAULT_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const scopeManager = eslintScope.analyze(ast, {
+                ignoreEval: true,
+                nodejsScope: true,
+                ecmaVersion: 6
+            });
+
+            sourceCode.applyLanguageOptions({
+                ecmaVersion: 2015,
+                sourceType: "commonjs"
+            });
+
+            sourceCode.scopeManager = scopeManager;
+            sourceCode.finalize();
+
+            const globalScope = sourceCode.scopeManager.scopes[0];
+            const variable = globalScope.set.get("require");
+
+            assert.isDefined(variable);
+
+        });
+
+    });
+
+    describe("applyInlineConfig()", () => {
+
+        it("should add inline globals", () => {
+
+            const code = "/*global bar: true */ foo";
+            const ast = espree.parse(code, DEFAULT_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const scopeManager = eslintScope.analyze(ast, {
+                ignoreEval: true,
+                ecmaVersion: 6
+            });
+
+            const result = sourceCode.applyInlineConfig();
+
+            assert.isTrue(result.ok);
+
+            sourceCode.scopeManager = scopeManager;
+            sourceCode.finalize();
+
+            const globalScope = sourceCode.scopeManager.scopes[0];
+            const variable = globalScope.set.get("bar");
+
+            assert.isDefined(variable);
+            assert.isTrue(variable.writeable);
+        });
+
+
+        it("should mark exported variables", () => {
+
+            const code = "/*exported foo */ var foo;";
+            const ast = espree.parse(code, DEFAULT_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const scopeManager = eslintScope.analyze(ast, {
+                ignoreEval: true,
+                ecmaVersion: 6
+            });
+
+            const result = sourceCode.applyInlineConfig();
+
+            assert.isTrue(result.ok);
+
+            sourceCode.scopeManager = scopeManager;
+            sourceCode.finalize();
+
+            const globalScope = sourceCode.scopeManager.scopes[0];
+            const variable = globalScope.set.get("foo");
+
+            assert.isDefined(variable);
+            assert.isTrue(variable.eslintUsed);
+            assert.isTrue(variable.eslintExported);
+        });
+
+        it("should extract rule configuration", () => {
+
+            const code = "/*eslint some-rule: 2 */ var foo;";
+            const ast = espree.parse(code, DEFAULT_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const result = sourceCode.applyInlineConfig();
+
+            assert.isTrue(result.ok);
+            assert.strictEqual(result.config.rules["some-rule"], 2);
+        });
+
+        it("should extract multiple rule configurations", () => {
+
+            const code = "/*eslint some-rule: 2, other-rule: [\"error\", { skip: true }] */ var foo;";
+            const ast = espree.parse(code, DEFAULT_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const result = sourceCode.applyInlineConfig();
+
+            assert.isTrue(result.ok);
+            assert.strictEqual(result.config.rules["some-rule"], 2);
+            assert.deepStrictEqual(result.config.rules["other-rule"], ["error", { skip: true }]);
+        });
+
+        it("should report problem with rule configuration parsing", () => {
+
+            const code = "/*eslint some-rule::, */ var foo;";
+            const ast = espree.parse(code, DEFAULT_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const result = sourceCode.applyInlineConfig();
+
+            assert.isFalse(result.ok);
+            assert.deepStrictEqual(result.problems, [
+                {
+                    column: 1,
+                    fatal: true,
+                    line: 1,
+                    message: "Failed to parse JSON from ' \"some-rule\"::,': Unexpected token : in JSON at position 14",
+                    nodeType: null,
+                    ruleId: null,
+                    severity: 2
+                }
+            ]);
+        });
     });
 });
