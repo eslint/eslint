@@ -345,7 +345,7 @@ export default [
 
 With eslintrc, you can make ESLint ignore files by creating a separate `.eslintignore` file in the root of your project. The `.eslintignore` file uses the same glob pattern syntax as `.gitignore` files. Alternatively, you can use an `ignorePatterns` property in your eslintrc file.
 
-To ignore files with flat config, you can use the `ignores` property in a config object. The `ignores` property accepts an array of glob patterns. Note that flat config glob patterns do _not_ match dot files (e.g. `.dotfile.js`).
+To ignore files with flat config, you can use the `ignores` property in a config object. The `ignores` property accepts an array of glob patterns. Note that flat config glob patterns do _not_ match dot files (e.g. `*.js` won't match `.dotfile.js`). Flat config does not support loading ignore patterns from `.eslintignore` files, so you'll need to migrate those patterns directly into flat config.
 
 For example, here's a `.eslintignore` example you can use with an eslintrc config:
 
