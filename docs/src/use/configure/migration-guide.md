@@ -114,6 +114,83 @@ export default [
 ];
 ```
 
+### Processors
+
+In eslintrc files, processors had to be defined in a plugin, and then referenced by name in the configuration. Processors beginning with a dot indicated a [file extension-named processor](../../extend/custom-processors#file-extension-named-processor) which ESLint would automatically configure for that file extension.
+
+In flat config files, processors can still be referenced from plugins by their name, but they can now also be inserted directly into the configuration. Processors will _never_ be automatically configured, and must be explicitly set in the configuration.
+
+As an example with a custom plugin with processors:
+
+```javascript
+// node_modules/eslint-plugin-someplugin/index.js
+module.exports = {
+    processors: {
+        ".md": {
+            preprocess() {},
+            postprocess() {}
+        },
+        "someProcessor": {
+            preprocess() {},
+            postprocess() {}
+        }
+    }
+};
+```
+
+In eslintrc, you would configure as follows:
+
+```javascript
+// .eslintrc.js
+module.exports = {
+    plugins: ["someplugin"],
+    processor: "someplugin/someProcessor"
+};
+```
+
+ESLint would also automatically add the equivalent of the following:
+
+```javascript
+{
+     overrides: [{
+        files: ["**/*.md"],
+        processor: "someplugin/.md"
+     }]
+}
+```
+
+In flat config, the following are all valid ways to express the same:
+
+```javascript
+// eslint.config.js
+import somePlugin from "eslint-plugin-someplugin";
+
+export default [
+    {
+        plugins: { somePlugin },
+        processor: "somePlugin/someProcessor"
+    },
+    {
+        plugins: { somePlugin },
+        // We can embed the processor object in the config directly
+        processor: somePlugin.processors.someProcessor
+    },
+    {
+        // We don't need the plugin to be present in the config to use the processor directly
+        processor: somePlugin.processors.someProcessor
+    }
+];
+```
+
+Note that because the `.md` processor is _not_ automatically added by flat config, you also need to specify an extra configuration element:
+
+```javascript
+{
+    files: ["**/*.md"],
+    processor: somePlugin.processors[".md"]
+}
+```
+
 ### Glob-Based Configs
 
 By default, eslintrc files lint all files (except those covered by `.eslintignore`) in the directory in which they’re placed and its child directories. If you want to have different configurations for different file glob patterns, you can specify them in the `overrides` property.

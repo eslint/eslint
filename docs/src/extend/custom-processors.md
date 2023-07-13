@@ -139,6 +139,10 @@ See [Specify a Processor](../use/configure/plugins#specify-a-processor) in the P
 
 ## File Extension-named Processor
 
+::: warning
+This feature is deprecated and only works in eslintrc-style configuration files. Flat config files do not automatically apply processors; you need to explicitly set the `processor` property.
+:::
+
 If a custom processor name starts with `.`, ESLint handles the processor as a **file extension-named processor**. ESLint applies the processor to files with that filename extension automatically. Users don't need to specify the file extension-named processors in their config files.
 
 For example:
