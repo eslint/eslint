@@ -3789,7 +3789,7 @@ describe("SourceCode", () => {
 
     });
 
-    xdescribe("getInlineConfigComments()", () => {
+    describe("getInlineConfigComments()", () => {
 
         it("should return inline config comments", () => {
 
@@ -3798,7 +3798,8 @@ describe("SourceCode", () => {
             const sourceCode = new SourceCode(code, ast);
             const configComments = sourceCode.getInlineConfigComments();
 
-            assert.deepStrictEqual(configComments, [
+            // not sure why but without the JSON parse/stringify Chai won't see these as equal
+            assert.deepStrictEqual(JSON.parse(JSON.stringify(configComments)), [
                 {
                     type: "Block",
                     value: "eslint foo: 1",
@@ -3860,7 +3861,6 @@ describe("SourceCode", () => {
                     }
                 }
             ]);
-
 
         });
 
