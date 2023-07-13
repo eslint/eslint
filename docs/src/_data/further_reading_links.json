@@ -433,11 +433,11 @@
         "title": "async function - JavaScript | MDN",
         "description": "An async function is a function declared with the async keyword, and the await keyword is permitted within it. The async and await keywords enable asynchronous, promise-based behavior to be written in a cleaner style, avoiding the need to explicitly configure promise chains."
     },
-    "https://jakearchibald.com/2017/await-vs-return-vs-return-await/": {
-        "domain": "jakearchibald.com",
-        "url": "https://jakearchibald.com/2017/await-vs-return-vs-return-await/",
-        "logo": "https://jakearchibald.com/c/favicon-67801369.png",
-        "title": "await vs return vs return await",
+    "https://v8.dev/blog/fast-async": {
+        "domain": "v8.dev",
+        "url": "https://v8.dev/blog/fast-async",
+        "logo": "https://v8.dev/_img/v8.svg",
+        "title": "Faster async functions and promises",
         "description": null
     },
     "https://stackoverflow.com/questions/13497971/what-is-the-matter-with-script-targeted-urls": {

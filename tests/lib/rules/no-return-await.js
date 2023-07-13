@@ -148,116 +148,140 @@ ruleTester.run("no-return-await", rule, {
               baz();
             }
           }
+        `,
+        `
+          async function foo() {
+            return await bar();
+          }
+        `,
+        `
+          async function foo() {
+            return await new Promise(resolve => {
+              resolve(5);
+            });
+          }
+        `,
+        `
+          async () => {
+            return await (
+              foo()
+            )
+          };
+        `,
+        `
+          async function foo() {
+            return await (true ? bar() : baz());
+          }
         `
     ],
 
     invalid: [
         {
-            code: "\nasync function foo() {\n\treturn await bar();\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn bar();\n}\n" })
+            code: "\nasync function foo() {\n\treturn await 'bar';\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn 'bar';\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn await(bar());\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (bar());\n}\n" })
+            code: "\nasync function foo() {\n\treturn await('bar');\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn ('bar');\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (a, await bar());\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a, bar());\n}\n" })
+            code: "\nasync function foo() {\n\treturn (a, await 'bar');\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a, 'bar');\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (a, b, await bar());\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a, b, bar());\n}\n" })
+            code: "\nasync function foo() {\n\treturn (a, b, await 'bar');\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a, b, 'bar');\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (a && await bar());\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a && bar());\n}\n" })
+            code: "\nasync function foo() {\n\treturn (a && await 'bar');\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a && 'bar');\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (a && b && await bar());\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a && b && bar());\n}\n" })
+            code: "\nasync function foo() {\n\treturn (a && b && await 'bar');\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a && b && 'bar');\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (a || await bar());\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a || bar());\n}\n" })
+            code: "\nasync function foo() {\n\treturn (a || await 'bar');\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a || 'bar');\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (a, b, (c, d, await bar()));\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a, b, (c, d, bar()));\n}\n" })
+            code: "\nasync function foo() {\n\treturn (a, b, (c, d, await 'bar'));\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a, b, (c, d, 'bar'));\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (a, b, (c && await bar()));\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a, b, (c && bar()));\n}\n" })
+            code: "\nasync function foo() {\n\treturn (a, b, (c && await 'bar'));\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (a, b, (c && 'bar'));\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (await baz(), b, await bar());\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (await baz(), b, bar());\n}\n" })
+            code: "\nasync function foo() {\n\treturn (await baz(), b, await 'bar');\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (await baz(), b, 'bar');\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (baz() ? await bar() : b);\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (baz() ? bar() : b);\n}\n" })
+            code: "\nasync function foo() {\n\treturn (baz() ? await 'bar' : b);\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (baz() ? 'bar' : b);\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (baz() ? a : await bar());\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (baz() ? a : bar());\n}\n" })
+            code: "\nasync function foo() {\n\treturn (baz() ? a : await 'bar');\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (baz() ? a : 'bar');\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (baz() ? (a, await bar()) : b);\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (baz() ? (a, bar()) : b);\n}\n" })
+            code: "\nasync function foo() {\n\treturn (baz() ? (a, await 'bar') : b);\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (baz() ? (a, 'bar') : b);\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (baz() ? a : (b, await bar()));\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (baz() ? a : (b, bar()));\n}\n" })
+            code: "\nasync function foo() {\n\treturn (baz() ? a : (b, await 'bar'));\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (baz() ? a : (b, 'bar'));\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (baz() ? (a && await bar()) : b);\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (baz() ? (a && bar()) : b);\n}\n" })
+            code: "\nasync function foo() {\n\treturn (baz() ? (a && await 'bar') : b);\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (baz() ? (a && 'bar') : b);\n}\n" })
         },
         {
-            code: "\nasync function foo() {\n\treturn (baz() ? a : (b && await bar()));\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (baz() ? a : (b && bar()));\n}\n" })
+            code: "\nasync function foo() {\n\treturn (baz() ? a : (b && await 'bar'));\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\n\treturn (baz() ? a : (b && 'bar'));\n}\n" })
         },
         {
-            code: "\nasync () => { return await bar(); }\n",
-            errors: createErrorList({ suggestionOutput: "\nasync () => { return bar(); }\n" })
+            code: "\nasync () => { return await 'bar'; }\n",
+            errors: createErrorList({ suggestionOutput: "\nasync () => { return 'bar'; }\n" })
         },
         {
-            code: "\nasync () => await bar()\n",
-            errors: createErrorList({ suggestionOutput: "\nasync () => bar()\n" })
+            code: "\nasync () => await 'bar'\n",
+            errors: createErrorList({ suggestionOutput: "\nasync () => 'bar'\n" })
         },
         {
-            code: "\nasync () => (a, b, await bar())\n",
-            errors: createErrorList({ suggestionOutput: "\nasync () => (a, b, bar())\n" })
+            code: "\nasync () => (a, b, await 'bar')\n",
+            errors: createErrorList({ suggestionOutput: "\nasync () => (a, b, 'bar')\n" })
         },
         {
-            code: "\nasync () => (a && await bar())\n",
-            errors: createErrorList({ suggestionOutput: "\nasync () => (a && bar())\n" })
+            code: "\nasync () => (a && await 'bar')\n",
+            errors: createErrorList({ suggestionOutput: "\nasync () => (a && 'bar')\n" })
         },
         {
-            code: "\nasync () => (baz() ? await bar() : b)\n",
-            errors: createErrorList({ suggestionOutput: "\nasync () => (baz() ? bar() : b)\n" })
+            code: "\nasync () => (baz() ? await 'bar' : b)\n",
+            errors: createErrorList({ suggestionOutput: "\nasync () => (baz() ? 'bar' : b)\n" })
         },
         {
-            code: "\nasync () => (baz() ? a : (b, await bar()))\n",
-            errors: createErrorList({ suggestionOutput: "\nasync () => (baz() ? a : (b, bar()))\n" })
+            code: "\nasync () => (baz() ? a : (b, await 'bar'))\n",
+            errors: createErrorList({ suggestionOutput: "\nasync () => (baz() ? a : (b, 'bar'))\n" })
         },
         {
-            code: "\nasync () => (baz() ? a : (b && await bar()))\n",
-            errors: createErrorList({ suggestionOutput: "\nasync () => (baz() ? a : (b && bar()))\n" })
+            code: "\nasync () => (baz() ? a : (b && await 'bar'))\n",
+            errors: createErrorList({ suggestionOutput: "\nasync () => (baz() ? a : (b && 'bar'))\n" })
         },
         {
-            code: "\nasync function foo() {\nif (a) {\n\t\tif (b) {\n\t\t\treturn await bar();\n\t\t}\n\t}\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\nif (a) {\n\t\tif (b) {\n\t\t\treturn bar();\n\t\t}\n\t}\n}\n" })
+            code: "\nasync function foo() {\nif (a) {\n\t\tif (b) {\n\t\t\treturn await 'bar';\n\t\t}\n\t}\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync function foo() {\nif (a) {\n\t\tif (b) {\n\t\t\treturn 'bar';\n\t\t}\n\t}\n}\n" })
         },
         {
-            code: "\nasync () => {\nif (a) {\n\t\tif (b) {\n\t\t\treturn await bar();\n\t\t}\n\t}\n}\n",
-            errors: createErrorList({ suggestionOutput: "\nasync () => {\nif (a) {\n\t\tif (b) {\n\t\t\treturn bar();\n\t\t}\n\t}\n}\n" })
+            code: "\nasync () => {\nif (a) {\n\t\tif (b) {\n\t\t\treturn await 'bar';\n\t\t}\n\t}\n}\n",
+            errors: createErrorList({ suggestionOutput: "\nasync () => {\nif (a) {\n\t\tif (b) {\n\t\t\treturn 'bar';\n\t\t}\n\t}\n}\n" })
         },
         {
             code: `
               async function foo() {
                 try {}
                 finally {
-                  return await bar();
+                  return await 'bar';
                 }
               }
             `,
@@ -266,7 +290,7 @@ ruleTester.run("no-return-await", rule, {
               async function foo() {
                 try {}
                 finally {
-                  return bar();
+                  return 'bar';
                 }
               }
             `
@@ -277,7 +301,7 @@ ruleTester.run("no-return-await", rule, {
               async function foo() {
                 try {}
                 catch (e) {
-                  return await bar();
+                  return await 'bar';
                 }
               }
             `,
@@ -286,7 +310,7 @@ ruleTester.run("no-return-await", rule, {
               async function foo() {
                 try {}
                 catch (e) {
-                  return bar();
+                  return 'bar';
                 }
               }
             `
@@ -296,7 +320,7 @@ ruleTester.run("no-return-await", rule, {
             code: `
               try {
                 async function foo() {
-                  return await bar();
+                  return await 'bar';
                 }
               } catch (e) {}
             `,
@@ -304,7 +328,7 @@ ruleTester.run("no-return-await", rule, {
                 suggestionOutput: `
               try {
                 async function foo() {
-                  return bar();
+                  return 'bar';
                 }
               } catch (e) {}
             `
@@ -313,13 +337,13 @@ ruleTester.run("no-return-await", rule, {
         {
             code: `
               try {
-                async () => await bar();
+                async () => await 'bar';
               } catch (e) {}
             `,
             errors: createErrorList({
                 suggestionOutput: `
               try {
-                async () => bar();
+                async () => 'bar';
               } catch (e) {}
             `
             })
@@ -331,7 +355,7 @@ ruleTester.run("no-return-await", rule, {
                 catch (e) {
                   try {}
                   catch (e) {
-                    return await bar();
+                    return await 'bar';
                   }
                 }
               }
@@ -343,7 +367,7 @@ ruleTester.run("no-return-await", rule, {
                 catch (e) {
                   try {}
                   catch (e) {
-                    return bar();
+                    return 'bar';
                   }
                 }
               }
@@ -353,38 +377,10 @@ ruleTester.run("no-return-await", rule, {
         {
             code: `
               async function foo() {
-                return await new Promise(resolve => {
-                  resolve(5);
-                });
+                return await (true ? true : bar());
               }
             `,
-            errors: createErrorList({
-                suggestionOutput: `
-              async function foo() {
-                return new Promise(resolve => {
-                  resolve(5);
-                });
-              }
-            `
-            })
-        },
-        {
-            code: `
-              async () => {
-                return await (
-                  foo()
-                )
-              };
-            `,
-            errors: createErrorList({
-                suggestionOutput: `
-              async () => {
-                return (
-                  foo()
-                )
-              };
-            `
-            })
+            errors: createErrorList()
         },
         {
             code: `
