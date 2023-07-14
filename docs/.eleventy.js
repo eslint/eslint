@@ -179,14 +179,63 @@ module.exports = function(eleventyConfig) {
         `.trim();
     }
 
+    /**
+     * Encodes text in the base 64 format used in playground URL params.
+     * @param {string} text Text to be encoded to base 64.
+     * @see https://github.com/eslint/eslint.org/blob/1b2f2aabeac2955a076d61788da8a0008bca6fb6/src/playground/utils/unicode.js
+     * @returns {string} The base 64 encoded equivalent of the text.
+     */
+    function encodeToBase64(text) {
+        /* global btoa -- It does exist, and is what the playground uses. */
+        return btoa(unescape(encodeURIComponent(text)));
+    }
+
+    /**
+     * Creates markdownItContainer settings for a playground-linked codeblock.
+     * @param {string} name Plugin name and class name to add to the code block.
+     * @returns {[string, object]} Plugin name and options for markdown-it.
+     */
+    function withPlaygroundRender(name) {
+        return [
+            name,
+            {
+                render(tokens, index) {
+                    if (tokens[index].nesting !== 1) {
+                        return "</div>";
+                    }
+
+                    // See https://github.com/eslint/eslint.org/blob/ac38ab41f99b89a8798d374f74e2cce01171be8b/src/playground/App.js#L44
+                    const parserOptions = tokens[index].info?.split("correct ")[1]?.trim();
+                    const { content } = tokens[index + 1];
+                    const state = encodeToBase64(
+                        JSON.stringify({
+                            ...(parserOptions && { options: { parserOptions: JSON.parse(parserOptions) } }),
+                            text: content
+                        })
+                    );
+                    const prefix = process.env.CONTEXT && process.env.CONTEXT !== "deploy-preview"
+                        ? ""
+                        : "https://eslint.org";
+
+                    return `
+                        <div class="${name}">
+                            <a class="c-btn c-btn--secondary c-btn--playground" href="${prefix}/play#${state}" target="_blank">
+                                Open in Playground
+                            </a>
+                    `.trim();
+                }
+            }
+        ];
+    }
+
     const markdownIt = require("markdown-it");
     const md = markdownIt({ html: true, linkify: true, typographer: true, highlight: (str, lang) => highlighter(md, str, lang) })
         .use(markdownItAnchor, {
             slugify: s => slug(s)
         })
         .use(markdownItContainer, "img-container", {})
-        .use(markdownItContainer, "correct", {})
-        .use(markdownItContainer, "incorrect", {})
+        .use(markdownItContainer, ...withPlaygroundRender("correct"))
+        .use(markdownItContainer, ...withPlaygroundRender("incorrect"))
         .use(markdownItContainer, "warning", {
             render(tokens, idx) {
                 return generateAlertMarkup("warning", tokens, idx);
