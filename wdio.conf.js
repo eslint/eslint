@@ -43,7 +43,7 @@ exports.config = {
      *
      */
     specs: [
-        "tests/lib/linter/linter.mjs"
+        "tests/lib/linter/linter.js"
     ],
 
     // Patterns to exclude.

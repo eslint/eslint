@@ -3,44 +3,26 @@
  * @author Nicholas C. Zakas
  */
 
+"use strict";
+
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-import { mock, fn } from "@wdio/browser-runner";
-import { expect } from "@wdio/globals";
+const { assert } = require("chai"),
+    sinon = require("sinon"),
+    espree = require("espree"),
+    esprima = require("esprima"),
+    testParsers = require("../../fixtures/parsers/linter-test-parsers");
 
-import { assert } from "chai";
-import sinon from "sinon";
-import * as espree from "espree";
-import * as esprima from "esprima";
-import testParsers from "../../fixtures/parsers/linter-test-parsers.js";
-
-import { FlatConfigArray } from "../../../lib/config/flat-config-array.js";
-import eslint from "../../../build/eslint.js";
-import StubParser from "../../fixtures/parsers/stub-parser.js";
-
-const Linter = eslint.Linter;
-
-//------------------------------------------------------------------------------
-// Mocks
-//------------------------------------------------------------------------------
-mock("../../fixtures/parsers/stub-parser.js", () => ({
-    parse: fn().mockReturnValue({
-        type: "Program",
-        loc: {},
-        range: [],
-        body: [],
-        comments: [],
-        errors: [],
-        tokens: []
-    })
-}));
+const { Linter } = require("../../../build/eslint");
+const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 
 //------------------------------------------------------------------------------
 // Constants
 //------------------------------------------------------------------------------
 
+const IS_BROWSER = Boolean(globalThis.window);
 const TEST_CODE = "var answer = 6 * 7;",
     BROKEN_TEST_CODE = "var;";
 
@@ -67,7 +49,12 @@ function getVariable(scope, name) {
  */
 const ESLINT_ENV = "eslint-env";
 
-process.cwd = () => "/";
+/**
+ * we want to mock this when running within the browser to match the test result in Node.js
+ */
+if (IS_BROWSER) {
+    process.cwd = () => "/";
+}
 
 //------------------------------------------------------------------------------
 // Tests
@@ -7282,20 +7269,20 @@ var a = "test2";
 
         const errorPrefix = "Parsing error: ";
 
-        /**
-         * fails due to "ES Modules cannot be spied"
-         */
-        it("should have file path passed to it", () => {
+        it("should have file path passed to it", function() {
+            if (IS_BROWSER) {
+                // eslint-disable-next-line no-invalid-this -- ignore me
+                return this.skip();
+            }
+
             const code = "/* this is code */";
+            const parseSpy = sinon.spy(testParsers.stubParser, "parse");
 
             linter.defineParser("stub-parser", testParsers.stubParser);
             linter.verify(code, { parser: "stub-parser" }, filename, true);
 
-            expect(StubParser.parse).toBeCalledTimes(1);
-            const [arg0, arg1] = StubParser.parse.mock.calls[0];
-
-            expect(arg0).toBe(code);
-            expect(arg1.filePath).toBe(filename);
+            sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
+            return null;
         });
 
         it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
@@ -7537,10 +7524,6 @@ var a = "test2";
 
             assert.strictEqual(messages.length, 0);
             assert.strictEqual(suppressedMessages.length, 0);
-        });
-
-        beforeEach(() => {
-            StubParser.parse.mockClear();
         });
     });
 
@@ -8097,11 +8080,14 @@ describe("Linter with FlatConfigArray", () => {
 
                     const errorPrefix = "Parsing error: ";
 
-                    /**
-                     * fails due to: "ES Modules cannot be spied"
-                     */
-                    it("should have file path passed to it", () => {
+                    it("should have file path passed to it", function() {
+                        if (IS_BROWSER) {
+                            // eslint-disable-next-line no-invalid-this -- ignore me
+                            return this.skip();
+                        }
+
                         const code = "/* this is code */";
+                        const parseSpy = sinon.spy(testParsers.stubParser, "parse");
                         const config = {
                             languageOptions: {
                                 parser: testParsers.stubParser
@@ -8109,11 +8095,9 @@ describe("Linter with FlatConfigArray", () => {
                         };
 
                         linter.verify(code, config, filename, true);
-                        expect(StubParser.parse).toBeCalledTimes(1);
-                        const [arg0, arg1] = StubParser.parse.mock.calls[0];
 
-                        expect(arg0).toBe(code);
-                        expect(arg1.filePath).toBe(filename);
+                        sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
+                        return null;
                     });
 
                     it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
@@ -8416,10 +8400,6 @@ describe("Linter with FlatConfigArray", () => {
                             ecmaVersion: espree.latestEcmaVersion + 2009,
                             sourceType: "module"
                         }));
-                    });
-
-                    afterEach(() => {
-                        StubParser.parse.mockClear();
                     });
                 });
 
