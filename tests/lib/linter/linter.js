@@ -15,14 +15,13 @@ const { assert } = require("chai"),
     esprima = require("esprima"),
     testParsers = require("../../fixtures/parsers/linter-test-parsers");
 
-const { Linter } = require("../../../build/eslint");
+const { Linter } = require("../../../lib/linter");
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 
 //------------------------------------------------------------------------------
 // Constants
 //------------------------------------------------------------------------------
 
-const IS_BROWSER = Boolean(globalThis.window);
 const TEST_CODE = "var answer = 6 * 7;",
     BROKEN_TEST_CODE = "var;";
 
@@ -48,13 +47,6 @@ function getVariable(scope, name) {
  * like that appear in the code.
  */
 const ESLINT_ENV = "eslint-env";
-
-/**
- * we want to mock this when running within the browser to match the test result in Node.js
- */
-if (IS_BROWSER) {
-    process.cwd = () => "/";
-}
 
 //------------------------------------------------------------------------------
 // Tests
@@ -7269,12 +7261,7 @@ var a = "test2";
 
         const errorPrefix = "Parsing error: ";
 
-        it("should have file path passed to it", function() {
-            if (IS_BROWSER) {
-                // eslint-disable-next-line no-invalid-this -- ignore me
-                return this.skip();
-            }
-
+        it("should have file path passed to it @skipWeb", () => {
             const code = "/* this is code */";
             const parseSpy = sinon.spy(testParsers.stubParser, "parse");
 
@@ -8080,12 +8067,7 @@ describe("Linter with FlatConfigArray", () => {
 
                     const errorPrefix = "Parsing error: ";
 
-                    it("should have file path passed to it", function() {
-                        if (IS_BROWSER) {
-                            // eslint-disable-next-line no-invalid-this -- ignore me
-                            return this.skip();
-                        }
-
+                    it("should have file path passed to it @skipWeb", () => {
                         const code = "/* this is code */";
                         const parseSpy = sinon.spy(testParsers.stubParser, "parse");
                         const config = {

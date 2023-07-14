@@ -20,7 +20,24 @@ exports.config = {
                     assert: "rollup-plugin-node-polyfills/polyfills/assert"
                 }
             },
-            plugins: [commonjs()]
+            plugins: [
+                commonjs(),
+                {
+                    name: "wdio:import-fix",
+                    enforce: "pre",
+                    transform(source, id) {
+                        if (!id.endsWith("/tests/lib/linter/linter.js")) {
+                            return source;
+                        }
+
+                        return source.replace(
+                            'const { Linter } = require("../../../lib/linter");',
+                            'const { Linter } = require("../../../build/eslint");\n' +
+                            'process.cwd = () => "/";'
+                        );
+                    }
+                }
+            ]
         }
     }],
 
@@ -59,7 +76,7 @@ exports.config = {
      * sessions. Within your capabilities you can overwrite the spec and exclude options in
      * order to group specific specs to a specific capability.
      *
-     * First, you can define how many instances should be started at the same time. Let's
+     * First, you can define how many instances should be started at the same time. Let"s
      * say you have 3 different capabilities (Chrome, Firefox, and Safari) and you have
      * set maxInstances to 1; wdio will spawn 3 processes. Therefore, if you have 10 spec
      * files and you set maxInstances to 10, all spec files will get tested at the same time
@@ -187,7 +204,9 @@ exports.config = {
      */
     mochaOpts: {
         ui: "bdd",
-        timeout: 60000
+        timeout: 60000,
+        grep: "@skipWeb",
+        invert: true
     }
 
     /*
