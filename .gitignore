@@ -4,6 +4,7 @@ test.js
 coverage/
 build/
 logs
+wdio-logs
 npm-debug.log
 yarn-error.log
 .pnpm-debug.log
