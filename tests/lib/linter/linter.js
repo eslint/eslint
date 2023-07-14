@@ -7269,7 +7269,6 @@ var a = "test2";
             linter.verify(code, { parser: "stub-parser" }, filename, true);
 
             sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
-            return null;
         });
 
         it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
@@ -8079,7 +8078,6 @@ describe("Linter with FlatConfigArray", () => {
                         linter.verify(code, config, filename, true);
 
                         sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
-                        return null;
                     });
 
                     it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
