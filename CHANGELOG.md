@@ -1,3 +1,23 @@
+v8.45.0 - July 14, 2023
+
+* [`68f63d7`](https://github.com/eslint/eslint/commit/68f63d76ce785fab4f42b76f1599026eea379bf7) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`89f3225`](https://github.com/eslint/eslint/commit/89f3225108c66425e4132f76db6c1ab13aac98d7) docs: add playground links to correct and incorrect code blocks (#17306) (Josh Goldberg ✨)
+* [`f8892b5`](https://github.com/eslint/eslint/commit/f8892b52920b8967f9e7bec23c75b74e03977d6b) docs: Expand rule option schema docs (#17198) (Matt Wilkinson)
+* [`8bcbf11`](https://github.com/eslint/eslint/commit/8bcbf11b6050418262ffa8e0ca37f365ae92e7ce) docs: Config Migration Guide (#17230) (Ben Perlmutter)
+* [`bb30908`](https://github.com/eslint/eslint/commit/bb3090897166dbfd2931a43a70e2a5c1f3fa0a07) docs: Update README (GitHub Actions Bot)
+* [`b79b6fb`](https://github.com/eslint/eslint/commit/b79b6fb64473969b426d086b484d2e29594a5e9a) fix: Fix suggestion message in `no-useless-escape` (#17339) (Francesco Trotta)
+* [`84d243b`](https://github.com/eslint/eslint/commit/84d243b245b01b667f0752b592e8bda02a9aa2b1) docs: Update README (GitHub Actions Bot)
+* [`5ca9b4d`](https://github.com/eslint/eslint/commit/5ca9b4d29f747e9cf5c9055e85c93b3b605d57fc) chore: update eslint-config-eslint exports (#17336) (Milos Djermanovic)
+* [`b762632`](https://github.com/eslint/eslint/commit/b762632298f20c4f81e7d01ab850c3f5e3874637) docs: Update README (GitHub Actions Bot)
+* [`7bf2e86`](https://github.com/eslint/eslint/commit/7bf2e86022c9e95db4ca1472fddfa2ea4edd1870) chore: remove unused dependencies (#17352) (Percy Ma)
+* [`c6f8cd0`](https://github.com/eslint/eslint/commit/c6f8cd0d62e4a3c314c6860ff367490bbd05325a) chore: Remove `defaultIgnores` from FlatESLint private members (#17349) (Francesco Trotta)
+* [`cdd063c`](https://github.com/eslint/eslint/commit/cdd063c388bbfe1781d7a864a832f03a2c1cc277) feat: Expose LegacyESLint in unsupported API (#17341) (Nicholas C. Zakas)
+* [`c667055`](https://github.com/eslint/eslint/commit/c667055fb9da8ebac3a99f6e5a8b5565cc86af8e) fix: provide unique `fix` and `fix.range` objects in lint messages (#17332) (Milos Djermanovic)
+* [`138c096`](https://github.com/eslint/eslint/commit/138c096bc9468b553dbafc0e573c6522a17a7922) docs: add more prefer-destructuring examples with array destructuring (#17330) (Milos Djermanovic)
+* [`0052374`](https://github.com/eslint/eslint/commit/0052374035672efe9129343fc00ee51a4c288ff3) chore: move jsdoc settings to eslint-config-eslint (#17338) (唯然)
+* [`d34abe5`](https://github.com/eslint/eslint/commit/d34abe59eb23932dcbc79757d7932d08ee8b20e5) feat: fix indent rule for else-if (#17318) (Milos Djermanovic)
+* [`1fc50a8`](https://github.com/eslint/eslint/commit/1fc50a89753346f4f4c786ffd20ac4cf185bb036) docs: `max-len` rule `code` and `tabWidth` as positional arguments (#17331) (Jesús Leganés-Combarro)
+
 v8.44.0 - June 30, 2023
 
 * [`49e46ed`](https://github.com/eslint/eslint/commit/49e46edf3c8dc71d691a97fc33b63ed80ae0db0c) chore: upgrade @eslint/js@8.44.0 (#17329) (Milos Djermanovic)
