@@ -27,7 +27,11 @@ ruleTester.run("no-empty-pattern", rule, {
         { code: "function foo({a = {}}) {}", parserOptions: { ecmaVersion: 6 } },
         { code: "function foo({a = []}) {}", parserOptions: { ecmaVersion: 6 } },
         { code: "var [a] = foo", parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo({}) {}", options: [{ allowObjectPatternsAsParameters: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = function({}) {}", options: [{ allowObjectPatternsAsParameters: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = ({}) => {}", options: [{ allowObjectPatternsAsParameters: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo({} = {}) {}", options: [{ allowObjectPatternsAsParameters: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = function({} = {}) {}", options: [{ allowObjectPatternsAsParameters: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = ({} = {}) => {}", options: [{ allowObjectPatternsAsParameters: true }], parserOptions: { ecmaVersion: 6 } }
     ],
 
@@ -115,7 +119,47 @@ ruleTester.run("no-empty-pattern", rule, {
             }]
         },
         {
+            code: "function foo({}) {}",
+            options: [{ allowObjectPatternsAsParameters: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpected",
+                data: { type: "object" },
+                type: "ObjectPattern"
+            }]
+        },
+        {
+            code: "var foo = function({}) {}",
+            options: [{ allowObjectPatternsAsParameters: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpected",
+                data: { type: "object" },
+                type: "ObjectPattern"
+            }]
+        },
+        {
             code: "var foo = ({}) => {}",
+            options: [{ allowObjectPatternsAsParameters: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpected",
+                data: { type: "object" },
+                type: "ObjectPattern"
+            }]
+        },
+        {
+            code: "function foo({} = {}) {}",
+            options: [{ allowObjectPatternsAsParameters: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpected",
+                data: { type: "object" },
+                type: "ObjectPattern"
+            }]
+        },
+        {
+            code: "var foo = function({} = {}) {}",
             options: [{ allowObjectPatternsAsParameters: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
