@@ -74,6 +74,8 @@ jobs:
         node-version: '16'
     - name: Install Packages
       run: npm install
+      env:
+        DETECT_CHROMEDRIVER_VERSION: true
     - name: Test
       run: node Makefile wdio
     - name: Fuzz Test
