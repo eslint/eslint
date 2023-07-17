@@ -128,6 +128,20 @@ async function assertInvalidConfig(values, message) {
 }
 
 /**
+ * Asserts that a given set of configs results is a valid config.
+ * @param {*[]} values An array of configs to use in the config array.
+ * @returns {void}
+ * @throws {Error} If the config is invalid.
+ */
+async function assertValidConfig(values) {
+    const configs = createFlatConfigArray(values);
+
+    await configs.normalize();
+
+    configs.getConfig("foo.js"); // should not throw error
+}
+
+/**
  * Normalizes the rule configs to an array with severity to match
  * how Flat Config merges rule options.
  * @param {Object} rulesConfig The rules config portion of a config.
@@ -908,13 +922,34 @@ describe("FlatConfigArray", () => {
                 });
             });
 
+            it("should not error when an extension-named processor string is used", async () => {
+
+                await assertValidConfig([
+                    {
+                        plugins: {
+                            foo: {
+                                processors: {
+                                    ".yaml": {
+                                        preprocess() {},
+                                        postprocess() {}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        processor: "foo/.yaml"
+                    }
+                ]);
+            });
+
             it("should error when an invalid string is used", async () => {
 
                 await assertInvalidConfig([
                     {
                         processor: "foo"
                     }
-                ], "pluginName/objectName");
+                ], "pluginName/processorName");
             });
 
             it("should error when an empty string is used", async () => {
@@ -923,7 +958,7 @@ describe("FlatConfigArray", () => {
                     {
                         processor: ""
                     }
-                ], "pluginName/objectName");
+                ], "pluginName/processorName");
             });
 
             it("should error when an invalid processor is used", async () => {
