@@ -204,7 +204,7 @@ exports.config = {
      */
     mochaOpts: {
         ui: "bdd",
-        timeout: 60000,
+        timeout: 2 * 60 * 1000, // 2min
         grep: "@skipWeb",
         invert: true
     }

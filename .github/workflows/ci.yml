@@ -80,3 +80,9 @@ jobs:
       run: node Makefile wdio
     - name: Fuzz Test
       run: node Makefile fuzz
+    - uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: logs
+        path: |
+          wdio-logs/*.log
