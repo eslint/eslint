@@ -3789,14 +3789,14 @@ describe("SourceCode", () => {
 
     });
 
-    describe("getInlineConfigComments()", () => {
+    describe("getInlineConfigNodes()", () => {
 
         it("should return inline config comments", () => {
 
             const code = "/*eslint foo: 1*/ foo; /* non-config comment*/ /* eslint-disable bar */ bar; /* eslint-enable bar */";
             const ast = espree.parse(code, DEFAULT_CONFIG);
             const sourceCode = new SourceCode(code, ast);
-            const configComments = sourceCode.getInlineConfigComments();
+            const configComments = sourceCode.getInlineConfigNodes();
 
             // not sure why but without the JSON parse/stringify Chai won't see these as equal
             assert.deepStrictEqual(JSON.parse(JSON.stringify(configComments)), [

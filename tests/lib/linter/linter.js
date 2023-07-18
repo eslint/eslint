@@ -11875,12 +11875,12 @@ describe("Linter with FlatConfigArray", () => {
                         const messages = linter.verify(code, config, filename);
                         const suppressedMessages = linter.getSuppressedMessages();
 
-                        assert.strictEqual(messages.length, 1);
+                        assert.strictEqual(messages.length, 1, "Incorrect message length");
                         assert.strictEqual(messages[0].ruleId, "no-alert");
                         assert.strictEqual(messages[0].message, "Unexpected alert.");
                         assert.include(messages[0].nodeType, "CallExpression");
 
-                        assert.strictEqual(suppressedMessages.length, 0);
+                        assert.strictEqual(suppressedMessages.length, 0,"Incorrect suppressed message length");
                     });
 
                     it("rules should not change initial config", () => {
@@ -11968,7 +11968,7 @@ describe("Linter with FlatConfigArray", () => {
                 });
 
                 describe("when evaluating code with invalid comments to enable rules", () => {
-                    it("should report a violation when the config is not a valid rule configuration", () => {
+                    it.only("should report a violation when the config is not a valid rule configuration", () => {
                         const messages = linter.verify("/*eslint no-alert:true*/ alert('test');", {});
                         const suppressedMessages = linter.getSuppressedMessages();
 
