@@ -1938,5 +1938,33 @@ describe("FlatConfigArray", () => {
 
         });
 
+        describe("Invalid Keys", () => {
+
+            [
+                "env",
+                "extends",
+                "globals",
+                "ignorePatterns",
+                "noInlineConfig",
+                "overrides",
+                "parser",
+                "parserOptions",
+                "reportUnusedDisableDirectives",
+                "root"
+            ].forEach(key => {
+
+                it(`should error when a ${key} key is found`, async () => {
+                    await assertInvalidConfig([
+                        {
+                            [key]: "foo"
+                        }
+                    ], `Key "${key}": This appears to be in eslintrc format rather than flat config format.`);
+
+                });
+            });
+
+
+        });
+
     });
 });
