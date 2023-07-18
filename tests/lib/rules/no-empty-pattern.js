@@ -120,7 +120,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "function foo({}) {}",
-            options: [{ allowObjectPatternsAsParameters: false }],
+            options: [{}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
@@ -130,7 +130,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "var foo = function({}) {}",
-            options: [{ allowObjectPatternsAsParameters: false }],
+            options: [{}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
@@ -140,7 +140,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "var foo = ({}) => {}",
-            options: [{ allowObjectPatternsAsParameters: false }],
+            options: [{}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
@@ -150,7 +150,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "function foo({} = {}) {}",
-            options: [{ allowObjectPatternsAsParameters: false }],
+            options: [{}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
@@ -160,7 +160,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "var foo = function({} = {}) {}",
-            options: [{ allowObjectPatternsAsParameters: false }],
+            options: [{}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
@@ -170,7 +170,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "var foo = ({} = {}) => {}",
-            options: [{ allowObjectPatternsAsParameters: false }],
+            options: [{}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
@@ -180,6 +180,26 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "var foo = ({a: {}}) => {}",
+            options: [{ allowObjectPatternsAsParameters: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpected",
+                data: { type: "object" },
+                type: "ObjectPattern"
+            }]
+        },
+        {
+            code: "var foo = ({} = bar) => {}",
+            options: [{ allowObjectPatternsAsParameters: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpected",
+                data: { type: "object" },
+                type: "ObjectPattern"
+            }]
+        },
+        {
+            code: "var foo = ({} = { bar: 1 }) => {}",
             options: [{ allowObjectPatternsAsParameters: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{

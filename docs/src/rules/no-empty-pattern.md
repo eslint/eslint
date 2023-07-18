@@ -76,7 +76,7 @@ Set to `false` by default. Setting this option to `true` allows empty object pat
 
 **Note:** This rule doesn't allow empty array patterns as function parameters.
 
-Examples of **incorrect** code for when `allowObjectPatternsAsParameters` is `true`:
+Examples of **incorrect** code for this rule with the `{"allowObjectPatternsAsParameters": true}` option:
 
 ::: incorrect
 
@@ -86,13 +86,15 @@ Examples of **incorrect** code for when `allowObjectPatternsAsParameters` is `tr
 function foo({a: {}}) {}
 var foo = function({a: {}}) {};
 var foo = ({a: {}}) => {};
+var foo = ({} = bar) => {};
+var foo = ({} = { bar: 1 }) => {};
 
 function foo([]) {}
 ```
 
 :::
 
-Examples of **correct** code for when `allowObjectPatternsAsParameters` is `true`:
+Examples of **correct** code for this rule with the `{"allowObjectPatternsAsParameters": true}` option:
 
 ::: correct
 
