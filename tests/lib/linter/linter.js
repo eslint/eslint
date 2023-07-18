@@ -7261,7 +7261,7 @@ var a = "test2";
 
         const errorPrefix = "Parsing error: ";
 
-        it("should have file path passed to it", async () => {
+        it("should have file path passed to it", () => {
             const code = "/* this is code */";
             const parseSpy = { parse: sinon.spy() };
 
