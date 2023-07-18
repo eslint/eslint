@@ -7261,14 +7261,14 @@ var a = "test2";
 
         const errorPrefix = "Parsing error: ";
 
-        it("should have file path passed to it @skipWeb", () => {
+        it("should have file path passed to it", async () => {
             const code = "/* this is code */";
-            const parseSpy = sinon.spy(testParsers.stubParser, "parse");
+            const parseSpy = { parse: sinon.spy() };
 
-            linter.defineParser("stub-parser", testParsers.stubParser);
+            linter.defineParser("stub-parser", parseSpy);
             linter.verify(code, { parser: "stub-parser" }, filename, true);
 
-            sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
+            sinon.assert.calledWithMatch(parseSpy.parse, "", { filePath: filename });
         });
 
         it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
@@ -8066,18 +8066,18 @@ describe("Linter with FlatConfigArray", () => {
 
                     const errorPrefix = "Parsing error: ";
 
-                    it("should have file path passed to it @skipWeb", () => {
+                    it("should have file path passed to it", () => {
                         const code = "/* this is code */";
-                        const parseSpy = sinon.spy(testParsers.stubParser, "parse");
+                        const parseSpy = { parse: sinon.spy() };
                         const config = {
                             languageOptions: {
-                                parser: testParsers.stubParser
+                                parser: parseSpy
                             }
                         };
 
                         linter.verify(code, config, filename, true);
 
-                        sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
+                        sinon.assert.calledWithMatch(parseSpy.parse, "", { filePath: filename });
                     });
 
                     it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {

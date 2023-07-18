@@ -1,6 +1,6 @@
 "use strict";
 
-const commonjs = require("vite-plugin-commonjs");
+const commonjs = require("vite-plugin-commonjs").default;
 
 exports.config = {
 
