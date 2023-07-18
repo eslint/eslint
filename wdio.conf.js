@@ -109,7 +109,7 @@ exports.config = {
      *
      * Level of logging verbosity: trace | debug | info | warn | error | silent
      */
-    logLevel: "info",
+    logLevel: "trace",
     outputDir: "./wdio-logs",
 
     /*
