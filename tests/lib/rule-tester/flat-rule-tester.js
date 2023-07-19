@@ -1336,7 +1336,7 @@ describe("FlatRuleTester", () => {
                 ],
                 invalid: []
             });
-        }, /Unexpected key "env" found./u);
+        }, /Key "env": This appears to be in eslintrc format rather than flat config format/u);
     });
 
     it("should pass-through the tester config to the rule", () => {
