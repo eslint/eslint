@@ -77,7 +77,7 @@ A config object is using the "parser" key, which is not supported in flat config
 Flat config uses "languageOptions.parser" to override the default parser.
 
 Please see the following page for information on how to convert your config object into the correct format:
-https://eslint.org/docs/latest/use/configure/migration-guide#configuring-language-options
+https://eslint.org/docs/latest/use/configure/migration-guide#custom-parsers
             `.trim();
 
         case "parserOptions":
