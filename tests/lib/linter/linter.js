@@ -11880,7 +11880,7 @@ describe("Linter with FlatConfigArray", () => {
                         assert.strictEqual(messages[0].message, "Unexpected alert.");
                         assert.include(messages[0].nodeType, "CallExpression");
 
-                        assert.strictEqual(suppressedMessages.length, 0,"Incorrect suppressed message length");
+                        assert.strictEqual(suppressedMessages.length, 0, "Incorrect suppressed message length");
                     });
 
                     it("rules should not change initial config", () => {
@@ -11968,7 +11968,7 @@ describe("Linter with FlatConfigArray", () => {
                 });
 
                 describe("when evaluating code with invalid comments to enable rules", () => {
-                    it.only("should report a violation when the config is not a valid rule configuration", () => {
+                    it("should report a violation when the config is not a valid rule configuration", () => {
                         const messages = linter.verify("/*eslint no-alert:true*/ alert('test');", {});
                         const suppressedMessages = linter.getSuppressedMessages();
 
@@ -11978,7 +11978,7 @@ describe("Linter with FlatConfigArray", () => {
                                 {
                                     severity: 2,
                                     ruleId: "no-alert",
-                                    message: "Configuration for rule \"no-alert\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed 'true').\n",
+                                    message: "Inline configuration for rule \"no-alert\" is invalid:\n\t: Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2. You passed \"true\".\n",
                                     line: 1,
                                     column: 1,
                                     endLine: 1,
@@ -12001,7 +12001,7 @@ describe("Linter with FlatConfigArray", () => {
                                 {
                                     severity: 2,
                                     ruleId: "no-alert",
-                                    message: "Configuration for rule \"no-alert\" is invalid:\n\tValue [{\"nonExistentPropertyName\":true}] should NOT have more than 0 items.\n",
+                                    message: "Inline configuration for rule \"no-alert\" is invalid:\n\tValue [{\"nonExistentPropertyName\":true}] should NOT have more than 0 items.\n",
                                     line: 1,
                                     column: 1,
                                     endLine: 1,
@@ -14025,7 +14025,7 @@ var a = "test2";
                             assert.deepStrictEqual(messages[0].fatal, void 0);
                             assert.deepStrictEqual(messages[0].ruleId, null);
                             assert.deepStrictEqual(messages[0].severity, 1);
-                            assert.deepStrictEqual(messages[0].message, `'/*${directive.split(" ")[0]}*/' has no effect because you have 'noInlineConfig' setting in your config.`);
+                            assert.deepStrictEqual(messages[0].message, `'/* ${directive} */' has no effect because you have 'noInlineConfig' setting in your config.`);
 
                             assert.strictEqual(suppressedMessages.length, 0);
                         });
@@ -14048,7 +14048,7 @@ var a = "test2";
                             assert.deepStrictEqual(messages[0].fatal, void 0);
                             assert.deepStrictEqual(messages[0].ruleId, null);
                             assert.deepStrictEqual(messages[0].severity, 1);
-                            assert.deepStrictEqual(messages[0].message, `'//${directive.split(" ")[0]}' has no effect because you have 'noInlineConfig' setting in your config.`);
+                            assert.deepStrictEqual(messages[0].message, `'// ${directive}' has no effect because you have 'noInlineConfig' setting in your config.`);
 
                             assert.strictEqual(suppressedMessages.length, 0);
                         });

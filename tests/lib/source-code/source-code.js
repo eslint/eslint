@@ -4007,7 +4007,8 @@ describe("SourceCode", () => {
             const result = sourceCode.applyInlineConfig();
 
             assert.isTrue(result.ok);
-            assert.strictEqual(result.config.rules["some-rule"], 2);
+            assert.strictEqual(result.configs.length, 1);
+            assert.strictEqual(result.configs[0].config.rules["some-rule"], 2);
         });
 
         it("should extract multiple rule configurations", () => {
@@ -4018,8 +4019,22 @@ describe("SourceCode", () => {
             const result = sourceCode.applyInlineConfig();
 
             assert.isTrue(result.ok);
-            assert.strictEqual(result.config.rules["some-rule"], 2);
-            assert.deepStrictEqual(result.config.rules["other-rule"], ["error", { skip: true }]);
+            assert.strictEqual(result.configs.length, 1);
+            assert.strictEqual(result.configs[0].config.rules["some-rule"], 2);
+            assert.deepStrictEqual(result.configs[0].config.rules["other-rule"], ["error", { skip: true }]);
+        });
+
+        it("should extract multiple comments into multiple configurations", () => {
+
+            const code = "/*eslint some-rule: 2*/ /*eslint other-rule: [\"error\", { skip: true }] */ var foo;";
+            const ast = espree.parse(code, DEFAULT_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const result = sourceCode.applyInlineConfig();
+
+            assert.isTrue(result.ok);
+            assert.strictEqual(result.configs.length, 2);
+            assert.strictEqual(result.configs[0].config.rules["some-rule"], 2);
+            assert.deepStrictEqual(result.configs[1].config.rules["other-rule"], ["error", { skip: true }]);
         });
 
         it("should report problem with rule configuration parsing", () => {
