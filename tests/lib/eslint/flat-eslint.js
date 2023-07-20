@@ -4478,6 +4478,42 @@ describe("FlatESLint", () => {
 
             assert.deepStrictEqual(rulesMeta, { "no-var": coreRules.get("no-var").meta });
         });
+
+        it("should return empty object if all messages are related to unknown rules", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: true
+            });
+
+            const results = await engine.lintText("// eslint-disable-line foo, bar/baz, bar/baz/qux");
+
+            assert.strictEqual(results[0].messages.length, 3);
+            assert.strictEqual(results[0].messages[0].ruleId, "foo");
+            assert.strictEqual(results[0].messages[1].ruleId, "bar/baz");
+            assert.strictEqual(results[0].messages[2].ruleId, "bar/baz/qux");
+
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.deepStrictEqual(rulesMeta, {});
+        });
+
+        it("should return object with meta of known rules if some messages are related to unknown rules", async () => {
+            const engine = new FlatESLint({
+                overrideConfigFile: true,
+                overrideConfig: { rules: { "no-var": "warn" } }
+            });
+
+            const results = await engine.lintText("// eslint-disable-line foo, bar/baz, bar/baz/qux\nvar x;");
+
+            assert.strictEqual(results[0].messages.length, 4);
+            assert.strictEqual(results[0].messages[0].ruleId, "foo");
+            assert.strictEqual(results[0].messages[1].ruleId, "bar/baz");
+            assert.strictEqual(results[0].messages[2].ruleId, "bar/baz/qux");
+            assert.strictEqual(results[0].messages[3].ruleId, "no-var");
+
+            const rulesMeta = engine.getRulesMetaForResults(results);
+
+            assert.deepStrictEqual(rulesMeta, { "no-var": coreRules.get("no-var").meta });
+        });
     });
 
     describe("outputFixes()", () => {
