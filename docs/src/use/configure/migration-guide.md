@@ -372,7 +372,6 @@ Here are the same files ignore patterns in flat config:
 export default [
     // ...other config
     {
-
         ignores: ["**/temp.js", "config/*"]
     }
 ];
