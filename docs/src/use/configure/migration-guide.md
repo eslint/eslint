@@ -255,6 +255,8 @@ export default [
 ];
 ```
 
+### `eslint-env` Configuration Comments
+
 In the eslintrc config system it was possible to use `eslint-env` configuration comments to define globals for a file.
 These comments are no longer recognized when linting with flat config: in a future version of ESLint, `eslint-env` comments will be reported as errors.
 For this reason, when migrating from eslintrc to flat config, `eslint-env` configuration comments should be removed from all files.
