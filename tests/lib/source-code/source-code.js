@@ -4045,17 +4045,17 @@ describe("SourceCode", () => {
             const result = sourceCode.applyInlineConfig();
 
             assert.isFalse(result.ok);
-            assert.deepStrictEqual(result.problems, [
-                {
-                    column: 1,
-                    fatal: true,
-                    line: 1,
-                    message: "Failed to parse JSON from ' \"some-rule\"::,': Unexpected token : in JSON at position 14",
-                    nodeType: null,
-                    ruleId: null,
-                    severity: 2
-                }
-            ]);
+
+            const problem = result.problems[0];
+
+            // Node.js 19 changes the JSON parsing error format, so we need to check each field separately to use a regex
+            assert.strictEqual(problem.column, 1);
+            assert.strictEqual(problem.line, 1);
+            assert.isTrue(problem.fatal);
+            assert.match(problem.message, /Failed to parse JSON from ' "some-rule"::,': Unexpected token '?:'?/u);
+            assert.isNull(problem.nodeType);
+            assert.isNull(problem.ruleId);
+            assert.strictEqual(problem.severity, 2);
         });
     });
 });
