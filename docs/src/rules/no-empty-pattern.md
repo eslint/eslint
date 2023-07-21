@@ -65,3 +65,47 @@ function foo({a = []}) {}
 ```
 
 :::
+
+## Options
+
+This rule has an object option for exceptions:
+
+### allowObjectPatternsAsParameters
+
+Set to `false` by default. Setting this option to `true` allows empty object patterns as function parameters.
+
+**Note:** This rule doesn't allow empty array patterns as function parameters.
+
+Examples of **incorrect** code for this rule with the `{"allowObjectPatternsAsParameters": true}` option:
+
+::: incorrect
+
+```js
+/*eslint no-empty-pattern: ["error", { "allowObjectPatternsAsParameters": true }]*/
+
+function foo({a: {}}) {}
+var foo = function({a: {}}) {};
+var foo = ({a: {}}) => {};
+var foo = ({} = bar) => {};
+var foo = ({} = { bar: 1 }) => {};
+
+function foo([]) {}
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{"allowObjectPatternsAsParameters": true}` option:
+
+::: correct
+
+```js
+/*eslint no-empty-pattern: ["error", { "allowObjectPatternsAsParameters": true }]*/
+
+function foo({}) {}
+var foo = function({}) {};
+var foo = ({}) => {};
+
+function foo({} = {}) {}
+```
+
+:::
