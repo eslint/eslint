@@ -67,7 +67,7 @@
     "@humanwhocodes/config-array": "^0.11.10",
     "@humanwhocodes/module-importer": "^1.0.1",
     "@nodelib/fs.walk": "^1.2.8",
-    "ajv": "^6.10.0",
+    "ajv": "^6.12.4",
     "chalk": "^4.0.0",
     "cross-spawn": "^7.0.2",
     "debug": "^4.3.2",
