@@ -4493,7 +4493,7 @@ describe("FlatESLint", () => {
 
             const rulesMeta = engine.getRulesMetaForResults(results);
 
-            assert.deepStrictEqual(rulesMeta, {});
+            assert.strictEqual(Object.keys(rulesMeta).length, 0);
         });
 
         it("should return object with meta of known rules if some messages are related to unknown rules", async () => {
