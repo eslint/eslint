@@ -301,6 +301,61 @@ ruleTester.run("require-unicode-regexp", rule, {
                     }
                 ]
             }]
+        },
+
+        {
+            code: "/test/",
+            options: [{ requiredUnicodeFlag: "v" }],
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "requireVFlag",
+                suggestions: [
+                    {
+                        messageId: "addVFlag",
+                        output: "/test/v"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "/test/",
+            options: [{ requiredUnicodeFlag: "u" }],
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "/test/u"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "/foo/gimy",
+            options: [{ requiredUnicodeFlag: "v" }],
+            errors: [{
+                messageId: "requireVFlag",
+                suggestions: [
+                    {
+                        messageId: "addVFlag",
+                        output: "/foo/gimyv"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "/foo/gimy",
+            options: [{ requiredUnicodeFlag: "u" }],
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "/foo/gimyu"
+                    }
+                ]
+            }]
         }
     ]
 });
