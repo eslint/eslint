@@ -21,7 +21,37 @@ RegExp `u` flag has two effects:
 
     The `u` flag disables the recovering logic Annex B defined. As a result, you can find errors early. This is similar to [the strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode).
 
-Therefore, the `u` flag lets us work better with regular expressions.
+The RegExp `v` flag, introduced in ECMAScript 2024, is a superset of the `u` flag, and offers two more features:
+
+1. **Unicode properties of strings**
+
+    With the Unicode property escape, you can use properties of strings.
+
+    ```js
+    const re = /^\p{RGI_Emoji}$/v;
+
+    // Match an emoji that consists of just 1 code point:
+    re.test('⚽'); // '\u26BD'
+    // → true ✅
+
+    // Match an emoji that consists of multiple code points:
+    re.test('👨🏾‍⚕️'); // '\u{1F468}\u{1F3FE}\u200D\u2695\uFE0F'
+    // → true ✅
+    ```
+
+2. **Set notation**
+
+    It allows for set operations between character classes.
+
+    ```js
+    const re = /[\p{White_Space}&&\p{ASCII}]/v;
+    re.test('\n'); // → true
+    re.test('\u2028'); // → false
+    ```
+
+Please see <https://github.com/tc39/proposal-regexp-v-flag> and <https://v8.dev/features/regexp-v-flag> for more details.
+
+Therefore, the `u` and `v` flag lets us work better with regular expressions.
 
 ## Rule Details
 
@@ -53,6 +83,101 @@ const a = /aaa/u
 const b = /bbb/giu
 const c = new RegExp("ccc", "u")
 const d = new RegExp("ddd", "giu")
+
+const e = /aaa/v
+const f = /bbb/giv
+const g = new RegExp("ccc", "v")
+const h = new RegExp("ddd", "giv")
+
+// This rule ignores RegExp calls if the flags could not be evaluated to a static value.
+function f(flags) {
+    return new RegExp("eee", flags)
+}
+```
+
+:::
+
+## Options
+
+This rule has one object option.
+
+### `requiredUnicodeFlag`
+
+This option can be set to `"u"` or `"v"`. By default, nothing is set.
+
+#### `u`
+
+Examples of **incorrect** code for this rule with `requiredUnicodeFlag` is `u`:
+
+::: incorrect
+
+```js
+/*eslint require-unicode-regexp: ["error", { "requiredUnicodeFlag": "u" }] */
+
+const a = /aaa/
+const b = /bbb/gi
+const c = new RegExp("ccc")
+const d = new RegExp("ddd", "gi")
+const e = /aaa/v
+const f = /bbb/giv
+const g = new RegExp("ccc", "v")
+const h = new RegExp("ddd", "giv")
+```
+
+:::
+
+Examples of **correct** code for this rule:
+
+::: correct
+
+```js
+/*eslint require-unicode-regexp: ["error", { "requiredUnicodeFlag": "u" }] */
+
+const a = /aaa/u
+const b = /bbb/giu
+const c = new RegExp("ccc", "u")
+const d = new RegExp("ddd", "giu")
+
+// This rule ignores RegExp calls if the flags could not be evaluated to a static value.
+function f(flags) {
+    return new RegExp("eee", flags)
+}
+```
+
+:::
+
+#### `v`
+
+Examples of **incorrect** code for this rule with `requiredUnicodeFlag` is `v`:
+
+::: incorrect
+
+```js
+/*eslint require-unicode-regexp: ["error", { "requiredUnicodeFlag": "v" }] */
+
+const a = /aaa/
+const b = /bbb/gi
+const c = new RegExp("ccc")
+const d = new RegExp("ddd", "gi")
+const e = /aaa/u
+const f = /bbb/giu
+const g = new RegExp("ccc", "u")
+const h = new RegExp("ddd", "giu")
+```
+
+:::
+
+Examples of **correct** code for this rule:
+
+::: correct
+
+```js
+/*eslint require-unicode-regexp: ["error", { "requiredUnicodeFlag": "v" }] */
+
+const a = /aaa/v
+const b = /bbb/giv
+const c = new RegExp("ccc", "v")
+const d = new RegExp("ddd", "giv")
 
 // This rule ignores RegExp calls if the flags could not be evaluated to a static value.
 function f(flags) {
