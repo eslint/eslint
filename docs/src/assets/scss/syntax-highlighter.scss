@@ -120,3 +120,12 @@ pre[class*="language-"] {
         width: 1.2em;
     }
 }
+
+.incorrect,
+.correct {
+    @media all and (min-width: 768px) {
+        pre.line-numbers-mode {
+            padding-bottom: 65px;
+        }
+    }
+}

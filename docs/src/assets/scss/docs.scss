@@ -166,6 +166,7 @@ pre[class*="language-"] {
     position: fixed;
     right: 50px;
     bottom: 35px;
+    z-index: 1;
     font-size: 1.5rem;
     border-radius: 50%;
     color: var(--body-background-color);
