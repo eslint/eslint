@@ -58,7 +58,28 @@ ruleTester.run("require-unicode-regexp", rule, {
         { code: "new RegExp('', 'gimvy')", parserOptions: { ecmaVersion: 2024 } },
         { code: "const flags = 'v'; new RegExp('', flags)", parserOptions: { ecmaVersion: 2024 } },
         { code: "const flags = 'g'; new RegExp('', flags + 'v')", parserOptions: { ecmaVersion: 2024 } },
-        { code: "const flags = 'gimv'; new RegExp('foo', flags[3])", parserOptions: { ecmaVersion: 2024 } }
+        { code: "const flags = 'gimv'; new RegExp('foo', flags[4])", parserOptions: { ecmaVersion: 2024 } },
+
+        {
+            code: "/foo/u",
+            options: [{ requiredUnicodeFlag: "u" }],
+            parserOptions: { ecmaVersion: 2024 }
+        },
+        {
+            code: "/foo/v",
+            options: [{ requiredUnicodeFlag: "v" }],
+            parserOptions: { ecmaVersion: 2024 }
+        },
+        {
+            code: "/foo/gimuy",
+            options: [{ requiredUnicodeFlag: "u" }],
+            parserOptions: { ecmaVersion: 2024 }
+        },
+        {
+            code: "/foo/gimvy",
+            options: [{ requiredUnicodeFlag: "v" }],
+            parserOptions: { ecmaVersion: 2024 }
+        }
     ],
     invalid: [
         {
@@ -313,6 +334,62 @@ ruleTester.run("require-unicode-regexp", rule, {
                     {
                         messageId: "addVFlag",
                         output: "/test/v"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "/test/gimyu",
+            options: [{ requiredUnicodeFlag: "v" }],
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "requireVFlag",
+                suggestions: [
+                    {
+                        messageId: "addVFlag",
+                        output: "/test/gimyv"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "/test/gimyv",
+            options: [{ requiredUnicodeFlag: "u" }],
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "/test/gimyu"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "/test/gimuy",
+            options: [{ requiredUnicodeFlag: "v" }],
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "requireVFlag",
+                suggestions: [
+                    {
+                        messageId: "addVFlag",
+                        output: "/test/gimvy"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "/test/gimvy",
+            options: [{ requiredUnicodeFlag: "u" }],
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "/test/gimuy"
                     }
                 ]
             }]
