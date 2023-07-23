@@ -1199,7 +1199,9 @@ describe("FlatRuleTester", () => {
             const disallowHiRule = {
                 create: context => ({
                     Literal(node) {
-                        const disallowed = context.parserServices.test.getMessage(); // returns "Hi!"
+                        assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
+
+                        const disallowed = context.sourceCode.parserServices.test.getMessage(); // returns "Hi!"
 
                         if (node.value === disallowed) {
                             context.report({ node, message: `Don't use '${disallowed}'` });
@@ -1334,7 +1336,7 @@ describe("FlatRuleTester", () => {
                 ],
                 invalid: []
             });
-        }, /Unexpected key "env" found./u);
+        }, /Key "env": This appears to be in eslintrc format rather than flat config format/u);
     });
 
     it("should pass-through the tester config to the rule", () => {

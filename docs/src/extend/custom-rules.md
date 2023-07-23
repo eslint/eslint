@@ -4,7 +4,7 @@ eleventyNavigation:
     key: custom rules
     parent: create plugins
     title: Custom Rules
-    order: 1
+    order: 2
 
 ---
 
@@ -131,7 +131,7 @@ The `context` object has the following properties:
 * `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
 * `settings`: (`object`) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from the configuration.
 * `parserPath`: (`string`) The name of the `parser` from the configuration.
-* `parserServices`: (`object`) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
+* `parserServices`: (**Deprecated:** Use `SourceCode#parserServices` instead.) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 * `parserOptions`: The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
 
 Additionally, the `context` object has the following methods:
@@ -575,6 +575,7 @@ There are also some properties you can access:
 * `ast`: (`object`) `Program` node of the AST for the code being linted.
 * `scopeManager`: [ScopeManager](./scope-manager-interface#scopemanager-interface) object of the code.
 * `visitorKeys`: (`object`) Visitor keys to traverse this AST.
+* `parserServices`: (`object`) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 * `lines`: (`array`) Array of lines, split according to the specification's definition of line breaks.
 
 You should use a `SourceCode` object whenever you need to get more information about the code being linted.
@@ -612,37 +613,166 @@ You can also access comments through many of `sourceCode`'s methods using the `i
 
 ### Options Schemas
 
-Rules may export a `schema` property, which is a [JSON Schema](https://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
+Rules may specify a `schema` property, which is a [JSON Schema](https://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
 
-There are two formats for a rule's exported `schema`:
+Note: Prior to ESLint v9.0.0, rules without a schema are passed their options directly from the config without any validation. In ESLint v9.0.0 and later, rules without schemas will throw errors when options are passed. See the [Require schemas and object-style rules](https://github.com/eslint/rfcs/blob/main/designs/2021-schema-object-rules/README.md) RFC for further details.
 
-1. A full JSON Schema object describing all possible options the rule accepts.
-2. An array of JSON Schema objects for each optional positional argument.
+When validating a rule's config, there are five steps:
 
-In both cases, these should exclude the [severity](../use/configure/rules#rule-severities), as ESLint automatically validates this first.
+1. If the rule config is not an array, then the value is wrapped into an array (e.g. `"off"` becomes `["off"]`); if the rule config is an array then it is used directly.
+2. ESLint validates the first element of the rule config array as a severity (`"off"`, `"warn"`, `"error"`, `0`, `1`, `2`)
+3. If the severity is `off` or `0`, then the rule is disabled and validation stops, ignoring any other elements of the rule config array.
+4. If the rule is enabled, then any elements of the array after the severity are copied into the `context.options` array (e.g. a config of `["warn", "never", { someOption: 5 }]` results in `context.options = ["never", { someOption: 5 }]`)
+5. The rule's schema validation is run on the `context.options` array.
+
+Note: this means that the rule schema cannot validate the severity. The rule schema only validates the array elements _after_ the severity in a rule config. There is no way for a rule to know what severity it is configured at.
+
+There are two formats for a rule's `schema`:
+
+* An array of JSON Schema objects
+    * Each element will be checked against the same position in the `context.options` array.
+    * If the `context.options` array has fewer elements than there are schemas, then the unmatched schemas are ignored
+    * If the `context.options` array has more elements than there are schemas, then the validation fails
+    * There are two important consequences to using this format:
+        * It is _always valid_ for a user to provide no options to your rule (beyond severity)
+        * If you specify an empty array, then it is _always an error_ for a user to provide any options to your rule (beyond severity)
+* A full JSON Schema object that will validate the `context.options` array
+    * The schema should assume an array of options to validate even if your rule only accepts one option.
+    * The schema can be arbitrarily complex, so you can validate completely different sets of potential options via `oneOf`, `anyOf` etc.
+    * The supported version of JSON Schemas is [Draft-04](http://json-schema.org/draft-04/schema), so some newer features such as `if` or `$data` are unavailable.
+        * At present, it is explicitly planned to not update schema support beyond this level due to ecosystem compatibility concerns. See [this comment](https://github.com/eslint/eslint/issues/13888#issuecomment-872591875) for further context.
 
 For example, the `yoda` rule accepts a primary mode argument of `"always"` or `"never"`, as well as an extra options object with an optional property `exceptRange`:
 
 ```js
+// Valid configuration:
+// "yoda": "warn"
+// "yoda": ["error"]
+// "yoda": ["error", "always"]
 // "yoda": ["error", "never", { "exceptRange": true }]
+// Invalid configuration:
+// "yoda": ["warn", "never", { "exceptRange": true }, 5]
+// "yoda": ["error", { "exceptRange": true }, "never"]
 module.exports = {
     meta: {
         schema: [
             {
-                "enum": ["always", "never"]
+                enum: ["always", "never"]
             },
             {
-                "type": "object",
-                "properties": {
-                    "exceptRange": {
-                        "type": "boolean"
-                    }
+                type: "object",
+                properties: {
+                    exceptRange: { type: "boolean" }
                 },
-                "additionalProperties": false
+                additionalProperties: false
             }
         ]
-    },
+    }
 };
+```
+
+And here is the equivalent object-based schema:
+
+```js
+// Valid configuration:
+// "yoda": "warn"
+// "yoda": ["error"]
+// "yoda": ["error", "always"]
+// "yoda": ["error", "never", { "exceptRange": true }]
+// Invalid configuration:
+// "yoda": ["warn", "never", { "exceptRange": true }, 5]
+// "yoda": ["error", { "exceptRange": true }, "never"]
+module.exports = {
+    meta: {
+        schema: {
+            type: "array",
+            minItems: 0,
+            maxItems: 2,
+            items: [
+                {
+                    enum: ["always", "never"]
+                },
+                {
+                    type: "object",
+                    properties: {
+                        exceptRange: { type: "boolean" }
+                    },
+                    additionalProperties: false
+                }
+            ]
+        }
+    }
+};
+```
+
+Object schemas can be more precise and restrictive in what is permitted. For example, the below schema always requires the first option to be specified (a number between 0 and 10), but the second option is optional, and can either be an object with some options explicitly set, or `"off"` or `"strict"`.
+
+```js
+// Valid configuration:
+// "someRule": ["error", 6]
+// "someRule": ["error", 5, "strict"]
+// "someRule": ["warn", 10, { someNonOptionalProperty: true }]
+// Invalid configuration:
+// "someRule": "warn"
+// "someRule": ["error"]
+// "someRule": ["warn", 15]
+// "someRule": ["warn", 7, { }]
+// "someRule": ["error", 3, "on"]
+// "someRule": ["warn", 7, { someOtherProperty: 5 }]
+// "someRule": ["warn", 7, { someNonOptionalProperty: false, someOtherProperty: 5 }]
+module.exports = {
+    meta: {
+        schema: {
+            type: "array",
+            minItems: 1, // Can't specify only severity!
+            maxItems: 2,
+            items: [
+                {
+                    type: "number",
+                    minimum: 0,
+                    maximum: 10
+                },
+                {
+                    anyOf: [
+                        {
+                            type: "object",
+                            properties: {
+                                someNonOptionalProperty: { type: "boolean" }
+                            },
+                            required: ["someNonOptionalProperty"],
+                            additionalProperties: false
+                        },
+                        {
+                            enum: ["off", "strict"]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
+```
+
+Remember, rule options are always an array, so be careful not to specify a schema for a non-array type at the top level. If your schema does not specify an array at the top-level, users can _never_ enable your rule, as their configuration will always be invalid when the rule is enabled.
+
+Here's an example schema that will always fail validation:
+
+```js
+// Possibly trying to validate ["error", { someOptionalProperty: true }]
+// but when the rule is enabled, config will always fail validation because the options are an array which doesn't match "object"
+module.exports = {
+    meta: {
+        schema: {
+            type: "object",
+            properties: {
+                someOptionalProperty: {
+                    type: "boolean"
+                }
+            },
+            additionalProperties: false
+        }
+    }
+}
 ```
 
 **Note:** If your rule schema uses JSON schema [`$ref`](https://json-schema.org/understanding-json-schema/structuring.html#ref) properties, you must use the full JSON Schema object rather than the array of positional property schemas. This is because ESLint transforms the array shorthand into a single schema without updating references that makes them incorrect (they are ignored).

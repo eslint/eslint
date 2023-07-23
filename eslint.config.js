@@ -27,19 +27,15 @@
 
 const path = require("path");
 const internalPlugin = require("eslint-plugin-internal-rules");
-const eslintPlugin = require("eslint-plugin-eslint-plugin");
-const { FlatCompat } = require("@eslint/eslintrc");
-const js = require("./packages/js");
+const eslintPluginRulesRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/rules-recommended");
+const eslintPluginTestsRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/tests-recommended");
 const globals = require("globals");
+const merge = require("lodash.merge");
+const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
-
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended
-});
 
 const INTERNAL_FILES = {
     CLI_ENGINE_PATTERN: "lib/cli-engine/**/*",
@@ -79,7 +75,7 @@ function createInternalFilesPatterns(pattern = null) {
 }
 
 module.exports = [
-    ...compat.extends("eslint"),
+    ...eslintConfigESLintCJS,
     {
         ignores: [
             "build/**",
@@ -99,21 +95,10 @@ module.exports = [
     },
     {
         plugins: {
-            "internal-rules": internalPlugin,
-            "eslint-plugin": eslintPlugin
+            "internal-rules": internalPlugin
         },
         languageOptions: {
             ecmaVersion: "latest"
-        },
-
-        /*
-         * it fixes eslint-plugin-jsdoc's reports: "Invalid JSDoc tag name "template" jsdoc/check-tag-names"
-         * refs: https://github.com/gajus/eslint-plugin-jsdoc#check-tag-names
-         */
-        settings: {
-            jsdoc: {
-                mode: "typescript"
-            }
         },
         rules: {
             "internal-rules/multiline-comment-style": "error"
@@ -129,33 +114,31 @@ module.exports = [
     {
         files: ["lib/rules/*", "tools/internal-rules/*"],
         ignores: ["**/index.js"],
-        rules: {
-            ...eslintPlugin.configs["rules-recommended"].rules,
-            "eslint-plugin/no-missing-message-ids": "error",
-            "eslint-plugin/no-unused-message-ids": "error",
-            "eslint-plugin/prefer-message-ids": "error",
-            "eslint-plugin/prefer-placeholders": "error",
-            "eslint-plugin/prefer-replace-text": "error",
-            "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
-            "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow) .+[^. ]$" }],
-            "internal-rules/no-invalid-meta": "error"
-        }
+        ...merge({}, eslintPluginRulesRecommendedConfig, {
+            rules: {
+                "eslint-plugin/prefer-placeholders": "error",
+                "eslint-plugin/prefer-replace-text": "error",
+                "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
+                "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow) .+[^. ]$" }],
+                "internal-rules/no-invalid-meta": "error"
+            }
+        })
     },
     {
         files: ["lib/rules/*"],
-        ignores: ["index.js"],
+        ignores: ["**/index.js"],
         rules: {
             "eslint-plugin/require-meta-docs-url": ["error", { pattern: "https://eslint.org/docs/latest/rules/{{name}}" }]
         }
     },
     {
         files: ["tests/lib/rules/*", "tests/tools/internal-rules/*"],
-        rules: {
-            ...eslintPlugin.configs["tests-recommended"].rules,
-            "eslint-plugin/prefer-output-null": "error",
-            "eslint-plugin/test-case-property-ordering": "error",
-            "eslint-plugin/test-case-shorthand-strings": "error"
-        }
+        ...merge({}, eslintPluginTestsRecommendedConfig, {
+            rules: {
+                "eslint-plugin/test-case-property-ordering": "error",
+                "eslint-plugin/test-case-shorthand-strings": "error"
+            }
+        })
     },
     {
         files: ["tests/**/*.js"],

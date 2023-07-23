@@ -29,7 +29,7 @@ digraph {
     node[shape=box,style="rounded,filled",fillcolor=white];
     initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
     final[label="",shape=doublecircle,style=filled,fillcolor=black,width=0.25,height=0.25];
-    thrown[label="✘",shape=circle,width=0.3,height=0.3,fixedsize];
+    thrown[label="✘",shape=circle,width=0.3,height=0.3,fixedsize=true];
     s1_1[label="Program\nTryStatement\nBlockStatement\nTryStatement\nBlockStatement\nIfStatement\nIdentifier (a)"];
     s1_3[label="BlockStatement\nThrowStatement\nIdentifier (err)"];
     s1_4[style="rounded,dashed,filled",fillcolor="#FF9800",label="<<unreachable>>\nBlockStatement:exit"];

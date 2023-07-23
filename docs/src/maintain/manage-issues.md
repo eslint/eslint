@@ -78,7 +78,7 @@ The steps for triaging an issue are:
             * **P3**: Nice to have but not important. Can be handled by any team member.
             * **P4**: A good idea that we'd like to have but may take a while for the team to get to it.
             * **P5**: A good idea that the core team can't commit to. Will likely need to be done by an outside contributor.
-        * Please assign an initial impact assessement (make your best guess):
+        * Please assign an initial impact assessment (make your best guess):
             * **Low**: Doesn't affect many users.
             * **Medium**: Affects most users or has a noticeable effect on user experience.
             * **High**: Affects a lot of users, is a breaking change, or otherwise will be very noticeable to users.

@@ -1,17 +1,25 @@
 {
   "name": "eslint-config-eslint",
-  "version": "7.0.0",
+  "version": "8.0.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "Default ESLint configuration for ESLint projects.",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": "./index.js",
+    "./cjs": "./cjs.js",
+    "./eslintrc": "./eslintrc.js"
+  },
   "scripts": {
-    "test": "node ./index.js",
+    "test": "node ./index.js && node ./cjs.js",
     "prepublish": "npm test"
   },
   "files": [
     "LICENSE",
     "README.md",
+    "base.js",
+    "cjs.js",
     "index.js",
-    "default.yml"
+    "nodejs.js"
   ],
   "repository": {
     "type": "git",
@@ -19,11 +27,12 @@
   },
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
-  "peerDependencies": {
-    "eslint-plugin-eslint-comments": ">=3.2.0",
-    "eslint-plugin-jsdoc": ">=38.1.6",
-    "eslint-plugin-n": ">=15.2.4",
-    "eslint-plugin-unicorn": ">=42.0.0"
+  "dependencies": {
+    "@eslint/js": "^8.42.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-jsdoc": "^46.2.5",
+    "eslint-plugin-n": "^16.0.0",
+    "eslint-plugin-unicorn": "^42.0.0"
   },
   "keywords": [
     "eslintconfig",
@@ -32,6 +41,6 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": "^10.12.0 || >=12.0.0"
+    "node": ">=16.0.0"
   }
 }

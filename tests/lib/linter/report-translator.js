@@ -1091,4 +1091,183 @@ describe("createReportTranslator", () => {
             }
         });
     });
+
+    // https://github.com/eslint/eslint/issues/16716
+    describe("unique `fix` and `fix.range` objects", () => {
+        const range = [0, 3];
+        const fix = { range, text: "baz" };
+        const additionalRange = [4, 7];
+        const additionalFix = { range: additionalRange, text: "qux" };
+
+        it("should deep clone returned fix object", () => {
+            const translatedReport = translateReport({
+                node,
+                messageId: "testMessage",
+                fix: () => fix
+            });
+
+            assert.deepStrictEqual(translatedReport.fix, fix);
+            assert.notStrictEqual(translatedReport.fix, fix);
+            assert.notStrictEqual(translatedReport.fix.range, fix.range);
+        });
+
+        it("should create a new fix object with a new range array when `fix()` returns an array with a single item", () => {
+            const translatedReport = translateReport({
+                node,
+                messageId: "testMessage",
+                fix: () => [fix]
+            });
+
+            assert.deepStrictEqual(translatedReport.fix, fix);
+            assert.notStrictEqual(translatedReport.fix, fix);
+            assert.notStrictEqual(translatedReport.fix.range, fix.range);
+        });
+
+        it("should create a new fix object with a new range array when `fix()` returns an array with multiple items", () => {
+            const translatedReport = translateReport({
+                node,
+                messageId: "testMessage",
+                fix: () => [fix, additionalFix]
+            });
+
+            assert.notStrictEqual(translatedReport.fix, fix);
+            assert.notStrictEqual(translatedReport.fix.range, fix.range);
+            assert.notStrictEqual(translatedReport.fix, additionalFix);
+            assert.notStrictEqual(translatedReport.fix.range, additionalFix.range);
+        });
+
+        it("should create a new fix object with a new range array when `fix()` generator yields a single item", () => {
+            const translatedReport = translateReport({
+                node,
+                messageId: "testMessage",
+                *fix() {
+                    yield fix;
+                }
+            });
+
+            assert.deepStrictEqual(translatedReport.fix, fix);
+            assert.notStrictEqual(translatedReport.fix, fix);
+            assert.notStrictEqual(translatedReport.fix.range, fix.range);
+        });
+
+        it("should create a new fix object with a new range array when `fix()` generator yields multiple items", () => {
+            const translatedReport = translateReport({
+                node,
+                messageId: "testMessage",
+                *fix() {
+                    yield fix;
+                    yield additionalFix;
+                }
+            });
+
+            assert.notStrictEqual(translatedReport.fix, fix);
+            assert.notStrictEqual(translatedReport.fix.range, fix.range);
+            assert.notStrictEqual(translatedReport.fix, additionalFix);
+            assert.notStrictEqual(translatedReport.fix.range, additionalFix.range);
+        });
+
+        it("should deep clone returned suggestion fix object", () => {
+            const translatedReport = translateReport({
+                node,
+                messageId: "testMessage",
+                suggest: [{
+                    messageId: "suggestion1",
+                    fix: () => fix
+                }]
+            });
+
+            assert.deepStrictEqual(translatedReport.suggestions[0].fix, fix);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix, fix);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, fix.range);
+        });
+
+        it("should create a new fix object with a new range array when suggestion `fix()` returns an array with a single item", () => {
+            const translatedReport = translateReport({
+                node,
+                messageId: "testMessage",
+                suggest: [{
+                    messageId: "suggestion1",
+                    fix: () => [fix]
+                }]
+            });
+
+            assert.deepStrictEqual(translatedReport.suggestions[0].fix, fix);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix, fix);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, fix.range);
+        });
+
+        it("should create a new fix object with a new range array when suggestion `fix()` returns an array with multiple items", () => {
+            const translatedReport = translateReport({
+                node,
+                messageId: "testMessage",
+                suggest: [{
+                    messageId: "suggestion1",
+                    fix: () => [fix, additionalFix]
+                }]
+            });
+
+            assert.notStrictEqual(translatedReport.suggestions[0].fix, fix);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, fix.range);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix, additionalFix);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, additionalFix.range);
+        });
+
+        it("should create a new fix object with a new range array when suggestion `fix()` generator yields a single item", () => {
+            const translatedReport = translateReport({
+                node,
+                messageId: "testMessage",
+                suggest: [{
+                    messageId: "suggestion1",
+                    *fix() {
+                        yield fix;
+                    }
+                }]
+            });
+
+            assert.deepStrictEqual(translatedReport.suggestions[0].fix, fix);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix, fix);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, fix.range);
+        });
+
+        it("should create a new fix object with a new range array when suggestion `fix()` generator yields multiple items", () => {
+            const translatedReport = translateReport({
+                node,
+                messageId: "testMessage",
+                suggest: [{
+                    messageId: "suggestion1",
+                    *fix() {
+                        yield fix;
+                        yield additionalFix;
+                    }
+                }]
+            });
+
+            assert.notStrictEqual(translatedReport.suggestions[0].fix, fix);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, fix.range);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix, additionalFix);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, additionalFix.range);
+        });
+
+        it("should create different instances of range arrays when suggestions reuse the same instance", () => {
+            const translatedReport = translateReport({
+                node,
+                messageId: "testMessage",
+                suggest: [
+                    {
+                        messageId: "suggestion1",
+                        fix: () => ({ range, text: "baz" })
+                    },
+                    {
+                        messageId: "suggestion2",
+                        data: { interpolated: "'interpolated value'" },
+                        fix: () => ({ range, text: "qux" })
+                    }
+                ]
+            });
+
+            assert.deepStrictEqual(translatedReport.suggestions[0].fix.range, range);
+            assert.deepStrictEqual(translatedReport.suggestions[1].fix.range, range);
+            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, translatedReport.suggestions[1].fix.range);
+        });
+    });
 });

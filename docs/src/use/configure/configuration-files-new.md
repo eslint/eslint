@@ -26,10 +26,37 @@ export default [
             "prefer-const": "error"
         }
     }
-]
+];
 ```
 
 In this example, the configuration array contains just one configuration object. The configuration object enables two rules: `semi` and `prefer-const`. These rules are applied to all of the files ESLint processes using this config file.
+
+If your project does not specify `"type":"module"` in its `package.json` file, then `eslint.config.js` must be in CommonJS format, such as:
+
+```js
+module.exports = [
+    {
+        rules: {
+            semi: "error",
+            "prefer-const": "error"
+        }
+    }
+];
+```
+
+The configuration file can also export a promise that resolves to the configuration array. This can be useful for using ESM dependencies in CommonJS configuration files, as in this example:
+
+```js
+module.exports = (async () => {
+
+    const someDependency = await import("some-esm-dependency");
+
+    return [
+        // ... use `someDependency` here
+    ];
+
+})();
+```
 
 ## Configuration Objects
 
@@ -116,7 +143,9 @@ export default [
 
 Here, the configuration object excludes files ending with `.config.js` except for `eslint.config.js`. That file still has `semi` applied.
 
-If `ignores` is used without `files` and any other setting, then the configuration object applies to all files except the ones specified in `ignores`, for example:
+Non-global `ignores` patterns can only match file names. A pattern like `"dir-to-exclude/"` will not ignore anything. To ignore everything in a particular directory, a pattern like `"dir-to-exclude/**"` should be used instead.
+
+If `ignores` is used without `files` and there are other keys (such as `rules`), then the configuration object applies to all files except the ones specified in `ignores`, for example:
 
 ```js
 export default [
@@ -158,6 +187,9 @@ export default [
     }
 ];
 ```
+
+Note that only global `ignores` patterns can match directories.
+`ignores` patterns that are specific to a configuration will only match file names.
 
 #### Cascading configuration objects
 
@@ -348,7 +380,6 @@ Apart from the ECMAScript standard built-in globals, which are automatically ena
 
 ```js
 import globals from "globals";
-
 export default [
     {
         languageOptions: {

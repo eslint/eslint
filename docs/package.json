@@ -1,12 +1,12 @@
 {
     "name": "docs-eslint",
     "private": true,
-    "version": "8.41.0",
+    "version": "8.45.0",
     "description": "",
     "main": "index.js",
     "keywords": [],
     "author": "",
-    "license": "ISC",
+    "license": "MIT",
     "files": [],
     "scripts": {
         "images": "imagemin '_site/assets/images' --out-dir='_site/assets/images'",

@@ -38,6 +38,7 @@ Examples of **incorrect** code for this rule:
 ```javascript
 // With `array` enabled
 var foo = array[0];
+bar.baz = array[0];
 
 // With `object` enabled
 var foo = object.foo;
@@ -54,6 +55,8 @@ Examples of **correct** code for this rule:
 // With `array` enabled
 var [ foo ] = array;
 var foo = array[someIndex];
+[bar.baz] = array;
+
 
 // With `object` enabled
 var { foo } = object;

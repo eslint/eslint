@@ -42,4 +42,4 @@ npm run fix:docsjs
 
 ## License
 
-© OpenJS Foundation and ESLint contributors, [www.openjsf.org](https://www.openjsf.org/). Content licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+© OpenJS Foundation and ESLint contributors, [www.openjsf.org](https://www.openjsf.org/). Content licensed under [MIT License](https://github.com/eslint/eslint/blob/main/LICENSE).

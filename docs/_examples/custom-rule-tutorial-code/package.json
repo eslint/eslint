@@ -1,0 +1,22 @@
+{
+  "name": "eslint-plugin-example",
+  "version": "1.0.0",
+  "description": "ESLint plugin for enforce-foo-bar rule.",
+  "main": "eslint-plugin-example.js",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  },
+  "scripts": {
+    "test": "node enforce-foo-bar.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.36.0"
+  }
+}

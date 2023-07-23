@@ -44,7 +44,7 @@ This rule disallows `var` and `function` declarations at the top-level script sc
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-implicit-globals: "error"*/
@@ -58,7 +58,7 @@ function bar() {}
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-implicit-globals: "error"*/
@@ -79,7 +79,7 @@ window.bar = function() {};
 
 Examples of **correct** code for this rule with `"parserOptions": { "sourceType": "module" }` in the ESLint configuration:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-implicit-globals: "error"*/
@@ -100,7 +100,7 @@ This does not apply to ES modules since the module code is implicitly in `strict
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-implicit-globals: "error"*/
@@ -127,7 +127,7 @@ or in a `/*global */` comment.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-implicit-globals: "error"*/
@@ -155,7 +155,7 @@ If the variable is intended to be local to the script, wrap the code with a bloc
 
 Examples of **correct** code for this rule with `"lexicalBindings"` option set to `false` (default):
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-implicit-globals: ["error", {"lexicalBindings": false}]*/
@@ -171,7 +171,7 @@ class Bar {}
 
 Examples of **incorrect** code for this rule with `"lexicalBindings"` option set to `true`:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-implicit-globals: ["error", {"lexicalBindings": true}]*/
@@ -187,7 +187,7 @@ class Bar {}
 
 Examples of **correct** code for this rule with `"lexicalBindings"` option set to `true`:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-implicit-globals: ["error", {"lexicalBindings": true}]*/
@@ -221,7 +221,7 @@ Even the `typeof` check is not safe from TDZ reference exceptions.
 
 Examples of **incorrect** code for this rule with `"lexicalBindings"` option set to `true`:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-implicit-globals: ["error", {"lexicalBindings": true}]*/
@@ -239,7 +239,7 @@ const MyGlobalFunction = (function() {
 
 Examples of **correct** code for this rule with `"lexicalBindings"` option set to `true`:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-implicit-globals: ["error", {"lexicalBindings": true}]*/
@@ -261,7 +261,7 @@ You can use `/* exported variableName */` block comments in the same way as in [
 
 Examples of **correct** code for `/* exported variableName */` operation:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* exported global_var */

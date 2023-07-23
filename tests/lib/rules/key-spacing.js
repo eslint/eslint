@@ -942,10 +942,10 @@ ruleTester.run("key-spacing", rule, {
     {
         code: `
             var foo = {
-                "🌷": "bar", // 2 code points
-                "🎁": "baz", // 2 code points
-                "🇮🇳": "qux", // 4 code points
-                "🏳️‍🌈": "xyz", // 6 code points
+                "🌷": "bar", // 1 grapheme, 1 code point, 2 code units
+                "🎁": "baz", // 1 grapheme, 1 code point, 2 code units
+                "🇮🇳": "qux", // 1 grapheme, 2 code points, 4 code units
+                "🏳️‍🌈": "xyz", // 1 grapheme, 4 code points, 6 code units
             };
         `,
         options: [{
@@ -2467,18 +2467,18 @@ ruleTester.run("key-spacing", rule, {
     {
         code: `
             var foo = {
-                "🌷":     "bar", // 2 code points
-                "🎁":     "baz", // 2 code points
-                "🇮🇳":   "qux", // 4 code points
-                "🏳️‍🌈": "xyz", // 6 code points
+                "🌷":     "bar", // 1 grapheme, 1 code point, 2 code units
+                "🎁":     "baz", // 1 grapheme, 1 code point, 2 code units
+                "🇮🇳":   "qux", // 1 grapheme, 2 code points, 4 code units
+                "🏳️‍🌈": "xyz", // 1 grapheme, 4 code points, 6 code units
             };
         `,
         output: `
             var foo = {
-                "🌷": "bar", // 2 code points
-                "🎁": "baz", // 2 code points
-                "🇮🇳": "qux", // 4 code points
-                "🏳️‍🌈": "xyz", // 6 code points
+                "🌷": "bar", // 1 grapheme, 1 code point, 2 code units
+                "🎁": "baz", // 1 grapheme, 1 code point, 2 code units
+                "🇮🇳": "qux", // 1 grapheme, 2 code points, 4 code units
+                "🏳️‍🌈": "xyz", // 1 grapheme, 4 code points, 6 code units
             };
         `,
         options: [{

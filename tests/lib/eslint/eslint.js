@@ -46,7 +46,7 @@ describe("ESLint", () => {
     const originalDir = process.cwd();
     const fixtureDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint/fixtures");
 
-    /** @type {import("../../../lib/eslint").ESLint} */
+    /** @type {import("../../../lib/eslint/eslint").ESLint} */
     let ESLint;
 
     /**
@@ -117,13 +117,35 @@ describe("ESLint", () => {
         it("the default value of 'options.cwd' should be the current working directory.", async () => {
             process.chdir(__dirname);
             try {
-                const engine = new ESLint();
+                const engine = new ESLint({ useEslintrc: false });
                 const results = await engine.lintFiles("eslint.js");
 
                 assert.strictEqual(path.dirname(results[0].filePath), __dirname);
             } finally {
                 process.chdir(originalDir);
             }
+        });
+
+        it("should normalize 'options.cwd'.", async () => {
+            const cwd = getFixturePath("example-app3");
+            const engine = new ESLint({
+                cwd: `${cwd}${path.sep}foo${path.sep}..`, // `<cwd>/foo/..` should be normalized to `<cwd>`
+                useEslintrc: false,
+                overrideConfig: {
+                    plugins: ["test"],
+                    rules: {
+                        "test/report-cwd": "error"
+                    }
+                }
+            });
+            const results = await engine.lintText("");
+
+            assert.strictEqual(results[0].messages[0].ruleId, "test/report-cwd");
+            assert.strictEqual(results[0].messages[0].message, cwd);
+
+            const formatter = await engine.loadFormatter("cwd");
+
+            assert.strictEqual(formatter.format(results), cwd);
         });
 
         it("should report one fatal message when given a path by --ignore-path that is not a file when ignore is true.", () => {
@@ -239,46 +261,71 @@ describe("ESLint", () => {
     describe("lintText()", () => {
         let eslint;
 
-        it("should report the total and per file errors when using local cwd .eslintrc", async () => {
-            eslint = new ESLint();
-            const results = await eslint.lintText("var foo = 'bar';");
-
-            assert.strictEqual(results.length, 1);
-            assert.strictEqual(results[0].messages.length, 5);
-            assert.strictEqual(results[0].messages[0].ruleId, "strict");
-            assert.strictEqual(results[0].messages[1].ruleId, "no-var");
-            assert.strictEqual(results[0].messages[2].ruleId, "no-unused-vars");
-            assert.strictEqual(results[0].messages[3].ruleId, "quotes");
-            assert.strictEqual(results[0].messages[4].ruleId, "eol-last");
-            assert.strictEqual(results[0].fixableErrorCount, 3);
-            assert.strictEqual(results[0].fixableWarningCount, 0);
-            assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
-        });
-
-        it("should report the total and per file warnings when using local cwd .eslintrc", async () => {
-            eslint = new ESLint({
-                overrideConfig: {
-                    rules: {
-                        quotes: 1,
-                        "no-var": 1,
-                        "eol-last": 1,
-                        strict: 1,
-                        "no-unused-vars": 1
+        describe("when using local cwd .eslintrc", () => {
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: path.join(os.tmpdir(), "eslint/multiple-rules-config"),
+                files: {
+                    ".eslintrc.json": {
+                        root: true,
+                        rules: {
+                            quotes: 2,
+                            "no-var": 2,
+                            "eol-last": 2,
+                            strict: [2, "global"],
+                            "no-unused-vars": 2
+                        },
+                        env: {
+                            node: true
+                        }
                     }
                 }
             });
-            const results = await eslint.lintText("var foo = 'bar';");
 
-            assert.strictEqual(results.length, 1);
-            assert.strictEqual(results[0].messages.length, 5);
-            assert.strictEqual(results[0].messages[0].ruleId, "strict");
-            assert.strictEqual(results[0].messages[1].ruleId, "no-var");
-            assert.strictEqual(results[0].messages[2].ruleId, "no-unused-vars");
-            assert.strictEqual(results[0].messages[3].ruleId, "quotes");
-            assert.strictEqual(results[0].messages[4].ruleId, "eol-last");
-            assert.strictEqual(results[0].fixableErrorCount, 0);
-            assert.strictEqual(results[0].fixableWarningCount, 3);
-            assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+            beforeEach(prepare);
+            afterEach(cleanup);
+
+            it("should report the total and per file errors", async () => {
+                eslint = new ESLint({ cwd: getPath() });
+                const results = await eslint.lintText("var foo = 'bar';");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 5);
+                assert.strictEqual(results[0].messages[0].ruleId, "strict");
+                assert.strictEqual(results[0].messages[1].ruleId, "no-var");
+                assert.strictEqual(results[0].messages[2].ruleId, "no-unused-vars");
+                assert.strictEqual(results[0].messages[3].ruleId, "quotes");
+                assert.strictEqual(results[0].messages[4].ruleId, "eol-last");
+                assert.strictEqual(results[0].fixableErrorCount, 3);
+                assert.strictEqual(results[0].fixableWarningCount, 0);
+                assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+            });
+
+            it("should report the total and per file warnings", async () => {
+                eslint = new ESLint({
+                    cwd: getPath(),
+                    overrideConfig: {
+                        rules: {
+                            quotes: 1,
+                            "no-var": 1,
+                            "eol-last": 1,
+                            strict: 1,
+                            "no-unused-vars": 1
+                        }
+                    }
+                });
+                const results = await eslint.lintText("var foo = 'bar';");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 5);
+                assert.strictEqual(results[0].messages[0].ruleId, "strict");
+                assert.strictEqual(results[0].messages[1].ruleId, "no-var");
+                assert.strictEqual(results[0].messages[2].ruleId, "no-unused-vars");
+                assert.strictEqual(results[0].messages[3].ruleId, "quotes");
+                assert.strictEqual(results[0].messages[4].ruleId, "eol-last");
+                assert.strictEqual(results[0].fixableErrorCount, 0);
+                assert.strictEqual(results[0].fixableWarningCount, 3);
+                assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+            });
         });
 
         it("should report one message when using specific config file", async () => {
@@ -950,9 +997,11 @@ describe("ESLint", () => {
         it("should report zero messages when given a config file and a valid file", async () => {
             eslint = new ESLint({
                 cwd: originalDir,
-                overrideConfigFile: ".eslintrc.js"
+                useEslintrc: false,
+                ignore: false,
+                overrideConfigFile: "tests/fixtures/simple-valid-project/.eslintrc.js"
             });
-            const results = await eslint.lintFiles(["lib/**/cli*.js"]);
+            const results = await eslint.lintFiles(["tests/fixtures/simple-valid-project/**/foo*.js"]);
 
             assert.strictEqual(results.length, 2);
             assert.strictEqual(results[0].messages.length, 0);
@@ -962,9 +1011,15 @@ describe("ESLint", () => {
         it("should handle multiple patterns with overlapping files", async () => {
             eslint = new ESLint({
                 cwd: originalDir,
-                overrideConfigFile: ".eslintrc.js"
+                useEslintrc: false,
+                ignore: false,
+                overrideConfigFile: "tests/fixtures/simple-valid-project/.eslintrc.js"
             });
-            const results = await eslint.lintFiles(["lib/**/cli*.js", "lib/cli.?s", "lib/{cli,cli-engine/cli-engine}.js"]);
+            const results = await eslint.lintFiles([
+                "tests/fixtures/simple-valid-project/**/foo*.js",
+                "tests/fixtures/simple-valid-project/foo.?s",
+                "tests/fixtures/simple-valid-project/{foo,src/foobar}.js"
+            ]);
 
             assert.strictEqual(results.length, 2);
             assert.strictEqual(results[0].messages.length, 0);
@@ -1396,6 +1451,10 @@ describe("ESLint", () => {
         });
 
         it("should throw an error when all given files are ignored", async () => {
+            eslint = new ESLint({
+                useEslintrc: false,
+                ignorePath: getFixturePath(".eslintignore")
+            });
             await assert.rejects(async () => {
                 await eslint.lintFiles(["tests/fixtures/cli-engine/"]);
             }, /All files matched by 'tests\/fixtures\/cli-engine\/' are ignored\./u);
@@ -1403,6 +1462,7 @@ describe("ESLint", () => {
 
         it("should throw an error when all given files are ignored even with a `./` prefix", async () => {
             eslint = new ESLint({
+                useEslintrc: false,
                 ignorePath: getFixturePath(".eslintignore")
             });
 
@@ -1466,6 +1526,7 @@ describe("ESLint", () => {
 
         it("should throw an error when all given files are ignored via ignore-pattern", async () => {
             eslint = new ESLint({
+                useEslintrc: false,
                 overrideConfig: {
                     ignorePatterns: "tests/fixtures/single-quoted.js"
                 }
@@ -1675,7 +1736,7 @@ describe("ESLint", () => {
         it("should warn when deprecated rules are configured", async () => {
             eslint = new ESLint({
                 cwd: originalDir,
-                overrideConfigFile: ".eslintrc.js",
+                useEslintrc: false,
                 overrideConfig: {
                     rules: {
                         "indent-legacy": 1,
@@ -1699,7 +1760,7 @@ describe("ESLint", () => {
         it("should not warn when deprecated rules are not configured", async () => {
             eslint = new ESLint({
                 cwd: originalDir,
-                overrideConfigFile: ".eslintrc.js",
+                useEslintrc: false,
                 overrideConfig: {
                     rules: { indent: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
                 }
@@ -4865,7 +4926,21 @@ describe("ESLint", () => {
     describe("getErrorResults()", () => {
         it("should report 5 error messages when looking for errors only", async () => {
             process.chdir(originalDir);
-            const engine = new ESLint();
+            const engine = new ESLint({
+                useEslintrc: false,
+                overrideConfig: {
+                    rules: {
+                        quotes: 2,
+                        "no-var": 2,
+                        "eol-last": 2,
+                        strict: [2, "global"],
+                        "no-unused-vars": 2
+                    },
+                    env: {
+                        node: true
+                    }
+                }
+            });
             const results = await engine.lintText("var foo = 'bar';");
             const errorResults = ESLint.getErrorResults(results);
 
@@ -4888,12 +4963,18 @@ describe("ESLint", () => {
         it("should not mutate passed report parameter", async () => {
             process.chdir(originalDir);
             const engine = new ESLint({
+                useEslintrc: false,
                 overrideConfig: {
-                    rules: { quotes: [1, "double"] }
+                    rules: {
+                        quotes: [1, "double"],
+                        "no-var": 2
+                    }
                 }
             });
             const results = await engine.lintText("var foo = 'bar';");
             const reportResultsLength = results[0].messages.length;
+
+            assert.strictEqual(results[0].messages.length, 2);
 
             ESLint.getErrorResults(results);
 
@@ -4902,7 +4983,21 @@ describe("ESLint", () => {
 
         it("should report a warningCount of 0 when looking for errors only", async () => {
             process.chdir(originalDir);
-            const engine = new ESLint();
+            const engine = new ESLint({
+                useEslintrc: false,
+                overrideConfig: {
+                    rules: {
+                        quotes: 2,
+                        "no-var": 2,
+                        "eol-last": 2,
+                        strict: [2, "global"],
+                        "no-unused-vars": 2
+                    },
+                    env: {
+                        node: true
+                    }
+                }
+            });
             const results = await engine.lintText("var foo = 'bar';");
             const errorResults = ESLint.getErrorResults(results);
 
@@ -5030,30 +5125,35 @@ describe("ESLint", () => {
         });
 
         it("should return multiple rule meta when there are multiple linting errors from a plugin", async () => {
-            const nodePlugin = require("eslint-plugin-n");
+            const customPlugin = {
+                rules: {
+                    "no-var": require("../../../lib/rules/no-var")
+                }
+            };
+
             const engine = new ESLint({
                 useEslintrc: false,
                 plugins: {
-                    node: nodePlugin
+                    "custom-plugin": customPlugin
                 },
                 overrideConfig: {
-                    plugins: ["n"],
+                    plugins: ["custom-plugin"],
                     rules: {
-                        "n/no-new-require": 2,
+                        "custom-plugin/no-var": 2,
                         semi: 2,
                         quotes: [2, "double"]
                     }
                 }
             });
 
-            const results = await engine.lintText("new require('hi')");
+            const results = await engine.lintText("var foo = 0; var bar = '1'");
             const rulesMeta = engine.getRulesMetaForResults(results);
 
             assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
             assert.strictEqual(rulesMeta.quotes, coreRules.get("quotes").meta);
             assert.strictEqual(
-                rulesMeta["n/no-new-require"],
-                nodePlugin.rules["no-new-require"].meta
+                rulesMeta["custom-plugin/no-var"],
+                customPlugin.rules["no-var"].meta
             );
         });
 
@@ -6872,4 +6972,50 @@ describe("ESLint", () => {
             });
         });
     });
+
+    // only works on a Windows machine
+    if (os.platform() === "win32") {
+
+        // https://github.com/eslint/eslint/issues/17042
+        describe("with cwd that is using forward slash on Windows", () => {
+            const cwd = getFixturePath("example-app3");
+            const cwdForwardSlash = cwd.replace(/\\/gu, "/");
+
+            it("should correctly handle ignore patterns", async () => {
+                const engine = new ESLint({ cwd: cwdForwardSlash });
+                const results = await engine.lintFiles(["./src"]);
+
+                // src/dist/2.js should be ignored
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, path.join(cwd, "src\\1.js"));
+            });
+
+            it("should pass cwd with backslashes to rules", async () => {
+                const engine = new ESLint({
+                    cwd: cwdForwardSlash,
+                    useEslintrc: false,
+                    overrideConfig: {
+                        plugins: ["test"],
+                        rules: {
+                            "test/report-cwd": "error"
+                        }
+                    }
+                });
+                const results = await engine.lintText("");
+
+                assert.strictEqual(results[0].messages[0].ruleId, "test/report-cwd");
+                assert.strictEqual(results[0].messages[0].message, cwd);
+            });
+
+            it("should pass cwd with backslashes to formatters", async () => {
+                const engine = new ESLint({
+                    cwd: cwdForwardSlash
+                });
+                const results = await engine.lintText("");
+                const formatter = await engine.loadFormatter("cwd");
+
+                assert.strictEqual(formatter.format(results), cwd);
+            });
+        });
+    }
 });

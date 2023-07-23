@@ -27,6 +27,14 @@ describe("unsupported-api", () => {
         assert.isFunction(api.FlatESLint);
     });
 
+    it("should have LegacyESLint exposed", () => {
+        assert.isFunction(api.LegacyESLint);
+    });
+
+    it("should not have ESLint exposed", () => {
+        assert.isUndefined(api.ESLint);
+    });
+
     it("should have shouldUseFlatConfig exposed", () => {
         assert.isFunction(api.shouldUseFlatConfig);
     });

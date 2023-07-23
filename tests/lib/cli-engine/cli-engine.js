@@ -138,57 +138,83 @@ describe("CLIEngine", () => {
 
         let engine;
 
-        it("should report the total and per file errors when using local cwd .eslintrc", () => {
+        describe("when using local cwd .eslintrc", () => {
 
-            engine = new CLIEngine();
-
-            const report = engine.executeOnText("var foo = 'bar';");
-
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.errorCount, 5);
-            assert.strictEqual(report.warningCount, 0);
-            assert.strictEqual(report.fatalErrorCount, 0);
-            assert.strictEqual(report.fixableErrorCount, 3);
-            assert.strictEqual(report.fixableWarningCount, 0);
-            assert.strictEqual(report.results[0].messages.length, 5);
-            assert.strictEqual(report.results[0].messages[0].ruleId, "strict");
-            assert.strictEqual(report.results[0].messages[1].ruleId, "no-var");
-            assert.strictEqual(report.results[0].messages[2].ruleId, "no-unused-vars");
-            assert.strictEqual(report.results[0].messages[3].ruleId, "quotes");
-            assert.strictEqual(report.results[0].messages[4].ruleId, "eol-last");
-            assert.strictEqual(report.results[0].fixableErrorCount, 3);
-            assert.strictEqual(report.results[0].fixableWarningCount, 0);
-            assert.strictEqual(report.results[0].suppressedMessages.length, 0);
-        });
-
-        it("should report the total and per file warnings when using local cwd .eslintrc", () => {
-
-            engine = new CLIEngine({
-                rules: {
-                    quotes: 1,
-                    "no-var": 1,
-                    "eol-last": 1,
-                    strict: 1,
-                    "no-unused-vars": 1
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: path.join(os.tmpdir(), "eslint/multiple-rules-config"),
+                files: {
+                    ".eslintrc.json": {
+                        root: true,
+                        rules: {
+                            quotes: 2,
+                            "no-var": 2,
+                            "eol-last": 2,
+                            strict: [2, "global"],
+                            "no-unused-vars": 2
+                        },
+                        env: {
+                            node: true
+                        }
+                    }
                 }
             });
 
-            const report = engine.executeOnText("var foo = 'bar';");
+            beforeEach(prepare);
+            afterEach(cleanup);
 
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.errorCount, 0);
-            assert.strictEqual(report.warningCount, 5);
-            assert.strictEqual(report.fixableErrorCount, 0);
-            assert.strictEqual(report.fixableWarningCount, 3);
-            assert.strictEqual(report.results[0].messages.length, 5);
-            assert.strictEqual(report.results[0].messages[0].ruleId, "strict");
-            assert.strictEqual(report.results[0].messages[1].ruleId, "no-var");
-            assert.strictEqual(report.results[0].messages[2].ruleId, "no-unused-vars");
-            assert.strictEqual(report.results[0].messages[3].ruleId, "quotes");
-            assert.strictEqual(report.results[0].messages[4].ruleId, "eol-last");
-            assert.strictEqual(report.results[0].fixableErrorCount, 0);
-            assert.strictEqual(report.results[0].fixableWarningCount, 3);
-            assert.strictEqual(report.results[0].suppressedMessages.length, 0);
+            it("should report the total and per file errors", () => {
+
+                engine = new CLIEngine({ cwd: getPath() });
+
+                const report = engine.executeOnText("var foo = 'bar';");
+
+                assert.strictEqual(report.results.length, 1);
+                assert.strictEqual(report.errorCount, 5);
+                assert.strictEqual(report.warningCount, 0);
+                assert.strictEqual(report.fatalErrorCount, 0);
+                assert.strictEqual(report.fixableErrorCount, 3);
+                assert.strictEqual(report.fixableWarningCount, 0);
+                assert.strictEqual(report.results[0].messages.length, 5);
+                assert.strictEqual(report.results[0].messages[0].ruleId, "strict");
+                assert.strictEqual(report.results[0].messages[1].ruleId, "no-var");
+                assert.strictEqual(report.results[0].messages[2].ruleId, "no-unused-vars");
+                assert.strictEqual(report.results[0].messages[3].ruleId, "quotes");
+                assert.strictEqual(report.results[0].messages[4].ruleId, "eol-last");
+                assert.strictEqual(report.results[0].fixableErrorCount, 3);
+                assert.strictEqual(report.results[0].fixableWarningCount, 0);
+                assert.strictEqual(report.results[0].suppressedMessages.length, 0);
+            });
+
+            it("should report the total and per file warnings", () => {
+
+                engine = new CLIEngine({
+                    cwd: getPath(),
+                    rules: {
+                        quotes: 1,
+                        "no-var": 1,
+                        "eol-last": 1,
+                        strict: 1,
+                        "no-unused-vars": 1
+                    }
+                });
+
+                const report = engine.executeOnText("var foo = 'bar';");
+
+                assert.strictEqual(report.results.length, 1);
+                assert.strictEqual(report.errorCount, 0);
+                assert.strictEqual(report.warningCount, 5);
+                assert.strictEqual(report.fixableErrorCount, 0);
+                assert.strictEqual(report.fixableWarningCount, 3);
+                assert.strictEqual(report.results[0].messages.length, 5);
+                assert.strictEqual(report.results[0].messages[0].ruleId, "strict");
+                assert.strictEqual(report.results[0].messages[1].ruleId, "no-var");
+                assert.strictEqual(report.results[0].messages[2].ruleId, "no-unused-vars");
+                assert.strictEqual(report.results[0].messages[3].ruleId, "quotes");
+                assert.strictEqual(report.results[0].messages[4].ruleId, "eol-last");
+                assert.strictEqual(report.results[0].fixableErrorCount, 0);
+                assert.strictEqual(report.results[0].fixableWarningCount, 3);
+                assert.strictEqual(report.results[0].suppressedMessages.length, 0);
+            });
         });
 
         it("should report one message when using specific config file", () => {
@@ -836,10 +862,12 @@ describe("CLIEngine", () => {
 
             engine = new CLIEngine({
                 cwd: originalDir,
-                configFile: ".eslintrc.js"
+                useEslintrc: false,
+                ignore: false,
+                overrideConfigFile: "tests/fixtures/simple-valid-project/.eslintrc.js"
             });
 
-            const report = engine.executeOnFiles(["lib/**/cli*.js"]);
+            const report = engine.executeOnFiles(["tests/fixtures/simple-valid-project/**/foo*.js"]);
 
             assert.strictEqual(report.results.length, 2);
             assert.strictEqual(report.results[0].messages.length, 0);
@@ -851,10 +879,16 @@ describe("CLIEngine", () => {
 
             engine = new CLIEngine({
                 cwd: originalDir,
-                configFile: ".eslintrc.js"
+                useEslintrc: false,
+                ignore: false,
+                overrideConfigFile: "tests/fixtures/simple-valid-project/.eslintrc.js"
             });
 
-            const report = engine.executeOnFiles(["lib/**/cli*.js", "lib/cli.?s", "lib/{cli,cli-engine/cli-engine}.js"]);
+            const report = engine.executeOnFiles([
+                "tests/fixtures/simple-valid-project/**/foo*.js",
+                "tests/fixtures/simple-valid-project/foo.?s",
+                "tests/fixtures/simple-valid-project/{foo,src/foobar}.js"
+            ]);
 
             assert.strictEqual(report.results.length, 2);
             assert.strictEqual(report.results[0].messages.length, 0);
@@ -1394,6 +1428,7 @@ describe("CLIEngine", () => {
         it("should throw an error when all given files are ignored", () => {
 
             engine = new CLIEngine({
+                useEslintrc: false,
                 ignorePath: getFixturePath(".eslintignore")
             });
 
@@ -1404,6 +1439,7 @@ describe("CLIEngine", () => {
 
         it("should throw an error when all given files are ignored even with a `./` prefix", () => {
             engine = new CLIEngine({
+                useEslintrc: false,
                 ignorePath: getFixturePath(".eslintignore")
             });
 
@@ -1450,6 +1486,7 @@ describe("CLIEngine", () => {
 
         it("should throw an error when all given files are ignored via ignore-pattern", () => {
             engine = new CLIEngine({
+                useEslintrc: false,
                 ignorePattern: "tests/fixtures/single-quoted.js"
             });
 
@@ -1712,7 +1749,7 @@ describe("CLIEngine", () => {
         it("should warn when deprecated rules are configured", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
-                configFile: ".eslintrc.js",
+                useEslintrc: false,
                 rules: {
                     "indent-legacy": 1,
                     "require-jsdoc": 1,
@@ -1736,7 +1773,7 @@ describe("CLIEngine", () => {
         it("should not warn when deprecated rules are not configured", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
-                configFile: ".eslintrc.js",
+                useEslintrc: false,
                 rules: { indent: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
             });
 
@@ -4881,7 +4918,21 @@ describe("CLIEngine", () => {
         it("should report 5 error messages when looking for errors only", () => {
 
             process.chdir(originalDir);
-            const engine = new CLIEngine();
+            const engine = new CLIEngine({
+                useEslintrc: false,
+                baseConfig: {
+                    rules: {
+                        quotes: 2,
+                        "no-var": 2,
+                        "eol-last": 2,
+                        strict: [2, "global"],
+                        "no-unused-vars": 2
+                    },
+                    env: {
+                        node: true
+                    }
+                }
+            });
 
             const report = engine.executeOnText("var foo = 'bar';");
             const errorResults = CLIEngine.getErrorResults(report.results);
@@ -4905,7 +4956,21 @@ describe("CLIEngine", () => {
 
         it("should report no error messages when looking for errors only", () => {
             process.chdir(originalDir);
-            const engine = new CLIEngine();
+            const engine = new CLIEngine({
+                useEslintrc: false,
+                baseConfig: {
+                    rules: {
+                        quotes: 2,
+                        "no-var": 2,
+                        "eol-last": 2,
+                        strict: [2, "global"],
+                        "no-unused-vars": 2
+                    },
+                    env: {
+                        node: true
+                    }
+                }
+            });
 
             const report = engine.executeOnText("var foo = 'bar'; // eslint-disable-line strict, no-var, no-unused-vars, quotes, eol-last -- justification");
             const errorResults = CLIEngine.getErrorResults(report.results);
@@ -4916,11 +4981,17 @@ describe("CLIEngine", () => {
         it("should not mutate passed report.results parameter", () => {
             process.chdir(originalDir);
             const engine = new CLIEngine({
-                rules: { quotes: [1, "double"] }
+                useEslintrc: false,
+                rules: {
+                    quotes: [1, "double"],
+                    "no-var": 2
+                }
             });
 
             const report = engine.executeOnText("var foo = 'bar';");
             const reportResultsLength = report.results[0].messages.length;
+
+            assert.strictEqual(report.results[0].messages.length, 2);
 
             CLIEngine.getErrorResults(report.results);
 
@@ -4930,9 +5001,16 @@ describe("CLIEngine", () => {
         it("should report no suppressed error messages when looking for errors only", () => {
             process.chdir(originalDir);
             const engine = new CLIEngine({
+                useEslintrc: false,
                 rules: {
-                    quotes: [1, "double"],
-                    "no-var": 2
+                    quotes: 1,
+                    "no-var": 2,
+                    "eol-last": 2,
+                    strict: [2, "global"],
+                    "no-unused-vars": 2
+                },
+                env: {
+                    node: true
                 }
             });
 
@@ -4948,7 +5026,21 @@ describe("CLIEngine", () => {
         it("should report a warningCount of 0 when looking for errors only", () => {
 
             process.chdir(originalDir);
-            const engine = new CLIEngine();
+            const engine = new CLIEngine({
+                useEslintrc: false,
+                baseConfig: {
+                    rules: {
+                        quotes: 2,
+                        "no-var": 2,
+                        "eol-last": 2,
+                        strict: [2, "global"],
+                        "no-unused-vars": 2
+                    },
+                    env: {
+                        node: true
+                    }
+                }
+            });
 
             const report = engine.executeOnText("var foo = 'bar';");
             const errorResults = CLIEngine.getErrorResults(report.results);
@@ -5092,9 +5184,9 @@ describe("CLIEngine", () => {
         });
 
         it("should expose the list of plugin rules", () => {
-            const engine = new CLIEngine({ plugins: ["n"] });
+            const engine = new CLIEngine({ plugins: ["internal-rules"] });
 
-            assert(engine.getRules().has("n/no-deprecated-api"), "n/no-deprecated-api is present");
+            assert(engine.getRules().has("internal-rules/no-invalid-meta"), "internal-rules/no-invalid-meta is present");
         });
 
         it("should expose the list of rules from a preloaded plugin", () => {
@@ -5102,11 +5194,11 @@ describe("CLIEngine", () => {
                 plugins: ["foo"]
             }, {
                 preloadedPlugins: {
-                    foo: require("eslint-plugin-n")
+                    foo: require("eslint-plugin-internal-rules")
                 }
             });
 
-            assert(engine.getRules().has("foo/no-deprecated-api"), "foo/no-deprecated-api is present");
+            assert(engine.getRules().has("foo/no-invalid-meta"), "foo/no-invalid-meta is present");
         });
     });
 

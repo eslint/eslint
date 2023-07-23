@@ -21,6 +21,25 @@ This rule always ignores extra parentheses around the following:
 * immediately-invoked function expressions (also known as IIFEs) such as `var x = (function () {})();` and `var x = (function () {}());` to avoid conflicts with the [wrap-iife](wrap-iife) rule
 * arrow function arguments to avoid conflicts with the [arrow-parens](arrow-parens) rule
 
+Problems reported by this rule can be fixed automatically, except when removing the parentheses would create a new directive, because that could change the semantics of the code.
+For example, the following script prints `object` to the console, but if the parentheses around `"use strict"` were removed, it would print `undefined` instead.
+
+```js
+<!--
+// this is a script
+// -->
+
+("use strict");
+
+function test() {
+    console.log(typeof this);
+}
+
+test();
+```
+
+In this case, the rule will not try to remove the parentheses around `"use strict"` but will still report them as a problem.
+
 ## Options
 
 This rule has a string option:
@@ -33,6 +52,7 @@ This rule has an object option for exceptions to the `"all"` option:
 * `"conditionalAssign": false` allows extra parentheses around assignments in conditional test expressions
 * `"returnAssign": false` allows extra parentheses around assignments in `return` statements
 * `"nestedBinaryExpressions": false` allows extra parentheses in nested binary expressions
+* `"ternaryOperandBinaryExpressions": false` allows extra parentheses around binary expressions that are operands of ternary `?:`
 * `"ignoreJSX": "none|all|multi-line|single-line"` allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to `none`.
 * `"enforceForArrowConditionals": false` allows extra parentheses around ternary expressions which are the body of an arrow function
 * `"enforceForSequenceExpressions": false` allows extra parentheses around sequence expressions
@@ -166,6 +186,26 @@ Examples of **correct** code for this rule with the `"all"` and `{ "nestedBinary
 x = a || (b && c);
 x = a + (b * c);
 x = (a * b) / c;
+```
+
+:::
+
+### ternaryOperandBinaryExpressions
+
+Examples of **correct** code for this rule with the `"all"` and `{ "ternaryOperandBinaryExpressions": false }` options:
+
+::: correct
+
+```js
+/* eslint no-extra-parens: ["error", "all", { "ternaryOperandBinaryExpressions": false }] */
+
+(a && b) ? foo : bar;
+
+(a - b > a) ? foo : bar;
+
+foo ? (bar || baz) : qux;
+
+foo ? bar : (baz || qux);
 ```
 
 :::

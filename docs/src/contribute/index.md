@@ -3,7 +3,7 @@ title: Contribute to ESLint
 eleventyNavigation:
     key: contribute to eslint
     title: Contribute to ESLint
-    order: 3
+    order: 4
 ---
 
 One of the great things about open source projects is that anyone can contribute in any number of meaningful ways. ESLint couldn't exist without the help of the many contributors it's had since the project began, and we want you to feel like you can contribute and make a difference as well.
