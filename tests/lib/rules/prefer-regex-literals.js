@@ -134,7 +134,10 @@ ruleTester.run("prefer-regex-literals", rule, {
         {
             code: "class C { #RegExp; foo() { globalThis.#RegExp('a'); } }",
             env: { es2020: true }
-        }
+        },
+
+        // ES2024
+        "new RegExp('[[A--B]]' + a, 'v')"
     ],
 
     invalid: [
@@ -2802,6 +2805,43 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp('mysafereg' /* comment explaining its safety */)",
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
+                }
+            ]
+        },
+
+        // ES2024
+        {
+            code: "new RegExp('[[A--B]]', 'v')",
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/[[A--B]]/v"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp('[[A--B]]', 'v')",
+            parserOptions: { ecmaVersion: 2023 },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "new RegExp('[[A&&&]]', 'v')",
+            parserOptions: { ecmaVersion: 2024 },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
