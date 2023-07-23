@@ -145,7 +145,7 @@ ruleTester.run("no-useless-backreference", rule, {
         String.raw`new RegExp('\\k<foo>(?<foo>a)\\k<bar>')`, // \k<foo> would be an error, but \k<bar> produces syntax error because group <bar> doesn't exist
 
         // ES2024
-        String.raw`new RegExp('([\\q{a}])\\1', 'v')`,
+        String.raw`new RegExp('([[A--B]])\\1', 'v')`,
         String.raw`new RegExp('[[]\\1](a)', 'v')` // SyntaxError
     ],
 
@@ -517,8 +517,8 @@ ruleTester.run("no-useless-backreference", rule, {
 
         // ES2024
         {
-            code: String.raw`new RegExp('\\1([[a]])', 'v')`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`([[a]])` }, type: "NewExpression" }]
+            code: String.raw`new RegExp('\\1([[A--B]])', 'v')`,
+            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`([[A--B]])` }, type: "NewExpression" }]
         }
     ]
 });
