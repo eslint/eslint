@@ -833,7 +833,7 @@ The `RuleTester#run()` method is used to run the tests. It should be passed the 
 
 * The name of the rule (string)
 * The rule object itself (see ["working with rules"](../extend/custom-rules))
-* An object containing the following test case array properties: `valid`, `invalid`, `fatal` (optional)
+* An object containing `valid` and `invalid` properties. An optional `fatal` property may also be added. Each property is an array containing test cases.
 
 Valid and invalid test cases are objects with the following properties:
 
