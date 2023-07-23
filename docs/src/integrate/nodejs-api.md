@@ -798,7 +798,7 @@ ruleTester.run("my-rule", rule, {
         }
     ],
 
-    // Optional array for testing invalid rule options or custom exceptions thrown by a rule.
+    // Optional array for testing invalid rule options or custom errors thrown by a rule.
     fatal: [
         // Test case for invalid rule options. Useful for complex schemas.
         {
@@ -811,7 +811,7 @@ ruleTester.run("my-rule", rule, {
             },
         },
 
-        // Test case for a custom exception thrown by the rule.
+        // Test case for a custom errors thrown by the rule.
         {
             code: 'for(const x of [1, 2, 3]) {}',
             error: {
@@ -859,7 +859,7 @@ In addition to the properties above, invalid test cases can also have the follow
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
 * `output` (string, required if the rule fixes code): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
 
-Fatal test cases (which are optional) are the same as invalid test cases, except that `code` is optional (it may be irrelevant when testing rule options), and there's an `error` object instead of an `errors` array. The `error` object should include one or both of the `message` of the error and the error (exception) class `name`. Fatal test cases can be used to test custom errors thrown by the rule, or invalid rule options (in which case the error `name` will be `SchemaValidationError`, and the `message` will be come from JSON Schema -- note that strings from JSON Schema are subject to change with future upgrades).
+Fatal test cases are optional and can be used to test custom errors (exceptions) thrown by a rule or invalid rule options. They have an optional `code` property (as it's irrelevant when testing rule options). They have an `error` object that should include one or both of the `message` of the error and the error class `name`. When testing invalid rule options, the error `name` will be `SchemaValidationError`, and the `message` will come from JSON Schema (note that strings from JSON Schema are subject to change with future upgrades).
 
 Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `parserOptions` property to configure parser behavior:
 
