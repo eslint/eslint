@@ -62,6 +62,10 @@ ruleTester.run("no-regex-spaces", rule, {
         "var foo = new RegExp(' \\[   ');",
         "var foo = new RegExp(' \\[   \\] ');",
 
+        // ES2024
+        { code: "var foo = /  {2}/v;", parserOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[\\q{    }]/v;", parserOptions: { ecmaVersion: 2024 } },
+
         // don't report invalid regex
         "var foo = new RegExp('[  ');",
         "var foo = new RegExp('{  ', 'u');"
@@ -368,6 +372,19 @@ ruleTester.run("no-regex-spaces", rule, {
                 {
                     messageId: "multipleSpaces",
                     data: { length: "2" },
+                    type: "NewExpression"
+                }
+            ]
+        },
+
+        // ES2024
+        {
+            code: "var foo = new RegExp('[[    ]    ]    ', 'v');",
+            output: "var foo = new RegExp('[[    ]    ] {4}', 'v');",
+            errors: [
+                {
+                    messageId: "multipleSpaces",
+                    data: { length: "4" },
                     type: "NewExpression"
                 }
             ]
