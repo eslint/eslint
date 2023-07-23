@@ -70,7 +70,11 @@ ruleTester.run("no-misleading-character-class", rule, {
         "var r = new RegExp('[Á] [ ');",
         "var r = RegExp('{ [Á]', 'u');",
         { code: "var r = new globalThis.RegExp('[Á] [ ');", env: { es2020: true } },
-        { code: "var r = globalThis.RegExp('{ [Á]', 'u');", env: { es2020: true } }
+        { code: "var r = globalThis.RegExp('{ [Á]', 'u');", env: { es2020: true } },
+
+        // ES2024
+        { code: "var r = /[👍]/v", parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`var r = /^[\q{👶🏻}]$/v`, parserOptions: { ecmaVersion: 2024 } }
     ],
     invalid: [
 
@@ -618,6 +622,17 @@ ruleTester.run("no-misleading-character-class", rule, {
             env: { es2020: true },
             errors: [{
                 messageId: "zwj",
+                suggestions: null
+            }]
+        },
+
+
+        // ES2024
+        {
+            code: "var r = /[[👶🏻]]/v",
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "emojiModifier",
                 suggestions: null
             }]
         }
