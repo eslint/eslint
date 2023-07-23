@@ -81,6 +81,12 @@ ruleTester.run("no-invalid-regexp", rule, {
         "new RegExp('\\\\p{Script=Vith}', 'u')",
         "new RegExp('\\\\p{Script=Vithkuqi}', 'u')",
 
+        // ES2024
+        "new RegExp('[A--B]', 'v')",
+        "new RegExp('[A&&B]', 'v')",
+        "new RegExp('[A--[0-9]]', 'v')",
+        "new RegExp('[\\\\p{Basic_Emoji}--\\\\q{a|bc|def}]', 'v')",
+
         // allowConstructorFlags
         {
             code: "new RegExp('.', 'g')",
