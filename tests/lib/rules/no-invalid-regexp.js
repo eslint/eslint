@@ -294,6 +294,24 @@ ruleTester.run("no-invalid-regexp", rule, {
                 data: { message: "Invalid flags supplied to RegExp constructor 'z'" },
                 type: "NewExpression"
             }]
+        },
+
+        // ES2024
+        {
+            code: "new RegExp('.', 'uv');",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Regex 'u' and 'v' flags cannot be used together" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp(pattern, 'uv');",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Regex 'u' and 'v' flags cannot be used together" },
+                type: "NewExpression"
+            }]
         }
     ]
 });
