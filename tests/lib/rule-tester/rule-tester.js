@@ -2421,6 +2421,13 @@ describe("RuleTester", () => {
                     fatal: [{}]
                 });
             }, "Test case property 'error' must be an object");
+            assert.throws(() => {
+                ruleTester.run("foo", rule, {
+                    valid: [{ code: "'baz'" }],
+                    invalid: [{ code: "'bar'", errors: [{ type: "Literal" }] }],
+                    fatal: [{ error: null }]
+                });
+            }, "Test case property 'error' must be an object");
 
             // wrong type `code`
             assert.throws(() => {
