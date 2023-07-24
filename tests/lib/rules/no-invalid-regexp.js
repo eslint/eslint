@@ -303,7 +303,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             code: "new RegExp('[[]', 'v');",
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Invalid regular expression: /[[]/u: Unterminated character class" },
+                data: { message: "Invalid regular expression: /[[]/v: Unterminated character class" },
                 type: "NewExpression"
             }]
         },
@@ -335,7 +335,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             code: "new RegExp('[[]\\\\u{0}*' /* valid only with `u` flag */, 'v')",
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Invalid regular expression: /[[]\\u{0}*/u: Unterminated character class" },
+                data: { message: "Invalid regular expression: /[[]\\u{0}*/v: Unterminated character class" },
                 type: "NewExpression"
             }]
         }
