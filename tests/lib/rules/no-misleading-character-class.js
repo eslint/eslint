@@ -74,7 +74,10 @@ ruleTester.run("no-misleading-character-class", rule, {
 
         // ES2024
         { code: "var r = /[👍]/v", parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`var r = /^[\q{👶🏻}]$/v`, parserOptions: { ecmaVersion: 2024 } }
+        { code: String.raw`var r = /^[\q{👶🏻}]$/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`var r = /[🇯\q{abc}🇵]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: "var r = /[🇯[A]🇵]/v", parserOptions: { ecmaVersion: 2024 } },
+        { code: "var r = /[🇯[A--B]🇵]/v", parserOptions: { ecmaVersion: 2024 } }
     ],
     invalid: [
 
