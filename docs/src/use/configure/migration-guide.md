@@ -346,7 +346,7 @@ export default [
 You may find that there's a shareable config you rely on that hasn't yet been updated to flat config format. In that case, you can use the `FlatCompat` utility to translate the eslintrc format into flat config format. First, install the `@eslint/eslintrc` package:
 
 ```shell
-npm install @eslint/js --save-dev
+npm install @eslint/eslintrc --save-dev
 ```
 
 Then, import `FlatCompat` and create a new instance to convert an existing eslintrc config. For example, if the npm package `eslint-config-my-config` is in eslintrc format, you can write this:
