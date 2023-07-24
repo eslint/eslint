@@ -68,7 +68,9 @@ ruleTester.run("no-regex-spaces", rule, {
 
         // don't report invalid regex
         "var foo = new RegExp('[  ');",
-        "var foo = new RegExp('{  ', 'u');"
+        "var foo = new RegExp('{  ', 'u');",
+        "new RegExp('[[abc]  ]', flags + 'v')",
+        "new RegExp('[[abc]\\\\q{  }]', flags + 'v')"
     ],
 
     invalid: [
