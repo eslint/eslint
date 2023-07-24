@@ -2,14 +2,16 @@
 
 module.exports = function({ plugins }) {
 
+    const isArrayOfStrings = typeof plugins[0] === "string";
+
     return `
-A config object has a "plugins" key defined as an array of strings.
+A config object has a "plugins" key defined as an array${isArrayOfStrings ? " of strings" : ""}.
 
 Flat config requires "plugins" to be an object in this form:
 
     {
         plugins: {
-            ${plugins[0] || "namespace"}: pluginObject
+            ${isArrayOfStrings && plugins[0] ? plugins[0] : "namespace"}: pluginObject
         }
     }
 
