@@ -255,6 +255,65 @@ export default [
 ];
 ```
 
+### `eslint-env` Configuration Comments
+
+In the eslintrc config system it was possible to use `eslint-env` configuration comments to define globals for a file.
+These comments are no longer recognized when linting with flat config: in a future version of ESLint, `eslint-env` comments will be reported as errors.
+For this reason, when migrating from eslintrc to flat config, `eslint-env` configuration comments should be removed from all files.
+They can be either replaced with equivalent but more verbose `global` configuration comments, or dropped in favor of `globals` definitions in the config file.
+
+For example, when using eslintrc, a file to be linted could look like this:
+
+```javascript
+// tests/my-file.js
+
+/* eslint-env mocha */
+
+describe("unit tests", () => {
+    it("should pass", () => {
+        // ...
+    });
+});
+```
+
+In the above example, `describe` and `it` would be recognized as global identifiers because of the `/* eslint-env mocha */` comment.
+
+The same effect can be achieved with flat config with a `global` configuration comment, e.g.:
+
+```javascript
+// tests/my-file.js
+
+/* global describe, it -- Globals defined by Mocha */
+
+describe("unit tests", () => {
+    it("should pass", () => {
+        // ...
+    });
+});
+```
+
+Another option is to remove the comment from the file being linted and define the globals in the configuration, for example:
+
+```javascript
+// eslint.config.js
+
+import globals from "globals";
+
+export default [
+    // ...other config
+    {
+        files: [
+            "tests/**"
+        ],
+        languageOptions: {
+            globals: {
+                ...globals.mocha
+            }
+        }
+    }
+];
+```
+
 ### Predefined and Shareable Configs
 
 In eslintrc files, use the `extends` property to use predefined and shareable configs. ESLint comes with two predefined configs that you can access as strings:

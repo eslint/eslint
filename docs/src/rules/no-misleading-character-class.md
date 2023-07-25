@@ -79,6 +79,7 @@ Examples of **correct** code for this rule:
 
 /^[abc]$/
 /^[👍]$/u
+/^[\q{👶🏻}]$/v
 ```
 
 :::
