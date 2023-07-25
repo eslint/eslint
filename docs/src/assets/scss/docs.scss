@@ -112,6 +112,10 @@ div.incorrect {
         offset-inline-end: -22px;
         offset-block-start: -22px;
     }
+
+    pre.line-numbers-mode {
+        padding-bottom: 4.5rem;
+    }
 }
 
 div.correct {
@@ -142,10 +146,8 @@ pre[class*="language-"] {
 .c-btn.c-btn--playground {
     position: absolute;
     font-size: var(--step--1);
-    bottom: -1rem;
+    bottom: 1rem;
     right: 1rem;
-    offset-block-end: 0.5rem;
-    offset-inline-end: 0.5rem;
     z-index: 1;
 
     @media all and (min-width: 768px) {
@@ -166,6 +168,7 @@ pre[class*="language-"] {
     position: fixed;
     right: 50px;
     bottom: 35px;
+    z-index: 1;
     font-size: 1.5rem;
     border-radius: 50%;
     color: var(--body-background-color);
