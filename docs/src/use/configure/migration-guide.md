@@ -211,7 +211,7 @@ In eslintrc files, you configure various language options across the `env`, `glo
 
 In flat config files, the `globals`, and `parserOptions` are consolidated under the `languageOptions` key; the `env` property doesn't exist. Groups of global variables for specific runtimes are imported from the [globals](https://www.npmjs.com/package/globals) npm package and included in the `globals` property. You can use the spread operator (`...`) to import multiple globals at once.
 
-For example, here's a eslintrc file with language options:
+For example, here's an eslintrc file with language options:
 
 ```javascript
 // .eslintrc.js
@@ -314,14 +314,14 @@ export default [
 ];
 ```
 
-### Predefined Configs
+### Predefined and Shareable Configs
 
-In eslintrc files, use the `extends` property to use predefined configs. ESLint comes with two predefined configs that you can access as strings:
+In eslintrc files, use the `extends` property to use predefined and shareable configs. ESLint comes with two predefined configs that you can access as strings:
 
 * `"eslint:recommended"`: the rules recommended by ESLint
 * `"eslint:all"`: all rules shipped with ESLint
 
-You can also use the `extends` property to extend a custom config. Custom configs can either be paths to local config files or npm package names.
+You can also use the `extends` property to extend a shareable config. Shareable configs can either be paths to local config files or npm package names.
 
 In flat config files, predefined configs are imported from separate modules into flat config files. The `recommended` and `all` rules configs are located in the [`@eslint/js`](https://www.npmjs.com/package/@eslint/js) package. You must import this package to use these configs:
 
@@ -346,7 +346,7 @@ module.exports = {
 }
 ```
 
-This eslintrc file uses built-in config, local custom config, and custom config from an npm package:
+This eslintrc file uses built-in config, local custom config, and shareable config from an npm package:
 
 ```javascript
 // .eslintrc.js
@@ -399,6 +399,40 @@ export default [
     },
 ];
 ```
+
+#### Using eslintrc Configs in Flat Config
+
+You may find that there's a shareable config you rely on that hasn't yet been updated to flat config format. In that case, you can use the `FlatCompat` utility to translate the eslintrc format into flat config format. First, install the `@eslint/eslintrc` package:
+
+```shell
+npm install @eslint/eslintrc --save-dev
+```
+
+Then, import `FlatCompat` and create a new instance to convert an existing eslintrc config. For example, if the npm package `eslint-config-my-config` is in eslintrc format, you can write this:
+
+```js
+import { FlatCompat } from "@eslint/eslintrc";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// mimic CommonJS variables -- not needed if using CommonJS
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const compat = new FlatCompat({
+    baseDirectory: __dirname
+});
+
+export default [
+
+    // mimic ESLintRC-style extends
+    ...compat.extends("eslint-config-my-config"),
+];
+```
+
+This example uses the `FlatCompat#extends()` method to insert the `eslint-config-my-config` into the flat config array.
+
+For more information about the `FlatCompat` class, please see the [package README](https://github.com/eslint/eslintrc#usage).
 
 ### Ignoring Files
 

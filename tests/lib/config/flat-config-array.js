@@ -1963,6 +1963,15 @@ describe("FlatConfigArray", () => {
                 });
             });
 
+            it("should error when plugins is an array", async () => {
+                await assertInvalidConfig([
+                    {
+                        plugins: ["foo"]
+                    }
+                ], "Key \"plugins\": This appears to be in eslintrc format (array of strings) rather than flat config format (object).");
+
+            });
+
 
         });
 
