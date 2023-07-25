@@ -97,6 +97,11 @@ ruleTester.run("no-control-regex", rule, {
             code: String.raw`/[\u{1F}--B]/v`,
             parserOptions: { ecmaVersion: 2024 },
             errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        },
+        {
+            code: String.raw`/\x11/; RegExp("foo", "uv");`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x11" }, type: "Literal", column: 1 }]
         }
     ]
 });
