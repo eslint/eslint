@@ -142,7 +142,11 @@ ruleTester.run("no-useless-backreference", rule, {
         String.raw`new RegExp('\\1(a)\\2', 'ug')`, // \1 would be an error, but \2 is syntax error because of the 'u' flag
         String.raw`const flags = 'gus'; RegExp('\\1(a){', flags);`, // \1 would be an error, but the rule is aware of the 'u' flag so this is a syntax error
         String.raw`RegExp('\\1(a)\\k<foo>', 'u')`, // \1 would be an error, but \k<foo> produces syntax error because of the u flag
-        String.raw`new RegExp('\\k<foo>(?<foo>a)\\k<bar>')` // \k<foo> would be an error, but \k<bar> produces syntax error because group <bar> doesn't exist
+        String.raw`new RegExp('\\k<foo>(?<foo>a)\\k<bar>')`, // \k<foo> would be an error, but \k<bar> produces syntax error because group <bar> doesn't exist
+
+        // ES2024
+        String.raw`new RegExp('([[A--B]])\\1', 'v')`,
+        String.raw`new RegExp('[[]\\1](a)', 'v')` // SyntaxError
     ],
 
     invalid: [
@@ -508,6 +512,13 @@ ruleTester.run("no-useless-backreference", rule, {
         {
             code: String.raw`const r = RegExp, p = '\\1', s = '(a)'; new r(p + s);`,
             errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)` }, type: "NewExpression" }]
+        },
+
+
+        // ES2024
+        {
+            code: String.raw`new RegExp('\\1([[A--B]])', 'v')`,
+            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`([[A--B]])` }, type: "NewExpression" }]
         }
     ]
 });
