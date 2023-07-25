@@ -113,6 +113,12 @@ This rule takes one option, an object, with the following properties:
 
 * `allowVoid`: If set to `true` (`false` by default), this rule will allow returning void values.
 
+### allowVoid
+
+Examples of **correct** code for this rule with the `{ "allowVoid": true }` option:
+
+::: correct
+
 ```js
 /*eslint no-promise-executor-return: ["error", { allowVoid: true }]*/
 
