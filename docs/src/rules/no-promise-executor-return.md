@@ -107,6 +107,8 @@ new Promise(r => { r(1) });
 Promise.resolve(1);
 ```
 
+:::
+
 ## Options
 
 This rule takes one option, an object, with the following properties:
