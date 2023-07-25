@@ -1578,6 +1578,8 @@
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-return-await"
         },
+        "deprecated": true,
+        "replacedBy": [],
         "fixable": null
     },
     "no-script-url": {

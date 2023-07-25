@@ -719,5 +719,12 @@
         "logo": "https://tc39.es/ecma262/img/favicon.ico",
         "title": "ECMAScript® 2023 Language Specification",
         "description": null
+    },
+    "https://v8.dev/blog/fast-async": {
+        "domain": "v8.dev",
+        "url": "https://v8.dev/blog/fast-async",
+        "logo": "https://v8.dev/favicon.ico",
+        "title": "Faster async functions and promises · V8",
+        "description": "Faster and easier-to-debug async functions and promises are coming to V8 v7.2 / Chrome 72."
     }
 }

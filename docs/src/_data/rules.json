@@ -1063,13 +1063,6 @@
                     "hasSuggestions": false
                 },
                 {
-                    "name": "no-return-await",
-                    "description": "Disallow unnecessary `return await`",
-                    "recommended": false,
-                    "fixable": false,
-                    "hasSuggestions": true
-                },
-                {
                     "name": "no-script-url",
                     "description": "Disallow `javascript:` urls",
                     "recommended": false,
@@ -1981,6 +1974,10 @@
             },
             {
                 "name": "no-restricted-modules",
+                "replacedBy": []
+            },
+            {
+                "name": "no-return-await",
                 "replacedBy": []
             },
             {
