@@ -70,7 +70,17 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 }
                 `,
             env: { es2020: true }
-        }
+        },
+
+        // ES2024
+        "new RegExp('(?<c>[[A--B]])', 'v')",
+
+        /*
+         * This testcase checks if the rule understands the v flag correctly.
+         * Without the v flag, `([\q])` is considered a valid regex and the rule reports,
+         * but if the v flag is understood correctly the rule does not because of a syntax error.
+         */
+        String.raw`new RegExp('([\\q])', 'v')` // SyntaxError
     ],
 
     invalid: [
@@ -590,6 +600,27 @@ ruleTester.run("prefer-named-capture-group", rule, {
             `
                     }
                 ]
+            }]
+        },
+
+        // ES2024
+        {
+            code: "new RegExp('([[A--B]])', 'v')",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "([[A--B]])" },
+                line: 1,
+                column: 1,
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: "new RegExp('(?<temp1>[[A--B]])', 'v')"
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: "new RegExp('(?:[[A--B]])', 'v')"
+                    }]
             }]
         }
     ]
