@@ -81,6 +81,14 @@ ruleTester.run("no-invalid-regexp", rule, {
         "new RegExp('\\\\p{Script=Vith}', 'u')",
         "new RegExp('\\\\p{Script=Vithkuqi}', 'u')",
 
+        // ES2024
+        "new RegExp('[A--B]', 'v')",
+        "new RegExp('[A&&B]', 'v')",
+        "new RegExp('[A--[0-9]]', 'v')",
+        "new RegExp('[\\\\p{Basic_Emoji}--\\\\q{a|bc|def}]', 'v')",
+        "new RegExp('[A--B]', flags)", // valid only with `v` flag
+        "new RegExp('[[]\\\\u{0}*', flags)", // valid only with `u` flag
+
         // allowConstructorFlags
         {
             code: "new RegExp('.', 'g')",
@@ -286,6 +294,48 @@ ruleTester.run("no-invalid-regexp", rule, {
             errors: [{
                 messageId: "regexMessage",
                 data: { message: "Invalid flags supplied to RegExp constructor 'z'" },
+                type: "NewExpression"
+            }]
+        },
+
+        // ES2024
+        {
+            code: "new RegExp('[[]', 'v');",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /[[]/v: Unterminated character class" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('.', 'uv');",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Regex 'u' and 'v' flags cannot be used together" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp(pattern, 'uv');",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Regex 'u' and 'v' flags cannot be used together" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('[A--B]' /* valid only with `v` flag */, 'u')",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /[A--B]/u: Range out of order in character class" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('[[]\\\\u{0}*' /* valid only with `u` flag */, 'v')",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /[[]\\u{0}*/v: Unterminated character class" },
                 type: "NewExpression"
             }]
         }
