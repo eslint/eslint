@@ -371,7 +371,7 @@ export default [
 ];
 ```
 
-This example uses the `FlatCompat#extends()` method to insert the `eslint-config-my-config` the flat config array.
+This example uses the `FlatCompat#extends()` method to insert the `eslint-config-my-config` into the flat config array.
 
 For more information about the `FlatCompat` class, please see the [package README](https://github.com/eslint/eslintrc#usage).
 
