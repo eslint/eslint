@@ -2,10 +2,12 @@
 title: no-return-await
 rule_type: suggestion
 further_reading:
+- https://v8.dev/blog/fast-async
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
 - https://jakearchibald.com/2017/await-vs-return-vs-return-await/
 ---
 
+This rule was **deprecated** in ESLint v8.46.0 with no replacement. The original intent of this rule no longer applies due to the fact JavaScript now handles native `Promises` differently. It can now be slower to remove `await` rather than keeping it. More technical information can be found in [this V8 blog entry](https://v8.dev/blog/fast-async).
 
 Using `return await` inside an `async function` keeps the current function in the call stack until the Promise that is being awaited has resolved, at the cost of an extra microtask before resolving the outer Promise. `return await` can also be used in a try/catch statement to catch errors from another function that returns a Promise.
 
