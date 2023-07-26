@@ -7,7 +7,7 @@ further_reading:
 - https://jakearchibald.com/2017/await-vs-return-vs-return-await/
 ---
 
-This rule was **deprecated** in ESLint v8.46.0 with no replacement. The original intent of this rule no longer applies due to the fact Javascript now handles native `Promises` differently. It can now be slower to remove `await` rather than keeping it. More technical information can be found in [this](https://v8.dev/blog/fast-async) V8 blog entry.
+This rule was **deprecated** in ESLint v8.46.0 with no replacement. The original intent of this rule no longer applies due to the fact JavaScript now handles native `Promises` differently. It can now be slower to remove `await` rather than keeping it. More technical information can be found in [this V8 blog entry](https://v8.dev/blog/fast-async).
 
 Using `return await` inside an `async function` keeps the current function in the call stack until the Promise that is being awaited has resolved, at the cost of an extra microtask before resolving the outer Promise. `return await` can also be used in a try/catch statement to catch errors from another function that returns a Promise.
 
