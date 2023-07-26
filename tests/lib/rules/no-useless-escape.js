@@ -127,7 +127,64 @@ ruleTester.run("no-useless-escape", rule, {
         { code: String.raw`var foo = /\p{ASCII}/u`, parserOptions: { ecmaVersion: 2018 } },
         { code: String.raw`var foo = /\P{ASCII}/u`, parserOptions: { ecmaVersion: 2018 } },
         { code: String.raw`var foo = /[\p{ASCII}]/u`, parserOptions: { ecmaVersion: 2018 } },
-        { code: String.raw`var foo = /[\P{ASCII}]/u`, parserOptions: { ecmaVersion: 2018 } }
+        { code: String.raw`var foo = /[\P{ASCII}]/u`, parserOptions: { ecmaVersion: 2018 } },
+
+        // Carets
+        String.raw`/[^^]/`,
+        { code: String.raw`/[^^]/u`, parserOptions: { ecmaVersion: 2015 } },
+
+        // ES2024
+        { code: String.raw`/[\q{abc}]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\(]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\)]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\{]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\]]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\}]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\/]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\-]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\|]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\$$]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\&&]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\!!]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\##]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\%%]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\**]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\++]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\,,]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\..]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\::]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\;;]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\<<]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\==]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\>>]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\??]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\@@]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: "/[\\``]/v", parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\~~]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[^\^^]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[_\^^]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[$\$]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[&\&]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[!\!]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[#\#]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[%\%]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[*\*]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[+\+]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[,\,]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[.\.]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[:\:]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[;\;]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[<\<]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[=\=]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[>\>]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[?\?]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[@\@]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: "/[`\\`]/v", parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[~\~]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[^^\^]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[_^\^]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\&&&\&]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[[\-]\-]/v`, parserOptions: { ecmaVersion: 2024 } }
     ],
 
     invalid: [
@@ -1102,6 +1159,470 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: String.raw`({ foo() { "foo"; "bar"; "ba\\z" } })`
                 }]
+            }]
+        },
+
+        // Carets
+        {
+            code: String.raw`/[^\^]/`,
+            errors: [{
+                line: 1,
+                column: 4,
+                message: "Unnecessary escape character: \\^.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: "/[^^]/"
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[^\\^]/`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[^\^]/u`,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                line: 1,
+                column: 4,
+                message: "Unnecessary escape character: \\^.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: "/[^^]/u"
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[^\\^]/u`
+                    }
+                ]
+            }]
+        },
+
+        // ES2024
+        {
+            code: String.raw`/[\$]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                endColumn: 4,
+                message: "Unnecessary escape character: \\$.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: "/[$]/v"
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\$]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\&\&]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\&.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[&\&]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\&\&]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\!\!]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\!.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[!\!]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\!\!]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\#\#]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\#.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[#\#]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\#\#]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\%\%]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\%.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[%\%]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\%\%]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\*\*]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\*.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[*\*]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\*\*]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\+\+]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\+.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[+\+]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\+\+]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\,\,]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\,.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[,\,]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\,\,]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\.\.]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[.\.]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\.\.]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\:\:]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\:.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[:\:]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\:\:]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\;\;]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\;.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[;\;]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\;\;]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\<\<]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\<.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[<\<]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\<\<]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\=\=]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\=.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[=\=]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\=\=]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\>\>]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\>.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[>\>]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\>\>]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\?\?]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\?.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[?\?]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\?\?]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\@\@]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\@.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[@\@]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\@\@]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: "/[\\`\\`]/v",
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\`.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: "/[`\\`]/v"
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: "/[\\\\`\\`]/v"
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\~\~]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\~.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[~\~]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\~\~]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[^\^\^]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 4,
+                message: "Unnecessary escape character: \\^.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[^^\^]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[^\\^\^]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[_\^\^]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 4,
+                message: "Unnecessary escape character: \\^.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[_^\^]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[_\\^\^]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\&\&&\&]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\&.",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[&\&&\&]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[\\&\&&\&]/v`
+                    }
+                ]
             }]
         }
     ]
