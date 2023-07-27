@@ -70,4 +70,4 @@ class A extends B {
 
 If you don't want to be notified about invalid/missing `super()` callings in constructors, you can safely disable this rule.
 
-It is safe to disable this rule when using TypeScript because [TypeScript's compiler enforces this check (`ts(2335) & ts(2377)`)](https://github.com/Microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json).
+It is safe to disable this rule when using TypeScript because TypeScript's compiler enforces this check (`ts(2335) & ts(2377)`).
