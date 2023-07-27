@@ -112,6 +112,19 @@ ruleTester.run("no-loop-func", rule, {
             ].join("\n"),
             parserOptions: { ecmaVersion: 6 }
         },
+        {
+            code: "for (var i=0; (function() { i; })(), i<l; i++) { }",
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
+        },
+
+        {
+            code: "for (let i = 0; i < 10; ++i) { (()=>{ i;})() }",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "for (let i = 0; i < 10; ++i) { (function a(){i;})() }",
+            parserOptions: { ecmaVersion: 6 }
+        },
 
         /*
          * These loops _look_ like they might be unsafe, but because i is undeclared, they're fine
@@ -149,13 +162,15 @@ ruleTester.run("no-loop-func", rule, {
             code: "for (let i in {}) { i = 7; (function() { undeclared; }) }",
             parserOptions: { ecmaVersion: 6 }
         },
+
+        /* The references to loop variable are inside an IIFE so they are safe */
         {
             code: "for (const i of {}) { (function() { undeclared; }) }",
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "for (let i = 0; i < 10; ++i) { for (let x in xs.filter(x => x != undeclared)) {  } }",
-            parserOptions: { ecmaVersion: 6 }
+            code: "for (var i=0; i<l; (function() { i; })(), i++) { }",
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
         }
 
     ],
@@ -189,14 +204,6 @@ ruleTester.run("no-loop-func", rule, {
         {
             code: "for (var i=0; i < l; i++) { function a() { i; }; a(); }",
             errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionDeclaration" }]
-        },
-        {
-            code: "for (var i=0; (function() { i; })(), i<l; i++) { }",
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
-        },
-        {
-            code: "for (var i=0; i<l; (function() { i; })(), i++) { }",
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
         },
 
         // Warns functions which are using modified variables.
@@ -269,6 +276,11 @@ ruleTester.run("no-loop-func", rule, {
             code: "let a; function foo() { a = 10; for (let x of xs) { (function() { a; }); } } foo();",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unsafeRefs", data: { varNames: "'a'" }, type: "FunctionExpression" }]
+        },
+        {
+            code: "let a; for (var i=0; i<l; i++) { (function* (){i;})() }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
         }
     ]
 });
