@@ -184,7 +184,8 @@ ruleTester.run("no-useless-escape", rule, {
         { code: String.raw`/[^^\^]/v`, parserOptions: { ecmaVersion: 2024 } },
         { code: String.raw`/[_^\^]/v`, parserOptions: { ecmaVersion: 2024 } },
         { code: String.raw`/[\&&&\&]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[[\-]\-]/v`, parserOptions: { ecmaVersion: 2024 } }
+        { code: String.raw`/[[\-]\-]/v`, parserOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\^]/v`, parserOptions: { ecmaVersion: 2024 } }
     ],
 
     invalid: [
