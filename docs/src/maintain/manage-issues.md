@@ -17,7 +17,7 @@ New issues and pull requests are filed frequently, and how we respond to those i
 1. **Not all requests are equal.** It's unlikely we'll be able to accommodate every request, so don't be afraid to say that something doesn't fit into the scope of the project or isn't practical. It's better to give such feedback if that's the case.
 1. **Close when appropriate.** Don't be afraid to close issues that you don't think will be done, or when it's become clear from the conversation that there's no further work to do. Issues can always be reopened if they are closed incorrectly, so feel free to close issues when appropriate. Just be sure to leave a comment explaining why the issue is being closed (if not closed by a commit).
 
-## Types of Issues and Pull Requess
+## Types of Issues and Pull Requests
 
 There are five primary categories:
 
