@@ -49,7 +49,7 @@ We make every attempt to automate movement between as many columns as we can, bu
 
 ### When an Issue or Pull Request is Opened
 
-When an issue or pull request is opened, it is automatically added to the "Needs Triage" column in the Triage project. These issues and pull requests need to be evaluated to determine next steps. Anyone on the support team or dev team can follow these steps to properly triage issues.
+When an issue or pull request is opened, it is automatically added to the "Needs Triage" column in the Triage project. These issues and pull requests need to be evaluated to determine the next steps. Anyone on the support team or dev team can follow these steps to properly triage issues.
 
 **Note:** If an issue or pull request is in the "Triaging" column, that means someone is already triaging it, and you should let them finish. There's no need to comment on issues or pull requests in the "Triaging" column unless someone asks for help.
 
