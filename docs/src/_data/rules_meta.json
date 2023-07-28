@@ -1578,9 +1578,9 @@
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-return-await"
         },
+        "fixable": null,
         "deprecated": true,
-        "replacedBy": [],
-        "fixable": null
+        "replacedBy": []
     },
     "no-script-url": {
         "type": "suggestion",
@@ -2260,7 +2260,7 @@
     "require-unicode-regexp": {
         "type": "suggestion",
         "docs": {
-            "description": "Enforce the use of `u` flag on RegExp",
+            "description": "Enforce the use of `u` or `v` flag on RegExp",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/require-unicode-regexp"
         },

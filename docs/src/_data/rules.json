@@ -1372,7 +1372,7 @@
                 },
                 {
                     "name": "require-unicode-regexp",
-                    "description": "Enforce the use of `u` flag on RegExp",
+                    "description": "Enforce the use of `u` or `v` flag on RegExp",
                     "recommended": false,
                     "fixable": false,
                     "hasSuggestions": true
