@@ -51,7 +51,7 @@ The RegExp `v` flag, introduced in ECMAScript 2024, is a superset of the `u` fla
 
 Please see <https://github.com/tc39/proposal-regexp-v-flag> and <https://v8.dev/features/regexp-v-flag> for more details.
 
-Therefore, the `u` and `v` flag lets us work better with regular expressions.
+Therefore, the `u` and `v` flags let us work better with regular expressions.
 
 ## Rule Details
 
