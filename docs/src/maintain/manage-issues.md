@@ -1,14 +1,14 @@
 ---
-title: Manage Issues
+title: Manage Issues and Pull Requests
 eleventyNavigation:
     key: manage issues
     parent: maintain eslint
-    title: Manage Issues
+    title: Manage Issues and Pull Requests
     order: 2
 
 ---
 
-New issues are filed frequently, and how we respond to those issues directly affects the success of the project. Being part of the project team means helping to triage and address issues as they come in so the project can continue to run smoothly.
+New issues and pull requests are filed frequently, and how we respond to those issues directly affects the success of the project. Being part of the project team means helping to triage and address issues as they come in so the project can continue to run smoothly.
 
 ## Things to Keep in Mind
 
@@ -17,44 +17,45 @@ New issues are filed frequently, and how we respond to those issues directly aff
 1. **Not all requests are equal.** It's unlikely we'll be able to accommodate every request, so don't be afraid to say that something doesn't fit into the scope of the project or isn't practical. It's better to give such feedback if that's the case.
 1. **Close when appropriate.** Don't be afraid to close issues that you don't think will be done, or when it's become clear from the conversation that there's no further work to do. Issues can always be reopened if they are closed incorrectly, so feel free to close issues when appropriate. Just be sure to leave a comment explaining why the issue is being closed (if not closed by a commit).
 
-## Types of Issues
+## Types of Issues and Pull Requests
 
-There are four primary issue categories:
+There are five primary categories:
 
 1. **Bug**: Something isn't working the way it's expected to work.
 1. **Enhancement**: A change to something that already exists. For instance, adding a new option to an existing rule or fixing a bug in a rule where fixing it will result in the rule reporting more problems (in this case, use both "Bug" and "Enhancement").
 1. **Feature**: Adding something that doesn't already exist. For example, adding a new rule, new formatter, or new command line flag.
+1. **Documentation**: Adding, updating, or removing project documentation.
 1. **Question**: An inquiry about how something works that won't result in a code change. We prefer if people use GitHub Discussions or Discord for questions, but sometimes they'll open an issue.
 
-The first goal when evaluating an issue is to determine which category the issue falls into.
+The first goal when evaluating an issue or pull request is to determine which category the issue falls into.
 
 ## Triaging Process
 
-All of ESLint's issues, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/3). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
+All of ESLint's issues and pull requests, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/3). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
 
-* **Needs Triage**: Issues that have not yet been reviewed by anyone
-* **Triaging**: Issues that someone has reviewed but has not been able to fully triage yet
-* **Ready for Dev Team**: Issues that have been triaged and have all the information necessary for the dev team to take a look
-* **Evaluating**: The dev team is evaluating these issues to determine whether to move forward or not
+* **Needs Triage**: Issues and pull requests that have not yet been reviewed by anyone
+* **Triaging**: Issues and pull requests that someone has reviewed but has not been able to fully triage yet
+* **Ready for Dev Team**: Issues and pull requests that have been triaged and have all the information necessary for the dev team to take a look
+* **Evaluating**: The dev team is evaluating these issues and pull requests to determine whether to move forward or not
 * **Feedback Needed**: A team member is requesting more input from the rest of the team before proceeding
 * **Waiting for RFC**: The next step in the process is for an RFC to be written
 * **RFC Opened**: An RFC is opened to address these issues
 * **Blocked**: The issue can't move forward due to some dependency
 * **Ready to Implement**: These issues have all the details necessary to start implementation
-* **Implementing**: There is an open pull request for each of these issues
+* **Implementing**: There is an open pull request for each of these issues or this is a pull request that has been approved
 * **Completed**: The issue has been closed (either via pull request merge or by the team manually closing the issue)
 
 We make every attempt to automate movement between as many columns as we can, but sometimes moving issues needs to be done manually.
 
-### When an Issue is Opened
+### When an Issue or Pull Request is Opened
 
-When an issue is opened, it is automatically added to the "Needs Triage" column in the Triage project. These issues need to be evaluated to determine next steps. Anyone on the support team or dev team can follow these steps to properly triage issues.
+When an issue or pull request is opened, it is automatically added to the "Needs Triage" column in the Triage project. These issues and pull requests need to be evaluated to determine the next steps. Anyone on the support team or dev team can follow these steps to properly triage issues.
 
-**Note:** If an issue is in the "Triaging" column, that means someone is already triaging it, and you should let them finish. There's no need to comment on issues in the "Triaging" column unless someone asks for help.
+**Note:** If an issue or pull request is in the "Triaging" column, that means someone is already triaging it, and you should let them finish. There's no need to comment on issues or pull requests in the "Triaging" column unless someone asks for help.
 
-The steps for triaging an issue are:
+The steps for triaging an issue or pull request are:
 
-1. Move the issue from "Needs Triage" to "Triaging" in the Triage project.
+1. Move the issue or pull request from "Needs Triage" to "Triaging" in the Triage project.
 1. Check: Has all the information in the issue template been provided?
     * **No:** If information is missing from the issue template, or you can't tell what is being requested, please ask the author to provide the missing information:
         * Add the "needs info" label to the issue so we know that this issue is stalled due to lack of information.
@@ -62,8 +63,8 @@ The steps for triaging an issue are:
         * If the issue author hasn't provided the necessary information after 7 days, please close the issue. The bot will add a comment stating that the issue was closed because there was information missing.
     * **Yes:**
         * If the issue is actually a question (rather than something the dev team needs to change), please [convert it to a discussion](https://docs.github.com/en/free-pro-team@latest/discussions/managing-discussions-for-your-community/moderating-discussions#converting-an-issue-to-a-discussion). You can continue the conversation as a discussion.
-        * If the issue is reporting a bug, try to reproduce the issue following the instructions in the issue. If you can reproduce the bug, please add the "repro:yes" label. (The bot will automatically remove the "repro:needed" label.) If you can't reproduce the bug, ask the author for more information about their environment or to clarify reproduction steps.
-        * If the issue is reporting something that works as intended, please add the "works as intended" label and close the issue.
+        * If the issue is reporting a bug, or if a pull request is fixing a bug, try to reproduce the issue following the instructions in the issue. If you can reproduce the bug, please add the "repro:yes" label. (The bot will automatically remove the "repro:needed" label.) If you can't reproduce the bug, ask the author for more information about their environment or to clarify reproduction steps.
+        * If the issue or pull request is reporting something that works as intended, please add the "works as intended" label and close the issue.
         * Please add labels describing the part of ESLint affected:
             * **3rd party plugin**: Related to third-party functionality (plugins, parsers, rules, etc.)
             * **build**: Related to commands run during a build (testing, linting, release scripts, etc.)
@@ -72,7 +73,7 @@ The steps for triaging an issue are:
             * **documentation**: Related to content on eslint.org
             * **infrastructure**: Related to resources needed for builds or deployment (VMs, CI tools, bots, etc.)
             * **rule**: Related to core rules
-        * Please assign an initial priority based on the importance of the issue. If you're not sure, use your best judgment. We can always change the priority later.
+        * Please assign an initial priority based on the importance of the issue or pull request. If you're not sure, use your best judgment. We can always change the priority later.
             * **P1**: Urgent and important, we need to address this immediately.
             * **P2**: Important but not urgent. Should be handled by a TSC member or reviewer.
             * **P3**: Nice to have but not important. Can be handled by any team member.
@@ -82,7 +83,8 @@ The steps for triaging an issue are:
             * **Low**: Doesn't affect many users.
             * **Medium**: Affects most users or has a noticeable effect on user experience.
             * **High**: Affects a lot of users, is a breaking change, or otherwise will be very noticeable to users.
-        * If you can't properly triage the issue, move the issue back to the "Needs Triage" column in the Triage project so someone else can triage it.
+        * If you can't properly triage the issue or pull request, move the issue back to the "Needs Triage" column in the Triage project so someone else can triage it.
+        * If a pull request references an already accepted issue, move it to the "Implementing" column in the Triage project.
         * If you have triaged the issue, move the issue to the "Ready for Dev Team" column in the Triage project.
 
 ## Evaluation Process
@@ -102,7 +104,7 @@ When an issue has been moved to the "Ready for Dev Team" column, any dev team me
 
 **Note:** "Good first issue" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance to work on these issues, issues labeled "good first issue" must be open for 30 days *from the day the issue was labeled* before a team member is permitted to work on them.
 
-## Accepting Issues
+## Accepting Issues and Pull Requests
 
 Issues may be labeled as "accepted" when the issue is:
 
