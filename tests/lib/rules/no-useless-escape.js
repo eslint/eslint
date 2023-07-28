@@ -1625,6 +1625,216 @@ ruleTester.run("no-useless-escape", rule, {
                     }
                 ]
             }]
+        },
+        {
+            code: String.raw`/[\p{ASCII}--\.]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 14,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[\p{ASCII}--.]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\p{ASCII}&&\.]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 14,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[\p{ASCII}&&.]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\.--[.&]]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[.--[.&]]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\.&&[.&]]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[.&&[.&]]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\.--\.--\.]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[.--\.--\.]/v`
+                    }
+                ]
+            }, {
+                line: 1,
+                column: 7,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[\.--.--\.]/v`
+                    }
+                ]
+            }, {
+                line: 1,
+                column: 11,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[\.--\.--.]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[\.&&\.&&\.]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 3,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[.&&\.&&\.]/v`
+                    }
+                ]
+            }, {
+                line: 1,
+                column: 7,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[\.&&.&&\.]/v`
+                    }
+                ]
+            }, {
+                line: 1,
+                column: 11,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[\.&&\.&&.]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[[\.&]--[\.&]]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 4,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[[.&]--[\.&]]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[[\\.&]--[\.&]]/v`
+                    }
+                ]
+            }, {
+                line: 1,
+                column: 11,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[[\.&]--[.&]]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[[\.&]--[\\.&]]/v`
+                    }
+                ]
+            }]
+        },
+        {
+            code: String.raw`/[[\.&]&&[\.&]]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{
+                line: 1,
+                column: 4,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[[.&]&&[\.&]]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[[\\.&]&&[\.&]]/v`
+                    }
+                ]
+            }, {
+                line: 1,
+                column: 11,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "removeEscape",
+                        output: String.raw`/[[\.&]&&[.&]]/v`
+                    },
+                    {
+                        messageId: "escapeBackslash",
+                        output: String.raw`/[[\.&]&&[\\.&]]/v`
+                    }
+                ]
+            }]
         }
     ]
 });
