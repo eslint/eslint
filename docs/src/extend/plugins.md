@@ -89,6 +89,10 @@ Plugin environments can define the following objects:
 
 ### Processors in Plugins
 
+::: warning
+File extension-named processors are deprecated and only work in eslintrc-style configuration files. Flat config files do not automatically apply processors; you need to explicitly set the `processor` property.
+:::
+
 You can add processors to plugins by including the processor functions in the `processors` key. For more information on defining custom processors, refer to [Custom Processors](custom-processors).
 
 ```js
