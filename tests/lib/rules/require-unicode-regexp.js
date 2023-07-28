@@ -49,7 +49,7 @@ ruleTester.run("require-unicode-regexp", rule, {
 
         // for v flag
         { code: "/foo/v", parserOptions: { ecmaVersion: 2024 } },
-        { code: "/foo/gimuy", parserOptions: { ecmaVersion: 2024 } },
+        { code: "/foo/gimvy", parserOptions: { ecmaVersion: 2024 } },
         { code: "RegExp('', 'v')", parserOptions: { ecmaVersion: 2024 } },
         { code: "RegExp('', `v`)", parserOptions: { ecmaVersion: 2024 } },
         { code: "new RegExp('', 'v')", parserOptions: { ecmaVersion: 2024 } },
