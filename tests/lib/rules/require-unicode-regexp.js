@@ -58,7 +58,7 @@ ruleTester.run("require-unicode-regexp", rule, {
         { code: "new RegExp('', 'gimvy')", parserOptions: { ecmaVersion: 2024 } },
         { code: "const flags = 'v'; new RegExp('', flags)", parserOptions: { ecmaVersion: 2024 } },
         { code: "const flags = 'g'; new RegExp('', flags + 'v')", parserOptions: { ecmaVersion: 2024 } },
-        { code: "const flags = 'gimv'; new RegExp('foo', flags[4])", parserOptions: { ecmaVersion: 2024 } }
+        { code: "const flags = 'gimv'; new RegExp('foo', flags[3])", parserOptions: { ecmaVersion: 2024 } }
     ],
     invalid: [
         {
