@@ -25,19 +25,19 @@ Once the script finishes building the documentation site, you can visit it at
 To update the links data file, run this from the root folder (not the `docs` folder):
 
 ```shell
-npm run docs:update-links
+npm run build:docs:update-links
 ```
 
 To lint JS files, run this from the root folder (not the `docs` folder):
 
 ```shell
-npm run lint:docsjs
+npm run lint:docs:js
 ```
 
 To autofix JS files, run this from the root folder (not the `docs` folder):
 
 ```shell
-npm run fix:docsjs
+npm run lint:fix:docs:js
 ```
 
 ## License
