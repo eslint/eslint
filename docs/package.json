@@ -9,18 +9,18 @@
     "license": "MIT",
     "files": [],
     "scripts": {
-        "images": "imagemin '_site/assets/images' --out-dir='_site/assets/images'",
-        "watch:postcss": "postcss src/assets/css -d src/assets/css --watch --poll",
-        "watch:sass": "sass --watch --poll src/assets/scss:src/assets/css --no-source-map",
-        "watch:eleventy": "eleventy --serve --port=2023",
+        "build": "npm-run-all build:sass build:postcss build:website minify:images",
         "build:postcss": "postcss src/assets/css -d src/assets/css",
+        "build:postcss:watch": "postcss src/assets/css -d src/assets/css --watch --poll",
         "build:sass": "sass src/assets/scss:src/assets/css --no-source-map",
-        "build:eleventy": "npx @11ty/eleventy",
-        "start": "npm-run-all build:sass build:postcss --parallel watch:*",
-        "build": "npm-run-all build:sass build:postcss build:eleventy images",
-        "lint:scss": "stylelint \"**/*.{scss,html}\"",
+        "build:sass:watch": "sass --watch --poll src/assets/scss:src/assets/css --no-source-map",
+        "build:website": "npx @11ty/eleventy",
+        "build:website:watch": "eleventy --serve --port=2023",
         "lint:links": "cross-env NODE_OPTIONS=--max-old-space-size=4096 node tools/validate-links.js",
-        "lint:fix:scss": "npm run lint:scss -- --fix"
+        "lint:scss": "stylelint \"**/*.{scss,html}\"",
+        "lint:fix:scss": "npm run lint:scss -- --fix",
+        "minify:images": "imagemin '_site/assets/images' --out-dir='_site/assets/images'",
+        "start": "npm-run-all build:sass build:postcss --parallel *:*:watch"
     },
     "devDependencies": {
         "@11ty/eleventy": "^1.0.1",
