@@ -428,6 +428,24 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 2022 }
         },
 
+        {
+            code: `
+            fn({ some_property: 1 });
+            new C({ some_property: 1 });
+            `,
+            options: [{ properties: "always", ignoreCallProperties: true }],
+            parserOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: `
+            fn({ some_property });
+            new C({ some_property });
+            `,
+            options: [{ properties: "always", ignoreCallProperties: true, ignoreGlobals: true }],
+            parserOptions: { ecmaVersion: 2022 },
+            globals: { some_property: "readonly" } // eslint-disable-line camelcase -- Testing non-CamelCase
+        },
+
         // https://github.com/eslint/eslint/issues/15572
         {
             code: `

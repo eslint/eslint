@@ -22,6 +22,8 @@ This rule has an object option:
 * `"ignoreImports": true` does not check ES2015 imports (but still checks any use of the imports later in the code except function arguments)
 * `"ignoreGlobals": false` (default) enforces camelcase style for global variables
 * `"ignoreGlobals": true` does not enforce camelcase style for global variables
+* `"ignoreCallProperties": flase` (default) enforce camelcase style for function and class properties
+* `"ignoreCallProperties": true` does not enforce camelcase style for function and class properties
 * `allow` (`string[]`) list of properties to accept. Accept regex.
 
 ### properties: "always"
@@ -299,6 +301,21 @@ Examples of **correct** code for this rule with the `{ "ignoreGlobals": true }` 
 /* global no_camelcased */
 
 const foo = no_camelcased;
+```
+
+:::
+
+### ignoreCallProperties
+
+Examples of **correct** code for this rule with the `{ "ignoreCallProperties": true }` option:
+
+:::correct
+
+```js
+/*eslint camelcase: ["error", {ignoreCallProperties: true}]*/
+
+fn({ some_property: 1 });
+new C({ some_property: 1 });
 ```
 
 :::
