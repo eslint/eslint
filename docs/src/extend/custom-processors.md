@@ -18,6 +18,10 @@ In order to create a custom processor, the object exported from your module has 
 module.exports = {
     processors: {
         "processor-name": {
+            meta: {
+                name: "eslint-processor-name",
+                version: "1.2.3"
+            },
             // takes text of the file and filename
             preprocess: function(text, filename) {
                 // here, you can strip out any non-JS content
@@ -44,6 +48,8 @@ module.exports = {
     }
 };
 ```
+
+**The `meta` object** helps ESLint cache the processor and provide more friendly debug message. The `meta.name` property should match the processor name and the `meta.version` property should match the npm package version for your processors. The easiest way to accomplish this is by reading this information from your `package.json`.
 
 **The `preprocess` method** takes the file contents and filename as arguments, and returns an array of code blocks to lint. The code blocks will be linted separately but still be registered to the filename.
 
