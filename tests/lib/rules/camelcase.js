@@ -1535,6 +1535,17 @@ ruleTester.run("camelcase", rule, {
                     column: 27
                 }
             ]
+        },
+        {
+            code: "var o = {bar_baz: 1}",
+            options: [{ ignoreCallProperties: true }],
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "bar_baz" },
+                    type: "Identifier"
+                }
+            ]
         }
     ]
 });
