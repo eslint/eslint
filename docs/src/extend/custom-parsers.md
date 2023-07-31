@@ -12,7 +12,7 @@ ESLint custom parsers let you extend ESLint to support linting new non-standard 
 
 ## Creating a Custom Parser
 
-### Metadata in Custom Parsers
+### Meta Data in Custom Parsers
 
 For easier debugging and more effective caching of custom parsers, it's recommended to provide a name and version in a `meta` object at the root of your custom parsers, like this:
 
