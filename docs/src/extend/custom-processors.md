@@ -49,8 +49,6 @@ module.exports = {
 };
 ```
 
-**The `meta` object** helps ESLint cache the processor and provide more friendly debug message. The `meta.name` property should match the processor name and the `meta.version` property should match the npm package version for your processors. The easiest way to accomplish this is by reading this information from your `package.json`.
-
 **The `preprocess` method** takes the file contents and filename as arguments, and returns an array of code blocks to lint. The code blocks will be linted separately but still be registered to the filename.
 
 A code block has two properties `text` and `filename`. The `text` property is the content of the block and the `filename` property is the name of the block. The name of the block can be anything, but should include the file extension, which tells the linter how to process the current block. The linter checks the [`--ext` CLI option](../use/command-line-interface#--ext) to see if the current block should be linted and resolves `overrides` configs to check how to process the current block.
@@ -126,6 +124,8 @@ By default, ESLint does not perform autofixes when a custom processor is used, e
 2. Add a `supportsAutofix: true` property to the processor.
 
 You can have both rules and custom processors in a single plugin. You can also have multiple processors in one plugin. To support multiple extensions, add each one to the `processors` element and point them to the same object.
+
+**The `meta` object** helps ESLint cache the processor and provide more friendly debug message. The `meta.name` property should match the processor name and the `meta.version` property should match the npm package version for your processors. The easiest way to accomplish this is by reading this information from your `package.json`.
 
 ## Specifying Processor in Config Files
 
