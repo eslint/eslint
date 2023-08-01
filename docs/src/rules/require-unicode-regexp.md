@@ -56,7 +56,7 @@ Therefore, the `u` and `v` flags let us work better with regular expressions.
 
 ## Rule Details
 
-This rule aims to enforce the use of `u` flag on regular expressions.
+This rule aims to enforce the use of `u` or `v` flag on regular expressions.
 
 Examples of **incorrect** code for this rule:
 
@@ -100,4 +100,4 @@ function f(flags) {
 
 ## When Not To Use It
 
-If you don't want to notify regular expressions with no `u` flag, then it's safe to disable this rule.
+If you don't want to notify regular expressions with no `u` and `v` flag, then it's safe to disable this rule.
