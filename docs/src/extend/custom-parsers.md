@@ -12,6 +12,8 @@ ESLint custom parsers let you extend ESLint to support linting new non-standard 
 
 ## Creating a Custom Parser
 
+### Methods in Custom Parsers
+
 A custom parser is a JavaScript object with either a `parse` or `parseForESLint` method. The `parse` method only returns the AST, whereas `parseForESLint` also returns additional values that let the parser customize the behavior of ESLint even more.
 
 Both methods should take in the source code as the first argument, and an optional configuration object as the second argument, which is provided as [`parserOptions`](../use/configure/language-options#specifying-parser-options) in a configuration file.
@@ -33,11 +35,11 @@ function parse(code, options) {
 module.exports = { parse };
 ```
 
-## `parse` Return Object
+### `parse` Return Object
 
 The `parse` method should simply return the [AST](#ast-specification) object.
 
-## `parseForESLint` Return Object
+### `parseForESLint` Return Object
 
 The `parseForESLint` method should return an object that contains the required property `ast` and optional properties `services`, `scopeManager`, and `visitorKeys`.
 
@@ -47,6 +49,22 @@ The `parseForESLint` method should return an object that contains the required p
     * Support for `scopeManager` was added in ESLint v4.14.0. ESLint versions that support `scopeManager` will provide an `eslintScopeManager: true` property in `parserOptions`, which can be used for feature detection.
 * `visitorKeys` can be an object to customize AST traversal. The keys of the object are the type of AST nodes. Each value is an array of the property names which should be traversed. The default is [KEYS of `eslint-visitor-keys`](https://github.com/eslint/eslint-visitor-keys#evkkeys).
     * Support for `visitorKeys` was added in ESLint v4.14.0. ESLint versions that support `visitorKeys` will provide an `eslintVisitorKeys: true` property in `parserOptions`, which can be used for feature detection.
+
+### Meta Data in Custom Parsers
+
+For easier debugging and more effective caching of custom parsers, it's recommended to provide a name and version in a `meta` object at the root of your custom parsers, like this:
+
+```js
+// preferred location of name and version
+module.exports = {
+    meta: {
+        name: "eslint-parser-custom",
+        version: "1.2.3"
+    }
+};
+```
+
+The `meta.name` property should match the npm package name for your custom parser and the `meta.version` property should match the npm package version for your custom parser. The easiest way to accomplish this is by reading this information from your `package.json`.
 
 ## AST Specification
 

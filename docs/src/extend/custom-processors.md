@@ -18,6 +18,10 @@ In order to create a custom processor, the object exported from your module has 
 module.exports = {
     processors: {
         "processor-name": {
+            meta: {
+                name: "eslint-processor-name",
+                version: "1.2.3"
+            },
             // takes text of the file and filename
             preprocess: function(text, filename) {
                 // here, you can strip out any non-JS content
@@ -120,6 +124,8 @@ By default, ESLint does not perform autofixes when a custom processor is used, e
 2. Add a `supportsAutofix: true` property to the processor.
 
 You can have both rules and custom processors in a single plugin. You can also have multiple processors in one plugin. To support multiple extensions, add each one to the `processors` element and point them to the same object.
+
+**The `meta` object** helps ESLint cache the processor and provide more friendly debug message. The `meta.name` property should match the processor name and the `meta.version` property should match the npm package version for your processors. The easiest way to accomplish this is by reading this information from your `package.json`.
 
 ## Specifying Processor in Config Files
 
