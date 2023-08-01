@@ -65,7 +65,7 @@ Unlike other tools in the JavaScript ecosystem, ESLint does not automatically lo
 If you want to force a different kind of ESLint config, then name your config file accordingly and use the `-c` or `--config` flag when running ESLint. For example, if you want to have an ESM ESLint config in a CommonJS project, name the config file `eslint.config.mjs` and then run ESLint with:
 
 ```shell
-ESLINT_USE_FLAT_CONFIG=true npx eslint --config eslint.config.mjs .
+ESLINT_USE_FLAT_CONFIG=true npx eslint --config eslint.config.mjs **/*.js
 ```
 
 :::
