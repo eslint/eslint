@@ -249,6 +249,11 @@ Bryan Mishkin
 <img src="https://github.com/fasttime.png?s=75" width="75" height="75"><br />
 Francesco Trotta
 </a>
+</td><td align="center" valign="top" width="11%">
+<a href="https://github.com/ota-meshi">
+<img src="https://github.com/ota-meshi.png?s=75" width="75" height="75"><br />
+Yosuke Ota
+</a>
 </td></tr></tbody></table>
 
 ### Website Team
