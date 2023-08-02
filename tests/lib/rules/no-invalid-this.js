@@ -474,103 +474,47 @@ const patterns = [
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
-    {
-        code: "foo.every(function() { console.log(this); z(x => console.log(x, this)); });",
+    ...[
+        "every",
+        "filter",
+        "find",
+        "findIndex",
+        "findLast",
+        "findLastIndex",
+        "flatMap",
+        "forEach",
+        "map",
+        "some"
+    ].map(methodName => ({
+        code: `foo.${methodName}(function() { console.log(this); z(x => console.log(x, this)); });`,
         parserOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
-    },
-    {
-        code: "foo.filter(function() { console.log(this); z(x => console.log(x, this)); });",
-        parserOptions: { ecmaVersion: 6 },
-        errors,
-        valid: [NORMAL],
-        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
-    },
-    {
-        code: "foo.find(function() { console.log(this); z(x => console.log(x, this)); });",
-        parserOptions: { ecmaVersion: 6 },
-        errors,
-        valid: [NORMAL],
-        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
-    },
-    {
-        code: "foo.findIndex(function() { console.log(this); z(x => console.log(x, this)); });",
-        parserOptions: { ecmaVersion: 6 },
-        errors,
-        valid: [NORMAL],
-        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
-    },
-    {
-        code: "foo.forEach(function() { console.log(this); z(x => console.log(x, this)); });",
-        parserOptions: { ecmaVersion: 6 },
-        errors,
-        valid: [NORMAL],
-        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
-    },
-    {
-        code: "foo.map(function() { console.log(this); z(x => console.log(x, this)); });",
-        parserOptions: { ecmaVersion: 6 },
-        errors,
-        valid: [NORMAL],
-        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
-    },
-    {
-        code: "foo.some(function() { console.log(this); z(x => console.log(x, this)); });",
-        parserOptions: { ecmaVersion: 6 },
-        errors,
-        valid: [NORMAL],
-        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
-    },
+    })),
     {
         code: "Array.from([], function() { console.log(this); z(x => console.log(x, this)); }, obj);",
         parserOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
-    {
-        code: "foo.every(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
+    ...[
+        "every",
+        "filter",
+        "find",
+        "findIndex",
+        "findLast",
+        "findLastIndex",
+        "flatMap",
+        "forEach",
+        "map",
+        "some"
+    ].map(methodName => ({
+        code: `foo.${methodName}(function() { console.log(this); z(x => console.log(x, this)); }, obj);`,
         parserOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
-    },
-    {
-        code: "foo.filter(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
-        parserOptions: { ecmaVersion: 6 },
-        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
-        invalid: []
-    },
-    {
-        code: "foo.find(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
-        parserOptions: { ecmaVersion: 6 },
-        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
-        invalid: []
-    },
-    {
-        code: "foo.findIndex(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
-        parserOptions: { ecmaVersion: 6 },
-        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
-        invalid: []
-    },
-    {
-        code: "foo.forEach(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
-        parserOptions: { ecmaVersion: 6 },
-        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
-        invalid: []
-    },
-    {
-        code: "foo.map(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
-        parserOptions: { ecmaVersion: 6 },
-        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
-        invalid: []
-    },
-    {
-        code: "foo.some(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
-        parserOptions: { ecmaVersion: 6 },
-        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
-        invalid: []
-    },
+    })),
     {
         code: "foo.forEach(function() { console.log(this); z(x => console.log(x, this)); }, null);",
         parserOptions: { ecmaVersion: 6 },
