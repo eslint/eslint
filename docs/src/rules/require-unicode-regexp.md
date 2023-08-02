@@ -100,4 +100,4 @@ function f(flags) {
 
 ## When Not To Use It
 
-If you don't want to notify regular expressions with no `u` and `v` flag, then it's safe to disable this rule.
+If you don't want to warn on regular expressions without either a `u` or a `v` flag, then it's safe to disable this rule.
