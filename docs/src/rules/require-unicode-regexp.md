@@ -1,6 +1,9 @@
 ---
 title: require-unicode-regexp
 rule_type: suggestion
+further_reading:
+- https://github.com/tc39/proposal-regexp-v-flag
+- https://v8.dev/features/regexp-v-flag
 ---
 
 
@@ -49,13 +52,11 @@ The RegExp `v` flag, introduced in ECMAScript 2024, is a superset of the `u` fla
     re.test('\u2028'); // → false
     ```
 
-Please see <https://github.com/tc39/proposal-regexp-v-flag> and <https://v8.dev/features/regexp-v-flag> for more details.
-
 Therefore, the `u` and `v` flags let us work better with regular expressions.
 
 ## Rule Details
 
-This rule aims to enforce the use of `u` flag on regular expressions.
+This rule aims to enforce the use of `u` or `v` flag on regular expressions.
 
 Examples of **incorrect** code for this rule:
 
@@ -99,4 +100,4 @@ function f(flags) {
 
 ## When Not To Use It
 
-If you don't want to notify regular expressions with no `u` flag, then it's safe to disable this rule.
+If you don't want to warn on regular expressions without either a `u` or a `v` flag, then it's safe to disable this rule.
