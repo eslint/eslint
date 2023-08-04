@@ -58,6 +58,10 @@ module.exports = (async () => {
 })();
 ```
 
+::: warning
+ESLint only automatically looks for a config file named `eslint.config.js` and does not look for `eslint.config.cjs` or `eslint.config.mjs`. If you'd like to specify a different config filename than the default, use the `--config` command line option.
+:::
+
 ## Configuration Objects
 
 Each configuration object contains all of the information ESLint needs to execute on a set of files. Each configuration object is made up of these properties:
@@ -667,7 +671,7 @@ When ESLint is run on the command line, it first checks the current working dire
 You can prevent this search for `eslint.config.js` by setting the `ESLINT_USE_FLAT_CONFIG` environment variable to `true` and using the `-c` or `--config` option on the command line to specify an alternate configuration file, such as:
 
 ```shell
-ESLINT_USE_FLAT_CONFIG=true npx eslint -c some-other-file.js **/*.js
+ESLINT_USE_FLAT_CONFIG=true npx eslint --config some-other-file.js **/*.js
 ```
 
 In this case, ESLint does not search for `eslint.config.js` and instead uses `some-other-file.js`.
