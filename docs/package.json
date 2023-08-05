@@ -9,7 +9,7 @@
     "license": "MIT",
     "files": [],
     "scripts": {
-        "build": "npm-run-all build:sass build:postcss build:website minify:images",
+        "build": "npm-run-all build:sass build:postcss build:website build:minify-images",
         "build:postcss": "postcss src/assets/css -d src/assets/css",
         "build:postcss:watch": "postcss src/assets/css -d src/assets/css --watch --poll",
         "build:sass": "sass src/assets/scss:src/assets/css --no-source-map",
@@ -19,7 +19,7 @@
         "lint:links": "cross-env NODE_OPTIONS=--max-old-space-size=4096 node tools/validate-links.js",
         "lint:scss": "stylelint \"**/*.{scss,html}\"",
         "lint:fix:scss": "npm run lint:scss -- --fix",
-        "minify:images": "imagemin '_site/assets/images' --out-dir='_site/assets/images'",
+        "build:minify-images": "imagemin '_site/assets/images' --out-dir='_site/assets/images'",
         "start": "npm-run-all build:sass build:postcss --parallel *:*:watch"
     },
     "devDependencies": {
