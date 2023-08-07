@@ -40,6 +40,16 @@ ruleTester.run("no-new-wrappers", rule, {
         } else {
             var Boolean = CustomBoolean;
         }
+        `,
+        {
+            code: "new String()",
+            globals: {
+                String: "off"
+            }
+        },
+        `
+        /* global Boolean:off */
+        assert(new Boolean);
         `
     ],
     invalid: [
