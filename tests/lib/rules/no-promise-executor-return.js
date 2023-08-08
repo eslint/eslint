@@ -380,6 +380,27 @@ ruleTester.run("no-promise-executor-return", rule, {
             "new Promise(resolve => {r = resolve})"
         ]),
 
+        // return<immediate token> (range check)
+        suggestion({
+            code:
+                "new Promise(r => { return(1) })",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(r => { return void (1) })"
+        ]),
+        suggestion({
+            code:
+                "new Promise(r =>1)",
+            options: [{
+                allowVoid: true
+            }]
+        }, [
+            "new Promise(r =>void 1)",
+            "new Promise(r =>{1})"
+        ]),
+
         // snapshot
         suggestion({
             code:
