@@ -142,6 +142,37 @@ You can also use this format with configuration comments, such as:
 
 ## Disabling Rules
 
+### Use with Caution
+
+Emphasize that disabling ESLint rules should be restricted and only in situations with a clear and valid reason for
+doing so. Disabling rules should not be the default solution to resolve linting errors.
+
+### Document the Reason
+
+Developers should provide a comment explaining the reason for disabling a particular rule. This documentation should
+clarify why the rule is being disabled and why it is necessary in that specific situation.
+
+### Temporary Solutions
+
+If a disabled comment is added as a temporary measure to address a pressing issue, developers should also create a
+follow-up task or ticket to address the underlying problem adequately. This ensures that the disabled comment is
+revisited and resolved at a later stage.
+
+### Code Reviews and Pair Programming
+
+Encourage team members to review each other's code regularly. Code reviews can help identify the reasons behind
+disabling comments and ensure that they are used appropriately.
+
+### Configurations
+
+Whenever possible, prefer using ESLint configuration settings over disabled comments. Configuration files allow for
+consistent and project-wide rule handling.
+
+### Selective Rule Disabling
+
+If multiple rules need to be disabled, consider using block-level or file-level disable comments instead of disabling
+individual rules inline. This can help prevent the proliferation of disable comments throughout the codebase.
+
 ### Using configuration comments
 
 To disable rule warnings in a part of a file, use block comments in the following format:
@@ -251,6 +282,7 @@ foo(); /* eslint-disable-line example/rule-name */
 
 #### Comment descriptions
 
+In cases where a specific rule consistently causes issues that are difficult to resolve, consider creating an exemption for that rule in the project's ESLint configuration with appropriate justifications.
 Configuration comments can include descriptions to explain why disabling or re-enabling the rule is necessary. The description must come after the configuration and needs to be separated from the configuration by two or more consecutive `-` characters. For example:
 
 ```js
