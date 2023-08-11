@@ -1,3 +1,21 @@
+v8.47.0 - August 11, 2023
+
+* [`bf69aa6`](https://github.com/eslint/eslint/commit/bf69aa6408f5403a88d8c9b71b0e58232b1ea833) chore: Update dependencies (#17456) (Nicholas C. Zakas)
+* [`0e45760`](https://github.com/eslint/eslint/commit/0e4576012ab938b880e6f27641bff55fb4313d20) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`631648e`](https://github.com/eslint/eslint/commit/631648ee0b51a8951ce576ccd4430e09c9c8bcae) fix: do not report on shadowed constructors in `no-new-wrappers` (#17447) (Francesco Trotta)
+* [`757bfe1`](https://github.com/eslint/eslint/commit/757bfe1c35b5ddab7042d388f8d21e834875fff5) chore: Remove add-to-triage (#17450) (Nicholas C. Zakas)
+* [`b066640`](https://github.com/eslint/eslint/commit/b066640b7040ec30f740dcc803511244fe19473b) chore: standardize npm script names (#17431) (Nitin Kumar)
+* [`a766a48`](https://github.com/eslint/eslint/commit/a766a48030d4359db76523d5b413d6332130e485) docs: document lack of config file names (#17442) (James)
+* [`a1635d6`](https://github.com/eslint/eslint/commit/a1635d6198a8baf6571b3351e098e5ac960be887) docs: Update README (GitHub Actions Bot)
+* [`6b2410f`](https://github.com/eslint/eslint/commit/6b2410f911dd2e3d915c879041c6e257d41a2f4e) chore: Update add-to-triage.yml (#17444) (Nicholas C. Zakas)
+* [`47a0859`](https://github.com/eslint/eslint/commit/47a08597966651975126dd6726939cd34f13b80e) docs: update `require-unicode-regexp.md` as following up #17402 (#17441) (SUZUKI Sosuke)
+* [`53d7508`](https://github.com/eslint/eslint/commit/53d750800b1c0c1f8c29393c488bb3167bb1d2a5) feat: update regex for methods with `thisArg` (#17439) (Francesco Trotta)
+* [`fcdc85d`](https://github.com/eslint/eslint/commit/fcdc85d3a6bc14970c3349cc8d6f3a47eca172a3) docs: Update README (GitHub Actions Bot)
+* [`2a92b6c`](https://github.com/eslint/eslint/commit/2a92b6cc9520a27255520369206556e9841a3af8) docs: update with "Specifying Parser Options" (#17435) (Cheol-Won)
+* [`d743ed3`](https://github.com/eslint/eslint/commit/d743ed3c06c62a639da0389ad27907b324ea1715) docs: add metadata for parser/processor (#17438) (Huáng Jùnliàng)
+* [`224376c`](https://github.com/eslint/eslint/commit/224376cd99a08394291a9584ad9c1ea1283673c6) docs: Update README (GitHub Actions Bot)
+* [`a41a8e4`](https://github.com/eslint/eslint/commit/a41a8e4a7da14726d6fce71a023f12101fd52fdb) docs: update script names in README (#17432) (Nitin Kumar)
+
 v8.46.0 - July 28, 2023
 
 * [`d1eb7e4`](https://github.com/eslint/eslint/commit/d1eb7e46e954c64af8d7d13d087b3a18f43e6d72) chore: Update ecosystem dependencies (#17427) (Nicholas C. Zakas)
