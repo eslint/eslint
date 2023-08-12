@@ -5,6 +5,7 @@ eleventyNavigation:
     parent: contribute to eslint
     title: Governance
     order: 12
+
 ---
 
 ESLint is an open source project that depends on contributions from the community. Anyone may contribute to the project at any time by submitting code, participating in discussions, making suggestions, or any other contribution they see fit. This document describes how various types of contributors work within the ESLint project.
@@ -29,20 +30,20 @@ As Contributors gain experience and familiarity with the project, their profile 
 
 Website Team Members are community members who have shown that they are committed to the continued maintenance of [eslint.org](https://eslint.org/) through ongoing engagement with the community. Website Team Members are given push access to the `eslint.org` GitHub repository and must abide by the project's [Contribution Guidelines](../contribute/).
 
-Website Team Members:
+ Website Team Members:
 
-*   Are expected to work on public branches of the source repository and submit pull requests from that branch to the master branch.
-*   Are expected to delete their public branches when they are no longer necessary.
-*   Must submit pull requests for all changes.
-*   Have their work reviewed by Reviewers and TSC members before acceptance into the repository.
-*   May label and close website-related issues (see [Manage Issues](../maintain/manage-issues))
-*   May merge some pull requests (see [Review Pull Requests](../maintain/review-pull-requests))
+* Are expected to work on public branches of the source repository and submit pull requests from that branch to the master branch.
+* Are expected to delete their public branches when they are no longer necessary.
+* Must submit pull requests for all changes.
+* Have their work reviewed by Reviewers and TSC members before acceptance into the repository.
+* May label and close website-related issues (see [Manage Issues](../maintain/manage-issues))
+* May merge some pull requests (see [Review Pull Requests](../maintain/review-pull-requests))
 
-To become a Website Team Member:
+To become a  Website Team Member:
 
-*   One must have shown a willingness and ability to participate in the maintenance of [eslint.org](https://eslint.org/) as a team player. Typically, a potential Website Team Member will need to show that they have an understanding of the structure of the website and how it fits into the larger ESLint project's objectives and strategy.
-*   Website Team Members are expected to be respectful of every community member and to work collaboratively in the spirit of inclusion.
-*   Have submitted a minimum of 10 website-related pull requests. What's a website-related pull request? One that is made to the `eslint.org` repository or the `docs` directory in the `eslint` repository and requires little effort to accept because it's well documented and tested.
+* One must have shown a willingness and ability to participate in the maintenance of [eslint.org](https://eslint.org/) as a team player. Typically, a potential  Website Team Member will need to show that they have an understanding of the structure of the website and how it fits into the larger ESLint project's objectives and strategy.
+* Website Team Members are expected to be respectful of every community member and to work collaboratively in the spirit of inclusion.
+* Have submitted a minimum of 10 website-related pull requests. What's a website-related pull request? One that is made to the `eslint.org` repository or the `docs` directory in the `eslint` repository and requires little effort to accept because it's well documented and tested.
 
 New Website Team Members can be nominated by any existing Website Team Member or Committer. Once they have been nominated, there will be a vote by the TSC members.
 
@@ -54,18 +55,18 @@ Committers are community members who have shown that they are committed to the c
 
 Committers:
 
-*   Are expected to work on public branches of the source repository and submit pull requests from that branch to the master branch.
-*   Are expected to delete their public branches when they are no longer necessary.
-*   Must submit pull requests for all changes.
-*   Have their work reviewed by TSC members before acceptance into the repository.
-*   May label and close issues (see [Manage Issues](../maintain/manage-issues))
-*   May merge some pull requests (see [Review Pull Requests](../maintain/review-pull-requests))
+* Are expected to work on public branches of the source repository and submit pull requests from that branch to the master branch.
+* Are expected to delete their public branches when they are no longer necessary.
+* Must submit pull requests for all changes.
+* Have their work reviewed by TSC members before acceptance into the repository.
+* May label and close issues (see [Manage Issues](../maintain/manage-issues))
+* May merge some pull requests (see [Review Pull Requests](../maintain/review-pull-requests))
 
 To become a Committer:
 
-*   One must have shown a willingness and ability to participate in the project as a team player. Typically, a potential Committer will need to show that they have an understanding of and alignment with the project, its objectives, and its strategy.
-*   Committers are expected to be respectful of every community member and to work collaboratively in the spirit of inclusion.
-*   Have submitted a minimum of 10 qualifying pull requests. What's a qualifying pull request? One that carries significant technical weight and requires little effort to accept because it's well documented and tested.
+* One must have shown a willingness and ability to participate in the project as a team player. Typically, a potential Committer will need to show that they have an understanding of and alignment with the project, its objectives, and its strategy.
+* Committers are expected to be respectful of every community member and to work collaboratively in the spirit of inclusion.
+* Have submitted a minimum of 10 qualifying pull requests. What's a qualifying pull request? One that carries significant technical weight and requires little effort to accept because it's well documented and tested.
 
 New Committers can be nominated by any existing Committer. Once they have been nominated, there will be a vote by the TSC members.
 
@@ -87,15 +88,15 @@ Reviewers are community members who have contributed a significant amount of tim
 
 Reviewers may perform all of the duties of Committers, and also:
 
-*   May merge external pull requests for accepted issues upon reviewing and approving the changes.
-*   May merge their own pull requests once they have collected the feedback they deem necessary. (No pull request should be merged without at least one Committer/Reviewer/TSC member comment stating they've looked at the code.)
+* May merge external pull requests for accepted issues upon reviewing and approving the changes.
+* May merge their own pull requests once they have collected the feedback they deem necessary. (No pull request should be merged without at least one Committer/Reviewer/TSC member comment stating they've looked at the code.)
 
 To become a Reviewer:
 
-*   Work in a helpful and collaborative way with the community.
-*   Have given good feedback on others' submissions and displayed an overall understanding of the code quality standards for the project.
-*   Commit to being a part of the community for the long-term.
-*   Have submitted a minimum of 50 qualifying pull requests.
+* Work in a helpful and collaborative way with the community.
+* Have given good feedback on others' submissions and displayed an overall understanding of the code quality standards for the project.
+* Commit to being a part of the community for the long-term.
+* Have submitted a minimum of 50 qualifying pull requests.
 
 A Committer is invited to become a Reviewer by existing Reviewers and TSC members. A nomination will result in discussion and then a decision by the TSC.
 
@@ -110,10 +111,10 @@ The ESLint project is jointly governed by a Technical Steering Committee (TSC) w
 
 The TSC has final authority over this project including:
 
-*   Technical direction
-*   Project governance and process (including this policy)
-*   Contribution policy
-*   GitHub repository hosting
+* Technical direction
+* Project governance and process (including this policy)
+* Contribution policy
+* GitHub repository hosting
 
 TSC seats are not time-limited. The size of the TSC can not be larger than five members. This size ensures adequate coverage of important areas of expertise balanced with the ability to make decisions efficiently.
 
@@ -129,10 +130,10 @@ TSC members have additional responsibilities over and above those of a Reviewer.
 
 TSC members may perform all of the duties of Reviewers, and also:
 
-*   May release new versions of all ESLint projects.
-*   May participate in TSC meetings.
-*   May propose budget items.
-*   May propose new ESLint projects.
+* May release new versions of all ESLint projects.
+* May participate in TSC meetings.
+* May propose budget items.
+* May propose new ESLint projects.
 
 There is no specific set of requirements or qualifications for TSC members beyond those that are expected of Reviewers.
 
@@ -196,7 +197,7 @@ either a closing vote or a vote to table the issue to the next
 meeting. The call for a vote must be approved by a majority of the TSC
 or else the discussion will continue. Simple majority wins.
 
----
+----
 
 This work is a derivative of [YUI Contributor Model](https://github.com/yui/yui3/wiki/Contributor-Model) and the [Node.js Project Governance Model](https://github.com/nodejs/node/blob/master/GOVERNANCE.md).
 
