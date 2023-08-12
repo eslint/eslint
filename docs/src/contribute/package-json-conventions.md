@@ -1,6 +1,11 @@
 ---
 title: Package.json Conventions
 edit_link: https://github.com/eslint/eslint/edit/main/docs/src/contribute/package-json-conventions.md
+eleventyNavigation:
+    key: package.json conventions
+    parent: contribute to eslint
+    title: Package.json Conventions
+    order: 8
 ---
 
 The following applies to the "scripts" section of `package.json` files.
@@ -34,6 +39,12 @@ With the exception of [npm life cycle scripts](https://docs.npmjs.com/cli/v8/usi
 Scripts that generate a set of files from source code and / or data MUST have names that begin with `build`.
 
 If a package contains any `build:*` scripts, there MAY be a script named `build`. If so, SHOULD produce the same output as running each of the `build` scripts individually. It MUST produce a subset of the output from running those scripts.
+
+### Fetch
+
+Scripts that generate a set of files from external data or resources MUST have names that begin with `fetch`.
+
+If a package contains any `fetch:*` scripts, there MAY be a script named `fetch`. If so, SHOULD produce the same output as running each of the `build` scripts individually. It MUST produce a subset of the output from running those scripts.
 
 ### Release
 

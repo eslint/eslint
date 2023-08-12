@@ -4,7 +4,7 @@ eleventyNavigation:
     key: submit pull request
     parent: contribute to eslint
     title: Submit a Pull Request
-    order: 9
+    order: 10
 ---
 
 If you want to contribute to an ESLint repo, please use a GitHub pull request. This is the fastest way for us to evaluate your code and to merge it into the code base. Please don't file an issue with snippets of code. Doing so means that we need to manually merge the changes in and update any appropriate tests. That decreases the likelihood that your code is going to get included in a timely manner. Please use pull requests.
@@ -53,7 +53,7 @@ git add -A
 git commit
 ```
 
-All ESLint projects follow [Conventional Commits](https://www.conventionalcommits.org/) for our commit messages. (Note: we don’t support the optional scope in messages.)  Here's an example commit message:
+All ESLint projects follow [Conventional Commits](https://www.conventionalcommits.org/) for our commit messages. (Note: we don’t support the optional scope in messages.) Here's an example commit message:
 
 ```txt
 tag: Short description of what you did
@@ -67,17 +67,17 @@ The first line of the commit message (the summary) must have a specific format. 
 
 The `tag` is one of the following:
 
-* `fix` - for a bug fix.
-* `feat` - either for a backwards-compatible enhancement or for a rule change that adds reported problems.
-* `fix!` - for a backwards-incompatible bug fix.
-* `feat!` - for a backwards-incompatible enhancement or feature.
-* `docs` - changes to documentation only.
-* `chore` - for changes that aren't user-facing.
-* `build` - changes to build process only.
-* `refactor` - a change that doesn't affect APIs or user experience.
-* `test` - just changes to test files.
-* `ci` - changes to our CI configuration files and scripts.
-* `perf` - a code change that improves performance.
+*   `fix` - for a bug fix.
+*   `feat` - either for a backwards-compatible enhancement or for a rule change that adds reported problems.
+*   `fix!` - for a backwards-incompatible bug fix.
+*   `feat!` - for a backwards-incompatible enhancement or feature.
+*   `docs` - changes to documentation only.
+*   `chore` - for changes that aren't user-facing.
+*   `build` - changes to build process only.
+*   `refactor` - a change that doesn't affect APIs or user experience.
+*   `test` - just changes to test files.
+*   `ci` - changes to our CI configuration files and scripts.
+*   `perf` - a code change that improves performance.
 
 Use the [labels of the issue you are working on](work-on-issue#issue-labels) to determine the best tag.
 
@@ -116,14 +116,14 @@ If there are any failing tests, update your code until all tests pass.
 
 With your code ready to go, this is a good time to double-check your submission to make sure it follows our conventions. Here are the things to check:
 
-* Make sure your commit is formatted correctly.
-* The pull request must have a description. The description should explain what you did and how its effects can be seen.
-* The commit message is properly formatted.
-* The change introduces no functional regression. Be sure to run `npm test` to verify your changes before submitting a pull request.
-* Make separate pull requests for unrelated changes. Large pull requests with multiple unrelated changes may be closed without merging.
-* All changes must be accompanied by tests, even if the feature you're working on previously had no tests.
-* All user-facing changes must be accompanied by appropriate documentation.
-* Follow the [Code Conventions](./code-conventions).
+*   Make sure your commit is formatted correctly.
+*   The pull request must have a description. The description should explain what you did and how its effects can be seen.
+*   The commit message is properly formatted.
+*   The change introduces no functional regression. Be sure to run `npm test` to verify your changes before submitting a pull request.
+*   Make separate pull requests for unrelated changes. Large pull requests with multiple unrelated changes may be closed without merging.
+*   All changes must be accompanied by tests, even if the feature you're working on previously had no tests.
+*   All user-facing changes must be accompanied by appropriate documentation.
+*   Follow the [Code Conventions](./code-conventions).
 
 ### Step 6: Push your changes<a name="step6"></a>
 

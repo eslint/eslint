@@ -4,7 +4,7 @@ eleventyNavigation:
     key: contribute core rule
     parent: contribute to eslint
     title: Contribute to Core Rules
-    order: 10
+    order: 11
 ---
 
 The ESLint core rules are the rules included in the ESLint package.
@@ -20,9 +20,9 @@ For full reference information on writing rules, refer to [Custom Rules](../exte
 
 Each core rule in ESLint has three files named with its identifier (for example, `no-extra-semi`).
 
-* in the `lib/rules` directory: a source file (for example, `no-extra-semi.js`)
-* in the `tests/lib/rules` directory: a test file (for example, `no-extra-semi.js`)
-* in the `docs/src/rules` directory: a Markdown documentation file (for example, `no-extra-semi.md`)
+*   in the `lib/rules` directory: a source file (for example, `no-extra-semi.js`)
+*   in the `tests/lib/rules` directory: a test file (for example, `no-extra-semi.js`)
+*   in the `docs/src/rules` directory: a Markdown documentation file (for example, `no-extra-semi.md`)
 
 **Important:** If you submit a core rule to the ESLint repository, you **must** follow the conventions explained below.
 
@@ -48,16 +48,16 @@ module.exports = {
         docs: {
             description: "disallow unnecessary semicolons",
             recommended: true,
-            url: "https://eslint.org/docs/rules/no-extra-semi"
+            url: "https://eslint.org/docs/rules/no-extra-semi",
         },
         fixable: "code",
-        schema: [] // no options
+        schema: [], // no options
     },
-    create: function(context) {
+    create: function (context) {
         return {
             // callback functions
         };
-    }
+    },
 };
 ```
 
@@ -105,6 +105,6 @@ Performance budget ok:  1443.736547ms (limit: 3409.090909090909ms)
 
 The rule naming conventions for ESLint are as follows:
 
-* Use dashes between words.
-* If your rule only disallows something, prefix it with `no-` such as `no-eval` for disallowing `eval()` and `no-debugger` for disallowing `debugger`.
-* If your rule is enforcing the inclusion of something, use a short name without a special prefix.
+*   Use dashes between words.
+*   If your rule only disallows something, prefix it with `no-` such as `no-eval` for disallowing `eval()` and `no-debugger` for disallowing `debugger`.
+*   If your rule is enforcing the inclusion of something, use a short name without a special prefix.

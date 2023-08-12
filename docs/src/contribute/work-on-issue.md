@@ -4,7 +4,7 @@ eleventyNavigation:
     key: work on issues
     parent: contribute to eslint
     title: Work on Issues
-    order: 8
+    order: 9
 ---
 
 Our public [issues tracker](https://github.com/eslint/eslint/issues) lists all of the things we plan on doing as well as suggestions from the community. Before starting to work on an issue, be sure you read through the rest of this page.
@@ -29,15 +29,15 @@ We use labels to indicate the status of issues. The most complete documentation 
 
 If you're going to work on an issue, please add a comment to that issue saying so and indicating when you think you will complete it. It will help us to avoid duplication of effort. Some examples of good comments are:
 
-* "I'll take a look at this over the weekend."
-* "I'm going to do this, give me two weeks."
-* "Working on this" (as in, I'm working on it right now)
+*   "I'll take a look at this over the weekend."
+*   "I'm going to do this, give me two weeks."
+*   "Working on this" (as in, I'm working on it right now)
 
 If an issue has already been claimed by someone, please be respectful of that person's desire to complete the work and don't work on it unless you verify that they are no longer interested.
 
 If you find you can't finish the work, then simply add a comment letting people know, for example:
 
-* "Sorry, it looks like I don't have time to do this."
-* "I thought I knew enough to fix this, but it turns out I don't."
+*   "Sorry, it looks like I don't have time to do this."
+*   "I thought I knew enough to fix this, but it turns out I don't."
 
 No one will blame you for backing out of an issue if you are unable to complete it. We just want to keep the process moving along as efficiently as possible.
