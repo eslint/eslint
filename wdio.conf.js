@@ -1,5 +1,6 @@
 "use strict";
 
+const path = require("path");
 const commonjs = require("vite-plugin-commonjs").default;
 
 exports.config = {
@@ -60,7 +61,7 @@ exports.config = {
      *
      */
     specs: [
-        "tests/lib/linter/linter.js"
+        path.join(__dirname, "tests", "lib", "linter", "linter.js")
     ],
 
     // Patterns to exclude.
