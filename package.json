@@ -29,8 +29,7 @@
     "test": "node Makefile.js test",
     "test:cli": "mocha",
     "test:fuzz": "node Makefile.js fuzz",
-    "test:performance": "node Makefile.js perf",
-    "wdio": "wdio run ./wdio.conf.js"
+    "test:performance": "node Makefile.js perf"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
