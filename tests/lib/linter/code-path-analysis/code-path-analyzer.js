@@ -725,11 +725,13 @@ describe("CodePathAnalyzer", () => {
         });
     });
 
-    describe("completed code paths are correct", () => {
+    describe.only("completed code paths are correct", () => {
         const testDataDir = path.join(__dirname, "../../../fixtures/code-path-analysis/");
         const testDataFiles = fs.readdirSync(testDataDir);
 
         testDataFiles.forEach(file => {
+
+            // if (!file.includes("--and-qq")) return;
             it(file, () => {
                 const source = fs.readFileSync(path.join(testDataDir, file), { encoding: "utf8" });
                 const expected = getExpectedDotArrows(source);
