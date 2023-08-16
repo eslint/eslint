@@ -57,6 +57,15 @@ ruleTester.run("no-lone-blocks", rule, {
             }
           }
         `,
+        `
+          switch (foo) {
+            case bar: {
+              boop;
+            }
+            break;
+            default: break;
+          }
+        `,
         { code: "function foo() { { const x = 4 } const x = 3 }", parserOptions: { ecmaVersion: 6 } },
 
         { code: "class C { static {} }", parserOptions: { ecmaVersion: 2022 } },
