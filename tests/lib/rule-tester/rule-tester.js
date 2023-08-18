@@ -2895,7 +2895,7 @@ describe("RuleTester", () => {
             sinon.assert.calledWith(spyRuleTesterDescribe, "no-var");
         });
 
-        it("should create a valid test suite if there are is a valid test cases", () => {
+        it("should create a valid test suite if there is a valid test case", () => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
                 valid: ["value = 0;"],
                 invalid: []
@@ -2911,7 +2911,7 @@ describe("RuleTester", () => {
             sinon.assert.neverCalledWith(spyRuleTesterDescribe, "valid");
         });
 
-        it("should create a valid test suite if there is an invalid test cases", () => {
+        it("should create a valid test suite if there is an invalid test case", () => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
                 valid: ["value = 0;"],
                 invalid: [
@@ -2925,7 +2925,7 @@ describe("RuleTester", () => {
             sinon.assert.calledWith(spyRuleTesterDescribe, "invalid");
         });
 
-        it("should not create a invalid test suite if there are no invalid test cases", () => {
+        it("should not create an invalid test suite if there are no invalid test cases", () => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
                 valid: ["value = 0;"],
                 invalid: []
