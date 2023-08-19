@@ -44,7 +44,7 @@ If a package contains any `build:*` scripts, there MAY be a script named `build`
 
 Scripts that generate a set of files from external data or resources MUST have names that begin with `fetch`.
 
-If a package contains any `fetch:*` scripts, there MAY be a script named `fetch`. If so, SHOULD produce the same output as running each of the `fetch` scripts individually. It MUST produce a subset of the output from running those scripts.
+If a package contains any `fetch:*` scripts, there MAY be a script named `fetch`. If so, it SHOULD produce the same output as running each of the `fetch` scripts individually. It MUST produce a subset of the output from running those scripts.
 
 ### Release
 
