@@ -226,6 +226,7 @@ class MyClass {
   }
 
   fieldA = 'Field A';
+
   #fieldB = 'Field B';
 
   method1() {}
@@ -295,7 +296,6 @@ class Foo{
 ::: correct
 
 ```js
-// disallows blank lines between methods
 /*eslint lines-between-class-members: [
     "error",
     {
@@ -316,11 +316,11 @@ class MyClass {
 
   fieldA = 'Field A';
   #fieldB = 'Field B';
-
   method1() {}
   get area() {
     return this.method1();
   }
+
   method2() {}
 }
 ```
