@@ -780,6 +780,41 @@ ruleTester.run("lines-between-class-members", rule, {
                     ]
                 }
             ]
+        },
+
+        // enforce with exceptAfterSingleLine option
+        {
+            code: `
+              class MyClass {
+                constructor(height, width) {
+                    this.height = height;
+                    this.width = width;
+                }
+
+                fieldA = 'Field A';
+                #fieldB = 'Field B';
+                method1() {}
+                get area() {
+                    return this.method1();
+                }
+
+                method2() {}
+              }
+            `,
+            options: [
+                {
+
+                    // requires blank lines around methods and fields
+                    enforce: [
+                        { blankLine: "always", prev: "*", next: "method" },
+                        { blankLine: "always", prev: "method", next: "*" },
+                        { blankLine: "always", prev: "field", next: "field" }
+                    ]
+                },
+                {
+                    exceptAfterSingleLine: true
+                }
+            ]
         }
     ],
     invalid: [
@@ -2398,6 +2433,68 @@ method2() {}
                     line: 10,
                     column: 17
                 }, {
+                    messageId: "always",
+                    line: 13,
+                    column: 17
+                }
+            ]
+        },
+
+        // enforce with exceptAfterSingleLine option
+        {
+            code: `
+              class MyClass {
+                constructor(height, width) {
+                    this.height = height;
+                    this.width = width;
+                }
+                fieldA = 'Field A';
+                #fieldB = 'Field B';
+                method1() {}
+                get area() {
+                    return this.method1();
+                }
+                method2() {}
+              }
+            `,
+            output: `
+              class MyClass {
+                constructor(height, width) {
+                    this.height = height;
+                    this.width = width;
+                }
+
+                fieldA = 'Field A';
+                #fieldB = 'Field B';
+                method1() {}
+                get area() {
+                    return this.method1();
+                }
+
+                method2() {}
+              }
+            `,
+            options: [
+                {
+
+                    // requires blank lines around methods and fields
+                    enforce: [
+                        { blankLine: "always", prev: "*", next: "method" },
+                        { blankLine: "always", prev: "method", next: "*" },
+                        { blankLine: "always", prev: "field", next: "field" }
+                    ]
+                },
+                {
+                    exceptAfterSingleLine: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "always",
+                    line: 7,
+                    column: 17
+                },
+                {
                     messageId: "always",
                     line: 13,
                     column: 17
