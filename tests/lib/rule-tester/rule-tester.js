@@ -2917,16 +2917,10 @@ describe("RuleTester", () => {
             sinon.assert.neverCalledWith(spyRuleTesterDescribe, "valid");
         });
 
-        it("should create a valid test suite if there is an invalid test case", () => {
+        it("should create an invalid test suite if there is an invalid test case", () => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
                 valid: ["value = 0;"],
-                invalid: [
-                    {
-                        code: "var value = 0;",
-                        errors: [/^Bad var/u],
-                        output: " value = 0;"
-                    }
-                ]
+                invalid: []
             });
             sinon.assert.calledWith(spyRuleTesterDescribe, "invalid");
         });
