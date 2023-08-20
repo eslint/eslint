@@ -172,8 +172,8 @@ ruleTester.run("no-promise-executor-return", rule, {
         },
 
         /*
-         * void
-         * arrow functions + void return is allowed
+         * allowVoid: true
+         * `=> void` and `return void` are allowed
          */
         {
             code: "new Promise((r) => void cbf(r));",
@@ -475,7 +475,7 @@ ruleTester.run("no-promise-executor-return", rule, {
             errors: [eReturnsValue()]
         },
 
-        // void return is not allowed unless arrow function expression
+        // `return void` is not allowed without `allowVoid: true`
         {
             code: "new Promise(() => { return void 1; })",
             errors: [eReturnsValue()]
