@@ -63,6 +63,8 @@ new Promise((resolve, reject) => getSomething((err, data) => {
 new Promise(() => {
     return 1;
 });
+
+new Promise(r => r(1));
 ```
 
 :::
@@ -74,6 +76,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-promise-executor-return: "error"*/
 
+// Turn return inline into two lines
 new Promise((resolve, reject) => {
     if (someCondition) {
         resolve(defaultResult);
@@ -88,6 +91,7 @@ new Promise((resolve, reject) => {
     });
 });
 
+// Add curly braces
 new Promise((resolve, reject) => {
     getSomething((err, data) => {
         if (err) {
@@ -98,7 +102,50 @@ new Promise((resolve, reject) => {
     });
 });
 
+new Promise(r => { r(1) });
+// or just use Promise.resolve
 Promise.resolve(1);
+```
+
+:::
+
+## Options
+
+This rule takes one option, an object, with the following properties:
+
+* `allowVoid`: If set to `true` (`false` by default), this rule will allow returning void values.
+
+### allowVoid
+
+Examples of **correct** code for this rule with the `{ "allowVoid": true }` option:
+
+::: correct
+
+```js
+/*eslint no-promise-executor-return: ["error", { allowVoid: true }]*/
+
+new Promise((resolve, reject) => {
+    if (someCondition) {
+        return void resolve(defaultResult);
+    }
+    getSomething((err, result) => {
+        if (err) {
+            reject(err);
+        } else {
+            resolve(result);
+        }
+    });
+});
+
+new Promise((resolve, reject) => void getSomething((err, data) => {
+    if (err) {
+        reject(err);
+    } else {
+        resolve(data);
+    }
+}));
+
+new Promise(r => void r(1));
 ```
 
 :::
