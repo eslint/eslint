@@ -2919,8 +2919,14 @@ describe("RuleTester", () => {
 
         it("should create an invalid test suite if there is an invalid test case", () => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
-                valid: ["value = 0;"],
-                invalid: []
+                valid: [],
+                invalid: [
+                    {
+                        code: "var value = 0;",
+                        errors: [/^Bad var/u],
+                        output: " value = 0;"
+                    }
+                ]
             });
             sinon.assert.calledWith(spyRuleTesterDescribe, "invalid");
         });
