@@ -2626,4 +2626,73 @@ describe("FlatRuleTester", () => {
 
     });
 
+    describe("Optional Test Suites", () => {
+        let originalRuleTesterDescribe;
+        let spyRuleTesterDescribe;
+
+        before(() => {
+            originalRuleTesterDescribe = FlatRuleTester.describe;
+            spyRuleTesterDescribe = sinon.spy((title, callback) => callback());
+            FlatRuleTester.describe = spyRuleTesterDescribe;
+        });
+        after(() => {
+            FlatRuleTester.describe = originalRuleTesterDescribe;
+        });
+        beforeEach(() => {
+            spyRuleTesterDescribe.resetHistory();
+            ruleTester = new FlatRuleTester();
+        });
+
+        it("should create a test suite with the rule name even if there are no test cases", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: []
+            });
+            sinon.assert.calledWith(spyRuleTesterDescribe, "no-var");
+        });
+
+        it("should create a valid test suite if there is a valid test case", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: ["value = 0;"],
+                invalid: []
+            });
+            sinon.assert.calledWith(spyRuleTesterDescribe, "valid");
+        });
+
+        it("should not create a valid test suite if there are no valid test cases", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        code: "var value = 0;",
+                        errors: [/^Bad var/u],
+                        output: " value = 0;"
+                    }
+                ]
+            });
+            sinon.assert.neverCalledWith(spyRuleTesterDescribe, "valid");
+        });
+
+        it("should create an invalid test suite if there is an invalid test case", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        code: "var value = 0;",
+                        errors: [/^Bad var/u],
+                        output: " value = 0;"
+                    }
+                ]
+            });
+            sinon.assert.calledWith(spyRuleTesterDescribe, "invalid");
+        });
+
+        it("should not create an invalid test suite if there are no invalid test cases", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: ["value = 0;"],
+                invalid: []
+            });
+            sinon.assert.neverCalledWith(spyRuleTesterDescribe, "invalid");
+        });
+    });
 });
