@@ -475,7 +475,7 @@ import jsdoc from "eslint-plugin-jsdoc";
 
 export default [
     // configuration included in plugin
-    jsdoc.configs.recommended,
+    jsdoc.configs["flat/recommended"],
     // other configuration objects...
     {
         files: ["**/*.js"],
