@@ -7,7 +7,7 @@ A `for` loop with a stop condition that can never be reached, such as one with a
 
 ## Rule Details
 
-This rule forbids for loops where the counter variable increases or decreases in the wrong direction.
+This rule forbids `for` loops where the counter variable changes in such a way that the stop condition will never be met. For example, if the counter variable is increasing (i.e. `i++`) and the stop condition tests that the counter is greater than zero (`i >=0`) then the loop will never exit.
 
 Examples of **incorrect** code for this rule:
 
