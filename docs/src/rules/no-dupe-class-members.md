@@ -6,6 +6,8 @@ handled_by_typescript:
 - 2393
 ---
 
+
+
 If there are declarations of the same name in class members, the last declaration overwrites other declarations silently.
 It can cause unexpected behaviors.
 
