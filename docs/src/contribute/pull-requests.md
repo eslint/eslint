@@ -4,7 +4,7 @@ eleventyNavigation:
     key: submit pull request
     parent: contribute to eslint
     title: Submit a Pull Request
-    order: 9
+    order: 10
 ---
 
 If you want to contribute to an ESLint repo, please use a GitHub pull request. This is the fastest way for us to evaluate your code and to merge it into the code base. Please don't file an issue with snippets of code. Doing so means that we need to manually merge the changes in and update any appropriate tests. That decreases the likelihood that your code is going to get included in a timely manner. Please use pull requests.

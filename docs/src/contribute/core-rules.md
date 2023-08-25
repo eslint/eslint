@@ -4,7 +4,7 @@ eleventyNavigation:
     key: contribute core rule
     parent: contribute to eslint
     title: Contribute to Core Rules
-    order: 10
+    order: 11
 ---
 
 The ESLint core rules are the rules included in the ESLint package.
