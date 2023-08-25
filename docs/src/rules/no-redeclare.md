@@ -1,6 +1,8 @@
 ---
 title: no-redeclare
 rule_type: suggestion
+handled_by_typescript:
+- 2451
 related_rules:
 - no-shadow
 ---

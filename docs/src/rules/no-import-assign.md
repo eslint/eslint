@@ -1,6 +1,9 @@
 ---
 title: no-import-assign
 rule_type: problem
+handled_by_typescript:
+- 2539
+- 2540
 ---
 
 

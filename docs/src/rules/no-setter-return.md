@@ -1,6 +1,8 @@
 ---
 title: no-setter-return
 rule_type: problem
+handled_by_typescript:
+- 2408
 related_rules:
 - getter-return
 further_reading:

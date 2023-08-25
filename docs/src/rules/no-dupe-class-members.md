@@ -1,9 +1,10 @@
 ---
 title: no-dupe-class-members
 rule_type: problem
+handled_by_typescript:
+- 2300
+- 2393
 ---
-
-
 
 If there are declarations of the same name in class members, the last declaration overwrites other declarations silently.
 It can cause unexpected behaviors.
@@ -101,5 +102,3 @@ class Foo {
 This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about duplicate names in class members, you can safely disable this rule.
-
-It is safe to disable this rule when using TypeScript because TypeScript's compiler enforces this check (`ts(2300) & ts(2393)`).

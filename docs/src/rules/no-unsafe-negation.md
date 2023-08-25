@@ -1,6 +1,10 @@
 ---
 title: no-unsafe-negation
 rule_type: problem
+handled_by_typescript:
+- 2358
+- 2360
+- 2365
 ---
 
 
