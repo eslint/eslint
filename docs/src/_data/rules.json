@@ -255,7 +255,7 @@
                     "description": "Disallow returning values from Promise executor functions",
                     "recommended": false,
                     "fixable": false,
-                    "hasSuggestions": false
+                    "hasSuggestions": true
                 },
                 {
                     "name": "no-prototype-builtins",

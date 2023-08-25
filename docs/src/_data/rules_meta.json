@@ -1477,7 +1477,8 @@
             "description": "Disallow returning values from Promise executor functions",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-promise-executor-return"
-        }
+        },
+        "hasSuggestions": true
     },
     "no-proto": {
         "type": "suggestion",
