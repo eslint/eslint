@@ -1,3 +1,18 @@
+v8.48.0 - August 25, 2023
+
+* [`8dd3cec`](https://github.com/eslint/eslint/commit/8dd3cec90c97ed97d243a83b87ad4ea9e6b4781a) chore: upgrade @eslint/js@8.48.0 (#17501) (Milos Djermanovic)
+* [`6d0496e`](https://github.com/eslint/eslint/commit/6d0496e9476fb2210fba0a3d541df8c052ecf73a) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`7a51d77`](https://github.com/eslint/eslint/commit/7a51d77c0a066e461ff288568fdfee0e9539a2b5) docs: no-param-reassign mention strict mode (#17494) (Stephen Hardy)
+* [`9cd7ac2`](https://github.com/eslint/eslint/commit/9cd7ac2fdb6b1d71a9fb1b8297a478cafacbdafd) docs: add `fetch` script to package.json conventions (#17459) (Nitin Kumar)
+* [`7234f6a`](https://github.com/eslint/eslint/commit/7234f6a706a209aa2d79259110328752e9ae3928) fix: update RuleTester JSDoc and deprecations (#17496) (Jonas Berlin)
+* [`1fbb3b0`](https://github.com/eslint/eslint/commit/1fbb3b0b477c814c0d179564fe495f4c50a451e9) feat: correct update direction in `for-direction` (#17483) (Francesco Trotta)
+* [`9d4216d`](https://github.com/eslint/eslint/commit/9d4216d638d39844decffac33ee3d5a47413c80a) chore: Refactor and document CodePathSegment (#17474) (Nicholas C. Zakas)
+* [`cab21e6`](https://github.com/eslint/eslint/commit/cab21e64a8f79779c641178f825945958667c6e4) docs: advice for inline disabling of rules (#17458) (Ashish Yadav)
+* [`056499d`](https://github.com/eslint/eslint/commit/056499de31a139dbc965d18652b0b520e11b408d) docs: fix example of flat config from plugin (#17482) (Francesco Trotta)
+* [`d73fbf2`](https://github.com/eslint/eslint/commit/d73fbf2228631d6c468cd24710e2579fe6cb70fd) feat: rule tester do not create empty valid or invalid test suites (#17475) (fnx)
+* [`ee2f718`](https://github.com/eslint/eslint/commit/ee2f718188d32e9888b1932fe6b9bd2a62c529a4) feat: Allow `void` in rule `no-promise-executor-return` (#17282) (nopeless)
+* [`9e9edf9`](https://github.com/eslint/eslint/commit/9e9edf93ecfa0658e8b79e71bc98530ade150081) docs: update documentation URL in error message (#17465) (Nitin Kumar)
+
 v8.47.0 - August 11, 2023
 
 * [`bf69aa6`](https://github.com/eslint/eslint/commit/bf69aa6408f5403a88d8c9b71b0e58232b1ea833) chore: Update dependencies (#17456) (Nicholas C. Zakas)
