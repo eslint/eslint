@@ -19,7 +19,7 @@ Here is a summary of the proposal in ABNF.
 ```abnf
 name         = life-cycle / main target? option* ":watch"?
 life-cycle   = "prepare" / "preinstall" / "install" / "postinstall" / "prepublish" / "preprepare" / "prepare" / "postprepare" / "prepack" / "postpack" / "prepublishOnly"
-main         = "build" / "lint" ":fix"? / "release" / "start" / "test"
+main         = "build" / "lint" ":fix"? / "release" / "start" / "test" / "fetch"
 target       = ":" word ("-" word)* / extension ("+" extension)*
 option       = ":" word ("-" word)*
 word         = ALPHA +
