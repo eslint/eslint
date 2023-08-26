@@ -109,6 +109,14 @@ ruleTester.run("no-fallthrough", rule, {
         {
             code: "switch (a) {\n case 1: ; break; \n case 3: }",
             options: [{ allowEmptyCase: false }]
+        },
+        {
+            code: "switch(foo) { case 0: { break; } case 1: { break; } }",
+            options: [{ checkFinalCase: true }]
+        },
+        {
+            code: "switch(foo) { case 0: { break; } case 1: { break; } default: { break; } }",
+            options: [{ checkFinalCase: true }]
         }
     ],
     invalid: [
@@ -310,6 +318,49 @@ ruleTester.run("no-fallthrough", rule, {
                     column: 2
                 }
             ]
+        },
+        {
+            code: "switch(foo) { case 0: { break; } case 1: { foo(); } }",
+            options: [{ checkFinalCase: true }],
+            errors: [
+                {
+                    messageId: "finalCase",
+                    type: "SwitchCase",
+                    line: 1,
+                    column: 34
+                }
+            ]
+        },
+        {
+            code: "switch(foo) { case 0: {} case 1: { foo(); } }",
+            options: [{ checkFinalCase: true }],
+            errors: [
+                {
+                    messageId: "case",
+                    type: "SwitchCase",
+                    line: 1,
+                    column: 26
+                },
+                {
+                    messageId: "finalCase",
+                    type: "SwitchCase",
+                    line: 1,
+                    column: 26
+                }
+            ]
+        },
+        {
+            code: "switch(foo) { case 0: { break; } case 1: { break; } default: { foo(); } }",
+            options: [{ checkFinalCase: true }],
+            errors: [
+                {
+                    messageId: "finalCase",
+                    type: "SwitchCase",
+                    line: 1,
+                    column: 53
+                }
+            ]
         }
+
     ]
 });
