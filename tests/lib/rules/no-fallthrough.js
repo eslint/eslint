@@ -361,6 +361,5 @@ ruleTester.run("no-fallthrough", rule, {
                 }
             ]
         }
-
     ]
 });
