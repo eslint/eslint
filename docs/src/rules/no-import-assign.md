@@ -1,9 +1,6 @@
 ---
 title: no-import-assign
 rule_type: problem
-handled_by_typescript:
-- 2539
-- 2540
 ---
 
 
@@ -60,3 +57,5 @@ test(mod_ns) // Not errored because it doesn't know that 'test' updates the memb
 ## When Not To Use It
 
 If you don't want to be notified about modifying imported bindings, you can disable this rule.
+
+Note that if you are using TypeScript, the compiler will partially catch this error (`ts(2539)` & `ts(2540)`). However, it does not catch the `Object.assign` case, so this rule still provides some value to TypeScript users.
