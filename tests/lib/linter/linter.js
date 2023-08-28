@@ -9564,6 +9564,53 @@ describe("Linter with FlatConfigArray", () => {
                 });
             });
 
+            describe("ruleFilter", () => {
+                it("should not run rules that are filtered out", () => {
+                    const code = [
+                        "alert(\"test\");"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ ruleId }) => ruleId !== "no-alert"
+                    });
+
+                    assert.strictEqual(messages.length, 0);
+                });
+
+                it("should run rules that are not filtered out", () => {
+                    const code = [
+                        "alert(\"test\");"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ ruleId }) => ruleId === "no-alert"
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+
+                it("should filter rules by severity", () => {
+                    const code = [
+                        "alert(\"test\")"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, semi: 2 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ severity }) => severity === 2
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+            });
+
         });
 
         describe("Inline Directives", () => {
