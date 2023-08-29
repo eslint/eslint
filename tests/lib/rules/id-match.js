@@ -276,8 +276,16 @@ ruleTester.run("id-match", rule, {
                 classFields: false
             }],
             parserOptions: { ecmaVersion: 2022 }
-        }
+        },
 
+        // import also applies ignore destruction
+        {
+            code: "import { no_camelcased } from \"external-module\";",
+            options: ["^[^_]+$", {
+                ignoreDestructuring: true
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
     ],
     invalid: [
         {
@@ -914,6 +922,21 @@ ruleTester.run("id-match", rule, {
                     type: "Identifier"
                 }
             ]
-        }
+        },
+
+        // import also applies ignore destruction
+        {
+            code: "import * as no_camelcased from \"external-module\";",
+            options: ["^[^_]+$", {
+                ignoreDestructuring: true
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
     ]
 });
