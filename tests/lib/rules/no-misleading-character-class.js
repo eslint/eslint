@@ -85,6 +85,9 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[👍]/",
             errors: [{
+                column: 11,
+                endColumn: 12,
+                line: 1,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👍]/u" }]
             }]
@@ -92,6 +95,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[\\uD83D\\uDC4D]/",
             errors: [{
+                column: 16,
+                endColumn: 22,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[\\uD83D\\uDC4D]/u" }]
             }]
@@ -100,6 +105,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /[👍]/",
             parserOptions: { ecmaVersion: 3 },
             errors: [{
+                column: 11,
+                endColumn: 12,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null // ecmaVersion doesn't support the 'u' flag
             }]
@@ -108,6 +115,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /[👍]/",
             parserOptions: { ecmaVersion: 5 },
             errors: [{
+                column: 11,
+                endColumn: 12,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null // ecmaVersion doesn't support the 'u' flag
             }]
@@ -115,6 +124,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[👍]\\a/",
             errors: [{
+                column: 11,
+                endColumn: 12,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null // pattern would be invalid with the 'u' flag
             }]
@@ -123,6 +134,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /(?<=[👍])/",
             parserOptions: { ecmaVersion: 9 },
             errors: [{
+                column: 15,
+                endColumn: 16,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /(?<=[👍])/u" }]
             }]
@@ -131,6 +144,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /(?<=[👍])/",
             parserOptions: { ecmaVersion: 2018 },
             errors: [{
+                column: 15,
+                endColumn: 16,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /(?<=[👍])/u" }]
             }]
@@ -138,6 +153,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[Á]/",
             errors: [{
+                column: 11,
+                endColumn: 12,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -145,6 +162,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[Á]/u",
             errors: [{
+                column: 11,
+                endColumn: 12,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -152,6 +171,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[\\u0041\\u0301]/",
             errors: [{
+                column: 16,
+                endColumn: 22,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -159,6 +180,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[\\u0041\\u0301]/u",
             errors: [{
+                column: 16,
+                endColumn: 22,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -166,6 +189,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[\\u{41}\\u{301}]/u",
             errors: [{
+                column: 16,
+                endColumn: 23,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -173,6 +198,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[❇️]/",
             errors: [{
+                column: 11,
+                endColumn: 12,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -180,6 +207,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[❇️]/u",
             errors: [{
+                column: 11,
+                endColumn: 12,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -187,6 +216,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[\\u2747\\uFE0F]/",
             errors: [{
+                column: 16,
+                endColumn: 22,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -194,6 +225,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[\\u2747\\uFE0F]/u",
             errors: [{
+                column: 16,
+                endColumn: 22,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -201,20 +234,34 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[\\u{2747}\\u{FE0F}]/u",
             errors: [{
+                column: 18,
+                endColumn: 26,
                 messageId: "combiningClass",
                 suggestions: null
             }]
         },
         {
             code: "var r = /[👶🏻]/",
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👶🏻]/u" }]
-            }]
+            errors: [
+                {
+                    column: 11,
+                    endColumn: 12,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👶🏻]/u" }]
+                },
+                {
+                    column: 13,
+                    endColumn: 14,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👶🏻]/u" }]
+                }
+            ]
         },
         {
             code: "var r = /[👶🏻]/u",
             errors: [{
+                column: 12,
+                endColumn: 14,
                 messageId: "emojiModifier",
                 suggestions: null
             }]
@@ -222,6 +269,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[\\uD83D\\uDC76\\uD83C\\uDFFB]/u",
             errors: [{
+                column: 22,
+                endColumn: 34,
                 messageId: "emojiModifier",
                 suggestions: null
             }]
@@ -229,27 +278,51 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[\\u{1F476}\\u{1F3FB}]/u",
             errors: [{
+                column: 19,
+                endColumn: 28,
                 messageId: "emojiModifier",
                 suggestions: null
             }]
         },
         {
             code: "var r = /[🇯🇵]/",
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/u" }]
-            }]
+            errors: [
+                {
+                    column: 11,
+                    endColumn: 12,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/u" }]
+                },
+                {
+                    column: 13,
+                    endColumn: 14,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/u" }]
+                }
+            ]
         },
         {
             code: "var r = /[🇯🇵]/i",
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/iu" }]
-            }]
+            errors: [
+                {
+                    column: 11,
+                    endColumn: 12,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/iu" }]
+                },
+                {
+                    column: 13,
+                    endColumn: 14,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/iu" }]
+                }
+            ]
         },
         {
             code: "var r = /[🇯🇵]/u",
             errors: [{
+                column: 12,
+                endColumn: 14,
                 messageId: "regionalIndicatorSymbol",
                 suggestions: null
             }]
@@ -257,6 +330,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[\\uD83C\\uDDEF\\uD83C\\uDDF5]/u",
             errors: [{
+                column: 22,
+                endColumn: 34,
                 messageId: "regionalIndicatorSymbol",
                 suggestions: null
             }]
@@ -264,6 +339,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[\\u{1F1EF}\\u{1F1F5}]/u",
             errors: [{
+                column: 19,
+                endColumn: 28,
                 messageId: "regionalIndicatorSymbol",
                 suggestions: null
             }]
@@ -272,41 +349,95 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /[👨‍👩‍👦]/",
             errors: [
                 {
+                    column: 11,
+                    endColumn: 12,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
                 },
                 {
+                    column: 12,
+                    endColumn: 13,
+                    messageId: "zwj",
+                    suggestions: null
+                },
+                {
+                    column: 14,
+                    endColumn: 15,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
+                },
+                {
+                    column: 15,
+                    endColumn: 16,
+                    messageId: "zwj",
+                    suggestions: null
+                },
+                {
+                    column: 17,
+                    endColumn: 18,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
+                }
+            ]
+        },
+        {
+            code: "var r = /[👨‍👩‍👦]/u",
+            errors: [
+                {
+                    column: 12,
+                    endColumn: 13,
+                    messageId: "zwj",
+                    suggestions: null
+                },
+                {
+                    column: 15,
+                    endColumn: 16,
                     messageId: "zwj",
                     suggestions: null
                 }
             ]
         },
         {
-            code: "var r = /[👨‍👩‍👦]/u",
-            errors: [{
-                messageId: "zwj",
-                suggestions: null
-            }]
-        },
-        {
             code: "var r = /[\\uD83D\\uDC68\\u200D\\uD83D\\uDC69\\u200D\\uD83D\\uDC66]/u",
-            errors: [{
-                messageId: "zwj",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    column: 22,
+                    endColumn: 28,
+                    messageId: "zwj",
+                    suggestions: null
+                },
+                {
+                    column: 40,
+                    endColumn: 46,
+                    messageId: "zwj",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "var r = /[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]/u",
-            errors: [{
-                messageId: "zwj",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    column: 19,
+                    endColumn: 27,
+                    messageId: "zwj",
+                    suggestions: null
+                },
+                {
+                    column: 36,
+                    endColumn: 44,
+                    messageId: "zwj",
+                    suggestions: null
+                }
+            ]
         },
 
         // RegExp constructors.
         {
             code: String.raw`var r = new RegExp("[👍]", "")`,
             errors: [{
+                column: 22,
+                endColumn: 23,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👍]", "u")` }]
             }]
@@ -314,6 +445,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = new RegExp('[👍]', ``)",
             errors: [{
+                column: 22,
+                endColumn: 23,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = new RegExp('[👍]', `u`)" }]
             }]
@@ -321,6 +454,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[👍]", flags)`,
             errors: [{
+                column: 22,
+                endColumn: 23,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null
             }]
@@ -328,6 +463,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`const flags = ""; var r = new RegExp("[👍]", flags)`,
             errors: [{
+                column: 40,
+                endColumn: 41,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null
             }]
@@ -335,6 +472,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "")`,
             errors: [{
+                column: 27,
+                endColumn: 33,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "u")` }]
             }]
@@ -343,6 +482,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: String.raw`var r = new RegExp("[👍]", "")`,
             parserOptions: { ecmaVersion: 3 },
             errors: [{
+                column: 22,
+                endColumn: 23,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null // ecmaVersion doesn't support the 'u' flag
             }]
@@ -351,6 +492,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: String.raw`var r = new RegExp("[👍]", "")`,
             parserOptions: { ecmaVersion: 5 },
             errors: [{
+                column: 22,
+                endColumn: 23,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null // ecmaVersion doesn't support the 'u' flag
             }]
@@ -358,6 +501,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[👍]\\a", "")`,
             errors: [{
+                column: 22,
+                endColumn: 23,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null // pattern would be invalid with the 'u' flag
             }]
@@ -366,6 +511,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: String.raw`var r = new RegExp("/(?<=[👍])", "")`,
             parserOptions: { ecmaVersion: 9 },
             errors: [{
+                column: 27,
+                endColumn: 28,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("/(?<=[👍])", "u")` }]
             }]
@@ -374,6 +521,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: String.raw`var r = new RegExp("/(?<=[👍])", "")`,
             parserOptions: { ecmaVersion: 2018 },
             errors: [{
+                column: 27,
+                endColumn: 28,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("/(?<=[👍])", "u")` }]
             }]
@@ -381,6 +530,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[Á]", "")`,
             errors: [{
+                column: 22,
+                endColumn: 23,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -388,6 +539,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[Á]", "u")`,
             errors: [{
+                column: 22,
+                endColumn: 23,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -395,6 +548,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u0041\\u0301]", "")`,
             errors: [{
+                column: 27,
+                endColumn: 33,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -402,6 +557,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u0041\\u0301]", "u")`,
             errors: [{
+                column: 27,
+                endColumn: 33,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -409,6 +566,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u{41}\\u{301}]", "u")`,
             errors: [{
+                column: 27,
+                endColumn: 34,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -416,6 +575,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[❇️]", "")`,
             errors: [{
+                column: 22,
+                endColumn: 23,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -423,6 +584,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[❇️]", "u")`,
             errors: [{
+                column: 22,
+                endColumn: 23,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -430,6 +593,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u2747\\uFE0F]", "")`,
             errors: [{
+                column: 27,
+                endColumn: 33,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -437,6 +602,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u2747\\uFE0F]", "u")`,
             errors: [{
+                column: 27,
+                endColumn: 33,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -444,20 +611,34 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u{2747}\\u{FE0F}]", "u")`,
             errors: [{
+                column: 29,
+                endColumn: 37,
                 messageId: "combiningClass",
                 suggestions: null
             }]
         },
         {
             code: String.raw`var r = new RegExp("[👶🏻]", "")`,
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👶🏻]", "u")` }]
-            }]
+            errors: [
+                {
+                    column: 22,
+                    endColumn: 23,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👶🏻]", "u")` }]
+                },
+                {
+                    column: 24,
+                    endColumn: 25,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👶🏻]", "u")` }]
+                }
+            ]
         },
         {
             code: String.raw`var r = new RegExp("[👶🏻]", "u")`,
             errors: [{
+                column: 23,
+                endColumn: 25,
                 messageId: "emojiModifier",
                 suggestions: null
             }]
@@ -465,6 +646,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC76\\uD83C\\uDFFB]", "u")`,
             errors: [{
+                column: 33,
+                endColumn: 45,
                 messageId: "emojiModifier",
                 suggestions: null
             }]
@@ -472,78 +655,172 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u{1F476}\\u{1F3FB}]", "u")`,
             errors: [{
+                column: 30,
+                endColumn: 39,
                 messageId: "emojiModifier",
                 suggestions: null
             }]
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]", "")`,
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u")` }]
-            }]
+            errors: [
+                {
+                    column: 22,
+                    endColumn: 23,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u")` }]
+                },
+                {
+                    column: 24,
+                    endColumn: 25,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u")` }]
+                }
+            ]
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]", "i")`,
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "iu")` }]
-            }]
+            errors: [
+                {
+                    column: 22,
+                    endColumn: 23,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "iu")` }]
+                },
+                {
+                    column: 24,
+                    endColumn: 25,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "iu")` }]
+                }
+            ]
         },
         {
             code: "var r = new RegExp('[🇯🇵]', `i`)",
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = new RegExp('[🇯🇵]', `iu`)" }]
-            }]
+            errors: [
+                {
+                    column: 22,
+                    endColumn: 23,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = new RegExp('[🇯🇵]', `iu`)" }]
+                },
+                {
+                    column: 24,
+                    endColumn: 25,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = new RegExp('[🇯🇵]', `iu`)" }]
+                }
+            ]
         },
         {
             code: "var r = new RegExp('[🇯🇵]', `${foo}`)",
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = new RegExp('[🇯🇵]', `${foo}u`)" }]
-            }]
+            errors: [
+                {
+                    column: 22,
+                    endColumn: 23,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = new RegExp('[🇯🇵]', `${foo}u`)" }]
+                },
+                {
+                    column: 24,
+                    endColumn: 25,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = new RegExp('[🇯🇵]', `${foo}u`)" }]
+                }
+            ]
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]")`,
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u")` }]
-            }]
+            errors: [
+                {
+                    column: 22,
+                    endColumn: 23,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u")` }]
+                },
+                {
+                    column: 24,
+                    endColumn: 25,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u")` }]
+                }
+            ]
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]",)`,
             parserOptions: { ecmaVersion: 2017 },
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u",)` }]
-            }]
+            errors: [
+                {
+                    column: 22,
+                    endColumn: 23,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u",)` }]
+                },
+                {
+                    column: 24,
+                    endColumn: 25,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[🇯🇵]", "u",)` }]
+                }
+            ]
         },
         {
             code: String.raw`var r = new RegExp(("[🇯🇵]"))`,
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp(("[🇯🇵]"), "u")` }]
-            }]
+            errors: [
+                {
+                    column: 23,
+                    endColumn: 24,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp(("[🇯🇵]"), "u")` }]
+                },
+                {
+                    column: 25,
+                    endColumn: 26,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp(("[🇯🇵]"), "u")` }]
+                }
+            ]
         },
         {
             code: String.raw`var r = new RegExp((("[🇯🇵]")))`,
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp((("[🇯🇵]")), "u")` }]
-            }]
+            errors: [
+                {
+                    column: 24,
+                    endColumn: 25,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp((("[🇯🇵]")), "u")` }]
+                },
+                {
+                    column: 26,
+                    endColumn: 27,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp((("[🇯🇵]")), "u")` }]
+                }
+            ]
         },
         {
             code: String.raw`var r = new RegExp(("[🇯🇵]"),)`,
             parserOptions: { ecmaVersion: 2017 },
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp(("[🇯🇵]"), "u",)` }]
-            }]
+            errors: [
+                {
+                    column: 23,
+                    endColumn: 24,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp(("[🇯🇵]"), "u",)` }]
+                },
+                {
+                    column: 25,
+                    endColumn: 26,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp(("[🇯🇵]"), "u",)` }]
+                }
+            ]
         },
         {
             code: String.raw`var r = new RegExp("[🇯🇵]", "u")`,
             errors: [{
+                column: 23,
+                endColumn: 25,
                 messageId: "regionalIndicatorSymbol",
                 suggestions: null
             }]
@@ -551,6 +828,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\uD83C\\uDDEF\\uD83C\\uDDF5]", "u")`,
             errors: [{
+                column: 33,
+                endColumn: 45,
                 messageId: "regionalIndicatorSymbol",
                 suggestions: null
             }]
@@ -558,6 +837,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u{1F1EF}\\u{1F1F5}]", "u")`,
             errors: [{
+                column: 30,
+                endColumn: 39,
                 messageId: "regionalIndicatorSymbol",
                 suggestions: null
             }]
@@ -566,40 +847,94 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: String.raw`var r = new RegExp("[👨‍👩‍👦]", "")`,
             errors: [
                 {
+                    column: 22,
+                    endColumn: 23,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")` }]
                 },
                 {
+                    column: 23,
+                    endColumn: 24,
+                    messageId: "zwj",
+                    suggestions: null
+                },
+                {
+                    column: 25,
+                    endColumn: 26,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")` }]
+                },
+                {
+                    column: 26,
+                    endColumn: 27,
+                    messageId: "zwj",
+                    suggestions: null
+                },
+                {
+                    column: 28,
+                    endColumn: 29,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")` }]
+                }
+            ]
+        },
+        {
+            code: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")`,
+            errors: [
+                {
+                    column: 23,
+                    endColumn: 24,
+                    messageId: "zwj",
+                    suggestions: null
+                },
+                {
+                    column: 26,
+                    endColumn: 27,
                     messageId: "zwj",
                     suggestions: null
                 }
             ]
         },
         {
-            code: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")`,
-            errors: [{
-                messageId: "zwj",
-                suggestions: null
-            }]
-        },
-        {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC68\\u200D\\uD83D\\uDC69\\u200D\\uD83D\\uDC66]", "u")`,
-            errors: [{
-                messageId: "zwj",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    column: 33,
+                    endColumn: 39,
+                    messageId: "zwj",
+                    suggestions: null
+                },
+                {
+                    column: 51,
+                    endColumn: 57,
+                    messageId: "zwj",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
-            errors: [{
-                messageId: "zwj",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    column: 30,
+                    endColumn: 38,
+                    messageId: "zwj",
+                    suggestions: null
+                },
+                {
+                    column: 47,
+                    endColumn: 55,
+                    messageId: "zwj",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[❇️]", "")`,
             env: { es2020: true },
             errors: [{
+                column: 33,
+                endColumn: 34,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -608,6 +943,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: String.raw`var r = new globalThis.RegExp("[👶🏻]", "u")`,
             env: { es2020: true },
             errors: [{
+                column: 34,
+                endColumn: 36,
                 messageId: "emojiModifier",
                 suggestions: null
             }]
@@ -615,18 +952,38 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "")`,
             env: { es2020: true },
-            errors: [{
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "u")` }]
-            }]
+            errors: [
+                {
+                    column: 33,
+                    endColumn: 34,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "u")` }]
+                },
+                {
+                    column: 35,
+                    endColumn: 36,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "u")` }]
+                }
+            ]
         },
         {
             code: String.raw`var r = new globalThis.RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
             env: { es2020: true },
-            errors: [{
-                messageId: "zwj",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    column: 41,
+                    endColumn: 49,
+                    messageId: "zwj",
+                    suggestions: null
+                },
+                {
+                    column: 58,
+                    endColumn: 66,
+                    messageId: "zwj",
+                    suggestions: null
+                }
+            ]
         },
 
 
@@ -635,6 +992,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /[[👶🏻]]/v",
             parserOptions: { ecmaVersion: 2024 },
             errors: [{
+                column: 13,
+                endColumn: 15,
                 messageId: "emojiModifier",
                 suggestions: null
             }]
@@ -655,6 +1014,8 @@ flatRuleTester.run("no-misleading-character-class", rule, {
                 sourceType: "script"
             },
             errors: [{
+                column: 11,
+                endColumn: 12,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null // ecmaVersion doesn't support the 'u' flag
             }]
@@ -665,6 +1026,8 @@ flatRuleTester.run("no-misleading-character-class", rule, {
                 ecmaVersion: 2015
             },
             errors: [{
+                column: 11,
+                endColumn: 12,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👍]/u" }]
             }]
