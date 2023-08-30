@@ -69,7 +69,7 @@ module.exports = function(context) {
          * @param {ASTNode} node - The current node.
          * @returns {void}
          */
-        "onCodePathStart": function(codePath, node) {
+        onCodePathStart(codePath, node) {
             // do something with codePath
         },
 
@@ -81,12 +81,12 @@ module.exports = function(context) {
          * @param {ASTNode} node - The current node.
          * @returns {void}
          */
-        "onCodePathEnd": function(codePath, node) {
+        onCodePathEnd(codePath, node) {
             // do something with codePath
         },
 
         /**
-         * This is called when a code path segment was created.
+         * This is called when a reachable code path segment was created.
          * It meant the code path is forked or merged.
          * In this time, the segment has the previous segments and has been
          * judged reachable or not.
@@ -95,19 +95,45 @@ module.exports = function(context) {
          * @param {ASTNode} node - The current node.
          * @returns {void}
          */
-        "onCodePathSegmentStart": function(segment, node) {
+        onCodePathSegmentStart(segment, node) {
             // do something with segment
         },
 
         /**
-         * This is called when a code path segment was left.
+         * This is called when a reachable code path segment was left.
          * In this time, the segment does not have the next segments yet.
          *
          * @param {CodePathSegment} segment - The left code path segment.
          * @param {ASTNode} node - The current node.
          * @returns {void}
          */
-        "onCodePathSegmentEnd": function(segment, node) {
+        onCodePathSegmentEnd(segment, node) {
+            // do something with segment
+        },
+
+        /**
+         * This is called when an unreachable code path segment was created.
+         * It meant the code path is forked or merged.
+         * In this time, the segment has the previous segments and has been
+         * judged reachable or not.
+         *
+         * @param {CodePathSegment} segment - The new code path segment.
+         * @param {ASTNode} node - The current node.
+         * @returns {void}
+         */
+        onUnreachableCodePathSegmentStart(segment, node) {
+            // do something with segment
+        },
+
+        /**
+         * This is called when an unreachable code path segment was left.
+         * In this time, the segment does not have the next segments yet.
+         *
+         * @param {CodePathSegment} segment - The left code path segment.
+         * @param {ASTNode} node - The current node.
+         * @returns {void}
+         */
+        onUnreachableCodePathSegmentEnd(segment, node) {
             // do something with segment
         },
 
@@ -122,7 +148,7 @@ module.exports = function(context) {
          * @param {ASTNode} node - The current node.
          * @returns {void}
          */
-        "onCodePathSegmentLoop": function(fromSegment, toSegment, node) {
+        "onCodePathSegmentLoop(fromSegment, toSegment, node) {
             // do something with segment
         }
     };
@@ -272,23 +298,28 @@ function isCbCalled(info) {
 }
 
 module.exports = function(context) {
-    var funcInfoStack = [];
-    var segmentInfoMap = Object.create(null);
+    let funcInfo;
+    const funcInfoStack = [];
+    const segmentInfoMap = Object.create(null);
 
     return {
         // Checks `cb`.
-        "onCodePathStart": function(codePath, node) {
-            funcInfoStack.push({
+        onCodePathStart(codePath, node) {
+            funcInfo = {
                 codePath: codePath,
-                hasCb: hasCb(node, context)
-            });
+                hasCb: hasCb(node, context),
+                currentSegments: []
+            };
+
+            funcInfoStack.push(funcInfo);
         },
-        "onCodePathEnd": function(codePath, node) {
-            funcInfoStack.pop();
+
+        onCodePathEnd(codePath, node) {
+            funcInfo = funcInfoStack.pop();
 
             // Checks `cb` was called in every paths.
-            var cbCalled = codePath.finalSegments.every(function(segment) {
-                var info = segmentInfoMap[segment.id];
+            const cbCalled = codePath.finalSegments.every(function(segment) {
+                const info = segmentInfoMap[segment.id];
                 return info.cbCalled;
             });
 
@@ -300,9 +331,10 @@ module.exports = function(context) {
             }
         },
 
-        // Manages state of code paths.
-        "onCodePathSegmentStart": function(segment) {
-            var funcInfo = funcInfoStack[funcInfoStack.length - 1];
+        // Manages state of code paths and tracks traversed segments
+        onCodePathSegmentStart(segment) {
+
+            funcInfo.currentSegments.push(segment);
 
             // Ignores if `cb` doesn't exist.
             if (!funcInfo.hasCb) {
@@ -310,7 +342,7 @@ module.exports = function(context) {
             }
 
             // Initialize state of this path.
-            var info = segmentInfoMap[segment.id] = {
+            const info = segmentInfoMap[segment.id] = {
                 cbCalled: false
             };
 
@@ -321,9 +353,23 @@ module.exports = function(context) {
             }
         },
 
+        // Tracks unreachable segment traversal
+        onUnreachableCodePathSegmentStart(segment) {
+            funcInfo.currentSegments.push(segment);
+        }
+
+        // Tracks reachable segment traversal
+        onCodePathSegmentEnd() {
+            funcInfo.currentSegments.pop();
+        }
+
+        // Tracks unreachable segment traversal
+        onUnreachableCodePathSegmentEnd() {
+            funcInfo.currentSegments.pop();
+        }
+
         // Checks reachable or not.
-        "CallExpression": function(node) {
-            var funcInfo = funcInfoStack[funcInfoStack.length - 1];
+        CallExpression(node) {
 
             // Ignores if `cb` doesn't exist.
             if (!funcInfo.hasCb) {
@@ -331,10 +377,10 @@ module.exports = function(context) {
             }
 
             // Sets marks that `cb` was called.
-            var callee = node.callee;
+            const callee = node.callee;
             if (callee.type === "Identifier" && callee.name === "cb") {
-                funcInfo.codePath.currentSegments.forEach(function(segment) {
-                    var info = segmentInfoMap[segment.id];
+                funcInfo.currentSegments.forEach(segment => {
+                    const info = segmentInfoMap[segment.id];
                     info.cbCalled = true;
                 });
             }
