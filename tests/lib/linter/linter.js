@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const { assert } = require("chai"),
     sinon = require("sinon"),
     espree = require("espree"),
     esprima = require("esprima"),
@@ -7263,12 +7263,12 @@ var a = "test2";
 
         it("should have file path passed to it", () => {
             const code = "/* this is code */";
-            const parseSpy = sinon.spy(testParsers.stubParser, "parse");
+            const parseSpy = { parse: sinon.spy() };
 
-            linter.defineParser("stub-parser", testParsers.stubParser);
+            linter.defineParser("stub-parser", parseSpy);
             linter.verify(code, { parser: "stub-parser" }, filename, true);
 
-            sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
+            sinon.assert.calledWithMatch(parseSpy.parse, "", { filePath: filename });
         });
 
         it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
@@ -8068,16 +8068,16 @@ describe("Linter with FlatConfigArray", () => {
 
                     it("should have file path passed to it", () => {
                         const code = "/* this is code */";
-                        const parseSpy = sinon.spy(testParsers.stubParser, "parse");
+                        const parseSpy = { parse: sinon.spy() };
                         const config = {
                             languageOptions: {
-                                parser: testParsers.stubParser
+                                parser: parseSpy
                             }
                         };
 
                         linter.verify(code, config, filename, true);
 
-                        sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
+                        sinon.assert.calledWithMatch(parseSpy.parse, "", { filePath: filename });
                     });
 
                     it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {

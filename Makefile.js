@@ -628,12 +628,10 @@ target.mocha = () => {
     }
 };
 
-target.karma = () => {
+target.wdio = () => {
     echo("Running unit tests on browsers");
-
     target.webpack("production");
-
-    const lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
+    const lastReturn = exec(`${getBinFile("wdio")} run wdio.conf.js`);
 
     if (lastReturn.code !== 0) {
         exit(1);
@@ -643,7 +641,7 @@ target.karma = () => {
 target.test = function() {
     target.checkRuleFiles();
     target.mocha();
-    target.karma();
+    target.wdio();
     target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
     target.checkLicenses();
 };
