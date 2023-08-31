@@ -2,7 +2,7 @@
 title: no-invalid-this
 rule_type: suggestion
 handled_by_typescript: true
-extra_typescript_info: Note that technically, TypeScript will only catch this if you have the "strict" or "noImplicitThis" flags enabled. These are enabled in most TypeScript projects, since they are considered to be best practice.
+extra_typescript_info: Note that, technically, TypeScript will only catch this if you have the `strict` or `noImplicitThis` flags enabled. These are enabled in most TypeScript projects, since they are considered to be best practice.
 ---
 
 
