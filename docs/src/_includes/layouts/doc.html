@@ -27,7 +27,7 @@ layout: base.html
             </p>
             {% if extra_typescript_info %}
                 <p>
-                    {{ extra_typescript_info | markdown }}
+                    {{ extra_typescript_info | markdown | safe }}
                 </p>
             {% endif %}
         {% endset %}
