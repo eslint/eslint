@@ -58,4 +58,4 @@ test(mod_ns) // Not errored because it doesn't know that 'test' updates the memb
 
 If you don't want to be notified about modifying imported bindings, you can disable this rule.
 
-If you use TypeScript, it is not recommended to use this rule, since the compiler will mostly catch this error (`ts(2539)` & `ts(2540)`). However, note that the compiler does not catch the `Object.assign` case, so this rule still provides some miniscule value.
+If you use TypeScript, it is not recommended to use this rule, since the compiler will mostly catch this error (`ts(2632)`). However, note that the compiler does not catch the `Object.assign` case, so this rule still provides some miniscule value.

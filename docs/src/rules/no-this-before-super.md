@@ -3,6 +3,7 @@ title: no-this-before-super
 rule_type: problem
 handled_by_typescript:
 - 2376
+- 17009
 ---
 
 
