@@ -2,7 +2,7 @@
 title: no-import-assign
 rule_type: problem
 handled_by_typescript: true
-extra_typescript_info: However, note that the compiler will not catch the "Object.assign" case. Thus, if you use "Object.assign" in your codebase, this rule will still provide some miniscule value.
+extra_typescript_info: Note that the compiler will not catch the `Object.assign()` case. Thus, if you use `Object.assign()` in your codebase, this rule will still provide some value.
 ---
 
 
