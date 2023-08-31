@@ -1,16 +1,16 @@
 //2.1.8
-var JSHINT;
+let JSHINT;
 (function () {
-var require;
+let require;
 require=(function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0].call(u.exports,function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({1:[function(require,module,exports){
 // shim for using process in browser
 
-var process = module.exports = {};
+let process = module.exports = {};
 
 process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
+    let canSetImmediate = typeof window !== 'undefined'
     && window.setImmediate;
-    var canPost = typeof window !== 'undefined'
+    let canPost = typeof window !== 'undefined'
     && window.postMessage && window.addEventListener
     ;
 
@@ -19,12 +19,12 @@ process.nextTick = (function () {
     }
 
     if (canPost) {
-        var queue = [];
+        let queue = [];
         window.addEventListener('message', function (ev) {
             if (ev.source === window && ev.data === 'process-tick') {
                 ev.stopPropagation();
                 if (queue.length > 0) {
-                    var fn = queue.shift();
+                  let fn = queue.shift();
                     fn();
                 }
             }
@@ -59,8 +59,8 @@ process.chdir = function (dir) {
 },{}],2:[function(require,module,exports){
 (function(process){if (!process.EventEmitter) process.EventEmitter = function () {};
 
-var EventEmitter = exports.EventEmitter = process.EventEmitter;
-var isArray = typeof Array.isArray === 'function'
+let EventEmitter = exports.EventEmitter = process.EventEmitter;
+let isArray = typeof Array.isArray === 'function'
     ? Array.isArray
     : function (xs) {
         return Object.prototype.toString.call(xs) === '[object Array]'
@@ -68,7 +68,7 @@ var isArray = typeof Array.isArray === 'function'
 ;
 function indexOf (xs, x) {
     if (xs.indexOf) return xs.indexOf(x);
-    for (var i = 0; i < xs.length; i++) {
+    for (let i = 0; i < xs.length; i++) {
         if (x === xs[i]) return i;
     }
     return -1;
@@ -80,7 +80,7 @@ function indexOf (xs, x) {
 //
 // Obviously not all Emitters should be limited to 10. This function allows
 // that to be increased. Set to zero for unlimited.
-var defaultMaxListeners = 10;
+let defaultMaxListeners = 10;
 EventEmitter.prototype.setMaxListeners = function(n) {
   if (!this._events) this._events = {};
   this._events.maxListeners = n;
@@ -103,7 +103,7 @@ EventEmitter.prototype.emit = function(type) {
   }
 
   if (!this._events) return false;
-  var handler = this._events[type];
+  let handler = this._events[type];
   if (!handler) return false;
 
   if (typeof handler == 'function') {
@@ -120,16 +120,16 @@ EventEmitter.prototype.emit = function(type) {
         break;
       // slower
       default:
-        var args = Array.prototype.slice.call(arguments, 1);
+        let args = Array.prototype.slice.call(arguments, 1);
         handler.apply(this, args);
     }
     return true;
 
   } else if (isArray(handler)) {
-    var args = Array.prototype.slice.call(arguments, 1);
+    let args = Array.prototype.slice.call(arguments, 1);
 
-    var listeners = handler.slice();
-    for (var i = 0, l = listeners.length; i < l; i++) {
+    let listeners = handler.slice();
+    for (let i = 0, l = listeners.length; i < l; i++) {
       listeners[i].apply(this, args);
     }
     return true;
@@ -159,7 +159,7 @@ EventEmitter.prototype.addListener = function(type, listener) {
 
     // Check for listener leak
     if (!this._events[type].warned) {
-      var m;
+      let m;
       if (this._events.maxListeners !== undefined) {
         m = this._events.maxListeners;
       } else {
@@ -189,7 +189,7 @@ EventEmitter.prototype.addListener = function(type, listener) {
 EventEmitter.prototype.on = EventEmitter.prototype.addListener;
 
 EventEmitter.prototype.once = function(type, listener) {
-  var self = this;
+  let self = this;
   self.on(type, function g() {
     self.removeListener(type, g);
     listener.apply(this, arguments);
@@ -206,10 +206,10 @@ EventEmitter.prototype.removeListener = function(type, listener) {
   // does not use listeners(), so no side effect of creating _events[type]
   if (!this._events || !this._events[type]) return this;
 
-  var list = this._events[type];
+  let list = this._events[type];
 
   if (isArray(list)) {
-    var i = indexOf(list, listener);
+    let i = indexOf(list, listener);
     if (i < 0) return this;
     list.splice(i, 1);
     if (list.length == 0)
@@ -951,8 +951,8 @@ exports.register = function (linter) {
 	// Enforce consistency in style of quoting.
 
 	linter.on("String", function style_scanQuotes(data) {
-		var quotmark = linter.getOption("quotmark");
-		var code;
+		let quotmark = linter.getOption("quotmark");
+		let code;
 
 		if (!quotmark) {
 			return;
@@ -1023,7 +1023,7 @@ exports.register = function (linter) {
 	// Warn about script URLs.
 
 	linter.on("String", function style_scanJavaScriptURLs(data) {
-		var re = /^(?:javascript|jscript|ecmascript|vbscript|mocha|livescript)\s*:/i;
+		let re = /^(?:javascript|jscript|ecmascript|vbscript|mocha|livescript)\s*:/i;
 
 		if (linter.getOption("scripturl")) {
 			return;
@@ -1041,7 +1041,7 @@ exports.register = function (linter) {
 },{}],6:[function(require,module,exports){
 "use strict";
 
-var state = {
+let state = {
 	syntax: {},
 
 	reset: function () {
@@ -1101,28 +1101,28 @@ module.exports=require('E/GbHF');
 /*global console:true */
 /*exported console */
 
-var _        = require("underscore");
-var events   = require("events");
-var vars     = require("../shared/vars.js");
-var messages = require("../shared/messages.js");
-var Lexer    = require("./lex.js").Lexer;
-var reg      = require("./reg.js");
-var state    = require("./state.js").state;
-var style    = require("./style.js");
+let _        = require("underscore");
+let events   = require("events");
+let vars     = require("../shared/vars.js");
+let messages = require("../shared/messages.js");
+let Lexer    = require("./lex.js").Lexer;
+let reg      = require("./reg.js");
+let state    = require("./state.js").state;
+let style    = require("./style.js");
 
 // We need this module here because environments such as IE and Rhino
 // don't necessarily expose the 'console' API and browserify uses
 // it to log things. It's a sad state of affair, really.
-var console = require("console-browserify");
+let console = require("console-browserify");
 
 // We build the application inside a function so that we produce only a singleton
 // variable. That function will be invoked immediately, and its return value is
 // the JSHINT function itself.
 
-var JSHINT = (function () {
+let JSHINT = (function () {
 	"use strict";
 
-	var anonname, // The guessed name for anonymous functions.
+	let anonname, // The guessed name for anonymous functions.
 		api, // Extension API
 
 		// These are operators that should not be used with the ! operator.
