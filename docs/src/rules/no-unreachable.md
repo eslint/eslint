@@ -1,8 +1,7 @@
 ---
 title: no-unreachable
 rule_type: problem
-handled_by_typescript:
-- 7027
+handled_by_typescript: true
 ---
 
 

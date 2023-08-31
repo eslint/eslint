@@ -22,11 +22,14 @@ layout: base.html
     {% if handled_by_typescript %}
         {% set handled_by_typescript_content %}
             <h2 id="handled_by_typescript">Handled by TypeScript</h2>
-            It is safe to disable this rule when using TypeScript because TypeScript's compiler enforces this check (
-            {%- for code in handled_by_typescript -%}
-                <code>ts({{ code }})</code>{% if not loop.last %} & {% endif %}
-            {%- endfor -%}
-            ).
+            <p>
+                It is safe to disable this rule when using TypeScript because TypeScript's compiler enforces this check.
+            </p>
+            {% if extra_typescript_info %}
+                <p>
+                    {{ extra_typescript_info }}
+                </p>
+            {% endif %}
         {% endset %}
 
         {% set all_content = [all_content, handled_by_typescript_content] | join %}

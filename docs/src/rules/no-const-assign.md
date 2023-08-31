@@ -1,8 +1,7 @@
 ---
 title: no-const-assign
 rule_type: problem
-handled_by_typescript:
-- 2588
+handled_by_typescript: true
 ---
 
 

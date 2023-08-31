@@ -1,6 +1,8 @@
 ---
 title: no-import-assign
 rule_type: problem
+handled_by_typescript: true
+extra_typescript_info: However, note that the compiler will not catch the "Object.assign" case. Thus, if you use "Object.assign" in your codebase, this rule will still provide some miniscule value.
 ---
 
 
@@ -57,5 +59,3 @@ test(mod_ns) // Not errored because it doesn't know that 'test' updates the memb
 ## When Not To Use It
 
 If you don't want to be notified about modifying imported bindings, you can disable this rule.
-
-If you use TypeScript, it is not recommended to use this rule, since the compiler will mostly catch this error (`ts(2632)`). However, note that the compiler does not catch the `Object.assign` case, so this rule still provides some miniscule value.

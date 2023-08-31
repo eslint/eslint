@@ -1,8 +1,7 @@
 ---
 title: no-obj-calls
 rule_type: problem
-handled_by_typescript:
-- 2349
+handled_by_typescript: true
 further_reading:
 - https://es5.github.io/#x15.8
 ---

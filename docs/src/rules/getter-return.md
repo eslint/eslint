@@ -1,8 +1,7 @@
 ---
 title: getter-return
 rule_type: problem
-handled_by_typescript:
-- 2378
+handled_by_typescript: true
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get
 - https://leanpub.com/understandinges6/read/#leanpub-auto-accessor-properties

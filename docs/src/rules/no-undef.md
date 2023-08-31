@@ -1,8 +1,7 @@
 ---
 title: no-undef
 rule_type: problem
-handled_by_typescript:
-- 2552
+handled_by_typescript: true
 related_rules:
 - no-global-assign
 - no-redeclare

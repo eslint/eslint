@@ -1,8 +1,7 @@
 ---
 title: no-dupe-keys
 rule_type: problem
-handled_by_typescript:
-- 1117
+handled_by_typescript: true
 ---
 
 

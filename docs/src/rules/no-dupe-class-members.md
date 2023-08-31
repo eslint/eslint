@@ -1,9 +1,7 @@
 ---
 title: no-dupe-class-members
 rule_type: problem
-handled_by_typescript:
-- 2300
-- 2393
+handled_by_typescript: true
 ---
 
 

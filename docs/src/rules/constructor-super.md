@@ -1,9 +1,7 @@
 ---
 title: constructor-super
 rule_type: problem
-handled_by_typescript:
-- 2335
-- 2377
+handled_by_typescript: true
 ---
 
 Constructors of derived classes must call `super()`.
