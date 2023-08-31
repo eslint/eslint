@@ -2,7 +2,7 @@
 title: no-redeclare
 rule_type: suggestion
 handled_by_typescript: true
-extra_typescript_info: However, note that while TypeScript will catch `let` redeclares and `const` redeclares, it will not catch `var` redeclares. Thus, if you use the legacy `var` keyword in your TypeScript codebase, this rule will still provide some miniscule value.
+extra_typescript_info: Note that while TypeScript will catch `let` redeclares and `const` redeclares, it will not catch `var` redeclares. Thus, if you use the legacy `var` keyword in your TypeScript codebase, this rule will still provide some value.
 related_rules:
 - no-shadow
 ---
