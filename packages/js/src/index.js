@@ -1,6 +1,6 @@
-/**
- * @fileoverview Main package entrypoint.
- * @author Nicholas C. Zakas
+/*
+   @fileoverview Main package entrypoint.
+   @author Nicholas C. Zakas
  */
 
 "use strict";
