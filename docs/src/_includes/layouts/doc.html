@@ -19,6 +19,22 @@ layout: base.html
     {% set added_version = rule_versions.added[title] %}
     {% set removed_version = rule_versions.removed[title] %}
 
+    {% if handled_by_typescript %}
+        {% set handled_by_typescript_content %}
+            <h2 id="handled_by_typescript">Handled by TypeScript</h2>
+            <p>
+                It is safe to disable this rule when using TypeScript because TypeScript's compiler enforces this check.
+            </p>
+            {% if extra_typescript_info %}
+                <p>
+                    {{ extra_typescript_info | markdown | safe }}
+                </p>
+            {% endif %}
+        {% endset %}
+
+        {% set all_content = [all_content, handled_by_typescript_content] | join %}
+    {% endif %}
+
     {% if related_rules %}
         {% set related_rules_content %}
             <h2 id="related-rules">Related Rules</h2>
@@ -48,7 +64,7 @@ layout: base.html
 
         {% set all_content = [all_content, further_reading_content] | join %}
     {% endif %}
-        
+
     {% if rule_meta %}
         {% set resources_content %}
             <h2 id="resources">Resources</h2>
@@ -76,7 +92,7 @@ layout: base.html
                 {% endif %}
 
                 {% include 'components/docs-toc.html' %}
-                
+
                 {{ all_content | safe }}
             </div>
 
@@ -102,6 +118,7 @@ layout: base.html
             {% include "partials/docs-footer.html" %}
         </div>
     </div>
+
     <a id="scroll-up-btn" href="#site_top">
         <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><line x1="12" x2="12" y1="19" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
     </a>
