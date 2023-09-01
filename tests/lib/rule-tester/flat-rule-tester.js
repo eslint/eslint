@@ -2248,6 +2248,335 @@ describe("FlatRuleTester", () => {
         });
     });
 
+    describe("deprecations", () => {
+        let processStub;
+        const ruleWithNoSchema = {
+            meta: {
+                type: "suggestion"
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+        const ruleWithNoMeta = {
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        beforeEach(() => {
+            processStub = sinon.stub(process, "emitWarning");
+        });
+
+        afterEach(() => {
+            processStub.restore();
+        });
+
+        it("should log a deprecation warning when using the legacy function-style API for rule", () => {
+
+            /**
+             * Legacy-format rule (a function instead of an object with `create` method).
+             * @param {RuleContext} context The ESLint rule context object.
+             * @returns {Object} Listeners.
+             */
+            function functionStyleRule(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+
+            ruleTester.run("function-style-rule", functionStyleRule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.deepStrictEqual(
+                processStub.getCall(0).args,
+                [
+                    "\"function-style-rule\" rule is using the deprecated function-style format and will stop working in ESLint v9. Please use object-style format: https://eslint.org/docs/latest/extend/custom-rules",
+                    "DeprecationWarning"
+                ]
+            );
+        });
+
+        it("should log a deprecation warning when meta is not defined for the rule", () => {
+            ruleTester.run("rule-with-no-meta-1", ruleWithNoMeta, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.deepStrictEqual(
+                processStub.getCall(0).args,
+                [
+                    "\"rule-with-no-meta-1\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/latest/extend/custom-rules#options-schemas",
+                    "DeprecationWarning"
+                ]
+            );
+        });
+
+        it("should log a deprecation warning when schema is not defined for the rule", () => {
+            ruleTester.run("rule-with-no-schema-1", ruleWithNoSchema, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.deepStrictEqual(
+                processStub.getCall(0).args,
+                [
+                    "\"rule-with-no-schema-1\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/latest/extend/custom-rules#options-schemas",
+                    "DeprecationWarning"
+                ]
+            );
+        });
+
+        it("should log a deprecation warning when schema is `undefined`", () => {
+            const ruleWithUndefinedSchema = {
+                meta: {
+                    type: "problem",
+                    // eslint-disable-next-line no-undefined -- intentionally added for test case
+                    schema: undefined
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+            };
+
+            ruleTester.run("rule-with-undefined-schema", ruleWithUndefinedSchema, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.deepStrictEqual(
+                processStub.getCall(0).args,
+                [
+                    "\"rule-with-undefined-schema\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/latest/extend/custom-rules#options-schemas",
+                    "DeprecationWarning"
+                ]
+            );
+        });
+
+        it("should log a deprecation warning when schema is `null`", () => {
+            const ruleWithNullSchema = {
+                meta: {
+                    type: "problem",
+                    schema: null
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+            };
+
+            ruleTester.run("rule-with-null-schema", ruleWithNullSchema, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.deepStrictEqual(
+                processStub.getCall(0).args,
+                [
+                    "\"rule-with-null-schema\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/latest/extend/custom-rules#options-schemas",
+                    "DeprecationWarning"
+                ]
+            );
+        });
+
+        it("should not log a deprecation warning when schema is an empty array", () => {
+            const ruleWithEmptySchema = {
+                meta: {
+                    type: "suggestion",
+                    schema: []
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+            };
+
+            ruleTester.run("rule-with-no-options", ruleWithEmptySchema, {
+                valid: [],
+                invalid: [{ code: "var foo = bar;", errors: 1 }]
+            });
+
+            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
+        });
+
+        it("When the rule is an object-style rule, the legacy rule API warning is not emitted", () => {
+            ruleTester.run("rule-with-no-schema-2", ruleWithNoSchema, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
+        });
+
+        it("When the rule has meta.schema and there are test cases with options, the missing schema warning is not emitted", () => {
+            const ruleWithSchema = {
+                meta: {
+                    type: "suggestion",
+                    schema: [{
+                        type: "boolean"
+                    }]
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+            };
+
+            ruleTester.run("rule-with-schema", ruleWithSchema, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", options: [true], errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
+        });
+
+        it("When the rule does not have meta, but there are no test cases with options, the missing schema warning is not emitted", () => {
+            ruleTester.run("rule-with-no-meta-2", ruleWithNoMeta, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
+        });
+
+        it("When the rule has meta without meta.schema, but there are no test cases with options, the missing schema warning is not emitted", () => {
+            ruleTester.run("rule-with-no-schema-3", ruleWithNoSchema, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
+        });
+        it("When the rule has meta without meta.schema, and some test cases have options property but it's an empty array, the missing schema warning is not emitted", () => {
+            ruleTester.run("rule-with-no-schema-4", ruleWithNoSchema, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", options: [], errors: 1 }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
+        });
+
+        Object.entries({
+            getSource: "getText",
+            getSourceLines: "getLines",
+            getAllComments: "getAllComments",
+            getNodeByRangeIndex: "getNodeByRangeIndex",
+            getCommentsBefore: "getCommentsBefore",
+            getCommentsAfter: "getCommentsAfter",
+            getCommentsInside: "getCommentsInside",
+            getJSDocComment: "getJSDocComment",
+            getFirstToken: "getFirstToken",
+            getFirstTokens: "getFirstTokens",
+            getLastToken: "getLastToken",
+            getLastTokens: "getLastTokens",
+            getTokenAfter: "getTokenAfter",
+            getTokenBefore: "getTokenBefore",
+            getTokenByRangeStart: "getTokenByRangeStart",
+            getTokens: "getTokens",
+            getTokensAfter: "getTokensAfter",
+            getTokensBefore: "getTokensBefore",
+            getTokensBetween: "getTokensBetween"
+        }).forEach(([methodName, replacementName]) => {
+
+
+            it(`should log a deprecation warning when calling \`context.${methodName}\``, () => {
+                const ruleToCheckDeprecation = {
+                    meta: {
+                        type: "problem",
+                        schema: []
+                    },
+                    create(context) {
+                        return {
+                            Program(node) {
+
+                                // special case
+                                if (methodName === "getTokensBetween") {
+                                    context[methodName](node, node);
+                                } else {
+                                    context[methodName](node);
+                                }
+
+                                context.report({ node, message: "bad" });
+                            }
+                        };
+                    }
+                };
+
+                ruleTester.run("deprecated-method", ruleToCheckDeprecation, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", options: [], errors: 1 }
+                    ]
+                });
+
+                assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+                assert.deepStrictEqual(
+                    processStub.getCall(0).args,
+                    [
+                        `"deprecated-method" rule is using \`context.${methodName}()\`, which is deprecated and will be removed in ESLint v9. Please use \`sourceCode.${replacementName}()\` instead.`,
+                        "DeprecationWarning"
+                    ]
+                );
+            });
+
+        });
+
+
+
+
+
+    });
+
     /**
      * Asserts that a particular value will be emitted from an EventEmitter.
      * @param {EventEmitter} emitter The emitter that should emit a value
