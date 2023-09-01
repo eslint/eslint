@@ -1,6 +1,7 @@
 ---
 title: no-new-symbol
 rule_type: problem
+handled_by_typescript: true
 further_reading:
 - https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-objects
 ---

@@ -1,6 +1,7 @@
 ---
 title: no-const-assign
 rule_type: problem
+handled_by_typescript: true
 ---
 
 
