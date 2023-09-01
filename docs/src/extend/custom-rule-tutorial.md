@@ -284,6 +284,8 @@ You might want to use a locally defined plugin in one of the following scenarios
 * You want to test the plugin before publishing it to npm.
 * You want to use a plugin, but do not want to publish it to npm.
 
+### Using flat configuration file
+
 Before you can add the plugin to the project, create an ESLint configuration for your project using a [flat configuration file](../use/configure/configuration-files-new), `eslint.config.js`:
 
 ```shell
@@ -315,7 +317,44 @@ module.exports = [
 ]
 ```
 
-Before you can test the rule, you must create a file to test the rule on.
+### Using old configuration file formats, ESLint < 9.0.0
+
+Update your `package.json`:
+
+```json
+// package.json
+{
+  ...
+  "description": "",
+  "main": "eslint-plugin-example.js",
+  ...
+}
+```
+
+And install the plugin locally:
+
+```shell
+npm i file:path/to/plugin
+```
+
+Before you can add the plugin to the project, create an ESLint configuration for your project using an [old configuration file format](../use/configure/configuration-files) and [add the plugIn](../use/configure/plugins):
+
+```javascript
+...
+plugins: [
+    ...
+    'example',
+    ...
+  ],
+  rules: {
+    ...
+    'example/enforce-foo-bar': 'error',
+    ...
+      },
+...
+```
+
+When your plugIn is configured you can test the rule, therefore you must create a file to test the rule on.
 
 Create a file `example.js`:
 
