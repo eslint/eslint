@@ -73,6 +73,25 @@ for (let i = 0; i < 10; ++i) {
     setTimeout(() => console.log(foo));
 }
 foo = 100;
+
+var arr = [];
+
+for (var i = 0; i < 5; i++) {
+    arr.push((f => f)(() => i));
+}
+
+for (var i = 0; i < 5; i++) {
+    arr.push((() => {
+        return () => i;
+    })());
+}
+
+for (var i = 0; i < 5; i++) {
+    (function fun () {
+        if (arr.includes(fun)) return i;
+        else arr.push(fun);
+    })();
+}
 ```
 
 :::
@@ -106,6 +125,18 @@ for (let i=10; i; i--) {
     a();
 }
 //... no modifications of foo after this loop ...
+
+var arr = [];
+
+for (var i = 0; i < 5; i++) {
+    arr.push((f => f)((() => i)()));
+}
+
+for (var i = 0; i < 5; i++) {
+    arr.push((() => {
+        return (() => i)();
+    })());
+}
 ```
 
 :::
