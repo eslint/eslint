@@ -781,6 +781,44 @@ ruleTester.run("lines-between-class-members", rule, {
                 }
             ]
         },
+        {
+            code: `
+              class MyClass {
+                constructor(height, width) {
+                    this.height = height;
+                    this.width = width;
+                }
+
+                fieldA = 'Field A';
+
+                #fieldB = 'Field B';
+
+                method1() {}
+
+                get area() {
+                    return this.method1();
+                }
+                
+                method2() {}
+              }
+            `,
+            options: [
+                {
+
+                    // requires blank lines around methods and fields
+                    enforce: [
+                        { blankLine: "never", prev: "*", next: "method" },
+                        { blankLine: "never", prev: "method", next: "*" },
+                        { blankLine: "never", prev: "field", next: "field" },
+
+                        // This should take precedence over the above
+                        { blankLine: "always", prev: "*", next: "method" },
+                        { blankLine: "always", prev: "method", next: "*" },
+                        { blankLine: "always", prev: "field", next: "field" }
+                    ]
+                }
+            ]
+        },
 
         // enforce with exceptAfterSingleLine option
         {
@@ -2406,6 +2444,85 @@ method2() {}
 
                     // requires blank lines around methods and fields
                     enforce: [
+                        { blankLine: "always", prev: "*", next: "method" },
+                        { blankLine: "always", prev: "method", next: "*" },
+                        { blankLine: "always", prev: "field", next: "field" }
+                    ]
+                }
+            ],
+            errors: [
+                {
+                    messageId: "always",
+                    line: 7,
+                    column: 17
+                },
+                {
+                    messageId: "always",
+                    line: 8,
+                    column: 17
+                },
+                {
+                    messageId: "always",
+                    line: 9,
+                    column: 17
+                },
+                {
+                    messageId: "always",
+                    line: 10,
+                    column: 17
+                }, {
+                    messageId: "always",
+                    line: 13,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: `
+              class MyClass {
+                constructor(height, width) {
+                    this.height = height;
+                    this.width = width;
+                }
+                fieldA = 'Field A';
+                #fieldB = 'Field B';
+                method1() {}
+                get area() {
+                    return this.method1();
+                }
+                method2() {}
+              }
+            `,
+            output: `
+              class MyClass {
+                constructor(height, width) {
+                    this.height = height;
+                    this.width = width;
+                }
+
+                fieldA = 'Field A';
+
+                #fieldB = 'Field B';
+
+                method1() {}
+
+                get area() {
+                    return this.method1();
+                }
+
+                method2() {}
+              }
+            `,
+            options: [
+                {
+
+                    // requires blank lines around methods and fields
+                    enforce: [
+                        { blankLine: "never", prev: "*", next: "method" },
+                        { blankLine: "never", prev: "method", next: "*" },
+                        { blankLine: "never", prev: "field", next: "field" },
+
+                        // This should take precedence over the above
                         { blankLine: "always", prev: "*", next: "method" },
                         { blankLine: "always", prev: "method", next: "*" },
                         { blankLine: "always", prev: "field", next: "field" }
