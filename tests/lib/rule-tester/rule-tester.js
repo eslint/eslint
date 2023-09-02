@@ -2514,6 +2514,70 @@ describe("RuleTester", () => {
                     "DeprecationWarning"
                 ]
             );
+        });
+
+        Object.entries({
+            getSource: "getText",
+            getSourceLines: "getLines",
+            getAllComments: "getAllComments",
+            getNodeByRangeIndex: "getNodeByRangeIndex",
+            getCommentsBefore: "getCommentsBefore",
+            getCommentsAfter: "getCommentsAfter",
+            getCommentsInside: "getCommentsInside",
+            getJSDocComment: "getJSDocComment",
+            getFirstToken: "getFirstToken",
+            getFirstTokens: "getFirstTokens",
+            getLastToken: "getLastToken",
+            getLastTokens: "getLastTokens",
+            getTokenAfter: "getTokenAfter",
+            getTokenBefore: "getTokenBefore",
+            getTokenByRangeStart: "getTokenByRangeStart",
+            getTokens: "getTokens",
+            getTokensAfter: "getTokensAfter",
+            getTokensBefore: "getTokensBefore",
+            getTokensBetween: "getTokensBetween"
+        }).forEach(([methodName, replacementName]) => {
+
+
+            it(`should log a deprecation warning when calling \`context.${methodName}\``, () => {
+                const ruleToCheckDeprecation = {
+                    meta: {
+                        type: "problem",
+                        schema: []
+                    },
+                    create(context) {
+                        return {
+                            Program(node) {
+
+                                // special case
+                                if (methodName === "getTokensBetween") {
+                                    context[methodName](node, node);
+                                } else {
+                                    context[methodName](node);
+                                }
+
+                                context.report({ node, message: "bad" });
+                            }
+                        };
+                    }
+                };
+
+                ruleTester.run("deprecated-method", ruleToCheckDeprecation, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", options: [], errors: 1 }
+                    ]
+                });
+
+                assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+                assert.deepStrictEqual(
+                    processStub.getCall(0).args,
+                    [
+                        `"deprecated-method" rule is using \`context.${methodName}()\`, which is deprecated and will be removed in ESLint v9. Please use \`sourceCode.${replacementName}()\` instead.`,
+                        "DeprecationWarning"
+                    ]
+                );
+            });
 
         });
 
