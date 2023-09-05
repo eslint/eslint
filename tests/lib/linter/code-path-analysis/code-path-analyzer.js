@@ -537,7 +537,7 @@ describe("CodePathAnalyzer", () => {
 
             linter.defineRule("test", {
                 create: () => ({
-                    onCodePathSegmentEnd(cp, node) {
+                    onUnreachableCodePathSegmentEnd(cp, node) {
                         count += 1;
 
                         assert(cp instanceof CodePathSegment);
