@@ -501,16 +501,16 @@ An npm-installed formatter is resolved with or without `eslint-formatter-` prefi
 When specified, the given format is output to the console. If you'd like to save that output into a file, you can do so on the command line like so:
 
 ```shell
-# Saves the output into the `results.txt` file.
-npx eslint -f compact file.js > results.txt
+# Saves the output into the `results.json` file.
+npx eslint -f json file.js > results.json
 ```
 
 ##### `-f`, `--format` example
 
-Use the built-in `compact` formatter:
+Use the built-in `json` formatter:
 
 ```shell
-npx eslint --format compact file.js
+npx eslint --format json file.js
 ```
 
 Use a local custom formatter:

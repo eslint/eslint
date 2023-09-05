@@ -241,7 +241,7 @@ describe("cli", () => {
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
                     const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
-                    const exit = await cli.execute(`${flag} -f checkstyle ${filePath}`, null, useFlatConfig);
+                    const exit = await cli.execute(`${flag} -f json ${filePath}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -570,7 +570,7 @@ describe("cli", () => {
 
                 it(`should only print error with configType:${configType}`, async () => {
                     const filePath = getFixturePath("single-quoted.js");
-                    const cliArgs = `--no-ignore --quiet  -f compact --rule 'quotes: [2, double]' --rule 'no-unused-vars: 1' ${filePath}`;
+                    const cliArgs = `--no-ignore --quiet  -f stylish --rule 'quotes: [2, double]' --rule 'no-unused-vars: 1' ${filePath}`;
 
                     await cli.execute(cliArgs, null, useFlatConfig);
 
@@ -578,13 +578,13 @@ describe("cli", () => {
 
                     const formattedOutput = log.info.firstCall.args[0];
 
-                    assert.include(formattedOutput, "Error");
-                    assert.notInclude(formattedOutput, "Warning");
+                    assert.include(formattedOutput, "1 error");
+                    assert.include(formattedOutput, "0 warnings");
                 });
 
                 it(`should print nothing if there are no errors with configType:${configType}`, async () => {
                     const filePath = getFixturePath("single-quoted.js");
-                    const cliArgs = `--quiet  -f compact --rule 'quotes: [1, double]' --rule 'no-unused-vars: 1' ${filePath}`;
+                    const cliArgs = `--quiet  -f stylish --rule 'quotes: [1, double]' --rule 'no-unused-vars: 1' ${filePath}`;
 
                     await cli.execute(cliArgs, null, useFlatConfig);
 

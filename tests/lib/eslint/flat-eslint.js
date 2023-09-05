@@ -3930,7 +3930,7 @@ describe("FlatESLint", () => {
     describe("loadFormatter()", () => {
         it("should return a formatter object when a bundled formatter is requested", async () => {
             const engine = new FlatESLint();
-            const formatter = await engine.loadFormatter("compact");
+            const formatter = await engine.loadFormatter("json");
 
             assert.strictEqual(typeof formatter, "object");
             assert.strictEqual(typeof formatter.format, "function");
