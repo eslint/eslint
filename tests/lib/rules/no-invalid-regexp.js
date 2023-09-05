@@ -184,6 +184,24 @@ ruleTester.run("no-invalid-regexp", rule, {
             }]
         },
         {
+            code: "RegExp('.', 'a');",
+            options: [{ allowConstructorFlags: ["A"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'a'" },
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "RegExp('.', 'A');",
+            options: [{ allowConstructorFlags: ["a"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'A'" },
+                type: "CallExpression"
+            }]
+        },
+        {
             code: "new RegExp('.', 'az');",
             options: [{ allowConstructorFlags: ["z"] }],
             errors: [{
