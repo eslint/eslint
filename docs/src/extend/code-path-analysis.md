@@ -408,13 +408,13 @@ module.exports = {
         return {
             // Checks `cb`.
             onCodePathStart(codePath, node) {
+                funcInfoStack.push(funcInfo);
+
                 funcInfo = {
                     codePath: codePath,
                     hasCb: hasCb(node, context),
                     currentSegments: new Set()
                 };
-
-                funcInfoStack.push(funcInfo);
             },
 
             onCodePathEnd(codePath, node) {
