@@ -567,7 +567,7 @@ describe("CodePathAnalyzer", () => {
                 })
             });
             linter.verify(
-                "foo(); function foo() {} var foo = function() {}; var foo = () => {};",
+                "foo(); function foo() { return; } var foo = function() { return; }; var foo = () => { return; }; throw 'boom';",
                 { rules: { test: 2 }, env: { es6: true } }
             );
 
