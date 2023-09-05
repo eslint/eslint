@@ -67,6 +67,7 @@ ruleTester.run("no-misleading-character-class", rule, {
         "var r = /[\\u200D]/u",
 
         // don't report and don't crash on invalid regex
+        "new RegExp('[Á] [ ');",
         "var r = new RegExp('[Á] [ ');",
         "var r = RegExp('{ [Á]', 'u');",
         { code: "var r = new globalThis.RegExp('[Á] [ ');", env: { es2020: true } },
@@ -434,6 +435,15 @@ ruleTester.run("no-misleading-character-class", rule, {
 
         // RegExp constructors.
         {
+            code: String.raw`var r = RegExp("[👍]", "")`,
+            errors: [{
+                column: 18,
+                endColumn: 19,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = RegExp("[👍]", "u")` }]
+            }]
+        },
+        {
             code: String.raw`var r = new RegExp("[👍]", "")`,
             errors: [{
                 column: 22,
@@ -467,6 +477,15 @@ ruleTester.run("no-misleading-character-class", rule, {
                 endColumn: 41,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null
+            }]
+        },
+        {
+            code: String.raw`var r = RegExp("[\\uD83D\\uDC4D]", "")`,
+            errors: [{
+                column: 25,
+                endColumn: 32,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = RegExp("[\\uD83D\\uDC4D]", "u")` }]
             }]
         },
         {
