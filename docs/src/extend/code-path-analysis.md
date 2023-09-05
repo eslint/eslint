@@ -37,7 +37,7 @@ This has references of both the initial segment and the final segments of a code
 * `finalSegments` (`CodePathSegment[]`) - The final segments which includes both returned and thrown.
 * `returnedSegments` (`CodePathSegment[]`) - The final segments which includes only returned.
 * `thrownSegments` (`CodePathSegment[]`) - The final segments which includes only thrown.
-* `currentSegments` (`CodePathSegment[]`) - Segments of the current position.
+* `currentSegments` (`CodePathSegment[]`) - **Deprecated.** Segments of the current position.
 * `upper` (`CodePath|null`) - The code path of the upper function/global scope.
 * `childCodePaths` (`CodePath[]`) - Code paths of functions this code path contains.
 
@@ -148,7 +148,7 @@ module.exports = function(context) {
          * @param {ASTNode} node - The current node.
          * @returns {void}
          */
-        "onCodePathSegmentLoop(fromSegment, toSegment, node) {
+        onCodePathSegmentLoop(fromSegment, toSegment, node) {
             // do something with segment
         }
     };

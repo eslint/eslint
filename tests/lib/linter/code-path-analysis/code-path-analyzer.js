@@ -531,6 +531,28 @@ describe("CodePathAnalyzer", () => {
 
         });
 
+        it("should be fired after a return inside of function and if statement", () => {
+            let lastCodePathNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentEnd(segment, node) {
+                        lastCodePathNodeType = node.type;
+                        assert(segment instanceof CodePathSegment);
+                        assert.strictEqual(node.type, "BlockStatement");
+                    },
+                    "Program:exit"() {
+                        assert.strictEqual(lastCodePathNodeType, "BlockStatement");
+                    }
+                })
+            });
+            linter.verify(
+                "function foo() { if (bar) { return; foo(); } else {} }",
+                { rules: { test: 2 } }
+            );
+
+        });
+
         it("should be fired at the end of programs/functions for the final segment", () => {
             let count = 0;
             let lastNodeType = null;
