@@ -38,6 +38,7 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-promise-executor-return: "error"*/
+/*eslint-env es6*/
 
 new Promise((resolve, reject) => {
     if (someCondition) {
