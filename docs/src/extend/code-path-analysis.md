@@ -37,7 +37,7 @@ This has references of both the initial segment and the final segments of a code
 * `finalSegments` (`CodePathSegment[]`) - The final segments which includes both returned and thrown.
 * `returnedSegments` (`CodePathSegment[]`) - The final segments which includes only returned.
 * `thrownSegments` (`CodePathSegment[]`) - The final segments which includes only thrown.
-* `currentSegments` (`CodePathSegment[]`) - **Deprecated.** Segments of the current position.
+* `currentSegments` (`CodePathSegment[]`) - **Deprecated.** Segments of the current traversal position.
 * `upper` (`CodePath|null`) - The code path of the upper function/global scope.
 * `childCodePaths` (`CodePath[]`) - Code paths of functions this code path contains.
 
@@ -56,103 +56,110 @@ Difference from doubly linked list is what there are forking and merging (the ne
 
 ## Events
 
-There are five events related to code paths, and you can define event handlers in rules.
+There are seven events related to code paths, and you can define event handlers by adding them alongside node visitors in the object exported from the `create()` method of your rule.
 
 ```js
-module.exports = function(context) {
-    return {
-        /**
-         * This is called at the start of analyzing a code path.
-         * In this time, the code path object has only the initial segment.
-         *
-         * @param {CodePath} codePath - The new code path.
-         * @param {ASTNode} node - The current node.
-         * @returns {void}
-         */
-        onCodePathStart(codePath, node) {
-            // do something with codePath
-        },
+module.exports = {
+    meta: {
+        // ...
+    },
+    create(context) {
 
-        /**
-         * This is called at the end of analyzing a code path.
-         * In this time, the code path object is complete.
-         *
-         * @param {CodePath} codePath - The completed code path.
-         * @param {ASTNode} node - The current node.
-         * @returns {void}
-         */
-        onCodePathEnd(codePath, node) {
-            // do something with codePath
-        },
+        return {
+            /**
+             * This is called at the start of analyzing a code path.
+             * In this time, the code path object has only the initial segment.
+             *
+             * @param {CodePath} codePath - The new code path.
+             * @param {ASTNode} node - The current node.
+             * @returns {void}
+             */
+            onCodePathStart(codePath, node) {
+                // do something with codePath
+            },
 
-        /**
-         * This is called when a reachable code path segment was created.
-         * It meant the code path is forked or merged.
-         * In this time, the segment has the previous segments and has been
-         * judged reachable or not.
-         *
-         * @param {CodePathSegment} segment - The new code path segment.
-         * @param {ASTNode} node - The current node.
-         * @returns {void}
-         */
-        onCodePathSegmentStart(segment, node) {
-            // do something with segment
-        },
+            /**
+             * This is called at the end of analyzing a code path.
+             * In this time, the code path object is complete.
+             *
+             * @param {CodePath} codePath - The completed code path.
+             * @param {ASTNode} node - The current node.
+             * @returns {void}
+             */
+            onCodePathEnd(codePath, node) {
+                // do something with codePath
+            },
 
-        /**
-         * This is called when a reachable code path segment was left.
-         * In this time, the segment does not have the next segments yet.
-         *
-         * @param {CodePathSegment} segment - The left code path segment.
-         * @param {ASTNode} node - The current node.
-         * @returns {void}
-         */
-        onCodePathSegmentEnd(segment, node) {
-            // do something with segment
-        },
+            /**
+             * This is called when a reachable code path segment was created.
+             * It meant the code path is forked or merged.
+             * In this time, the segment has the previous segments and has been
+             * judged reachable or not.
+             *
+             * @param {CodePathSegment} segment - The new code path segment.
+             * @param {ASTNode} node - The current node.
+             * @returns {void}
+             */
+            onCodePathSegmentStart(segment, node) {
+                // do something with segment
+            },
 
-        /**
-         * This is called when an unreachable code path segment was created.
-         * It meant the code path is forked or merged.
-         * In this time, the segment has the previous segments and has been
-         * judged reachable or not.
-         *
-         * @param {CodePathSegment} segment - The new code path segment.
-         * @param {ASTNode} node - The current node.
-         * @returns {void}
-         */
-        onUnreachableCodePathSegmentStart(segment, node) {
-            // do something with segment
-        },
+            /**
+             * This is called when a reachable code path segment was left.
+             * In this time, the segment does not have the next segments yet.
+             *
+             * @param {CodePathSegment} segment - The left code path segment.
+             * @param {ASTNode} node - The current node.
+             * @returns {void}
+             */
+            onCodePathSegmentEnd(segment, node) {
+                // do something with segment
+            },
 
-        /**
-         * This is called when an unreachable code path segment was left.
-         * In this time, the segment does not have the next segments yet.
-         *
-         * @param {CodePathSegment} segment - The left code path segment.
-         * @param {ASTNode} node - The current node.
-         * @returns {void}
-         */
-        onUnreachableCodePathSegmentEnd(segment, node) {
-            // do something with segment
-        },
+            /**
+             * This is called when an unreachable code path segment was created.
+             * It meant the code path is forked or merged.
+             * In this time, the segment has the previous segments and has been
+             * judged reachable or not.
+             *
+             * @param {CodePathSegment} segment - The new code path segment.
+             * @param {ASTNode} node - The current node.
+             * @returns {void}
+             */
+            onUnreachableCodePathSegmentStart(segment, node) {
+                // do something with segment
+            },
 
-        /**
-         * This is called when a code path segment was looped.
-         * Usually segments have each previous segments when created,
-         * but when looped, a segment is added as a new previous segment into a
-         * existing segment.
-         *
-         * @param {CodePathSegment} fromSegment - A code path segment of source.
-         * @param {CodePathSegment} toSegment - A code path segment of destination.
-         * @param {ASTNode} node - The current node.
-         * @returns {void}
-         */
-        onCodePathSegmentLoop(fromSegment, toSegment, node) {
-            // do something with segment
-        }
-    };
-};
+            /**
+             * This is called when an unreachable code path segment was left.
+             * In this time, the segment does not have the next segments yet.
+             *
+             * @param {CodePathSegment} segment - The left code path segment.
+             * @param {ASTNode} node - The current node.
+             * @returns {void}
+             */
+            onUnreachableCodePathSegmentEnd(segment, node) {
+                // do something with segment
+            },
+
+            /**
+             * This is called when a code path segment was looped.
+             * Usually segments have each previous segments when created,
+             * but when looped, a segment is added as a new previous segment into a
+             * existing segment.
+             *
+             * @param {CodePathSegment} fromSegment - A code path segment of source.
+             * @param {CodePathSegment} toSegment - A code path segment of destination.
+             * @param {ASTNode} node - The current node.
+             * @returns {void}
+             */
+            onCodePathSegmentLoop(fromSegment, toSegment, node) {
+                // do something with segment
+            }
+        };
+
+    }
+}
 ```
 
 ### About `onCodePathSegmentLoop`
@@ -238,35 +245,126 @@ bar();
 
 ## Usage Examples
 
-### To check whether or not this is reachable
+### Track current segment position
+
+The track the current code path segment position, you can define a rule like this:
 
 ```js
-function isReachable(segment) {
-    return segment.reachable;
+module.exports = {
+    meta: {
+        // ...
+    },
+    create(context) {
+
+        // tracks the code path we are currently in
+        const currentCodePath;
+
+        // tracks the segments we've traversed in the current code path
+        let currentSegments;
+
+        return {
+
+            onCodePathStart(codePath) {
+                currentCodePath = codePath;
+                currentSegments = new Set();
+            },
+
+            onCodePathEnd(codePath) {
+                currentCodePath = codePath.upper;
+                currentSegments = undefined;
+            },
+
+            onCodePathSegmentStart(segment) {
+                currentSegments.add(segment);
+            },
+
+            onCodePathSegmentEnd(segment) {
+                currentSegments.delete(segment);
+            },
+
+            onUnreachableCodePathSegmentStart(segment) {
+                currentSegments.add(segment);
+            },
+
+            onUnreachableCodePathSegmentEnd(segment) {
+                currentSegments.delete(segment);
+            }
+        };
+
+    }
+};
+```
+
+In this example, the `currentCodePath` variable is used to access the code path that is currently being traversed and the `currentSegments` variable tracks the segments in that code path that have been traversed to that point. Note that `currentSegments` both starts and ends as an empty set, constantly being updated as the traversal progresses.
+
+Tracking the current segment position is helpful for analyzing the code path that led to a particular node, as in the next example.
+
+### Find an unreachable node
+
+To find an unreachable node, track the current segment position and then use a node visitor to check if any of the segments are reachable. For example, the following looks for any `ExpressionStatement` that is unreachable.
+
+```js
+function areAnySegmentsReachable(segments) {
+    for (const segment of segments) {
+        if (segment.reachable) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
-module.exports = function(context) {
-    var codePathStack = [];
+module.exports = {
+    meta: {
+        // ...
+    },
+    create(context) {
 
-    return {
-        // Stores CodePath objects.
-        "onCodePathStart": function(codePath) {
-            codePathStack.push(codePath);
-        },
-        "onCodePathEnd": function(codePath) {
-            codePathStack.pop();
-        },
+        // tracks the code path we are currently in
+        const currentCodePath;
 
-        // Checks reachable or not.
-        "ExpressionStatement": function(node) {
-            var codePath = codePathStack[codePathStack.length - 1];
+        // tracks the segments we've traversed in the current code path
+        let currentSegments;
 
-            // Checks the current code path segments.
-            if (!codePath.currentSegments.some(isReachable)) {
-                context.report({message: "Unreachable!", node: node});
+        return {
+
+            onCodePathStart(codePath) {
+                currentCodePath = codePath;
+                currentSegments = new Set();
+            },
+
+            onCodePathEnd(codePath) {
+                currentCodePath = codePath.upper;
+                currentSegments = undefined;
+            },
+
+            onCodePathSegmentStart(segment) {
+                currentSegments.add(segment);
+            },
+
+            onCodePathSegmentEnd(segment) {
+                currentSegments.delete(segment);
+            },
+
+            onUnreachableCodePathSegmentStart(segment) {
+                currentSegments.add(segment);
+            },
+
+            onUnreachableCodePathSegmentEnd(segment) {
+                currentSegments.delete(segment);
+            },
+
+            ExpressionStatement(node) {
+
+                // check all the code path segments that led to this node
+                if (!areAnySegmentsReachable(currentSegments)) {
+                    context.report({ message: "Unreachable!", node });
+                }
             }
-        }
-    };
+
+        };
+
+    }
 };
 ```
 
@@ -275,9 +373,9 @@ See Also:
 [no-fallthrough](https://github.com/eslint/eslint/blob/HEAD/lib/rules/no-fallthrough.js),
 [consistent-return](https://github.com/eslint/eslint/blob/HEAD/lib/rules/consistent-return.js)
 
-### To check state of a code path
+### Check if a function is called in every path
 
-This example is checking whether or not the parameter `cb` is called in every path.
+This example checks whether or not the parameter `cb` is called in every path.
 Instances of `CodePath` and `CodePathSegment` are shared to every rule.
 So a rule must not modify those instances.
 Please use a map of information instead.
@@ -297,95 +395,101 @@ function isCbCalled(info) {
     return info.cbCalled;
 }
 
-module.exports = function(context) {
-    let funcInfo;
-    const funcInfoStack = [];
-    const segmentInfoMap = Object.create(null);
+module.exports = {
+    meta: {
+        // ...
+    },
+    create(context) {
 
-    return {
-        // Checks `cb`.
-        onCodePathStart(codePath, node) {
-            funcInfo = {
-                codePath: codePath,
-                hasCb: hasCb(node, context),
-                currentSegments: []
-            };
+        let funcInfo;
+        const funcInfoStack = [];
+        const segmentInfoMap = Object.create(null);
 
-            funcInfoStack.push(funcInfo);
-        },
+        return {
+            // Checks `cb`.
+            onCodePathStart(codePath, node) {
+                funcInfo = {
+                    codePath: codePath,
+                    hasCb: hasCb(node, context),
+                    currentSegments: new Set()
+                };
 
-        onCodePathEnd(codePath, node) {
-            funcInfo = funcInfoStack.pop();
+                funcInfoStack.push(funcInfo);
+            },
 
-            // Checks `cb` was called in every paths.
-            const cbCalled = codePath.finalSegments.every(function(segment) {
-                const info = segmentInfoMap[segment.id];
-                return info.cbCalled;
-            });
+            onCodePathEnd(codePath, node) {
+                funcInfo = funcInfoStack.pop();
 
-            if (!cbCalled) {
-                context.report({
-                    message: "`cb` should be called in every path.",
-                    node: node
-                });
-            }
-        },
-
-        // Manages state of code paths and tracks traversed segments
-        onCodePathSegmentStart(segment) {
-
-            funcInfo.currentSegments.push(segment);
-
-            // Ignores if `cb` doesn't exist.
-            if (!funcInfo.hasCb) {
-                return;
-            }
-
-            // Initialize state of this path.
-            const info = segmentInfoMap[segment.id] = {
-                cbCalled: false
-            };
-
-            // If there are the previous paths, merges state.
-            // Checks `cb` was called in every previous path.
-            if (segment.prevSegments.length > 0) {
-                info.cbCalled = segment.prevSegments.every(isCbCalled);
-            }
-        },
-
-        // Tracks unreachable segment traversal
-        onUnreachableCodePathSegmentStart(segment) {
-            funcInfo.currentSegments.push(segment);
-        }
-
-        // Tracks reachable segment traversal
-        onCodePathSegmentEnd() {
-            funcInfo.currentSegments.pop();
-        }
-
-        // Tracks unreachable segment traversal
-        onUnreachableCodePathSegmentEnd() {
-            funcInfo.currentSegments.pop();
-        }
-
-        // Checks reachable or not.
-        CallExpression(node) {
-
-            // Ignores if `cb` doesn't exist.
-            if (!funcInfo.hasCb) {
-                return;
-            }
-
-            // Sets marks that `cb` was called.
-            const callee = node.callee;
-            if (callee.type === "Identifier" && callee.name === "cb") {
-                funcInfo.currentSegments.forEach(segment => {
+                // Checks `cb` was called in every paths.
+                const cbCalled = codePath.finalSegments.every(function(segment) {
                     const info = segmentInfoMap[segment.id];
-                    info.cbCalled = true;
+                    return info.cbCalled;
                 });
+
+                if (!cbCalled) {
+                    context.report({
+                        message: "`cb` should be called in every path.",
+                        node: node
+                    });
+                }
+            },
+
+            // Manages state of code paths and tracks traversed segments
+            onCodePathSegmentStart(segment) {
+
+                funcInfo.currentSegments.add(segment);
+
+                // Ignores if `cb` doesn't exist.
+                if (!funcInfo.hasCb) {
+                    return;
+                }
+
+                // Initialize state of this path.
+                const info = segmentInfoMap[segment.id] = {
+                    cbCalled: false
+                };
+
+                // If there are the previous paths, merges state.
+                // Checks `cb` was called in every previous path.
+                if (segment.prevSegments.length > 0) {
+                    info.cbCalled = segment.prevSegments.every(isCbCalled);
+                }
+            },
+
+            // Tracks unreachable segment traversal
+            onUnreachableCodePathSegmentStart(segment) {
+                funcInfo.currentSegments.add(segment);
             }
-        }
-    };
+
+            // Tracks reachable segment traversal
+            onCodePathSegmentEnd(segment) {
+                funcInfo.currentSegments.delete(segment);
+            }
+
+            // Tracks unreachable segment traversal
+            onUnreachableCodePathSegmentEnd(segment) {
+                funcInfo.currentSegments.delete(segment);
+            }
+
+            // Checks reachable or not.
+            CallExpression(node) {
+
+                // Ignores if `cb` doesn't exist.
+                if (!funcInfo.hasCb) {
+                    return;
+                }
+
+                // Sets marks that `cb` was called.
+                const callee = node.callee;
+                if (callee.type === "Identifier" && callee.name === "cb") {
+                    funcInfo.currentSegments.forEach(segment => {
+                        const info = segmentInfoMap[segment.id];
+                        info.cbCalled = true;
+                    });
+                }
+            }
+        };
+    }
 };
 ```
 
