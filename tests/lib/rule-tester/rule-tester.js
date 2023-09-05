@@ -2220,6 +2220,39 @@ describe("RuleTester", () => {
             }, /Invalid suggestion property name 'outpt'/u);
         });
 
+        it("should fail if a rule produces two suggestions with the same description", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-missing-hasSuggestions-property", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateDescriptions, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", output: "5", errors: 1 }
+                    ]
+                });
+            }, "Suggestion message 'Rename 'foo' to 'bar'' reported from suggestion 1 was previously reported by suggestion 0. Suggestion messages should be unique within an error.");
+        });
+
+        it("should fail if a rule produces two suggestions with the same messageId without data", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-missing-hasSuggestions-property", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateMessageIdsNoData, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", output: "5", errors: 1 }
+                    ]
+                });
+            }, "Suggestion message 'Rename identifier' reported from suggestion 1 was previously reported by suggestion 0. Suggestion messages should be unique within an error.");
+        });
+
+        it("should fail if a rule produces two suggestions with the same messageId without data", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-missing-hasSuggestions-property", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateMessageIdsWithData, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", output: "5", errors: 1 }
+                    ]
+                });
+            }, "Suggestion message 'Rename identifier 'foo' to 'bar'' reported from suggestion 1 was previously reported by suggestion 0. Suggestion messages should be unique within an error.");
+        });
+
         it("should throw an error if a rule that doesn't have `meta.hasSuggestions` enabled produces suggestions", () => {
             assert.throws(() => {
                 ruleTester.run("suggestions-missing-hasSuggestions-property", require("../../fixtures/testers/rule-tester/suggestions").withoutHasSuggestionsProperty, {
@@ -2228,7 +2261,7 @@ describe("RuleTester", () => {
                         { code: "var foo = bar;", output: "5", errors: 1 }
                     ]
                 });
-            }, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`.");
+            }, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`");
         });
     });
 
