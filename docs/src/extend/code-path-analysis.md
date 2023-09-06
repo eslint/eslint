@@ -247,7 +247,7 @@ bar();
 
 ### Track current segment position
 
-The track the current code path segment position, you can define a rule like this:
+To track the current code path segment position, you can define a rule like this:
 
 ```js
 module.exports = {
