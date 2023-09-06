@@ -257,7 +257,7 @@ module.exports = {
     create(context) {
 
         // tracks the code path we are currently in
-        const currentCodePath;
+        let currentCodePath;
 
         // tracks the segments we've traversed in the current code path
         let currentSegments;
