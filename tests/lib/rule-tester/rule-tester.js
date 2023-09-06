@@ -2490,7 +2490,6 @@ describe("RuleTester", () => {
             assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
         });
 
-
         it("should emit a deprecation warning when CodePath#currentSegments is accessed", () => {
 
             const useCurrentSegmentsRule = {
