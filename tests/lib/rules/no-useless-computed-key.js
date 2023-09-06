@@ -45,6 +45,12 @@ ruleTester.run("no-useless-computed-key", rule, {
         { code: "class Foo { ['constructor'] }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { static ['constructor'] }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { static ['prototype'] }", options: [{ enforceForClassMembers: true }] },
+        "({ [tag``]: 1 })",
+        "({ [tag` abc `]: 1 })",
+        "({ [`abc ${1}`]: 1 })",
+        "({ [`abc ${'xyz'}`]: 1 })",
+        "({ [`${x}`]: 1 })",
+        "({ [`${'abc'}`]: 1 })",
 
         /*
          * Well-known browsers throw syntax error bigint literals on property names,
@@ -578,6 +584,30 @@ ruleTester.run("no-useless-computed-key", rule, {
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'prototype'" },
                 type: "PropertyDefinition"
+            }]
+        }, {
+            code: "({ [`x`]: 123 })",
+            output: "({ 'x': 123 })",
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "`x`" },
+                type: "Property"
+            }]
+        }, {
+            code: "({ [`multi word`]: 123 })",
+            output: "({ 'multi word': 123 })",
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "`multi word`" },
+                type: "Property"
+            }]
+        }, {
+            code: "({ *[`test`]() {} })",
+            output: "({ *'test'() {} })",
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "`test`" },
+                type: "Property"
             }]
         }
     ]
