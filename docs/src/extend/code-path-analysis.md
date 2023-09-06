@@ -262,16 +262,20 @@ module.exports = {
         // tracks the segments we've traversed in the current code path
         let currentSegments;
 
+        // tracks all current segments for all open paths
+        const allCurrentSegments = [];
+
         return {
 
             onCodePathStart(codePath) {
                 currentCodePath = codePath;
+                allCurrentSegments.push(currentSegments);
                 currentSegments = new Set();
             },
 
             onCodePathEnd(codePath) {
                 currentCodePath = codePath.upper;
-                currentSegments = undefined;
+                currentSegments = allCurrentSegments.pop();
             },
 
             onCodePathSegmentStart(segment) {
@@ -326,16 +330,20 @@ module.exports = {
         // tracks the segments we've traversed in the current code path
         let currentSegments;
 
+        // tracks all current segments for all open paths
+        const allCurrentSegments = [];
+
         return {
 
             onCodePathStart(codePath) {
                 currentCodePath = codePath;
+                allCurrentSegments.push(currentSegments);
                 currentSegments = new Set();
             },
 
             onCodePathEnd(codePath) {
                 currentCodePath = codePath.upper;
-                currentSegments = undefined;
+                currentSegments = allCurrentSegments.pop();
             },
 
             onCodePathSegmentStart(segment) {
