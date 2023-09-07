@@ -226,7 +226,6 @@ module.exports = [
         files: [INTERNAL_FILES.RULE_TESTER_PATTERN],
         rules: {
             "n/no-restricted-require": ["error", [
-                ...createInternalFilesPatterns(INTERNAL_FILES.RULE_TESTER_PATTERN),
                 resolveAbsolutePath("lib/cli-engine/index.js")
             ]]
         }

@@ -439,6 +439,164 @@ describe("CodePathAnalyzer", () => {
         });
     });
 
+    describe("onUnreachableCodePathSegmentStart", () => {
+        it("should be fired after a throw", () => {
+            let lastCodePathNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentStart(segment, node) {
+                        lastCodePathNodeType = node.type;
+
+                        assert(segment instanceof CodePathSegment);
+                        assert.strictEqual(node.type, "ExpressionStatement");
+                    },
+                    ExpressionStatement() {
+                        assert.strictEqual(lastCodePathNodeType, "ExpressionStatement");
+                    }
+                })
+            });
+            linter.verify(
+                "throw 'boom'; foo();",
+                { rules: { test: 2 } }
+            );
+
+        });
+
+        it("should be fired after a return", () => {
+            let lastCodePathNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentStart(segment, node) {
+                        lastCodePathNodeType = node.type;
+
+                        assert(segment instanceof CodePathSegment);
+                        assert.strictEqual(node.type, "ExpressionStatement");
+                    },
+                    ExpressionStatement() {
+                        assert.strictEqual(lastCodePathNodeType, "ExpressionStatement");
+                    }
+                })
+            });
+            linter.verify(
+                "function foo() { return; foo(); }",
+                { rules: { test: 2 } }
+            );
+
+        });
+    });
+
+    describe("onUnreachableCodePathSegmentEnd", () => {
+        it("should be fired after a throw", () => {
+            let lastCodePathNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentEnd(segment, node) {
+                        lastCodePathNodeType = node.type;
+
+                        assert(segment instanceof CodePathSegment);
+                        assert.strictEqual(node.type, "Program");
+                    }
+                })
+            });
+            linter.verify(
+                "throw 'boom'; foo();",
+                { rules: { test: 2 } }
+            );
+
+            assert.strictEqual(lastCodePathNodeType, "Program");
+        });
+
+        it("should be fired after a return", () => {
+            let lastCodePathNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentEnd(segment, node) {
+                        lastCodePathNodeType = node.type;
+                        assert(segment instanceof CodePathSegment);
+                        assert.strictEqual(node.type, "FunctionDeclaration");
+                    },
+                    "Program:exit"() {
+                        assert.strictEqual(lastCodePathNodeType, "FunctionDeclaration");
+                    }
+                })
+            });
+            linter.verify(
+                "function foo() { return; foo(); }",
+                { rules: { test: 2 } }
+            );
+
+        });
+
+        it("should be fired after a return inside of function and if statement", () => {
+            let lastCodePathNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentEnd(segment, node) {
+                        lastCodePathNodeType = node.type;
+                        assert(segment instanceof CodePathSegment);
+                        assert.strictEqual(node.type, "BlockStatement");
+                    },
+                    "Program:exit"() {
+                        assert.strictEqual(lastCodePathNodeType, "BlockStatement");
+                    }
+                })
+            });
+            linter.verify(
+                "function foo() { if (bar) { return; foo(); } else {} }",
+                { rules: { test: 2 } }
+            );
+
+        });
+
+        it("should be fired at the end of programs/functions for the final segment", () => {
+            let count = 0;
+            let lastNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentEnd(cp, node) {
+                        count += 1;
+
+                        assert(cp instanceof CodePathSegment);
+                        if (count === 4) {
+                            assert(node.type === "Program");
+                        } else if (count === 1) {
+                            assert(node.type === "FunctionDeclaration");
+                        } else if (count === 2) {
+                            assert(node.type === "FunctionExpression");
+                        } else if (count === 3) {
+                            assert(node.type === "ArrowFunctionExpression");
+                        }
+                        assert(node.type === lastNodeType);
+                    },
+                    "Program:exit"() {
+                        lastNodeType = "Program";
+                    },
+                    "FunctionDeclaration:exit"() {
+                        lastNodeType = "FunctionDeclaration";
+                    },
+                    "FunctionExpression:exit"() {
+                        lastNodeType = "FunctionExpression";
+                    },
+                    "ArrowFunctionExpression:exit"() {
+                        lastNodeType = "ArrowFunctionExpression";
+                    }
+                })
+            });
+            linter.verify(
+                "foo(); function foo() { return; } var foo = function() { return; }; var foo = () => { return; }; throw 'boom';",
+                { rules: { test: 2 }, env: { es6: true } }
+            );
+
+            assert(count === 4);
+        });
+    });
+
     describe("onCodePathSegmentLoop", () => {
         it("should be fired in `while` loops", () => {
             let count = 0;
