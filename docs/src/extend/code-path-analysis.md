@@ -477,7 +477,7 @@ module.exports = {
             // Tracks unreachable segment traversal
             onUnreachableCodePathSegmentEnd(segment) {
                 funcInfo.currentSegments.delete(segment);
-            }
+            },
 
             // Checks reachable or not.
             CallExpression(node) {
