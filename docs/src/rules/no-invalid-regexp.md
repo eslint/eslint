@@ -53,7 +53,7 @@ If you want to allow additional constructor flags for any reason, you can specif
 
 This rule has an object option for exceptions:
 
-* `"allowConstructorFlags"` is an array of flags
+* `"allowConstructorFlags"` is a case-sensitive array of flags
 
 ### allowConstructorFlags
 
