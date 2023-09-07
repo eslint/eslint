@@ -58,6 +58,21 @@ ruleTester.run("no-console", rule, {
         { code: "console.warn(foo)", options: [{ allow: ["info", "log"] }], errors: [{ messageId: "unexpected", type: "MemberExpression" }] },
 
         // In case that implicit global variable of 'console' exists
-        { code: "console.log(foo)", env: { node: true }, errors: [{ messageId: "unexpected", type: "MemberExpression" }] }
+        { code: "console.log(foo)", env: { node: true }, errors: [{ messageId: "unexpected", type: "MemberExpression" }] },
+        {
+            code: "console.log(foo);1+1;",
+            env: { node: true },
+            errors: [{
+                messageId: "unexpected",
+                type: "MemberExpression",
+                suggestions: [
+                    {
+                        messageId: "removeConsole",
+                        data: { type: "block" },
+                        output: "1+1;"
+                    }
+                ]
+            }]
+        }
     ]
 });
