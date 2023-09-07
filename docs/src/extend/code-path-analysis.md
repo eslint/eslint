@@ -467,7 +467,7 @@ module.exports = {
             // Tracks unreachable segment traversal
             onUnreachableCodePathSegmentStart(segment) {
                 funcInfo.currentSegments.add(segment);
-            }
+            },
 
             // Tracks reachable segment traversal
             onCodePathSegmentEnd(segment) {
