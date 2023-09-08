@@ -1,3 +1,20 @@
+v8.49.0 - September 8, 2023
+
+* [`b7621c3`](https://github.com/eslint/eslint/commit/b7621c3b16cf7d5539f05336a827e1b32d95e6ac) chore: remove browser test from `npm test` (#17550) (Milos Djermanovic)
+* [`cac45d0`](https://github.com/eslint/eslint/commit/cac45d04b890b0700dd8908927300608adad05fe) chore: upgrade @eslint/js@8.49.0 (#17549) (Milos Djermanovic)
+* [`cd39508`](https://github.com/eslint/eslint/commit/cd395082bffcb4b68efa09226d7c682cef56179e) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`ecfb54f`](https://github.com/eslint/eslint/commit/ecfb54ff4cdd18f28b4f9b78f0a78fb4cf80f1b8) docs: Update README (GitHub Actions Bot)
+* [`da09f4e`](https://github.com/eslint/eslint/commit/da09f4e641141f585ef611c6e9d63d4331054706) feat: Implement onUnreachableCodePathStart/End (#17511) (Nicholas C. Zakas)
+* [`de86b3b`](https://github.com/eslint/eslint/commit/de86b3b2e58edd5826200c23255d8325abe375e1) docs: update `no-promise-executor-return` examples (#17529) (Nitin Kumar)
+* [`203a971`](https://github.com/eslint/eslint/commit/203a971c0abc3a95ae02ff74104a01e569707060) ci: bump actions/checkout from 3 to 4 (#17530) (dependabot[bot])
+* [`32b2327`](https://github.com/eslint/eslint/commit/32b2327aafdd3b911fabab69ed75c9ff97658c60) feat: Emit deprecation warnings in RuleTester (#17527) (Nicholas C. Zakas)
+* [`acb7df3`](https://github.com/eslint/eslint/commit/acb7df35b9a7485f26bc6b3e1f9083d1c585dce9) feat: add new `enforce` option to `lines-between-class-members` (#17462) (Nitin Kumar)
+* [`032c4b1`](https://github.com/eslint/eslint/commit/032c4b1476a7b8cfd917a66772d2221950ea87eb) docs: add typescript template (#17500) (James)
+* [`cd7da5c`](https://github.com/eslint/eslint/commit/cd7da5cc3154f86f7ca45fb58929d27a7af359ed) docs: Update README (GitHub Actions Bot)
+* [`a40fa50`](https://github.com/eslint/eslint/commit/a40fa509922b36bb986eb1be9394591f84f62d9e) chore: use eslint-plugin-jsdoc's flat config (#17516) (Milos Djermanovic)
+* [`926a286`](https://github.com/eslint/eslint/commit/926a28684282aeec37680bbc52a66973b8055f54) test: replace Karma with Webdriver.IO (#17126) (Christian Bromann)
+* [`f591d2c`](https://github.com/eslint/eslint/commit/f591d2c88bf15af72e3a207b34fa872b4b90464b) chore: Upgrade config-array (#17512) (Nicholas C. Zakas)
+
 v8.48.0 - August 25, 2023
 
 * [`8dd3cec`](https://github.com/eslint/eslint/commit/8dd3cec90c97ed97d243a83b87ad4ea9e6b4781a) chore: upgrade @eslint/js@8.48.0 (#17501) (Milos Djermanovic)
