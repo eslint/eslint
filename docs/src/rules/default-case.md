@@ -137,3 +137,5 @@ switch(a) {
 ## When Not To Use It
 
 If you don't want to enforce a `default` case for `switch` statements, you can safely disable this rule.
+
+If you are using TypeScript, note that using this rule is actively harmful because it conflicts with the [`@typescript-eslint/switch-exhaustiveness-check`](https://typescript-eslint.io/rules/switch-exhaustiveness-check/) rule. In other words, some switch statements have a case for each of the distinct values in a union or enum. In these kinds of switch statements, having a `default` statement would prevent the `switch-exhaustiveness-check` rule from triggering when the union/enum is modified, which is the whole point of using the rule in the first place.
