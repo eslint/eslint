@@ -1092,7 +1092,14 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "export default (function(a) {});",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [definedError("a")]
+            errors: [{
+                ...definedError("a"),
+                suggestions: [{
+                    messageId: "removeVar",
+                    desc: "Remove the var a.",
+                    output: "export default (function() {});"
+                }]
+            }]
         },
         {
             code: "export default (function(a, b) { console.log(a); });",
@@ -1102,19 +1109,40 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "export default (a) => {};",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [definedError("a")]
+            errors: [{
+                ...definedError("a"),
+                suggestions: [{
+                    messageId: "removeVar",
+                    desc: "Remove the var a.",
+                    output: "export default () => {};"
+                }]
+            }]
         },
         {
             code: "export default (a, b) => { console.log(a); };",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [definedError("b")]
+            errors: [{
+                ...definedError("b"),
+                suggestions: [{
+                    messageId: "removeVar",
+                    desc: "Remove the var b.",
+                    output: "export default (a) => { console.log(a); };"
+                }]
+            }]
         },
 
         // caughtErrors
         {
             code: "try{}catch(err){};",
             options: [{ caughtErrors: "all" }],
-            errors: [definedError("err")]
+            errors: [{
+                ...definedError("err"),
+                suggestions: [{
+                    messageId: "removeVar",
+                    desc: "Remove the var err.",
+                    output: "try{}catch(){};"
+                }]
+            }]
         },
         {
             code: "try{}catch(err){};",
@@ -1261,7 +1289,14 @@ ruleTester.run("no-unused-vars", rule, {
             code: "(function ({ a }, b ) { return b; })();",
             parserOptions: { ecmaVersion: 2015 },
             errors: [
-                definedError("a")
+                {
+                    ...definedError("a"),
+                    suggestions: [{
+                        messageId: "removeVar",
+                        desc: "Remove the var a.",
+                        output: "(function ({}, b ) { return b; })();"
+                    }]
+                }
             ]
         },
         {

@@ -5685,7 +5685,25 @@ var a = "test2";
                         messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
-                        severity: 2
+                        severity: 2,
+                        suggestions: [
+                            {
+                                data: {
+                                    action: "assigned a value",
+                                    additional: "",
+                                    varName: "bbb"
+                                },
+                                desc: "Remove the var bbb.",
+                                fix: {
+                                    range: [
+                                        99,
+                                        111
+                                    ],
+                                    text: ""
+                                },
+                                messageId: "removeVar"
+                            }
+                        ]
                     }]
                 );
 
@@ -5712,7 +5730,26 @@ var a = "test2";
                         messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
-                        severity: 2
+                        severity: 2,
+                        suggestions: [
+                            {
+                                data: {
+                                    action: "assigned a value",
+                                    additional: "",
+                                    varName: "aaa"
+                                },
+                                desc: "Remove the var aaa.",
+                                fix: {
+                                    range: [
+                                        92,
+                                        104
+                                    ],
+                                    text: ""
+                                },
+                                messageId: "removeVar"
+                            }
+                        ]
+
                     }]
                 );
 
@@ -5770,7 +5807,26 @@ var a = "test2";
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
                         severity: 2,
-                        suppressions: [{ kind: "directive", justification: "" }]
+                        suppressions: [{ kind: "directive", justification: "" }],
+                        suggestions: [
+                            {
+                                data: {
+                                    action: "assigned a value",
+                                    additional: "",
+                                    varName: "aaa"
+                                },
+                                desc: "Remove the var aaa.",
+                                fix: {
+                                    range: [
+                                        160,
+                                        172
+                                    ],
+                                    text: ""
+                                },
+                                messageId: "removeVar"
+                            }
+                        ]
+
                     }]
                 );
             });
@@ -5794,7 +5850,26 @@ var a = "test2";
                         messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
-                        severity: 2
+                        severity: 2,
+                        suggestions: [
+                            {
+                                data: {
+                                    action: "assigned a value",
+                                    additional: "",
+                                    varName: "aaa"
+                                },
+                                desc: "Remove the var aaa.",
+                                fix: {
+                                    range: [
+                                        21,
+                                        33
+                                    ],
+                                    text: ""
+                                },
+                                messageId: "removeVar"
+                            }
+                        ]
+
                     }]
                 );
 
@@ -5834,7 +5909,26 @@ var a = "test2";
                         messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
-                        severity: 2
+                        severity: 2,
+                        suggestions: [
+                            {
+                                data: {
+                                    action: "assigned a value",
+                                    additional: "",
+                                    varName: "aaa"
+                                },
+                                desc: "Remove the var aaa.",
+                                fix: {
+                                    range: [
+                                        21,
+                                        33
+                                    ],
+                                    text: ""
+                                },
+                                messageId: "removeVar"
+                            }
+                        ]
+
                     }]
                 );
 
@@ -5876,7 +5970,25 @@ var a = "test2";
                         messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
-                        severity: 2
+                        severity: 2,
+                        suggestions: [
+                            {
+                                data: {
+                                    action: "assigned a value",
+                                    additional: "",
+                                    varName: "aaa"
+                                },
+                                desc: "Remove the var aaa.",
+                                fix: {
+                                    range: [
+                                        99,
+                                        111
+                                    ],
+                                    text: ""
+                                },
+                                messageId: "removeVar"
+                            }
+                        ]
                     }]
                 );
 
@@ -5918,7 +6030,26 @@ var a = "test2";
                         messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
-                        severity: 2
+                        severity: 2,
+                        suggestions: [
+                            {
+                                data: {
+                                    action: "assigned a value",
+                                    additional: "",
+                                    varName: "aaa"
+                                },
+                                desc: "Remove the var aaa.",
+                                fix: {
+                                    range: [
+                                        102,
+                                        114
+                                    ],
+                                    text: ""
+                                },
+                                messageId: "removeVar"
+                            }
+                        ]
+
                     }]
                 );
 
@@ -13526,7 +13657,26 @@ var a = "test2";
                             messageId: "unusedVar",
                             nodeType: "Identifier",
                             ruleId: "no-unused-vars",
-                            severity: 2
+                            severity: 2,
+                            suggestions: [
+                                {
+                                    data: {
+                                        action: "assigned a value",
+                                        additional: "",
+                                        varName: "bbb"
+                                    },
+                                    desc: "Remove the var bbb.",
+                                    fix: {
+                                        range: [
+                                            99,
+                                            111
+                                        ],
+                                        text: ""
+                                    },
+                                    messageId: "removeVar"
+                                }
+                            ]
+
                         }]
                     );
 
@@ -13553,7 +13703,27 @@ var a = "test2";
                             messageId: "unusedVar",
                             nodeType: "Identifier",
                             ruleId: "no-unused-vars",
-                            severity: 2
+                            severity: 2,
+                            suggestions: [
+                                {
+                                    data: {
+                                        action: "assigned a value",
+                                        additional: "",
+                                        varName: "aaa"
+                                    },
+                                    desc: "Remove the var aaa.",
+                                    fix: {
+                                        range: [
+                                            92,
+                                            104
+                                        ],
+                                        text: ""
+                                    },
+                                    messageId: "removeVar"
+                                }
+                            ]
+
+
                         }]
                     );
 
@@ -13611,6 +13781,25 @@ var a = "test2";
                             nodeType: "Identifier",
                             ruleId: "no-unused-vars",
                             severity: 2,
+                            suggestions: [
+                                {
+                                    data: {
+                                        action: "assigned a value",
+                                        additional: "",
+                                        varName: "aaa"
+                                    },
+                                    desc: "Remove the var aaa.",
+                                    fix: {
+                                        range: [
+                                            160,
+                                            172
+                                        ],
+                                        text: ""
+                                    },
+                                    messageId: "removeVar"
+                                }
+                            ],
+
                             suppressions: [{ kind: "directive", justification: "" }]
                         }]
                     );
@@ -13635,7 +13824,25 @@ var a = "test2";
                             messageId: "unusedVar",
                             nodeType: "Identifier",
                             ruleId: "no-unused-vars",
-                            severity: 2
+                            severity: 2,
+                            suggestions: [
+                                {
+                                    data: {
+                                        action: "assigned a value",
+                                        additional: "",
+                                        varName: "aaa"
+                                    },
+                                    desc: "Remove the var aaa.",
+                                    fix: {
+                                        range: [
+                                            21,
+                                            33
+                                        ],
+                                        text: ""
+                                    },
+                                    messageId: "removeVar"
+                                }
+                            ]
                         }]
                     );
 
@@ -13675,7 +13882,25 @@ var a = "test2";
                             messageId: "unusedVar",
                             nodeType: "Identifier",
                             ruleId: "no-unused-vars",
-                            severity: 2
+                            severity: 2,
+                            suggestions: [
+                                {
+                                    data: {
+                                        action: "assigned a value",
+                                        additional: "",
+                                        varName: "aaa"
+                                    },
+                                    desc: "Remove the var aaa.",
+                                    fix: {
+                                        range: [
+                                            21,
+                                            33
+                                        ],
+                                        text: ""
+                                    },
+                                    messageId: "removeVar"
+                                }
+                            ]
                         }]
                     );
 
@@ -13717,7 +13942,25 @@ var a = "test2";
                             messageId: "unusedVar",
                             nodeType: "Identifier",
                             ruleId: "no-unused-vars",
-                            severity: 2
+                            severity: 2,
+                            suggestions: [
+                                {
+                                    data: {
+                                        action: "assigned a value",
+                                        additional: "",
+                                        varName: "aaa"
+                                    },
+                                    desc: "Remove the var aaa.",
+                                    fix: {
+                                        range: [
+                                            99,
+                                            111
+                                        ],
+                                        text: ""
+                                    },
+                                    messageId: "removeVar"
+                                }
+                            ]
                         }]
                     );
 
@@ -13759,7 +14002,25 @@ var a = "test2";
                             messageId: "unusedVar",
                             nodeType: "Identifier",
                             ruleId: "no-unused-vars",
-                            severity: 2
+                            severity: 2,
+                            suggestions: [
+                                {
+                                    data: {
+                                        action: "assigned a value",
+                                        additional: "",
+                                        varName: "aaa"
+                                    },
+                                    desc: "Remove the var aaa.",
+                                    fix: {
+                                        range: [
+                                            102,
+                                            114
+                                        ],
+                                        text: ""
+                                    },
+                                    messageId: "removeVar"
+                                }
+                            ]
                         }]
                     );
 
