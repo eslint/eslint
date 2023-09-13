@@ -2945,7 +2945,7 @@ describe("RuleTester", () => {
 
             it(`should throw if ${methodName} is called from an invalid test case`, () => {
                 assert.throws(() => {
-                    ruleTester.run("use-get-comments", useForbiddenMethodRule, {
+                    ruleTester.run("use-forbidden-method", useForbiddenMethodRule, {
                         valid: [],
                         invalid: [{
                             code: "",
