@@ -24,6 +24,8 @@ const checkForEachOptions = [{ checkForEach: true }];
 
 const allowImplicitCheckForEach = [{ allowImplicit: true, checkForEach: true }];
 
+const checkForEachAllowVoid = [{ checkForEach: true, allowVoid: true }];
+
 ruleTester.run("array-callback-return", rule, {
     valid: [
 
@@ -113,6 +115,10 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.every(function() { try { bar(); return 1; } catch (err) { return err; } })", options: checkForEachOptions },
         { code: "foo.every(function() { try { bar(); } finally { return 1; } })", options: checkForEachOptions },
         { code: "foo.every(function() { return; })", options: allowImplicitCheckForEach },
+
+        // options: { checkForEach: true, allowVoid: true }
+        { code: "foo.forEach((x) => void x)", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach((x) => void bar(x))", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 } },
 
         "Arrow.from(x, function() {})",
         "foo.abc(function() {})",
@@ -217,6 +223,8 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.filter(function foo() {})", options: checkForEachOptions, errors: [{ messageId: "expectedInside", data: { name: "function 'foo'", arrayMethodName: "Array.prototype.filter" } }] },
         { code: "foo.filter(function foo() { return; })", options: checkForEachOptions, errors: [{ messageId: "expectedReturnValue", data: { name: "function 'foo'", arrayMethodName: "Array.prototype.filter" } }] },
         { code: "foo.every(cb || function() {})", options: checkForEachOptions, errors: ["Array.prototype.every() expects a return value from function."] },
+        { code: "foo.forEach(() => void x)", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue" }] },
+        { code: "foo.forEach(() => void bar(x))", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue" }] },
 
         // full location tests
         {
