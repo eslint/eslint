@@ -2023,6 +2023,46 @@ describe("Linter", () => {
 
             assert.strictEqual(suppressedMessages.length, 0);
         });
+
+        it("should apply valid configuration even if there is an invalid configuration present", () => {
+            const code = [
+                "/* eslint no-unused-vars: [ */ // <-- this one is invalid JSON",
+                "/* eslint no-undef: [\"error\"] */ // <-- this one is fine, and thus should apply",
+                "foo(); // <-- expected no-undef error here"
+            ].join("\n");
+
+            const messages = linter.verify(code);
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.deepStrictEqual(
+                messages,
+                [
+                    {
+                        severity: 2,
+                        fatal: true,
+                        ruleId: null,
+                        message: "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token } in JSON at position 21",
+                        line: 1,
+                        column: 1,
+                        nodeType: null
+                    },
+                    {
+                        severity: 2,
+                        ruleId: "no-undef",
+                        message: "'foo' is not defined.",
+                        messageId: "undef",
+                        line: 3,
+                        column: 1,
+                        endLine: 3,
+                        endColumn: 4,
+                        nodeType: "Identifier"
+                    }
+                ]
+            );
+
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
     });
 
     describe("when evaluating code with comments to disable rules", () => {
@@ -4778,6 +4818,59 @@ var a = "test2";
             }
         });
     });
+
+    describe("warnInlineConfig option", () => {
+
+        it("should report both a rule violation and a warning about inline config", () => {
+            const code = [
+                "/* eslint-disable */ // <-- this should be inline config warning",
+                "foo(); // <-- this should be no-undef error"
+            ].join("\n");
+            const config = {
+                rules: {
+                    "no-undef": 2
+                },
+                noInlineConfig: true
+            };
+
+            const messages = linter.verify(code, config, {
+                filename,
+                warnInlineConfig: true
+            });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 2);
+            assert.deepStrictEqual(
+                messages,
+                [
+                    {
+                        ruleId: null,
+                        message: "'/*eslint-disable*/' has no effect because you have 'noInlineConfig' setting in your config.",
+                        line: 1,
+                        column: 1,
+                        endLine: 1,
+                        endColumn: 21,
+                        severity: 1,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: "no-undef",
+                        messageId: "undef",
+                        message: "'foo' is not defined.",
+                        line: 2,
+                        endLine: 2,
+                        column: 1,
+                        endColumn: 4,
+                        severity: 2,
+                        nodeType: "Identifier"
+                    }
+                ]
+            );
+
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+    });
+
 
     describe("when evaluating code with comments to change config when allowInlineConfig is disabled", () => {
         it("should not report a violation", () => {
@@ -12013,6 +12106,46 @@ describe("Linter with FlatConfigArray", () => {
 
                         assert.strictEqual(suppressedMessages.length, 0);
                     });
+
+                    it("should apply valid configuration even if there is an invalid configuration present", () => {
+                        const code = [
+                            "/* eslint no-unused-vars: [ */ // <-- this one is invalid JSON",
+                            "/* eslint no-undef: [\"error\"] */ // <-- this one is fine, and thus should apply",
+                            "foo(); // <-- expected no-undef error here"
+                        ].join("\n");
+
+                        const messages = linter.verify(code);
+                        const suppressedMessages = linter.getSuppressedMessages();
+
+                        assert.deepStrictEqual(
+                            messages,
+                            [
+                                {
+                                    severity: 2,
+                                    fatal: true,
+                                    ruleId: null,
+                                    message: "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token } in JSON at position 21",
+                                    line: 1,
+                                    column: 1,
+                                    nodeType: null
+                                },
+                                {
+                                    severity: 2,
+                                    ruleId: "no-undef",
+                                    message: "'foo' is not defined.",
+                                    messageId: "undef",
+                                    line: 3,
+                                    column: 1,
+                                    endLine: 3,
+                                    endColumn: 4,
+                                    nodeType: "Identifier"
+                                }
+                            ]
+                        );
+
+                        assert.strictEqual(suppressedMessages.length, 0);
+                    });
+
                 });
 
                 describe("when evaluating code with comments to disable rules", () => {
@@ -14091,6 +14224,61 @@ var a = "test2";
                     });
                 });
 
+            });
+
+
+            describe("warnInlineConfig option", () => {
+
+                it("should report both a rule violation and a warning about inline config", () => {
+                    const code = [
+                        "/* eslint-disable */ // <-- this should be inline config warning",
+                        "foo(); // <-- this should be no-undef error"
+                    ].join("\n");
+                    const config = {
+                        rules: {
+                            "no-undef": 2
+                        },
+                        linterOptions: {
+                            noInlineConfig: true
+                        }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        filename,
+                        warnInlineConfig: true
+                    });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 2);
+                    assert.deepStrictEqual(
+                        messages,
+                        [
+                            {
+                                ruleId: null,
+                                message: "'/* eslint-disable */' has no effect because you have 'noInlineConfig' setting in your config.",
+                                line: 1,
+                                column: 1,
+                                endLine: 1,
+                                endColumn: 21,
+                                severity: 1,
+                                nodeType: null
+                            },
+                            {
+                                ruleId: "no-undef",
+                                messageId: "undef",
+                                message: "'foo' is not defined.",
+                                line: 2,
+                                endLine: 2,
+                                column: 1,
+                                endColumn: 4,
+                                severity: 2,
+                                nodeType: "Identifier"
+                            }
+                        ]
+                    );
+
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
             });
 
             describe("reportUnusedDisableDirectives option", () => {
