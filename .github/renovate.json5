@@ -1,0 +1,66 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended",
+        ":dependencyDashboardApproval",
+        ":semanticCommitTypeAll(ci)"
+    ],
+    "dependencyDashboard": true,
+    "dependencyDashboardLabels": ["dependencies", "repo maintenance"],
+    "enabledManagers": ["github-actions", "npm"],
+    "internalChecksFilter": "strict",
+    "labels": ["dependencies"],
+
+    // Wait a few days for any new package, as a precaution against malicious publishes
+    "minimumReleaseAge": "3 days",
+
+    "packageRules": [
+        // Enable major version updates, but don't auto-merge them
+        {
+            "automerge": false,
+            "matchUpdateTypes": ["minor"]
+        },
+
+        // Enable minor version updates with auto-merging
+        {
+            "automerge": true,
+            "automergeStrategy": "squash",
+            "matchUpdateTypes": ["minor"]
+        },
+
+        // Ignore patch versions to reduce noise
+        {
+            "enabled": false,
+            "matchUpdateTypes": ["patch"]
+        },
+
+        // Label PRs appropriately per their manager
+        {
+            "addLabels": ["javascript"],
+            "matchManagers": ["npm"]
+        },
+        {
+            "addLabels": ["github-actions"],
+            "matchManagers": ["github-actions"]
+        },
+
+        // Batch package sets together
+        {
+            "groupName": "babel",
+            "matchPackagePrefixes": ["@babel", "babel-"]
+        },
+        {
+            "groupName": "wdio",
+            "matchPackagePrefixes": ["@wdio"]
+        },
+        {
+            "groupName": "metascraper",
+            "matchPackagePrefixes": ["metascraper"]
+        }
+    ],
+
+    // By default renovate will auto-rebase whenever the dep branch falls behind main.
+    // This is annoying as it spams notifications and creates unnecessary action runs.
+    // Instead only auto-rebase when conflicted, and we can trigger a manual rebase if required.
+    "rebaseWhen": "conflicted"
+}
