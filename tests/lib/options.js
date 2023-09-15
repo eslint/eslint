@@ -415,4 +415,18 @@ describe("options", () => {
         });
     });
 
+    describe("--no-warn-ignored", () => {
+        it("should return false when --no-warn-ignored is passed", () => {
+            const currentOptions = flatOptions.parse("--no-warn-ignored");
+
+            assert.isFalse(currentOptions.warnIgnored);
+        });
+
+        it("should return true when --warn-ignored is passed", () => {
+            const currentOptions = flatOptions.parse("--warn-ignored");
+
+            assert.isTrue(currentOptions.warnIgnored);
+        });
+    });
+
 });

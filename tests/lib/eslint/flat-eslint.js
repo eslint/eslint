@@ -397,7 +397,20 @@ describe("FlatESLint", () => {
             assert.strictEqual(results.length, 0);
         });
 
-        it("should suppress excluded file warnings by default", async () => {
+        it("should not return a warning when given a filename by --stdin-filename in excluded files list if constructor warnIgnored is false", async () => {
+            eslint = new FlatESLint({
+                cwd: getFixturePath(".."),
+                overrideConfigFile: "fixtures/eslint.config_with_ignores.js",
+                warnIgnored: false
+            });
+            const options = { filePath: "fixtures/passing.js" };
+            const results = await eslint.lintText("var bar = foo;", options);
+
+            // should not report anything because the warning is suppressed
+            assert.strictEqual(results.length, 0);
+        });
+
+        it("should show excluded file warnings by default", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
                 overrideConfigFile: "fixtures/eslint.config_with_ignores.js"
@@ -405,8 +418,8 @@ describe("FlatESLint", () => {
             const options = { filePath: "fixtures/passing.js" };
             const results = await eslint.lintText("var bar = foo;", options);
 
-            // should not report anything because there are no errors
-            assert.strictEqual(results.length, 0);
+            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
         });
 
         it("should return a message when given a filename by --stdin-filename in excluded files list and ignore is off", async () => {
