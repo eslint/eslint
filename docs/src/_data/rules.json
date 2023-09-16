@@ -965,6 +965,13 @@
                     "hasSuggestions": true
                 },
                 {
+                    "name": "no-object-constructor",
+                    "description": "Disallow calls to the `Object` constructor without an argument",
+                    "recommended": false,
+                    "fixable": false,
+                    "hasSuggestions": true
+                },
+                {
                     "name": "no-octal",
                     "description": "Disallow octal literals",
                     "recommended": true,

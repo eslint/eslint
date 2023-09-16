@@ -156,6 +156,7 @@ module.exports = Object.freeze({
         "no-new-wrappers": "error",
         "no-nonoctal-decimal-escape": "error",
         "no-obj-calls": "error",
+        "no-object-constructor": "error",
         "no-octal": "error",
         "no-octal-escape": "error",
         "no-param-reassign": "error",
