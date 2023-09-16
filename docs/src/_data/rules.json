@@ -951,13 +951,6 @@
                     "hasSuggestions": false
                 },
                 {
-                    "name": "no-new-object",
-                    "description": "Disallow `Object` constructors",
-                    "recommended": false,
-                    "fixable": false,
-                    "hasSuggestions": false
-                },
-                {
                     "name": "no-new-wrappers",
                     "description": "Disallow `new` operators with the `String`, `Number`, and `Boolean` objects",
                     "recommended": false,
@@ -1954,6 +1947,12 @@
                 "name": "no-negated-in-lhs",
                 "replacedBy": [
                     "no-unsafe-negation"
+                ]
+            },
+            {
+                "name": "no-new-object",
+                "replacedBy": [
+                    "no-object-constructor"
                 ]
             },
             {

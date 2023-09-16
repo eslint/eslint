@@ -1364,7 +1364,11 @@
             "description": "Disallow `Object` constructors",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-new-object"
-        }
+        },
+        "deprecated": true,
+        "replacedBy": [
+            "no-object-constructor"
+        ]
     },
     "no-new-require": {
         "deprecated": true,
