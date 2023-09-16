@@ -628,6 +628,38 @@ ruleTester.run("no-misleading-character-class", rule, {
                 suggestions: null
             }]
         },
+        {
+            code: String.raw`/[\ud83d\u{dc4d}]/u`,
+            env: { es2020: true },
+            errors: [{
+                messageId: "surrogatePair",
+                suggestions: null
+            }]
+        },
+        {
+            code: String.raw`/[\u{d83d}\udc4d]/u`,
+            env: { es2020: true },
+            errors: [{
+                messageId: "surrogatePair",
+                suggestions: null
+            }]
+        },
+        {
+            code: String.raw`/[\u{d83d}\u{dc4d}]/u`,
+            env: { es2020: true },
+            errors: [{
+                messageId: "surrogatePair",
+                suggestions: null
+            }]
+        },
+        {
+            code: String.raw`/[\uD83D\u{DC4d}]/u`,
+            env: { es2020: true },
+            errors: [{
+                messageId: "surrogatePair",
+                suggestions: null
+            }]
+        },
 
 
         // ES2024
