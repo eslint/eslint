@@ -98,7 +98,7 @@ This rule accepts a configuration object with three options:
 * `"checkForEach": false` (default) When set to `true`, rule will also report `forEach` callbacks that return a value.
 * `"allowVoid": false` (default) When set to `true`, allows `void` in `forEach` callbacks, so rule will not report the return value with a `void` operator.
 
-**Note-** `{ "allowVoid": true }` works only if `checkForEach` option is set to `true`.  
+**Note:** `{ "allowVoid": true }` works only if `checkForEach` option is set to `true`.  
 
 ### allowImplicit
 
@@ -125,7 +125,7 @@ Examples of **incorrect** code for the `{ "checkForEach": true }` option:
 /*eslint array-callback-return: ["error", { checkForEach: true }]*/
 
 myArray.forEach(function(item) {
-    return handleItem(item)
+    return handleItem(item);
 });
 
 myArray.forEach(function(item) {
@@ -135,10 +135,23 @@ myArray.forEach(function(item) {
     handleItem(item);
 });
 
+myArray.forEach(function(item) {
+    if (item < 0) {
+        return void x;
+    }
+    handleItem(item);
+});
+
 myArray.forEach(item => handleItem(item));
+
+myArray.forEach(item => void handleItem(item));
 
 myArray.forEach(item => {
     return handleItem(item);
+});
+
+myArray.forEach(item => {
+    return void handleItem(item);
 });
 ```
 
@@ -184,6 +197,17 @@ Examples of **correct** code for the `{ "allowVoid": true }` option:
 /*eslint array-callback-return: ["error", { checkForEach: true, allowVoid: true }]*/
 
 myArray.forEach(item => void handleItem(item));
+
+myArray.forEach(item => {
+    return void handleItem(item);
+});
+
+myArray.forEach(item => {
+    if (item < 0) {
+        return void x;
+    }
+    handleItem(item);
+});
 ```
 
 :::
