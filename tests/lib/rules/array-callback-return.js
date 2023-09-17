@@ -231,6 +231,14 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.forEach((x) => { return void bar(x); })", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue" }] },
         { code: "foo.forEach((x) => { if (a === b) { return void a; } bar(x) })", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue" }] },
 
+        // options: { checkForEach: true, allowVoid: true }
+        { code: "foo.forEach((x) => x)", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue" }] },
+        { code: "foo.forEach((x) => !x)", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue" }] },
+        { code: "foo.forEach((x) => { return x; })", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue" }] },
+        { code: "foo.forEach((x) => { return !x; })", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue" }] },
+        { code: "foo.forEach((x) => { if (a === b) { return x; } })", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue" }] },
+        { code: "foo.forEach((x) => { if (a === b) { return !x } })", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue" }] },
+
         // full location tests
         {
             code: "foo.filter(bar => { baz(); } )",
