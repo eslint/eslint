@@ -4819,7 +4819,7 @@ var a = "test2";
         });
     });
 
-    describe("warnInlineConfig option", () => {
+    describe("config.noInlineConfig + options.allowInlineConfig", () => {
 
         it("should report both a rule violation and a warning about inline config", () => {
             const code = [
@@ -4835,7 +4835,7 @@ var a = "test2";
 
             const messages = linter.verify(code, config, {
                 filename,
-                warnInlineConfig: true
+                allowInlineConfig: true
             });
             const suppressedMessages = linter.getSuppressedMessages();
 
@@ -14227,7 +14227,7 @@ var a = "test2";
             });
 
 
-            describe("warnInlineConfig option", () => {
+            describe("config.noInlineConfig + options.allowInlineConfig", () => {
 
                 it("should report both a rule violation and a warning about inline config", () => {
                     const code = [
@@ -14245,7 +14245,7 @@ var a = "test2";
 
                     const messages = linter.verify(code, config, {
                         filename,
-                        warnInlineConfig: true
+                        allowInlineConfig: true
                     });
                     const suppressedMessages = linter.getSuppressedMessages();
 
