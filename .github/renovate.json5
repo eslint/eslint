@@ -15,7 +15,7 @@
         // Enable major version updates, but don't auto-merge them
         {
             "automerge": false,
-            "matchUpdateTypes": ["minor"]
+            "matchUpdateTypes": ["major"]
         },
 
         // Enable minor version updates with auto-merging
@@ -32,11 +32,11 @@
 
         // Label PRs appropriately per their manager
         {
-            "addLabels": ["javascript"],
+            "addLabels": ["deps:npm"],
             "matchManagers": ["npm"]
         },
         {
-            "addLabels": ["github-actions"],
+            "addLabels": ["deps:actions"],
             "matchManagers": ["github-actions"]
         },
 
