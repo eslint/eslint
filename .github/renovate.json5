@@ -9,7 +9,7 @@
     "labels": ["dependencies"],
 
     // Wait a few days for any new package, as a precaution against malicious publishes
-    "minimumReleaseAge": "3 days",
+    "minimumReleaseAge": "7 days",
 
     "packageRules": [
         // Enable major version updates, but don't auto-merge them
