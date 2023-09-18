@@ -2534,9 +2534,12 @@ describe("RuleTester", () => {
             getTokens: "getTokens",
             getTokensAfter: "getTokensAfter",
             getTokensBefore: "getTokensBefore",
-            getTokensBetween: "getTokensBetween"
+            getTokensBetween: "getTokensBetween",
+            getScope: "getScope",
+            getAncestors: "getAncestors",
+            getDeclaredVariables: "getDeclaredVariables",
+            markVariableAsUsed: "markVariableAsUsed"
         }).forEach(([methodName, replacementName]) => {
-
 
             it(`should log a deprecation warning when calling \`context.${methodName}\``, () => {
                 const ruleToCheckDeprecation = {
