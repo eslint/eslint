@@ -16,7 +16,6 @@
         // Enable minor version updates with auto-merging
         {
             "automerge": true,
-            "automergeStrategy": "squash",
             "matchUpdateTypes": ["minor"]
         },
 
