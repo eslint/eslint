@@ -814,6 +814,19 @@ describe("cli", () => {
                         // When eslintrc is used, we get an exit code of 2 because the --no-warn-ignored option is unrecognized.
                         assert.strictEqual(exit, useFlatConfig ? 0 : 2);
                     });
+
+                    it(`should suppress the warning if --no-warn-ignored is passed and an ignored file is passed via stdin with configType:${configType}`, async () => {
+                        const options = useFlatConfig
+                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            : `--ignore-path ${getFixturePath(".eslintignore")}`;
+                        const filePath = getFixturePath("passing.js");
+                        const exit = await cli.execute(`${options} --no-warn-ignored --stdin --stdin-filename ${filePath}`, "foo", useFlatConfig);
+
+                        assert.isFalse(log.info.called);
+
+                        // When eslintrc is used, we get an exit code of 2 because the --no-warn-ignored option is unrecognized.
+                        assert.strictEqual(exit, useFlatConfig ? 0 : 2);
+                    });
                 });
 
                 describe("when given a pattern to ignore", () => {
