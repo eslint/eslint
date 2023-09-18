@@ -124,7 +124,7 @@ describe("FlatRuleTester", () => {
             FlatRuleTester.resetDefaultConfig();
             assert.deepStrictEqual(
                 FlatRuleTester.getDefaultConfig(),
-                { rules: {} },
+                { rules: {}, files: ["**/*.*"] },
                 "The default configuration has not reset correctly"
             );
         });
@@ -1114,6 +1114,32 @@ describe("FlatRuleTester", () => {
                 ]
             });
         }());
+    });
+
+    it("should allow setting the filename to a non-JavaScript file", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile.ts"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should keep allowing non-JavaScript files if the default config does not specify files", () => {
+        FlatRuleTester.setDefaultConfig({ rules: {} });
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile.ts"
+                }
+            ],
+            invalid: []
+        });
+        FlatRuleTester.resetDefaultConfig();
     });
 
     it("should pass-through the options to the rule", () => {
