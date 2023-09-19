@@ -14,7 +14,6 @@
     "packageRules": [
         // Enable major version updates, but don't auto-merge them
         {
-            "automerge": false,
             "matchUpdateTypes": ["major"]
         },
 
