@@ -11766,6 +11766,7 @@ describe("Linter with FlatConfigArray", () => {
                             column: 1,
                             endLine: 1,
                             endColumn: 39,
+                            fatal: true,
                             nodeType: null
                         },
                         {
@@ -12114,7 +12115,7 @@ describe("Linter with FlatConfigArray", () => {
                             "foo(); // <-- expected no-undef error here"
                         ].join("\n");
 
-                        const messages = linter.verify(code);
+                        const messages = linter.verify(code, {});
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         assert.deepStrictEqual(
@@ -12127,6 +12128,8 @@ describe("Linter with FlatConfigArray", () => {
                                     message: "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token } in JSON at position 21",
                                     line: 1,
                                     column: 1,
+                                    endLine: 1,
+                                    endColumn: 2,
                                     nodeType: null
                                 },
                                 {
