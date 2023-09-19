@@ -214,9 +214,9 @@ foo ? bar : (baz || qux);
 
 Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "all" }` options:
 
-::: correct
+::: correct { "ecmaFeatures": { "jsx": true } }
 
-```js
+```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "all" }] */
 const Component = (<div />)
 const Component = (
@@ -230,9 +230,9 @@ const Component = (
 
 Examples of **incorrect** code for this rule with the `all` and `{ "ignoreJSX": "multi-line" }` options:
 
-::: incorrect
+::: incorrect { "ecmaFeatures": { "jsx": true } }
 
-```js
+```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "multi-line" }] */
 const Component = (<div />)
 const Component = (<div><p /></div>)
@@ -242,9 +242,9 @@ const Component = (<div><p /></div>)
 
 Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "multi-line" }` options:
 
-::: correct
+::: correct { "ecmaFeatures": { "jsx": true } }
 
-```js
+```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "multi-line" }] */
 const Component = (
     <div>
@@ -262,9 +262,9 @@ const Component = (
 
 Examples of **incorrect** code for this rule with the `all` and `{ "ignoreJSX": "single-line" }` options:
 
-::: incorrect
+::: incorrect { "ecmaFeatures": { "jsx": true } }
 
-```js
+```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
 const Component = (
     <div>
@@ -282,9 +282,9 @@ const Component = (
 
 Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "single-line" }` options:
 
-::: correct
+::: correct { "ecmaFeatures": { "jsx": true } }
 
-```js
+```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
 const Component = (<div />)
 const Component = (<div><p /></div>)
