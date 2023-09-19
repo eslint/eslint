@@ -2031,6 +2031,18 @@ describe("Linter", () => {
                 "foo(); // <-- expected no-undef error here"
             ].join("\n");
 
+
+            // Node.js changed its JSON parsing error message around Node.js v19, so check for that
+            let parseErrorMessage = "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token } in JSON at position 21";
+
+            try {
+                JSON.parse("{'}");
+            } catch (error) {
+                if (error.message.includes("is not valid JSON")) {
+                    parseErrorMessage = "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token '}', ...\"d-vars\": [}\" is not valid JSON";
+                }
+            }
+
             const messages = linter.verify(code);
             const suppressedMessages = linter.getSuppressedMessages();
 
@@ -2041,7 +2053,7 @@ describe("Linter", () => {
                         severity: 2,
                         fatal: true,
                         ruleId: null,
-                        message: "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token } in JSON at position 21",
+                        message: parseErrorMessage,
                         line: 1,
                         column: 1,
                         nodeType: null
@@ -4868,6 +4880,129 @@ var a = "test2";
             );
 
             assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("should report both a rule violation without warning about inline config when noInlineConfig is true and allowInlineConfig is false", () => {
+            const code = [
+                "/* eslint-disable */ // <-- this should be inline config warning",
+                "foo(); // <-- this should be no-undef error"
+            ].join("\n");
+            const config = {
+                rules: {
+                    "no-undef": 2
+                },
+                noInlineConfig: true
+            };
+
+            const messages = linter.verify(code, config, {
+                filename,
+                allowInlineConfig: false
+            });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 1);
+            assert.deepStrictEqual(
+                messages,
+                [
+                    {
+                        ruleId: "no-undef",
+                        messageId: "undef",
+                        message: "'foo' is not defined.",
+                        line: 2,
+                        endLine: 2,
+                        column: 1,
+                        endColumn: 4,
+                        severity: 2,
+                        nodeType: "Identifier"
+                    }
+                ]
+            );
+
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("should report both a rule violation without warning about inline config when both are false", () => {
+            const code = [
+                "/* eslint-disable */ // <-- this should be inline config warning",
+                "foo(); // <-- this should be no-undef error"
+            ].join("\n");
+            const config = {
+                rules: {
+                    "no-undef": 2
+                },
+                noInlineConfig: false
+            };
+
+            const messages = linter.verify(code, config, {
+                filename,
+                allowInlineConfig: false
+            });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 1);
+            assert.deepStrictEqual(
+                messages,
+                [
+                    {
+                        ruleId: "no-undef",
+                        messageId: "undef",
+                        message: "'foo' is not defined.",
+                        line: 2,
+                        endLine: 2,
+                        column: 1,
+                        endColumn: 4,
+                        severity: 2,
+                        nodeType: "Identifier"
+                    }
+                ]
+            );
+
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("should report one suppresed problem when noInlineConfig is false and allowInlineConfig is true", () => {
+            const code = [
+                "/* eslint-disable */ // <-- this should be inline config warning",
+                "foo(); // <-- this should be no-undef error"
+            ].join("\n");
+            const config = {
+                rules: {
+                    "no-undef": 2
+                },
+                noInlineConfig: false
+            };
+
+            const messages = linter.verify(code, config, {
+                filename,
+                allowInlineConfig: true
+            });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 0);
+            assert.strictEqual(suppressedMessages.length, 1);
+            assert.deepStrictEqual(
+                suppressedMessages,
+                [
+                    {
+                        ruleId: "no-undef",
+                        messageId: "undef",
+                        message: "'foo' is not defined.",
+                        line: 2,
+                        endLine: 2,
+                        column: 1,
+                        endColumn: 4,
+                        severity: 2,
+                        nodeType: "Identifier",
+                        suppressions: [
+                            {
+                                justification: "",
+                                kind: "directive"
+                            }
+                        ]
+                    }
+                ]
+            );
+
         });
     });
 
@@ -12118,6 +12253,17 @@ describe("Linter with FlatConfigArray", () => {
                         const messages = linter.verify(code, {});
                         const suppressedMessages = linter.getSuppressedMessages();
 
+                        // Node.js changed its JSON parsing error message around Node.js v19, so check for that
+                        let parseErrorMessage = "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token } in JSON at position 21";
+
+                        try {
+                            JSON.parse("{'}");
+                        } catch (error) {
+                            if (error.message.includes("is not valid JSON")) {
+                                parseErrorMessage = "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token '}', ...\"d-vars\": [}\" is not valid JSON";
+                            }
+                        }
+
                         assert.deepStrictEqual(
                             messages,
                             [
@@ -12125,7 +12271,7 @@ describe("Linter with FlatConfigArray", () => {
                                     severity: 2,
                                     fatal: true,
                                     ruleId: null,
-                                    message: "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token } in JSON at position 21",
+                                    message: parseErrorMessage,
                                     line: 1,
                                     column: 1,
                                     endLine: 1,
@@ -14281,6 +14427,136 @@ var a = "test2";
                     );
 
                     assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+
+                it("should report both a rule violation without warning about inline config when noInlineConfig is true and allowInlineConfig is false", () => {
+                    const code = [
+                        "/* eslint-disable */ // <-- this should be inline config warning",
+                        "foo(); // <-- this should be no-undef error"
+                    ].join("\n");
+                    const config = {
+                        rules: {
+                            "no-undef": 2
+                        },
+                        linterOptions: {
+                            noInlineConfig: true
+                        }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        filename,
+                        allowInlineConfig: false
+                    });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.deepStrictEqual(
+                        messages,
+                        [
+                            {
+                                ruleId: "no-undef",
+                                messageId: "undef",
+                                message: "'foo' is not defined.",
+                                line: 2,
+                                endLine: 2,
+                                column: 1,
+                                endColumn: 4,
+                                severity: 2,
+                                nodeType: "Identifier"
+                            }
+                        ]
+                    );
+
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("should report both a rule violation without warning about inline config when both are false", () => {
+                    const code = [
+                        "/* eslint-disable */ // <-- this should be inline config warning",
+                        "foo(); // <-- this should be no-undef error"
+                    ].join("\n");
+                    const config = {
+                        rules: {
+                            "no-undef": 2
+                        },
+                        linterOptions: {
+                            noInlineConfig: false
+                        }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        filename,
+                        allowInlineConfig: false
+                    });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.deepStrictEqual(
+                        messages,
+                        [
+                            {
+                                ruleId: "no-undef",
+                                messageId: "undef",
+                                message: "'foo' is not defined.",
+                                line: 2,
+                                endLine: 2,
+                                column: 1,
+                                endColumn: 4,
+                                severity: 2,
+                                nodeType: "Identifier"
+                            }
+                        ]
+                    );
+
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("should report one suppresed problem when noInlineConfig is false and allowInlineConfig is true", () => {
+                    const code = [
+                        "/* eslint-disable */ // <-- this should be inline config warning",
+                        "foo(); // <-- this should be no-undef error"
+                    ].join("\n");
+                    const config = {
+                        rules: {
+                            "no-undef": 2
+                        },
+                        linterOptions: {
+                            noInlineConfig: false
+                        }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        filename,
+                        allowInlineConfig: true
+                    });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 0);
+                    assert.strictEqual(suppressedMessages.length, 1);
+                    assert.deepStrictEqual(
+                        suppressedMessages,
+                        [
+                            {
+                                ruleId: "no-undef",
+                                messageId: "undef",
+                                message: "'foo' is not defined.",
+                                line: 2,
+                                endLine: 2,
+                                column: 1,
+                                endColumn: 4,
+                                severity: 2,
+                                nodeType: "Identifier",
+                                suppressions: [
+                                    {
+                                        justification: "",
+                                        kind: "directive"
+                                    }
+                                ]
+                            }
+                        ]
+                    );
+
                 });
             });
 
