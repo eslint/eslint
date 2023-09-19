@@ -239,6 +239,85 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.forEach((x) => { if (a === b) { return x; } })", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue" }] },
         { code: "foo.forEach((x) => { if (a === b) { return !x } })", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue" }] },
 
+        {
+            code: "foo.forEach(x => x)",
+            options: checkForEachOptions,
+            parserOptions: {ecmaVersion: 6},
+            errors: [{
+                messageId: "expectedNoReturnValue",
+                suggestions: [
+                    {output: "foo.forEach(x => {x})"}
+                ]
+            }]
+        },
+        {
+            code: "foo.forEach(x => x)",
+            options: checkForEachAllowVoid,
+            parserOptions: {ecmaVersion: 6},
+            errors: [{
+                messageId: "expectedNoReturnValue",
+                suggestions: [
+                    {output: "foo.forEach(x => {x})"},
+                    {output: "foo.forEach(x => void x)"}
+                ]
+            }]
+        },
+        {
+            code: "foo.forEach((x) => { return x; })",
+            options: checkForEachAllowVoid,
+            parserOptions: {ecmaVersion: 6},
+            errors: [{
+                messageId: "expectedNoReturnValue",
+                suggestions: [
+                    {output: "foo.forEach((x) => { return void x; })"}
+                ]
+            }]
+        },
+        {
+            code: "foo.forEach((x) => { return(x); })",
+            options: checkForEachAllowVoid,
+            parserOptions: {ecmaVersion: 6},
+            errors: [{
+                messageId: "expectedNoReturnValue",
+                suggestions: [
+                    {output: "foo.forEach((x) => { return void (x); })"}
+                ]
+            }]
+        },
+        {
+            code: "foo.forEach((x) => { return (x + 1); })",
+            options: checkForEachAllowVoid,
+            parserOptions: {ecmaVersion: 6},
+            errors: [{
+                messageId: "expectedNoReturnValue",
+                suggestions: [
+                    {output: "foo.forEach((x) => { return void (x + 1); })"}
+                ]
+            }]
+        },
+        {
+            code: "foo.forEach((x) => { if (a === b) { return x; } })",
+            options: checkForEachAllowVoid,
+            parserOptions: {ecmaVersion: 6},
+            errors: [{
+                messageId: "expectedNoReturnValue",
+                suggestions: [
+                    {output: "foo.forEach((x) => { if (a === b) { return void x; } })"}
+                ]
+            }]
+        },
+        {
+            code: "foo.forEach((x) => { if (a === b) { return (x + a); } })",
+            options: checkForEachAllowVoid,
+            parserOptions: {ecmaVersion: 6},
+            errors: [{
+                messageId: "expectedNoReturnValue",
+                suggestions: [
+                    {output: "foo.forEach((x) => { if (a === b) { return void (x + a); } })"}
+                ]
+            }]
+        },
+
         // full location tests
         {
             code: "foo.filter(bar => { baz(); } )",
