@@ -6,7 +6,7 @@ related_rules:
 - no-new-wrappers
 ---
 
-This rule was **deprecated** in ESLint v8.XX.0 and replaced by the [no-object-constructor](no-object-constructor) rule. The new rule flags more situations where object literal syntax can be used, and it does not report a problem when the `Object` constructor is invoked with an argument.
+This rule was **deprecated** in ESLint v8.50.0 and replaced by the [no-object-constructor](no-object-constructor) rule. The new rule flags more situations where object literal syntax can be used, and it does not report a problem when the `Object` constructor is invoked with an argument.
 
 The `Object` constructor is used to create new generic objects in JavaScript, such as:
 
