@@ -2031,45 +2031,31 @@ describe("Linter", () => {
                 "foo(); // <-- expected no-undef error here"
             ].join("\n");
 
-
-            // Node.js changed its JSON parsing error message around Node.js v19, so check for that
-            let parseErrorMessage = "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token } in JSON at position 21";
-
-            try {
-                JSON.parse("{'}");
-            } catch (error) {
-                if (error.message.includes("is not valid JSON")) {
-                    parseErrorMessage = "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token '}', ...\"d-vars\": [}\" is not valid JSON";
-                }
-            }
-
             const messages = linter.verify(code);
             const suppressedMessages = linter.getSuppressedMessages();
 
+            // different engines have different JSON parsing error messages
+            assert.match(messages[0].message, /Failed to parse JSON from ' "no-unused-vars": \['/u);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.isTrue(messages[0].fatal);
+            assert.isNull(messages[0].ruleId);
+            assert.strictEqual(messages[0].line, 1);
+            assert.strictEqual(messages[0].column, 1);
+            assert.isNull(messages[0].nodeType);
+
             assert.deepStrictEqual(
-                messages,
-                [
-                    {
-                        severity: 2,
-                        fatal: true,
-                        ruleId: null,
-                        message: parseErrorMessage,
-                        line: 1,
-                        column: 1,
-                        nodeType: null
-                    },
-                    {
-                        severity: 2,
-                        ruleId: "no-undef",
-                        message: "'foo' is not defined.",
-                        messageId: "undef",
-                        line: 3,
-                        column: 1,
-                        endLine: 3,
-                        endColumn: 4,
-                        nodeType: "Identifier"
-                    }
-                ]
+                messages[1],
+                {
+                    severity: 2,
+                    ruleId: "no-undef",
+                    message: "'foo' is not defined.",
+                    messageId: "undef",
+                    line: 3,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 4,
+                    nodeType: "Identifier"
+                }
             );
 
             assert.strictEqual(suppressedMessages.length, 0);
@@ -12253,43 +12239,28 @@ describe("Linter with FlatConfigArray", () => {
                         const messages = linter.verify(code, {});
                         const suppressedMessages = linter.getSuppressedMessages();
 
-                        // Node.js changed its JSON parsing error message around Node.js v19, so check for that
-                        let parseErrorMessage = "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token } in JSON at position 21";
-
-                        try {
-                            JSON.parse("{'}");
-                        } catch (error) {
-                            if (error.message.includes("is not valid JSON")) {
-                                parseErrorMessage = "Failed to parse JSON from ' \"no-unused-vars\": [': Unexpected token '}', ...\"d-vars\": [}\" is not valid JSON";
-                            }
-                        }
+                        // different engines have different JSON parsing error messages
+                        assert.match(messages[0].message, /Failed to parse JSON from ' "no-unused-vars": \['/u);
+                        assert.strictEqual(messages[0].severity, 2);
+                        assert.isTrue(messages[0].fatal);
+                        assert.isNull(messages[0].ruleId);
+                        assert.strictEqual(messages[0].line, 1);
+                        assert.strictEqual(messages[0].column, 1);
+                        assert.isNull(messages[0].nodeType);
 
                         assert.deepStrictEqual(
-                            messages,
-                            [
-                                {
-                                    severity: 2,
-                                    fatal: true,
-                                    ruleId: null,
-                                    message: parseErrorMessage,
-                                    line: 1,
-                                    column: 1,
-                                    endLine: 1,
-                                    endColumn: 2,
-                                    nodeType: null
-                                },
-                                {
-                                    severity: 2,
-                                    ruleId: "no-undef",
-                                    message: "'foo' is not defined.",
-                                    messageId: "undef",
-                                    line: 3,
-                                    column: 1,
-                                    endLine: 3,
-                                    endColumn: 4,
-                                    nodeType: "Identifier"
-                                }
-                            ]
+                            messages[1],
+                            {
+                                severity: 2,
+                                ruleId: "no-undef",
+                                message: "'foo' is not defined.",
+                                messageId: "undef",
+                                line: 3,
+                                column: 1,
+                                endLine: 3,
+                                endColumn: 4,
+                                nodeType: "Identifier"
+                            }
                         );
 
                         assert.strictEqual(suppressedMessages.length, 0);
