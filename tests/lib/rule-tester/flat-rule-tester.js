@@ -124,7 +124,7 @@ describe("FlatRuleTester", () => {
             FlatRuleTester.resetDefaultConfig();
             assert.deepStrictEqual(
                 FlatRuleTester.getDefaultConfig(),
-                { rules: {}, files: ["**/*.*"] },
+                { rules: {}, files: ["**"] },
                 "The default configuration has not reset correctly"
             );
         });
@@ -1122,6 +1122,30 @@ describe("FlatRuleTester", () => {
                 {
                     code: "var foo = 'bar'",
                     filename: "somefile.ts"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file name without extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path without extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile.js"
                 }
             ],
             invalid: []
