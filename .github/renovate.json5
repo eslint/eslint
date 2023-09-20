@@ -12,12 +12,8 @@
     "minimumReleaseAge": "7 days",
 
     "packageRules": [
-        // Enable major version updates, but don't auto-merge them
-        {
-            "matchUpdateTypes": ["major"]
-        },
-
         // Enable minor version updates with auto-merging
+        // (Major versions will need to be triggered from the dashboard issue)
         {
             "automerge": true,
             "matchUpdateTypes": ["minor"]
