@@ -16,6 +16,15 @@ const assert = require("assert");
 // Tests
 //------------------------------------------------------------------------------
 
+const schemaString = {
+    type: "string"
+};
+
+const schemaStringWithDefault = {
+    ...schemaString,
+    default: "implicit"
+};
+
 const schemaArrayWithStringItems = {
     items: { type: "string" },
     type: "array"
@@ -99,6 +108,42 @@ describe("getRuleOptions", () => {
             "error",
             [{ default: 1 }],
             [1]
+        ],
+        [
+            "String schema without default value and no config",
+            ["error"],
+            [schemaString],
+            []
+        ],
+        [
+            "String schema without default value and null config",
+            ["error", null],
+            [schemaString],
+            [null]
+        ],
+        [
+            "String schema without default value and explicit config",
+            ["error", "explicit"],
+            [schemaString],
+            ["explicit"]
+        ],
+        [
+            "String schema with default value and no config",
+            ["error"],
+            [schemaStringWithDefault],
+            ["implicit"]
+        ],
+        [
+            "String schema with default value and null config",
+            ["error", null],
+            [schemaStringWithDefault],
+            [null]
+        ],
+        [
+            "String schema with default value and explicit config",
+            ["error", "explicit"],
+            [schemaStringWithDefault],
+            ["explicit"]
         ],
         [
             "Array schema without default value and no config",
