@@ -1398,6 +1398,16 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
 
+            it("should suppress the warning when a file in the node_modules folder passed explicitly and warnIgnored is false", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath("cli-engine"),
+                    warnIgnored: false
+                });
+                const results = await eslint.lintFiles(["node_modules/foo.js"]);
+
+                assert.strictEqual(results.length, 0);
+            });
+
             it("should report on globs with explicit inclusion of dotfiles", async () => {
                 eslint = new FlatESLint({
                     cwd: getFixturePath("cli-engine"),
@@ -1527,6 +1537,18 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].fixableErrorCount, 0);
                 assert.strictEqual(results[0].fixableWarningCount, 0);
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should suppress the warning when an explicitly given file is ignored and warnIgnored is false", async () => {
+                eslint = new FlatESLint({
+                    overrideConfigFile: "eslint.config_with_ignores.js",
+                    cwd: getFixturePath(),
+                    warnIgnored: false
+                });
+                const filePath = getFixturePath("passing.js");
+                const results = await eslint.lintFiles([filePath]);
+
+                assert.strictEqual(results.length, 0);
             });
 
             it("should return a warning about matching ignore patterns when an explicitly given dotfile is ignored", async () => {
