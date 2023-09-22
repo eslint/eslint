@@ -31,7 +31,8 @@
             "description": "Enforce `return` statements in callbacks of array methods",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/array-callback-return"
-        }
+        },
+        "hasSuggestions": true
     },
     "array-element-newline": {
         "type": "layout",

@@ -10,7 +10,7 @@
                     "description": "Enforce `return` statements in callbacks of array methods",
                     "recommended": false,
                     "fixable": false,
-                    "hasSuggestions": false
+                    "hasSuggestions": true
                 },
                 {
                     "name": "constructor-super",
