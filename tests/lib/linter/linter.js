@@ -12193,7 +12193,7 @@ describe("Linter with FlatConfigArray", () => {
                                 {
                                     severity: 2,
                                     ruleId: "no-alert",
-                                    message: "Inline configuration for rule \"no-alert\" is invalid:\n\t: Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2. You passed \"true\".\n",
+                                    message: "Inline configuration for rule \"no-alert\" is invalid:\n\tExpected severity of \"off\", 0, \"warn\", 1, \"error\", or 2. You passed \"true\".\n",
                                     line: 1,
                                     column: 1,
                                     endLine: 1,
