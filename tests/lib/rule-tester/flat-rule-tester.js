@@ -1167,7 +1167,14 @@ describe("FlatRuleTester", () => {
     it("should allow setting the filename to a file path without extension", () => {
         ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
             valid: [
-
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "src/somefile"
+                }
             ],
             invalid: []
         });
