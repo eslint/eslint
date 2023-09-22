@@ -2928,6 +2928,50 @@ describe("RuleTester", () => {
         });
     });
 
+
+    describe("SourceCode forbidden methods", () => {
+
+        [
+            "applyInlineConfig",
+            "applyLanguageOptions",
+            "finalize"
+        ].forEach(methodName => {
+
+            const useForbiddenMethodRule = {
+                create: context => ({
+                    Program() {
+                        const sourceCode = context.sourceCode;
+
+                        sourceCode[methodName]();
+                    }
+                })
+            };
+
+            it(`should throw if ${methodName} is called from a valid test case`, () => {
+                assert.throws(() => {
+                    ruleTester.run("use-forbidden-method", useForbiddenMethodRule, {
+                        valid: [""],
+                        invalid: []
+                    });
+                }, `\`SourceCode#${methodName}()\` cannot be called inside a rule.`);
+            });
+
+            it(`should throw if ${methodName} is called from an invalid test case`, () => {
+                assert.throws(() => {
+                    ruleTester.run("use-forbidden-method", useForbiddenMethodRule, {
+                        valid: [],
+                        invalid: [{
+                            code: "",
+                            errors: [{}]
+                        }]
+                    });
+                }, `\`SourceCode#${methodName}()\` cannot be called inside a rule.`);
+            });
+
+        });
+
+    });
+
     describe("Subclassing", () => {
 
         it("should allow subclasses to set the describe/it/itOnly statics and should correctly use those values", () => {
