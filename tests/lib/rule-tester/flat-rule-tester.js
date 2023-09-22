@@ -1116,6 +1116,84 @@ describe("FlatRuleTester", () => {
         }());
     });
 
+    it("should allow setting the filename to a non-JavaScript file", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile.ts"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path without extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path with extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile.js"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "src/somefile.ts"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "components/Component.vue"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path without extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "src/somefile"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should keep allowing non-JavaScript files if the default config does not specify files", () => {
+        FlatRuleTester.setDefaultConfig({ rules: {} });
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile.ts"
+                }
+            ],
+            invalid: []
+        });
+        FlatRuleTester.resetDefaultConfig();
+    });
+
     it("should pass-through the options to the rule", () => {
         ruleTester.run("no-invalid-args", require("../../fixtures/testers/rule-tester/no-invalid-args"), {
             valid: [
