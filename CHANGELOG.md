@@ -1,3 +1,20 @@
+v8.50.0 - September 22, 2023
+
+* [`f8a8a2d`](https://github.com/eslint/eslint/commit/f8a8a2d6b45c82f94a574623759b6e3d2af193f3) chore: upgrade @eslint/js@8.50.0 (#17599) (Milos Djermanovic)
+* [`38ada6d`](https://github.com/eslint/eslint/commit/38ada6df8f4a0313b7d0739b28f0af6b4897b8ce) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`27d5a9e`](https://github.com/eslint/eslint/commit/27d5a9e57ad347982a68fcd0e75eafee42d344f0) feat: add suggestions to array-callback-return (#17590) (Tanuj Kanti)
+* [`f9082ff`](https://github.com/eslint/eslint/commit/f9082ff3f3956a0a5a7d7659de63640a21c4de0f) feat: flat-rule-tester make sure default config always matches (#17585) (fnx)
+* [`83914ad`](https://github.com/eslint/eslint/commit/83914adbfd5fce7d11b33d095ba6d6a39be0dbbc) feat: Implement SourceCode#applyInlineConfig() (#17351) (Nicholas C. Zakas)
+* [`cc4d26b`](https://github.com/eslint/eslint/commit/cc4d26b5a59d510f2c878e973fd245e8eff27c2a) fix: Ensure deprecated context.parserServices warns (#17593) (Nicholas C. Zakas)
+* [`1ea4cfb`](https://github.com/eslint/eslint/commit/1ea4cfb585dcb52ac3cb1522a32f25cfe507121b) fix: Ensure all RuleTester tests all deprecated context methods (#17587) (Nicholas C. Zakas)
+* [`1800537`](https://github.com/eslint/eslint/commit/180053759c6cf05a326c710353b4717fbf289ee0) docs: Fix and standardize JSX code examples (#17591) (Francesco Trotta)
+* [`22a5582`](https://github.com/eslint/eslint/commit/22a558228ff98f478fa308c9ecde361acc4caf20) feat: add rule `no-object-constructor`, deprecate `no-new-object` (#17576) (Francesco Trotta)
+* [`48a44a7`](https://github.com/eslint/eslint/commit/48a44a73ac456739bdee348bbaf1840d2b1e4830) docs: Add correct/incorrect tags to `prefer-arrow-callback` (#17589) (Francesco Trotta)
+* [`aa1b657`](https://github.com/eslint/eslint/commit/aa1b657a9febcd03e9298c03ae2888762795e322) fix: wrong suggestion and message in `no-misleading-character-class` (#17571) (Yosuke Ota)
+* [`20893d4`](https://github.com/eslint/eslint/commit/20893d48b9012f2b61bbbfeac8bee70d68d90e5e) docs: fix incorrect tag's place (#17575) (Tanuj Kanti)
+* [`85a3d9e`](https://github.com/eslint/eslint/commit/85a3d9e967b19cb4a0189746499d81ef2f93e14e) feat: allowVoid option in array-callback-return (#17564) (Tanuj Kanti)
+* [`bd7a71f`](https://github.com/eslint/eslint/commit/bd7a71fd6b7efb0445393304e2d48c5c06d46a45) docs: Update README (GitHub Actions Bot)
+
 v8.49.0 - September 8, 2023
 
 * [`b7621c3`](https://github.com/eslint/eslint/commit/b7621c3b16cf7d5539f05336a827e1b32d95e6ac) chore: remove browser test from `npm test` (#17550) (Milos Djermanovic)
