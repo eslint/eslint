@@ -3872,17 +3872,16 @@ describe("SourceCode", () => {
 
             const code = "foo";
             const ast = espree.parse(code, DEFAULT_CONFIG);
-            const sourceCode = new SourceCode(code, ast);
             const scopeManager = eslintScope.analyze(ast, {
                 ignoreEval: true,
                 ecmaVersion: 6
             });
+            const sourceCode = new SourceCode({ text: code, ast, scopeManager });
 
             sourceCode.applyLanguageOptions({
                 ecmaVersion: 2015
             });
 
-            sourceCode.scopeManager = scopeManager;
             sourceCode.finalize();
 
             const globalScope = sourceCode.scopeManager.scopes[0];
@@ -3896,11 +3895,11 @@ describe("SourceCode", () => {
 
             const code = "foo";
             const ast = espree.parse(code, DEFAULT_CONFIG);
-            const sourceCode = new SourceCode(code, ast);
             const scopeManager = eslintScope.analyze(ast, {
                 ignoreEval: true,
                 ecmaVersion: 6
             });
+            const sourceCode = new SourceCode({ text: code, ast, scopeManager });
 
             sourceCode.applyLanguageOptions({
                 ecmaVersion: 2015,
@@ -3909,7 +3908,6 @@ describe("SourceCode", () => {
                 }
             });
 
-            sourceCode.scopeManager = scopeManager;
             sourceCode.finalize();
 
             const globalScope = sourceCode.scopeManager.scopes[0];
@@ -3923,19 +3921,18 @@ describe("SourceCode", () => {
 
             const code = "foo";
             const ast = espree.parse(code, DEFAULT_CONFIG);
-            const sourceCode = new SourceCode(code, ast);
             const scopeManager = eslintScope.analyze(ast, {
                 ignoreEval: true,
                 nodejsScope: true,
                 ecmaVersion: 6
             });
+            const sourceCode = new SourceCode({ text: code, ast, scopeManager });
 
             sourceCode.applyLanguageOptions({
                 ecmaVersion: 2015,
                 sourceType: "commonjs"
             });
 
-            sourceCode.scopeManager = scopeManager;
             sourceCode.finalize();
 
             const globalScope = sourceCode.scopeManager.scopes[0];
@@ -3953,17 +3950,13 @@ describe("SourceCode", () => {
 
             const code = "/*global bar: true */ foo";
             const ast = espree.parse(code, DEFAULT_CONFIG);
-            const sourceCode = new SourceCode(code, ast);
             const scopeManager = eslintScope.analyze(ast, {
                 ignoreEval: true,
                 ecmaVersion: 6
             });
+            const sourceCode = new SourceCode({ text: code, ast, scopeManager });
 
-            const result = sourceCode.applyInlineConfig();
-
-            assert.isTrue(result.ok);
-
-            sourceCode.scopeManager = scopeManager;
+            sourceCode.applyInlineConfig();
             sourceCode.finalize();
 
             const globalScope = sourceCode.scopeManager.scopes[0];
@@ -3978,17 +3971,13 @@ describe("SourceCode", () => {
 
             const code = "/*exported foo */ var foo;";
             const ast = espree.parse(code, DEFAULT_CONFIG);
-            const sourceCode = new SourceCode(code, ast);
             const scopeManager = eslintScope.analyze(ast, {
                 ignoreEval: true,
                 ecmaVersion: 6
             });
+            const sourceCode = new SourceCode({ text: code, ast, scopeManager });
 
-            const result = sourceCode.applyInlineConfig();
-
-            assert.isTrue(result.ok);
-
-            sourceCode.scopeManager = scopeManager;
+            sourceCode.applyInlineConfig();
             sourceCode.finalize();
 
             const globalScope = sourceCode.scopeManager.scopes[0];
@@ -4006,7 +3995,6 @@ describe("SourceCode", () => {
             const sourceCode = new SourceCode(code, ast);
             const result = sourceCode.applyInlineConfig();
 
-            assert.isTrue(result.ok);
             assert.strictEqual(result.configs.length, 1);
             assert.strictEqual(result.configs[0].config.rules["some-rule"], 2);
         });
@@ -4018,7 +4006,6 @@ describe("SourceCode", () => {
             const sourceCode = new SourceCode(code, ast);
             const result = sourceCode.applyInlineConfig();
 
-            assert.isTrue(result.ok);
             assert.strictEqual(result.configs.length, 1);
             assert.strictEqual(result.configs[0].config.rules["some-rule"], 2);
             assert.deepStrictEqual(result.configs[0].config.rules["other-rule"], ["error", { skip: true }]);
@@ -4031,7 +4018,6 @@ describe("SourceCode", () => {
             const sourceCode = new SourceCode(code, ast);
             const result = sourceCode.applyInlineConfig();
 
-            assert.isTrue(result.ok);
             assert.strictEqual(result.configs.length, 2);
             assert.strictEqual(result.configs[0].config.rules["some-rule"], 2);
             assert.deepStrictEqual(result.configs[1].config.rules["other-rule"], ["error", { skip: true }]);
@@ -4043,9 +4029,6 @@ describe("SourceCode", () => {
             const ast = espree.parse(code, DEFAULT_CONFIG);
             const sourceCode = new SourceCode(code, ast);
             const result = sourceCode.applyInlineConfig();
-
-            assert.isFalse(result.ok);
-
             const problem = result.problems[0];
 
             // Node.js 19 changes the JSON parsing error format, so we need to check each field separately to use a regex
