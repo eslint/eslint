@@ -1243,39 +1243,6 @@ describe("RuleTester", () => {
         });
     });
 
-    it("should pass-through services from parseForESLint to the rule", () => {
-        const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
-        const disallowHiRule = {
-            create: context => ({
-                Literal(node) {
-                    assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
-
-                    const disallowed = context.sourceCode.parserServices.test.getMessage(); // returns "Hi!"
-
-                    if (node.value === disallowed) {
-                        context.report({ node, message: `Don't use '${disallowed}'` });
-                    }
-                }
-            })
-        };
-
-        ruleTester.run("no-hi", disallowHiRule, {
-            valid: [
-                {
-                    code: "'Hello!'",
-                    parser: enhancedParserPath
-                }
-            ],
-            invalid: [
-                {
-                    code: "'Hi!'",
-                    parser: enhancedParserPath,
-                    errors: [{ message: "Don't use 'Hi!'" }]
-                }
-            ]
-        });
-    });
-
     it("should prevent invalid options schemas", () => {
         assert.throws(() => {
             ruleTester.run("no-invalid-schema", require("../../fixtures/testers/rule-tester/no-invalid-schema"), {
@@ -2515,6 +2482,48 @@ describe("RuleTester", () => {
             );
         });
 
+        it("should pass-through services from parseForESLint to the rule and log deprecation notice", () => {
+            const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
+            const disallowHiRule = {
+                create: context => ({
+                    Literal(node) {
+                        assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
+
+                        const disallowed = context.sourceCode.parserServices.test.getMessage(); // returns "Hi!"
+
+                        if (node.value === disallowed) {
+                            context.report({ node, message: `Don't use '${disallowed}'` });
+                        }
+                    }
+                })
+            };
+
+            ruleTester.run("no-hi", disallowHiRule, {
+                valid: [
+                    {
+                        code: "'Hello!'",
+                        parser: enhancedParserPath
+                    }
+                ],
+                invalid: [
+                    {
+                        code: "'Hi!'",
+                        parser: enhancedParserPath,
+                        errors: [{ message: "Don't use 'Hi!'" }]
+                    }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.deepStrictEqual(
+                processStub.getCall(0).args,
+                [
+                    "\"no-hi\" rule is using `context.parserServices`, which is deprecated and will be removed in ESLint v9. Please use `sourceCode.parserServices` instead.",
+                    "DeprecationWarning"
+                ]
+            );
+
+        });
         Object.entries({
             getSource: "getText",
             getSourceLines: "getLines",
@@ -2582,6 +2591,7 @@ describe("RuleTester", () => {
             });
 
         });
+
 
     });
 
