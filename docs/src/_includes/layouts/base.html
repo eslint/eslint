@@ -13,11 +13,19 @@
         {% set page_title = site[hook].title %}
     {% endif %}
 
+    {% set rule_meta = rules_meta[title] %}
     {% set page_title = site.shared.title_format | replace("PAGE_TITLE", page_title) %}
-    {% set cover_image = ["https://", site.hostname, "/icon-512.png" ] | join %}
-    {% set cover_image_alt = site.shared.eslint_logo_alt %}
     {% set page_desc = site.shared.description %}
     {% set relative_page_url = page.url | url | prettyURL %}
+    {% set cover_image = [
+        "http://", "localhost:56606", "/og",
+        "?title=", title, "&summary=", page_desc,
+        "&is_rule=", rule_meta !== undefined,
+        "&recommended=", rule_meta.docs.recommended,
+        "&fixable=", rule_meta.fixable,
+        "&suggestions=", rule_meta.hasSuggestions
+    ] | join %}
+    {% set cover_image_alt = site.shared.eslint_logo_alt %}
     {% set page_url = ["https://", site.hostname, relative_page_url ] | join %}
 
     <!-- SEO -->
