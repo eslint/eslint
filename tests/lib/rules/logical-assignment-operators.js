@@ -366,11 +366,11 @@ ruleTester.run("logical-assignment-operators", rule, {
             options: ["always"]
         },
         {
-            code: "a = (a || b) || c", // Ignore parentheses if used.
+            code: "a = (a || b) || c", // Allow if parentheses are used.
             options: ["always"]
         },
         {
-            code: "a = (a && b) && c", // Ignore parentheses if used.
+            code: "a = (a && b) && c", // Allow if parentheses are used.
             options: ["always"]
         }
     ],
@@ -1555,6 +1555,17 @@ ruleTester.run("logical-assignment-operators", rule, {
             }]
         },
         {
+            code: "a = a ?? b ?? c",
+            output: "a ??= b ?? c",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "??=" },
+                suggestions: []
+            }]
+        },
+        {
             code: "a = a || b && c",
             output: "a ||= b && c",
             options: ["always"],
@@ -1601,6 +1612,50 @@ ruleTester.run("logical-assignment-operators", rule, {
         {
             code: "a = a || b && c || d",
             output: "a ||= b && c || d",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = (a) || b || c",
+            output: "a ||= b || c",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = a || (b || c) || d",
+            output: "a ||= (b || c) || d",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = (a || b || c)",
+            output: "a ||= (b || c)",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = ((a) || (b || c) || d)",
+            output: "a ||= ((b || c) || d)",
             options: ["always"],
             errors: [{
                 messageId: "assignment",
