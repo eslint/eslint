@@ -37,9 +37,9 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"prefer-double"` option:
 
-:::incorrect
+:::incorrect { "ecmaFeatures": { "jsx": true } }
 
-```xml
+```jsx
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
 
 <a b='c' />
@@ -49,9 +49,9 @@ Examples of **incorrect** code for this rule with the default `"prefer-double"` 
 
 Examples of **correct** code for this rule with the default `"prefer-double"` option:
 
-:::correct
+:::correct { "ecmaFeatures": { "jsx": true } }
 
-```xml
+```jsx
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
 
 <a b="c" />
@@ -64,9 +64,9 @@ Examples of **correct** code for this rule with the default `"prefer-double"` op
 
 Examples of **incorrect** code for this rule with the `"prefer-single"` option:
 
-:::incorrect
+:::incorrect { "ecmaFeatures": { "jsx": true } }
 
-```xml
+```jsx
 /*eslint jsx-quotes: ["error", "prefer-single"]*/
 
 <a b="c" />
@@ -76,9 +76,9 @@ Examples of **incorrect** code for this rule with the `"prefer-single"` option:
 
 Examples of **correct** code for this rule with the `"prefer-single"` option:
 
-:::correct
+:::correct { "ecmaFeatures": { "jsx": true } }
 
-```xml
+```jsx
 /*eslint jsx-quotes: ["error", "prefer-single"]*/
 
 <a b='c' />

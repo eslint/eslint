@@ -1116,6 +1116,84 @@ describe("FlatRuleTester", () => {
         }());
     });
 
+    it("should allow setting the filename to a non-JavaScript file", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile.ts"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path without extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path with extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile.js"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "src/somefile.ts"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "components/Component.vue"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path without extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "src/somefile"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should keep allowing non-JavaScript files if the default config does not specify files", () => {
+        FlatRuleTester.setDefaultConfig({ rules: {} });
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile.ts"
+                }
+            ],
+            invalid: []
+        });
+        FlatRuleTester.resetDefaultConfig();
+    });
+
     it("should pass-through the options to the rule", () => {
         ruleTester.run("no-invalid-args", require("../../fixtures/testers/rule-tester/no-invalid-args"), {
             valid: [
@@ -2248,6 +2326,45 @@ describe("FlatRuleTester", () => {
         });
     });
 
+    describe("deprecations", () => {
+        let processStub;
+
+        beforeEach(() => {
+            processStub = sinon.stub(process, "emitWarning");
+        });
+
+        afterEach(() => {
+            processStub.restore();
+        });
+
+        it("should emit a deprecation warning when CodePath#currentSegments is accessed", () => {
+
+            const useCurrentSegmentsRule = {
+                create: () => ({
+                    onCodePathStart(codePath) {
+                        codePath.currentSegments.forEach(() => { });
+                    }
+                })
+            };
+
+            ruleTester.run("use-current-segments", useCurrentSegmentsRule, {
+                valid: ["foo"],
+                invalid: []
+            });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.deepStrictEqual(
+                processStub.getCall(0).args,
+                [
+                    "\"use-current-segments\" rule uses CodePath#currentSegments and will stop working in ESLint v9. Please read the documentation for how to update your code: https://eslint.org/docs/latest/extend/code-path-analysis#usage-examples",
+                    "DeprecationWarning"
+                ]
+            );
+
+        });
+
+    });
+
     /**
      * Asserts that a particular value will be emitted from an EventEmitter.
      * @param {EventEmitter} emitter The emitter that should emit a value
@@ -2579,6 +2696,49 @@ describe("FlatRuleTester", () => {
                 });
             }, /`SourceCode#getComments\(\)` is deprecated/u);
         });
+    });
+
+    describe("SourceCode forbidden methods", () => {
+
+        [
+            "applyInlineConfig",
+            "applyLanguageOptions",
+            "finalize"
+        ].forEach(methodName => {
+
+            const useForbiddenMethodRule = {
+                create: context => ({
+                    Program() {
+                        const sourceCode = context.sourceCode;
+
+                        sourceCode[methodName]();
+                    }
+                })
+            };
+
+            it(`should throw if ${methodName} is called from a valid test case`, () => {
+                assert.throws(() => {
+                    ruleTester.run("use-forbidden-method", useForbiddenMethodRule, {
+                        valid: [""],
+                        invalid: []
+                    });
+                }, `\`SourceCode#${methodName}()\` cannot be called inside a rule.`);
+            });
+
+            it(`should throw if ${methodName} is called from an invalid test case`, () => {
+                assert.throws(() => {
+                    ruleTester.run("use-forbidden-method", useForbiddenMethodRule, {
+                        valid: [],
+                        invalid: [{
+                            code: "",
+                            errors: [{}]
+                        }]
+                    });
+                }, `\`SourceCode#${methodName}()\` cannot be called inside a rule.`);
+            });
+
+        });
+
     });
 
     describe("Subclassing", () => {

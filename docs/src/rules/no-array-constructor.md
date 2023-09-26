@@ -2,8 +2,8 @@
 title: no-array-constructor
 rule_type: suggestion
 related_rules:
-- no-new-object
 - no-new-wrappers
+- no-object-constructor
 ---
 
 

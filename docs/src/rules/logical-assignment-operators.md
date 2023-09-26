@@ -96,9 +96,9 @@ a = a ?? b
 
 This option checks for additional patterns with if statements which could be expressed with the logical assignment operator.
 
-::: incorrect
-
 Examples of **incorrect** code for this rule with the `["always", { enforceForIfStatements: true }]` option:
+
+::: incorrect
 
 ```js
 /*eslint logical-assignment-operators: ["error", "always", { enforceForIfStatements: true }]*/

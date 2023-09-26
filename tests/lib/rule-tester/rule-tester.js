@@ -1243,39 +1243,6 @@ describe("RuleTester", () => {
         });
     });
 
-    it("should pass-through services from parseForESLint to the rule", () => {
-        const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
-        const disallowHiRule = {
-            create: context => ({
-                Literal(node) {
-                    assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
-
-                    const disallowed = context.sourceCode.parserServices.test.getMessage(); // returns "Hi!"
-
-                    if (node.value === disallowed) {
-                        context.report({ node, message: `Don't use '${disallowed}'` });
-                    }
-                }
-            })
-        };
-
-        ruleTester.run("no-hi", disallowHiRule, {
-            valid: [
-                {
-                    code: "'Hello!'",
-                    parser: enhancedParserPath
-                }
-            ],
-            invalid: [
-                {
-                    code: "'Hi!'",
-                    parser: enhancedParserPath,
-                    errors: [{ message: "Don't use 'Hi!'" }]
-                }
-            ]
-        });
-    });
-
     it("should prevent invalid options schemas", () => {
         assert.throws(() => {
             ruleTester.run("no-invalid-schema", require("../../fixtures/testers/rule-tester/no-invalid-schema"), {
@@ -2490,6 +2457,73 @@ describe("RuleTester", () => {
             assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
         });
 
+        it("should emit a deprecation warning when CodePath#currentSegments is accessed", () => {
+
+            const useCurrentSegmentsRule = {
+                create: () => ({
+                    onCodePathStart(codePath) {
+                        codePath.currentSegments.forEach(() => {});
+                    }
+                })
+            };
+
+            ruleTester.run("use-current-segments", useCurrentSegmentsRule, {
+                valid: ["foo"],
+                invalid: []
+            });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.deepStrictEqual(
+                processStub.getCall(0).args,
+                [
+                    "\"use-current-segments\" rule uses CodePath#currentSegments and will stop working in ESLint v9. Please read the documentation for how to update your code: https://eslint.org/docs/latest/extend/code-path-analysis#usage-examples",
+                    "DeprecationWarning"
+                ]
+            );
+        });
+
+        it("should pass-through services from parseForESLint to the rule and log deprecation notice", () => {
+            const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
+            const disallowHiRule = {
+                create: context => ({
+                    Literal(node) {
+                        assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
+
+                        const disallowed = context.sourceCode.parserServices.test.getMessage(); // returns "Hi!"
+
+                        if (node.value === disallowed) {
+                            context.report({ node, message: `Don't use '${disallowed}'` });
+                        }
+                    }
+                })
+            };
+
+            ruleTester.run("no-hi", disallowHiRule, {
+                valid: [
+                    {
+                        code: "'Hello!'",
+                        parser: enhancedParserPath
+                    }
+                ],
+                invalid: [
+                    {
+                        code: "'Hi!'",
+                        parser: enhancedParserPath,
+                        errors: [{ message: "Don't use 'Hi!'" }]
+                    }
+                ]
+            });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.deepStrictEqual(
+                processStub.getCall(0).args,
+                [
+                    "\"no-hi\" rule is using `context.parserServices`, which is deprecated and will be removed in ESLint v9. Please use `sourceCode.parserServices` instead.",
+                    "DeprecationWarning"
+                ]
+            );
+
+        });
         Object.entries({
             getSource: "getText",
             getSourceLines: "getLines",
@@ -2509,9 +2543,12 @@ describe("RuleTester", () => {
             getTokens: "getTokens",
             getTokensAfter: "getTokensAfter",
             getTokensBefore: "getTokensBefore",
-            getTokensBetween: "getTokensBetween"
+            getTokensBetween: "getTokensBetween",
+            getScope: "getScope",
+            getAncestors: "getAncestors",
+            getDeclaredVariables: "getDeclaredVariables",
+            markVariableAsUsed: "markVariableAsUsed"
         }).forEach(([methodName, replacementName]) => {
-
 
             it(`should log a deprecation warning when calling \`context.${methodName}\``, () => {
                 const ruleToCheckDeprecation = {
@@ -2554,6 +2591,7 @@ describe("RuleTester", () => {
             });
 
         });
+
 
     });
 
@@ -2888,6 +2926,50 @@ describe("RuleTester", () => {
                 });
             }, /`SourceCode#getComments\(\)` is deprecated/u);
         });
+    });
+
+
+    describe("SourceCode forbidden methods", () => {
+
+        [
+            "applyInlineConfig",
+            "applyLanguageOptions",
+            "finalize"
+        ].forEach(methodName => {
+
+            const useForbiddenMethodRule = {
+                create: context => ({
+                    Program() {
+                        const sourceCode = context.sourceCode;
+
+                        sourceCode[methodName]();
+                    }
+                })
+            };
+
+            it(`should throw if ${methodName} is called from a valid test case`, () => {
+                assert.throws(() => {
+                    ruleTester.run("use-forbidden-method", useForbiddenMethodRule, {
+                        valid: [""],
+                        invalid: []
+                    });
+                }, `\`SourceCode#${methodName}()\` cannot be called inside a rule.`);
+            });
+
+            it(`should throw if ${methodName} is called from an invalid test case`, () => {
+                assert.throws(() => {
+                    ruleTester.run("use-forbidden-method", useForbiddenMethodRule, {
+                        valid: [],
+                        invalid: [{
+                            code: "",
+                            errors: [{}]
+                        }]
+                    });
+                }, `\`SourceCode#${methodName}()\` cannot be called inside a rule.`);
+            });
+
+        });
+
     });
 
     describe("Subclassing", () => {

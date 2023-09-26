@@ -10,7 +10,7 @@
                     "description": "Enforce `return` statements in callbacks of array methods",
                     "recommended": false,
                     "fixable": false,
-                    "hasSuggestions": false
+                    "hasSuggestions": true
                 },
                 {
                     "name": "constructor-super",
@@ -951,13 +951,6 @@
                     "hasSuggestions": false
                 },
                 {
-                    "name": "no-new-object",
-                    "description": "Disallow `Object` constructors",
-                    "recommended": false,
-                    "fixable": false,
-                    "hasSuggestions": false
-                },
-                {
                     "name": "no-new-wrappers",
                     "description": "Disallow `new` operators with the `String`, `Number`, and `Boolean` objects",
                     "recommended": false,
@@ -968,6 +961,13 @@
                     "name": "no-nonoctal-decimal-escape",
                     "description": "Disallow `\\8` and `\\9` escape sequences in string literals",
                     "recommended": true,
+                    "fixable": false,
+                    "hasSuggestions": true
+                },
+                {
+                    "name": "no-object-constructor",
+                    "description": "Disallow calls to the `Object` constructor without an argument",
+                    "recommended": false,
                     "fixable": false,
                     "hasSuggestions": true
                 },
@@ -1954,6 +1954,12 @@
                 "name": "no-negated-in-lhs",
                 "replacedBy": [
                     "no-unsafe-negation"
+                ]
+            },
+            {
+                "name": "no-new-object",
+                "replacedBy": [
+                    "no-object-constructor"
                 ]
             },
             {
