@@ -168,13 +168,15 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
 function generateFormatterExamples(formatterInfo) {
     const output = ejs.render(cat("./templates/formatter-examples.md.ejs"), formatterInfo);
     const outputDir = path.join(DOCS_SRC_DIR, "use/formatters/"),
-        filename = path.join(outputDir, "index.md");
+        filename = path.join(outputDir, "index.md"),
+        htmlFilename = path.join(outputDir, "html-formatter-example.html");
 
     if (!test("-d", outputDir)) {
         mkdir(outputDir);
     }
 
     output.to(filename);
+    formatterInfo.formatterResults.html.result.to(htmlFilename);
 }
 
 /**
