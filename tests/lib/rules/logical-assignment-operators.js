@@ -372,6 +372,10 @@ ruleTester.run("logical-assignment-operators", rule, {
         {
             code: "a = (a && b) && c", // Allow if parentheses are used.
             options: ["always"]
+        },
+        {
+            code: "a = (a ?? b) ?? c", // Allow if parentheses are used.
+            options: ["always"]
         }
     ],
     invalid: [
@@ -1595,6 +1599,17 @@ ruleTester.run("logical-assignment-operators", rule, {
                 messageId: "assignment",
                 type: "AssignmentExpression",
                 data: { operator: "&&=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = a ?? b ?? c ?? d",
+            output: "a ??= b ?? c ?? d",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "??=" },
                 suggestions: []
             }]
         },
