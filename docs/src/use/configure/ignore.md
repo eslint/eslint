@@ -149,7 +149,7 @@ You'll see this warning:
 
 ```text
 foo.js
-  0:0  warning  File ignored because of a matching ignore pattern. Use "--no-ignore" to override. Use \"--no-warn-ignored\" to suppress this warning.
+  0:0  warning  File ignored because of a matching ignore pattern. Use "--no-ignore" to disable file ignore settings or use "--no-warn-ignored" to suppress this warning.
 
 ✖ 1 problem (0 errors, 1 warning)
 ```

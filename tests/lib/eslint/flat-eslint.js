@@ -230,8 +230,9 @@ describe("FlatESLint", () => {
                     "- 'overrideConfig' must be an object or null.",
                     "- 'overrideConfigFile' must be a non-empty string, null, or true.",
                     "- 'plugins' must be an object or null.",
-                    "- 'reportUnusedDisableDirectives' must be any of \"error\", \"warn\", \"off\", and null.",
-                    "- 'warnIgnored' must be a boolean."
+                    "- 'reportUnusedDisableDirectives' must be any of \"error\", \"warn\", \"off\", and null."
+
+                    // "- 'warnIgnored' must be a boolean."
                 ].join("\n")), "u")
             );
         });
@@ -371,7 +372,7 @@ describe("FlatESLint", () => {
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].filePath, getFixturePath("passing.js"));
             assert.strictEqual(results[0].messages[0].severity, 1);
-            assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override. Use \"--no-warn-ignored\" to suppress this warning.");
+            assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning.");
             assert.strictEqual(results[0].messages[0].output, void 0);
             assert.strictEqual(results[0].errorCount, 0);
             assert.strictEqual(results[0].warningCount, 1);
@@ -395,7 +396,7 @@ describe("FlatESLint", () => {
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].filePath, getFixturePath("passing.js"));
             assert.strictEqual(results[0].messages[0].severity, 1);
-            assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override. Use \"--no-warn-ignored\" to suppress this warning.");
+            assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning.");
             assert.strictEqual(results[0].messages[0].output, void 0);
             assert.strictEqual(results[0].errorCount, 0);
             assert.strictEqual(results[0].warningCount, 1);
@@ -445,7 +446,7 @@ describe("FlatESLint", () => {
             const results = await eslint.lintText("var bar = foo;", options);
 
             assert.strictEqual(results.length, 1);
-            assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override. Use \"--no-warn-ignored\" to suppress this warning.");
+            assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning.");
         });
 
         it("should return a message when given a filename by --stdin-filename in excluded files list and ignore is off", async () => {
@@ -724,7 +725,7 @@ describe("FlatESLint", () => {
                 ignore: false
             });
             const results = await eslint.lintText("var bar = foo;", { filePath: "node_modules/passing.js", warnIgnored: true });
-            const expectedMsg = "File ignored by default because it is located under the node_modules directory. Use ignore pattern \"!**/node_modules/\" to override. Use \"--no-warn-ignored\" to suppress this warning.";
+            const expectedMsg = "File ignored by default because it is located under the node_modules directory. Use ignore pattern \"!**/node_modules/\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning.";
 
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].filePath, getFixturePath("node_modules/passing.js"));
@@ -1350,7 +1351,7 @@ describe("FlatESLint", () => {
                     cwd: getFixturePath("cli-engine")
                 });
                 const results = await eslint.lintFiles(["node_modules/foo.js"]);
-                const expectedMsg = "File ignored by default because it is located under the node_modules directory. Use ignore pattern \"!**/node_modules/\" to override. Use \"--no-warn-ignored\" to suppress this warning.";
+                const expectedMsg = "File ignored by default because it is located under the node_modules directory. Use ignore pattern \"!**/node_modules/\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning.";
 
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].errorCount, 0);
@@ -1368,7 +1369,7 @@ describe("FlatESLint", () => {
                     cwd: getFixturePath("cli-engine")
                 });
                 const results = await eslint.lintFiles(["nested_node_modules/subdir/node_modules/text.js"]);
-                const expectedMsg = "File ignored by default because it is located under the node_modules directory. Use ignore pattern \"!**/node_modules/\" to override. Use \"--no-warn-ignored\" to suppress this warning.";
+                const expectedMsg = "File ignored by default because it is located under the node_modules directory. Use ignore pattern \"!**/node_modules/\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning.";
 
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].errorCount, 0);
@@ -1387,7 +1388,7 @@ describe("FlatESLint", () => {
                     ignorePatterns: ["*.js"]
                 });
                 const results = await eslint.lintFiles(["node_modules_cleaner.js"]);
-                const expectedMsg = "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override. Use \"--no-warn-ignored\" to suppress this warning.";
+                const expectedMsg = "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning.";
 
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].errorCount, 0);
@@ -1532,7 +1533,7 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].filePath, filePath);
                 assert.strictEqual(results[0].messages[0].severity, 1);
-                assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override. Use \"--no-warn-ignored\" to suppress this warning.");
+                assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning.");
                 assert.strictEqual(results[0].errorCount, 0);
                 assert.strictEqual(results[0].warningCount, 1);
                 assert.strictEqual(results[0].fatalErrorCount, 0);
@@ -1564,7 +1565,7 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].filePath, filePath);
                 assert.strictEqual(results[0].messages[0].severity, 1);
-                assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override. Use \"--no-warn-ignored\" to suppress this warning.");
+                assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning.");
                 assert.strictEqual(results[0].errorCount, 0);
                 assert.strictEqual(results[0].warningCount, 1);
                 assert.strictEqual(results[0].fatalErrorCount, 0);
@@ -5461,7 +5462,7 @@ describe("FlatESLint", () => {
                             {
                                 ruleId: null,
                                 fatal: false,
-                                message: "File ignored by default because it is located under the node_modules directory. Use ignore pattern \"!**/node_modules/\" to override. Use \"--no-warn-ignored\" to suppress this warning.",
+                                message: "File ignored by default because it is located under the node_modules directory. Use ignore pattern \"!**/node_modules/\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning.",
                                 severity: 1,
                                 nodeType: null
                             }
