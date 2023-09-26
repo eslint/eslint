@@ -18,7 +18,7 @@
     {% set page_desc = site.shared.description %}
     {% set relative_page_url = page.url | url | prettyURL %}
     {% set cover_image = [
-        "http://", site.hostname, "/og",
+        "https://", site.hostname, "/og",
         "?title=", title, "&summary=", page_desc,
         "&is_rule=", rule_meta !== undefined,
         "&recommended=", rule_meta.docs.recommended,
