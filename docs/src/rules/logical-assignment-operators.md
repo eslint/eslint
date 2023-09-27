@@ -28,7 +28,7 @@ Object option (only available if string option is set to `"always"`):
 #### always
 
 This option checks for expressions that can be shortened using logical assignment operator. For example, `a = a || b` can be shortened to `a ||= b`.
-Also, expressions with associativity such as `a = a || b || c` are reported as being able to be shortened to `a ||= b || c`. However, it is allowed if the coder makes the evaluation order explicit, such as `a = (a || b) || c`.
+Expressions with associativity such as `a = a || b || c` are reported as being able to be shortened to `a ||= b || c` unless the evaluation order is explicitly defined using parentheses, such as `a = (a || b) || c`.
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
