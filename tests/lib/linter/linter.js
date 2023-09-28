@@ -15473,15 +15473,15 @@ var a = "test2";
                         });
 
                         // Test for literals
-                        for (const testcaseForliteral of [
+                        for (const testcaseForLiteral of [
                             { code: code.replace(/(test\/[\w-]+)/gu, '"$1"'), output: output.replace(/(test\/[\w-]+)/gu, '"$1"') },
                             { code: code.replace(/(test\/[\w-]+)/gu, "'$1'"), output: output.replace(/(test\/[\w-]+)/gu, "'$1'") }
                         ]) {
                             // eslint-disable-next-line no-loop-func -- `linter` is getting updated in beforeEach()
-                            it(testcaseForliteral.code, () => {
+                            it(testcaseForLiteral.code, () => {
                                 assert.strictEqual(
-                                    linter.verifyAndFix(testcaseForliteral.code, config).output,
-                                    testcaseForliteral.output
+                                    linter.verifyAndFix(testcaseForLiteral.code, config).output,
+                                    testcaseForLiteral.output
                                 );
                             });
                         }
