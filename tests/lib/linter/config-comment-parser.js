@@ -224,6 +224,18 @@ describe("ConfigCommentParser", () => {
                 b: true
             });
         });
+
+        it("should parse list config with literal items", () => {
+            const code = "'a', \"b\", 'c\", \"d'";
+            const result = commentParser.parseListConfig(code);
+
+            assert.deepStrictEqual(result, {
+                a: true,
+                b: true,
+                "\"d'": true, // This result is correct because used mismatched quotes.
+                "'c\"": true // This result is correct because used mismatched quotes.
+            });
+        });
     });
 
 });
