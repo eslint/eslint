@@ -18,9 +18,14 @@ var foo = bar > baz ? value1 : value2;
 The above can be rewritten as the following to improve readability and more clearly delineate the operands:
 
 ```js
+
 var foo = bar > baz ?
     value1 :
     value2;
+
+var foo = bar > baz
+    ? value1
+    : value2;
 ```
 
 ## Rule Details
@@ -49,11 +54,8 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 
 foo > bar ? value1 : value2;
 
-foo > bar ? value :
-    value2;
-
-foo > bar ?
-    value : value2;
+foo > bar
+    ? value : value2;
 ```
 
 :::
@@ -69,11 +71,11 @@ foo > bar ?
     value1 :
     value2;
 
-foo > bar ?
-    (baz > qux ?
-        value1 :
-        value2) :
-    value3;
+foo > bar
+    ? (baz > qux
+        ? value1
+        : value2)
+    : value3;
 ```
 
 :::
@@ -126,6 +128,12 @@ foo > bar &&
     bar > baz ?
         value1 :
         value2;
+
+foo > bar
+    ? baz > qux
+        ? value1
+        : value2
+    : value3;
 ```
 
 :::
@@ -164,9 +172,11 @@ foo > bar ? value1 : value2;
 
 foo > bar ? (baz > qux ? value1 : value2) : value3;
 
-foo > bar ? (
-    baz > qux ? value1 : value2
-) : value3;
+foo > bar
+    ? ( baz > qux
+        ? value1
+        : value2 )
+    : value3;
 ```
 
 :::
