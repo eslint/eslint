@@ -49,7 +49,7 @@ With `"parserOptions": { "sourceType": "module" }` in the ESLint configuration, 
 
 Examples of **incorrect** code for this rule in strict mode:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-invalid-this: "error"*/
@@ -97,7 +97,7 @@ foo.forEach(function() {
 
 Examples of **correct** code for this rule in strict mode:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-invalid-this: "error"*/
@@ -243,7 +243,7 @@ Set `"capIsConstructor"` to `false` if you want those functions to be treated as
 
 Examples of **incorrect** code for this rule with `"capIsConstructor"` option set to `false`:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-invalid-this: ["error", { "capIsConstructor": false }]*/
@@ -271,7 +271,7 @@ Baz = function() {
 
 Examples of **correct** code for this rule with `"capIsConstructor"` option set to `false`:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-invalid-this: ["error", { "capIsConstructor": false }]*/

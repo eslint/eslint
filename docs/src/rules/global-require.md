@@ -32,7 +32,7 @@ This rule requires all calls to `require()` to be at the top level of the module
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint global-require: "error"*/
@@ -76,7 +76,7 @@ try {
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint global-require: "error"*/

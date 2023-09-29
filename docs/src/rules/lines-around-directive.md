@@ -60,7 +60,7 @@ This is the default option.
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint lines-around-directive: ["error", "always"] */
@@ -92,7 +92,7 @@ function foo() {
 
 Examples of **correct** code for this rule with the `"always"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint lines-around-directive: ["error", "always"] */
@@ -132,7 +132,7 @@ function foo() {
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint lines-around-directive: ["error", "never"] */
@@ -171,7 +171,7 @@ function foo() {
 
 Examples of **correct** code for this rule with the `"never"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint lines-around-directive: ["error", "never"] */
@@ -205,7 +205,7 @@ function foo() {
 
 Examples of **incorrect** code for this rule with the `{ "before": "never", "after": "always" }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint lines-around-directive: ["error", { "before": "never", "after": "always" }] */
@@ -240,7 +240,7 @@ function foo() {
 
 Examples of **correct** code for this rule with the `{ "before": "never", "after": "always" }`  option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint lines-around-directive: ["error", { "before": "never", "after": "always" }] */
@@ -276,7 +276,7 @@ function foo() {
 
 Examples of **incorrect** code for this rule with the `{ "before": "always", "after": "never" }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint lines-around-directive: ["error", { "before": "always", "after": "never" }] */
@@ -312,7 +312,7 @@ function foo() {
 
 Examples of **correct** code for this rule with the `{ "before": "always", "after": "never" }` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint lines-around-directive: ["error", { "before": "always", "after": "never" }] */

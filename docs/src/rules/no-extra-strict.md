@@ -26,7 +26,7 @@ This rule is aimed at preventing unnecessary `"use strict";` directives. As such
 
 Example of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 "use strict";
@@ -41,7 +41,7 @@ Example of **incorrect** code for this rule:
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 "use strict";
@@ -53,7 +53,7 @@ Examples of **correct** code for this rule:
 
 :::
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 (function () {
