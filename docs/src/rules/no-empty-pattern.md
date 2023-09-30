@@ -34,7 +34,7 @@ This rule aims to flag any empty patterns in destructured objects and arrays, an
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-empty-pattern: "error"*/
@@ -53,7 +53,7 @@ function foo({a: []}) {}
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-empty-pattern: "error"*/
@@ -78,7 +78,7 @@ Set to `false` by default. Setting this option to `true` allows empty object pat
 
 Examples of **incorrect** code for this rule with the `{"allowObjectPatternsAsParameters": true}` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-empty-pattern: ["error", { "allowObjectPatternsAsParameters": true }]*/
@@ -96,7 +96,7 @@ function foo([]) {}
 
 Examples of **correct** code for this rule with the `{"allowObjectPatternsAsParameters": true}` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-empty-pattern: ["error", { "allowObjectPatternsAsParameters": true }]*/

@@ -21,7 +21,7 @@ This rule enforces default parameters to be the last of parameters.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint default-param-last: ["error"] */

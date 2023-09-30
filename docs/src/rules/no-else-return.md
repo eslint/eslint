@@ -32,7 +32,7 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-else-return: "error"*/
@@ -93,7 +93,7 @@ function foo() {
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-else-return: "error"*/

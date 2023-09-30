@@ -54,7 +54,7 @@ A way to determine the node types as defined by [ESTree](https://github.com/estr
 
 Examples of **incorrect** code for this rule with the default `"last"` option:
 
-:::incorrect
+:::incorrect { "sourceType": "script" }
 
 ```js
 /*eslint comma-style: ["error", "last"]*/
@@ -81,7 +81,7 @@ function bar() {
 
 Examples of **correct** code for this rule with the default `"last"` option:
 
-:::correct
+:::correct { "sourceType": "script" }
 
 ```js
 /*eslint comma-style: ["error", "last"]*/
@@ -108,7 +108,7 @@ function bar() {
 
 Examples of **incorrect** code for this rule with the `"first"` option:
 
-:::incorrect
+:::incorrect { "sourceType": "script" }
 
 ```js
 /*eslint comma-style: ["error", "first"]*/
@@ -131,7 +131,7 @@ function bar() {
 
 Examples of **correct** code for this rule with the `"first"` option:
 
-:::correct
+:::correct { "sourceType": "script" }
 
 ```js
 /*eslint comma-style: ["error", "first"]*/

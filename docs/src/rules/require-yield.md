@@ -30,7 +30,7 @@ function* foo() {
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint require-yield: "error"*/

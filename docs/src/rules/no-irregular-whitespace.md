@@ -69,7 +69,7 @@ This rule has an object option for exceptions:
 
 Examples of **incorrect** code for this rule with the default `{ "skipStrings": true }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-irregular-whitespace: "error"*/
@@ -120,7 +120,7 @@ function thing() {
 
 Examples of **correct** code for this rule with the default `{ "skipStrings": true }` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-irregular-whitespace: "error"*/

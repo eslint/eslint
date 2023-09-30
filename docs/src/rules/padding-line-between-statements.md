@@ -112,7 +112,7 @@ function foo() {
 
 Examples of **correct** code for the `[{ blankLine: "always", prev: "*", next: "return" }]` configuration:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint padding-line-between-statements: [
@@ -139,7 +139,7 @@ This configuration would require blank lines after every sequence of variable de
 
 Examples of **incorrect** code for the `[{ blankLine: "always", prev: ["const", "let", "var"], next: "*"}, { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint padding-line-between-statements: [
@@ -175,7 +175,7 @@ class C {
 
 Examples of **correct** code for the `[{ blankLine: "always", prev: ["const", "let", "var"], next: "*"}, { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint padding-line-between-statements: [

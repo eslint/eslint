@@ -50,7 +50,7 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule with the default `{ "before": false, "after": true }` options:
 
-:::incorrect
+:::incorrect { "sourceType": "script" }
 
 ```js
 /*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
@@ -68,7 +68,7 @@ a ,b
 
 Examples of **correct** code for this rule with the default `{ "before": false, "after": true }` options:
 
-:::correct
+:::correct { "sourceType": "script" }
 
 ```js
 /*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
@@ -122,7 +122,7 @@ foo(a, b,)
 
 Examples of **incorrect** code for this rule with the `{ "before": true, "after": false }` options:
 
-:::incorrect
+:::incorrect { "sourceType": "script" }
 
 ```js
 /*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
@@ -139,7 +139,7 @@ a, b
 
 Examples of **correct** code for this rule with the `{ "before": true, "after": false }` options:
 
-:::correct
+:::correct { "sourceType": "script" }
 
 ```js
 /*eslint comma-spacing: ["error", { "before": true, "after": false }]*/

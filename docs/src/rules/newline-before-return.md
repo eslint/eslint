@@ -44,7 +44,7 @@ This rule requires an empty line before `return` statements to increase code cla
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint newline-before-return: "error"*/
@@ -70,7 +70,7 @@ function foo(bar) {
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint newline-before-return: "error"*/

@@ -30,7 +30,7 @@ The "max" object property is optional (default: 1).
 
 Examples of **incorrect** code for this rule with the default `{ "max": 1 }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint max-statements-per-line: ["error", { "max": 1 }]*/
@@ -48,7 +48,7 @@ var foo = function foo() { bar = 1; };
 
 Examples of **correct** code for this rule with the default `{ "max": 1 }` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint max-statements-per-line: ["error", { "max": 1 }]*/
@@ -66,7 +66,7 @@ var foo = function foo() { };
 
 Examples of **incorrect** code for this rule with the `{ "max": 2 }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint max-statements-per-line: ["error", { "max": 2 }]*/
@@ -84,7 +84,7 @@ var foo = function foo() { bar = 1; };
 
 Examples of **correct** code for this rule with the `{ "max": 2 }` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint max-statements-per-line: ["error", { "max": 2 }]*/

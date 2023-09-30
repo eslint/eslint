@@ -26,7 +26,7 @@ This rule is aimed at preventing unexpected behavior in your program that may ar
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-catch-shadow: "error"*/
@@ -54,7 +54,7 @@ try {
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-catch-shadow: "error"*/

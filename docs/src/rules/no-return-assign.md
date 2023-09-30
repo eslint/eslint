@@ -34,7 +34,7 @@ It disallows assignments unless they are enclosed in parentheses.
 
 Examples of **incorrect** code for the default `"except-parens"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-return-assign: "error"*/
@@ -60,7 +60,7 @@ function doSomething() {
 
 Examples of **correct** code for the default `"except-parens"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-return-assign: "error"*/
@@ -95,7 +95,7 @@ All assignments are treated as problems.
 
 Examples of **incorrect** code for the `"always"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-return-assign: ["error", "always"]*/
@@ -117,7 +117,7 @@ function doSomething() {
 
 Examples of **correct** code for the `"always"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-return-assign: ["error", "always"]*/

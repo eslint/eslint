@@ -41,7 +41,7 @@ This rule aims to eliminate the use of `undefined`, and as such, generates a war
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-undefined: "error"*/

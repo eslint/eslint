@@ -25,7 +25,7 @@ This rule aims to eliminate shadowed variable declarations.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-shadow: "error"*/

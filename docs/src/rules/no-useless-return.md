@@ -13,7 +13,7 @@ This rule aims to report redundant `return` statements.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint no-useless-return: "error" */
@@ -50,7 +50,7 @@ function foo() {
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint no-useless-return: "error" */

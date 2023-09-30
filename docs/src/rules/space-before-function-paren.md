@@ -61,7 +61,7 @@ Each of the following options can be set to `"always"`, `"never"`, or `"ignore"`
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint space-before-function-paren: "error"*/
@@ -98,7 +98,7 @@ var foo = async() => 1
 
 Examples of **correct** code for this rule with the default `"always"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint space-before-function-paren: "error"*/
@@ -137,7 +137,7 @@ var foo = async () => 1
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint space-before-function-paren: ["error", "never"]*/
@@ -174,7 +174,7 @@ var foo = async () => 1
 
 Examples of **correct** code for this rule with the `"never"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint space-before-function-paren: ["error", "never"]*/
@@ -213,7 +213,7 @@ var foo = async() => 1
 
 Examples of **incorrect** code for this rule with the `{"anonymous": "always", "named": "never", "asyncArrow": "always"}` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint space-before-function-paren: ["error", {"anonymous": "always", "named": "never", "asyncArrow": "always"}]*/
@@ -246,7 +246,7 @@ var foo = async(a) => await a
 
 Examples of **correct** code for this rule with the `{"anonymous": "always", "named": "never", "asyncArrow": "always"}` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint space-before-function-paren: ["error", {"anonymous": "always", "named": "never", "asyncArrow": "always"}]*/
@@ -281,7 +281,7 @@ var foo = async (a) => await a
 
 Examples of **incorrect** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "never", "named": "always" }]*/
@@ -312,7 +312,7 @@ var foo = {
 
 Examples of **correct** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "never", "named": "always" }]*/
@@ -345,7 +345,7 @@ var foo = {
 
 Examples of **incorrect** code for this rule with the `{"anonymous": "ignore", "named": "always"}` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always" }]*/
@@ -372,7 +372,7 @@ var foo = {
 
 Examples of **correct** code for this rule with the `{"anonymous": "ignore", "named": "always"}` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always" }]*/

@@ -19,7 +19,7 @@ This rule disallows reassigning `function` declarations.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-func-assign: "error"*/
@@ -53,7 +53,7 @@ function foo() {}
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-func-assign: "error"*/

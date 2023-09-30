@@ -57,7 +57,7 @@ function setHeight(someNode) {
 
 Examples of **correct** code for this rule with the default `"except-parens"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-cond-assign: "error"*/
@@ -91,7 +91,7 @@ function setHeight(someNode) {
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-cond-assign: ["error", "always"]*/

@@ -42,7 +42,7 @@ Example configurations:
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint function-paren-newline: ["error", "always"] */
@@ -60,7 +60,7 @@ foo(bar, baz);
 
 Examples of **correct** code for this rule with the `"always"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint function-paren-newline: ["error", "always"] */
@@ -89,7 +89,7 @@ foo(
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint function-paren-newline: ["error", "never"] */
@@ -118,7 +118,7 @@ foo(
 
 Examples of **correct** code for this rule with the `"never"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint function-paren-newline: ["error", "never"] */
@@ -142,7 +142,7 @@ foo(bar,
 
 Examples of **incorrect** code for this rule with the default `"multiline"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint function-paren-newline: ["error", "multiline"] */
@@ -173,7 +173,7 @@ foo(
 
 Examples of **correct** code for this rule with the default `"multiline"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint function-paren-newline: ["error", "multiline"] */
@@ -204,7 +204,7 @@ foo(function() {
 
 Examples of **incorrect** code for this rule with the `"consistent"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint function-paren-newline: ["error", "consistent"] */
@@ -235,7 +235,7 @@ foo(
 
 Examples of **correct** code for this rule with the `"consistent"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint function-paren-newline: ["error", "consistent"] */
@@ -265,7 +265,7 @@ foo(
 
 Examples of **incorrect** code for this rule with the `"multiline-arguments"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint function-paren-newline: ["error", "multiline-arguments"] */
@@ -296,7 +296,7 @@ foo(
 
 Examples of **correct** code for this rule with the consistent `"multiline-arguments"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint function-paren-newline: ["error", "multiline-arguments"] */
@@ -323,7 +323,7 @@ foo(
 
 Examples of **incorrect** code for this rule with the `{ "minItems": 3 }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint function-paren-newline: ["error", { "minItems": 3 }] */
@@ -350,7 +350,7 @@ foo(bar,
 
 Examples of **correct** code for this rule with the `{ "minItems": 3 }` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint function-paren-newline: ["error", { "minItems": 3 }] */

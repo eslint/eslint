@@ -67,7 +67,7 @@ for (; !!foo; ) {
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-extra-boolean-cast: "error"*/

@@ -154,7 +154,7 @@ for (;(a = b););
 
 Examples of **correct** code for this rule with the `"all"` and `{ "returnAssign": false }` options:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint no-extra-parens: ["error", "all", { "returnAssign": false }] */

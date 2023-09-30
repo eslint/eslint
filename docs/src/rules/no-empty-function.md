@@ -30,7 +30,7 @@ A function will not be considered a problem if it contains a comment.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-empty-function: "error"*/
@@ -85,7 +85,7 @@ class A {
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-empty-function: "error"*/
@@ -198,7 +198,7 @@ This rule has an option to allow specific kinds of functions to be empty.
 
 Examples of **correct** code for the `{ "allow": ["functions"] }` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["functions"] }]*/
@@ -233,7 +233,7 @@ var foo = () => {};
 
 Examples of **correct** code for the `{ "allow": ["generatorFunctions"] }` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["generatorFunctions"] }]*/

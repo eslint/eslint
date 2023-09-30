@@ -60,7 +60,7 @@ Default option settings are:
 
 Examples of **incorrect** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint "require-jsdoc": ["error", {
@@ -106,7 +106,7 @@ var foo = {
 
 Examples of **correct** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } }` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint "require-jsdoc": ["error", {

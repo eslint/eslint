@@ -20,7 +20,7 @@ Allowing multiple declarations helps promote maintainability and is thus allowed
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint vars-on-top: "error"*/
@@ -82,7 +82,7 @@ class C {
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint vars-on-top: "error"*/

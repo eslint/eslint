@@ -16,7 +16,7 @@ This rule aims to prevent unintended behavior caused by modification or reassign
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-param-reassign: "error"*/
@@ -62,7 +62,7 @@ This rule takes one option, an object, with a boolean property `"props"`, and  a
 
 Examples of **correct** code for the default `{ "props": false }` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": false }]*/
@@ -92,7 +92,7 @@ function foo(bar) {
 
 Examples of **incorrect** code for the `{ "props": true }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": true }]*/
@@ -122,7 +122,7 @@ function foo(bar) {
 
 Examples of **correct** code for the `{ "props": true }` option with `"ignorePropertyModificationsFor"` set:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["bar"] }]*/
@@ -152,7 +152,7 @@ function foo(bar) {
 
 Examples of **correct** code for the `{ "props": true }` option with `"ignorePropertyModificationsForRegex"` set:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsForRegex": ["^bar"] }]*/

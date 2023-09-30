@@ -143,7 +143,7 @@ var { prop: [x]} = {};
 
 Examples of **correct** code for this rule with the `{ "min": 4 }` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint id-length: ["error", { "min": 4 }]*/

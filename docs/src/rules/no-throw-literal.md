@@ -69,7 +69,7 @@ Due to the limits of static analysis, this rule cannot guarantee that you will o
 
 Examples of **correct** code for this rule, but which do not throw an `Error` object:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-throw-literal: "error"*/
