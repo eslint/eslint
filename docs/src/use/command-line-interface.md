@@ -110,6 +110,7 @@ Miscellaneous:
   --env-info                      Output execution environment information - default: false
   --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched
   --exit-on-fatal-error           Exit with exit code 2 in case of fatal error - default: false
+  --no-warn-ignored               Suppress warnings when the file list includes ignored files. *Flat Config Mode Only*
   --debug                         Output debugging information
   -h, --help                      Show help
   -v, --version                   Output the version number
@@ -701,6 +702,18 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 ```shell
 npx eslint --exit-on-fatal-error file.js
+```
+
+#### `--no-warn-ignored`
+
+**Flat Config Mode Only.** This option suppresses both `File ignored by default` and `File ignored because of a matching ignore pattern` warnings when an ignored filename is passed explicitly. It is useful when paired with `--max-warnings 0` as it will prevent exit code 1 due to the aforementioned warning.
+
+* **Argument Type**: No argument.
+
+##### `--no-warn-ignored` example
+
+```shell
+npx eslint --no-warn-ignored --max-warnings 0 ignored-file.js
 ```
 
 #### `--debug`
