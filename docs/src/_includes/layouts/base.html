@@ -19,7 +19,7 @@
     {% set relative_page_url = page.url | url | prettyURL %}
     {% set cover_image = [
         "https://", site.hostname, "/og",
-        "?title=", title, "&summary=", page_desc,
+        "?title=", title | urlencode, "&summary=", page_desc | urlencode,
         "&is_rule=", rule_meta !== undefined,
         "&recommended=", rule_meta.docs.recommended,
         "&fixable=", rule_meta.fixable,
