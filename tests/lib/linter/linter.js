@@ -15627,7 +15627,7 @@ var a = "test2";
                 const code = BROKEN_TEST_CODE;
 
                 it("should report a violation with a useful parse error prefix", () => {
-                    const messages = linter.verify(code);
+                    const messages = linter.verify(code, {});
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     assert.strictEqual(messages.length, 1);
@@ -15648,7 +15648,7 @@ var a = "test2";
                         "    x++;",
                         "}"
                     ];
-                    const messages = linter.verify(inValidCode.join("\n"));
+                    const messages = linter.verify(inValidCode.join("\n"), {});
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     assert.strictEqual(messages.length, 1);
@@ -16584,7 +16584,7 @@ var a = "test2";
         });
 
         it("should not crash when invalid parentheses syntax is encountered", () => {
-            linter.verify("left = (aSize.width/2) - ()");
+            linter.verify("left = (aSize.width/2) - ()", {});
         });
 
         it("should not crash when let is used inside of switch case", () => {
