@@ -54,8 +54,11 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 
 foo > bar ? value1 : value2;
 
-foo > bar
-    ? value : value2;
+foo > bar ? value :
+    value2;
+
+foo > bar ?
+    value : value2;
 ```
 
 :::
@@ -70,6 +73,12 @@ Examples of **correct** code for this rule with the `"always"` option:
 foo > bar ?
     value1 :
     value2;
+
+foo > bar ?
+    (baz > qux ?
+        value1 :
+        value2) :
+    value3;
 
 foo > bar
     ? (baz > qux
@@ -172,11 +181,9 @@ foo > bar ? value1 : value2;
 
 foo > bar ? (baz > qux ? value1 : value2) : value3;
 
-foo > bar
-    ? ( baz > qux
-        ? value1
-        : value2 )
-    : value3;
+foo > bar ? (
+    baz > qux ? value1 : value2
+) : value3;
 ```
 
 :::
