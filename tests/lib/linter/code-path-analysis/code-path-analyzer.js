@@ -725,7 +725,7 @@ describe("CodePathAnalyzer", () => {
         });
     });
 
-    describe.only("completed code paths are correct", () => {
+    describe("completed code paths are correct", () => {
         const testDataDir = path.join(__dirname, "../../../fixtures/code-path-analysis/");
         const testDataFiles = fs.readdirSync(testDataDir);
 
