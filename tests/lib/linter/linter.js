@@ -2604,6 +2604,33 @@ describe("Linter", () => {
                 assert.strictEqual(suppressedMessages.length, 2);
                 assert.strictEqual(suppressedMessages[0].ruleId, "no-alert");
             });
+
+            it("should report a violation with quoted rule names in eslint-disable-line", () => {
+                const code = [
+                    "alert('test'); // eslint-disable-line 'no-alert'",
+                    "console.log('test');", // here
+                    "alert('test'); // eslint-disable-line \"no-alert\""
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-alert": 1,
+                        "no-console": 1
+                    }
+                };
+
+                const messages = linter.verify(code, config, filename);
+                const suppressedMessages = linter.getSuppressedMessages();
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].ruleId, "no-console");
+                assert.strictEqual(messages[0].line, 2);
+
+                assert.strictEqual(suppressedMessages.length, 2);
+                assert.strictEqual(suppressedMessages[0].ruleId, "no-alert");
+                assert.strictEqual(suppressedMessages[0].line, 1);
+                assert.strictEqual(suppressedMessages[1].ruleId, "no-alert");
+                assert.strictEqual(suppressedMessages[1].line, 3);
+            });
         });
 
         describe("eslint-disable-next-line", () => {
@@ -2957,6 +2984,31 @@ describe("Linter", () => {
 
                 assert.strictEqual(suppressedMessages.length, 0);
             });
+
+            it("should ignore violation of specified rule on next line with quoted rule names", () => {
+                const code = [
+                    "// eslint-disable-next-line 'no-alert'",
+                    "alert('test');",
+                    "// eslint-disable-next-line \"no-alert\"",
+                    "alert('test');",
+                    "console.log('test');"
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-alert": 1,
+                        "no-console": 1
+                    }
+                };
+                const messages = linter.verify(code, config, filename);
+                const suppressedMessages = linter.getSuppressedMessages();
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].ruleId, "no-console");
+
+                assert.strictEqual(suppressedMessages.length, 2);
+                assert.strictEqual(suppressedMessages[0].ruleId, "no-alert");
+                assert.strictEqual(suppressedMessages[1].ruleId, "no-alert");
+            });
         });
     });
 
@@ -3224,6 +3276,61 @@ describe("Linter", () => {
             assert.strictEqual(messages[1].line, 8);
             assert.strictEqual(messages[2].ruleId, "no-console");
             assert.strictEqual(messages[2].line, 9);
+
+            assert.strictEqual(suppressedMessages.length, 3);
+            assert.strictEqual(suppressedMessages[0].ruleId, "no-alert");
+            assert.strictEqual(suppressedMessages[0].line, 2);
+            assert.strictEqual(suppressedMessages[1].ruleId, "no-console");
+            assert.strictEqual(suppressedMessages[1].line, 3);
+            assert.strictEqual(suppressedMessages[2].ruleId, "no-console");
+            assert.strictEqual(suppressedMessages[2].line, 6);
+        });
+
+        it("should report a violation with quoted rule names in eslint-disable", () => {
+            const code = [
+                "/*eslint-disable 'no-alert' */",
+                "alert('test');",
+                "console.log('test');", // here
+                "/*eslint-enable */",
+                "/*eslint-disable \"no-console\" */",
+                "alert('test');", // here
+                "console.log('test');"
+            ].join("\n");
+            const config = { rules: { "no-alert": 1, "no-console": 1 } };
+
+            const messages = linter.verify(code, config, filename);
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 2);
+            assert.strictEqual(messages[0].ruleId, "no-console");
+            assert.strictEqual(messages[1].ruleId, "no-alert");
+
+            assert.strictEqual(suppressedMessages.length, 2);
+            assert.strictEqual(suppressedMessages[0].ruleId, "no-alert");
+            assert.strictEqual(suppressedMessages[1].ruleId, "no-console");
+        });
+
+        it("should report a violation with quoted rule names in eslint-enable", () => {
+            const code = [
+                "/*eslint-disable no-alert, no-console */",
+                "alert('test');",
+                "console.log('test');",
+                "/*eslint-enable 'no-alert'*/",
+                "alert('test');", // here
+                "console.log('test');",
+                "/*eslint-enable \"no-console\"*/",
+                "console.log('test');" // here
+            ].join("\n");
+            const config = { rules: { "no-alert": 1, "no-console": 1 } };
+
+            const messages = linter.verify(code, config, filename);
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 2);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].line, 5);
+            assert.strictEqual(messages[1].ruleId, "no-console");
+            assert.strictEqual(messages[1].line, 8);
 
             assert.strictEqual(suppressedMessages.length, 3);
             assert.strictEqual(suppressedMessages[0].ruleId, "no-alert");
@@ -4813,6 +4920,20 @@ var a = "test2";
                         output
                     );
                 });
+
+                // Test for quoted rule names
+                for (const testcaseForLiteral of [
+                    { code: code.replace(/(test\/[\w-]+)/gu, '"$1"'), output: output.replace(/(test\/[\w-]+)/gu, '"$1"') },
+                    { code: code.replace(/(test\/[\w-]+)/gu, "'$1'"), output: output.replace(/(test\/[\w-]+)/gu, "'$1'") }
+                ]) {
+                    // eslint-disable-next-line no-loop-func -- `linter` is getting updated in beforeEach()
+                    it(testcaseForLiteral.code, () => {
+                        assert.strictEqual(
+                            linter.verifyAndFix(testcaseForLiteral.code, config).output,
+                            testcaseForLiteral.output
+                        );
+                    });
+                }
             }
         });
     });
@@ -13060,7 +13181,7 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages[1].line, 3);
                 });
 
-                it("should report a violation with literals in eslint-disable", () => {
+                it("should report a violation with quoted rule names in eslint-disable", () => {
                     const code = [
                         "/*eslint-disable 'no-alert' */",
                         "alert('test');",
@@ -13084,7 +13205,7 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages[1].ruleId, "no-console");
                 });
 
-                it("should report a violation with literals in eslint-enable", () => {
+                it("should report a violation with quoted rule names in eslint-enable", () => {
                     const code = [
                         "/*eslint-disable no-alert, no-console */",
                         "alert('test');",
@@ -13347,7 +13468,7 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages.length, 5);
                 });
 
-                it("should report a violation with literals in eslint-disable-line", () => {
+                it("should report a violation with quoted rule names in eslint-disable-line", () => {
                     const code = [
                         "alert('test'); // eslint-disable-line 'no-alert'",
                         "console.log('test');", // here
@@ -13770,7 +13891,7 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages.length, 0);
                 });
 
-                it("should ignore violation of specified rule on next line with literals", () => {
+                it("should ignore violation of specified rule on next line with quoted rule names", () => {
                     const code = [
                         "// eslint-disable-next-line 'no-alert'",
                         "alert('test');",
@@ -15472,7 +15593,7 @@ var a = "test2";
                             );
                         });
 
-                        // Test for literals
+                        // Test for quoted rule names
                         for (const testcaseForLiteral of [
                             { code: code.replace(/(test\/[\w-]+)/gu, '"$1"'), output: output.replace(/(test\/[\w-]+)/gu, '"$1"') },
                             { code: code.replace(/(test\/[\w-]+)/gu, "'$1'"), output: output.replace(/(test\/[\w-]+)/gu, "'$1'") }

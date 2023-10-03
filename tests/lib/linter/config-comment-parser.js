@@ -225,7 +225,7 @@ describe("ConfigCommentParser", () => {
             });
         });
 
-        it("should parse list config with literal items", () => {
+        it("should parse list config with quoted items", () => {
             const code = "'a', \"b\", 'c\", \"d'";
             const result = commentParser.parseListConfig(code);
 
