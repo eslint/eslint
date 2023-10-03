@@ -13060,7 +13060,7 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages[1].line, 3);
                 });
 
-                it("should report a violation with literals", () => {
+                it("should report a violation with literals in eslint-disable", () => {
                     const code = [
                         "/*eslint-disable 'no-alert' */",
                         "alert('test');",
@@ -13084,7 +13084,7 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages[1].ruleId, "no-console");
                 });
 
-                it("should report a violation with literals", () => {
+                it("should report a violation with literals in eslint-enable", () => {
                     const code = [
                         "/*eslint-disable no-alert, no-console */",
                         "alert('test');",
@@ -13347,7 +13347,7 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages.length, 5);
                 });
 
-                it("should report a violation with literals", () => {
+                it("should report a violation with literals in eslint-disable-line", () => {
                     const code = [
                         "alert('test'); // eslint-disable-line 'no-alert'",
                         "console.log('test');", // here
