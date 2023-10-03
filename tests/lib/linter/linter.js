@@ -4949,8 +4949,8 @@ var a = "test2";
 
                 // Test for quoted rule names
                 for (const testcaseForLiteral of [
-                    { code: code.replace(/(test\/[\w-]+)/gu, '"$1"'), output: output.replace(/(test\/[\w-]+)/gu, '"$1"') },
-                    { code: code.replace(/(test\/[\w-]+)/gu, "'$1'"), output: output.replace(/(test\/[\w-]+)/gu, "'$1'") }
+                    { code: code.replace(/((?:un)?used[\w-]*)/gu, '"$1"'), output: output.replace(/((?:un)?used[\w-]*)/gu, '"$1"') },
+                    { code: code.replace(/((?:un)?used[\w-]*)/gu, "'$1'"), output: output.replace(/((?:un)?used[\w-]*)/gu, "'$1'") }
                 ]) {
                     // eslint-disable-next-line no-loop-func -- `linter` is getting updated in beforeEach()
                     it(testcaseForLiteral.code, () => {
