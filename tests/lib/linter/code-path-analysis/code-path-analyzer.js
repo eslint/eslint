@@ -730,8 +730,6 @@ describe("CodePathAnalyzer", () => {
         const testDataFiles = fs.readdirSync(testDataDir);
 
         testDataFiles.forEach(file => {
-
-            // if (!file.includes("--and-qq")) return;
             it(file, () => {
                 const source = fs.readFileSync(path.join(testDataDir, file), { encoding: "utf8" });
                 const expected = getExpectedDotArrows(source);
