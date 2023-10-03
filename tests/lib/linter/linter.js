@@ -4402,6 +4402,90 @@ var a = "test2";
             assert.strictEqual(suppressedMessages.length, 0);
         });
 
+        it("reports problems for unused eslint-disable comments (in config)", () => {
+            const messages = linter.verify("/* eslint-disable */", { reportUnusedDisableDirectives: true });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.deepStrictEqual(
+                messages,
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: " "
+                        },
+                        severity: 1,
+                        nodeType: null
+                    }
+                ]
+            );
+
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("reports problems for partially unused eslint-disable comments (in config)", () => {
+            const code = "alert('test'); // eslint-disable-line no-alert, no-redeclare";
+            const config = {
+                reportUnusedDisableDirectives: true,
+                rules: {
+                    "no-alert": 1,
+                    "no-redeclare": 1
+                }
+            };
+
+            const messages = linter.verify(code, config, {
+                filename,
+                allowInlineConfig: true
+            });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.deepStrictEqual(
+                messages,
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported from 'no-redeclare').",
+                        line: 1,
+                        column: 16,
+                        fix: {
+                            range: [46, 60],
+                            text: ""
+                        },
+                        severity: 1,
+                        nodeType: null
+                    }
+                ]
+            );
+
+            assert.strictEqual(suppressedMessages.length, 1);
+            assert.strictEqual(suppressedMessages[0].ruleId, "no-alert");
+        });
+
+        it("reports no problems for no-fallthrough despite comment pattern match", () => {
+            const code = "switch (foo) { case 0: a(); \n// eslint-disable-next-line no-fallthrough\n case 1: }";
+            const config = {
+                reportUnusedDisableDirectives: true,
+                rules: {
+                    "no-fallthrough": 2
+                }
+            };
+
+            const messages = linter.verify(code, config, {
+                filename,
+                allowInlineConfig: true
+            });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 0);
+
+            assert.strictEqual(suppressedMessages.length, 1);
+            assert.strictEqual(suppressedMessages[0].ruleId, "no-fallthrough");
+        });
+
         it("reports problems for multiple eslint-enable comments with same ruleId", () => {
             const code = [
                 "/* eslint-disable no-alert -- j1 */",
@@ -4566,90 +4650,6 @@ var a = "test2";
             );
 
             assert.strictEqual(suppressedMessages.length, 0);
-        });
-
-        it("reports problems for unused eslint-disable comments (in config)", () => {
-            const messages = linter.verify("/* eslint-disable */", { reportUnusedDisableDirectives: true });
-            const suppressedMessages = linter.getSuppressedMessages();
-
-            assert.deepStrictEqual(
-                messages,
-                [
-                    {
-                        ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported).",
-                        line: 1,
-                        column: 1,
-                        fix: {
-                            range: [0, 20],
-                            text: " "
-                        },
-                        severity: 1,
-                        nodeType: null
-                    }
-                ]
-            );
-
-            assert.strictEqual(suppressedMessages.length, 0);
-        });
-
-        it("reports problems for partially unused eslint-disable comments (in config)", () => {
-            const code = "alert('test'); // eslint-disable-line no-alert, no-redeclare";
-            const config = {
-                reportUnusedDisableDirectives: true,
-                rules: {
-                    "no-alert": 1,
-                    "no-redeclare": 1
-                }
-            };
-
-            const messages = linter.verify(code, config, {
-                filename,
-                allowInlineConfig: true
-            });
-            const suppressedMessages = linter.getSuppressedMessages();
-
-            assert.deepStrictEqual(
-                messages,
-                [
-                    {
-                        ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported from 'no-redeclare').",
-                        line: 1,
-                        column: 16,
-                        fix: {
-                            range: [46, 60],
-                            text: ""
-                        },
-                        severity: 1,
-                        nodeType: null
-                    }
-                ]
-            );
-
-            assert.strictEqual(suppressedMessages.length, 1);
-            assert.strictEqual(suppressedMessages[0].ruleId, "no-alert");
-        });
-
-        it("reports no problems for no-fallthrough despite comment pattern match", () => {
-            const code = "switch (foo) { case 0: a(); \n// eslint-disable-next-line no-fallthrough\n case 1: }";
-            const config = {
-                reportUnusedDisableDirectives: true,
-                rules: {
-                    "no-fallthrough": 2
-                }
-            };
-
-            const messages = linter.verify(code, config, {
-                filename,
-                allowInlineConfig: true
-            });
-            const suppressedMessages = linter.getSuppressedMessages();
-
-            assert.strictEqual(messages.length, 0);
-
-            assert.strictEqual(suppressedMessages.length, 1);
-            assert.strictEqual(suppressedMessages[0].ruleId, "no-fallthrough");
         });
 
         describe("autofix", () => {
@@ -15592,6 +15592,172 @@ var a = "test2";
                             }
                         ]
                     );
+                });
+
+                it("reports problems for multiple eslint-enable comments with same ruleId", () => {
+                    const code = [
+                        "/* eslint-disable no-alert -- j1 */",
+                        "alert(\"test\"); //",
+                        "/* eslint-enable no-alert -- j2 */",
+                        "/* eslint-enable no-alert -- j3 */"
+                    ].join("\n");
+                    const config = {
+                        rules: {
+                            "no-alert": 2
+                        }
+                    };
+                    const messages = linter.verify(code, config, { reportUnusedDisableDirectives: true });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].line, 4);
+                    assert.strictEqual(suppressedMessages.length, 1);
+                    assert.strictEqual(suppressedMessages[0].suppressions.length, 1);
+                });
+
+                it("reports problems for multiple eslint-enable comments without ruleId (Rule is already enabled)", () => {
+                    const code = [
+                        "/* eslint-disable no-alert -- j1 */",
+                        "alert(\"test\"); //",
+                        "/* eslint-enable no-alert -- j2 */",
+                        "/* eslint-enable -- j3 */"
+                    ].join("\n");
+                    const config = {
+                        rules: {
+                            "no-alert": 2
+                        }
+                    };
+                    const messages = linter.verify(code, config, { reportUnusedDisableDirectives: true });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].line, 4);
+                    assert.strictEqual(suppressedMessages.length, 1);
+                    assert.strictEqual(suppressedMessages[0].suppressions.length, 1);
+                });
+
+                it("reports problems for multiple eslint-enable comments with ruleId (Rule is already enabled by eslint-enable comments without ruleId)", () => {
+                    const code = [
+                        "/* eslint-disable no-alert -- j1 */",
+                        "alert(\"test\"); //",
+                        "/* eslint-enable -- j3 */",
+                        "/* eslint-enable no-alert -- j2 */"
+                    ].join("\n");
+                    const config = {
+                        rules: {
+                            "no-alert": 2
+                        }
+                    };
+                    const messages = linter.verify(code, config, { reportUnusedDisableDirectives: true });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].line, 4);
+                    assert.strictEqual(suppressedMessages.length, 1);
+                    assert.strictEqual(suppressedMessages[0].suppressions.length, 1);
+                });
+
+                it("reports problems for eslint-enable comments without ruleId (Two rules are already enabled)", () => {
+                    const code = [
+                        "/* eslint-disable no-alert, no-console -- j1 */",
+                        "alert(\"test\"); //",
+                        "console.log(\"test\"); //",
+                        "/* eslint-enable no-alert -- j2 */",
+                        "/* eslint-enable no-console -- j3 */",
+                        "/* eslint-enable -- j4 */"
+                    ].join("\n");
+                    const config = {
+                        rules: {
+                            "no-alert": 2,
+                            "no-console": 2
+                        }
+                    };
+                    const messages = linter.verify(code, config, { reportUnusedDisableDirectives: true });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].line, 6);
+                    assert.strictEqual(suppressedMessages.length, 2);
+                    assert.strictEqual(suppressedMessages[0].suppressions.length, 1);
+                    assert.strictEqual(suppressedMessages[1].suppressions.length, 1);
+                });
+
+                it("reports problems for multiple eslint-enable comments with ruleId (Two rules are already enabled by eslint-enable comments without ruleId)", () => {
+                    const code = [
+                        "/* eslint-disable no-alert, no-console -- j1 */",
+                        "alert(\"test\"); //",
+                        "console.log(\"test\"); //",
+                        "/* eslint-enable -- j2 */",
+                        "/* eslint-enable no-console -- j3 */",
+                        "/* eslint-enable no-alert -- j4 */"
+                    ].join("\n");
+                    const config = {
+                        rules: {
+                            "no-alert": 2,
+                            "no-console": 2
+                        }
+                    };
+                    const messages = linter.verify(code, config, { reportUnusedDisableDirectives: true });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 2);
+                    assert.strictEqual(messages[0].line, 5);
+                    assert.strictEqual(messages[1].line, 6);
+                    assert.strictEqual(suppressedMessages.length, 2);
+                    assert.strictEqual(suppressedMessages[0].suppressions.length, 1);
+                    assert.strictEqual(suppressedMessages[1].suppressions.length, 1);
+                });
+
+                it("reports problems for multiple eslint-enable comments", () => {
+                    const code = [
+                        "/* eslint-disable no-alert, no-console -- j1 */",
+                        "alert(\"test\"); //",
+                        "console.log(\"test\"); //",
+                        "/* eslint-enable no-console -- j2 */",
+                        "/* eslint-enable -- j3 */",
+                        "/* eslint-enable no-alert -- j4 */",
+                        "/* eslint-enable -- j5 */"
+                    ].join("\n");
+                    const config = {
+                        rules: {
+                            "no-alert": 2,
+                            "no-console": 2
+                        }
+                    };
+                    const messages = linter.verify(code, config, { reportUnusedDisableDirectives: true });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 2);
+                    assert.strictEqual(messages[0].line, 6);
+                    assert.strictEqual(messages[1].line, 7);
+                    assert.strictEqual(suppressedMessages.length, 2);
+                    assert.strictEqual(suppressedMessages[0].suppressions.length, 1);
+                    assert.strictEqual(suppressedMessages[1].suppressions.length, 1);
+                });
+
+                it("reports problems for unused eslint-disable comments (warn)", () => {
+                    const messages = linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: "warn" });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.deepStrictEqual(
+                        messages,
+                        [
+                            {
+                                ruleId: null,
+                                message: "Unused eslint-disable directive (no problems were reported).",
+                                line: 1,
+                                column: 1,
+                                fix: {
+                                    range: [0, 20],
+                                    text: " "
+                                },
+                                severity: 1,
+                                nodeType: null
+                            }
+                        ]
+                    );
+
+                    assert.strictEqual(suppressedMessages.length, 0);
                 });
 
                 describe("autofix", () => {
