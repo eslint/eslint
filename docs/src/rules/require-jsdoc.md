@@ -60,7 +60,7 @@ Default option settings are:
 
 Examples of **incorrect** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } }` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint "require-jsdoc": ["error", {
@@ -77,7 +77,7 @@ function foo() {
     return 10;
 }
 
-var foo = () => {
+var bar = () => {
     return 10;
 };
 
@@ -87,11 +87,11 @@ class Foo {
     }
 }
 
-var foo = function() {
+var bar = function() {
     return 10;
 };
 
-var foo = {
+var bar = {
     bar: function() {
         return 10;
     },
@@ -106,7 +106,7 @@ var foo = {
 
 Examples of **correct** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } }` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint "require-jsdoc": ["error", {
@@ -131,21 +131,21 @@ function foo() {
  * @params {int} test - some number
  * @returns {int} sum of test and 10
  */
-var foo = (test) => {
+var bar = (test) => {
     return test + 10;
 }
 
 /**
  * It returns 10
  */
-var foo = () => {
+var bar = () => {
     return 10;
 }
 
 /**
  * It returns 10
  */
-var foo = function() {
+var bar = function() {
     return 10;
 }
 
@@ -169,11 +169,11 @@ class Foo {
 /**
  * It returns 10
  */
-var foo = function() {
+var bar = function() {
     return 10;
 };
 
-var foo = {
+var bar = {
     /**
     * It returns 10
     */

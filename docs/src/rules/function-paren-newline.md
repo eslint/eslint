@@ -42,16 +42,16 @@ Example configurations:
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /* eslint function-paren-newline: ["error", "always"] */
 
 function foo(bar, baz) {}
 
-var foo = function(bar, baz) {};
+var qux = function(bar, baz) {};
 
-var foo = (bar, baz) => {};
+var qux = (bar, baz) => {};
 
 foo(bar, baz);
 ```
@@ -60,7 +60,7 @@ foo(bar, baz);
 
 Examples of **correct** code for this rule with the `"always"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /* eslint function-paren-newline: ["error", "always"] */
@@ -70,11 +70,11 @@ function foo(
   baz
 ) {}
 
-var foo = function(
+var qux = function(
   bar, baz
 ) {};
 
-var foo = (
+var qux = (
   bar,
   baz
 ) => {};
@@ -89,7 +89,7 @@ foo(
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /* eslint function-paren-newline: ["error", "never"] */
@@ -99,11 +99,11 @@ function foo(
   baz
 ) {}
 
-var foo = function(
+var qux = function(
   bar, baz
 ) {};
 
-var foo = (
+var qux = (
   bar,
   baz
 ) => {};
@@ -118,19 +118,19 @@ foo(
 
 Examples of **correct** code for this rule with the `"never"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /* eslint function-paren-newline: ["error", "never"] */
 
 function foo(bar, baz) {}
 
-function foo(bar,
+function qux(bar,
              baz) {}
 
-var foo = function(bar, baz) {};
+var foobar = function(bar, baz) {};
 
-var foo = (bar, baz) => {};
+var foobar = (bar, baz) => {};
 
 foo(bar, baz);
 
@@ -142,7 +142,7 @@ foo(bar,
 
 Examples of **incorrect** code for this rule with the default `"multiline"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /* eslint function-paren-newline: ["error", "multiline"] */
@@ -151,11 +151,11 @@ function foo(bar,
   baz
 ) {}
 
-var foo = function(
+var qux = function(
   bar, baz
 ) {};
 
-var foo = (
+var qux = (
   bar,
   baz) => {};
 
@@ -173,19 +173,19 @@ foo(
 
 Examples of **correct** code for this rule with the default `"multiline"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /* eslint function-paren-newline: ["error", "multiline"] */
 
 function foo(bar, baz) {}
 
-var foo = function(
+var foobar = function(
   bar,
   baz
 ) {};
 
-var foo = (bar, baz) => {};
+var foobar = (bar, baz) => {};
 
 foo(bar, baz, qux);
 
@@ -204,7 +204,7 @@ foo(function() {
 
 Examples of **incorrect** code for this rule with the `"consistent"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /* eslint function-paren-newline: ["error", "consistent"] */
@@ -213,11 +213,11 @@ function foo(bar,
   baz
 ) {}
 
-var foo = function(bar,
+var qux = function(bar,
   baz
 ) {};
 
-var foo = (
+var qux = (
   bar,
   baz) => {};
 
@@ -235,7 +235,7 @@ foo(
 
 Examples of **correct** code for this rule with the `"consistent"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /* eslint function-paren-newline: ["error", "consistent"] */
@@ -243,9 +243,9 @@ Examples of **correct** code for this rule with the `"consistent"` option:
 function foo(bar,
   baz) {}
 
-var foo = function(bar, baz) {};
+var qux = function(bar, baz) {};
 
-var foo = (
+var qux = (
   bar,
   baz
 ) => {};
@@ -265,7 +265,7 @@ foo(
 
 Examples of **incorrect** code for this rule with the `"multiline-arguments"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /* eslint function-paren-newline: ["error", "multiline-arguments"] */
@@ -274,11 +274,11 @@ function foo(bar,
   baz
 ) {}
 
-var foo = function(bar,
+var foobar = function(bar,
   baz
 ) {};
 
-var foo = (
+var foobar = (
   bar,
   baz) => {};
 
@@ -296,7 +296,7 @@ foo(
 
 Examples of **correct** code for this rule with the consistent `"multiline-arguments"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /* eslint function-paren-newline: ["error", "multiline-arguments"] */
@@ -306,9 +306,9 @@ function foo(
   baz
 ) {}
 
-var foo = function(bar, baz) {};
+var qux = function(bar, baz) {};
 
-var foo = (
+var qux = (
   bar
 ) => {};
 
@@ -323,7 +323,7 @@ foo(
 
 Examples of **incorrect** code for this rule with the `{ "minItems": 3 }` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /* eslint function-paren-newline: ["error", { "minItems": 3 }] */
@@ -333,13 +333,13 @@ function foo(
   baz
 ) {}
 
-function foo(bar, baz, qux) {}
+function foobar(bar, baz, qux) {}
 
-var foo = function(
+var barbaz = function(
   bar, baz
 ) {};
 
-var foo = (bar,
+var barbaz = (bar,
   baz) => {};
 
 foo(bar,
@@ -350,20 +350,20 @@ foo(bar,
 
 Examples of **correct** code for this rule with the `{ "minItems": 3 }` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /* eslint function-paren-newline: ["error", { "minItems": 3 }] */
 
 function foo(bar, baz) {}
 
-var foo = function(
+var foobar = function(
   bar,
   baz,
   qux
 ) {};
 
-var foo = (
+var foobar = (
   bar, baz, qux
 ) => {};
 

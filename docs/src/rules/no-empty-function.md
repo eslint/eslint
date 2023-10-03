@@ -30,7 +30,7 @@ A function will not be considered a problem if it contains a comment.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint no-empty-function: "error"*/
@@ -38,13 +38,13 @@ Examples of **incorrect** code for this rule:
 
 function foo() {}
 
-var foo = function() {};
+var bar = function() {};
 
-var foo = () => {};
+var bar = () => {};
 
-function* foo() {}
+function* baz() {}
 
-var foo = function*() {};
+var bar = function*() {};
 
 var obj = {
     foo: function() {},
@@ -85,7 +85,7 @@ class A {
 
 Examples of **correct** code for this rule:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-empty-function: "error"*/
@@ -95,19 +95,19 @@ function foo() {
     // do nothing.
 }
 
-var foo = function() {
+var baz = function() {
     // any clear comments.
 };
 
-var foo = () => {
+var baz = () => {
     bar();
 };
 
-function* foo() {
+function* foobar() {
     // do nothing.
 }
 
-var foo = function*() {
+var baz = function*() {
     // do nothing.
 };
 
@@ -198,14 +198,14 @@ This rule has an option to allow specific kinds of functions to be empty.
 
 Examples of **correct** code for the `{ "allow": ["functions"] }` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["functions"] }]*/
 
 function foo() {}
 
-var foo = function() {};
+var bar = function() {};
 
 var obj = {
     foo: function() {}
@@ -233,7 +233,7 @@ var foo = () => {};
 
 Examples of **correct** code for the `{ "allow": ["generatorFunctions"] }` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["generatorFunctions"] }]*/
@@ -241,7 +241,7 @@ Examples of **correct** code for the `{ "allow": ["generatorFunctions"] }` optio
 
 function* foo() {}
 
-var foo = function*() {};
+var bar = function*() {};
 
 var obj = {
     foo: function*() {}

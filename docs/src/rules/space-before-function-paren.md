@@ -61,7 +61,7 @@ Each of the following options can be set to `"always"`, `"never"`, or `"ignore"`
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint space-before-function-paren: "error"*/
@@ -85,20 +85,20 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
 };
 
-var foo = async() => 1
+var baz = async() => 1
 ```
 
 :::
 
 Examples of **correct** code for this rule with the default `"always"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint space-before-function-paren: "error"*/
@@ -122,13 +122,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
 };
 
-var foo = async () => 1
+var baz = async () => 1
 ```
 
 :::
@@ -137,7 +137,7 @@ var foo = async () => 1
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint space-before-function-paren: ["error", "never"]*/
@@ -161,20 +161,20 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
 };
 
-var foo = async () => 1
+var baz = async () => 1
 ```
 
 :::
 
 Examples of **correct** code for this rule with the `"never"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint space-before-function-paren: ["error", "never"]*/
@@ -198,13 +198,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
 };
 
-var foo = async() => 1
+var baz = async() => 1
 ```
 
 :::
@@ -213,7 +213,7 @@ var foo = async() => 1
 
 Examples of **incorrect** code for this rule with the `{"anonymous": "always", "named": "never", "asyncArrow": "always"}` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint space-before-function-paren: ["error", {"anonymous": "always", "named": "never", "asyncArrow": "always"}]*/
@@ -233,20 +233,20 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
 };
 
-var foo = async(a) => await a
+var baz = async(a) => await a
 ```
 
 :::
 
 Examples of **correct** code for this rule with the `{"anonymous": "always", "named": "never", "asyncArrow": "always"}` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint space-before-function-paren: ["error", {"anonymous": "always", "named": "never", "asyncArrow": "always"}]*/
@@ -266,13 +266,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
 };
 
-var foo = async (a) => await a
+var baz = async (a) => await a
 ```
 
 :::
@@ -281,7 +281,7 @@ var foo = async (a) => await a
 
 Examples of **incorrect** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "never", "named": "always" }]*/
@@ -301,7 +301,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -312,7 +312,7 @@ var foo = {
 
 Examples of **correct** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "never", "named": "always" }]*/
@@ -332,7 +332,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
@@ -345,7 +345,7 @@ var foo = {
 
 Examples of **incorrect** code for this rule with the `{"anonymous": "ignore", "named": "always"}` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always" }]*/
@@ -361,7 +361,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -372,7 +372,7 @@ var foo = {
 
 Examples of **correct** code for this rule with the `{"anonymous": "ignore", "named": "always"}` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always" }]*/
@@ -396,7 +396,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }

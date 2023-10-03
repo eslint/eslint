@@ -33,28 +33,28 @@ async function foo() {
 
 Examples of **correct** code for this rule:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-return-await: "error"*/
 
-async function foo() {
+async function foo1() {
     return bar();
 }
 
-async function foo() {
+async function foo2() {
     await bar();
     return;
 }
 
 // This is essentially the same as `return await bar();`, but the rule checks only `await` in `return` statements
-async function foo() {
+async function foo3() {
     const x = await bar();
     return x;
 }
 
 // In this example the `await` is necessary to be able to catch errors thrown from `bar()`
-async function foo() {
+async function foo4() {
     try {
         return await bar();
     } catch (error) {}

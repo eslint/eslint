@@ -25,7 +25,7 @@ This rule aims to eliminate shadowed variable declarations.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint no-shadow: "error"*/
@@ -36,11 +36,11 @@ function b() {
     var a = 10;
 }
 
-var b = function () {
+var c = function () {
     var a = 10;
 }
 
-function b(a) {
+function d(a) {
     a = 10;
 }
 b(a);

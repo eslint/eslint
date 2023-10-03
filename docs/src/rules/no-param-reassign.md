@@ -16,24 +16,24 @@ This rule aims to prevent unintended behavior caused by modification or reassign
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint no-param-reassign: "error"*/
 
-function foo(bar) {
+var foo = function(bar) {
     bar = 13;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     bar++;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar in baz) {}
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar of baz) {}
 }
 ```
@@ -47,7 +47,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-param-reassign: "error"*/
 
-function foo(bar) {
+var foo = function(bar) {
     var baz = bar;
 }
 ```
@@ -62,28 +62,28 @@ This rule takes one option, an object, with a boolean property `"props"`, and  a
 
 Examples of **correct** code for the default `{ "props": false }` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": false }]*/
 
-function foo(bar) {
+var foo = function(bar) {
     bar.prop = "value";
 }
 
-function foo(bar) {
+var foo = function(bar) {
     delete bar.aaa;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     bar.aaa++;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar.aaa in baz) {}
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar.aaa of baz) {}
 }
 ```
@@ -92,28 +92,28 @@ function foo(bar) {
 
 Examples of **incorrect** code for the `{ "props": true }` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": true }]*/
 
-function foo(bar) {
+var foo = function(bar) {
     bar.prop = "value";
 }
 
-function foo(bar) {
+var foo = function(bar) {
     delete bar.aaa;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     bar.aaa++;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar.aaa in baz) {}
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar.aaa of baz) {}
 }
 ```
@@ -122,28 +122,28 @@ function foo(bar) {
 
 Examples of **correct** code for the `{ "props": true }` option with `"ignorePropertyModificationsFor"` set:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["bar"] }]*/
 
-function foo(bar) {
+var foo = function(bar) {
     bar.prop = "value";
 }
 
-function foo(bar) {
+var foo = function(bar) {
     delete bar.aaa;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     bar.aaa++;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar.aaa in baz) {}
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar.aaa of baz) {}
 }
 ```
@@ -152,28 +152,28 @@ function foo(bar) {
 
 Examples of **correct** code for the `{ "props": true }` option with `"ignorePropertyModificationsForRegex"` set:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsForRegex": ["^bar"] }]*/
 
-function foo(barVar) {
+var foo = function(barVar) {
     barVar.prop = "value";
 }
 
-function foo(barrito) {
+var foo = function(barrito) {
     delete barrito.aaa;
 }
 
-function foo(bar_) {
+var foo = function(bar_) {
     bar_.aaa++;
 }
 
-function foo(barBaz) {
+var foo = function(barBaz) {
     for (barBaz.aaa in baz) {}
 }
 
-function foo(barBaz) {
+var foo = function(barBaz) {
     for (barBaz.aaa of baz) {}
 }
 ```

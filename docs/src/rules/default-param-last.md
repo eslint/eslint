@@ -21,14 +21,14 @@ This rule enforces default parameters to be the last of parameters.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /* eslint default-param-last: ["error"] */
 
 function f(a = 0, b) {}
 
-function f(a, b = 0, c) {}
+function g(a, b = 0, c) {}
 ```
 
 :::

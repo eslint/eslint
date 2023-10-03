@@ -319,7 +319,7 @@ function UNSAFE_componentWillMount() {
 
 :::
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint camelcase: ["error", {allow: ["^UNSAFE_"]}]*/
@@ -328,7 +328,7 @@ function UNSAFE_componentWillMount() {
     // ...
 }
 
-function UNSAFE_componentWillMount() {
+function UNSAFE_componentWillReceiveProps() {
     // ...
 }
 ```

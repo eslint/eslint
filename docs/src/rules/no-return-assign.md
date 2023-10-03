@@ -34,7 +34,7 @@ It disallows assignments unless they are enclosed in parentheses.
 
 Examples of **incorrect** code for the default `"except-parens"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint no-return-assign: "error"*/
@@ -43,7 +43,7 @@ function doSomething() {
     return foo = bar + 2;
 }
 
-function doSomething() {
+function doSomethingElse() {
     return foo += 2;
 }
 
@@ -51,7 +51,7 @@ const foo = (a, b) => a = b
 
 const bar = (a, b, c) => (a = b, c == b)
 
-function doSomething() {
+function doSomethingMore() {
     return foo = bar && foo > 0;
 }
 ```
@@ -60,7 +60,7 @@ function doSomething() {
 
 Examples of **correct** code for the default `"except-parens"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-return-assign: "error"*/
@@ -69,11 +69,11 @@ function doSomething() {
     return foo == bar + 2;
 }
 
-function doSomething() {
+function doSomethingElse() {
     return foo === bar + 2;
 }
 
-function doSomething() {
+function doSomethingMore() {
     return (foo = bar + 2);
 }
 
@@ -81,7 +81,7 @@ const foo = (a, b) => (a = b)
 
 const bar = (a, b, c) => ((a = b), c == b)
 
-function doSomething() {
+function doAnotherThing() {
     return (foo = bar) && foo > 0;
 }
 ```
@@ -95,7 +95,7 @@ All assignments are treated as problems.
 
 Examples of **incorrect** code for the `"always"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint no-return-assign: ["error", "always"]*/
@@ -104,11 +104,11 @@ function doSomething() {
     return foo = bar + 2;
 }
 
-function doSomething() {
+function doSomethingElse() {
     return foo += 2;
 }
 
-function doSomething() {
+function doSomethingMore() {
     return (foo = bar + 2);
 }
 ```
@@ -117,7 +117,7 @@ function doSomething() {
 
 Examples of **correct** code for the `"always"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-return-assign: ["error", "always"]*/
@@ -126,7 +126,7 @@ function doSomething() {
     return foo == bar + 2;
 }
 
-function doSomething() {
+function doSomethingElse() {
     return foo === bar + 2;
 }
 ```

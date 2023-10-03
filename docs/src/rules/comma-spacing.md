@@ -50,7 +50,7 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule with the default `{ "before": false, "after": true }` options:
 
-:::incorrect { "sourceType": "script" }
+:::incorrect
 
 ```js
 /*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
@@ -60,7 +60,7 @@ var arr = [1 , 2];
 var obj = {"foo": "bar" ,"baz": "qur"};
 foo(a ,b);
 new Foo(a ,b);
-function foo(a ,b){}
+function baz(a ,b){}
 a ,b
 ```
 
@@ -68,7 +68,7 @@ a ,b
 
 Examples of **correct** code for this rule with the default `{ "before": false, "after": true }` options:
 
-:::correct { "sourceType": "script" }
+:::correct
 
 ```js
 /*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
@@ -80,7 +80,7 @@ var arr = [1,, 3]
 var obj = {"foo": "bar", "baz": "qur"};
 foo(a, b);
 new Foo(a, b);
-function foo(a, b){}
+function qur(a, b){}
 a, b
 ```
 
@@ -122,7 +122,7 @@ foo(a, b,)
 
 Examples of **incorrect** code for this rule with the `{ "before": true, "after": false }` options:
 
-:::incorrect { "sourceType": "script" }
+:::incorrect
 
 ```js
 /*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
@@ -131,7 +131,7 @@ var foo = 1, bar = 2;
 var arr = [1 , 2];
 var obj = {"foo": "bar", "baz": "qur"};
 new Foo(a,b);
-function foo(a,b){}
+function baz(a,b){}
 a, b
 ```
 
@@ -139,7 +139,7 @@ a, b
 
 Examples of **correct** code for this rule with the `{ "before": true, "after": false }` options:
 
-:::correct { "sourceType": "script" }
+:::correct
 
 ```js
 /*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
@@ -151,7 +151,7 @@ var arr = [1 ,,3]
 var obj = {"foo": "bar" ,"baz": "qur"};
 foo(a ,b);
 new Foo(a ,b);
-function foo(a ,b){}
+function qur(a ,b){}
 a ,b
 ```
 

@@ -34,7 +34,7 @@ This rule aims to flag any empty patterns in destructured objects and arrays, an
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint no-empty-pattern: "error"*/
@@ -44,16 +44,16 @@ var [] = foo;
 var {a: {}} = foo;
 var {a: []} = foo;
 function foo({}) {}
-function foo([]) {}
-function foo({a: {}}) {}
-function foo({a: []}) {}
+function bar([]) {}
+function baz({a: {}}) {}
+function qux({a: []}) {}
 ```
 
 :::
 
 Examples of **correct** code for this rule:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-empty-pattern: "error"*/
@@ -61,7 +61,7 @@ Examples of **correct** code for this rule:
 var {a = {}} = foo;
 var {a = []} = foo;
 function foo({a = {}}) {}
-function foo({a = []}) {}
+function bar({a = []}) {}
 ```
 
 :::
@@ -78,34 +78,34 @@ Set to `false` by default. Setting this option to `true` allows empty object pat
 
 Examples of **incorrect** code for this rule with the `{"allowObjectPatternsAsParameters": true}` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint no-empty-pattern: ["error", { "allowObjectPatternsAsParameters": true }]*/
 
 function foo({a: {}}) {}
-var foo = function({a: {}}) {};
-var foo = ({a: {}}) => {};
-var foo = ({} = bar) => {};
-var foo = ({} = { bar: 1 }) => {};
+var bar = function({a: {}}) {};
+var bar = ({a: {}}) => {};
+var bar = ({} = bar) => {};
+var bar = ({} = { bar: 1 }) => {};
 
-function foo([]) {}
+function baz([]) {}
 ```
 
 :::
 
 Examples of **correct** code for this rule with the `{"allowObjectPatternsAsParameters": true}` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-empty-pattern: ["error", { "allowObjectPatternsAsParameters": true }]*/
 
 function foo({}) {}
-var foo = function({}) {};
-var foo = ({}) => {};
+var bar = function({}) {};
+var bar = ({}) => {};
 
-function foo({} = {}) {}
+function baz({} = {}) {}
 ```
 
 :::

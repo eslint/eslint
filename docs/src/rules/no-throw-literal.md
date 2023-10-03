@@ -69,7 +69,7 @@ Due to the limits of static analysis, this rule cannot guarantee that you will o
 
 Examples of **correct** code for this rule, but which do not throw an `Error` object:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-throw-literal: "error"*/
@@ -84,10 +84,10 @@ throw foo("error");
 
 throw new String("error");
 
-var foo = {
+var baz = {
     bar: "error"
 };
-throw foo.bar;
+throw baz.bar;
 ```
 
 :::

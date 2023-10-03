@@ -45,8 +45,7 @@ if (x = 0) {
 }
 
 // Practical example that is similar to an error
-function setHeight(someNode) {
-    "use strict";
+var setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while (someNode = someNode.parentNode);
@@ -57,7 +56,7 @@ function setHeight(someNode) {
 
 Examples of **correct** code for this rule with the default `"except-parens"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-cond-assign: "error"*/
@@ -69,16 +68,14 @@ if (x === 0) {
 }
 
 // Practical example that wraps the assignment in parentheses
-function setHeight(someNode) {
-    "use strict";
+var setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode));
 }
 
 // Practical example that wraps the assignment and tests for 'null'
-function setHeight(someNode) {
-    "use strict";
+var setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode) !== null);
@@ -91,7 +88,7 @@ function setHeight(someNode) {
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint no-cond-assign: ["error", "always"]*/
@@ -103,24 +100,21 @@ if (x = 0) {
 }
 
 // Practical example that is similar to an error
-function setHeight(someNode) {
-    "use strict";
+var setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while (someNode = someNode.parentNode);
 }
 
 // Practical example that wraps the assignment in parentheses
-function setHeight(someNode) {
-    "use strict";
+var setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode));
 }
 
 // Practical example that wraps the assignment and tests for 'null'
-function setHeight(someNode) {
-    "use strict";
+var setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode) !== null);

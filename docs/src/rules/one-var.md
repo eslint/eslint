@@ -69,26 +69,26 @@ Alternate object option:
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint one-var: ["error", "always"]*/
 
-function foo() {
+function foo1() {
     var bar;
     var baz;
     let qux;
     let norf;
 }
 
-function foo(){
+function foo2(){
     const bar = false;
     const baz = true;
     let qux;
     let norf;
 }
 
-function foo() {
+function foo3() {
     var bar;
 
     if (baz) {
@@ -120,26 +120,26 @@ class C {
 
 Examples of **correct** code for this rule with the default `"always"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint one-var: ["error", "always"]*/
 
-function foo() {
+function foo1() {
     var bar,
         baz;
     let qux,
         norf;
 }
 
-function foo(){
+function foo2(){
     const bar = true,
         baz = false;
     let qux,
         norf;
 }
 
-function foo() {
+function foo3() {
     var bar,
         qux;
 
@@ -148,7 +148,7 @@ function foo() {
     }
 }
 
-function foo(){
+function foo4(){
     let bar;
 
     if (baz) {
@@ -225,17 +225,17 @@ class C {
 
 Examples of **correct** code for this rule with the `"never"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint one-var: ["error", "never"]*/
 
-function foo() {
+function foo1() {
     var bar;
     var baz;
 }
 
-function foo() {
+function foo2() {
     var bar;
 
     if (baz) {
@@ -243,7 +243,7 @@ function foo() {
     }
 }
 
-function foo() {
+function foo3() {
     let bar;
 
     if (baz) {
@@ -272,17 +272,17 @@ for (var i = 0, len = arr.length; i < len; i++) {
 
 Examples of **incorrect** code for this rule with the `"consecutive"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint one-var: ["error", "consecutive"]*/
 
-function foo() {
+function foo1() {
     var bar;
     var baz;
 }
 
-function foo(){
+function foo2(){
     var bar = 1;
     var baz = 2;
 
@@ -306,17 +306,17 @@ class C {
 
 Examples of **correct** code for this rule with the `"consecutive"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint one-var: ["error", "consecutive"]*/
 
-function foo() {
+function foo1() {
     var bar,
         baz;
 }
 
-function foo(){
+function foo2(){
     var bar = 1,
         baz = 2;
 
@@ -343,20 +343,20 @@ class C {
 
 Examples of **incorrect** code for this rule with the `{ var: "always", let: "never", const: "never" }` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint one-var: ["error", { var: "always", let: "never", const: "never" }]*/
 /*eslint-env es6*/
 
-function foo() {
+function foo1() {
     var bar;
     var baz;
     let qux,
         norf;
 }
 
-function foo() {
+function foo2() {
     const bar = 1,
           baz = 2;
     let qux,
@@ -368,20 +368,20 @@ function foo() {
 
 Examples of **correct** code for this rule with the `{ var: "always", let: "never", const: "never" }` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint one-var: ["error", { var: "always", let: "never", const: "never" }]*/
 /*eslint-env es6*/
 
-function foo() {
+function foo1() {
     var bar,
         baz;
     let qux;
     let norf;
 }
 
-function foo() {
+function foo2() {
     const bar = 1;
     const baz = 2;
     let qux;
@@ -466,13 +466,13 @@ var foo = require("foo"),
 
 Examples of **incorrect** code for this rule with the `{ var: "never", let: "consecutive", const: "consecutive" }` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint one-var: ["error", { var: "never", let: "consecutive", const: "consecutive" }]*/
 /*eslint-env es6*/
 
-function foo() {
+function foo1() {
     let a,
         b;
     let c;
@@ -481,7 +481,7 @@ function foo() {
         e;
 }
 
-function foo() {
+function foo2() {
     const a = 1,
         b = 2;
     const c = 3;
@@ -495,13 +495,13 @@ function foo() {
 
 Examples of **correct** code for this rule with the `{ var: "never", let: "consecutive", const: "consecutive" }` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint one-var: ["error", { var: "never", let: "consecutive", const: "consecutive" }]*/
 /*eslint-env es6*/
 
-function foo() {
+function foo1() {
     let a,
         b;
 
@@ -511,7 +511,7 @@ function foo() {
     let f;
 }
 
-function foo() {
+function foo2() {
     const a = 1,
           b = 2;
 

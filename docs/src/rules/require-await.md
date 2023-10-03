@@ -50,7 +50,7 @@ bar(async () => {
 
 Examples of **correct** code for this rule:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint require-await: "error"*/
@@ -63,7 +63,7 @@ bar(async () => {
     await doSomething();
 });
 
-function foo() {
+function baz() {
     doSomething();
 }
 

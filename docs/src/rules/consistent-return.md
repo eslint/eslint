@@ -35,7 +35,7 @@ This rule requires `return` statements to either always or never specify values.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint consistent-return: "error"*/
@@ -48,7 +48,7 @@ function doSomething(condition) {
     }
 }
 
-function doSomething(condition) {
+function doSomethingElse(condition) {
     if (condition) {
         return true;
     }

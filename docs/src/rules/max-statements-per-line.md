@@ -30,7 +30,7 @@ The "max" object property is optional (default: 1).
 
 Examples of **incorrect** code for this rule with the default `{ "max": 1 }` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint max-statements-per-line: ["error", { "max": 1 }]*/
@@ -40,7 +40,7 @@ if (condition) { bar = 1; }
 for (var i = 0; i < length; ++i) { bar = 1; }
 switch (discriminant) { default: break; }
 function foo() { bar = 1; }
-var foo = function foo() { bar = 1; };
+var qux = function qux() { bar = 1; };
 (function foo() { bar = 1; })();
 ```
 
@@ -48,7 +48,7 @@ var foo = function foo() { bar = 1; };
 
 Examples of **correct** code for this rule with the default `{ "max": 1 }` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint max-statements-per-line: ["error", { "max": 1 }]*/
@@ -58,7 +58,7 @@ if (condition) bar = 1;
 for (var i = 0; i < length; ++i);
 switch (discriminant) { default: }
 function foo() { }
-var foo = function foo() { };
+var qux = function qux() { };
 (function foo() { })();
 ```
 
@@ -66,7 +66,7 @@ var foo = function foo() { };
 
 Examples of **incorrect** code for this rule with the `{ "max": 2 }` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint max-statements-per-line: ["error", { "max": 2 }]*/
@@ -76,7 +76,7 @@ if (condition) { bar = 1; } else { baz = 2; }
 for (var i = 0; i < length; ++i) { bar = 1; baz = 2; }
 switch (discriminant) { case 'test': break; default: break; }
 function foo() { bar = 1; baz = 2; }
-var foo = function foo() { bar = 1; };
+var qux = function qux() { bar = 1; };
 (function foo() { bar = 1; baz = 2; })();
 ```
 
@@ -84,7 +84,7 @@ var foo = function foo() { bar = 1; };
 
 Examples of **correct** code for this rule with the `{ "max": 2 }` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint max-statements-per-line: ["error", { "max": 2 }]*/
@@ -94,7 +94,7 @@ if (condition) bar = 1; if (condition) baz = 2;
 for (var i = 0; i < length; ++i) { bar = 1; }
 switch (discriminant) { default: break; }
 function foo() { bar = 1; }
-var foo = function foo() { bar = 1; };
+var qux = function qux() { bar = 1; };
 (function foo() { var bar = 1; })();
 ```
 

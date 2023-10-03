@@ -36,7 +36,7 @@ This rule takes one argument. If it is `"always"`, which is the default option, 
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint-env es6*/
@@ -59,7 +59,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -70,7 +70,7 @@ var foo = {
 
 Examples of **correct** code for this rule with the default `"always"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint-env es6*/
@@ -93,7 +93,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
@@ -104,7 +104,7 @@ var foo = {
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint-env es6*/
@@ -127,7 +127,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
@@ -138,7 +138,7 @@ var foo = {
 
 Examples of **correct** code for this rule with the `"never"` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint-env es6*/
@@ -161,7 +161,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -172,7 +172,7 @@ var foo = {
 
 Examples of **incorrect** code for this rule with the `{"anonymous": "always", "named": "never"}` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint-env es6*/
@@ -191,7 +191,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
@@ -202,7 +202,7 @@ var foo = {
 
 Examples of **correct** code for this rule with the `{"anonymous": "always", "named": "never"}` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint-env es6*/
@@ -221,7 +221,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -232,7 +232,7 @@ var foo = {
 
 Examples of **incorrect** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint-env es6*/
@@ -251,7 +251,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -262,7 +262,7 @@ var foo = {
 
 Examples of **correct** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint-env es6*/
@@ -281,7 +281,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }

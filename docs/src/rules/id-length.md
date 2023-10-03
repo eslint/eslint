@@ -143,7 +143,7 @@ var { prop: [x]} = {};
 
 Examples of **correct** code for this rule with the `{ "min": 4 }` option:
 
-::: correct { "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint id-length: ["error", { "min": 4 }]*/
@@ -160,10 +160,10 @@ try {
 }
 var myObj = { apple: 1 };
 (value) => { value * value };
-function foobar(value = 0) { }
+function foobaz(value = 0) { }
 class MyClass { }
 class Foobar { method() {} }
-function foobar(...args) { }
+function barbaz(...args) { }
 var { prop } = {};
 var [longName] = foo;
 var { a: [prop] } = {};

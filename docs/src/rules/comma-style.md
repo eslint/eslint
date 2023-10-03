@@ -54,7 +54,7 @@ A way to determine the node types as defined by [ESTree](https://github.com/estr
 
 Examples of **incorrect** code for this rule with the default `"last"` option:
 
-:::incorrect { "sourceType": "script" }
+:::incorrect
 
 ```js
 /*eslint comma-style: ["error", "last"]*/
@@ -69,7 +69,7 @@ var foo = 1
 var foo = ["apples"
            , "oranges"];
 
-function bar() {
+function baz() {
     return {
         "a": 1
         ,"b:": 2
@@ -81,7 +81,7 @@ function bar() {
 
 Examples of **correct** code for this rule with the default `"last"` option:
 
-:::correct { "sourceType": "script" }
+:::correct
 
 ```js
 /*eslint comma-style: ["error", "last"]*/
@@ -94,7 +94,7 @@ var foo = 1,
 var foo = ["apples",
            "oranges"];
 
-function bar() {
+function baz() {
     return {
         "a": 1,
         "b:": 2
@@ -108,7 +108,7 @@ function bar() {
 
 Examples of **incorrect** code for this rule with the `"first"` option:
 
-:::incorrect { "sourceType": "script" }
+:::incorrect
 
 ```js
 /*eslint comma-style: ["error", "first"]*/
@@ -119,7 +119,7 @@ var foo = 1,
 var foo = ["apples",
            "oranges"];
 
-function bar() {
+function baz() {
     return {
         "a": 1,
         "b:": 2
@@ -131,7 +131,7 @@ function bar() {
 
 Examples of **correct** code for this rule with the `"first"` option:
 
-:::correct { "sourceType": "script" }
+:::correct
 
 ```js
 /*eslint comma-style: ["error", "first"]*/
@@ -144,7 +144,7 @@ var foo = 1
 var foo = ["apples"
           ,"oranges"];
 
-function bar() {
+function baz() {
     return {
         "a": 1
         ,"b:": 2
