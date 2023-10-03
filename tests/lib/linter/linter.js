@@ -4282,6 +4282,31 @@ var a = "test2";
             assert.strictEqual(suppressedMessages.length, 0);
         });
 
+        it("reports problems for unused eslint-disable comments (warn)", () => {
+            const messages = linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: "warn" });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.deepStrictEqual(
+                messages,
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        fix: {
+                            range: [0, 20],
+                            text: " "
+                        },
+                        severity: 1,
+                        nodeType: null
+                    }
+                ]
+            );
+
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
         it("reports problems for unused eslint-enable comments", () => {
             const messages = linter.verify("/* eslint-enable */", {}, { reportUnusedDisableDirectives: true });
             const suppressedMessages = linter.getSuppressedMessages();
@@ -4625,31 +4650,6 @@ var a = "test2";
             assert.strictEqual(suppressedMessages.length, 2);
             assert.strictEqual(suppressedMessages[0].suppressions.length, 1);
             assert.strictEqual(suppressedMessages[1].suppressions.length, 1);
-        });
-
-        it("reports problems for unused eslint-disable comments (warn)", () => {
-            const messages = linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: "warn" });
-            const suppressedMessages = linter.getSuppressedMessages();
-
-            assert.deepStrictEqual(
-                messages,
-                [
-                    {
-                        ruleId: null,
-                        message: "Unused eslint-disable directive (no problems were reported).",
-                        line: 1,
-                        column: 1,
-                        fix: {
-                            range: [0, 20],
-                            text: " "
-                        },
-                        severity: 1,
-                        nodeType: null
-                    }
-                ]
-            );
-
-            assert.strictEqual(suppressedMessages.length, 0);
         });
 
         describe("autofix", () => {
