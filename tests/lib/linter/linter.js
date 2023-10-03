@@ -1467,6 +1467,32 @@ describe("Linter", () => {
             linter.verify(code, config);
             assert(spy && spy.calledOnce);
         });
+
+        it("variables should be available in global scope with quoted items", () => {
+            const code = `/*${ESLINT_ENV} 'node'*/ function f() {} /*${ESLINT_ENV} "browser", "mocha"*/`;
+            const config = { rules: { checker: "error" } };
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope(),
+                            exports = getVariable(scope, "exports"),
+                            window = getVariable(scope, "window"),
+                            it = getVariable(scope, "it");
+
+                        assert.strictEqual(exports.writeable, true);
+                        assert.strictEqual(window.writeable, false);
+                        assert.strictEqual(it.writeable, false);
+                    });
+
+                    return { Program: spy };
+                }
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
     });
 
     describe("when evaluating code containing /*eslint-env */ block with sloppy whitespace", () => {
