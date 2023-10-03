@@ -5043,8 +5043,8 @@ var a = "test2";
                     output: "// eslint-disable-line used, -- comment"
                 },
                 {
-                    code: "/* eslint-disable used */ bad /* eslint-enable used, unused,\n*/",
-                    output: "/* eslint-disable used */ bad /* eslint-enable used,\n*/"
+                    code: "/* eslint-disable used, unused,\n*/",
+                    output: "/* eslint-disable used,\n*/"
                 },
                 {
                     code: "/* eslint-disable used */ bad /* eslint-enable used, unused,\n*/",
