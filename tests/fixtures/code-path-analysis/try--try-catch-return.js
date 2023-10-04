@@ -1,6 +1,8 @@
 /*expected
-initial->s2_1->s2_2->s2_3->s2_4->s2_5;
-s2_1->s2_4;
+initial->s2_1->s2_2->s2_3;
+s2_1->s2_4->s2_5;
+s2_2->s2_4;
+s2_2->s2_5;
 s2_2->final;
 s2_5->final;
 */
@@ -27,8 +29,10 @@ digraph {
     s2_3[style="rounded,dashed,filled",fillcolor="#FF9800",label="<<unreachable>>\nBlockStatement:exit"];
     s2_4[label="CatchClause:enter\nBlockStatement\nCatchClause:exit"];
     s2_5[label="TryStatement:exit\nExpressionStatement:enter\nCallExpression:enter\nIdentifier (baz)\nCallExpression:exit\nExpressionStatement:exit\nBlockStatement:exit\nFunctionDeclaration:exit"];
-    initial->s2_1->s2_2->s2_3->s2_4->s2_5;
-    s2_1->s2_4;
+    initial->s2_1->s2_2->s2_3;
+    s2_1->s2_4->s2_5;
+    s2_2->s2_4;
+    s2_2->s2_5;
     s2_2->final;
     s2_5->final;
 }

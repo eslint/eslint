@@ -731,8 +731,7 @@ describe("CodePathAnalyzer", () => {
 
         testDataFiles.forEach(file => {
 
-            if (!file.includes('try--try-catch-return')) return;
-            it.only(file, () => {
+            it(file, () => {
                 const source = fs.readFileSync(path.join(testDataDir, file), { encoding: "utf8" });
                 const expected = getExpectedDotArrows(source);
                 const actual = [];
