@@ -31,7 +31,7 @@ This rule disallows the unary operators `++` and `--`.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect { "ecmaFeatures": { "globalReturn": true }, "sourceType": "script" }
+::: incorrect
 
 ```js
 /*eslint no-plusplus: "error"*/
@@ -43,7 +43,7 @@ var bar = 42;
 bar--;
 
 for (i = 0; i < l; i++) {
-    return;
+    doSomething(i);
 }
 ```
 
@@ -51,7 +51,7 @@ for (i = 0; i < l; i++) {
 
 Examples of **correct** code for this rule:
 
-::: correct { "ecmaFeatures": { "globalReturn": true }, "sourceType": "script" }
+::: correct
 
 ```js
 /*eslint no-plusplus: "error"*/
@@ -63,7 +63,7 @@ var bar = 42;
 bar -= 1;
 
 for (i = 0; i < l; i += 1) {
-    return;
+    doSomething(i);
 }
 ```
 

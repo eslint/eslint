@@ -43,7 +43,7 @@ var c = function () {
 function d(a) {
     a = 10;
 }
-b(a);
+d(a);
 
 if (true) {
     let a = 5;
