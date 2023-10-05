@@ -159,11 +159,11 @@ Examples of **correct** code for this rule with the `"all"` and `{ "returnAssign
 ```js
 /* eslint no-extra-parens: ["error", "all", { "returnAssign": false }] */
 
-function a(b) {
+function a1(b) {
   return (b = 1);
 }
 
-function a(b) {
+function a2(b) {
   return b ? (c = d) : (c = e);
 }
 

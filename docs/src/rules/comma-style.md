@@ -69,7 +69,7 @@ var foo = 1
 var foo = ["apples"
            , "oranges"];
 
-function bar() {
+function baz() {
     return {
         "a": 1
         ,"b:": 2
@@ -94,7 +94,7 @@ var foo = 1,
 var foo = ["apples",
            "oranges"];
 
-function bar() {
+function baz() {
     return {
         "a": 1,
         "b:": 2
@@ -119,7 +119,7 @@ var foo = 1,
 var foo = ["apples",
            "oranges"];
 
-function bar() {
+function baz() {
     return {
         "a": 1,
         "b:": 2
@@ -144,7 +144,7 @@ var foo = 1
 var foo = ["apples"
           ,"oranges"];
 
-function bar() {
+function baz() {
     return {
         "a": 1
         ,"b:": 2

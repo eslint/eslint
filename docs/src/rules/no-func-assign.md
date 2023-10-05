@@ -27,8 +27,8 @@ Examples of **incorrect** code for this rule:
 function foo() {}
 foo = bar;
 
-function foo() {
-    foo = bar;
+function baz() {
+    baz = bar;
 }
 
 var a = function hello() {
@@ -61,12 +61,12 @@ Examples of **correct** code for this rule:
 var foo = function () {}
 foo = bar;
 
-function foo(foo) { // `foo` is shadowed.
-    foo = bar;
+function baz(baz) { // `baz` is shadowed.
+    baz = bar;
 }
 
-function foo() {
-    var foo = bar;  // `foo` is shadowed.
+function qux() {
+    var qux = bar;  // `qux` is shadowed.
 }
 ```
 

@@ -49,9 +49,9 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 
 function foo(bar, baz) {}
 
-var foo = function(bar, baz) {};
+var qux = function(bar, baz) {};
 
-var foo = (bar, baz) => {};
+var qux = (bar, baz) => {};
 
 foo(bar, baz);
 ```
@@ -70,11 +70,11 @@ function foo(
   baz
 ) {}
 
-var foo = function(
+var qux = function(
   bar, baz
 ) {};
 
-var foo = (
+var qux = (
   bar,
   baz
 ) => {};
@@ -99,11 +99,11 @@ function foo(
   baz
 ) {}
 
-var foo = function(
+var qux = function(
   bar, baz
 ) {};
 
-var foo = (
+var qux = (
   bar,
   baz
 ) => {};
@@ -125,12 +125,12 @@ Examples of **correct** code for this rule with the `"never"` option:
 
 function foo(bar, baz) {}
 
-function foo(bar,
+function qux(bar,
              baz) {}
 
-var foo = function(bar, baz) {};
+var foobar = function(bar, baz) {};
 
-var foo = (bar, baz) => {};
+var foobar = (bar, baz) => {};
 
 foo(bar, baz);
 
@@ -151,11 +151,11 @@ function foo(bar,
   baz
 ) {}
 
-var foo = function(
+var qux = function(
   bar, baz
 ) {};
 
-var foo = (
+var qux = (
   bar,
   baz) => {};
 
@@ -180,12 +180,12 @@ Examples of **correct** code for this rule with the default `"multiline"` option
 
 function foo(bar, baz) {}
 
-var foo = function(
+var foobar = function(
   bar,
   baz
 ) {};
 
-var foo = (bar, baz) => {};
+var foobar = (bar, baz) => {};
 
 foo(bar, baz, qux);
 
@@ -213,11 +213,11 @@ function foo(bar,
   baz
 ) {}
 
-var foo = function(bar,
+var qux = function(bar,
   baz
 ) {};
 
-var foo = (
+var qux = (
   bar,
   baz) => {};
 
@@ -243,9 +243,9 @@ Examples of **correct** code for this rule with the `"consistent"` option:
 function foo(bar,
   baz) {}
 
-var foo = function(bar, baz) {};
+var qux = function(bar, baz) {};
 
-var foo = (
+var qux = (
   bar,
   baz
 ) => {};
@@ -274,11 +274,11 @@ function foo(bar,
   baz
 ) {}
 
-var foo = function(bar,
+var foobar = function(bar,
   baz
 ) {};
 
-var foo = (
+var foobar = (
   bar,
   baz) => {};
 
@@ -306,9 +306,9 @@ function foo(
   baz
 ) {}
 
-var foo = function(bar, baz) {};
+var qux = function(bar, baz) {};
 
-var foo = (
+var qux = (
   bar
 ) => {};
 
@@ -333,13 +333,13 @@ function foo(
   baz
 ) {}
 
-function foo(bar, baz, qux) {}
+function foobar(bar, baz, qux) {}
 
-var foo = function(
+var barbaz = function(
   bar, baz
 ) {};
 
-var foo = (bar,
+var barbaz = (bar,
   baz) => {};
 
 foo(bar,
@@ -357,13 +357,13 @@ Examples of **correct** code for this rule with the `{ "minItems": 3 }` option:
 
 function foo(bar, baz) {}
 
-var foo = function(
+var foobar = function(
   bar,
   baz,
   qux
 ) {};
 
-var foo = (
+var foobar = (
   bar, baz, qux
 ) => {};
 

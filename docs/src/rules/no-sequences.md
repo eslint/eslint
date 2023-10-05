@@ -25,7 +25,7 @@ This rule forbids the use of the comma operator, with the following exceptions:
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-sequences: "error"*/
@@ -51,7 +51,7 @@ with (doSomething(), val) {}
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-sequences: "error"*/
@@ -119,7 +119,7 @@ This rule takes one option, an object, with the following properties:
 
 Examples of **incorrect** code for this rule with the `{ "allowInParentheses": false }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-sequences: ["error", { "allowInParentheses": false }]*/

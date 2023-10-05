@@ -380,7 +380,7 @@ delete foo.bar; // deleting object property
 
 Examples of **correct** code for this rule when used without exceptions:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint prefer-reflect: "error"*/
@@ -395,7 +395,7 @@ Note: For a rule preventing deletion of variables, see [no-delete-var instead](n
 
 Examples of **correct** code for this rule with the `{ "exceptions": ["delete"] }` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint prefer-reflect: ["error", { "exceptions": ["delete"] }]*/

@@ -120,13 +120,13 @@ Examples of **correct** code for the `[{ blankLine: "always", prev: "*", next: "
     { blankLine: "always", prev: "*", next: "return" }
 ]*/
 
-function foo() {
+function foo1() {
     bar();
 
     return;
 }
 
-function foo() {
+function foo2() {
     return;
 }
 ```
@@ -148,17 +148,17 @@ Examples of **incorrect** code for the `[{ blankLine: "always", prev: ["const", 
     { blankLine: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
 ]*/
 
-function foo() {
+function foo1() {
     var a = 0;
     bar();
 }
 
-function foo() {
+function foo2() {
     let a = 0;
     bar();
 }
 
-function foo() {
+function foo3() {
     const a = 0;
     bar();
 }
@@ -184,21 +184,21 @@ Examples of **correct** code for the `[{ blankLine: "always", prev: ["const", "l
     { blankLine: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
 ]*/
 
-function foo() {
+function foo1() {
     var a = 0;
     var b = 0;
 
     bar();
 }
 
-function foo() {
+function foo2() {
     let a = 0;
     const b = 0;
 
     bar();
 }
 
-function foo() {
+function foo3() {
     const a = 0;
     const b = 0;
 

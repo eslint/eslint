@@ -328,7 +328,7 @@ function UNSAFE_componentWillMount() {
     // ...
 }
 
-function UNSAFE_componentWillMount() {
+function UNSAFE_componentWillReceiveProps() {
     // ...
 }
 ```
