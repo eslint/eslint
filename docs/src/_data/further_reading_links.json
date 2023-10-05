@@ -740,5 +740,12 @@
         "logo": "https://v8.dev/favicon.ico",
         "title": "RegExp v flag with set notation and properties of strings · V8",
         "description": "The new RegExp `v` flag enables `unicodeSets` mode, unlocking support for extended character classes, including Unicode properties of strings, set notation, and improved case-insensitive matching."
+    },
+    "https://codepoints.net/U+1680": {
+        "domain": "codepoints.net",
+        "url": "https://codepoints.net/U+1680",
+        "logo": "https://codepoints.net/favicon.ico",
+        "title": "U+1680 OGHAM SPACE MARK:   – Unicode – Codepoints",
+        "description": " , codepoint U+1680 OGHAM SPACE MARK in Unicode, is located in the block “Ogham”. It belongs to the Ogham script and is a Space Separator."
     }
 }
