@@ -387,6 +387,20 @@ describe("bin/eslint.js", () => {
             return Promise.all([exitCodeAssertion, outputAssertion]);
         });
 
+        // https://github.com/eslint/eslint/issues/17560
+        it("does not print duplicate errors in the event of a crash", () => {
+            const config = path.join(__dirname, "../fixtures/bin/eslint.config_tick_throws.js");
+            const child = runESLint(["--config", config, "Makefile.js"]);
+            const exitCodeAssertion = assertExitCode(child, 2);
+            const outputAssertion = getOutput(child).then(output => {
+
+                // The error text should appear exactly once in stderr
+                assert.strictEqual(output.stderr.match(/test_error_stack/gu).length, 1);
+            });
+
+            return Promise.all([exitCodeAssertion, outputAssertion]);
+        });
+
         it("prints the error message pointing to line of code", () => {
             const invalidConfig = path.join(__dirname, "../fixtures/bin/eslint.config.js");
             const child = runESLint(["--no-ignore", "-c", invalidConfig]);
