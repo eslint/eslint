@@ -391,7 +391,7 @@ describe("bin/eslint.js", () => {
         describe("does not print duplicate errors in the event of a crash", () => {
 
             it("when there is an invalid config read from a config file", () => {
-                const config = path.join(__dirname, "../fixtures/bin/eslint.config_invalid.js");
+                const config = path.join(__dirname, "../fixtures/bin/eslint.config-invalid.js");
                 const child = runESLint(["--config", config, "conf", "tools"]);
                 const exitCodeAssertion = assertExitCode(child, 2);
                 const outputAssertion = getOutput(child).then(output => {
@@ -404,7 +404,7 @@ describe("bin/eslint.js", () => {
             });
 
             it("when there is an error in the next tick", () => {
-                const config = path.join(__dirname, "../fixtures/bin/eslint.config_tick_throws.js");
+                const config = path.join(__dirname, "../fixtures/bin/eslint.config-tick-throws.js");
                 const child = runESLint(["--config", config, "Makefile.js"]);
                 const exitCodeAssertion = assertExitCode(child, 2);
                 const outputAssertion = getOutput(child).then(output => {
