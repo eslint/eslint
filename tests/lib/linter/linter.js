@@ -1932,6 +1932,22 @@ describe("Linter", () => {
             assert.strictEqual(suppressedMessages.length, 0);
         });
 
+        it("should enable rule configured using a string severity that contains uppercase letters", () => {
+            const code = "/*eslint no-alert: \"Error\"*/ alert('test');";
+            const config = { rules: {} };
+
+            const messages = linter.verify(code, config, filename);
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].message, "Unexpected alert.");
+            assert.include(messages[0].nodeType, "CallExpression");
+
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
         it("rules should not change initial config", () => {
             const config = { rules: { strict: 2 } };
             const codeA = "/*eslint strict: 0*/ function bar() { return 2; }";
@@ -12345,6 +12361,29 @@ describe("Linter with FlatConfigArray", () => {
                                     column: 1,
                                     endLine: 1,
                                     endColumn: 25,
+                                    nodeType: null
+                                }
+                            ]
+                        );
+
+                        assert.strictEqual(suppressedMessages.length, 0);
+                    });
+
+                    it("should report a violation when a rule is configured using a string severity that contains uppercase letters", () => {
+                        const messages = linter.verify("/*eslint no-alert: \"Error\"*/ alert('test');", {});
+                        const suppressedMessages = linter.getSuppressedMessages();
+
+                        assert.deepStrictEqual(
+                            messages,
+                            [
+                                {
+                                    severity: 2,
+                                    ruleId: "no-alert",
+                                    message: "Inline configuration for rule \"no-alert\" is invalid:\n\tExpected severity of \"off\", 0, \"warn\", 1, \"error\", or 2. You passed \"Error\".\n",
+                                    line: 1,
+                                    column: 1,
+                                    endLine: 1,
+                                    endColumn: 29,
                                     nodeType: null
                                 }
                             ]

@@ -1726,6 +1726,17 @@ describe("FlatConfigArray", () => {
                 ], "Key \"rules\": Key \"foo\": Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.");
             });
 
+            it("should error when a string rule severity is not in lowercase", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            foo: "Error"
+                        }
+                    }
+                ], "Key \"rules\": Key \"foo\": Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.");
+            });
+
             it("should error when an invalid rule severity is set in an array", async () => {
 
                 await assertInvalidConfig([
