@@ -203,6 +203,7 @@ module.exports = Object.freeze({
         "no-unused-private-class-members": "error",
         "no-unused-vars": "error",
         "no-use-before-define": "error",
+        "no-useless-assignment": "error",
         "no-useless-backreference": "error",
         "no-useless-call": "error",
         "no-useless-catch": "error",

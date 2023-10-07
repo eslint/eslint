@@ -216,6 +216,7 @@
     "no-unused-private-class-members": "problem",
     "no-unused-vars": "problem",
     "no-use-before-define": "problem",
+    "no-useless-assignment": "suggestion",
     "no-useless-backreference": "problem",
     "no-useless-call": "suggestion",
     "no-useless-catch": "suggestion",
