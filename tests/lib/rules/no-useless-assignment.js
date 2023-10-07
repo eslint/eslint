@@ -98,6 +98,34 @@ ruleTester.run("no-useless-assignment", rule, {
             parserOptions: { sourceType: "script" }
         },
 
+        // Update
+        `function foo() {
+            let a = 42;
+            console.log(a);
+            a++;
+            console.log(a);
+        }`,
+        `function foo() {
+            let a = 42;
+            console.log(a);
+            a--;
+            console.log(a);
+        }`,
+
+        // Assign to complex patterns
+        `function foo() {
+            let a = 'used', b = 'used', c = 'used', d = 'used';
+            console.log(a, b, c, d);
+            ({ a, arr: [b, c, ...d] } = fn());
+            console.log(a, b, c, d);
+        }`,
+        `function foo() {
+            let a = 'used', b = 'used', c = 'used';
+            console.log(a, b, c);
+            ({ a = 'unused', foo: b, ...c } = fn());
+            console.log(a, b, c);
+        }`,
+
         // Value may be used in other scopes.
         `function foo () {
             let v = 'used';
@@ -237,6 +265,91 @@ ruleTester.run("no-useless-assignment", rule, {
                     messageId: "unnecessaryAssignment",
                     line: 5,
                     column: 21
+                }
+            ]
+        },
+
+        // Update
+        {
+            code:
+            `function foo() {
+                let a = 42;
+                console.log(a);
+                a++;
+            }`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code:
+            `function foo() {
+                let a = 42;
+                console.log(a);
+                a--;
+            }`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 17
+                }
+            ]
+        },
+
+        // Assign to complex patterns
+        {
+            code:
+            `function foo() {
+                let a = 'used', b = 'used', c = 'used', d = 'used';
+                console.log(a, b, c, d);
+                ({ a, arr: [b, c, ...d] } = fn());
+                console.log(c);
+            }`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 20
+                },
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 29
+                },
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 38
+                }
+            ]
+        },
+        {
+            code:
+            `function foo() {
+                let a = 'used', b = 'used', c = 'used';
+                console.log(a, b, c);
+                ({ a = 'unused', foo: b, ...c } = fn());
+            }`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 20
+                },
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 39
+                },
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 45
                 }
             ]
         },
