@@ -532,7 +532,6 @@ module.exports = function(eleventyConfig) {
         pathPrefix,
 
         markdownTemplateEngine: "njk",
-        dataTemplateEngine: "njk",
         htmlTemplateEngine: "njk",
 
         dir: {
