@@ -1,3 +1,23 @@
+v8.51.0 - October 6, 2023
+
+* [`1ef39ea`](https://github.com/eslint/eslint/commit/1ef39ea5b884453be717ebc929155d7eb584dcbf) chore: upgrade @eslint/js@8.51.0 (#17624) (Milos Djermanovic)
+* [`f8c7403`](https://github.com/eslint/eslint/commit/f8c7403255c11e99c402860aef3c0179f2b16628) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`f976b2f`](https://github.com/eslint/eslint/commit/f976b2f7bfe7cc78bb649f8b37e90fd519ff3bcc) fix: make rule severity case-sensitive in flat config (#17619) (Milos Djermanovic)
+* [`0edfe36`](https://github.com/eslint/eslint/commit/0edfe369aa5bd80a98053022bb4c6b1ea0155f44) fix: Ensure crash error messages are not duplicated (#17584) (Nicholas C. Zakas)
+* [`ee5be81`](https://github.com/eslint/eslint/commit/ee5be81fa3c4fe801c2f653854f098ed6a84dcef) docs: default to `sourceType: "module"` in rule examples (#17615) (Francesco Trotta)
+* [`dd79abc`](https://github.com/eslint/eslint/commit/dd79abc0c1857b1d765acc312c0d6518e40d31c9) fix: `eslint-disable` to be able to parse quoted rule names (#17612) (Yosuke Ota)
+* [`d2f6801`](https://github.com/eslint/eslint/commit/d2f68019b8882278877801c5ef2f74d55e2a10c1) fix: Ensure correct code path for && followed by ?? (#17618) (Nicholas C. Zakas)
+* [`2665552`](https://github.com/eslint/eslint/commit/2665552ba0057e8603f9fbece0fd236f189f5cf3) test: fix flat config linter tests to use Linter in flat config mode (#17616) (Milos Djermanovic)
+* [`1aa26df`](https://github.com/eslint/eslint/commit/1aa26df9fbcfdf5b895743c6d2d3a216479544b1) docs: Add more examples for multiline-ternary (#17610) (George Ashiotis)
+* [`47d0b44`](https://github.com/eslint/eslint/commit/47d0b446964f44d70b9457ecc368e721e1dc7c11) docs: Update README (GitHub Actions Bot)
+* [`dbf831e`](https://github.com/eslint/eslint/commit/dbf831e31f8eea0bc94df96cd33255579324b66e) docs: use generated og image (#17601) (Percy Ma)
+* [`0a9c433`](https://github.com/eslint/eslint/commit/0a9c43339a4adef24ef83034d0b078dd279cc977) feat: Add `--no-warn-ignored` CLI option for flat config (#17569) (Domantas Petrauskas)
+* [`1866da5`](https://github.com/eslint/eslint/commit/1866da5e1d931787256ecb825a803cac5835b71c) docs: Update README (GitHub Actions Bot)
+* [`7b77bcc`](https://github.com/eslint/eslint/commit/7b77bccbb51bd36b2d20fea61bc782545c4029b3) chore: Refactor CodePathState (#17510) (Nicholas C. Zakas)
+* [`977e67e`](https://github.com/eslint/eslint/commit/977e67ec274a05cb7391665b5e3453e7f72f72b2) feat: logical-assignment-operators to report expressions with 3 operands (#17600) (Yosuke Ota)
+* [`bc77c9a`](https://github.com/eslint/eslint/commit/bc77c9af12539f350ef19e30611a153a5b869c6b) chore: Document and refactor ForkContext (#17566) (Nicholas C. Zakas)
+* [`24e1f14`](https://github.com/eslint/eslint/commit/24e1f140ec68659e55c1ace0d7500addb135a2b4) chore: Refactor and document CodePath (#17558) (Nicholas C. Zakas)
+
 v8.50.0 - September 22, 2023
 
 * [`f8a8a2d`](https://github.com/eslint/eslint/commit/f8a8a2d6b45c82f94a574623759b6e3d2af193f3) chore: upgrade @eslint/js@8.50.0 (#17599) (Milos Djermanovic)
