@@ -87,9 +87,9 @@ Examples of **incorrect** code for arrow functions:
 /*eslint no-sequences: "error"*/
 const foo = (val) => (console.log('bar'), val);
 
-const foo = () => ((bar = 123), 10);
+const baz = () => ((bar = 123), 10);
 
-const foo = () => { return (bar = 123), 10 }
+const qux = () => { return (bar = 123), 10 }
 ```
 
 :::
@@ -102,9 +102,9 @@ Examples of **correct** code for arrow functions:
 /*eslint no-sequences: "error"*/
 const foo = (val) => ((console.log('bar'), val));
 
-const foo = () => (((bar = 123), 10));
+const baz = () => (((bar = 123), 10));
 
-const foo = () => { return ((bar = 123), 10) }
+const qux = () => { return ((bar = 123), 10) }
 ```
 
 :::

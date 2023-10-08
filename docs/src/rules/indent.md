@@ -248,12 +248,12 @@ Examples of **incorrect** code for this rule with the `2, { "VariableDeclarator"
 var a,
     b,
     c;
-let a,
-    b,
-    c;
-const a = 1,
-    b = 2,
-    c = 3;
+let d,
+    e,
+    f;
+const g = 1,
+    h = 2,
+    i = 3;
 ```
 
 :::
@@ -269,12 +269,12 @@ Examples of **correct** code for this rule with the `2, { "VariableDeclarator": 
 var a,
   b,
   c;
-let a,
-  b,
-  c;
-const a = 1,
-  b = 2,
-  c = 3;
+let d,
+  e,
+  f;
+const g = 1,
+  h = 2,
+  i = 3;
 ```
 
 :::
@@ -290,12 +290,12 @@ Examples of **correct** code for this rule with the `2, { "VariableDeclarator": 
 var a,
     b,
     c;
-let a,
-    b,
-    c;
-const a = 1,
-    b = 2,
-    c = 3;
+let d,
+    e,
+    f;
+const g = 1,
+    h = 2,
+    i = 3;
 ```
 
 :::
@@ -311,12 +311,12 @@ Examples of **incorrect** code for this rule with the `2, { "VariableDeclarator"
 var a,
   b,
   c;
-let a,
-  b,
-  c;
-const a = 1,
-  b = 2,
-  c = 3;
+let d,
+  e,
+  f;
+const g = 1,
+  h = 2,
+  i = 3;
 ```
 
 :::
@@ -332,12 +332,12 @@ Examples of **correct** code for this rule with the `2, { "VariableDeclarator": 
 var a,
     b,
     c;
-let a,
-    b,
-    c;
-const a = 1,
-      b = 2,
-      c = 3;
+let d,
+    e,
+    f;
+const g = 1,
+      h = 2,
+      i = 3;
 ```
 
 :::
@@ -353,12 +353,12 @@ Examples of **correct** code for this rule with the `2, { "VariableDeclarator": 
 var a,
     b,
     c;
-let a,
-    b,
-    c;
-const a = 1,
-      b = 2,
-      c = 3;
+let d,
+    e,
+    f;
+const g = 1,
+      h = 2,
+      i = 3;
 ```
 
 :::
@@ -858,6 +858,14 @@ import { foo,
     bar,
     baz,
 } from 'qux';
+```
+
+:::
+
+::: correct
+
+```js
+/*eslint indent: ["error", 4, { "ImportDeclaration": 1 }]*/
 
 import {
     foo,

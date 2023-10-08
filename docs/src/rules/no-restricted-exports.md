@@ -144,7 +144,25 @@ Examples of **incorrect** code for the `"restrictDefaultExports": { "direct": tr
 /*eslint no-restricted-exports: ["error", { "restrictDefaultExports": { "direct": true } }]*/
 
 export default foo;
+```
+
+:::
+
+::: incorrect
+
+```js
+/*eslint no-restricted-exports: ["error", { "restrictDefaultExports": { "direct": true } }]*/
+
 export default 42;
+```
+
+:::
+
+::: incorrect
+
+```js
+/*eslint no-restricted-exports: ["error", { "restrictDefaultExports": { "direct": true } }]*/
+
 export default function foo() {}
 ```
 
@@ -176,6 +194,15 @@ Examples of **incorrect** code for the `"restrictDefaultExports": { "defaultFrom
 /*eslint no-restricted-exports: ["error", { "restrictDefaultExports": { "defaultFrom": true } }]*/
 
 export { default } from 'foo';
+```
+
+:::
+
+::: incorrect
+
+```js
+/*eslint no-restricted-exports: ["error", { "restrictDefaultExports": { "defaultFrom": true } }]*/
+
 export { default as default } from 'foo';
 ```
 

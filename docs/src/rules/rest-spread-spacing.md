@@ -85,8 +85,8 @@ Examples of **incorrect** code for this rule with `"never"`:
 ```js
 /*eslint rest-spread-spacing: ["error", "never"]*/
 
-fn(... args)
-[... arr, 4, 5, 6]
+fn(... args);
+[... arr, 4, 5, 6];
 let [a, b, ... arr] = [1, 2, 3, 4, 5];
 function fn(... args) { console.log(args); }
 let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };
@@ -102,8 +102,8 @@ Examples of **correct** code for this rule with `"never"`:
 ```js
 /*eslint rest-spread-spacing: ["error", "never"]*/
 
-fn(...args)
-[...arr, 4, 5, 6]
+fn(...args);
+[...arr, 4, 5, 6];
 let [a, b, ...arr] = [1, 2, 3, 4, 5];
 function fn(...args) { console.log(args); }
 let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
@@ -127,8 +127,8 @@ Examples of **incorrect** code for this rule with `"always"`:
 ```js
 /*eslint rest-spread-spacing:["error", "always"]*/
 
-fn(...args)
-[...arr, 4, 5, 6]
+fn(...args);
+[...arr, 4, 5, 6];
 let [a, b, ...arr] = [1, 2, 3, 4, 5];
 function fn(...args) { console.log(args); }
 let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
@@ -144,8 +144,8 @@ Examples of **correct** code for this rule with `"always"`:
 ```js
 /*eslint rest-spread-spacing: ["error", "always"]*/
 
-fn(... args)
-[... arr, 4, 5, 6]
+fn(... args);
+[... arr, 4, 5, 6];
 let [a, b, ... arr] = [1, 2, 3, 4, 5];
 function fn(... args) { console.log(args); }
 let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };

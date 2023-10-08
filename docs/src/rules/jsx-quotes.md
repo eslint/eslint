@@ -9,17 +9,17 @@ related_rules:
 
 JSX attribute values can contain string literals, which are delimited with single or double quotes.
 
-```xml
-<a b='c' />
-<a b="c" />
+```jsx
+<a b='c' />;
+<a b="c" />;
 ```
 
 Unlike string literals in JavaScript, string literals within JSX attributes can’t contain escaped quotes.
 If you want to have e.g. a double quote within a JSX attribute value, you have to use single quotes as string delimiter.
 
-```xml
-<a b="'" />
-<a b='"' />
+```jsx
+<a b="'" />;
+<a b='"' />;
 ```
 
 ## Rule Details
@@ -42,7 +42,7 @@ Examples of **incorrect** code for this rule with the default `"prefer-double"` 
 ```jsx
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
 
-<a b='c' />
+<a b='c' />;
 ```
 
 :::
@@ -54,8 +54,8 @@ Examples of **correct** code for this rule with the default `"prefer-double"` op
 ```jsx
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
 
-<a b="c" />
-<a b='"' />
+<a b="c" />;
+<a b='"' />;
 ```
 
 :::
@@ -69,7 +69,7 @@ Examples of **incorrect** code for this rule with the `"prefer-single"` option:
 ```jsx
 /*eslint jsx-quotes: ["error", "prefer-single"]*/
 
-<a b="c" />
+<a b="c" />;
 ```
 
 :::
@@ -81,8 +81,8 @@ Examples of **correct** code for this rule with the `"prefer-single"` option:
 ```jsx
 /*eslint jsx-quotes: ["error", "prefer-single"]*/
 
-<a b='c' />
-<a b="'" />
+<a b='c' />;
+<a b="'" />;
 ```
 
 :::

@@ -52,9 +52,9 @@ var greet = "hello,",
     name = "world";
 console.log(greet, name);
 
-let greet = "hello,",
-    name = "world";
-console.log(greet, name);
+let hello = "hello,",
+    world = "world";
+console.log(hello, world);
 
 var greet = "hello,";
 const NAME = "world";
@@ -81,10 +81,10 @@ var greet = "hello,",
 
 console.log(greet, name);
 
-let greet = "hello,",
-    name = "world";
+let hello = "hello,",
+    world = "world";
 
-console.log(greet, name);
+console.log(hello, world);
 
 var greet = "hello,";
 const NAME = "world";
@@ -115,10 +115,10 @@ var greet = "hello,",
 
 console.log(greet, name);
 
-let greet = "hello,",
-    name = "world";
+let hello = "hello,",
+    world = "world";
 
-console.log(greet, name);
+console.log(hello, world);
 
 var greet = "hello,";
 const NAME = "world";
@@ -146,9 +146,9 @@ var greet = "hello,",
     name = "world";
 console.log(greet, name);
 
-let greet = "hello,",
-    name = "world";
-console.log(greet, name);
+let hello = "hello,",
+    world = "world";
+console.log(hello, world);
 
 var greet = "hello,";
 const NAME = "world";
