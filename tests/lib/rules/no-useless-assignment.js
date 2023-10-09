@@ -347,6 +347,47 @@ ruleTester.run("no-useless-assignment", rule, {
                 }
             ]
         },
+        {
+            code: `
+            let v;
+            v = 'unused';
+            if (foo) {
+                v = 'used';
+            } else {
+                v = 'used';
+            }
+            console.log(v);`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 3,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code:
+            `function foo() {
+                let v = 'used';
+                console.log(v);
+                v = 'unused';
+                v = 'unused';
+                v = 'used';
+                console.log(v);
+            }`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 17
+                },
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 5,
+                    column: 17
+                }
+            ]
+        },
 
         // Update
         {
