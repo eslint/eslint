@@ -43,6 +43,16 @@ function foo() {
         v = 'unused';
     }
 }
+
+function foo() {
+    let v = 'used';
+    if (condition) {
+        let v = 'used';
+        console.log(v);
+        v = 'unused';
+    }
+    console.log(v);
+}
 ```
 
 :::
