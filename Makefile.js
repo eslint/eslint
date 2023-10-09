@@ -228,10 +228,6 @@ function generateRuleIndexPage() {
                     },
                     ruleType = ruleTypesData.types[rule.meta.type];
 
-                if (!ruleType.rules) {
-                    ruleType.rules = [];
-                }
-
                 ruleType.push(output);
             }
         });
