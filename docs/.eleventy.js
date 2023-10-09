@@ -54,6 +54,7 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addGlobalData("GIT_BRANCH", process.env.BRANCH);
     eleventyConfig.addGlobalData("HEAD", process.env.BRANCH === "main");
     eleventyConfig.addGlobalData("NOINDEX", process.env.BRANCH !== "latest");
+    eleventyConfig.addGlobalData("PATH_PREFIX", pathPrefix);
     eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
     //------------------------------------------------------------------------------
@@ -488,25 +489,6 @@ module.exports = function(eleventyConfig) {
     //------------------------------------------------------------------------------
 
     /*
-     * When we run `eleventy --serve`, Eleventy 1.x uses browser-sync to serve the content.
-     * By default, browser-sync (more precisely, underlying serve-static) will not serve
-     * `foo/bar.html` when we request `foo/bar`. Thus, we need to rewrite URLs to append `.html`
-     * so that pretty links without `.html` can work in a local development environment.
-     *
-     * There's no need to rewrite URLs that end with `/`, because that already works well
-     * (server will return the content of `index.html` in the directory).
-     * URLs with a file extension, like main.css, main.js, sitemap.xml, etc. should not be rewritten
-     */
-    eleventyConfig.setBrowserSyncConfig({
-        middleware(req, res, next) {
-            if (!/(?:\.[a-zA-Z][^/]*|\/)$/u.test(req.url)) {
-                req.url += ".html";
-            }
-            return next();
-        }
-    });
-
-    /*
      * Generate the sitemap only in certain contexts to prevent unwanted discovery of sitemaps that
      * contain URLs we'd prefer not to appear in search results (URLs in sitemaps are considered important).
      * In particular, we don't want to deploy https://eslint.org/docs/head/sitemap.xml
@@ -524,7 +506,6 @@ module.exports = function(eleventyConfig) {
     ) {
         eleventyConfig.ignores.add("src/static/sitemap.njk"); // ... then don't generate the sitemap.
     }
-
 
     return {
         passthroughFileCopy: true,
