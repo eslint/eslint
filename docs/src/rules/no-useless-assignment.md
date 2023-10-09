@@ -45,6 +45,15 @@ function foo() {
 }
 
 function foo() {
+    let v = 'unused';
+    if (condition) {
+        v = 'used';
+        doSomething(v);
+        return
+    }
+}
+
+function foo() {
     let v = 'used';
     if (condition) {
         let v = 'used';
@@ -78,6 +87,7 @@ function foo() {
         doSomething(v);
         return
     }
+    doSomething(v);
 }
 
 function foo() {

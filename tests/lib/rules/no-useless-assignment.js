@@ -22,10 +22,6 @@ const ruleTester = new RuleTester({
 
 ruleTester.run("no-useless-assignment", rule, {
     valid: [
-        `let foo = 'used';
-        export { foo };
-        console.log(foo);
-        foo = 'unused like but exported';`,
 
         // Basic tests
         `let v = 'used';
@@ -45,6 +41,7 @@ ruleTester.run("no-useless-assignment", rule, {
                 console.log(v);
                 return
             }
+            console.log(v);
         }`,
         `function foo() {
             let v = 'used';
@@ -82,6 +79,12 @@ ruleTester.run("no-useless-assignment", rule, {
                 v = 'used in next iteration';
             }
         }`,
+        `function foo () {
+            let i = 0;
+            i++;
+            i++;
+            console.log(i);
+        }`,
 
         // Exported
         `export let foo = 'used';
@@ -97,6 +100,10 @@ ruleTester.run("no-useless-assignment", rule, {
         console.log(foo);
         foo = 'unused like but exported';`,
         `export default class foo {};
+        console.log(foo);
+        foo = 'unused like but exported';`,
+        `let foo = 'used';
+        export { foo };
         console.log(foo);
         foo = 'unused like but exported';`,
         `function foo () {};
@@ -304,12 +311,35 @@ ruleTester.run("no-useless-assignment", rule, {
         {
             code:
             `function foo() {
+                let v = 'unused';
+                if (condition) {
+                    v = 'used';
+                    console.log(v);
+                    return
+                }
+            }`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 2,
+                    column: 21
+                }
+            ]
+        },
+        {
+            code:
+            `function foo() {
                 let v = 'used';
                 console.log(v);
                 v = 'unused';
                 v = 'unused';
             }`,
             errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 17
+                },
                 {
                     messageId: "unnecessaryAssignment",
                     line: 5,
