@@ -9,7 +9,6 @@ const unicorn = require("eslint-plugin-unicorn");
  * the plugins' configs are not updated to support the flat config,
  * need to manually update the `plugins` property
  */
-jsdoc.configs.recommended.plugins = { jsdoc };
 eslintComments.configs.recommended.plugins = { "eslint-comments": eslintComments };
 
 // extends eslint recommended config
@@ -262,7 +261,7 @@ const jsConfigs = [js.configs.recommended, {
 }];
 
 // extends eslint-plugin-jsdoc's recommended config
-const jsdocConfigs = [jsdoc.configs.recommended, {
+const jsdocConfigs = [jsdoc.configs["flat/recommended"], {
     settings: {
         jsdoc: {
             mode: "typescript",

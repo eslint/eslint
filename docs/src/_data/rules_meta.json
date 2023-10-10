@@ -31,7 +31,8 @@
             "description": "Enforce `return` statements in callbacks of array methods",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/array-callback-return"
-        }
+        },
+        "hasSuggestions": true
     },
     "array-element-newline": {
         "type": "layout",
@@ -1364,7 +1365,11 @@
             "description": "Disallow `Object` constructors",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-new-object"
-        }
+        },
+        "deprecated": true,
+        "replacedBy": [
+            "no-object-constructor"
+        ]
     },
     "no-new-require": {
         "deprecated": true,
@@ -1408,6 +1413,15 @@
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-obj-calls"
         }
+    },
+    "no-object-constructor": {
+        "type": "suggestion",
+        "docs": {
+            "description": "Disallow calls to the `Object` constructor without an argument",
+            "recommended": false,
+            "url": "https://eslint.org/docs/latest/rules/no-object-constructor"
+        },
+        "hasSuggestions": true
     },
     "no-octal": {
         "type": "suggestion",

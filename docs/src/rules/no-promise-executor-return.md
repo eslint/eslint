@@ -38,6 +38,7 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-promise-executor-return: "error"*/
+/*eslint-env es6*/
 
 new Promise((resolve, reject) => {
     if (someCondition) {
@@ -75,6 +76,7 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-promise-executor-return: "error"*/
+/*eslint-env es6*/
 
 // Turn return inline into two lines
 new Promise((resolve, reject) => {
@@ -123,6 +125,7 @@ Examples of **correct** code for this rule with the `{ "allowVoid": true }` opti
 
 ```js
 /*eslint no-promise-executor-return: ["error", { allowVoid: true }]*/
+/*eslint-env es6*/
 
 new Promise((resolve, reject) => {
     if (someCondition) {
