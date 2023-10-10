@@ -106,6 +106,10 @@ Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$",
 var obj = {
     my_pref: 1
 };
+
+obj.do_something = function() {
+    // ...
+};
 ```
 
 :::
