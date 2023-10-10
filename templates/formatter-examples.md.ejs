@@ -61,13 +61,11 @@ npx eslint --format <Add formatter here> fullOfProblems.js
 ### <%= formatterName %>
 
 <%= formatterResults[formatterName].description %>
-
-Example output:
-
 <% if (formatterName !== "html") { -%>
 <%
     let codeFormat = "text";
     let output = formatterResults[formatterName].result;
+    let outputNote = "Example output:";
 
     if (formatterName.includes("xml")) {
         codeFormat = "xml";
@@ -76,8 +74,11 @@ Example output:
     if (formatterName.includes("json")) {
         codeFormat = "json";
         output = JSON.stringify(JSON.parse(output), null, 4);
+        outputNote = "Example output (formatted for easier reading):";
     }
 %>
+<%= outputNote %>
+
 ```<%= codeFormat %>
 <%- output %>
 ```
