@@ -21,7 +21,7 @@ const plugin = {
     processors: {}
 };
 
-export { plugin };
+export default plugin;
 ```
 
 This structure allows the most flexibility when making other changes discussed on this page.
@@ -48,7 +48,7 @@ const plugin = {
     }
 };
 
-export { plugin };
+export default plugin;
 ```
 
 The name `".md"` is no longer valid for a processor, so it must be replaced with a valid identifier such as `markdown`:
@@ -67,7 +67,7 @@ const plugin = {
     }
 };
 
-export { plugin };
+export default plugin;
 ```
 
 In order to use this renamed processor, you'll also need to manually specify it inside of a config, such as:
@@ -134,7 +134,7 @@ Object.assign(plugin.configs, {
     }
 })
 
-export { plugin };
+export default plugin;
 ```
 
 Your users can then use this exported config like this:
@@ -205,7 +205,7 @@ Object.assign(plugin.configs, {
     }
 })
 
-export { plugin };
+export default plugin;
 ```
 
 Your users can then use this exported config like this:
