@@ -12,39 +12,38 @@
     "minimumReleaseAge": "7 days",
 
     "packageRules": [
-        // Enable minor version updates with auto-merging
-        // (Major versions will need to be triggered from the dashboard issue)
         {
+            "description": "Automerge minor version updates. Major versions must be approved from the Dependency Dashboard issue, because we use the :approveMajorUpdates preset.",
             "automerge": true,
             "matchUpdateTypes": ["minor"]
         },
-
-        // Ignore patch versions to reduce noise
         {
+            "description": "Ignore patch versions to reduce noise.",
             "enabled": false,
             "matchUpdateTypes": ["patch"]
         },
-
-        // Label PRs appropriately per their manager
         {
+            "description": "Use the deps:npm label for npm manager packages (this means Renovate's npm manager).",
             "addLabels": ["deps:npm"],
             "matchManagers": ["npm"]
         },
         {
+            "description": "Use the deps:actions label for github-action manager updates (this means Renovate's github-action manager).",
             "addLabels": ["deps:actions"],
             "matchManagers": ["github-actions"]
         },
-
-        // Batch package sets together
         {
+            "description": "Group Babel packages into a single PR.",
             "groupName": "babel",
             "matchPackagePrefixes": ["@babel", "babel-"]
         },
         {
+            "description": "Group wdio packages into a single PR.",
             "groupName": "wdio",
             "matchPackagePrefixes": ["@wdio"]
         },
         {
+            "description": "Group metascraper packages into a single PR.",
             "groupName": "metascraper",
             "matchPackagePrefixes": ["metascraper"]
         }
