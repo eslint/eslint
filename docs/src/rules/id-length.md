@@ -42,15 +42,15 @@ try {
 var myObj = { a: 1 };
 (a) => { a * a };
 class y { }
-{ class Foo { x() {} } }
-{ class Foo { #x() {} } }
-{ class Foo { x = 1 } }
-{ class Foo { #x = 1 } }
-{ function foo(...x) { } }
-{ function foo([x]) { } }
+class Foo { x() {} }
+class Bar { #x() {} }
+class Baz { x = 1 }
+class Qux { #x = 1 }
+function bar(...x) { }
+function baz([x]) { }
 var [x] = arr;
 var { prop: [x]} = {};
-{ function foo({x}) { } }
+function qux({x}) { }
 var { x } = {};
 var { prop: a} = {};
 ({ prop: obj.x } = {});
@@ -78,19 +78,19 @@ try {
 }
 var myObj = { apple: 1 };
 (num) => { num * num };
-{ function foo(num = 0) { } }
+function bar(num = 0) { }
 class MyClass { }
-{ class Foo { method() {} } }
-{ class Foo { #method() {} } }
-{ class Foo { field = 1 } }
-{ class Foo { #field = 1 } }
-{ function foo(...args) { } }
-{ function foo([longName]) { } }
+class Foo { method() {} }
+class Bar { #method() {} }
+class Baz { field = 1 }
+class Qux { #field = 1 }
+function baz(...args) { }
+function qux([longName]) { }
 var { prop } = {};
 var { prop: [longName] } = {};
 var [longName] = arr;
-{ function foo({ prop }) { } }
-{ function foo({ a: prop }) { } }
+function foobar({ prop }) { }
+function foobaz({ a: prop }) { }
 var { prop } = {};
 var { a: prop } = {};
 ({ prop: obj.longName } = {});
@@ -242,16 +242,16 @@ var myObj = { a: 1 };
 
 ### exceptions
 
-Examples of additional **correct** code for this rule with the `{ "exceptions": ["x"] }` option:
+Examples of additional **correct** code for this rule with the `{ "exceptions": ["x", "y", "z", "ζ"] }` option:
 
 ::: correct
 
 ```js
-/*eslint id-length: ["error", { "exceptions": ["x"] }]*/
+/*eslint id-length: ["error", { "exceptions": ["x", "y", "z", "ζ"] }]*/
 /*eslint-env es6*/
 
 var x = 5;
-{ function x() { return 42; } }
+function y() { return 42; }
 obj.x = document.body;
 var foo = function (x) { /* do stuff */ };
 try {
@@ -261,8 +261,8 @@ try {
 }
 (x) => { return x * x; };
 var [x] = arr;
-{ const { x } = foo; }
-{ const { a: x } = foo; }
+const { z } = foo;
+const { a: ζ } = foo;
 ```
 
 :::
