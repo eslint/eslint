@@ -11,7 +11,7 @@ If the variable is not used after assignment is needless and most likely indicat
 
 ## Rule Details
 
-This rule aims to report variables that are not used after assignment.
+This rule aims to report variable assignments when the value is not used.
 
 Examples of **incorrect** code for this rule:
 
