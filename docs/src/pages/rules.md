@@ -22,13 +22,13 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
 
 {%- for type, content in rules.types -%}
 
-<h2 id="{{ rules_category[type].displayName | slugify }}"> {{ rules_category[type].displayName }} </h2>
+<h2 id="{{ rules_categories[type].displayName | slugify }}"> {{ rules_categories[type].displayName }} </h2>
 
-{{ rules_category[type].description | safe }}
+{{ rules_categories[type].description | safe }}
 
     {%- for the_rule in content -%}
 
-    {%- if rules_category[type].displayName == 'deprecated' -%}
+    {%- if rules_categories[type].displayName == 'deprecated' -%}
     {%- set deprecated_value = true -%}
     {%- endif -%}
 
@@ -53,9 +53,9 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
 
 {%- if rules.deprecated -%}
 
-<h2 id="{{ rules_category.deprecated.displayName | slugify }}">{{ rules_category.deprecated.displayName }}</h2>
+<h2 id="{{ rules_categories.deprecated.displayName | slugify }}">{{ rules_categories.deprecated.displayName }}</h2>
 
-{{ rules_category.deprecated.description | safe }}
+{{ rules_categories.deprecated.description | safe }}
 
 {%- for the_rule in rules.deprecated -%}
     {%- set name_value = the_rule.name -%}
@@ -71,9 +71,9 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
 
 {%- if rules.removed -%}
 
-<h2 id="{{ rules_category.removed.displayName | slugify }}">{{ rules_category.removed.displayName }}</h2>
+<h2 id="{{ rules_categories.removed.displayName | slugify }}">{{ rules_categories.removed.displayName }}</h2>
 
-{{ rules_category.removed.description | safe }}
+{{ rules_categories.removed.description | safe }}
 
 {%- for the_rule in rules.removed -%}
     {%- set name_value = the_rule.removed -%}
