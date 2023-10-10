@@ -14,7 +14,7 @@ This rule checks whether or not there is a valid `super()` call.
 
 This rule is aimed to flag invalid/missing `super()` calls.
 
-This is a `SyntaxError`:
+This is a syntax error because there is no `extends` clause in the class:
 
 ```js
 class A {
