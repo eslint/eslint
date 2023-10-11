@@ -609,6 +609,24 @@ ruleTester.run("no-misleading-character-class", rule, {
             }]
         },
         {
+            code: String.raw`new RegExp("[ \\ufe0f]", "")`,
+            errors: [{
+                column: 15,
+                endColumn: 22,
+                messageId: "combiningClass",
+                suggestions: null
+            }]
+        },
+        {
+            code: String.raw`new RegExp("[ \\ufe0f]", "u")`,
+            errors: [{
+                column: 15,
+                endColumn: 22,
+                messageId: "combiningClass",
+                suggestions: null
+            }]
+        },
+        {
             code: String.raw`var r = new RegExp("[\\u2747\\uFE0F]", "")`,
             errors: [{
                 column: 20,
