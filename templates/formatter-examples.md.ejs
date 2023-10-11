@@ -67,7 +67,7 @@ npx eslint --format <Add formatter here> fullOfProblems.js
     let output = formatterResults[formatterName].result;
     let outputNote = "Example output:";
 
-    if (formatterName.includes("xml")) {
+    if (output.startsWith("\u003C?xml")) {
         codeFormat = "xml";
     }
 
