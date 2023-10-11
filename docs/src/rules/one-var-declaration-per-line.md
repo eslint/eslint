@@ -46,8 +46,8 @@ Examples of **incorrect** code for this rule with the default `"initializations"
 
 var a, b, c = 0;
 
-let a,
-    b = 0, c;
+let d,
+    e = 0, f;
 ```
 
 :::
@@ -62,11 +62,11 @@ Examples of **correct** code for this rule with the default `"initializations"` 
 
 var a, b;
 
-let a,
-    b;
+let c,
+    d;
 
-let a,
-    b = 0;
+let e,
+    f = 0;
 ```
 
 :::
@@ -83,9 +83,9 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 
 var a, b;
 
-let a, b = 0;
+let c, d = 0;
 
-const a = 0, b = 0;
+const e = 0, f = 0;
 ```
 
 :::
@@ -101,8 +101,8 @@ Examples of **correct** code for this rule with the `"always"` option:
 var a,
     b;
 
-let a,
-    b = 0;
+let c,
+    d = 0;
 ```
 
 :::

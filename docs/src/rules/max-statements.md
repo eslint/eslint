@@ -63,7 +63,7 @@ function foo() {
   var foo11 = 11; // Too many.
 }
 
-let foo = () => {
+let bar = () => {
   var foo1 = 1;
   var foo2 = 2;
   var foo3 = 3;
@@ -109,7 +109,7 @@ function foo() {
   };
 }
 
-let foo = () => {
+let bar = () => {
   var foo1 = 1;
   var foo2 = 2;
   var foo3 = 3;

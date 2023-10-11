@@ -46,7 +46,7 @@ Examples of **incorrect** code for this rule with sample `"data", "callback"` re
 ```js
 /*eslint id-denylist: ["error", "data", "callback"] */
 
-var data = {...};
+var data = { ...values };
 
 function callback() {
     // ...
@@ -57,23 +57,23 @@ element.callback = function() {
 };
 
 var itemSet = {
-    data: [...]
+    data: [...values]
 };
 
 class Foo {
     data = [];
 }
 
-class Foo {
+class Bar {
     #data = [];
 }
 
-class Foo {
-    callback( {);
+class Baz {
+    callback() {}
 }
 
-class Foo {
-    #callback( {);
+class Qux {
+    #callback() {}
 }
 ```
 
@@ -86,7 +86,7 @@ Examples of **correct** code for this rule with sample `"data", "callback"` rest
 ```js
 /*eslint id-denylist: ["error", "data", "callback"] */
 
-var encodingOptions = {...};
+var encodingOptions = {...values};
 
 function processFileResult() {
     // ...
@@ -97,7 +97,7 @@ element.successHandler = function() {
 };
 
 var itemSet = {
-    entities: [...]
+    entities: [...values]
 };
 
 callback(); // all function calls are ignored
@@ -110,16 +110,16 @@ class Foo {
     items = [];
 }
 
-class Foo {
+class Bar {
     #items = [];
 }
 
-class Foo {
-    method( {);
+class Baz {
+    method() {}
 }
 
-class Foo {
-    #method( {);
+class Qux {
+    #method() {}
 }
 ```
 

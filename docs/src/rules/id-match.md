@@ -42,17 +42,13 @@ function do_something() {
     // ...
 }
 
-obj.do_something = function() {
-    // ...
-};
-
 class My_Class {}
 
 class myClass {
     do_something() {}
 }
 
-class myClass {
+class anotherClass {
     #do_something() {}
 }
 ```
@@ -76,11 +72,11 @@ var obj = {
 
 class myClass {}
 
-class myClass {
+class anotherClass {
     doSomething() {}
 }
 
-class myClass {
+class oneMoreClass {
     #doSomething() {}
 }
 ```
@@ -110,6 +106,10 @@ Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$",
 var obj = {
     my_pref: 1
 };
+
+obj.do_something = function() {
+    // ...
+};
 ```
 
 :::
@@ -121,13 +121,13 @@ Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$",
 ::: incorrect
 
 ```js
-/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$", { "properties": true }]*/
+/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$", { "classFields": true }]*/
 
 class myClass {
     my_pref = 1;
 }
 
-class myClass {
+class anotherClass {
     #my_pref = 1;
 }
 ```

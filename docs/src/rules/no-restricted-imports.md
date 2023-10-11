@@ -207,7 +207,7 @@ import { DisallowedObject } from "foo";
 
 import { DisallowedObject as AllowedObject } from "foo";
 
-import { "DisallowedObject" as AllowedObject } from "foo";
+import { "DisallowedObject" as SomeObject } from "foo";
 ```
 
 :::

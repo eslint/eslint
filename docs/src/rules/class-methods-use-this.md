@@ -86,13 +86,13 @@ class A {
     }
 }
 
-class A {
+class B {
     constructor() {
         // OK. constructor is exempt
     }
 }
 
-class A {
+class C {
     static foo() {
         // OK. static methods aren't expected to use this.
     }

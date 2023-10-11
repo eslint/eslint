@@ -57,7 +57,7 @@ a?b:c
 
 const a={b:1};
 
-var {a=0}=bar;
+var {b=0}=bar;
 
 function foo(a=0) { }
 ```
@@ -80,7 +80,7 @@ a ? b : c
 
 const a = {b:1};
 
-var {a = 0} = bar;
+var {b = 0} = bar;
 
 function foo(a = 0) { }
 ```
