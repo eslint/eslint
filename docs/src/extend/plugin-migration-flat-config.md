@@ -16,6 +16,7 @@ To make it easier to work with your plugin in the flat config system, it's recom
 
 ```js
 const plugin = {
+    meta: {},
     configs: {},
     rules: {},
     processors: {}
@@ -25,6 +26,28 @@ export default plugin;
 ```
 
 This structure allows the most flexibility when making other changes discussed on this page.
+
+## Adding Plugin Meta Information
+
+With the old configuration system, ESLint could pull information about the plugin from the package name, but with flat config, ESLint no longer has access to the name of the plugin package. To replace that missing information, you should add a `meta` key that contains at least a `name` key, and ideally, a `version` key, such as:
+
+```js
+const plugin = {
+    meta: {
+        name: "eslint-plugin-example",
+        version: "1.0.0"
+    },
+    configs: {},
+    rules: {},
+    processors: {}
+};
+
+export default plugin;
+```
+
+If your plugin is published as an npm package, the `name` and `version` should be the same as in your `package.json` file; otherwise, you can assign any value you'd like.
+
+Without this meta information, your plugin will not be usable with the `--cache` and `--print-config` command line options.
 
 ## Migrating Rules for Flat Config
 
