@@ -22,7 +22,11 @@ const plugin = {
     processors: {}
 };
 
+// for ESM
 export default plugin;
+
+// OR for CommonJS
+module.exports = plugin;
 ```
 
 This structure allows the most flexibility when making other changes discussed on this page.
@@ -42,7 +46,11 @@ const plugin = {
     processors: {}
 };
 
+// for ESM
 export default plugin;
+
+// OR for CommonJS
+module.exports = plugin;
 ```
 
 If your plugin is published as an npm package, the `name` and `version` should be the same as in your `package.json` file; otherwise, you can assign any value you'd like.
@@ -71,7 +79,11 @@ const plugin = {
     }
 };
 
+// for ESM
 export default plugin;
+
+// OR for CommonJS
+module.exports = plugin;
 ```
 
 The name `".md"` is no longer valid for a processor, so it must be replaced with a valid identifier such as `markdown`:
@@ -90,7 +102,11 @@ const plugin = {
     }
 };
 
+// for ESM
 export default plugin;
+
+// OR for CommonJS
+module.exports = plugin;
 ```
 
 In order to use this renamed processor, you'll also need to manually specify it inside of a config, such as:
@@ -157,7 +173,11 @@ Object.assign(plugin.configs, {
     }
 })
 
+// for ESM
 export default plugin;
+
+// OR for CommonJS
+module.exports = plugin;
 ```
 
 Your users can then use this exported config like this:
@@ -228,7 +248,11 @@ Object.assign(plugin.configs, {
     }
 })
 
+// for ESM
 export default plugin;
+
+// OR for CommonJS
+module.exports = plugin;
 ```
 
 Your users can then use this exported config like this:
