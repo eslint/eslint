@@ -124,7 +124,7 @@ Examples of **correct** code for this rule with `{ ignoreExport: true }`:
 ```js
 /*eslint no-useless-rename: ["error", { ignoreExport: true }]*/
 
-const foo = 1, bar = 2;
+const foo = 1;
 export { foo as foo };
 export { bar as bar } from "bar";
 ```
