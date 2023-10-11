@@ -33,7 +33,7 @@ This structure allows the most flexibility when making other changes discussed o
 
 ## Adding Plugin Meta Information
 
-With the old configuration system, ESLint could pull information about the plugin from the package name, but with flat config, ESLint no longer has access to the name of the plugin package. To replace that missing information, you should add a `meta` key that contains at least a `name` key, and ideally, a `version` key, such as:
+With the old eslintrc configuration system, ESLint could pull information about the plugin from the package name, but with flat config, ESLint no longer has access to the name of the plugin package. To replace that missing information, you should add a `meta` key that contains at least a `name` key, and ideally, a `version` key, such as:
 
 ```js
 const plugin = {
@@ -59,7 +59,7 @@ Without this meta information, your plugin will not be usable with the `--cache`
 
 ## Migrating Rules for Flat Config
 
-No changes are necessary for the `rules` key in your plugin. Everything works the same as with the old configuration system.
+No changes are necessary for the `rules` key in your plugin. Everything works the same as with the old eslintrc configuration system.
 
 ## Migrating Processors for Flat Config
 
@@ -277,6 +277,14 @@ export default [
 ```
 
 You should update your documentation so your plugin users know how to reference the exported configs.
+
+## Backwards Compatibility
+
+If your plugin needs to work with both the old and new configuration systems, then you'll need to:
+
+1. **Export a CommonJS entrypoint.** The old configuration system cannot load plugins that are published only in ESM format. If your source code is in ESM, then you'll need to use a bundler that can generate a CommonJS version and use the [`exports`](https://nodejs.org/api/packages.html#package-entry-points) key in your `package.json` file to ensure the CommonJS version can be found by Node.js.
+1. **Keep the `environments` key.** If your plugin exports custom environments, you should keep those as they are and also export the equivalent flat configs as described above. The `environments` key is ignored when ESLint is running in flat config mode.
+1. **Export both eslintrc and flat configs.** The `configs` key is only validated when a config is used, so you can provide both formats of configs in the `configs` key. We recommend that you append older format configs with `-legacy` to make it clear that these configs will not be supported in the future. For example, if your primary config is called `recommended` and is in flat config format, then you can also have a config named `recommended-legacy` that is the eslintrc config format.
 
 ## Further Reading
 
