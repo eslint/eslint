@@ -960,6 +960,53 @@ describe("FlatESLint", () => {
             await assert.rejects(async () => await eslint.lintFiles(["lib/cli.js"]), /Expected object with parse\(\) or parseForESLint\(\) method/u);
         });
 
+        describe("Invalid inputs", () => {
+
+            [
+                ["an array with one empty string", [""]],
+                ["an array with two empty strings", ["", ""]]
+
+            ].forEach(([name, value]) => {
+
+                it(`should throw an error when passed ${name}`, async () => {
+                    eslint = new FlatESLint({
+                        overrideConfigFile: true
+                    });
+
+                    await assert.rejects(async () => await eslint.lintFiles(value), /'patterns' must be a non-empty string or an array of non-empty strings/u);
+                });
+            });
+
+        });
+
+        describe("Normalized inputs", () => {
+
+            [
+                ["an empty string", ""],
+                ["an empty array", []]
+
+            ].forEach(([name, value]) => {
+
+                it(`should normalize to '.' when ${name} is passed`, async () => {
+                    eslint = new FlatESLint({
+                        ignore: false,
+                        cwd: getFixturePath("files"),
+                        overrideConfig: { files: ["**/*.js"] },
+                        overrideConfigFile: getFixturePath("eslint.config.js")
+                    });
+                    const results = await eslint.lintFiles(value);
+
+                    assert.strictEqual(results.length, 2);
+                    assert.strictEqual(results[0].filePath, getFixturePath("files/.bar.js"));
+                    assert.strictEqual(results[0].messages.length, 0);
+                    assert.strictEqual(results[1].filePath, getFixturePath("files/foo.js"));
+                    assert.strictEqual(results[1].messages.length, 0);
+                    assert.strictEqual(results[0].suppressedMessages.length, 0);
+                });
+            });
+
+        });
+
         it("should report zero messages when given a directory with a .js2 file", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),

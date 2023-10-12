@@ -36,6 +36,15 @@ Please note that when passing a glob as a parameter, it is expanded by your shel
 npx eslint "lib/**"
 ```
 
+If you are using a [flat configuration file](./configure/configuration-files-new) (`eslint.config.js`), you can also omit the file arguments and ESLint will use `.`. For instance, these two lines perform the same operation:
+
+```shell
+npx eslint .
+npx eslint
+```
+
+If you are not using a flat configuration file, running ESLint without file arguments results in an error.
+
 **Note:** You can also use alternative package managers such as [Yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/) to run ESLint. Please refer to your package manager's documentation for the correct syntax.
 
 ## Pass Multiple Values to an Option
