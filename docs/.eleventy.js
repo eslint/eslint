@@ -208,8 +208,10 @@ module.exports = function(eleventyConfig) {
                     const parserOptionsJSON = tokens[index].info?.split("correct ")[1]?.trim();
                     const parserOptions = { sourceType: "module", ...(parserOptionsJSON && JSON.parse(parserOptionsJSON)) };
 
-                    // Remove the trailing newline (https://github.com/eslint/eslint/issues/17627):
-                    const content = tokens[index + 1].content.replace(/\n$/u, "");
+                    // Remove trailing newline and presentational `⏎` characters (https://github.com/eslint/eslint/issues/17627):
+                    const content = tokens[index + 1].content
+                        .replace(/\n$/u, "")
+                        .replace(/⏎(?=\n)/gu, "");
                     const state = encodeToBase64(
                         JSON.stringify({
                             options: { parserOptions },
