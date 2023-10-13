@@ -192,7 +192,7 @@ Examples of **correct** code for this rule with the `4, { "ignoredNodes": ["Call
 foo();
 bar();
 
-})
+})();
 ```
 
 :::
@@ -403,7 +403,7 @@ function foo(x) {
 })();
 
 if (y) {
-   console.log('foo');
+  console.log('foo');
 }
 ```
 

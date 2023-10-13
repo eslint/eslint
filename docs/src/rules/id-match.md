@@ -143,7 +143,7 @@ Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$", {
 ```js
 /*eslint id-match: [2, "^[a-z]+([A-Z][a-z]+)*$", { "onlyDeclarations": true }]*/
 
-do_something(__dirname);
+foo = __dirname;
 ```
 
 :::

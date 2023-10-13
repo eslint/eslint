@@ -32,6 +32,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ```js
 /*eslint arrow-body-style: ["error", "always"]*/
 /*eslint-env es6*/
+
 let foo = () => 0;
 ```
 
@@ -42,6 +43,9 @@ Examples of **correct** code for this rule with the `"always"` option:
 :::correct
 
 ```js
+/*eslint arrow-body-style: ["error", "always"]*/
+/*eslint-env es6*/
+
 let foo = () => {
     return 0;
 };
