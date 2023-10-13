@@ -362,15 +362,15 @@ ruleTester.run("no-misleading-character-class", rule, {
                     suggestions: null
                 },
                 {
-                    column: 11,
-                    endColumn: 14,
-                    messageId: "zwj"
-                },
-                {
                     column: 14,
                     endColumn: 16,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
+                },
+                {
+                    column: 14,
+                    endColumn: 17,
+                    messageId: "zwj"
                 },
                 {
                     column: 17,
@@ -390,8 +390,8 @@ ruleTester.run("no-misleading-character-class", rule, {
                     suggestions: null
                 },
                 {
-                    column: 11,
-                    endColumn: 14,
+                    column: 14,
+                    endColumn: 17,
                     messageId: "zwj",
                     suggestions: null
                 }
@@ -481,8 +481,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = RegExp("[\\uD83D\\uDC4D]", "")`,
             errors: [{
-                column: 16,
-                endColumn: 34,
+                column: 26,
+                endColumn: 32,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = RegExp("[\\uD83D\\uDC4D]", "u")` }]
             }]
@@ -490,8 +490,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "")`,
             errors: [{
-                column: 20,
-                endColumn: 38,
+                column: 30,
+                endColumn: 36,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "u")` }]
             }]
@@ -566,8 +566,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u0041\\u0301]", "")`,
             errors: [{
-                column: 20,
-                endColumn: 38,
+                column: 30,
+                endColumn: 36,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -575,8 +575,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u0041\\u0301]", "u")`,
             errors: [{
-                column: 20,
-                endColumn: 38,
+                column: 30,
+                endColumn: 36,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -584,8 +584,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u{41}\\u{301}]", "u")`,
             errors: [{
-                column: 20,
-                endColumn: 39,
+                column: 30,
+                endColumn: 37,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -627,10 +627,27 @@ ruleTester.run("no-misleading-character-class", rule, {
             }]
         },
         {
+            code: String.raw`new RegExp("[ \\ufe0f][ \\ufe0f]")`,
+            errors: [
+                {
+                    column: 15,
+                    endColumn: 22,
+                    messageId: "combiningClass",
+                    suggestions: null
+                },
+                {
+                    column: 26,
+                    endColumn: 32,
+                    messageId: "combiningClass",
+                    suggestions: null
+                }
+            ]
+        },
+        {
             code: String.raw`var r = new RegExp("[\\u2747\\uFE0F]", "")`,
             errors: [{
-                column: 20,
-                endColumn: 38,
+                column: 30,
+                endColumn: 36,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -638,8 +655,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u2747\\uFE0F]", "u")`,
             errors: [{
-                column: 20,
-                endColumn: 38,
+                column: 30,
+                endColumn: 36,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -647,8 +664,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u{2747}\\u{FE0F}]", "u")`,
             errors: [{
-                column: 20,
-                endColumn: 42,
+                column: 32,
+                endColumn: 40,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -691,8 +708,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u{1F476}\\u{1F3FB}]", "u")`,
             errors: [{
-                column: 20,
-                endColumn: 44,
+                column: 33,
+                endColumn: 42,
                 messageId: "emojiModifier",
                 suggestions: null
             }]
@@ -873,8 +890,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = new RegExp("[\\u{1F1EF}\\u{1F1F5}]", "u")`,
             errors: [{
-                column: 20,
-                endColumn: 44,
+                column: 33,
+                endColumn: 42,
                 messageId: "regionalIndicatorSymbol",
                 suggestions: null
             }]
@@ -895,16 +912,15 @@ ruleTester.run("no-misleading-character-class", rule, {
                     suggestions: null
                 },
                 {
-                    column: 22,
-                    endColumn: 25,
-                    messageId: "zwj",
-                    suggestions: null
-                },
-                {
                     column: 25,
                     endColumn: 27,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")` }]
+                },
+                {
+                    column: 25,
+                    endColumn: 28,
+                    messageId: "zwj"
                 },
                 {
                     column: 28,
@@ -924,8 +940,8 @@ ruleTester.run("no-misleading-character-class", rule, {
                     suggestions: null
                 },
                 {
-                    column: 22,
-                    endColumn: 25,
+                    column: 25,
+                    endColumn: 28,
                     messageId: "zwj",
                     suggestions: null
                 }
@@ -935,14 +951,14 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC68\\u200D\\uD83D\\uDC69\\u200D\\uD83D\\uDC66]", "u")`,
             errors: [
                 {
-                    column: 20,
-                    endColumn: 80,
+                    column: 37,
+                    endColumn: 43,
                     messageId: "zwj",
                     suggestions: null
                 },
                 {
-                    column: 20,
-                    endColumn: 80,
+                    column: 58,
+                    endColumn: 64,
                     messageId: "zwj",
                     suggestions: null
                 }
@@ -952,14 +968,14 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: String.raw`var r = new RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
             errors: [
                 {
-                    column: 20,
-                    endColumn: 72,
+                    column: 33,
+                    endColumn: 41,
                     messageId: "zwj",
                     suggestions: null
                 },
                 {
-                    column: 20,
-                    endColumn: 72,
+                    column: 52,
+                    endColumn: 60,
                     messageId: "zwj",
                     suggestions: null
                 }
@@ -1008,14 +1024,14 @@ ruleTester.run("no-misleading-character-class", rule, {
             env: { es2020: true },
             errors: [
                 {
-                    column: 31,
-                    endColumn: 83,
+                    column: 44,
+                    endColumn: 52,
                     messageId: "zwj",
                     suggestions: null
                 },
                 {
-                    column: 31,
-                    endColumn: 83,
+                    column: 63,
+                    endColumn: 71,
                     messageId: "zwj",
                     suggestions: null
                 }
