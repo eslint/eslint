@@ -1080,6 +1080,7 @@ describe("ESLint", () => {
             [
                 ["an empty string", ""],
                 ["an empty array", []],
+                ["a string with a single space", " "],
                 ["an array with one empty string", [""]],
                 ["an array with two empty strings", ["", ""]]
 
@@ -1564,6 +1565,19 @@ describe("ESLint", () => {
             await assert.rejects(async () => {
                 await eslint.lintFiles(["tests/fixtures/*-quoted.js"]);
             }, /All files matched by 'tests\/fixtures\/\*-quoted\.js' are ignored\./u);
+        });
+
+        it("should not throw an error when ignorePatterns is an empty array", async () => {
+            eslint = new ESLint({
+                useEslintrc: false,
+                overrideConfig: {
+                    ignorePatterns: []
+                }
+            });
+
+            await assert.doesNotReject(async () => {
+                await eslint.lintFiles(["*.js"]);
+            });
         });
 
         it("should return a warning when an explicitly given file is ignored", async () => {
