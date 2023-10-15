@@ -174,7 +174,7 @@ ruleTester.run("no-object-constructor", rule, {
             errors: [{
                 messageId: "preferLiteral",
                 suggestions: [{
-                    desc: "Replace with '({})', add implicit semicolon.",
+                    desc: "Replace with '({})', add preceding semicolon.",
                     messageId: "useLiteralAfterSemicolon"
                 }]
             }]
@@ -337,6 +337,17 @@ ruleTester.run("no-object-constructor", rule, {
                 Object()
                 `,
                 parserOptions: { sourceType: "module" }
+            },
+            {
+                code: `
+                var yield = 5;
+
+                yield: while (foo) {
+                    if (bar)
+                        break yield
+                    new Object();
+                }
+                `
             }
         ].map(props => ({
             ...props,
