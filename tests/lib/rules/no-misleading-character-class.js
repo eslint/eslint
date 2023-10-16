@@ -96,10 +96,37 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[\\uD83D\\uDC4D]/",
             errors: [{
-                column: 17,
+                column: 11,
                 endColumn: 23,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[\\uD83D\\uDC4D]/u" }]
+            }]
+        },
+        {
+            code: "var r = /before[\\uD83D\\uDC4D]after/",
+            errors: [{
+                column: 17,
+                endColumn: 29,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /before[\\uD83D\\uDC4D]after/u" }]
+            }]
+        },
+        {
+            code: "var r = /[before\\uD83D\\uDC4Dafter]/",
+            errors: [{
+                column: 17,
+                endColumn: 29,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[before\\uD83D\\uDC4Dafter]/u" }]
+            }]
+        },
+        {
+            code: "var r = /\\uDC4D[\\uD83D\\uDC4D]/",
+            errors: [{
+                column: 17,
+                endColumn: 29,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /\\uDC4D[\\uD83D\\uDC4D]/u" }]
             }]
         },
         {
@@ -481,19 +508,46 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: String.raw`var r = RegExp("[\\uD83D\\uDC4D]", "")`,
             errors: [{
-                column: 25,
+                column: 18,
                 endColumn: 32,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = RegExp("[\\uD83D\\uDC4D]", "u")` }]
             }]
         },
         {
+            code: String.raw`var r = RegExp("before[\\uD83D\\uDC4D]after", "")`,
+            errors: [{
+                column: 24,
+                endColumn: 38,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = RegExp("before[\\uD83D\\uDC4D]after", "u")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = RegExp("[before\\uD83D\\uDC4Dafter]", "")`,
+            errors: [{
+                column: 24,
+                endColumn: 38,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = RegExp("[before\\uD83D\\uDC4Dafter]", "u")` }]
+            }]
+        },
+        {
             code: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "")`,
             errors: [{
-                column: 29,
+                column: 22,
                 endColumn: 36,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "u")` }]
+            }]
+        },
+        {
+            code: String.raw`var r = new RegExp("\\uDC4D[\\uD83D\\uDC4D]", "")`,
+            errors: [{
+                column: 29,
+                endColumn: 43,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("\\uDC4D[\\uD83D\\uDC4D]", "u")` }]
             }]
         },
         {
