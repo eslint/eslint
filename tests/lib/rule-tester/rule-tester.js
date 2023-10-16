@@ -1939,6 +1939,20 @@ describe("RuleTester", () => {
     });
 
     describe("suggestions", () => {
+        it("should throw if suggestions are available but not specified", () => {
+            assert.throw(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [
+                        "var boo;"
+                    ],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{}]
+                    }]
+                });
+            }, "Error should have suggestions on error with message: \"Avoid using identifiers named 'foo'.");
+        });
+
         it("should pass with valid suggestions (tested using desc)", () => {
             ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
                 valid: [
