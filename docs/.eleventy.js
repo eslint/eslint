@@ -212,7 +212,8 @@ module.exports = function(eleventyConfig) {
                     // Remove trailing newline and presentational `⏎` characters (https://github.com/eslint/eslint/issues/17627):
                     const content = tokens[index + 1].content
                         .replace(/\n$/u, "")
-                        .replace(/⏎(?=\n)/gu, "");
+                        .replace(/⏎(?=\n)/gu, "")
+                        .replace(/<<TAB>>/gu, "\t");
                     const state = encodeToBase64(
                         JSON.stringify({
                             options: { parserOptions },
