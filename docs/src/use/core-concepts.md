@@ -23,17 +23,20 @@ ESLint contains hundreds of built-in rules that you can use. You can also create
 
 For more information, refer to [Rules](../rules/).
 
-### Report Fixers
+### Rule Fixes
 
-Rule reports may optionally provide "fixes" that safely correct the reported issue without changing application logic.
+Rules may optionally provide fixes for violations that they find. Fixes safely correct the violation without changing application logic.
+
 Fixes may be applied automatically with the [`--fix` command line option](https://eslint.org/docs/latest/use/command-line-interface#--fix) and via editor extensions.
 
-Rules that may provide fixers are marked with 🔧 in [Rules](../rules/).
+Rules that may provide fixes are marked with 🔧 in [Rules](../rules/).
 
-### Report Suggestions
+### Rule Suggestions
 
-Rule reports may optionally provide "suggestions" that correct the reported issue but also change application logic.
-Suggestions cannot be applied automatically, but may be applied manually via editor extensions.
+Rules may optionally provide suggestions in addition to or instead of providing fixes. Suggestions differ from fixes in two ways:
+
+1. Suggestions may change application logic and so cannot be automatically applied.
+1. Suggestions cannot be applied through the ESLint CLI and are only available through editor integrations.
 
 Rules that may provide suggestions are marked with 💡 in [Rules](../rules/).
 
