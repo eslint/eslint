@@ -152,7 +152,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.plugins` (`Record<string, Plugin> | null`)<br>
   Default is `null`. The plugin implementations that ESLint uses for the `plugins` setting of your configuration. This is a map-like object. Those keys are plugin IDs and each value is implementation.
 * `options.reportUnusedDisableDirectives` (`"error" | "warn" | "off" | null`)<br>
-  Default is `null`. The severity to report unused eslint-disable directives. If this option is a severity, it overrides the `reportUnusedDisableDirectives` setting in your configurations.
+  Default is `null`. The severity to report unused eslint-disable and eslint-enable directives. If this option is a severity, it overrides the `reportUnusedDisableDirectives` setting in your configurations.
 * `options.resolvePluginsRelativeTo` (`string` | `null`)<br>
   Default is `null`. The path to a directory where plugins should be resolved from. If `null` is present, ESLint loads plugins from the location of the configuration file that contains the plugin setting. If a path is present, ESLint loads all plugins from there.
 * `options.rulePaths` (`string[]`)<br>
@@ -537,7 +537,7 @@ The most important method on `Linter` is `verify()`, which initiates linting of 
     * `filterCodeBlock` - (optional) A function that decides which code blocks the linter should adopt. The function receives two arguments. The first argument is the virtual filename of a code block. The second argument is the text of the code block. If the function returned `true` then the linter adopts the code block. If the function was omitted, the linter adopts only `*.js` code blocks. If you provided a `filterCodeBlock` function, it overrides this default behavior, so the linter doesn't adopt `*.js` code blocks automatically.
     * `disableFixes` - (optional) when set to `true`, the linter doesn't make either the `fix` or `suggestions` property of the lint result.
     * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
-    * `reportUnusedDisableDirectives` - (optional) when set to `true`, adds reported errors for unused `eslint-disable` directives when no problems would be reported in the disabled area anyway.
+    * `reportUnusedDisableDirectives` - (optional) when set to `true`, adds reported errors for unused `eslint-disable` and `eslint-enable` directives when no problems would be reported in the disabled area anyway.
 
 If the third argument is a string, it is interpreted as the `filename`.
 
