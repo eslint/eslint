@@ -23,6 +23,20 @@ ESLint contains hundreds of built-in rules that you can use. You can also create
 
 For more information, refer to [Rules](../rules/).
 
+### Report Fixers
+
+Rule reports may optionally provide "fixes" that safely correct the reported issue without changing application logic.
+Fixes may be applied automatically with the [`--fix` command line option](https://eslint.org/docs/latest/use/command-line-interface#--fix) and via editor extensions.
+
+Rules that may provide fixers are marked with 🔧 in [Rules](../rules/).
+
+### Report Suggestions
+
+Rule reports may optionally provide "suggestions" that correct the reported issue but also change application logic.
+Suggestions cannot be applied automatically, but may be applied manually via editor extensions.
+
+Rules that may provide suggestions are marked with 💡 in [Rules](../rules/).
+
 ## Configuration Files
 
 An ESLint configuration file is a place where you put the configuration for ESLint in your project. You can include built-in rules, how you want them enforced, plugins with custom rules, shareable configurations, which files you want rules to apply to, and more.
