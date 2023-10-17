@@ -1380,7 +1380,7 @@ describe("apply-disable-directives", () => {
                 }),
                 [{
                     ruleId: null,
-                    message: "Unused eslint-enable directive (no suppressed).",
+                    message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                     line: 1,
                     column: 1,
                     fix: {
@@ -1409,7 +1409,7 @@ describe("apply-disable-directives", () => {
                 }),
                 [{
                     ruleId: null,
-                    message: "Unused eslint-enable directive (no suppressed).",
+                    message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                     line: 1,
                     column: 1,
                     severity: 2,
@@ -1448,7 +1448,7 @@ describe("apply-disable-directives", () => {
                 }),
                 [{
                     ruleId: null,
-                    message: "Unused eslint-enable directive (no suppressed for 'foo').",
+                    message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
                     line: 1,
                     column: 1,
                     fix: {
@@ -1494,7 +1494,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'foo').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
                         line: 3,
                         column: 1,
                         fix: {
@@ -1557,7 +1557,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed).",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                         fix: {
                             range: [63, 84],
                             text: " "
@@ -1569,7 +1569,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'foo').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
                         fix: {
                             range: [84, 105],
                             text: " "
@@ -1624,7 +1624,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed).",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                         fix: {
                             range: [63, 84],
                             text: " "
@@ -1665,7 +1665,7 @@ describe("apply-disable-directives", () => {
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed).",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                         line: 1,
                         column: 1,
                         fix: {
@@ -1677,7 +1677,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed).",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                         line: 2,
                         column: 1,
                         fix: {
@@ -1726,7 +1726,7 @@ describe("apply-disable-directives", () => {
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed).",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                         line: 1,
                         column: 1,
                         fix: {
@@ -1787,7 +1787,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'foo').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
                         line: 4,
                         column: 1,
                         fix: {
@@ -1858,7 +1858,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed).",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                         line: 4,
                         column: 1,
                         fix: {
@@ -1913,7 +1913,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'foo').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
                         line: 3,
                         column: 1,
                         fix: {
@@ -1968,7 +1968,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'foo').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
                         line: 4,
                         column: 1,
                         fix: {
@@ -2031,7 +2031,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'foo').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
                         line: 4,
                         column: 1,
                         fix: {
@@ -2043,7 +2043,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed).",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                         line: 5,
                         column: 1,
                         fix: {
@@ -2112,7 +2112,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed).",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                         line: 6,
                         column: 1,
                         fix: {
@@ -2824,7 +2824,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'unused').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused').",
                         line: 4,
                         column: 1,
                         fix: {
@@ -2880,7 +2880,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'unused').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused').",
                         line: 4,
                         column: 1,
                         fix: {
@@ -2937,7 +2937,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'unused').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused').",
                         line: 3,
                         column: 1,
                         fix: {
@@ -2994,7 +2994,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'unused').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused').",
                         line: 3,
                         column: 1,
                         fix: {
@@ -3059,7 +3059,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'unused-1').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-1').",
                         line: 3,
                         column: 1,
                         fix: {
@@ -3071,7 +3071,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'unused-2').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-2').",
                         line: 4,
                         column: 1,
                         fix: {
@@ -3144,7 +3144,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'unused-1').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-1').",
                         line: 3,
                         column: 1,
                         fix: {
@@ -3156,7 +3156,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'unused-2').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-2').",
                         line: 4,
                         column: 1,
                         fix: {
@@ -3168,7 +3168,7 @@ describe("apply-disable-directives", () => {
                     },
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'unused-3').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-3').",
                         line: 6,
                         column: 1,
                         fix: {
@@ -3211,7 +3211,7 @@ describe("apply-disable-directives", () => {
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'unused-1' or 'unused-2').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-1' or 'unused-2').",
                         line: 1,
                         column: 18,
                         fix: {
@@ -3259,7 +3259,7 @@ describe("apply-disable-directives", () => {
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'unused-1', 'unused-2', or 'unused-3').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-1', 'unused-2', or 'unused-3').",
                         line: 1,
                         column: 18,
                         fix: {

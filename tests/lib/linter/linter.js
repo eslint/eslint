@@ -4316,7 +4316,7 @@ var a = "test2";
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed).",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                         line: 1,
                         column: 1,
                         fix: {
@@ -4341,7 +4341,7 @@ var a = "test2";
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'no-alert').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'no-alert').",
                         line: 1,
                         column: 1,
                         fix: {
@@ -4376,7 +4376,7 @@ var a = "test2";
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed for 'no-console').",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'no-console').",
                         line: 3,
                         column: 1,
                         fix: {
@@ -4414,7 +4414,7 @@ var a = "test2";
                 [
                     {
                         ruleId: null,
-                        message: "Unused eslint-enable directive (no suppressed).",
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                         line: 6,
                         column: 1,
                         fix: {
@@ -15643,7 +15643,7 @@ var a = "test2";
                         [
                             {
                                 ruleId: null,
-                                message: "Unused eslint-enable directive (no suppressed).",
+                                message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                                 line: 1,
                                 column: 1,
                                 fix: {
@@ -15668,7 +15668,7 @@ var a = "test2";
                         [
                             {
                                 ruleId: null,
-                                message: "Unused eslint-enable directive (no suppressed for 'no-alert').",
+                                message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'no-alert').",
                                 line: 1,
                                 column: 1,
                                 fix: {
@@ -15703,7 +15703,7 @@ var a = "test2";
                         [
                             {
                                 ruleId: null,
-                                message: "Unused eslint-enable directive (no suppressed for 'no-console').",
+                                message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'no-console').",
                                 line: 3,
                                 column: 1,
                                 fix: {
@@ -15741,7 +15741,7 @@ var a = "test2";
                         [
                             {
                                 ruleId: null,
-                                message: "Unused eslint-enable directive (no suppressed).",
+                                message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
                                 line: 6,
                                 column: 1,
                                 fix: {
