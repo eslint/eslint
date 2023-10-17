@@ -175,7 +175,8 @@ ruleTester.run("no-object-constructor", rule, {
                 messageId: "preferLiteral",
                 suggestions: [{
                     desc: "Replace with '({})', add preceding semicolon.",
-                    messageId: "useLiteralAfterSemicolon"
+                    messageId: "useLiteralAfterSemicolon",
+                    output: props.code.replace(/(new )?Object\(\)/u, ";({})")
                 }]
             }]
         })),
@@ -355,7 +356,8 @@ ruleTester.run("no-object-constructor", rule, {
                 messageId: "preferLiteral",
                 suggestions: [{
                     desc: "Replace with '({})'.",
-                    messageId: "useLiteral"
+                    messageId: "useLiteral",
+                    output: props.code.replace(/(new )?Object\(\)/u, "({})")
                 }]
             }]
         }))
