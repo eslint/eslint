@@ -137,7 +137,13 @@ By default this rule is enabled with `all` option for caught errors and variable
 ```json
 {
     "rules": {
-        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "caughtErrors": "all", "ignoreRestSiblings": false }]
+        "no-unused-vars": ["error", {
+            "vars": "all",
+            "args": "after-used",
+            "caughtErrors": "all",
+            "ignoreRestSiblings": false,
+            "reportUsedIgnorePattern": false
+        }]
     }
 }
 ```
@@ -435,8 +441,6 @@ class Bar {
 }
 ```
 
-:::
-
 Examples of **correct** code for the `{ "ignoreClassWithStaticInitBlock": true }` option
 
 ::: correct
@@ -451,6 +455,39 @@ class Foo {
         console.log(bar);
     }
 }
+```
+
+### reportUsedIgnorePattern
+
+The `reportUsedIgnorePattern` option is a boolean (default: `false`).
+Using this option will report variables that match any of the valid ignore
+pattern options (`varsIgnorePattern`, `argsIgnorePattern`, `caughtErrorsIgnorePattern`, or
+`destructuredArrayIgnorePattern`) if they have been used.
+
+Examples of **incorrect** code for the `{ "reportUsedIgnorePattern": true }` option:
+
+::: incorrect
+
+```js
+/*eslint no-unused-vars: ["error", { "reportUsedIgnorePattern": true, "varsIgnorePattern": "[iI]gnored" }]*/
+
+var firstVarIgnored = 1;
+var secondVar = 2;
+console.log(firstVarIgnored, secondVar);
+```
+
+:::
+
+Examples of **correct** code for the `{ "reportUsedIgnorePattern": true }` option:
+
+::: correct
+
+```js
+/*eslint no-unused-vars: ["error", { "reportUsedIgnorePattern": true, "varsIgnorePattern": "[iI]gnored" }]*/
+
+var firstVar = 1;
+var secondVar = 2;
+console.log(firstVar, secondVar);
 ```
 
 :::
