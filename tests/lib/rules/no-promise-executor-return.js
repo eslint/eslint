@@ -13,49 +13,6 @@ const rule = require("../../../lib/rules/no-promise-executor-return");
 const { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
-// Helpers
-//------------------------------------------------------------------------------
-
-/**
- * Creates an error object.
- * @param {number} [column] Reported column.
- * @param {string} [type="ReturnStatement"] Reported node type.
- * @returns {Object} The error object.
- */
-function eReturnsValue(column, type = "ReturnStatement") {
-    const errorObject = {
-        messageId: "returnsValue",
-        type
-    };
-
-    if (column) {
-        errorObject.column = column;
-    }
-
-    return errorObject;
-}
-
-
-/**
- * Creates invalid object
- * @param {Object} [properties] suggestion properties
- * @param {string} [properties.code] code
- * @param {number} [properties.options] rule options
- * @param {string[]} [fixes] Code suggestions
- * @returns {Object} The invalid object.
- */
-function suggestion(properties, fixes = []) {
-    return {
-        ...properties,
-        errors: [{
-            suggestions: fixes.map(fix => ({
-                output: fix
-            }))
-        }]
-    };
-}
-
-//------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
@@ -207,7 +164,13 @@ ruleTester.run("no-promise-executor-return", rule, {
         // full error tests
         {
             code: "new Promise(function (resolve, reject) { return 1; })",
-            errors: [{ message: "Return values from promise executor functions cannot be read.", type: "ReturnStatement", column: 42, endColumn: 51 }]
+            errors: [{
+                message: "Return values from promise executor functions cannot be read.",
+                type: "ReturnStatement",
+                column: 42,
+                endColumn: 51,
+                suggestions: null
+            }]
         },
         {
             code: "new Promise((resolve, reject) => resolve(1))",
@@ -220,8 +183,14 @@ ruleTester.run("no-promise-executor-return", rule, {
                 column: 34,
                 endColumn: 44,
                 suggestions: [
-                    { output: "new Promise((resolve, reject) => void resolve(1))" },
-                    { output: "new Promise((resolve, reject) => {resolve(1)})" }
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise((resolve, reject) => void resolve(1))"
+                    },
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise((resolve, reject) => {resolve(1)})"
+                    }
                 ]
             }]
         },
@@ -236,351 +205,750 @@ ruleTester.run("no-promise-executor-return", rule, {
                 column: 36,
                 endColumn: 44,
                 suggestions: [
-                    { output: "new Promise((resolve, reject) => { return void 1 })" }
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise((resolve, reject) => { return void 1 })"
+                    }
                 ]
             }]
         },
 
         // suggestions arrow function expression
-        suggestion({
+        {
             code: "new Promise(r => 1)",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(r => void 1)"
+                    },
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(r => {1})"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => void 1)",
-            "new Promise(r => {1})"
-        ]),
-        suggestion({
+        },
+        {
             code: "new Promise(r => 1 ? 2 : 3)",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "ConditionalExpression",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(r => void (1 ? 2 : 3))"
+                    },
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(r => {1 ? 2 : 3})"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => void (1 ? 2 : 3))",
-            "new Promise(r => {1 ? 2 : 3})"
-        ]),
-        suggestion({
+        },
+        {
             code: "new Promise(r => (1 ? 2 : 3))",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "ConditionalExpression",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(r => void (1 ? 2 : 3))"
+                    },
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(r => {(1 ? 2 : 3)})"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => void (1 ? 2 : 3))",
-            "new Promise(r => {(1 ? 2 : 3)})"
-        ]),
-        suggestion({
+        },
+        {
             code:
                 "new Promise(r => (1))",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(r => void (1))"
+                    },
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(r => {(1)})"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => void (1))",
-            "new Promise(r => {(1)})"
-        ]),
-        suggestion({
+        },
+        {
             code:
                 "new Promise(r => () => {})",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "ArrowFunctionExpression",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(r => void (() => {}))"
+                    },
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(r => {() => {}})"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => void (() => {}))",
-            "new Promise(r => {() => {}})"
-        ]),
+        },
 
         // primitives
-        suggestion({
+        {
             code:
                 "new Promise(r => null)",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(r => void null)"
+                    },
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(r => {null})"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => void null)",
-            "new Promise(r => {null})"
-        ]),
-        suggestion({
+        },
+        {
             code:
                 "new Promise(r => null)",
             options: [{
                 allowVoid: false
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(r => {null})"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => {null})"
-        ]),
+        },
 
         // inline comments
-        suggestion({
+        {
             code:
                 "new Promise(r => /*hi*/ ~0)",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "UnaryExpression",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(r => /*hi*/ void ~0)"
+                    },
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(r => /*hi*/ {~0})"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => /*hi*/ void ~0)",
-            "new Promise(r => /*hi*/ {~0})"
-        ]),
-        suggestion({
+        },
+        {
             code:
                 "new Promise(r => /*hi*/ ~0)",
             options: [{
                 allowVoid: false
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "UnaryExpression",
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(r => /*hi*/ {~0})"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => /*hi*/ {~0})"
-        ]),
+        },
 
         // suggestions function
-        suggestion({
+        {
             code:
                 "new Promise(r => { return 0 })",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(r => { return void 0 })"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => { return void 0 })"
-        ]),
-        suggestion({
-            code:
-                "new Promise(r => { return 0 })",
+        },
+        {
+            code: "new Promise(r => { return 0 })",
             options: [{
                 allowVoid: false
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
             }]
-        }),
+        },
 
         // multiple returns
-        suggestion({
+        {
             code:
                 "new Promise(r => { if (foo) { return void 0 } return 0 })",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(r => { if (foo) { return void 0 } return void 0 })"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => { if (foo) { return void 0 } return void 0 })"
-        ]),
+        },
 
         // return assignment
-        suggestion({
+        {
             code: "new Promise(resolve => { return (foo = resolve(1)); })",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(resolve => { return void (foo = resolve(1)); })"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(resolve => { return void (foo = resolve(1)); })"
-        ]),
-        suggestion({
+        },
+        {
             code: "new Promise(resolve => r = resolve)",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "AssignmentExpression",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(resolve => void (r = resolve))"
+                    },
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(resolve => {r = resolve})"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(resolve => void (r = resolve))",
-            "new Promise(resolve => {r = resolve})"
-        ]),
+        },
 
         // return<immediate token> (range check)
-        suggestion({
+        {
             code:
                 "new Promise(r => { return(1) })",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(r => { return void (1) })"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => { return void (1) })"
-        ]),
-        suggestion({
+        },
+        {
             code:
                 "new Promise(r =>1)",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(r =>void 1)"
+                    },
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(r =>{1})"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r =>void 1)",
-            "new Promise(r =>{1})"
-        ]),
+        },
 
         // snapshot
-        suggestion({
+        {
             code:
                 "new Promise(r => ((1)))",
             options: [{
                 allowVoid: true
+            }],
+            errors: [{
+                messageId: "returnsValue",
+                type: "Literal",
+                suggestions: [
+                    {
+                        messageId: "prependVoid",
+                        output: "new Promise(r => void ((1)))"
+                    },
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(r => {((1))})"
+                    }
+                ]
             }]
-        }, [
-            "new Promise(r => void ((1)))",
-            "new Promise(r => {((1))})"
-        ]),
+        },
 
         // other basic tests
         {
             code: "new Promise(function foo(resolve, reject) { return 1; })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
         {
             code: "new Promise((resolve, reject) => { return 1; })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
 
         // any returned value
         {
             code: "new Promise(function (resolve, reject) { return undefined; })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
         {
             code: "new Promise((resolve, reject) => { return null; })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
         {
             code: "new Promise(function (resolve, reject) { return false; })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
         {
             code: "new Promise((resolve, reject) => resolve)",
-            errors: [eReturnsValue(34, "Identifier")]
+            errors: [{
+                messageId: "returnsValue",
+                type: "Identifier",
+                column: 34,
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise((resolve, reject) => {resolve})"
+                    }
+                ]
+            }]
         },
         {
             code: "new Promise((resolve, reject) => null)",
-            errors: [eReturnsValue(34, "Literal")]
+            errors: [{
+                messageId: "returnsValue",
+                type: "Literal",
+                column: 34,
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise((resolve, reject) => {null})"
+                    }
+                ]
+            }]
         },
         {
             code: "new Promise(function (resolve, reject) { return resolve(foo); })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
         {
             code: "new Promise((resolve, reject) => { return reject(foo); })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
         {
             code: "new Promise((resolve, reject) => x + y)",
-            errors: [eReturnsValue(34, "BinaryExpression")]
+            errors: [{
+                messageId: "returnsValue",
+                type: "BinaryExpression",
+                column: 34,
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise((resolve, reject) => {x + y})"
+                    }
+                ]
+            }]
         },
         {
             code: "new Promise((resolve, reject) => { return Promise.resolve(42); })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
 
         // any return statement location
         {
             code: "new Promise(function (resolve, reject) { if (foo) { return 1; } })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
         {
             code: "new Promise((resolve, reject) => { try { return 1; } catch(e) {} })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
         {
             code: "new Promise(function (resolve, reject) { while (foo){ if (bar) break; else return 1; } })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
 
         // `return void` is not allowed without `allowVoid: true`
         {
             code: "new Promise(() => { return void 1; })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
 
         {
             code: "new Promise(() => (1))",
-            errors: [eReturnsValue(20, "Literal")]
+            errors: [{
+                messageId: "returnsValue",
+                type: "Literal",
+                column: 20,
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(() => {(1)})"
+                    }
+                ]
+            }]
         },
         {
             code: "() => new Promise(() => ({}));",
-            errors: [eReturnsValue(26, "ObjectExpression")]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ObjectExpression",
+                column: 26,
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "() => new Promise(() => {({})});"
+                    }
+                ]
+            }]
         },
 
         // absence of arguments has no effect
         {
             code: "new Promise(function () { return 1; })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
         {
             code: "new Promise(() => { return 1; })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
         {
             code: "new Promise(() => 1)",
-            errors: [eReturnsValue(19, "Literal")]
+            errors: [{
+                messageId: "returnsValue",
+                type: "Literal",
+                column: 19,
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "new Promise(() => {1})"
+                    }
+                ]
+            }]
         },
 
         // various scope tracking tests
         {
             code: "function foo() {} new Promise(function () { return 1; });",
-            errors: [eReturnsValue(45)]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                column: 45,
+                suggestions: null
+            }]
         },
         {
             code: "function foo() { return; } new Promise(() => { return 1; });",
-            errors: [eReturnsValue(48)]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                column: 48,
+                suggestions: null
+            }]
         },
         {
             code: "function foo() { return 1; } new Promise(() => { return 2; });",
-            errors: [eReturnsValue(50)]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                column: 50,
+                suggestions: null
+            }]
         },
         {
             code: "function foo () { return new Promise(function () { return 1; }); }",
-            errors: [eReturnsValue(52)]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                column: 52,
+                suggestions: null
+            }]
         },
         {
             code: "function foo() { return new Promise(() => { bar(() => { return 1; }); return false; }); }",
-            errors: [eReturnsValue(71)]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                column: 71,
+                suggestions: null
+            }]
         },
         {
             code: "() => new Promise(() => { if (foo) { return 0; } else bar(() => { return 1; }); })",
-            errors: [eReturnsValue(38)]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                column: 38,
+                suggestions: null
+            }]
         },
         {
             code: "function foo () { return 1; return new Promise(function () { return 2; }); return 3;}",
-            errors: [eReturnsValue(62)]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                column: 62,
+                suggestions: null
+            }]
         },
         {
             code: "() => 1; new Promise(() => { return 1; })",
-            errors: [eReturnsValue(30)]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                column: 30,
+                suggestions: null
+            }]
         },
         {
             code: "new Promise(function () { return 1; }); function foo() { return 1; } ",
-            errors: [eReturnsValue(27)]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                column: 27,
+                suggestions: null
+            }]
         },
         {
             code: "() => new Promise(() => { return 1; });",
-            errors: [eReturnsValue(27)]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                column: 27,
+                suggestions: null
+            }]
         },
         {
             code: "() => new Promise(() => 1);",
-            errors: [eReturnsValue(25, "Literal")]
+            errors: [{
+                messageId: "returnsValue",
+                type: "Literal",
+                column: 25,
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "() => new Promise(() => {1});"
+                    }
+                ]
+            }]
         },
         {
             code: "() => new Promise(() => () => 1);",
-            errors: [eReturnsValue(25, "ArrowFunctionExpression")]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ArrowFunctionExpression",
+                column: 25,
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "() => new Promise(() => {() => 1});"
+                    }
+                ]
+            }]
         },
         {
             code: "() => new Promise(() => async () => 1);",
             parserOptions: { ecmaVersion: 2017 },
 
             // for async
-            errors: [eReturnsValue(25, "ArrowFunctionExpression")]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ArrowFunctionExpression",
+                column: 25,
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "() => new Promise(() => {async () => 1});"
+                    }
+                ]
+            }]
         },
         {
             code: "() => new Promise(() => function () {});",
-            errors: [eReturnsValue(25, "FunctionExpression")]
+            errors: [{
+                messageId: "returnsValue",
+                type: "FunctionExpression",
+                column: 25,
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "() => new Promise(() => {function () {}});"
+                    }
+                ]
+            }]
         },
         {
             code: "() => new Promise(() => function foo() {});",
-            errors: [eReturnsValue(25, "FunctionExpression")]
+            errors: [{
+                messageId: "returnsValue",
+                type: "FunctionExpression",
+                column: 25,
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "() => new Promise(() => {function foo() {}});"
+                    }
+                ]
+            }]
         },
         {
             code: "() => new Promise(() => []);",
-            errors: [eReturnsValue(25, "ArrayExpression")]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ArrayExpression",
+                column: 25,
+                suggestions: [
+                    {
+                        messageId: "wrapBraces",
+                        output: "() => new Promise(() => {[]});"
+                    }
+                ]
+            }]
         },
 
         // edge cases for global Promise reference
         {
             code: "new Promise((Promise) => { return 1; })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         },
         {
             code: "new Promise(function Promise(resolve, reject) { return 1; })",
-            errors: [eReturnsValue()]
+            errors: [{
+                messageId: "returnsValue",
+                type: "ReturnStatement",
+                suggestions: null
+            }]
         }
     ]
 });
