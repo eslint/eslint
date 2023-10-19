@@ -121,7 +121,7 @@ Miscellaneous:
 
 #### `--no-eslintrc`
 
-Disables use of configuration from `.eslintrc.*` and `package.json` files.
+**eslintrc Mode Only.** Disables use of configuration from `.eslintrc.*` and `package.json` files. For flat config mode, use `--no-config-lookup` instead.
 
 * **Argument Type**: No argument.
 
@@ -150,7 +150,7 @@ If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.
 
 #### `--env`
 
-This option enables specific environments.
+**eslintrc Mode Only.** This option enables specific environments.
 
 * **Argument Type**: String. One of the available environments.
 * **Multiple Arguments**: Yes
@@ -166,7 +166,7 @@ npx eslint --env browser --env node file.js
 
 #### `--ext`
 
-This option allows you to specify which file extensions ESLint uses when searching for target files in the directories you specify.
+**eslintrc Mode Only.** This option allows you to specify which file extensions ESLint uses when searching for target files in the directories you specify.
 
 * **Argument Type**: String. File extension.
 * **Multiple Arguments**: Yes
@@ -189,7 +189,7 @@ npx eslint . --ext .js,.ts
 
 #### `--global`
 
-This option defines global variables so that they are not  flagged as undefined by the [`no-undef`](../rules/no-undef) rule.
+**eslintrc Mode Only.** This option defines global variables so that they are not  flagged as undefined by the [`no-undef`](../rules/no-undef) rule.
 
 * **Argument Type**: String. Name of the global variable. Any specified global variables are assumed to be read-only by default, but appending `:true` to a variable's name ensures that `no-undef` also allows writes.
 * **Multiple Arguments**: Yes
@@ -232,7 +232,7 @@ echo '3 ** 4' | npx eslint --stdin --parser-options ecmaVersion:7 # succeeds, ya
 
 #### `--resolve-plugins-relative-to`
 
-Changes the directory where plugins are resolved from.
+**eslintrc Mode Only.** Changes the directory where plugins are resolved from.
 
 * **Argument Type**: String. Path to directory.
 * **Multiple Arguments**: No
@@ -374,7 +374,7 @@ npx eslint --fix --fix-type suggestion,layout .
 
 #### `--ignore-path`
 
-This option allows you to specify the file to use as your `.eslintignore`.
+**eslintrc Mode Only.** This option allows you to specify the file to use as your `.eslintignore`.
 
 * **Argument Type**: String. Path to file.
 * **Multiple Arguments**: No
