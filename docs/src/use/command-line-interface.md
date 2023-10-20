@@ -78,7 +78,6 @@ Fix problems:
   --fix-type Array                Specify the types of fixes to apply (directive, problem, suggestion, layout)
 
 Ignore files:
-  --ignore-path path::String      Specify path of ignore file
   --no-ignore                     Disable use of ignore files and patterns
   --ignore-pattern [String]       Pattern of files to ignore (in addition to those in .eslintignore)
 
