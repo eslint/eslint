@@ -189,7 +189,7 @@ npx eslint . --ext .js,.ts
 
 #### `--global`
 
-**eslintrc Mode Only.** This option defines global variables so that they are not  flagged as undefined by the [`no-undef`](../rules/no-undef) rule.
+This option defines global variables so that they are not  flagged as undefined by the [`no-undef`](../rules/no-undef) rule.
 
 * **Argument Type**: String. Name of the global variable. Any specified global variables are assumed to be read-only by default, but appending `:true` to a variable's name ensures that `no-undef` also allows writes.
 * **Multiple Arguments**: Yes
