@@ -1,3 +1,28 @@
+v8.52.0 - October 20, 2023
+
+* [`6d1f0c2`](https://github.com/eslint/eslint/commit/6d1f0c2da0309c06c21149b8d71a8f439a70d7e8) chore: upgrade @eslint/js@8.52.0 (#17671) (Milos Djermanovic)
+* [`d63d4fe`](https://github.com/eslint/eslint/commit/d63d4fe0942e6747ab60e758aa36076f43041a30) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`476d58a`](https://github.com/eslint/eslint/commit/476d58a584d5d2db003c4c22ffee90e63566164d) docs: Add note about invalid CLI flags when using flat config. (#17664) (Nicholas C. Zakas)
+* [`5de9637`](https://github.com/eslint/eslint/commit/5de9637fc925729a83d5a5e9e868a41792a184e3) fix: Ensure shared references in rule configs are separated (#17666) (Nicholas C. Zakas)
+* [`f30cefe`](https://github.com/eslint/eslint/commit/f30cefee6bda2789ede18e1664b84c2638ea1bb5) test: fix FlatESLint tests for caching (#17658) (Milos Djermanovic)
+* [`ef650cb`](https://github.com/eslint/eslint/commit/ef650cb612510bcfa1379c1f0af56dd563b3a705) test: update tests for no-promise-executor-return (#17661) (Milos Djermanovic)
+* [`70648ee`](https://github.com/eslint/eslint/commit/70648ee49c07f7b533d09f6bf8a5291e5a5a8601) feat: report-unused-disable-directive to report unused eslint-enable (#17611) (Yosuke Ota)
+* [`dcfe573`](https://github.com/eslint/eslint/commit/dcfe5739c374c9d7ed21f14027870ec0fd453661) fix: add preceding semicolon in suggestions of `no-object-constructor` (#17649) (Francesco Trotta)
+* [`660ed3a`](https://github.com/eslint/eslint/commit/660ed3afd128ad529234a855345629982caf1bc7) docs: Plugin flat config migration guide (#17640) (Nicholas C. Zakas)
+* [`a58aa20`](https://github.com/eslint/eslint/commit/a58aa200fccedae7e2e9b6129246f2cedab14f8d) docs: fix examples for several rules (#17645) (Milos Djermanovic)
+* [`179929b`](https://github.com/eslint/eslint/commit/179929bd46892f18f2aef0c159d5cc361cb69987) docs: Remove trailing newline from the code of Playground links (#17641) (Francesco Trotta)
+* [`f8e5c30`](https://github.com/eslint/eslint/commit/f8e5c30636450d4a8baf51f0e227685e6d77ac64) docs: Update README (GitHub Actions Bot)
+* [`b7ef2f3`](https://github.com/eslint/eslint/commit/b7ef2f34fe12b68a366e1b4bf5f64d7332c6e72e) docs: Enable pretty code formatter output (#17635) (Nicholas C. Zakas)
+* [`0bcb9a8`](https://github.com/eslint/eslint/commit/0bcb9a8db608a3d0bd2645f99e0707b9a9bbaaf0) docs: Fix syntax errors in rule examples (#17633) (Francesco Trotta)
+* [`61b9083`](https://github.com/eslint/eslint/commit/61b90839633ef300ac7707a651f65f532e65f42d) docs: Make no-continue example code work (#17643) (Zhongyuan Zhou)
+* [`9fafe45`](https://github.com/eslint/eslint/commit/9fafe450c31ed9b6bdd9dcd6c115255943b8c1c2) docs: upgrade to 11ty 2.0 (#17632) (Percy Ma)
+* [`ff8e4bf`](https://github.com/eslint/eslint/commit/ff8e4bf327b5c92b0623b0fc5f8f101954f785db) docs: Update README (GitHub Actions Bot)
+* [`fab249a`](https://github.com/eslint/eslint/commit/fab249ae6addac2ee18cd81cee80916010bb469e) docs: Update README (GitHub Actions Bot)
+* [`392305b`](https://github.com/eslint/eslint/commit/392305bf4797e3ebc696dfca48bd874741fca845) docs: Update `no-irregular-whitespace` and fix examples (#17626) (Francesco Trotta)
+* [`6b8acfb`](https://github.com/eslint/eslint/commit/6b8acfb770589f3941df41c3910d3b8ffc3e1e45) docs: Add real whitespace to `no-trailing-spaces` examples (#17630) (Francesco Trotta)
+* [`1000187`](https://github.com/eslint/eslint/commit/1000187e00949332babcee4d37d46c96a6a554a8) docs: Fix examples in `unicode-bom` (#17631) (Francesco Trotta)
+* [`000290c`](https://github.com/eslint/eslint/commit/000290c4c923cc1473e21b4bdbdc0c42765ef7dd) docs: Update README (GitHub Actions Bot)
+
 v8.51.0 - October 6, 2023
 
 * [`1ef39ea`](https://github.com/eslint/eslint/commit/1ef39ea5b884453be717ebc929155d7eb584dcbf) chore: upgrade @eslint/js@8.51.0 (#17624) (Milos Djermanovic)
