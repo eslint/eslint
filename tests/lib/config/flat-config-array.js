@@ -2020,9 +2020,7 @@ describe("FlatConfigArray", () => {
 
         it("should throw rule validation error for camelcase", async () => {
 
-
-            /* eslint-disable-next-line prefer-const -- need to allow mutation inside FlatConfigArray */
-            let ruleConfig = ["error", {}];
+            const ruleConfig = ["error", {}];
 
             const configs = new FlatConfigArray([{
                 rules: {
