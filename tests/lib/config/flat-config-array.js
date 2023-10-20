@@ -2022,21 +2022,27 @@ describe("FlatConfigArray", () => {
 
             const ruleConfig = ["error", {}];
 
-            const configs = new FlatConfigArray([{
-                rules: {
-                    camelcase: ruleConfig,
-                    "default-case": ruleConfig,
+            const configs = new FlatConfigArray([
+                {
+                    rules: {
+                        camelcase: ruleConfig
+                    }
+                },
+                {
+                    rules: {
+                        "default-case": ruleConfig,
 
-                    /* eslint-disable-next-line no-dupe-keys -- needed for testing */
-                    camelcase: [
-                        "error",
-                        {
-                            ignoreDestructuring: Date
-                        }
 
-                    ]
+                        camelcase: [
+                            "error",
+                            {
+                                ignoreDestructuring: Date
+                            }
+
+                        ]
+                    }
                 }
-            }]);
+            ]);
 
             configs.normalizeSync();
 

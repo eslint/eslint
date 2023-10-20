@@ -64,7 +64,7 @@
     "@eslint-community/regexpp": "^4.6.1",
     "@eslint/eslintrc": "^2.1.2",
     "@eslint/js": "8.51.0",
-    "@humanwhocodes/config-array": "^0.11.12",
+    "@humanwhocodes/config-array": "^0.11.13",
     "@humanwhocodes/module-importer": "^1.0.1",
     "@nodelib/fs.walk": "^1.2.8",
     "@ungap/structured-clone": "^1.2.0",
