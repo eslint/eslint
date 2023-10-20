@@ -1993,8 +1993,7 @@ describe("FlatConfigArray", () => {
 
         it("shared rule config should not cause a rule validation error", () => {
 
-            /* eslint-disable-next-line prefer-const -- need to allow mutation inside FlatConfigArray */
-            let ruleConfig = ["error", {}];
+            const ruleConfig = ["error", {}];
 
             const configs = new FlatConfigArray([{
                 rules: {
