@@ -214,7 +214,7 @@ function generateRuleIndexPage() {
             };
 
             if (rule.meta.deprecated) {
-                ruleTypesData.deprecated.rules.push({
+                ruleTypesData.deprecated.push({
                     name: basename,
                     replacedBy: rule.meta.replacedBy || []
                 });
@@ -226,22 +226,18 @@ function generateRuleIndexPage() {
                         fixable: !!rule.meta.fixable,
                         hasSuggestions: !!rule.meta.hasSuggestions
                     },
-                    ruleType = ruleTypesData.types.find(c => c.name === rule.meta.type);
+                    ruleType = ruleTypesData.types[rule.meta.type];
 
-                if (!ruleType.rules) {
-                    ruleType.rules = [];
-                }
-
-                ruleType.rules.push(output);
+                ruleType.push(output);
             }
         });
 
-    // `.rules` will be `undefined` if all rules in category are deprecated.
-    ruleTypesData.types = ruleTypesData.types.filter(ruleType => !!ruleType.rules);
+    ruleTypesData.types = Object.fromEntries(
+        Object.entries(ruleTypesData.types).filter(([, value]) => value && value.length > 0)
+    );
 
     JSON.stringify(ruleTypesData, null, 4).to(docsSiteOutputFile);
     JSON.stringify(meta, null, 4).to(docsSiteMetaOutputFile);
-
 }
 
 /**

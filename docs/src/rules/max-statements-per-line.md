@@ -76,7 +76,7 @@ if (condition) { bar = 1; } else { baz = 2; }
 for (var i = 0; i < length; ++i) { bar = 1; baz = 2; }
 switch (discriminant) { case 'test': break; default: break; }
 function foo() { bar = 1; baz = 2; }
-var qux = function qux() { bar = 1; };
+var qux = function qux() { bar = 1; baz = 2; };
 (function foo() { bar = 1; baz = 2; })();
 ```
 

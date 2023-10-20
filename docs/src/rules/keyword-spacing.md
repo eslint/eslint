@@ -77,30 +77,30 @@ let a = [this];
 let b = [function() {}];
 
 // Avoid conflict with `arrow-spacing`
-let a = ()=> this.foo;
+let c = ()=> this.foo;
 
 // Avoid conflict with `block-spacing`
 {function foo() {}}
 
 // Avoid conflict with `comma-spacing`
-let a = [100,this.foo, this.bar];
+let d = [100,this.foo, this.bar];
 
 // Avoid conflict with `computed-property-spacing`
 obj[this.foo] = 0;
 
 // Avoid conflict with `generator-star-spacing`
-function *foo() {}
+function *bar() {}
 
 // Avoid conflict with `key-spacing`
-let obj = {
+let obj1 = {
     foo:function() {}
 };
 
 // Avoid conflict with `object-curly-spacing`
-let obj = {foo: this};
+let obj2 = {foo: this};
 
 // Avoid conflict with `semi-spacing`
-let a = this;function foo() {}
+let e = this;function foo() {}
 
 // Avoid conflict with `space-in-parens`
 (function () {})();
@@ -110,7 +110,7 @@ if ("foo"in {foo: 0}) {}
 if (10+this.foo<= this.bar) {}
 
 // Avoid conflict with `jsx-curly-spacing`
-let a = <A foo={this.foo} bar={function(){}} />
+let f = <A foo={this.foo} bar={function(){}} />
 ```
 
 :::
@@ -190,10 +190,10 @@ if (foo) {
 let a = [this];
 
 // Avoid conflict with `arrow-spacing`
-let a = ()=> this.foo;
+let b = ()=> this.foo;
 
 // Avoid conflict with `comma-spacing`
-let a = [100, this.foo, this.bar];
+let c = [100, this.foo, this.bar];
 
 // Avoid conflict with `computed-property-spacing`
 obj[this.foo] = 0;
@@ -202,42 +202,42 @@ obj[this.foo] = 0;
 function* foo() {}
 
 // Avoid conflict with `key-spacing`
-let obj = {
+let obj1 = {
     foo:function() {}
 };
 
 // Avoid conflict with `func-call-spacing`
-class A {
+class A extends B {
     constructor() {
         super();
     }
 }
 
 // Avoid conflict with `object-curly-spacing`
-let obj = {foo: this};
+let obj2 = {foo: this};
 
 // Avoid conflict with `semi-spacing`
-let a = this;function foo() {}
+let d = this;function bar() {}
 
 // Avoid conflict with `space-before-function-paren`
-function() {}
+(function() {})();
 
 // Avoid conflict with `space-infix-ops`
 if ("foo"in{foo: 0}) {}
 if (10+this.foo<= this.bar) {}
 
 // Avoid conflict with `space-unary-ops`
-function* foo(a) {
+function* baz(a) {
     return yield+a;
 }
 
 // Avoid conflict with `yield-star-spacing`
-function* foo(a) {
+function* qux(a) {
     return yield* a;
 }
 
 // Avoid conflict with `jsx-curly-spacing`
-let a = <A foo={this.foo} bar={function(){}} />
+let e = <A foo={this.foo} bar={function(){}} />
 ```
 
 :::

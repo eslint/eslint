@@ -97,7 +97,7 @@ Output:
 
 Inline configuration comments:
   --no-inline-config              Prevent comments from changing config or rules
-  --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
+  --report-unused-disable-directives  Adds reported errors for unused eslint-disable and eslint-enable directives
 
 Caching:
   --cache                         Only check changed files - default: false
@@ -577,7 +577,7 @@ This option causes ESLint to report directive comments like `// eslint-disable-l
 
 * **Argument Type**: No argument.
 
-This can be useful to prevent future errors from unexpectedly being suppressed, by cleaning up old `eslint-disable` comments which are no longer applicable.
+This can be useful to prevent future errors from unexpectedly being suppressed, by cleaning up old `eslint-disable` and `eslint-enable` comments which are no longer applicable.
 
 ::: warning
 When using this option, it is possible that new errors start being reported whenever ESLint or custom rules are upgraded.

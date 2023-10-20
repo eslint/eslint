@@ -42,7 +42,8 @@ Examples of **correct** code for this rule:
 
 function doSomething() {
   var foo = 2;
-}\n
+}
+
 ```
 
 :::

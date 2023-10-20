@@ -192,14 +192,14 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ```js
 /*eslint one-var: ["error", "never"]*/
 
-function foo() {
+function foo1() {
     var bar,
         baz;
-    const bar = true,
-        baz = false;
+    const qux = true,
+        foobar = false;
 }
 
-function foo() {
+function foo2() {
     var bar,
         qux;
 
@@ -208,7 +208,7 @@ function foo() {
     }
 }
 
-function foo(){
+function foo3(){
     let bar = true,
         baz = false;
 }
@@ -416,12 +416,16 @@ Examples of **correct** code for this rule with the `{ var: "never" }` option:
 /*eslint-env es6*/
 
 function foo() {
-    var bar,
-        baz;
-    const bar = 1; // `const` and `let` declarations are ignored if they are not specified
-    const baz = 2;
+    var bar;
+    var baz;
+
+    // `const` and `let` declarations are ignored if they are not specified
+    const foobar = 1;
+    const foobaz = 2;
+    const barfoo = 1, bazfoo = 2;
     let qux;
     let norf;
+    let fooqux, foonorf;
 }
 ```
 

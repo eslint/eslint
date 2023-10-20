@@ -27,9 +27,9 @@ Examples of **incorrect** code for this rule:
 let a = 3;
 console.log(a);
 
-let a;
-a = 0;
-console.log(a);
+let b;
+b = 0;
+console.log(b);
 
 class C {
     static {
@@ -63,35 +63,35 @@ Examples of **correct** code for this rule:
 const a = 0;
 
 // it's never initialized.
-let a;
-console.log(a);
+let b;
+console.log(b);
 
 // it's reassigned after initialized.
-let a;
-a = 0;
-a = 1;
-console.log(a);
+let c;
+c = 0;
+c = 1;
+console.log(c);
 
 // it's initialized in a different block from the declaration.
-let a;
+let d;
 if (true) {
-    a = 0;
+    d = 0;
 }
-console.log(a);
+console.log(d);
 
 // it's initialized in a different scope.
-let a;
+let e;
 class C {
     #x;
     static {
-        a = obj => obj.#x;
+        e = obj => obj.#x;
     }
 }
 
 // it's initialized at a place that we cannot write a variable declaration.
-let a;
-if (true) a = 0;
-console.log(a);
+let f;
+if (true) f = 0;
+console.log(f);
 
 // `i` gets a new binding each iteration
 for (const i in [1, 2, 3]) {
@@ -112,14 +112,14 @@ for (let i = 0, end = 10; i < end; ++i) {
 let predicate;
 [object.type, predicate] = foo();
 
-// `a` is only assigned once but cannot be separately declared as `const`
-let a;
-const b = {};
-({ a, c: b.c } = func());
+// `g` is only assigned once but cannot be separately declared as `const`
+let g;
+const h = {};
+({ g, c: h.c } = func());
 
 // suggest to use `no-var` rule.
-var b = 3;
-console.log(b);
+var i = 3;
+console.log(i);
 ```
 
 :::
@@ -170,9 +170,9 @@ const {a: a0, b} = obj;
 const a = a0 + 1;
 
 // all variables are reassigned.
-let {a, b} = obj;
-a = a + 1;
-b = b + 1;
+let {c, d} = obj;
+c = c + 1;
+d = d + 1;
 ```
 
 :::
