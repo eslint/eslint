@@ -52,6 +52,15 @@ ruleTester.run("no-useless-assignment", rule, {
                 console.log(v);
             }
         }`,
+        `function foo() {
+            let v = 'used';
+            if (condition) {
+                //
+            } else {
+                v = 'used-2';
+            }
+            console.log(v);
+        }`,
         `var foo = function () {
             let v = 'used';
             console.log(v);
@@ -127,6 +136,9 @@ ruleTester.run("no-useless-assignment", rule, {
         `v = 'used';
         console.log(v);
         v = 'unused'`,
+
+        // Unused variable
+        "let v = 'used variable';",
 
         // Update
         `function foo() {
@@ -348,6 +360,25 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
+            code:
+            `function foo() {
+                let v = 'used';
+                console.log(v);
+                v = 'unused';
+                v = 'used';
+                console.log(v);
+                v = 'used';
+                console.log(v);
+            }`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 17
+                }
+            ]
+        },
+        {
             code: `
             let v;
             v = 'unused';
@@ -385,6 +416,77 @@ ruleTester.run("no-useless-assignment", rule, {
                     messageId: "unnecessaryAssignment",
                     line: 5,
                     column: 17
+                }
+            ]
+        },
+        {
+            code:
+            `function foo() {
+                let v = 'unused';
+                if (condition) {
+                    if (condition2) {
+                        v = 'used-2';
+                    } else {
+                        v = 'used-3';
+                    }
+                } else {
+                    v = 'used-4';
+                }
+                console.log(v);
+            }`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 2,
+                    column: 21
+                }
+            ]
+        },
+        {
+            code:
+            `function foo() {
+                let v;
+                if (condition) {
+                    v = 'unused';
+                } else {
+                    //
+                }
+                if (condition2) {
+                    v = 'used-1';
+                } else {
+                    v = 'used-2';
+                }
+                console.log(v);
+            }`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 21
+                }
+            ]
+        },
+        {
+            code:
+            `function foo() {
+                let v = 'used';
+                if (condition) {
+                    v = 'unused';
+                    v = 'unused';
+                    v = 'used';
+                }
+                console.log(v);
+            }`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 21
+                },
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 5,
+                    column: 21
                 }
             ]
         },
@@ -630,6 +732,5 @@ ruleTester.run("no-useless-assignment", rule, {
                 }
             ]
         }
-
     ]
 });
