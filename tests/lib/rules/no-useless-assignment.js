@@ -154,6 +154,26 @@ ruleTester.run("no-useless-assignment", rule, {
             console.log(a);
         }`,
 
+        // Assign with update
+        `function foo() {
+            let a = 42;
+            console.log(a);
+            a = 10;
+            a = a + 1;
+            console.log(a);
+        }`,
+        `function foo() {
+            let a = 42;
+            console.log(a);
+            a = 10;
+            if (cond) {
+                a = a + 1;
+            } else {
+                a = 2 + a;
+            }
+            console.log(a);
+        }`,
+
         // Assign to complex patterns
         `function foo() {
             let a = 'used', b = 'used', c = 'used', d = 'used';
