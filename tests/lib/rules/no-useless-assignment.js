@@ -226,7 +226,28 @@ ruleTester.run("no-useless-assignment", rule, {
                 }
                 console.log(v);
             }
-        }`
+        }`,
+
+        // Ignore known globals
+        `/* globals foo */
+        const bk = foo;
+        foo = 42;
+        try {
+            // process
+        } finally {
+            foo = bk;
+        }`,
+        {
+            code: `
+            const bk = console;
+            console = { log () {} };
+            try {
+                // process
+            } finally {
+                console = bk;
+            }`,
+            env: { browser: true }
+        }
     ],
     invalid: [
         {
