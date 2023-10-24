@@ -12,20 +12,23 @@ This rule looks for tabs anywhere inside a file: code, comments or anything else
 
 Examples of **incorrect** code for this rule:
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable MD010 -->
 ::: incorrect { "openInPlayground": false }
 
 ```js
-var a \t= 2;
+var a 	= 2;
 
 /**
-* \t\t it's a test function
+* 		 it's a test function
 */
 function test(){}
 
-var x = 1; // \t test
+var x = 1; // 	 test
 ```
 
 :::
+<!-- markdownlint-restore -->
 
 Examples of **correct** code for this rule:
 
@@ -54,19 +57,22 @@ This rule has an optional object option with the following properties:
 
 Examples of **correct** code for this rule with the `allowIndentationTabs: true` option:
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable MD010 -->
 ::: correct { "openInPlayground": false }
 
 ```js
 /* eslint no-tabs: ["error", { allowIndentationTabs: true }] */
 
 function test() {
-\tdoSomething();
+	doSomething();
 }
 
-\t// comment with leading indentation tab
+	// comment with leading indentation tab
 ```
 
 :::
+<!-- markdownlint-restore -->
 
 ## When Not To Use It
 

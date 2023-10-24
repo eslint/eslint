@@ -140,20 +140,23 @@ function foo(d) {
 
 Examples of **correct** code for this rule with the `"tab"` option:
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable MD010 -->
 ::: correct
 
 ```js
 /*eslint indent-legacy: ["error", "tab"]*/
 
 if (a) {
-/*tab*/b=c;
-/*tab*/function foo(d) {
-/*tab*//*tab*/e=f;
-/*tab*/}
+	b=c;
+	function foo(d) {
+		e=f;
+	}
 }
 ```
 
 :::
+<!-- markdownlint-restore -->
 
 ### SwitchCase
 

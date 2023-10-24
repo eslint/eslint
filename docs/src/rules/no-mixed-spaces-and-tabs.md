@@ -15,36 +15,42 @@ This rule disallows mixed spaces and tabs for indentation.
 
 Examples of **incorrect** code for this rule:
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable MD010 -->
 ::: incorrect
 
 ```js
 /*eslint no-mixed-spaces-and-tabs: "error"*/
 
 function add(x, y) {
-<<TAB>>  return x + y;
+	  return x + y;
 }
 
 function main() {
-<<TAB>>var x = 5,
-<<TAB>>    y = 7;
+	var x = 5,
+	    y = 7;
 }
 ```
 
 :::
+<!-- markdownlint-restore -->
 
 Examples of **correct** code for this rule:
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable MD010 -->
 ::: correct
 
 ```js
 /*eslint no-mixed-spaces-and-tabs: "error"*/
 
 function add(x, y) {
-<<TAB>>return x + y;
+	return x + y;
 }
 ```
 
 :::
+<!-- markdownlint-restore -->
 
 ## Options
 
@@ -56,15 +62,18 @@ This rule has a string option.
 
 Examples of **correct** code for this rule with the `"smart-tabs"` option:
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable MD010 -->
 ::: correct
 
 ```js
 /*eslint no-mixed-spaces-and-tabs: ["error", "smart-tabs"]*/
 
 function main() {
-<<TAB>>var x = 5,
-<<TAB>>    y = 7;
+	var x = 5,
+	    y = 7;
 }
 ```
 
 :::
+<!-- markdownlint-restore -->
