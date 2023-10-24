@@ -61,6 +61,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 19,
                 messageId: "prototypeBuildIn",
                 data: { prop: "hasOwnProperty" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.hasOwnProperty.call(foo, 'bar')"
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
@@ -73,6 +79,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 18,
                 messageId: "prototypeBuildIn",
                 data: { prop: "isPrototypeOf" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.isPrototypeOf.call(foo, 'bar')"
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
@@ -84,6 +96,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endLine: 1,
                 endColumn: 25,
                 messageId: "prototypeBuildIn",
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.propertyIsEnumerable.call(foo, 'bar')"
+                    }
+                ],
                 data: { prop: "propertyIsEnumerable" }
             }]
         },
@@ -96,6 +114,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 23,
                 messageId: "prototypeBuildIn",
                 data: { prop: "hasOwnProperty" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.hasOwnProperty.call(foo.bar, 'bar')"
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
@@ -108,6 +132,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 26,
                 messageId: "prototypeBuildIn",
                 data: { prop: "isPrototypeOf" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.isPrototypeOf.call(foo.bar.baz, 'bar')"
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
@@ -120,6 +150,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 21,
                 messageId: "prototypeBuildIn",
                 data: { prop: "hasOwnProperty" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.hasOwnProperty.call(foo, 'bar')"
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
@@ -133,6 +169,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 20,
                 messageId: "prototypeBuildIn",
                 data: { prop: "isPrototypeOf" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.isPrototypeOf.call(foo, 'bar').baz"
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
@@ -145,6 +187,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 31,
                 messageId: "prototypeBuildIn",
                 data: { prop: "propertyIsEnumerable" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: String.raw`Object.prototype.propertyIsEnumerable.call(foo.bar, 'baz')`
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
@@ -153,22 +201,95 @@ ruleTester.run("no-prototype-builtins", rule, {
         {
             code: "foo?.hasOwnProperty('bar')",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" } }]
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
+        },
+        {
+            code: "foo?.bar.hasOwnProperty('baz')",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
+        },
+        {
+            code: "foo.hasOwnProperty?.('bar')",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
+        },
+        {
+
+            /*
+             * if hasOwnProperty is part of a ChainExpresion
+             * and the optional part is before it, then don't suggest the fix
+             */
+            code: "foo?.hasOwnProperty('bar').baz",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
+        },
+        {
+
+            /*
+             * if hasOwnProperty is part of a ChainExpresion
+             * but the optional part is after it, then the fix is safe
+             */
+            code: "foo.hasOwnProperty('bar')?.baz",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{
+                messageId: "prototypeBuildIn",
+                data: { prop: "hasOwnProperty" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.hasOwnProperty.call(foo, 'bar')?.baz"
+                    }
+                ]
+            }]
         },
         {
             code: "(foo?.hasOwnProperty)('bar')",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" } }]
+            errors: [{
+                messageId: "prototypeBuildIn",
+                data: { prop: "hasOwnProperty" },
+                suggestions: [
+                    {
+
+                        /*
+                         * Note that the original may throw TypeError: (intermediate value) is not a function
+                         * whereas the replacement may throw TypeError: Cannot convert undefined or null to object
+                         */
+                        messageId: "callObjectPrototype",
+                        output: "(Object.prototype.hasOwnProperty.call)(foo, 'bar')"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "(foo?.hasOwnProperty)?.('bar')",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
             code: "foo?.['hasOwnProperty']('bar')",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" } }]
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
             code: "(foo?.[`hasOwnProperty`])('bar')",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" } }]
+            errors: [{
+                messageId: "prototypeBuildIn",
+                data: { prop: "hasOwnProperty" },
+                suggestions: [
+                    {
+
+                        /*
+                         * Note that the original may throw TypeError: (intermediate value) is not a function
+                         * whereas the replacement may throw TypeError: Cannot convert undefined or null to object
+                         */
+                        messageId: "callObjectPrototype",
+                        output: "(Object.prototype.hasOwnProperty.call)(foo, 'bar')"
+                    }
+                ]
+
+            }]
         }
     ]
 });
