@@ -17,6 +17,8 @@ Examples of **incorrect** code for this rule:
 ::: incorrect { "openInPlayground": false }
 
 ```js
+/* eslint no-tabs: "error" */
+
 var a 	= 2;
 
 /**
@@ -35,6 +37,8 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
+/* eslint no-tabs: "error" */
+
 var a = 2;
 
 /**
