@@ -14,7 +14,7 @@ Examples of **incorrect** code for this rule:
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
-::: incorrect { "openInPlayground": false }
+::: incorrect
 
 ```js
 /* eslint no-tabs: "error" */
@@ -63,7 +63,7 @@ Examples of **correct** code for this rule with the `allowIndentationTabs: true`
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
-::: correct { "openInPlayground": false }
+::: correct
 
 ```js
 /* eslint no-tabs: ["error", { allowIndentationTabs: true }] */

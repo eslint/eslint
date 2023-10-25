@@ -23,10 +23,15 @@ Examples of **incorrect** code for this rule:
 /*eslint no-mixed-spaces-and-tabs: "error"*/
 
 function add(x, y) {
+// --->..return x + y;
+
 	  return x + y;
 }
 
 function main() {
+// --->var x = 5,
+// --->....y = 7;
+
 	var x = 5,
 	    y = 7;
 }
@@ -45,6 +50,8 @@ Examples of **correct** code for this rule:
 /*eslint no-mixed-spaces-and-tabs: "error"*/
 
 function add(x, y) {
+// --->return x + y;
+
 	return x + y;
 }
 ```
@@ -70,6 +77,9 @@ Examples of **correct** code for this rule with the `"smart-tabs"` option:
 /*eslint no-mixed-spaces-and-tabs: ["error", "smart-tabs"]*/
 
 function main() {
+// --->var x = 5,
+// --->....y = 7;
+
 	var x = 5,
 	    y = 7;
 }
