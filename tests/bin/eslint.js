@@ -387,6 +387,24 @@ describe("bin/eslint.js", () => {
             return Promise.all([exitCodeAssertion, outputAssertion]);
         });
 
+        it("does not exit with zero when there is an error in the next tick", () => {
+            const config = path.join(__dirname, "../fixtures/bin/eslint.config-promise-tick-throws.js");
+            const file = path.join(__dirname, "../fixtures/bin/empty.js");
+            const child = runESLint(["--config", config, file]);
+            const exitCodeAssertion = assertExitCode(child, 2);
+            const outputAssertion = getOutput(child).then(output => {
+
+                // ensure the expected error was printed
+                assert.include(output.stderr, "test_error_stack");
+
+                // ensure that linting the file did not cause an error
+                assert.notInclude(output.stderr, "empty.js");
+                assert.notInclude(output.stdout, "empty.js");
+            });
+
+            return Promise.all([exitCodeAssertion, outputAssertion]);
+        });
+
         // https://github.com/eslint/eslint/issues/17560
         describe("does not print duplicate errors in the event of a crash", () => {
 

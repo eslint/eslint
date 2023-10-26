@@ -97,8 +97,9 @@ function getErrorMessage(error) {
  * same message once.
  * @type {Set<string>}
  */
-
 const displayedErrors = new Set();
+
+let hadFatalError = false;
 
 /**
  * Catch and report unexpected error.
@@ -107,6 +108,7 @@ const displayedErrors = new Set();
  */
 function onFatalError(error) {
     process.exitCode = 2;
+    hadFatalError = true;
 
     const { version } = require("../package.json");
     const message = `
@@ -143,9 +145,13 @@ ${getErrorMessage(error)}`;
     }
 
     // Otherwise, call the CLI.
-    process.exitCode = await require("../lib/cli").execute(
+    const exitCode = await require("../lib/cli").execute(
         process.argv,
         process.argv.includes("--stdin") ? await readStdin() : null,
         true
     );
+
+    if (!hadFatalError) {
+        process.exitCode = exitCode;
+    }
 }()).catch(onFatalError);
