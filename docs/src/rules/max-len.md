@@ -69,30 +69,36 @@ var foo = {
 
 Examples of **incorrect** code for this rule with the default `{ "tabWidth": 4 }` option:
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable MD010 -->
 ::: incorrect
 
 ```js
 /*eslint max-len: ["error", { "code": 80, "tabWidth": 4 }]*/
 
-\t  \t  var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" } };
+		var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" } };
 ```
 
 :::
+<!-- markdownlint-restore -->
 
 Examples of **correct** code for this rule with the default `{ "tabWidth": 4 }` option:
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable MD010 -->
 ::: correct
 
 ```js
 /*eslint max-len: ["error", { "code": 80, "tabWidth": 4 }]*/
 
-\t  \t  var foo = {
-\t  \t  \t  \t  "bar": "This is a bar.",
-\t  \t  \t  \t  "baz": { "qux": "This is a qux" }
-\t  \t  };
+		var foo = {
+				"bar": "This is a bar.",
+				"baz": { "qux": "This is a qux" }
+		};
 ```
 
 :::
+<!-- markdownlint-restore -->
 
 ### comments
 
@@ -203,7 +209,8 @@ Examples of **correct** code for this rule with the `ignorePattern` option:
 ::: correct
 
 ```js
-/*eslint max-len: ["error", { "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\\(" }]*/
+/*eslint max-len:
+["error", { "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\\(" }]*/
 
 var dep = require('really/really/really/really/really/really/really/really/long/module');
 ```
