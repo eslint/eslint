@@ -580,7 +580,7 @@ describe("RuleTester", () => {
                     "bar = baz;"
                 ],
                 invalid: [
-                    { code: "var foo = bar; var baz = quux", errors: [{ type: "VariableDeclaration" }, null] }
+                    { code: "var foo = bar; var baz = quux", errors: [{ message: "Bad var.", type: "VariableDeclaration" }, null] }
                 ]
             });
         }, /Error should be a string, object, or RegExp/u);
@@ -1020,14 +1020,28 @@ describe("RuleTester", () => {
         }, /fatal parsing error/iu);
     });
 
-    it("should not throw an error if invalid code has at least an expected empty error object", () => {
-        ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
-            valid: ["Eval(foo)"],
-            invalid: [{
-                code: "eval(foo)",
-                errors: [{}]
-            }]
-        });
+    it("should throw an error if an error object has no properties", () => {
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: ["Eval(foo)"],
+                invalid: [{
+                    code: "eval(foo)",
+                    errors: [{}]
+                }]
+            });
+        }, "Error must have either a 'messageId' or 'message'.");
+    });
+
+    it("should throw an error if an error has a property besides message or messageId", () => {
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: ["Eval(foo)"],
+                invalid: [{
+                    code: "eval(foo)",
+                    errors: [{ line: 1 }]
+                }]
+            });
+        }, "Error must have either a 'messageId' or 'message'.");
     });
 
     it("should pass-through the globals config of valid tests to the to rule", () => {
@@ -1258,7 +1272,7 @@ describe("RuleTester", () => {
                         languageOptions: {
                             parser: esprima
                         },
-                        errors: [{ line: 1 }]
+                        errors: [{ message: "eval sucks.", line: 1 }]
                     }
                 ]
             });
@@ -1892,7 +1906,7 @@ describe("RuleTester", () => {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ data: "something" }] }]
             });
-        }, "Error must specify 'messageId' if 'data' is used.");
+        }, "Error must have either a 'messageId' or 'message'.");
     });
 
     // fixable rules with or without `meta` property
@@ -1947,7 +1961,7 @@ describe("RuleTester", () => {
                     ],
                     invalid: [{
                         code: "var foo;",
-                        errors: [{}]
+                        errors: [{ message: "Avoid using identifiers named 'foo'." }]
                     }]
                 });
             }, "Error should have suggestions on error with message: \"Avoid using identifiers named 'foo'.");
@@ -1961,6 +1975,7 @@ describe("RuleTester", () => {
                 invalid: [{
                     code: "var foo;",
                     errors: [{
+                        message: "Avoid using identifiers named 'foo'.",
                         suggestions: [{
                             desc: "Rename identifier 'foo' to 'bar'",
                             output: "var bar;"
@@ -1977,11 +1992,13 @@ describe("RuleTester", () => {
                     {
                         code: "function foo() {\n  var foo = 1;\n}",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 desc: "Rename identifier 'foo' to 'bar'",
                                 output: "function bar() {\n  var foo = 1;\n}"
                             }]
                         }, {
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 desc: "Rename identifier 'foo' to 'bar'",
                                 output: "function foo() {\n  var bar = 1;\n}"
@@ -1998,6 +2015,7 @@ describe("RuleTester", () => {
                 invalid: [{
                     code: "var foo;",
                     errors: [{
+                        messageId: "avoidFoo",
                         suggestions: [{
                             messageId: "renameFoo",
                             output: "var bar;"
@@ -2016,6 +2034,7 @@ describe("RuleTester", () => {
                 invalid: [{
                     code: "var foo;",
                     errors: [{
+                        messageId: "avoidFoo",
                         suggestions: [{
                             messageId: "renameFoo",
                             output: "var bar;"
@@ -2034,6 +2053,7 @@ describe("RuleTester", () => {
                 invalid: [{
                     code: "var foo;",
                     errors: [{
+                        messageId: "avoidFoo",
                         suggestions: [{
                             desc: "Rename identifier 'foo' to 'bar'",
                             messageId: "renameFoo",
@@ -2054,6 +2074,7 @@ describe("RuleTester", () => {
                 invalid: [{
                     code: "var foo;",
                     errors: [{
+                        messageId: "avoidFoo",
                         suggestions: [{
                             desc: "Rename identifier 'foo' to 'bar'",
                             output: "var bar;"
@@ -2072,6 +2093,7 @@ describe("RuleTester", () => {
                 invalid: [{
                     code: "var foo;",
                     errors: [{
+                        messageId: "avoidFoo",
                         suggestions: [{
                             messageId: "renameFoo",
                             data: { newName: "bar" },
@@ -2093,6 +2115,7 @@ describe("RuleTester", () => {
                 invalid: [{
                     code: "var foo;",
                     errors: [{
+                        messageId: "avoidFoo",
                         suggestions: [{}, {}]
                     }]
                 }]
@@ -2106,6 +2129,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "eval('var foo');",
                         errors: [{
+                            message: "eval sucks.",
                             suggestions
                         }]
                     }]
@@ -2121,6 +2145,7 @@ describe("RuleTester", () => {
                         invalid: [{
                             code: "var foo;",
                             errors: [{
+                                message: "Avoid using identifiers named 'foo'.",
                                 suggestions
                             }]
                         }]
@@ -2136,6 +2161,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Bad var.",
                             suggestions: [{
                                 messageId: "this-does-not-exist"
                             }]
@@ -2152,6 +2178,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 desc: "Rename identifier 'foo' to 'bar'",
                                 output: "var bar;"
@@ -2213,6 +2240,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 desc: "not right",
                                 output: "var baz;"
@@ -2230,6 +2258,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 desc: "Rename identifier 'foo' to 'bar'",
                                 messageId: "renameFoo",
@@ -2252,6 +2281,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "unused",
                                 output: "var bar;"
@@ -2272,6 +2302,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 desc: "Rename identifier 'foo' to 'bar'",
                                 messageId: "renameFoo",
@@ -2294,6 +2325,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 messageId: "renameFoo",
                                 output: "var bar;"
@@ -2311,6 +2343,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "renameFoo",
                                 output: "var bar;"
@@ -2331,6 +2364,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "renameFoo",
                                 data: { newName: "car" },
@@ -2353,6 +2387,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "renameFoo",
                                 data: { newName: "bar" },
@@ -2375,6 +2410,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 desc: "Rename identifier 'foo' to 'bar'",
                                 messageId: "renameFoo",
@@ -2398,6 +2434,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "renameFoo",
                                 data: { newName: "bar" },
@@ -2419,6 +2456,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 desc: "Rename identifier 'foo' to 'bar'",
                                 output: "var baz;"
@@ -2436,6 +2474,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [null]
                         }]
                     }]
@@ -2448,6 +2487,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [
                                 {
                                     messageId: "renameFoo",
@@ -2470,6 +2510,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 message: "Rename identifier 'foo' to 'bar'"
                             }]
@@ -2486,6 +2527,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "renameFoo",
                                 output: "var bar;"
