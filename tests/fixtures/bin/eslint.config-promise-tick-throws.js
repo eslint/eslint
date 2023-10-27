@@ -6,8 +6,17 @@ function throwError() {
 
 process.nextTick(throwError);
 
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function getConfig() {
+    await delay(100);
+    return [];
+}
+
 /*
- * Promise ensures that this config must be await-ed and therefore
+ * Exporting the config as an initially unsettled Promise should ensure that
  * the error in next tick will be thrown before any linting is done
  */
-module.exports = Promise.resolve([{}]);
+module.exports = getConfig();
