@@ -99,6 +99,10 @@ function getErrorMessage(error) {
  */
 const displayedErrors = new Set();
 
+/**
+ * Tracks whether an unexpected error was caught
+ * @type {boolean}
+ */
 let hadFatalError = false;
 
 /**
@@ -151,6 +155,18 @@ ${getErrorMessage(error)}`;
         true
     );
 
+    /*
+     * If an uncaught exception or unhandled rejection was detected in the meantime,
+     * keep the fatal exit code 2 that is already assigned to `process.exitCode`.
+     * Without this condition, exit code 2 (unsuccessful execution) could be overwritten with
+     * 1 (successful execution, lint problems found) or even 0 (successful execution, no lint problems found).
+     * This ensures that unexpected errors that seemingly don't affect the success
+     * of the execution will still cause a non-zero exit code, as it's a common
+     * practice and the default behavior of Node.js to exit with non-zero
+     * in case of an uncaught exception or unhandled rejection.
+     *
+     * Otherwise, assign the exit code returned from CLI.
+     */
     if (!hadFatalError) {
         process.exitCode = exitCode;
     }
