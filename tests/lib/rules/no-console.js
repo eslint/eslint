@@ -41,6 +41,22 @@ ruleTester.run("no-console", rule, {
 
         // no options
         {
+            code: "if (a) console.warn(foo)",
+            errors: [{
+                messageId: "unexpected",
+                type: "MemberExpression",
+                suggestions: null
+            }]
+        },
+        {
+            code: "foo(console.log)",
+            errors: [{
+                messageId: "unexpected",
+                type: "MemberExpression",
+                suggestions: null
+            }]
+        },
+        {
             code: "console.log(foo)",
             errors: [{
                 messageId: "unexpected",
@@ -113,20 +129,6 @@ ruleTester.run("no-console", rule, {
             }]
         },
         {
-            code: "if (a) console.warn(foo)",
-            errors: [{
-                messageId: "unexpected",
-                type: "MemberExpression"
-            }]
-        },
-        {
-            code: "foo(console.log)",
-            errors: [{
-                messageId: "unexpected",
-                type: "MemberExpression"
-            }]
-        },
-        {
             code: "class A { static { console.info(foo) } }",
             parserOptions: { ecmaVersion: "latest" },
             errors: [{
@@ -141,6 +143,24 @@ ruleTester.run("no-console", rule, {
         },
 
         //  one option
+        {
+            code: "if (a) console.info(foo)",
+            options: [{ allow: ["warn"] }],
+            errors: [{
+                messageId: "unexpected",
+                type: "MemberExpression",
+                suggestions: null
+            }]
+        },
+        {
+            code: "foo(console.warn)",
+            options: [{ allow: ["log"] }],
+            errors: [{
+                messageId: "unexpected",
+                type: "MemberExpression",
+                suggestions: null
+            }]
+        },
         {
             code: "console.log(foo)",
             options: [{ allow: ["error"] }],
@@ -220,22 +240,6 @@ ruleTester.run("no-console", rule, {
             }]
         },
         {
-            code: "if (a) console.info(foo)",
-            options: [{ allow: ["warn"] }],
-            errors: [{
-                messageId: "unexpected",
-                type: "MemberExpression"
-            }]
-        },
-        {
-            code: "foo(console.warn)",
-            options: [{ allow: ["log"] }],
-            errors: [{
-                messageId: "unexpected",
-                type: "MemberExpression"
-            }]
-        },
-        {
             code: "class A { static { console.error(foo) } }",
             options: [{ allow: ["log"] }],
             parserOptions: { ecmaVersion: "latest" },
@@ -251,6 +255,24 @@ ruleTester.run("no-console", rule, {
         },
 
         // multiple options
+        {
+            code: "if (a) console.log(foo)",
+            options: [{ allow: ["warn", "error"] }],
+            errors: [{
+                messageId: "unexpected",
+                type: "MemberExpression",
+                suggestions: null
+            }]
+        },
+        {
+            code: "foo(console.info)",
+            options: [{ allow: ["warn", "error"] }],
+            errors: [{
+                messageId: "unexpected",
+                type: "MemberExpression",
+                suggestions: null
+            }]
+        },
         {
             code: "console.log(foo)",
             options: [{ allow: ["warn", "info"] }],
@@ -327,22 +349,6 @@ ruleTester.run("no-console", rule, {
                     data: { propertyName: "log" },
                     output: "if (a) {  }"
                 }]
-            }]
-        },
-        {
-            code: "if (a) console.log(foo)",
-            options: [{ allow: ["warn", "error"] }],
-            errors: [{
-                messageId: "unexpected",
-                type: "MemberExpression"
-            }]
-        },
-        {
-            code: "foo(console.info)",
-            options: [{ allow: ["warn", "error"] }],
-            errors: [{
-                messageId: "unexpected",
-                type: "MemberExpression"
             }]
         },
         {
