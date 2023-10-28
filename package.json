@@ -9,6 +9,7 @@
   "main": "./lib/api.js",
   "exports": {
     "./package.json": "./package.json",
+    "./bin": "./bin/eslint.js",
     ".": "./lib/api.js",
     "./use-at-your-own-risk": "./lib/unsupported-api.js"
   },
