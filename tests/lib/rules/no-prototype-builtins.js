@@ -196,6 +196,20 @@ ruleTester.run("no-prototype-builtins", rule, {
                 type: "CallExpression"
             }]
         },
+        {
+
+            // Can't suggest Object.prototype when Object is shadowed
+            code: "(function(Object) {return foo.hasOwnProperty('bar');})",
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
+        },
+        {
+            code: "foo.hasOwnProperty('bar')",
+            globals: {
+                Object: "off"
+            },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }],
+            name: "Can't suggest Object.prototype when there is no Object global variable"
+        },
 
         // Optional chaining
         {
