@@ -257,6 +257,23 @@ ruleTester.run("no-prototype-builtins", rule, {
             }]
         },
         {
+
+            code: "(a,b).hasOwnProperty('bar')",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{
+                messageId: "prototypeBuildIn",
+                data: { prop: "hasOwnProperty" },
+                suggestions: [
+
+                    // Make sure the SequenceExpression has parentheses before other arguments
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.hasOwnProperty.call((a,b), 'bar')"
+                    }
+                ]
+            }]
+        },
+        {
             code: "(foo?.hasOwnProperty)('bar')",
             parserOptions: { ecmaVersion: 2020 },
             errors: [{
