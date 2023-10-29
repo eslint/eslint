@@ -230,7 +230,7 @@ ruleTester.run("no-prototype-builtins", rule, {
         {
 
             /*
-             * if hasOwnProperty is part of a ChainExpresion
+             * If hasOwnProperty is part of a ChainExpresion
              * and the optional part is before it, then don't suggest the fix
              */
             code: "foo?.hasOwnProperty('bar').baz",
@@ -240,7 +240,7 @@ ruleTester.run("no-prototype-builtins", rule, {
         {
 
             /*
-             * if hasOwnProperty is part of a ChainExpresion
+             * If hasOwnProperty is part of a ChainExpresion
              * but the optional part is after it, then the fix is safe
              */
             code: "foo.hasOwnProperty('bar')?.baz",
@@ -274,23 +274,12 @@ ruleTester.run("no-prototype-builtins", rule, {
             }]
         },
         {
+
+            // No suggestion where no-unsafe-optional-chaining is reported on the call
             code: "(foo?.hasOwnProperty)('bar')",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{
-                messageId: "prototypeBuildIn",
-                data: { prop: "hasOwnProperty" },
-                suggestions: [
-                    {
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
 
-                        /*
-                         * Note that the original may throw TypeError: (intermediate value) is not a function
-                         * whereas the replacement may throw TypeError: Cannot convert undefined or null to object
-                         */
-                        messageId: "callObjectPrototype",
-                        output: "(Object.prototype.hasOwnProperty.call)(foo, 'bar')"
-                    }
-                ]
-            }]
         },
         {
             code: "(foo?.hasOwnProperty)?.('bar')",
@@ -303,24 +292,11 @@ ruleTester.run("no-prototype-builtins", rule, {
             errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
+
+            // No suggestion where no-unsafe-optional-chaining is reported on the call
             code: "(foo?.[`hasOwnProperty`])('bar')",
             parserOptions: { ecmaVersion: 2020 },
-            errors: [{
-                messageId: "prototypeBuildIn",
-                data: { prop: "hasOwnProperty" },
-                suggestions: [
-                    {
-
-                        /*
-                         * Note that the original may throw TypeError: (intermediate value) is not a function
-                         * whereas the replacement may throw TypeError: Cannot convert undefined or null to object
-                         */
-                        messageId: "callObjectPrototype",
-                        output: "(Object.prototype.hasOwnProperty.call)(foo, 'bar')"
-                    }
-                ]
-
-            }]
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         }
     ]
 });
