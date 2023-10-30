@@ -14,7 +14,7 @@ const { assert } = require("chai"),
     espree = require("espree"),
     esprima = require("esprima"),
     testParsers = require("../../fixtures/parsers/linter-test-parsers");
-
+const path = require("path");
 const { Linter } = require("../../../lib/linter");
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 
@@ -9829,6 +9829,42 @@ describe("Linter with FlatConfigArray", () => {
                 column: 0,
                 nodeType: null
             });
+        });
+
+        it("should report ignored file when filename isn't matched in the config array", () => {
+
+            const code = "foo()\n    alert('test')";
+            const config = { rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, semi: [1, "always"] } };
+            const messages = linter.verify(code, config, path.join(process.cwd(), "filename.js"));
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 3);
+            assert.strictEqual(messages[0].line, 1);
+            assert.strictEqual(messages[0].column, 6);
+            assert.strictEqual(messages[1].line, 2);
+            assert.strictEqual(messages[1].column, 18);
+            assert.strictEqual(messages[2].line, 2);
+            assert.strictEqual(messages[2].column, 18);
+
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("should report ignored file when filename isn't matched in the config array", () => {
+
+            const code = "foo()\n    alert('test')";
+            const config = { rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, semi: [1, "always"] } };
+            const messages = linter.verify(code, config, "/foo/bar/filename.js");
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 3);
+            assert.strictEqual(messages[0].line, 1);
+            assert.strictEqual(messages[0].column, 6);
+            assert.strictEqual(messages[1].line, 2);
+            assert.strictEqual(messages[1].column, 18);
+            assert.strictEqual(messages[2].line, 2);
+            assert.strictEqual(messages[2].column, 18);
+
+            assert.strictEqual(suppressedMessages.length, 0);
         });
 
         describe("Plugins", () => {
