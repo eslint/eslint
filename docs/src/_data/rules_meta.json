@@ -2598,17 +2598,6 @@
             "url": "https://eslint.org/docs/latest/rules/use-isnan"
         }
     },
-    "valid-jsdoc": {
-        "type": "suggestion",
-        "docs": {
-            "description": "Enforce valid JSDoc comments",
-            "recommended": false,
-            "url": "https://eslint.org/docs/latest/rules/valid-jsdoc"
-        },
-        "fixable": "code",
-        "deprecated": true,
-        "replacedBy": []
-    },
     "valid-typeof": {
         "type": "problem",
         "docs": {

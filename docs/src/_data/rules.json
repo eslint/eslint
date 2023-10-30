@@ -659,7 +659,7 @@
                 "description": "Disallow `Array` constructors",
                 "recommended": false,
                 "fixable": false,
-                "hasSuggestions": true
+                "hasSuggestions": false
             },
             {
                 "name": "no-bitwise",
@@ -687,7 +687,7 @@
                 "description": "Disallow the use of `console`",
                 "recommended": false,
                 "fixable": false,
-                "hasSuggestions": true
+                "hasSuggestions": false
             },
             {
                 "name": "no-continue",
