@@ -2244,7 +2244,8 @@ describe("FlatESLint", () => {
                          * Use `fs.rm(path, { recursive: true })` instead.
                          * When supporting Node.js 14.14.0+, the compatibility condition can be removed for `fs.rmdir`.
                          */
-                        if (typeof fsp.rm === "function") {
+                        // eslint-disable-next-line n/no-unsupported-features/node-builtins -- just checking if it exists
+                        if (typeof fs.rm === "function") {
 
                             // eslint-disable-next-line n/no-unsupported-features/node-builtins -- conditionally used
                             fs.rmSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
@@ -2296,7 +2297,7 @@ describe("FlatESLint", () => {
                 it("should create the cache file inside existing cacheLocation directory when cacheLocation ends with a slash", async () => {
                     assert(!shell.test("-d", path.resolve(cwd, "./tmp/.cacheFileDir/")), "the cache directory already exists and wasn't successfully deleted");
 
-                    fs.mkdirSync(path.resolve(cwd, "./tmp/.cacheFileDir/"));
+                    fs.mkdirSync(path.resolve(cwd, "./tmp/.cacheFileDir/"), { recursive: true });
 
                     eslint = new FlatESLint({
                         overrideConfigFile: true,
@@ -2323,7 +2324,7 @@ describe("FlatESLint", () => {
                 it("should create the cache file inside existing cacheLocation directory when cacheLocation doesn't end with a path separator", async () => {
                     assert(!shell.test("-d", path.resolve(cwd, "./tmp/.cacheFileDir/")), "the cache directory already exists and wasn't successfully deleted");
 
-                    fs.mkdirSync(path.resolve(cwd, "./tmp/.cacheFileDir/"));
+                    fs.mkdirSync(path.resolve(cwd, "./tmp/.cacheFileDir/"), { recursive: true });
 
                     eslint = new FlatESLint({
                         overrideConfigFile: true,
