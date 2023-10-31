@@ -1,8 +1,6 @@
 ---
 title: require-jsdoc
 rule_type: suggestion
-related_rules:
-- valid-jsdoc
 ---
 
 
