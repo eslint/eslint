@@ -24,6 +24,6 @@
         { "removed": "space-return-throw-case", "replacedBy": ["keyword-spacing"] },
         { "removed": "space-unary-word-ops", "replacedBy": ["space-unary-ops"] },
         { "removed": "spaced-line-comment", "replacedBy": ["spaced-comment"] },
-        { "removed": "valid-jsdoc", "replacedBy": ["jsdoc/require-jsdoc"] }
+        { "removed": "valid-jsdoc", "replacedBy": [] }
     ]
 }
