@@ -299,7 +299,9 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].messages[3].ruleId, "eol-last");
             assert.strictEqual(results[0].fixableErrorCount, 3);
             assert.strictEqual(results[0].fixableWarningCount, 0);
-            assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+            assert.strictEqual(results[0].usedDeprecatedRules.length, 2);
+            assert.strictEqual(results[0].usedDeprecatedRules[0].ruleId, "quotes");
+            assert.strictEqual(results[0].usedDeprecatedRules[1].ruleId, "eol-last");
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
@@ -325,7 +327,9 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].messages[3].ruleId, "eol-last");
             assert.strictEqual(results[0].fixableErrorCount, 0);
             assert.strictEqual(results[0].fixableWarningCount, 3);
-            assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+            assert.strictEqual(results[0].usedDeprecatedRules.length, 2);
+            assert.strictEqual(results[0].usedDeprecatedRules[0].ruleId, "quotes");
+            assert.strictEqual(results[0].usedDeprecatedRules[1].ruleId, "eol-last");
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
@@ -344,7 +348,8 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].fixableErrorCount, 1);
             assert.strictEqual(results[0].warningCount, 0);
             assert.strictEqual(results[0].fatalErrorCount, 0);
-            assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+            assert.strictEqual(results[0].usedDeprecatedRules.length, 1);
+            assert.strictEqual(results[0].usedDeprecatedRules[0].ruleId, "quotes");
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
@@ -496,7 +501,12 @@ describe("FlatESLint", () => {
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     output: "var bar = foo;",
-                    usedDeprecatedRules: []
+                    usedDeprecatedRules: [
+                        {
+                            ruleId: "semi",
+                            replacedBy: []
+                        }
+                    ]
                 }
             ]);
         });
@@ -686,7 +696,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 overrideConfigFile: true,
                 overrideConfig: {
-                    rules: { semi: 2 }
+                    rules: { eqeqeq: 2 }
                 }
             });
             const results = await eslint.lintText("var bar = foothis is a syntax error.\n return bar;");
@@ -1956,7 +1966,7 @@ describe("FlatESLint", () => {
                     cwd: originalDir,
                     overrideConfigFile: true,
                     overrideConfig: {
-                        rules: { indent: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
+                        rules: { eqeqeq: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
                     }
                 });
                 const results = await eslint.lintFiles(["lib/cli*.js"]);
@@ -2051,7 +2061,20 @@ describe("FlatESLint", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "true ? \"yes\" : \"no\";\n",
-                        usedDeprecatedRules: []
+                        usedDeprecatedRules: [
+                            {
+                                replacedBy: [],
+                                ruleId: "semi"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "quotes"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "space-infix-ops"
+                            }
+                        ]
                     },
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
@@ -2062,7 +2085,20 @@ describe("FlatESLint", () => {
                         fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
-                        usedDeprecatedRules: []
+                        usedDeprecatedRules: [
+                            {
+                                replacedBy: [],
+                                ruleId: "semi"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "quotes"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "space-infix-ops"
+                            }
+                        ]
                     },
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
@@ -2086,7 +2122,20 @@ describe("FlatESLint", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n",
-                        usedDeprecatedRules: []
+                        usedDeprecatedRules: [
+                            {
+                                replacedBy: [],
+                                ruleId: "semi"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "quotes"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "space-infix-ops"
+                            }
+                        ]
                     },
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
@@ -2110,7 +2159,20 @@ describe("FlatESLint", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\" + foo;\n",
-                        usedDeprecatedRules: []
+                        usedDeprecatedRules: [
+                            {
+                                replacedBy: [],
+                                ruleId: "semi"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "quotes"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "space-infix-ops"
+                            }
+                        ]
                     }
                 ]);
             });

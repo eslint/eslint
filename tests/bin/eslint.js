@@ -111,7 +111,12 @@ describe("bin/eslint.js", () => {
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     output: "var foo = bar;\n",
-                    usedDeprecatedRules: []
+                    usedDeprecatedRules: [
+                        {
+                            ruleId: "no-extra-semi",
+                            replacedBy: []
+                        }
+                    ]
                 }
             ]);
 
