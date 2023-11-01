@@ -2367,16 +2367,6 @@
             "url": "https://eslint.org/docs/latest/rules/require-await"
         }
     },
-    "require-jsdoc": {
-        "type": "suggestion",
-        "docs": {
-            "description": "Require JSDoc comments",
-            "recommended": false,
-            "url": "https://eslint.org/docs/latest/rules/require-jsdoc"
-        },
-        "deprecated": true,
-        "replacedBy": []
-    },
     "require-unicode-regexp": {
         "type": "suggestion",
         "docs": {

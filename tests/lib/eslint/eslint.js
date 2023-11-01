@@ -1748,7 +1748,7 @@ describe("ESLint", () => {
                 overrideConfig: {
                     rules: {
                         "indent-legacy": 1,
-                        "require-jsdoc": 1
+                        "callback-return": 1
                     }
                 }
             });
@@ -1758,7 +1758,7 @@ describe("ESLint", () => {
                 results[0].usedDeprecatedRules,
                 [
                     { ruleId: "indent-legacy", replacedBy: ["indent"] },
-                    { ruleId: "require-jsdoc", replacedBy: [] }
+                    { ruleId: "callback-return", replacedBy: [] }
                 ]
             );
         });

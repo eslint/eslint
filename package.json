@@ -17,6 +17,7 @@
     "build:site": "node Makefile.js gensite",
     "build:webpack": "node Makefile.js webpack",
     "build:readme": "node tools/update-readme.js",
+    "build:rules-index": "node Makefile.js generateRuleIndexPage",
     "lint": "node Makefile.js lint",
     "lint:docs:js": "node Makefile.js lintDocsJS",
     "lint:docs:rule-examples": "node Makefile.js checkRuleExamples",

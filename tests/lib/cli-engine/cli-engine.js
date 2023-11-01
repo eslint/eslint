@@ -1757,7 +1757,7 @@ describe("CLIEngine", () => {
                 useEslintrc: false,
                 rules: {
                     "indent-legacy": 1,
-                    "require-jsdoc": 1
+                    "callback-return": 1
                 }
             });
 
@@ -1767,7 +1767,7 @@ describe("CLIEngine", () => {
                 report.usedDeprecatedRules,
                 [
                     { ruleId: "indent-legacy", replacedBy: ["indent"] },
-                    { ruleId: "require-jsdoc", replacedBy: [] }
+                    { ruleId: "callback-return", replacedBy: [] }
                 ]
             );
             assert.strictEqual(report.results[0].suppressedMessages.length, 0);
