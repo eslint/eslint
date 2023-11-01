@@ -5,32 +5,23 @@
         ":approveMajorUpdates",
         ":semanticCommitScopeDisabled"
     ],
+    "ignorePresets": [":semanticPrefixFixDepsChoreOthers"],
     "internalChecksFilter": "strict",
     "labels": ["dependencies"],
 
-    // Wait a few days for any new package, as a precaution against malicious publishes
+    // Wait well over three days for any new package as a precaution against malicious publishes
     "minimumReleaseAge": "7 days",
 
     "packageRules": [
         {
-            "description": "Automerge minor version updates. Major versions must be approved from the Dependency Dashboard issue, because we use the :approveMajorUpdates preset.",
-            "automerge": true,
-            "matchUpdateTypes": ["minor"]
-        },
-        {
-            "description": "Ignore patch versions to reduce noise.",
-            "enabled": false,
-            "matchUpdateTypes": ["patch"]
+            "description": "Use the deps:actions label for github-action manager updates (this means Renovate's github-action manager).",
+            "addLabels": ["deps:actions"],
+            "matchManagers": ["github-actions"]
         },
         {
             "description": "Use the deps:npm label for npm manager packages (this means Renovate's npm manager).",
             "addLabels": ["deps:npm"],
             "matchManagers": ["npm"]
-        },
-        {
-            "description": "Use the deps:actions label for github-action manager updates (this means Renovate's github-action manager).",
-            "addLabels": ["deps:actions"],
-            "matchManagers": ["github-actions"]
         },
         {
             "description": "Group Babel packages into a single PR.",
