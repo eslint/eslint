@@ -5,7 +5,7 @@ related_rules:
 - operator-linebreak
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 JavaScript allows operands of ternary expressions to be separated by newlines, which can improve the readability of your program.
 

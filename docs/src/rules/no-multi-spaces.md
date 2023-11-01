@@ -11,7 +11,7 @@ related_rules:
 - space-return-throw-case
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Multiple spaces in a row that are not used for indentation are typically mistakes. For example:
 
