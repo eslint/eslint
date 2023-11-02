@@ -2109,17 +2109,34 @@ describe("RuleTester", () => {
         });
 
 
-        it("should pass when tested using empty suggestion test objects if the array length is correct", () => {
-            ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
-                valid: [],
-                invalid: [{
-                    code: "var foo;",
-                    errors: [{
-                        messageId: "avoidFoo",
-                        suggestions: [{}, {}]
+        it("should fail when tested using empty suggestion test objects even if the array length is correct", () => {
+            assert.throw(() => {
+                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            messageId: "avoidFoo",
+                            suggestions: [{}, {}]
+                        }]
                     }]
-                }]
-            });
+                });
+            }, 'Error Suggestion at index 0 : The "output" property is required.');
+        });
+
+        it("should fail when tested using non-empty suggestion test objects without an output property", () => {
+            assert.throw(() => {
+                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            messageId: "avoidFoo",
+                            suggestions: [{ messageId: "renameFoo" }, {}]
+                        }]
+                    }]
+                });
+            }, 'Error Suggestion at index 0 : The "output" property is required.');
         });
 
         it("should support explicitly expecting no suggestions", () => {
