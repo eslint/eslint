@@ -2460,6 +2460,24 @@ describe("RuleTester", () => {
             }, "Expected the applied suggestion fix to match the test suggestion output");
         });
 
+        it("should throw if the resulting suggestion output is the same as the original source code", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").withFixerWithoutChanges, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
+                            suggestions: [{
+                                desc: "Rename identifier 'foo' to 'bar'",
+                                output: "var foo;"
+                            }]
+                        }]
+                    }]
+                });
+            }, "The output of a suggestion should differ from the original source code for suggestion at index: 0 on error with message: \"Avoid using identifiers named 'foo'.\"");
+        });
+
         it("should fail when specified suggestion isn't an object", () => {
             assert.throws(() => {
                 ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {

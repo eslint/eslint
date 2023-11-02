@@ -164,3 +164,23 @@ module.exports.withoutHasSuggestionsProperty = {
         };
     }
 };
+
+module.exports.withFixerWithoutChanges = {
+    meta: { hasSuggestions: true },
+    create(context) {
+        return {
+            Identifier(node) {
+                if (node.name === "foo") {
+                    context.report({
+                        node,
+                        message: "Avoid using identifiers named 'foo'.",
+                        suggest: [{
+                            desc: "Rename identifier 'foo' to 'bar'",
+                            fix: fixer => fixer.replaceText(node, 'foo')
+                        }]
+                    });
+                }
+            }
+        };
+    }
+};
