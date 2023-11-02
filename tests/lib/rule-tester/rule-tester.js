@@ -2047,25 +2047,27 @@ describe("RuleTester", () => {
             });
         });
 
-        it("should pass with valid suggestions (tested using both desc and messageIds for the same suggestion)", () => {
-            ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
-                valid: [],
-                invalid: [{
-                    code: "var foo;",
-                    errors: [{
-                        messageId: "avoidFoo",
-                        suggestions: [{
-                            desc: "Rename identifier 'foo' to 'bar'",
-                            messageId: "renameFoo",
-                            output: "var bar;"
-                        }, {
-                            desc: "Rename identifier 'foo' to 'baz'",
-                            messageId: "renameFoo",
-                            output: "var baz;"
+        it("should fail with valid suggestions when testing using both desc and messageIds for the same suggestion", () => {
+            assert.throw(() => {
+                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            messageId: "avoidFoo",
+                            suggestions: [{
+                                desc: "Rename identifier 'foo' to 'bar'",
+                                messageId: "renameFoo",
+                                output: "var bar;"
+                            }, {
+                                desc: "Rename identifier 'foo' to 'baz'",
+                                messageId: "renameFoo",
+                                output: "var baz;"
+                            }]
                         }]
                     }]
-                }]
-            });
+                });
+            }, "Error Suggestion at index 0 : Test should not specify both 'desc' and 'messageId'.");
         });
 
         it("should pass with valid suggestions (tested using only desc on a rule that utilizes meta.messages)", () => {
@@ -2121,7 +2123,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, 'Error Suggestion at index 0 : The "output" property is required.');
+            }, "Error Suggestion at index 0 : Test must specify either 'messageId' or 'desc'");
         });
 
         it("should fail when tested using non-empty suggestion test objects without an output property", () => {
@@ -2268,27 +2270,24 @@ describe("RuleTester", () => {
             }, "Error Suggestion at index 0 : desc should be \"not right\" but got \"Rename identifier 'foo' to 'bar'\" instead.");
         });
 
-        it("should throw if the suggestion description doesn't match (although messageIds match)", () => {
-            assert.throws(() => {
-                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
-                    valid: [],
-                    invalid: [{
-                        code: "var foo;",
-                        errors: [{
-                            messageId: "avoidFoo",
-                            suggestions: [{
-                                desc: "Rename identifier 'foo' to 'bar'",
-                                messageId: "renameFoo",
-                                output: "var bar;"
-                            }, {
-                                desc: "Rename id 'foo' to 'baz'",
-                                messageId: "renameFoo",
-                                output: "var baz;"
-                            }]
+
+        it("should pass when different suggestion matchers use desc and messageId", () => {
+            ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                valid: [],
+                invalid: [{
+                    code: "var foo;",
+                    errors: [{
+                        messageId: "avoidFoo",
+                        suggestions: [{
+                            desc: "Rename identifier 'foo' to 'bar'",
+                            output: "var bar;"
+                        }, {
+                            messageId: "renameFoo",
+                            output: "var baz;"
                         }]
                     }]
-                });
-            }, "Error Suggestion at index 1 : desc should be \"Rename id 'foo' to 'baz'\" but got \"Rename identifier 'foo' to 'baz'\" instead.");
+                }]
+            });
         });
 
         it("should throw if the suggestion messageId doesn't match", () => {
@@ -2310,29 +2309,6 @@ describe("RuleTester", () => {
                     }]
                 });
             }, "Error Suggestion at index 0 : messageId should be 'unused' but got 'renameFoo' instead.");
-        });
-
-        it("should throw if the suggestion messageId doesn't match (although descriptions match)", () => {
-            assert.throws(() => {
-                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
-                    valid: [],
-                    invalid: [{
-                        code: "var foo;",
-                        errors: [{
-                            messageId: "avoidFoo",
-                            suggestions: [{
-                                desc: "Rename identifier 'foo' to 'bar'",
-                                messageId: "renameFoo",
-                                output: "var bar;"
-                            }, {
-                                desc: "Rename identifier 'foo' to 'baz'",
-                                messageId: "avoidFoo",
-                                output: "var baz;"
-                            }]
-                        }]
-                    }]
-                });
-            }, "Error Suggestion at index 1 : messageId should be 'avoidFoo' but got 'renameFoo' instead.");
         });
 
         it("should throw if test specifies messageId for a rule that doesn't have meta.messages", () => {
