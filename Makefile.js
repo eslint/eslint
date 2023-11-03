@@ -826,7 +826,7 @@ target.checkRuleFiles = function() {
 
             // check deprecated
             if (ruleDef.meta.deprecated && !hasDeprecatedInfo()) {
-                console.error(`Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code or 「This rule was deprecated in ESLint ...」 in README.md.`);
+                console.error(`Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code and「This rule was deprecated in ESLint ...」 in README.md.`);
                 errors++;
             }
 
