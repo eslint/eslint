@@ -496,14 +496,14 @@ describe("ESLint", () => {
                 cwd: getFixturePath()
             });
             const options = { filePath: "file.js" };
-            const results = await eslint.lintText("foo ()", options);
+            const results = await eslint.lintText("if (true) { foo() }", options);
 
             assert.strictEqual(results.length, 1);
 
             const { messages } = results[0];
 
             // Some rules that should report errors in the given code. Not all, as we don't want to update this test when we add new rules.
-            const expectedRules = ["no-undef", "semi", "func-call-spacing"];
+            const expectedRules = ["no-undef", "no-constant-condition"];
 
             expectedRules.forEach(ruleId => {
                 const messageFromRule = messages.find(message => message.ruleId === ruleId);
