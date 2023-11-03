@@ -6,7 +6,6 @@
         ":semanticCommitScopeDisabled"
     ],
     "ignorePresets": [":semanticPrefixFixDepsChoreOthers"],
-    "internalChecksFilter": "strict",
     "labels": ["dependencies"],
 
     // Wait well over three days for any new package as a precaution against malicious publishes
