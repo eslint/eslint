@@ -41,6 +41,10 @@
       "node tools/update-eslint-all.js",
       "git add packages/js/src/configs/eslint-all.js"
     ],
+    "docs/src/rules/*.md": [
+      "node tools/fetch-docs-links.js",
+      "git add docs/src/_data/further_reading_links.json"
+    ],
     "docs/**/*.svg": "npx svgo -r --multipass"
   },
   "files": [
@@ -132,6 +136,12 @@
     "markdownlint-cli": "^0.31.1",
     "marked": "^4.0.8",
     "memfs": "^3.0.1",
+    "metascraper": "^5.25.7",
+    "metascraper-description": "^5.25.7",
+    "metascraper-image": "^5.29.3",
+    "metascraper-logo": "^5.25.7",
+    "metascraper-logo-favicon": "^5.25.7",
+    "metascraper-title": "^5.25.7",
     "mocha": "^8.3.2",
     "mocha-junit-reporter": "^2.0.0",
     "node-polyfill-webpack-plugin": "^1.0.3",
