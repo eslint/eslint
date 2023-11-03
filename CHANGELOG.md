@@ -1,3 +1,21 @@
+v8.53.0 - November 3, 2023
+
+* [`ba4d4d5`](https://github.com/eslint/eslint/commit/ba4d4d567a82554250dd8c7933322824e6a73944) chore: remove metascraper (#17707) (Milos Djermanovic)
+* [`0d07338`](https://github.com/eslint/eslint/commit/0d0733882944b4849d71a40723c251213698cef9) chore: Update dependencies (#17706) (Milos Djermanovic)
+* [`93256a3`](https://github.com/eslint/eslint/commit/93256a32e312f3f4e5c532762df71bdc06bded20) chore: package.json update for @eslint/js release (ESLint Jenkins)
+* [`ab8c60d`](https://github.com/eslint/eslint/commit/ab8c60d4f859cec787b5a12f7271b40e666235f5) docs: change position of return to top button (#17688) (Tanuj Kanti)
+* [`528e1c0`](https://github.com/eslint/eslint/commit/528e1c00dc2aa8636e5b706c4270dc655cfa17e3) feat: Deprecate formatting rules (#17696) (Nicholas C. Zakas)
+* [`485ec7d`](https://github.com/eslint/eslint/commit/485ec7d08ed2040c292f52bf9b9152f6c8ef4809) test: fix ESLint tests for caching (#17699) (Milos Djermanovic)
+* [`c0b11dd`](https://github.com/eslint/eslint/commit/c0b11ddb9f8aacc64c3933b9f278939aa7bea481) feat: Add suggestions for no-prototype-builtins (#17677) (Yonathan Randolph)
+* [`4fc44c0`](https://github.com/eslint/eslint/commit/4fc44c0b8c5dca466bffdfe01dfd80794d7762b7) docs: update twitter icon to new X icon (#17687) (Tanuj Kanti)
+* [`1ad6257`](https://github.com/eslint/eslint/commit/1ad6257744d63281235fcc33288394b1d69b34ce) fix: ensure that exit code for fatal errors is not overwritten (#17683) (Milos Djermanovic)
+* [`4164b2c`](https://github.com/eslint/eslint/commit/4164b2ceec89726b18ea0b0e34fab05735d55a09) docs: Update README (GitHub Actions Bot)
+* [`8651895`](https://github.com/eslint/eslint/commit/8651895ca7ae15e13d74c8be67d9eebd63a7ce1f) docs: Fix tabs in rule examples (#17653) (Francesco Trotta)
+* [`3aec1c5`](https://github.com/eslint/eslint/commit/3aec1c55ba2c6d2833e1c0afe0a58f0cc6bbc0a4) docs: explained rule fixers and suggestions (#17657) (Josh Goldberg ✨)
+* [`db06a7f`](https://github.com/eslint/eslint/commit/db06a7ff7992a74368f03d1f21beb00df0407021) ci: bump actions/setup-node from 3 to 4 (#17676) (dependabot[bot])
+* [`b329ea7`](https://github.com/eslint/eslint/commit/b329ea748dff45f11c7e218208244dc24fcb5c8f) fix: add `;` after JSX nodes in  `no-object-constructor` autofix (#17672) (Francesco Trotta)
+* [`994596b`](https://github.com/eslint/eslint/commit/994596b07f5ff20a615a4be1ea03e5fd59cdb84b) ci: run tests in Node.js 21 (#17673) (Francesco Trotta)
+
 v8.52.0 - October 20, 2023
 
 * [`6d1f0c2`](https://github.com/eslint/eslint/commit/6d1f0c2da0309c06c21149b8d71a8f439a70d7e8) chore: upgrade @eslint/js@8.52.0 (#17671) (Milos Djermanovic)
