@@ -305,6 +305,8 @@ Example output (formatted for easier reading):
                 }
             },
             "indent": {
+                "deprecated": true,
+                "replacedBy": [],
                 "type": "layout",
                 "docs": {
                     "description": "Enforce consistent indentation",
@@ -576,6 +578,8 @@ Example output (formatted for easier reading):
                 }
             },
             "space-unary-ops": {
+                "deprecated": true,
+                "replacedBy": [],
                 "type": "layout",
                 "docs": {
                     "description": "Enforce consistent spacing before or after unary operators",
@@ -615,6 +619,8 @@ Example output (formatted for easier reading):
                 }
             },
             "semi": {
+                "deprecated": true,
+                "replacedBy": [],
                 "type": "layout",
                 "docs": {
                     "description": "Require or disallow semicolons instead of ASI",
