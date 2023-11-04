@@ -53,45 +53,9 @@ git add -A
 git commit
 ```
 
-All ESLint projects follow [Conventional Commits](https://www.conventionalcommits.org/) for our commit messages. (Note: we don’t support the optional scope in messages.)  Here's an example commit message:
+The commit messages do not need to be in any specific format because they do not show up in the changelog.
 
-```txt
-tag: Short description of what you did
-
-Longer description here if necessary
-
-Fixes #1234
-```
-
-The first line of the commit message (the summary) must have a specific format. This format is checked by our build tools.
-
-The `tag` is one of the following:
-
-* `fix` - for a bug fix.
-* `feat` - either for a backwards-compatible enhancement or for a rule change that adds reported problems.
-* `fix!` - for a backwards-incompatible bug fix.
-* `feat!` - for a backwards-incompatible enhancement or feature.
-* `docs` - changes to documentation only.
-* `chore` - for changes that aren't user-facing.
-* `build` - changes to build process only.
-* `refactor` - a change that doesn't affect APIs or user experience.
-* `test` - just changes to test files.
-* `ci` - changes to our CI configuration files and scripts.
-* `perf` - a code change that improves performance.
-
-Use the [labels of the issue you are working on](work-on-issue#issue-labels) to determine the best tag.
-
-The message summary should be a one-sentence description of the change, and it must be 72 characters in length or shorter. If the pull request addresses an issue, then the issue number should be mentioned in the body of the commit message in the format `Fixes #1234`. If the commit doesn't completely fix the issue, then use `Refs #1234` instead of `Fixes #1234`.
-
-Here are some good commit message summary examples:
-
-```txt
-build: Update Travis to only test Node 0.10
-fix: Semi rule incorrectly flagging extra semicolon
-chore: Upgrade Esprima to 1.2, switch to using comment attachment
-```
-
-The commit message format is important because these messages are used to create a changelog for each release. The tag and issue number help to create more consistent and useful changelogs.
+Note though that when you create a pull request, the title field will be prefilled with the summary (the first line in the message) of the first commit. This can be edited as required.
 
 ### Step 3: Rebase onto upstream<a name="step3"></a>
 
@@ -116,9 +80,6 @@ If there are any failing tests, update your code until all tests pass.
 
 With your code ready to go, this is a good time to double-check your submission to make sure it follows our conventions. Here are the things to check:
 
-* Make sure your commit is formatted correctly.
-* The pull request must have a description. The description should explain what you did and how its effects can be seen.
-* The commit message is properly formatted.
 * The change introduces no functional regression. Be sure to run `npm test` to verify your changes before submitting a pull request.
 * Make separate pull requests for unrelated changes. Large pull requests with multiple unrelated changes may be closed without merging.
 * All changes must be accompanied by tests, even if the feature you're working on previously had no tests.
@@ -145,27 +106,57 @@ Now you're ready to send the pull request. Go to your ESLint fork and then follo
 
 In order to submit code or documentation to an ESLint project, you’ll be asked to sign our CLA when you send your first pull request. (Read more about the Open JS Foundation CLA process at <https://cla.openjsf.org/>.)
 
+The pull request must have a title and a description. The title must be properly formatted and the description should explain what you did and how its effects can be seen.
+
+All ESLint projects follow [Conventional Commits](https://www.conventionalcommits.org/) for our pull request titles. (Note: we don’t support the optional scope in messages.) Here's an example pull request title:
+
+```txt
+tag: Short description of what you did
+```
+
+The title of the pull request must have a specific format. This format is checked by our build tools.
+
+The `tag` is one of the following:
+
+* `fix` - for a bug fix.
+* `feat` - either for a backwards-compatible enhancement or for a rule change that adds reported problems.
+* `fix!` - for a backwards-incompatible bug fix.
+* `feat!` - for a backwards-incompatible enhancement or feature.
+* `docs` - changes to documentation only.
+* `chore` - for changes that aren't user-facing.
+* `build` - changes to build process only.
+* `refactor` - a change that doesn't affect APIs or user experience.
+* `test` - just changes to test files.
+* `ci` - changes to our CI configuration files and scripts.
+* `perf` - a code change that improves performance.
+
+Use the [labels of the issue you are working on](work-on-issue#issue-labels) to determine the best tag.
+
+The PR title should be a one-sentence description of the change, and it must be 72 characters in length or shorter. If the pull request addresses an issue, then the issue number should be mentioned in the PR description in the format `Fixes #1234`. If the pull request doesn't completely fix the issue, then use `Refs #1234` instead of `Fixes #1234`.
+
+Here are some good pull request title examples:
+
+```txt
+build: Update Travis to only test Node 0.10
+fix: Semi rule incorrectly flagging extra semicolon
+chore: Upgrade Esprima to 1.2, switch to using comment attachment
+```
+
+When a pull request is merged, its commits will be squashed into one single commit. The first line of the squashed commit message will contain the title of the pull request.
+
+The pull request title format is important because these messages are used to create a changelog for each release. The tag and issue number help to create more consistent and useful changelogs.
+
 ## Following Up
 
 Once your pull request is sent, it's time for the team to review it. As such, please make sure to:
 
-1. Monitor the status of the Travis CI build for your pull request. If it fails, please investigate why. We cannot merge pull requests that fail Travis for any reason.
+1. Monitor the status of the GitHub Actions CI build for your pull request. If it fails, please investigate why. We cannot merge pull requests that fail the CI build for any reason.
 1. Respond to comments left on the pull request from team members. Remember, we want to help you land your code, so please be receptive to our feedback.
 1. We may ask you to make changes, rebase, or squash your commits.
 
-### Updating the Commit Message
+### Updating the Pull Request Title
 
-If your commit message is in the incorrect format, you'll be asked to update it. You can do so via:
-
-```shell
-git commit --amend
-```
-
-This will open up your editor so you can make changes. After that, you'll need to do a forced push to your branch:
-
-```shell
-git push origin issue1234 -f
-```
+If your pull request title is in the incorrect format, you'll be asked to update it. You can do so via the GitHub user interface.
 
 ### Updating the Code
 
@@ -178,8 +169,6 @@ git push origin issue1234
 ```
 
 When updating the code, it's usually better to add additional commits to your branch rather than amending the original commit, because reviewers can easily tell which changes were made in response to a particular review. When we merge pull requests, we will squash all the commits from your branch into a single commit on the `main` branch.
-
-The commit messages in subsequent commits do not need to be in any specific format because these commits do not show up in the changelog.
 
 ### Rebasing
 
