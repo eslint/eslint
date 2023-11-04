@@ -129,6 +129,18 @@ ruleTester.run("no-console", rule, {
             }]
         },
         {
+            code: "a();\nconsole.log(foo);\nb();",
+            errors: [{
+                messageId: "unexpected",
+                type: "MemberExpression",
+                suggestions: [{
+                    messageId: "removeConsole",
+                    data: { propertyName: "log" },
+                    output: "a();\n\nb();"
+                }]
+            }]
+        },
+        {
             code: "class A { static { console.info(foo) } }",
             parserOptions: { ecmaVersion: "latest" },
             errors: [{
