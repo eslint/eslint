@@ -90,8 +90,7 @@ module.exports = [
             "tests/performance/**",
             "tmp/**",
             "tools/internal-rules/node_modules/**",
-            "**/test.js",
-            "tools/fetch-docs-links.js"
+            "**/test.js"
         ]
     },
     {
