@@ -123,6 +123,21 @@ function foo () {
 }
 ```
 
+This rule will not report variables that are never read.
+Because it's clearly an unused variable. If you want it reported, please enable the [no-unused-vars](./no-unused-vars) rule.
+
+::: correct
+
+```js
+/* eslint no-useless-assignment: "error" */
+
+function foo() {
+    let v = 'unused';
+    v = 'unused-2'
+    doSomething();
+}
+```
+
 :::
 
 ## When Not To Use It
