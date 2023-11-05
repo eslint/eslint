@@ -55,7 +55,7 @@ git commit
 
 The commit messages do not need to be in any specific format because they do not show up in the changelog.
 
-Note though that when you create a pull request, the title field will be prefilled with the summary (the first line in the message) of the first commit. This can be edited as required.
+Note though that when you create a pull request in the GitHub UI, the title field will be prefilled with the summary (the first line in the message) of the first commit. This can be edited as required.
 
 ### Step 3: Rebase onto upstream<a name="step3"></a>
 
@@ -144,7 +144,7 @@ chore: Upgrade Esprima to 1.2, switch to using comment attachment
 
 When a pull request is merged, its commits will be squashed into one single commit. The first line of the squashed commit message will contain the title of the pull request.
 
-The pull request title format is important because these messages are used to create a changelog for each release. The tag and issue number help to create more consistent and useful changelogs.
+The pull request title format is important because the titles are used to create a changelog for each release. The tag and issue number help to create more consistent and useful changelogs.
 
 ## Following Up
 
