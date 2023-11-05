@@ -45,8 +45,7 @@ if (x = 0) {
 }
 
 // Practical example that is similar to an error
-function setHeight(someNode) {
-    "use strict";
+var setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while (someNode = someNode.parentNode);
@@ -69,16 +68,14 @@ if (x === 0) {
 }
 
 // Practical example that wraps the assignment in parentheses
-function setHeight(someNode) {
-    "use strict";
+var setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode));
 }
 
 // Practical example that wraps the assignment and tests for 'null'
-function setHeight(someNode) {
-    "use strict";
+var setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode) !== null);
@@ -103,24 +100,21 @@ if (x = 0) {
 }
 
 // Practical example that is similar to an error
-function setHeight(someNode) {
-    "use strict";
+var setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while (someNode = someNode.parentNode);
 }
 
 // Practical example that wraps the assignment in parentheses
-function setHeight(someNode) {
-    "use strict";
+var setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode));
 }
 
 // Practical example that wraps the assignment and tests for 'null'
-function setHeight(someNode) {
-    "use strict";
+var setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode) !== null);

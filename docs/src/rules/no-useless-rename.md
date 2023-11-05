@@ -60,14 +60,14 @@ Examples of **incorrect** code for this rule by default:
 ```js
 /*eslint no-useless-rename: "error"*/
 
-import { foo as foo } from "bar";
-import { "foo" as foo } from "bar";
-export { foo as foo };
-export { foo as "foo" };
-export { foo as foo } from "bar";
-export { "foo" as "foo" } from "bar";
-let { foo: foo } = bar;
-let { 'foo': foo } = bar;
+import { foo1 as foo1 } from "bar";
+import { "foo2" as foo2 } from "bar";
+export { foo1 as foo1 };
+export { foo2 as "foo2" };
+export { foo3 as foo3 } from "bar";
+export { "foo4" as "foo4" } from "bar";
+let { foo3: foo3 } = bar;
+let { 'foo4': foo4 } = bar;
 function foo({ bar: bar }) {}
 ({ foo: foo }) => {}
 ```
@@ -81,23 +81,23 @@ Examples of **correct** code for this rule by default:
 ```js
 /*eslint no-useless-rename: "error"*/
 
-import * as foo from "foo";
-import { foo } from "bar";
-import { foo as bar } from "baz";
-import { "foo" as bar } from "baz";
+import * as foo1 from "foo";
+import { foo2 } from "bar";
+import { foo as bar1 } from "baz";
+import { "foo" as bar2 } from "baz";
 
 export { foo };
-export { foo as bar };
-export { foo as "bar" };
-export { foo as bar } from "foo";
-export { "foo" as "bar" } from "foo";
+export { foo as bar1 };
+export { foo as "bar2" };
+export { foo as bar3 } from "foo";
+export { "foo" as "bar4" } from "foo";
 
 let { foo } = bar;
 let { foo: bar } = baz;
-let { [foo]: foo } = bar;
+let { [qux]: qux } = bar;
 
-function foo({ bar }) {}
-function foo({ bar: baz }) {}
+function foo3({ bar }) {}
+function foo4({ bar: baz }) {}
 
 ({ foo }) => {}
 ({ foo: bar }) => {}
@@ -124,8 +124,9 @@ Examples of **correct** code for this rule with `{ ignoreExport: true }`:
 ```js
 /*eslint no-useless-rename: ["error", { ignoreExport: true }]*/
 
+const foo = 1;
 export { foo as foo };
-export { foo as foo } from "bar";
+export { bar as bar } from "bar";
 ```
 
 :::
@@ -138,7 +139,7 @@ Examples of **correct** code for this rule with `{ ignoreDestructuring: true }`:
 /*eslint no-useless-rename: ["error", { ignoreDestructuring: true }]*/
 
 let { foo: foo } = bar;
-function foo({ bar: bar }) {}
+function baz({ bar: bar }) {}
 ({ foo: foo }) => {}
 ```
 

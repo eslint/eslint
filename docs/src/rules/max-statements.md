@@ -63,7 +63,7 @@ function foo() {
   var foo11 = 11; // Too many.
 }
 
-let foo = () => {
+let bar = () => {
   var foo1 = 1;
   var foo2 = 2;
   var foo3 = 3;
@@ -99,17 +99,18 @@ function foo() {
   var foo7 = 7;
   var foo8 = 8;
   var foo9 = 9;
-  var foo10 = 10;
-  return function () {
+  return function () { // 10
 
     // The number of statements in the inner function does not count toward the
     // statement maximum.
 
+    var bar;
+    var baz;
     return 42;
   };
 }
 
-let foo = () => {
+let bar = () => {
   var foo1 = 1;
   var foo2 = 2;
   var foo3 = 3;
@@ -119,12 +120,13 @@ let foo = () => {
   var foo7 = 7;
   var foo8 = 8;
   var foo9 = 9;
-  var foo10 = 10;
-  return function () {
+  return function () { // 10
 
     // The number of statements in the inner function does not count toward the
     // statement maximum.
 
+    var bar;
+    var baz;
     return 42;
   };
 }

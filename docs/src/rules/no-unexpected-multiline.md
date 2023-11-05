@@ -40,11 +40,11 @@ var hello = 'world'
 let x = function() {}
 `hello`
 
-let x = function() {}
-x
+let y = function() {}
+y
 `hello`
 
-let x = foo
+let z = foo
 /regex/g.test(bar)
 ```
 

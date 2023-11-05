@@ -74,7 +74,7 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"functions"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-inner-declarations: "error"*/
@@ -104,7 +104,7 @@ class C {
 
 Examples of **correct** code for this rule with the default `"functions"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-inner-declarations: "error"*/
@@ -139,7 +139,7 @@ if (foo) var a;
 
 Examples of **incorrect** code for this rule with the `"both"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-inner-declarations: ["error", "both"]*/
@@ -171,7 +171,7 @@ class C {
 
 Examples of **correct** code for this rule with the `"both"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-inner-declarations: ["error", "both"]*/

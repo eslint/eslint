@@ -663,7 +663,7 @@ Examples of **correct** code for the `ignorePattern` option:
 /*eslint lines-around-comment: ["error"]*/
 
 foo();
-/* eslint mentioned in this comment */,
+/* eslint mentioned in this comment */
 bar();
 
 /*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */

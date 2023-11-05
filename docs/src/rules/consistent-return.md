@@ -48,7 +48,7 @@ function doSomething(condition) {
     }
 }
 
-function doSomething(condition) {
+function doSomethingElse(condition) {
     if (condition) {
         return true;
     }

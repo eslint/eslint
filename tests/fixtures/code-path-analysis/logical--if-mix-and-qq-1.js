@@ -1,8 +1,9 @@
 /*expected
 initial->s1_1->s1_2->s1_3->s1_4->s1_6;
-s1_1->s1_5->s1_6;
+s1_1->s1_3;
 s1_2->s1_4;
-s1_3->s1_5;
+s1_3->s1_5->s1_6;
+s1_1->s1_5;
 s1_2->s1_5;
 s1_6->final;
 */
@@ -24,9 +25,10 @@ digraph {
     s1_6[label="IfStatement:exit\nProgram:exit"];
     s1_5[label="BlockStatement\nExpressionStatement\nCallExpression\nIdentifier (bar)\nIdentifier:exit (bar)\nCallExpression:exit\nExpressionStatement:exit\nBlockStatement:exit"];
     initial->s1_1->s1_2->s1_3->s1_4->s1_6;
-    s1_1->s1_5->s1_6;
+    s1_1->s1_3;
     s1_2->s1_4;
-    s1_3->s1_5;
+    s1_3->s1_5->s1_6;
+    s1_1->s1_5;
     s1_2->s1_5;
     s1_6->final;
 }

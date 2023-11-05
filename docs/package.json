@@ -1,7 +1,7 @@
 {
     "name": "docs-eslint",
     "private": true,
-    "version": "8.50.0",
+    "version": "8.51.0",
     "description": "",
     "main": "index.js",
     "keywords": [],
@@ -23,11 +23,11 @@
         "start": "npm-run-all build:sass build:postcss --parallel *:*:watch"
     },
     "devDependencies": {
-        "@11ty/eleventy": "^1.0.1",
-        "@11ty/eleventy-img": "^1.0.0",
-        "@11ty/eleventy-navigation": "^0.3.2",
+        "@11ty/eleventy": "^2.0.1",
+        "@11ty/eleventy-img": "^3.1.1",
+        "@11ty/eleventy-navigation": "^0.3.5",
         "@11ty/eleventy-plugin-rss": "^1.1.1",
-        "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.2",
+        "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
         "@munter/tap-render": "^0.2.0",
         "@types/markdown-it": "^12.2.3",
         "algoliasearch": "^4.12.1",

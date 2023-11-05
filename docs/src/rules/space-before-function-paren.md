@@ -85,13 +85,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
 };
 
-var foo = async() => 1
+var baz = async() => 1
 ```
 
 :::
@@ -122,13 +122,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
 };
 
-var foo = async () => 1
+var baz = async () => 1
 ```
 
 :::
@@ -161,13 +161,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
 };
 
-var foo = async () => 1
+var baz = async () => 1
 ```
 
 :::
@@ -198,13 +198,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
 };
 
-var foo = async() => 1
+var baz = async() => 1
 ```
 
 :::
@@ -233,13 +233,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
 };
 
-var foo = async(a) => await a
+var baz = async(a) => await a
 ```
 
 :::
@@ -266,13 +266,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
 };
 
-var foo = async (a) => await a
+var baz = async (a) => await a
 ```
 
 :::
@@ -301,7 +301,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -332,7 +332,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
@@ -361,7 +361,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -396,7 +396,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }

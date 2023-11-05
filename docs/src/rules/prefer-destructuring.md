@@ -36,6 +36,8 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```javascript
+/* eslint prefer-destructuring: "error" */
+
 // With `array` enabled
 var foo = array[0];
 bar.baz = array[0];
@@ -52,6 +54,8 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```javascript
+/* eslint prefer-destructuring: "error" */
+
 // With `array` enabled
 var [ foo ] = array;
 var foo = array[someIndex];
@@ -63,8 +67,8 @@ var { foo } = object;
 
 var foo = object.bar;
 
-let foo;
-({ foo } = object);
+let bar;
+({ bar } = object);
 ```
 
 :::
@@ -74,6 +78,7 @@ Examples of **incorrect** code when `enforceForRenamedProperties` is enabled:
 ::: incorrect
 
 ```javascript
+/* eslint "prefer-destructuring": ["error", { "object": true }, { "enforceForRenamedProperties": true }] */
 var foo = object.bar;
 ```
 
@@ -84,6 +89,7 @@ Examples of **correct** code when `enforceForRenamedProperties` is enabled:
 ::: correct
 
 ```javascript
+/* eslint "prefer-destructuring": ["error", { "object": true }, { "enforceForRenamedProperties": true }] */
 var { bar: foo } = object;
 ```
 
@@ -94,6 +100,7 @@ Examples of additional **correct** code when `enforceForRenamedProperties` is en
 ::: correct
 
 ```javascript
+/* eslint "prefer-destructuring": ["error", { "object": true }, { "enforceForRenamedProperties": true }] */
 class C {
     #x;
     foo() {
