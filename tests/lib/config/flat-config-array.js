@@ -11,10 +11,6 @@
 
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 const assert = require("chai").assert;
-const {
-    all: allConfig,
-    recommended: recommendedConfig
-} = require("@eslint/js").configs;
 const stringify = require("json-stable-stringify-without-jsonify");
 const espree = require("espree");
 
@@ -125,24 +121,6 @@ async function assertInvalidConfig(values, message) {
     assert.throws(() => {
         configs.getConfig("foo.js");
     }, message);
-}
-
-/**
- * Normalizes the rule configs to an array with severity to match
- * how Flat Config merges rule options.
- * @param {Object} rulesConfig The rules config portion of a config.
- * @returns {Array} The rules config object.
- */
-function normalizeRuleConfig(rulesConfig) {
-    const rulesConfigCopy = {
-        ...rulesConfig
-    };
-
-    for (const ruleId of Object.keys(rulesConfigCopy)) {
-        rulesConfigCopy[ruleId] = [2];
-    }
-
-    return rulesConfigCopy;
 }
 
 //-----------------------------------------------------------------------------
@@ -630,24 +608,17 @@ describe("FlatConfigArray", () => {
 
     });
 
-    describe("Special configs", () => {
-        it("eslint:recommended is replaced with an actual config", async () => {
-            const configs = new FlatConfigArray(["eslint:recommended"]);
+    describe("Config array elements", () => {
+        it("should error on 'eslint:recommended' string config", async () => {
 
-            await configs.normalize();
-            const config = configs.getConfig("foo.js");
-
-            assert.deepStrictEqual(config.rules, normalizeRuleConfig(recommendedConfig.rules));
+            await assertInvalidConfig(["eslint:recommended"], "All arguments must be objects.");
         });
 
-        it("eslint:all is replaced with an actual config", async () => {
-            const configs = new FlatConfigArray(["eslint:all"]);
+        it("should error on 'eslint:all' string config", async () => {
 
-            await configs.normalize();
-            const config = configs.getConfig("foo.js");
-
-            assert.deepStrictEqual(config.rules, normalizeRuleConfig(allConfig.rules));
+            await assertInvalidConfig(["eslint:all"], "All arguments must be objects.");
         });
+
     });
 
     describe("Config Properties", () => {
