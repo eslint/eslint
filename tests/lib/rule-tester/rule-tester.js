@@ -2261,7 +2261,7 @@ describe("RuleTester", () => {
                         { code: "var foo = bar;", output: "5", errors: 1 }
                     ]
                 });
-            }, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`");
+            }, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`.");
         });
     });
 
