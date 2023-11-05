@@ -39,13 +39,13 @@ try {
 
 }
 
-function err() {
+function error() {
     // ...
 };
 
 try {
     throw "problem";
-} catch (err) {
+} catch (error) {
 
 }
 ```
@@ -67,7 +67,7 @@ try {
 
 }
 
-function err() {
+function error() {
     // ...
 };
 

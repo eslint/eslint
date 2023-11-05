@@ -6,8 +6,7 @@
  * Internally, ESLint is using the eslint.config.js file to lint itself.
  * This file is needed too, because:
  *
- * 1. There are tests that expect .eslintrc.js to be present to actually run.
- * 2. ESLint VS Code extension expects eslintrc config files to be
+ * 1. ESLint VS Code extension expects eslintrc config files to be
  *    present to work correctly.
  *
  * Once we no longer need to support both eslintrc and flat config, we will
@@ -63,20 +62,10 @@ module.exports = {
         "internal-rules"
     ],
     extends: [
-        "eslint"
+        "eslint/eslintrc"
     ],
     parserOptions: {
         ecmaVersion: 2021
-    },
-
-    /*
-     * it fixes eslint-plugin-jsdoc's reports: "Invalid JSDoc tag name "template" jsdoc/check-tag-names"
-     * refs: https://github.com/gajus/eslint-plugin-jsdoc#check-tag-names
-     */
-    settings: {
-        jsdoc: {
-            mode: "typescript"
-        }
     },
     rules: {
         "internal-rules/multiline-comment-style": "error"
@@ -96,9 +85,6 @@ module.exports = {
                 "plugin:eslint-plugin/rules-recommended"
             ],
             rules: {
-                "eslint-plugin/no-missing-message-ids": "error",
-                "eslint-plugin/no-unused-message-ids": "error",
-                "eslint-plugin/prefer-message-ids": "error",
                 "eslint-plugin/prefer-placeholders": "error",
                 "eslint-plugin/prefer-replace-text": "error",
                 "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
@@ -119,7 +105,6 @@ module.exports = {
                 "plugin:eslint-plugin/tests-recommended"
             ],
             rules: {
-                "eslint-plugin/prefer-output-null": "error",
                 "eslint-plugin/test-case-property-ordering": "error",
                 "eslint-plugin/test-case-shorthand-strings": "error"
             }

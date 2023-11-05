@@ -1116,6 +1116,84 @@ describe("FlatRuleTester", () => {
         }());
     });
 
+    it("should allow setting the filename to a non-JavaScript file", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile.ts"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path without extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path with extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile.js"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "src/somefile.ts"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "components/Component.vue"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path without extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "src/somefile"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should keep allowing non-JavaScript files if the default config does not specify files", () => {
+        FlatRuleTester.setDefaultConfig({ rules: {} });
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile.ts"
+                }
+            ],
+            invalid: []
+        });
+        FlatRuleTester.resetDefaultConfig();
+    });
+
     it("should pass-through the options to the rule", () => {
         ruleTester.run("no-invalid-args", require("../../fixtures/testers/rule-tester/no-invalid-args"), {
             valid: [
@@ -1199,7 +1277,9 @@ describe("FlatRuleTester", () => {
             const disallowHiRule = {
                 create: context => ({
                     Literal(node) {
-                        const disallowed = context.parserServices.test.getMessage(); // returns "Hi!"
+                        assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
+
+                        const disallowed = context.sourceCode.parserServices.test.getMessage(); // returns "Hi!"
 
                         if (node.value === disallowed) {
                             context.report({ node, message: `Don't use '${disallowed}'` });
@@ -1334,7 +1414,7 @@ describe("FlatRuleTester", () => {
                 ],
                 invalid: []
             });
-        }, /Unexpected key "env" found./u);
+        }, /Key "env": This appears to be in eslintrc format rather than flat config format/u);
     });
 
     it("should pass-through the tester config to the rule", () => {
@@ -2246,6 +2326,45 @@ describe("FlatRuleTester", () => {
         });
     });
 
+    describe("deprecations", () => {
+        let processStub;
+
+        beforeEach(() => {
+            processStub = sinon.stub(process, "emitWarning");
+        });
+
+        afterEach(() => {
+            processStub.restore();
+        });
+
+        it("should emit a deprecation warning when CodePath#currentSegments is accessed", () => {
+
+            const useCurrentSegmentsRule = {
+                create: () => ({
+                    onCodePathStart(codePath) {
+                        codePath.currentSegments.forEach(() => { });
+                    }
+                })
+            };
+
+            ruleTester.run("use-current-segments", useCurrentSegmentsRule, {
+                valid: ["foo"],
+                invalid: []
+            });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.deepStrictEqual(
+                processStub.getCall(0).args,
+                [
+                    "\"use-current-segments\" rule uses CodePath#currentSegments and will stop working in ESLint v9. Please read the documentation for how to update your code: https://eslint.org/docs/latest/extend/code-path-analysis#usage-examples",
+                    "DeprecationWarning"
+                ]
+            );
+
+        });
+
+    });
+
     /**
      * Asserts that a particular value will be emitted from an EventEmitter.
      * @param {EventEmitter} emitter The emitter that should emit a value
@@ -2579,6 +2698,49 @@ describe("FlatRuleTester", () => {
         });
     });
 
+    describe("SourceCode forbidden methods", () => {
+
+        [
+            "applyInlineConfig",
+            "applyLanguageOptions",
+            "finalize"
+        ].forEach(methodName => {
+
+            const useForbiddenMethodRule = {
+                create: context => ({
+                    Program() {
+                        const sourceCode = context.sourceCode;
+
+                        sourceCode[methodName]();
+                    }
+                })
+            };
+
+            it(`should throw if ${methodName} is called from a valid test case`, () => {
+                assert.throws(() => {
+                    ruleTester.run("use-forbidden-method", useForbiddenMethodRule, {
+                        valid: [""],
+                        invalid: []
+                    });
+                }, `\`SourceCode#${methodName}()\` cannot be called inside a rule.`);
+            });
+
+            it(`should throw if ${methodName} is called from an invalid test case`, () => {
+                assert.throws(() => {
+                    ruleTester.run("use-forbidden-method", useForbiddenMethodRule, {
+                        valid: [],
+                        invalid: [{
+                            code: "",
+                            errors: [{}]
+                        }]
+                    });
+                }, `\`SourceCode#${methodName}()\` cannot be called inside a rule.`);
+            });
+
+        });
+
+    });
+
     describe("Subclassing", () => {
         it("should allow subclasses to set the describe/it/itOnly statics and should correctly use those values", () => {
             const assertionDescribe = assertEmitted(ruleTesterTestEmitter, "custom describe", "this-is-a-rule-name");
@@ -2624,4 +2786,73 @@ describe("FlatRuleTester", () => {
 
     });
 
+    describe("Optional Test Suites", () => {
+        let originalRuleTesterDescribe;
+        let spyRuleTesterDescribe;
+
+        before(() => {
+            originalRuleTesterDescribe = FlatRuleTester.describe;
+            spyRuleTesterDescribe = sinon.spy((title, callback) => callback());
+            FlatRuleTester.describe = spyRuleTesterDescribe;
+        });
+        after(() => {
+            FlatRuleTester.describe = originalRuleTesterDescribe;
+        });
+        beforeEach(() => {
+            spyRuleTesterDescribe.resetHistory();
+            ruleTester = new FlatRuleTester();
+        });
+
+        it("should create a test suite with the rule name even if there are no test cases", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: []
+            });
+            sinon.assert.calledWith(spyRuleTesterDescribe, "no-var");
+        });
+
+        it("should create a valid test suite if there is a valid test case", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: ["value = 0;"],
+                invalid: []
+            });
+            sinon.assert.calledWith(spyRuleTesterDescribe, "valid");
+        });
+
+        it("should not create a valid test suite if there are no valid test cases", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        code: "var value = 0;",
+                        errors: [/^Bad var/u],
+                        output: " value = 0;"
+                    }
+                ]
+            });
+            sinon.assert.neverCalledWith(spyRuleTesterDescribe, "valid");
+        });
+
+        it("should create an invalid test suite if there is an invalid test case", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        code: "var value = 0;",
+                        errors: [/^Bad var/u],
+                        output: " value = 0;"
+                    }
+                ]
+            });
+            sinon.assert.calledWith(spyRuleTesterDescribe, "invalid");
+        });
+
+        it("should not create an invalid test suite if there are no invalid test cases", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: ["value = 0;"],
+                invalid: []
+            });
+            sinon.assert.neverCalledWith(spyRuleTesterDescribe, "invalid");
+        });
+    });
 });

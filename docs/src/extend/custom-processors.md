@@ -4,7 +4,7 @@ eleventyNavigation:
     key: custom processors
     parent: create plugins
     title: Custom Processors
-    order: 2
+    order: 3
 
 ---
 
@@ -18,6 +18,10 @@ In order to create a custom processor, the object exported from your module has 
 module.exports = {
     processors: {
         "processor-name": {
+            meta: {
+                name: "eslint-processor-name",
+                version: "1.2.3"
+            },
             // takes text of the file and filename
             preprocess: function(text, filename) {
                 // here, you can strip out any non-JS content
@@ -121,6 +125,8 @@ By default, ESLint does not perform autofixes when a custom processor is used, e
 
 You can have both rules and custom processors in a single plugin. You can also have multiple processors in one plugin. To support multiple extensions, add each one to the `processors` element and point them to the same object.
 
+**The `meta` object** helps ESLint cache the processor and provide more friendly debug message. The `meta.name` property should match the processor name and the `meta.version` property should match the npm package version for your processors. The easiest way to accomplish this is by reading this information from your `package.json`.
+
 ## Specifying Processor in Config Files
 
 To use a processor, add its ID to a `processor` section in the config file. Processor ID is a concatenated string of plugin name and processor name with a slash as a separator. This can also be added to a `overrides` section of the config, to specify which processors should handle which files.
@@ -138,6 +144,10 @@ overrides:
 See [Specify a Processor](../use/configure/plugins#specify-a-processor) in the Plugin Configuration documentation for more details.
 
 ## File Extension-named Processor
+
+::: warning
+This feature is deprecated and only works in eslintrc-style configuration files. Flat config files do not automatically apply processors; you need to explicitly set the `processor` property.
+:::
 
 If a custom processor name starts with `.`, ESLint handles the processor as a **file extension-named processor**. ESLint applies the processor to files with that filename extension automatically. Users don't need to specify the file extension-named processors in their config files.
 

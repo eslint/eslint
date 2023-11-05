@@ -144,6 +144,17 @@ You can also use this format with configuration comments, such as:
 
 ### Using configuration comments
 
+* **Use with Caution.** Disabling ESLint rules inline should be restricted and used only in situations with a clear and
+      valid reason for doing so. Disabling rules inline should not be the default solution to resolve linting errors.
+* **Document the Reason.** Provide a comment explaining the reason for disabling a particular rule after the `--` section of the comment. This
+      documentation should clarify why the rule is being disabled and why it is necessary in that specific situation.
+* **Temporary Solutions.** If a disable comment is added as a temporary measure to address a pressing issue, create a follow-up task to address the underlying problem adequately. This ensures that the
+      disable comment is revisited and resolved at a later stage.
+* **Code Reviews and Pair Programming.** Encourage team members to review each other's code regularly. Code reviews can help
+      identify the reasons behind disable comments and ensure that they are used appropriately.
+* **Configurations.** Whenever possible, prefer using ESLint configuration files over disable comments. Configuration
+      files allow for consistent and project-wide rule handling.
+
 To disable rule warnings in a part of a file, use block comments in the following format:
 
 ```js

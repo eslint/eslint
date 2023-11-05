@@ -14,7 +14,7 @@ You can specify a formatter using the `--format` or `-f` flag in the CLI. For ex
 
 The built-in formatter options are:
 
-<% Object.keys(formatterResults).forEach(function(formatterName) { -%>
+<% Object.keys(formatterResults).forEach(formatterName => { -%>
 * [<%= formatterName %>](#<%= formatterName %>)
 <% }) -%>
 
@@ -56,19 +56,36 @@ npx eslint --format <Add formatter here> fullOfProblems.js
 ```
 
 ## Built-In Formatter Options
-<% Object.keys(formatterResults).forEach(function(formatterName) { -%>
+<% Object.keys(formatterResults).forEach(formatterName => { -%>
 
 ### <%= formatterName %>
 
 <%= formatterResults[formatterName].description %>
+<% if (formatterName !== "html") { -%>
+<%
+    let codeFormat = "text";
+    let output = formatterResults[formatterName].result;
+    let outputNote = "Example output:";
+
+    if (output.startsWith("\u003C?xml")) {
+        codeFormat = "xml";
+    }
+
+    if (formatterName.includes("json")) {
+        codeFormat = "json";
+        output = JSON.stringify(JSON.parse(output), null, 4);
+        outputNote = "Example output (formatted for easier reading):";
+    }
+%>
+<%= outputNote %>
+
+```<%= codeFormat %>
+<%- output %>
+```
+<% } else {-%>
 
 Example output:
 
-<% if (formatterName !== "html") { -%>
-```text
-<%- formatterResults[formatterName].result %>
-```
-<% } else {-%>
 <iframe src="html-formatter-example.html" width="100%" height="460px"></iframe>
 <% } -%>
 <% }) -%>

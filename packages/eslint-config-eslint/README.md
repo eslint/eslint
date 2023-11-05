@@ -22,12 +22,33 @@ npm install eslint-config-eslint --save-dev
 
 ## Usage
 
-In your `.eslintrc` file, add:
+### ESM (`"type":"module"`) projects
 
-```json
-{
-    "extends": "eslint"
-}
+In your `eslint.config.js` file, add:
+
+```js
+import eslintConfigESLint from "eslint-config-eslint";
+
+export default [
+    ...eslintConfigESLint
+];
+```
+
+**Note**: This configuration array contains configuration objects with the `files` property.
+
+* `files: ["**/*.js"]`: ESM-specific configurations.
+* `files: ["**/*.cjs"]`: CommonJS-specific configurations.
+
+### CommonJS projects
+
+In your `eslint.config.js` file, add:
+
+```js
+const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
+
+module.exports = [
+    ...eslintConfigESLintCJS
+];
 ```
 
 ### Where to ask for help?

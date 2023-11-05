@@ -1726,6 +1726,17 @@ describe("FlatConfigArray", () => {
                 ], "Key \"rules\": Key \"foo\": Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.");
             });
 
+            it("should error when a string rule severity is not in lowercase", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            foo: "Error"
+                        }
+                    }
+                ], "Key \"rules\": Key \"foo\": Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.");
+            });
+
             it("should error when an invalid rule severity is set in an array", async () => {
 
                 await assertInvalidConfig([
@@ -1935,6 +1946,110 @@ describe("FlatConfigArray", () => {
                     nonExistentRule2: [0, "bar"]
                 }
             }));
+
+        });
+
+        describe("Invalid Keys", () => {
+
+            [
+                "env",
+                "extends",
+                "globals",
+                "ignorePatterns",
+                "noInlineConfig",
+                "overrides",
+                "parser",
+                "parserOptions",
+                "reportUnusedDisableDirectives",
+                "root"
+            ].forEach(key => {
+
+                it(`should error when a ${key} key is found`, async () => {
+                    await assertInvalidConfig([
+                        {
+                            [key]: "foo"
+                        }
+                    ], `Key "${key}": This appears to be in eslintrc format rather than flat config format.`);
+
+                });
+            });
+
+            it("should error when plugins is an array", async () => {
+                await assertInvalidConfig([
+                    {
+                        plugins: ["foo"]
+                    }
+                ], "Key \"plugins\": This appears to be in eslintrc format (array of strings) rather than flat config format (object).");
+
+            });
+
+
+        });
+
+    });
+
+    // https://github.com/eslint/eslint/issues/12592
+    describe("Shared references between rule configs", () => {
+
+        it("shared rule config should not cause a rule validation error", () => {
+
+            const ruleConfig = ["error", {}];
+
+            const configs = new FlatConfigArray([{
+                rules: {
+                    camelcase: ruleConfig,
+                    "default-case": ruleConfig
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.rules, {
+                camelcase: [2, {
+                    ignoreDestructuring: false,
+                    ignoreGlobals: false,
+                    ignoreImports: false
+                }],
+                "default-case": [2, {}]
+            });
+
+        });
+
+
+        it("should throw rule validation error for camelcase", async () => {
+
+            const ruleConfig = ["error", {}];
+
+            const configs = new FlatConfigArray([
+                {
+                    rules: {
+                        camelcase: ruleConfig
+                    }
+                },
+                {
+                    rules: {
+                        "default-case": ruleConfig,
+
+
+                        camelcase: [
+                            "error",
+                            {
+                                ignoreDestructuring: Date
+                            }
+
+                        ]
+                    }
+                }
+            ]);
+
+            configs.normalizeSync();
+
+            // exact error may differ based on structuredClone implementation so just test prefix
+            assert.throws(() => {
+                configs.getConfig("foo.js");
+            }, /Key "rules": Key "camelcase":/u);
 
         });
 

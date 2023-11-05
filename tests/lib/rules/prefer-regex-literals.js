@@ -134,7 +134,10 @@ ruleTester.run("prefer-regex-literals", rule, {
         {
             code: "class C { #RegExp; foo() { globalThis.#RegExp('a'); } }",
             env: { es2020: true }
-        }
+        },
+
+        // ES2024
+        "new RegExp('[[A--B]]' + a, 'v')"
     ],
 
     invalid: [
@@ -2805,6 +2808,183 @@ ruleTester.run("prefer-regex-literals", rule, {
             errors: [
                 {
                     messageId: "unexpectedRegExp",
+                    suggestions: null
+                }
+            ]
+        },
+
+        // ES2024
+        {
+            code: "new RegExp('[[A--B]]', 'v')",
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/[[A--B]]/v"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp('[[A--B]]', 'v')",
+            parserOptions: { ecmaVersion: 2023 },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "new RegExp('[[A&&&]]', 'v')",
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "new RegExp('a', 'uv')",
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/, 'v')",
+            options: [{ disallowRedundantWrapping: true }],
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/v",
+                            data: {
+                                flags: "v"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/, 'v')",
+            options: [{ disallowRedundantWrapping: true }],
+            parserOptions: { ecmaVersion: 2023 },
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    suggestions: null
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/g, 'v')",
+            options: [{ disallowRedundantWrapping: true }],
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/v",
+                            data: {
+                                flags: "v"
+                            }
+                        },
+                        {
+                            messageId: "replaceWithIntendedLiteralAndFlags",
+                            output: "/a/gv",
+                            data: {
+                                flags: "gv"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/[[A--B]]/v, 'g')",
+            options: [{ disallowRedundantWrapping: true }],
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithIntendedLiteralAndFlags",
+                            output: "/[[A--B]]/vg",
+                            data: {
+                                flags: "vg"
+                            }
+                        }
+
+                        // suggestion with flags `g` would be invalid
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/u, 'v')",
+            options: [{ disallowRedundantWrapping: true }],
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/v",
+                            data: {
+                                flags: "v"
+                            }
+                        }
+
+                        // suggestion with merged flags `uv` would be invalid
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/a/v, 'u')",
+            options: [{ disallowRedundantWrapping: true }],
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteralAndFlags",
+                            output: "/a/u",
+                            data: {
+                                flags: "u"
+                            }
+                        }
+
+                        // suggestion with merged flags `vu` would be invalid
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp(/[[A--B]]/v, 'u')",
+            options: [{ disallowRedundantWrapping: true }],
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [
+                {
+                    messageId: "unexpectedRedundantRegExpWithFlags",
                     suggestions: null
                 }
             ]

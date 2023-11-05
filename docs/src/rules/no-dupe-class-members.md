@@ -1,6 +1,7 @@
 ---
 title: no-dupe-class-members
 rule_type: problem
+handled_by_typescript: true
 ---
 
 
@@ -33,27 +34,27 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-dupe-class-members: "error"*/
 
-class Foo {
+class A {
   bar() { }
   bar() { }
 }
 
-class Foo {
+class B {
   bar() { }
   get bar() { }
 }
 
-class Foo {
+class C {
   bar;
   bar;
 }
 
-class Foo {
+class D {
   bar;
   bar() { }
 }
 
-class Foo {
+class E {
   static bar() { }
   static bar() { }
 }
@@ -68,27 +69,27 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-dupe-class-members: "error"*/
 
-class Foo {
+class A {
   bar() { }
   qux() { }
 }
 
-class Foo {
+class B {
   get bar() { }
   set bar(value) { }
 }
 
-class Foo {
+class C {
   bar;
   qux;
 }
 
-class Foo {
+class D {
   bar;
   qux() { }
 }
 
-class Foo {
+class E {
   static bar() { }
   bar() { }
 }
@@ -101,5 +102,3 @@ class Foo {
 This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about duplicate names in class members, you can safely disable this rule.
-
-It's also safe to disable this rule when using TypeScript because TypeScript's compiler already checks for duplicate function implementations.

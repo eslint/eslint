@@ -57,6 +57,11 @@ ruleTester.run("no-eval", rule, {
         { code: "class A { field = () => this.eval(); }", parserOptions: { ecmaVersion: 2022 } },
         { code: "class A { static { this.eval(); } }", parserOptions: { ecmaVersion: 2022 } },
 
+        // User-defined this.eval in callbacks
+        "array.findLast(function (x) { return this.eval.includes(x); }, { eval: ['foo', 'bar'] });",
+        "callbacks.findLastIndex(function (cb) { return cb(this.eval); }, this);",
+        "['1+1'].flatMap(function (str) { return this.eval(str); }, new Evaluator);",
+
         // Allows indirect eval
         { code: "(0, eval)('foo')", options: [{ allowIndirect: true }] },
         { code: "(0, window.eval)('foo')", options: [{ allowIndirect: true }], env: { browser: true } },
@@ -161,6 +166,25 @@ ruleTester.run("no-eval", rule, {
         {
             code: "function foo() { 'use strict'; this.eval(); }",
             parserOptions: { ecmaVersion: 3 },
+            errors: [{ messageId: "unexpected" }]
+        },
+
+        // this.eval in callbacks (not user-defined)
+        {
+            code: "array.findLast(x => this.eval.includes(x), { eval: 'abc' });",
+            parserOptions: { ecmaVersion: 2023 },
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "callbacks.findLastIndex(function (cb) { return cb(eval); }, this);",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "['1+1'].flatMap(function (str) { return this.eval(str); });",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "['1'].reduce(function (a, b) { return this.eval(a) ? a : b; }, '0');",
             errors: [{ messageId: "unexpected" }]
         }
     ]

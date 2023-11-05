@@ -5,7 +5,7 @@ further_reading:
 - https://github.com/tc39/proposal-object-rest-spread
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 ES2015 introduced the rest and spread operators, which expand an iterable structure into its individual parts. Some examples of their usage are as follows:
 
@@ -85,8 +85,8 @@ Examples of **incorrect** code for this rule with `"never"`:
 ```js
 /*eslint rest-spread-spacing: ["error", "never"]*/
 
-fn(... args)
-[... arr, 4, 5, 6]
+fn(... args);
+[... arr, 4, 5, 6];
 let [a, b, ... arr] = [1, 2, 3, 4, 5];
 function fn(... args) { console.log(args); }
 let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };
@@ -102,8 +102,8 @@ Examples of **correct** code for this rule with `"never"`:
 ```js
 /*eslint rest-spread-spacing: ["error", "never"]*/
 
-fn(...args)
-[...arr, 4, 5, 6]
+fn(...args);
+[...arr, 4, 5, 6];
 let [a, b, ...arr] = [1, 2, 3, 4, 5];
 function fn(...args) { console.log(args); }
 let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
@@ -127,8 +127,8 @@ Examples of **incorrect** code for this rule with `"always"`:
 ```js
 /*eslint rest-spread-spacing:["error", "always"]*/
 
-fn(...args)
-[...arr, 4, 5, 6]
+fn(...args);
+[...arr, 4, 5, 6];
 let [a, b, ...arr] = [1, 2, 3, 4, 5];
 function fn(...args) { console.log(args); }
 let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
@@ -144,8 +144,8 @@ Examples of **correct** code for this rule with `"always"`:
 ```js
 /*eslint rest-spread-spacing: ["error", "always"]*/
 
-fn(... args)
-[... arr, 4, 5, 6]
+fn(... args);
+[... arr, 4, 5, 6];
 let [a, b, ... arr] = [1, 2, 3, 4, 5];
 function fn(... args) { console.log(args); }
 let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };

@@ -1,0 +1,15 @@
+{
+  "name": "_integration-tutorial-code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node example-eslint-integration.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "^8.39.0"
+  }
+}

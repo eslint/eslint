@@ -26,10 +26,41 @@ export default [
             "prefer-const": "error"
         }
     }
-]
+];
 ```
 
 In this example, the configuration array contains just one configuration object. The configuration object enables two rules: `semi` and `prefer-const`. These rules are applied to all of the files ESLint processes using this config file.
+
+If your project does not specify `"type":"module"` in its `package.json` file, then `eslint.config.js` must be in CommonJS format, such as:
+
+```js
+module.exports = [
+    {
+        rules: {
+            semi: "error",
+            "prefer-const": "error"
+        }
+    }
+];
+```
+
+The configuration file can also export a promise that resolves to the configuration array. This can be useful for using ESM dependencies in CommonJS configuration files, as in this example:
+
+```js
+module.exports = (async () => {
+
+    const someDependency = await import("some-esm-dependency");
+
+    return [
+        // ... use `someDependency` here
+    ];
+
+})();
+```
+
+::: warning
+ESLint only automatically looks for a config file named `eslint.config.js` and does not look for `eslint.config.cjs` or `eslint.config.mjs`. If you'd like to specify a different config filename than the default, use the `--config` command line option.
+:::
 
 ## Configuration Objects
 
@@ -45,7 +76,7 @@ Each configuration object contains all of the information ESLint needs to execut
     * `parserOptions` - An object specifying additional options that are passed directly to the `parse()` or `parseForESLint()` method on the parser. The available options are parser-dependent.
 * `linterOptions` - An object containing settings related to the linting process.
     * `noInlineConfig` - A Boolean value indicating if inline configuration is allowed.
-    * `reportUnusedDisableDirectives` - A severity string indicating if and how unused disable directives should be tracked and reported. For legacy compatibility, `true` is equivalent to `"warn"` and `false` is equivalent to `"off"`. (default: `"off"`)
+    * `reportUnusedDisableDirectives` - A severity string indicating if and how unused disable and enable directives should be tracked and reported. For legacy compatibility, `true` is equivalent to `"warn"` and `false` is equivalent to `"off"`. (default: `"off"`)
 * `processor` - Either an object containing `preprocess()` and `postprocess()` methods or a string indicating the name of a processor inside of a plugin (i.e., `"pluginName/processorName"`).
 * `plugins` - An object containing a name-value mapping of plugin names to plugin objects. When `files` is specified, these plugins are only available to the matching files.
 * `rules` - An object containing the configured rules. When `files` or `ignores` are specified, these rule configurations are only available to the matching files.
@@ -116,7 +147,9 @@ export default [
 
 Here, the configuration object excludes files ending with `.config.js` except for `eslint.config.js`. That file still has `semi` applied.
 
-If `ignores` is used without `files` and any other setting, then the configuration object applies to all files except the ones specified in `ignores`, for example:
+Non-global `ignores` patterns can only match file names. A pattern like `"dir-to-exclude/"` will not ignore anything. To ignore everything in a particular directory, a pattern like `"dir-to-exclude/**"` should be used instead.
+
+If `ignores` is used without `files` and there are other keys (such as `rules`), then the configuration object applies to all files except the ones specified in `ignores`, for example:
 
 ```js
 export default [
@@ -158,6 +191,9 @@ export default [
     }
 ];
 ```
+
+Note that only global `ignores` patterns can match directories.
+`ignores` patterns that are specific to a configuration will only match file names.
 
 #### Cascading configuration objects
 
@@ -208,7 +244,7 @@ export default [
 
 #### Reporting unused disable directives
 
-Disable directives such as `/*eslint-disable*/` and `/*eslint-disable-next-line*/` are used to disable ESLint rules around certain portions of code. As code changes, it's possible for these directives to no longer be needed because the code has changed in such a way that the rule is no longer triggered. You can enable reporting of these unused disable directives by setting the `reportUnusedDisableDirectives` option to a severity string, as in this example:
+Disable and enable directives such as `/*eslint-disable*/` and `/*eslint-disable-next-line*/` are used to disable ESLint rules around certain portions of code. As code changes, it's possible for these directives to no longer be needed because the code has changed in such a way that the rule is no longer triggered. You can enable reporting of these unused disable directives by setting the `reportUnusedDisableDirectives` option to a severity string, as in this example:
 
 ```js
 export default [
@@ -350,7 +386,6 @@ Apart from the ECMAScript standard built-in globals, which are automatically ena
 
 ```js
 import globals from "globals";
-
 export default [
     {
         languageOptions: {
@@ -442,7 +477,7 @@ import jsdoc from "eslint-plugin-jsdoc";
 
 export default [
     // configuration included in plugin
-    jsdoc.configs.recommended,
+    jsdoc.configs["flat/recommended"],
     // other configuration objects...
     {
         files: ["**/*.js"],
@@ -638,7 +673,7 @@ When ESLint is run on the command line, it first checks the current working dire
 You can prevent this search for `eslint.config.js` by setting the `ESLINT_USE_FLAT_CONFIG` environment variable to `true` and using the `-c` or `--config` option on the command line to specify an alternate configuration file, such as:
 
 ```shell
-ESLINT_USE_FLAT_CONFIG=true npx eslint -c some-other-file.js **/*.js
+ESLINT_USE_FLAT_CONFIG=true npx eslint --config some-other-file.js **/*.js
 ```
 
 In this case, ESLint does not search for `eslint.config.js` and instead uses `some-other-file.js`.

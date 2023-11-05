@@ -15,7 +15,7 @@ for(i = 0; i < 10; i++) {
         continue;
     }
 
-    a += i;
+    sum += i;
 }
 ```
 
@@ -38,7 +38,7 @@ for(i = 0; i < 10; i++) {
         continue;
     }
 
-    a += i;
+    sum += i;
 }
 ```
 
@@ -57,7 +57,7 @@ labeledLoop: for(i = 0; i < 10; i++) {
         continue labeledLoop;
     }
 
-    a += i;
+    sum += i;
 }
 ```
 
@@ -75,7 +75,7 @@ var sum = 0,
 
 for(i = 0; i < 10; i++) {
     if(i < 5) {
-       a += i;
+       sum += i;
     }
 }
 ```

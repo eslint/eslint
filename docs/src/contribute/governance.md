@@ -4,7 +4,7 @@ eleventyNavigation:
     key: governance
     parent: contribute to eslint
     title: Governance
-    order: 11
+    order: 12
 
 ---
 

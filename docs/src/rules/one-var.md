@@ -74,21 +74,21 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 ```js
 /*eslint one-var: ["error", "always"]*/
 
-function foo() {
+function foo1() {
     var bar;
     var baz;
     let qux;
     let norf;
 }
 
-function foo(){
+function foo2(){
     const bar = false;
     const baz = true;
     let qux;
     let norf;
 }
 
-function foo() {
+function foo3() {
     var bar;
 
     if (baz) {
@@ -125,21 +125,21 @@ Examples of **correct** code for this rule with the default `"always"` option:
 ```js
 /*eslint one-var: ["error", "always"]*/
 
-function foo() {
+function foo1() {
     var bar,
         baz;
     let qux,
         norf;
 }
 
-function foo(){
+function foo2(){
     const bar = true,
         baz = false;
     let qux,
         norf;
 }
 
-function foo() {
+function foo3() {
     var bar,
         qux;
 
@@ -148,7 +148,7 @@ function foo() {
     }
 }
 
-function foo(){
+function foo4(){
     let bar;
 
     if (baz) {
@@ -192,14 +192,14 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ```js
 /*eslint one-var: ["error", "never"]*/
 
-function foo() {
+function foo1() {
     var bar,
         baz;
-    const bar = true,
-        baz = false;
+    const qux = true,
+        foobar = false;
 }
 
-function foo() {
+function foo2() {
     var bar,
         qux;
 
@@ -208,7 +208,7 @@ function foo() {
     }
 }
 
-function foo(){
+function foo3(){
     let bar = true,
         baz = false;
 }
@@ -230,12 +230,12 @@ Examples of **correct** code for this rule with the `"never"` option:
 ```js
 /*eslint one-var: ["error", "never"]*/
 
-function foo() {
+function foo1() {
     var bar;
     var baz;
 }
 
-function foo() {
+function foo2() {
     var bar;
 
     if (baz) {
@@ -243,7 +243,7 @@ function foo() {
     }
 }
 
-function foo() {
+function foo3() {
     let bar;
 
     if (baz) {
@@ -277,12 +277,12 @@ Examples of **incorrect** code for this rule with the `"consecutive"` option:
 ```js
 /*eslint one-var: ["error", "consecutive"]*/
 
-function foo() {
+function foo1() {
     var bar;
     var baz;
 }
 
-function foo(){
+function foo2(){
     var bar = 1;
     var baz = 2;
 
@@ -311,12 +311,12 @@ Examples of **correct** code for this rule with the `"consecutive"` option:
 ```js
 /*eslint one-var: ["error", "consecutive"]*/
 
-function foo() {
+function foo1() {
     var bar,
         baz;
 }
 
-function foo(){
+function foo2(){
     var bar = 1,
         baz = 2;
 
@@ -349,14 +349,14 @@ Examples of **incorrect** code for this rule with the `{ var: "always", let: "ne
 /*eslint one-var: ["error", { var: "always", let: "never", const: "never" }]*/
 /*eslint-env es6*/
 
-function foo() {
+function foo1() {
     var bar;
     var baz;
     let qux,
         norf;
 }
 
-function foo() {
+function foo2() {
     const bar = 1,
           baz = 2;
     let qux,
@@ -374,14 +374,14 @@ Examples of **correct** code for this rule with the `{ var: "always", let: "neve
 /*eslint one-var: ["error", { var: "always", let: "never", const: "never" }]*/
 /*eslint-env es6*/
 
-function foo() {
+function foo1() {
     var bar,
         baz;
     let qux;
     let norf;
 }
 
-function foo() {
+function foo2() {
     const bar = 1;
     const baz = 2;
     let qux;
@@ -416,12 +416,16 @@ Examples of **correct** code for this rule with the `{ var: "never" }` option:
 /*eslint-env es6*/
 
 function foo() {
-    var bar,
-        baz;
-    const bar = 1; // `const` and `let` declarations are ignored if they are not specified
-    const baz = 2;
+    var bar;
+    var baz;
+
+    // `const` and `let` declarations are ignored if they are not specified
+    const foobar = 1;
+    const foobaz = 2;
+    const barfoo = 1, bazfoo = 2;
     let qux;
     let norf;
+    let fooqux, foonorf;
 }
 ```
 
@@ -472,7 +476,7 @@ Examples of **incorrect** code for this rule with the `{ var: "never", let: "con
 /*eslint one-var: ["error", { var: "never", let: "consecutive", const: "consecutive" }]*/
 /*eslint-env es6*/
 
-function foo() {
+function foo1() {
     let a,
         b;
     let c;
@@ -481,7 +485,7 @@ function foo() {
         e;
 }
 
-function foo() {
+function foo2() {
     const a = 1,
         b = 2;
     const c = 3;
@@ -501,7 +505,7 @@ Examples of **correct** code for this rule with the `{ var: "never", let: "conse
 /*eslint one-var: ["error", { var: "never", let: "consecutive", const: "consecutive" }]*/
 /*eslint-env es6*/
 
-function foo() {
+function foo1() {
     let a,
         b;
 
@@ -511,7 +515,7 @@ function foo() {
     let f;
 }
 
-function foo() {
+function foo2() {
     const a = 1,
           b = 2;
 
