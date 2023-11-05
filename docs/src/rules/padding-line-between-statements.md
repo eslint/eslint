@@ -3,7 +3,7 @@ title: padding-line-between-statements
 rule_type: layout
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 This rule requires or disallows blank lines between the given 2 kinds of statements.
 Properly blank lines help developers to understand the code.

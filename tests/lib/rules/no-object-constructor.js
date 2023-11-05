@@ -168,6 +168,20 @@ ruleTester.run("no-object-constructor", rule, {
                 var foo = { bar: baz }
                 Object()
                 `
+            },
+            {
+                code: `
+                <foo />
+                Object()
+                `,
+                parserOptions: { ecmaFeatures: { jsx: true } }
+            },
+            {
+                code: `
+                <foo></foo>
+                Object()
+                `,
+                parserOptions: { ecmaFeatures: { jsx: true } }
             }
         ].map(props => ({
             ...props,
@@ -295,20 +309,6 @@ ruleTester.run("no-object-constructor", rule, {
                 foo: while (true) continue foo
                 Object()
                 `
-            },
-            {
-                code: `
-                <foo />
-                Object()
-                `,
-                parserOptions: { ecmaFeatures: { jsx: true } }
-            },
-            {
-                code: `
-                <foo></foo>
-                Object()
-                `,
-                parserOptions: { ecmaFeatures: { jsx: true } }
             },
             {
                 code: `

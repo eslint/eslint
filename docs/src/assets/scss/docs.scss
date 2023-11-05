@@ -166,7 +166,7 @@ pre[class*="language-"] {
     height: 50px;
     display: none;
     position: fixed;
-    right: 50px;
+    right: 19.8vw;
     bottom: 35px;
     z-index: 1;
     font-size: 1.5rem;
@@ -177,7 +177,35 @@ pre[class*="language-"] {
     align-items: center;
     background-color: var(--link-color);
 
-    @media (max-width: 800px) {
+    @media (max-width: 1299px) {
+        right: 18.99vw;
+    }
+
+    @media (max-width: 1100px) {
+        right: 19.4vw;
+    }
+
+    @media (max-width: 1060px) {
+        right: 19.9vw;
+    }
+
+    @media (max-width: 1024px) {
+        right: 22vw;
+    }
+
+    @media (max-width: 860px) {
+        right: 22.2vw;
+    }
+
+    @media (max-width: 850px) {
+        right: 22.6vw;
+    }
+
+    @media (max-width: 820px) {
+        right: 23.4vw;
+    }
+
+    @media (max-width: 799px) {
         right: 35px;
     }
 

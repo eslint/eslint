@@ -1987,4 +1987,71 @@ describe("FlatConfigArray", () => {
         });
 
     });
+
+    // https://github.com/eslint/eslint/issues/12592
+    describe("Shared references between rule configs", () => {
+
+        it("shared rule config should not cause a rule validation error", () => {
+
+            const ruleConfig = ["error", {}];
+
+            const configs = new FlatConfigArray([{
+                rules: {
+                    camelcase: ruleConfig,
+                    "default-case": ruleConfig
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.rules, {
+                camelcase: [2, {
+                    ignoreDestructuring: false,
+                    ignoreGlobals: false,
+                    ignoreImports: false
+                }],
+                "default-case": [2, {}]
+            });
+
+        });
+
+
+        it("should throw rule validation error for camelcase", async () => {
+
+            const ruleConfig = ["error", {}];
+
+            const configs = new FlatConfigArray([
+                {
+                    rules: {
+                        camelcase: ruleConfig
+                    }
+                },
+                {
+                    rules: {
+                        "default-case": ruleConfig,
+
+
+                        camelcase: [
+                            "error",
+                            {
+                                ignoreDestructuring: Date
+                            }
+
+                        ]
+                    }
+                }
+            ]);
+
+            configs.normalizeSync();
+
+            // exact error may differ based on structuredClone implementation so just test prefix
+            assert.throws(() => {
+                configs.getConfig("foo.js");
+            }, /Key "rules": Key "camelcase":/u);
+
+        });
+
+    });
 });

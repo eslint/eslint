@@ -6,7 +6,7 @@ related_rules:
 - spaced-comment
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Many style guides require empty lines before or after comments. The primary goal
 of these rules is to make the comments easier to read and improve readability of the code.

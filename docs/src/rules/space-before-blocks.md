@@ -9,7 +9,7 @@ related_rules:
 - brace-style
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Consistency is an important part of any style guide.
 While it is a personal preference where to put the opening brace of blocks,

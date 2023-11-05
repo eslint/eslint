@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
     - name: Install Packages
@@ -45,7 +45,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [20.x, 19.x, 18.x, 17.x, 16.x, 14.x, 12.x, "12.22.0"]
+        node: [21.x, 20.x, 19.x, 18.x, 17.x, 16.x, 14.x, 12.x, "12.22.0"]
         include:
         - os: windows-latest
           node: "lts/*"
@@ -54,7 +54,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node }}
     - name: Install Packages
@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: '16'
     - name: Install Packages
