@@ -6,8 +6,13 @@ related_rules:
 ---
 
 
+[Wikipedia describes a "dead store"](https://en.wikipedia.org/wiki/Dead_store) as follows:
 
-If the variable is not used after assignment is needless and most likely indicates that there is some behavior that the author wanted but didn't correctly do.
+> In computer programming, a local variable that is assigned a value but is not read by any subsequent instruction is referred to as a **dead store**.
+
+"Dead stores" waste processing and memory, so it is better to remove unnecessary assignments to variables.
+
+Also, if the author intended the variable to be used, there is likely a mistake around the dead store.
 
 ## Rule Details
 
