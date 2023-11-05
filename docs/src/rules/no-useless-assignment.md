@@ -113,4 +113,4 @@ function foo () {
 
 ## When Not To Use It
 
-If you don't want to be notified about unnecessary arguments, you can safely turn this rule off.
+If you don't want to be notified about values that are never read, you can safely disable this rule.
