@@ -131,9 +131,6 @@ module.exports.withDuplicateMessageIdsWithData = {
                     context.report({
                         node,
                         messageId: "avoidFoo",
-                        data: {
-                            name: "foo"
-                        },
                         suggest: [{
                             messageId: "renameFoo",
                             data: {

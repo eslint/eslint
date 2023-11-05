@@ -2222,10 +2222,10 @@ describe("RuleTester", () => {
 
         it("should fail if a rule produces two suggestions with the same description", () => {
             assert.throws(() => {
-                ruleTester.run("suggestions-missing-hasSuggestions-property", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateDescriptions, {
+                ruleTester.run("suggestions-with-duplicate-descriptions", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateDescriptions, {
                     valid: [],
                     invalid: [
-                        { code: "var foo = bar;", output: "5", errors: 1 }
+                        { code: "var foo = bar;", errors: 1 }
                     ]
                 });
             }, "Suggestion message 'Rename 'foo' to 'bar'' reported from suggestion 1 was previously reported by suggestion 0. Suggestion messages should be unique within an error.");
@@ -2233,21 +2233,21 @@ describe("RuleTester", () => {
 
         it("should fail if a rule produces two suggestions with the same messageId without data", () => {
             assert.throws(() => {
-                ruleTester.run("suggestions-missing-hasSuggestions-property", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateMessageIdsNoData, {
+                ruleTester.run("suggestions-with-duplicate-messageids-no-data", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateMessageIdsNoData, {
                     valid: [],
                     invalid: [
-                        { code: "var foo = bar;", output: "5", errors: 1 }
+                        { code: "var foo = bar;", errors: 1 }
                     ]
                 });
             }, "Suggestion message 'Rename identifier' reported from suggestion 1 was previously reported by suggestion 0. Suggestion messages should be unique within an error.");
         });
 
-        it("should fail if a rule produces two suggestions with the same messageId without data", () => {
+        it("should fail if a rule produces two suggestions with the same messageId with data", () => {
             assert.throws(() => {
-                ruleTester.run("suggestions-missing-hasSuggestions-property", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateMessageIdsWithData, {
+                ruleTester.run("suggestions-with-duplicate-messageids-with-data", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateMessageIdsWithData, {
                     valid: [],
                     invalid: [
-                        { code: "var foo = bar;", output: "5", errors: 1 }
+                        { code: "var foo = bar;", errors: 1 }
                     ]
                 });
             }, "Suggestion message 'Rename identifier 'foo' to 'bar'' reported from suggestion 1 was previously reported by suggestion 0. Suggestion messages should be unique within an error.");
