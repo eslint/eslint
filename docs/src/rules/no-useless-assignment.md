@@ -3,6 +3,15 @@ title: no-useless-assignment
 rule_type: suggestion
 related_rules:
 - no-unused-vars
+further_reading:
+- https://en.wikipedia.org/wiki/Dead_store
+- https://www.npmjs.com/package/eslint-plugin-no-useless-assign
+- https://sonarsource.atlassian.net/browse/RSPEC-1854
+- https://rules.sonarsource.com/javascript/RSPEC-1854/
+- https://rules.sonarsource.com/typescript/RSPEC-1854/
+- https://cwe.mitre.org/data/definitions/563.html
+- https://wiki.sei.cmu.edu/confluence/display/c/MSC13-C.+Detect+and+remove+unused+values
+- https://wiki.sei.cmu.edu/confluence/display/java/MSC56-J.+Detect+and+remove+superfluous+code+and+values
 ---
 
 
