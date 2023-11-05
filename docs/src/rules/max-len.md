@@ -9,6 +9,7 @@ related_rules:
 - max-statements
 ---
 
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Very long lines of code in any language can be difficult to read. In order to aid in readability and maintainability many coders have developed a convention to limit lines of code to X number of characters (traditionally 80 characters).
 
@@ -69,30 +70,36 @@ var foo = {
 
 Examples of **incorrect** code for this rule with the default `{ "tabWidth": 4 }` option:
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable MD010 -->
 ::: incorrect
 
 ```js
 /*eslint max-len: ["error", { "code": 80, "tabWidth": 4 }]*/
 
-\t  \t  var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" } };
+		var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" } };
 ```
 
 :::
+<!-- markdownlint-restore -->
 
 Examples of **correct** code for this rule with the default `{ "tabWidth": 4 }` option:
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable MD010 -->
 ::: correct
 
 ```js
 /*eslint max-len: ["error", { "code": 80, "tabWidth": 4 }]*/
 
-\t  \t  var foo = {
-\t  \t  \t  \t  "bar": "This is a bar.",
-\t  \t  \t  \t  "baz": { "qux": "This is a qux" }
-\t  \t  };
+		var foo = {
+				"bar": "This is a bar.",
+				"baz": { "qux": "This is a qux" }
+		};
 ```
 
 :::
+<!-- markdownlint-restore -->
 
 ### comments
 
@@ -203,7 +210,8 @@ Examples of **correct** code for this rule with the `ignorePattern` option:
 ::: correct
 
 ```js
-/*eslint max-len: ["error", { "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\\(" }]*/
+/*eslint max-len:
+["error", { "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\\(" }]*/
 
 var dep = require('really/really/really/really/really/really/really/really/long/module');
 ```

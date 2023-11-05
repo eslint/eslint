@@ -5,7 +5,7 @@ further_reading:
 - https://jscs-dev.github.io/rule/requireNewlineBeforeSingleStatementsInIf
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 When writing `if`, `else`, `while`, `do-while`, and `for` statements, the body can be a single statement instead of a block. It can be useful to enforce a consistent location for these single statements.
 

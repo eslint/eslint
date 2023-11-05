@@ -6,7 +6,7 @@ related_rules:
 - padding-line-between-statements
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 This rule improves readability by enforcing lines between class members. It will not check empty lines before the first member and after the last member, since that is already taken care of by padded-blocks.
 

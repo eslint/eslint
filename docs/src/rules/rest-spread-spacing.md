@@ -5,7 +5,7 @@ further_reading:
 - https://github.com/tc39/proposal-object-rest-spread
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 ES2015 introduced the rest and spread operators, which expand an iterable structure into its individual parts. Some examples of their usage are as follows:
 

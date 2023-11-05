@@ -3,7 +3,7 @@ title: wrap-regex
 rule_type: layout
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 When a regular expression is used in certain situations, it can end up looking like a division operator. For example:
 

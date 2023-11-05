@@ -3,7 +3,7 @@ title: keyword-spacing
 rule_type: layout
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Keywords are syntax elements of JavaScript, such as `try` and `if`.
 These keywords have special meaning to the language and so often appear in a different color in code editors.

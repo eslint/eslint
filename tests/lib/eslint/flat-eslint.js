@@ -299,7 +299,9 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].messages[3].ruleId, "eol-last");
             assert.strictEqual(results[0].fixableErrorCount, 3);
             assert.strictEqual(results[0].fixableWarningCount, 0);
-            assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+            assert.strictEqual(results[0].usedDeprecatedRules.length, 2);
+            assert.strictEqual(results[0].usedDeprecatedRules[0].ruleId, "quotes");
+            assert.strictEqual(results[0].usedDeprecatedRules[1].ruleId, "eol-last");
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
@@ -325,7 +327,9 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].messages[3].ruleId, "eol-last");
             assert.strictEqual(results[0].fixableErrorCount, 0);
             assert.strictEqual(results[0].fixableWarningCount, 3);
-            assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+            assert.strictEqual(results[0].usedDeprecatedRules.length, 2);
+            assert.strictEqual(results[0].usedDeprecatedRules[0].ruleId, "quotes");
+            assert.strictEqual(results[0].usedDeprecatedRules[1].ruleId, "eol-last");
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
@@ -344,7 +348,8 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].fixableErrorCount, 1);
             assert.strictEqual(results[0].warningCount, 0);
             assert.strictEqual(results[0].fatalErrorCount, 0);
-            assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+            assert.strictEqual(results[0].usedDeprecatedRules.length, 1);
+            assert.strictEqual(results[0].usedDeprecatedRules[0].ruleId, "quotes");
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
@@ -496,7 +501,12 @@ describe("FlatESLint", () => {
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     output: "var bar = foo;",
-                    usedDeprecatedRules: []
+                    usedDeprecatedRules: [
+                        {
+                            ruleId: "semi",
+                            replacedBy: []
+                        }
+                    ]
                 }
             ]);
         });
@@ -686,7 +696,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 overrideConfigFile: true,
                 overrideConfig: {
-                    rules: { semi: 2 }
+                    rules: { eqeqeq: 2 }
                 }
             });
             const results = await eslint.lintText("var bar = foothis is a syntax error.\n return bar;");
@@ -1956,7 +1966,7 @@ describe("FlatESLint", () => {
                     cwd: originalDir,
                     overrideConfigFile: true,
                     overrideConfig: {
-                        rules: { indent: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
+                        rules: { eqeqeq: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
                     }
                 });
                 const results = await eslint.lintFiles(["lib/cli*.js"]);
@@ -2051,7 +2061,20 @@ describe("FlatESLint", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "true ? \"yes\" : \"no\";\n",
-                        usedDeprecatedRules: []
+                        usedDeprecatedRules: [
+                            {
+                                replacedBy: [],
+                                ruleId: "semi"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "quotes"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "space-infix-ops"
+                            }
+                        ]
                     },
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
@@ -2062,7 +2085,20 @@ describe("FlatESLint", () => {
                         fatalErrorCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
-                        usedDeprecatedRules: []
+                        usedDeprecatedRules: [
+                            {
+                                replacedBy: [],
+                                ruleId: "semi"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "quotes"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "space-infix-ops"
+                            }
+                        ]
                     },
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
@@ -2086,7 +2122,20 @@ describe("FlatESLint", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n",
-                        usedDeprecatedRules: []
+                        usedDeprecatedRules: [
+                            {
+                                replacedBy: [],
+                                ruleId: "semi"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "quotes"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "space-infix-ops"
+                            }
+                        ]
                     },
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
@@ -2110,7 +2159,20 @@ describe("FlatESLint", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\" + foo;\n",
-                        usedDeprecatedRules: []
+                        usedDeprecatedRules: [
+                            {
+                                replacedBy: [],
+                                ruleId: "semi"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "quotes"
+                            },
+                            {
+                                replacedBy: [],
+                                ruleId: "space-infix-ops"
+                            }
+                        ]
                     }
                 ]);
             });
@@ -2215,33 +2277,44 @@ describe("FlatESLint", () => {
                 }
             }
 
-            /**
-             * helper method to delete the cache files created during testing
-             * @returns {void}
-             */
-            function deleteCache() {
-                doDelete(path.resolve(".eslintcache"));
-                doDelete(path.resolve(".cache/custom-cache"));
-            }
+            let cacheFilePath;
 
             beforeEach(() => {
-                deleteCache();
+                cacheFilePath = null;
             });
 
             afterEach(() => {
                 sinon.restore();
-                deleteCache();
+                if (cacheFilePath) {
+                    doDelete(cacheFilePath);
+                }
             });
 
-            describe("when the cacheFile is a directory or looks like a directory", () => {
+            describe("when cacheLocation is a directory or looks like a directory", () => {
+
+                const cwd = getFixturePath();
 
                 /**
-                 * helper method to delete the cache files created during testing
+                 * helper method to delete the directory used in testing
                  * @returns {void}
                  */
                 function deleteCacheDir() {
                     try {
-                        fs.unlinkSync("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory");
+
+                        /*
+                         * `fs.rmdir(path, { recursive: true })` is deprecated and will be removed.
+                         * Use `fs.rm(path, { recursive: true })` instead.
+                         * When supporting Node.js 14.14.0+, the compatibility condition can be removed for `fs.rmdir`.
+                         */
+                        // eslint-disable-next-line n/no-unsupported-features/node-builtins -- just checking if it exists
+                        if (typeof fs.rm === "function") {
+
+                            // eslint-disable-next-line n/no-unsupported-features/node-builtins -- conditionally used
+                            fs.rmSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
+                        } else {
+                            fs.rmdirSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
+                        }
+
                     } catch {
 
                         /*
@@ -2258,11 +2331,12 @@ describe("FlatESLint", () => {
                     deleteCacheDir();
                 });
 
-                it("should create the cache file inside the provided directory", async () => {
-                    assert(!shell.test("-d", path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint does not exist");
+                it("should create the directory and the cache file inside it when cacheLocation ends with a slash", async () => {
+                    assert(!shell.test("-d", path.resolve(cwd, "./tmp/.cacheFileDir/")), "the cache directory already exists and wasn't successfully deleted");
 
                     eslint = new FlatESLint({
                         overrideConfigFile: true,
+                        cwd,
 
                         // specifying cache true the cache will be created
                         cache: true,
@@ -2279,40 +2353,70 @@ describe("FlatESLint", () => {
 
                     await eslint.lintFiles([file]);
 
-                    assert(shell.test("-f", path.resolve(`./tmp/.cacheFileDir/.cache_${hash(process.cwd())}`)), "the cache for eslint was created");
-
-                    sinon.restore();
+                    assert(shell.test("-f", path.resolve(cwd, `./tmp/.cacheFileDir/.cache_${hash(cwd)}`)), "the cache for eslint should have been created");
                 });
-            });
 
-            it("should create the cache file inside the provided directory using the cacheLocation option", async () => {
-                assert(!shell.test("-d", path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint does not exist");
+                it("should create the cache file inside existing cacheLocation directory when cacheLocation ends with a slash", async () => {
+                    assert(!shell.test("-d", path.resolve(cwd, "./tmp/.cacheFileDir/")), "the cache directory already exists and wasn't successfully deleted");
 
-                eslint = new FlatESLint({
-                    overrideConfigFile: true,
+                    fs.mkdirSync(path.resolve(cwd, "./tmp/.cacheFileDir/"), { recursive: true });
 
-                    // specifying cache true the cache will be created
-                    cache: true,
-                    cacheLocation: "./tmp/.cacheFileDir/",
-                    overrideConfig: {
-                        rules: {
-                            "no-console": 0,
-                            "no-unused-vars": 2
-                        }
-                    },
-                    ignore: false
+                    eslint = new FlatESLint({
+                        overrideConfigFile: true,
+                        cwd,
+
+                        // specifying cache true the cache will be created
+                        cache: true,
+                        cacheLocation: "./tmp/.cacheFileDir/",
+                        overrideConfig: {
+                            rules: {
+                                "no-console": 0,
+                                "no-unused-vars": 2
+                            }
+                        },
+                        ignore: false
+                    });
+                    const file = getFixturePath("cache/src", "test-file.js");
+
+                    await eslint.lintFiles([file]);
+
+                    assert(shell.test("-f", path.resolve(cwd, `./tmp/.cacheFileDir/.cache_${hash(cwd)}`)), "the cache for eslint should have been created");
                 });
-                const file = getFixturePath("cache/src", "test-file.js");
 
-                await eslint.lintFiles([file]);
+                it("should create the cache file inside existing cacheLocation directory when cacheLocation doesn't end with a path separator", async () => {
+                    assert(!shell.test("-d", path.resolve(cwd, "./tmp/.cacheFileDir/")), "the cache directory already exists and wasn't successfully deleted");
 
-                assert(shell.test("-f", path.resolve(`./tmp/.cacheFileDir/.cache_${hash(process.cwd())}`)), "the cache for eslint was created");
+                    fs.mkdirSync(path.resolve(cwd, "./tmp/.cacheFileDir/"), { recursive: true });
 
-                sinon.restore();
+                    eslint = new FlatESLint({
+                        overrideConfigFile: true,
+                        cwd,
+
+                        // specifying cache true the cache will be created
+                        cache: true,
+                        cacheLocation: "./tmp/.cacheFileDir",
+                        overrideConfig: {
+                            rules: {
+                                "no-console": 0,
+                                "no-unused-vars": 2
+                            }
+                        },
+                        ignore: false
+                    });
+                    const file = getFixturePath("cache/src", "test-file.js");
+
+                    await eslint.lintFiles([file]);
+
+                    assert(shell.test("-f", path.resolve(cwd, `./tmp/.cacheFileDir/.cache_${hash(cwd)}`)), "the cache for eslint should have been created");
+                });
             });
 
             it("should create the cache file inside cwd when no cacheLocation provided", async () => {
                 const cwd = path.resolve(getFixturePath("cli-engine"));
+
+                cacheFilePath = path.resolve(cwd, ".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
 
                 eslint = new FlatESLint({
                     overrideConfigFile: true,
@@ -2329,14 +2433,15 @@ describe("FlatESLint", () => {
 
                 await eslint.lintFiles([file]);
 
-                assert(shell.test("-f", path.resolve(cwd, ".eslintcache")), "the cache for eslint was created at provided cwd");
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should have been created at provided cwd");
             });
 
             it("should invalidate the cache if the overrideConfig changed between executions", async () => {
                 const cwd = getFixturePath("cache/src");
-                const cacheLocation = path.resolve(cwd, ".eslintcache");
 
-                assert(!shell.test("-f", cacheLocation), "the cache for eslint does not exist");
+                cacheFilePath = path.resolve(cwd, ".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
 
                 eslint = new FlatESLint({
                     overrideConfigFile: true,
@@ -2361,11 +2466,11 @@ describe("FlatESLint", () => {
                 const results = await eslint.lintFiles([file]);
 
                 for (const { errorCount, warningCount } of results) {
-                    assert.strictEqual(errorCount + warningCount, 0, "the file passed without errors or warnings");
+                    assert.strictEqual(errorCount + warningCount, 0, "the file should have passed linting without errors or warnings");
                 }
 
-                assert(spy.calledWith(file), "ESLint should have read the file because it's considered changed");
-                assert(shell.test("-f", cacheLocation), "the cache for eslint should still exist");
+                assert(spy.calledWith(file), "ESLint should have read the file because there was no cache file");
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should have been created");
 
                 // destroy the spy
                 sinon.restore();
@@ -2388,17 +2493,20 @@ describe("FlatESLint", () => {
                 // create a new spy
                 spy = sinon.spy(fs.promises, "readFile");
 
-                const [cachedResult] = await eslint.lintFiles([file]);
+                const [newResult] = await eslint.lintFiles([file]);
 
-                assert(spy.calledWith(file), "ESLint should have read the file again because is considered changed because the config changed");
-                assert.strictEqual(cachedResult.errorCount, 1, "since configuration changed the cache was not used and one error was reported");
-                assert(shell.test("-f", cacheLocation), "The cache for ESLint should still exist (2)");
+                assert(spy.calledWith(file), "ESLint should have read the file again because it's considered changed because the config changed");
+                assert.strictEqual(newResult.errorCount, 1, "since configuration changed the cache should have not been used and one error should have been reported");
+                assert.strictEqual(newResult.messages[0].ruleId, "no-console");
+                assert(shell.test("-f", cacheFilePath), "The cache for ESLint should still exist");
             });
 
             it("should remember the files from a previous run and do not operate on them if not changed", async () => {
-
                 const cwd = getFixturePath("cache/src");
-                const cacheLocation = path.resolve(cwd, ".eslintcache");
+
+                cacheFilePath = path.resolve(cwd, ".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
 
                 eslint = new FlatESLint({
                     overrideConfigFile: true,
@@ -2423,8 +2531,8 @@ describe("FlatESLint", () => {
 
                 const result = await eslint.lintFiles([file]);
 
-                assert(spy.calledWith(file), "the module read the file because is considered changed");
-                assert(shell.test("-f", cacheLocation), "the cache for eslint was created");
+                assert(spy.calledWith(file), "ESLint should have read the file because there was no cache file");
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should have been created");
 
                 // destroy the spy
                 sinon.restore();
@@ -2449,20 +2557,23 @@ describe("FlatESLint", () => {
 
                 const cachedResult = await eslint.lintFiles([file]);
 
-                assert.deepStrictEqual(result, cachedResult, "the result is the same regardless of using cache or not");
+                assert.deepStrictEqual(result, cachedResult, "the result should have been the same");
 
                 // assert the file was not processed because the cache was used
-                assert(!spy.calledWith(file), "the file was not loaded because it used the cache");
+                assert(!spy.calledWith(file), "the file should not have been reloaded");
             });
 
-            it("should remember the files from a previous run and do not operate on then if not changed", async () => {
-                const cacheLocation = getFixturePath(".eslintcache");
+            it("when `cacheLocation` is specified, should create the cache file with `cache:true` and then delete it with `cache:false`", async () => {
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
+
                 const eslintOptions = {
                     overrideConfigFile: true,
 
                     // specifying cache true the cache will be created
                     cache: true,
-                    cacheLocation,
+                    cacheLocation: cacheFilePath,
                     overrideConfig: {
                         rules: {
                             "no-console": 0,
@@ -2472,8 +2583,6 @@ describe("FlatESLint", () => {
                     cwd: path.join(fixtureDir, "..")
                 };
 
-                assert(!shell.test("-f", cacheLocation), "the cache for eslint does not exist");
-
                 eslint = new FlatESLint(eslintOptions);
 
                 let file = getFixturePath("cache/src", "test-file.js");
@@ -2482,20 +2591,20 @@ describe("FlatESLint", () => {
 
                 await eslint.lintFiles([file]);
 
-                assert(shell.test("-f", cacheLocation), "the cache for eslint was created");
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should have been created");
 
                 eslintOptions.cache = false;
                 eslint = new FlatESLint(eslintOptions);
 
                 await eslint.lintFiles([file]);
 
-                assert(!shell.test("-f", cacheLocation), "the cache for eslint was deleted since last run did not used the cache");
+                assert(!shell.test("-f", cacheFilePath), "the cache for eslint should have been deleted since last run did not use the cache");
             });
 
-            it("should store in the cache a file that failed the test", async () => {
-                const cacheLocation = getFixturePath(".eslintcache");
-
-                assert(!shell.test("-f", cacheLocation), "the cache for eslint does not exist");
+            it("should store in the cache a file that has lint messages and a file that doesn't have lint messages", async () => {
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
@@ -2503,7 +2612,7 @@ describe("FlatESLint", () => {
 
                     // specifying cache true the cache will be created
                     cache: true,
-                    cacheLocation,
+                    cacheLocation: cacheFilePath,
                     overrideConfig: {
                         rules: {
                             "no-console": 0,
@@ -2514,22 +2623,27 @@ describe("FlatESLint", () => {
                 const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
                 const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
                 const result = await eslint.lintFiles([badFile, goodFile]);
+                const [badFileResult, goodFileResult] = result;
 
-                assert(shell.test("-f", cacheLocation), "the cache for eslint was created");
-                const fileCache = fCache.createFromFile(cacheLocation);
+                assert.notStrictEqual(badFileResult.errorCount + badFileResult.warningCount, 0, "the bad file should have some lint errors or warnings");
+                assert.strictEqual(goodFileResult.errorCount + badFileResult.warningCount, 0, "the good file should have passed linting without errors or warnings");
+
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should have been created");
+
+                const fileCache = fCache.createFromFile(cacheFilePath);
                 const { cache } = fileCache;
 
-                assert.strictEqual(typeof cache.getKey(goodFile), "object", "the entry for the good file is in the cache");
-                assert.strictEqual(typeof cache.getKey(badFile), "object", "the entry for the bad file is in the cache");
+                assert.strictEqual(typeof cache.getKey(goodFile), "object", "the entry for the good file should have been in the cache");
+                assert.strictEqual(typeof cache.getKey(badFile), "object", "the entry for the bad file should have been in the cache");
                 const cachedResult = await eslint.lintFiles([badFile, goodFile]);
 
-                assert.deepStrictEqual(result, cachedResult, "result is the same with or without cache");
+                assert.deepStrictEqual(result, cachedResult, "result should be the same with or without cache");
             });
 
             it("should not contain in the cache a file that was deleted", async () => {
-                const cacheLocation = getFixturePath(".eslintcache");
-
-                doDelete(cacheLocation);
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
@@ -2537,7 +2651,7 @@ describe("FlatESLint", () => {
 
                     // specifying cache true the cache will be created
                     cache: true,
-                    cacheLocation,
+                    cacheLocation: cacheFilePath,
                     overrideConfig: {
                         rules: {
                             "no-console": 0,
@@ -2550,10 +2664,10 @@ describe("FlatESLint", () => {
                 const toBeDeletedFile = fs.realpathSync(getFixturePath("cache/src", "file-to-delete.js"));
 
                 await eslint.lintFiles([badFile, goodFile, toBeDeletedFile]);
-                const fileCache = fCache.createFromFile(cacheLocation);
+                const fileCache = fCache.createFromFile(cacheFilePath);
                 let { cache } = fileCache;
 
-                assert.strictEqual(typeof cache.getKey(toBeDeletedFile), "object", "the entry for the file to be deleted is in the cache");
+                assert.strictEqual(typeof cache.getKey(toBeDeletedFile), "object", "the entry for the file to be deleted should have been in the cache");
 
                 // delete the file from the file system
                 fs.unlinkSync(toBeDeletedFile);
@@ -2564,15 +2678,19 @@ describe("FlatESLint", () => {
                  */
                 await eslint.lintFiles([badFile, goodFile]);
 
-                cache = JSON.parse(fs.readFileSync(cacheLocation));
+                cache = JSON.parse(fs.readFileSync(cacheFilePath));
 
-                assert.strictEqual(typeof cache[toBeDeletedFile], "undefined", "the entry for the file to be deleted is not in the cache");
+                assert.strictEqual(typeof cache[0][toBeDeletedFile], "undefined", "the entry for the file to be deleted should not have been in the cache");
+
+                // make sure that the previos assertion checks the right place
+                assert.notStrictEqual(typeof cache[0][badFile], "undefined", "the entry for the bad file should have been in the cache");
+                assert.notStrictEqual(typeof cache[0][goodFile], "undefined", "the entry for the good file should have been in the cache");
             });
 
             it("should contain files that were not visited in the cache provided they still exist", async () => {
-                const cacheLocation = getFixturePath(".eslintcache");
-
-                doDelete(cacheLocation);
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
@@ -2580,7 +2698,7 @@ describe("FlatESLint", () => {
 
                     // specifying cache true the cache will be created
                     cache: true,
-                    cacheLocation,
+                    cacheLocation: cacheFilePath,
                     overrideConfig: {
                         rules: {
                             "no-console": 0,
@@ -2594,31 +2712,35 @@ describe("FlatESLint", () => {
 
                 await eslint.lintFiles([badFile, goodFile, testFile2]);
 
-                let fileCache = fCache.createFromFile(cacheLocation);
+                let fileCache = fCache.createFromFile(cacheFilePath);
                 let { cache } = fileCache;
 
-                assert.strictEqual(typeof cache.getKey(testFile2), "object", "the entry for the test-file2 is in the cache");
+                assert.strictEqual(typeof cache.getKey(testFile2), "object", "the entry for the test-file2 should have been in the cache");
 
                 /*
-                 * we pass a different set of files minus test-file2
+                 * we pass a different set of files (minus test-file2)
                  * previous version of file-entry-cache would remove the non visited
                  * entries. 2.0.0 version will keep them unless they don't exist
                  */
                 await eslint.lintFiles([badFile, goodFile]);
 
-                fileCache = fCache.createFromFile(cacheLocation);
+                fileCache = fCache.createFromFile(cacheFilePath);
                 cache = fileCache.cache;
 
-                assert.strictEqual(typeof cache.getKey(testFile2), "object", "the entry for the test-file2 is in the cache");
+                assert.strictEqual(typeof cache.getKey(testFile2), "object", "the entry for the test-file2 should have been in the cache");
             });
 
             it("should not delete cache when executing on text", async () => {
-                const cacheLocation = getFixturePath(".eslintcache");
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
+
+                fs.writeFileSync(cacheFilePath, "[]"); // intenationally invalid to additionally make sure it isn't used
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
                     overrideConfigFile: true,
-                    cacheLocation,
+                    cacheLocation: cacheFilePath,
                     overrideConfig: {
                         rules: {
                             "no-console": 0,
@@ -2627,20 +2749,24 @@ describe("FlatESLint", () => {
                     }
                 });
 
-                assert(shell.test("-f", cacheLocation), "the cache for eslint exists");
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should exist");
 
                 await eslint.lintText("var foo = 'bar';");
 
-                assert(shell.test("-f", cacheLocation), "the cache for eslint still exists");
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should still exist");
             });
 
             it("should not delete cache when executing on text with a provided filename", async () => {
-                const cacheLocation = getFixturePath(".eslintcache");
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
+
+                fs.writeFileSync(cacheFilePath, "[]"); // intenationally invalid to additionally make sure it isn't used
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
                     overrideConfigFile: true,
-                    cacheLocation,
+                    cacheLocation: cacheFilePath,
                     overrideConfig: {
                         rules: {
                             "no-console": 0,
@@ -2649,21 +2775,25 @@ describe("FlatESLint", () => {
                     }
                 });
 
-                assert(shell.test("-f", cacheLocation), "the cache for eslint exists");
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should exist");
 
                 await eslint.lintText("var bar = foo;", { filePath: "fixtures/passing.js" });
 
-                assert(shell.test("-f", cacheLocation), "the cache for eslint still exists");
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should still exist");
             });
 
             it("should not delete cache when executing on files with --cache flag", async () => {
-                const cacheLocation = getFixturePath(".eslintcache");
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
+
+                fs.writeFileSync(cacheFilePath, "");
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
                     overrideConfigFile: true,
                     cache: true,
-                    cacheLocation,
+                    cacheLocation: cacheFilePath,
                     overrideConfig: {
                         rules: {
                             "no-console": 0,
@@ -2673,82 +2803,84 @@ describe("FlatESLint", () => {
                 });
                 const file = getFixturePath("cli-engine", "console.js");
 
-                assert(shell.test("-f", cacheLocation), "the cache for eslint exists");
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should exist");
 
                 await eslint.lintFiles([file]);
 
-                assert(shell.test("-f", cacheLocation), "the cache for eslint still exists");
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should still exist");
             });
 
             it("should delete cache when executing on files without --cache flag", async () => {
-                const cacheLocation = getFixturePath(".eslintcache");
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
+
+                fs.writeFileSync(cacheFilePath, "[]"); // intenationally invalid to additionally make sure it isn't used
 
                 eslint = new FlatESLint({
                     cwd: path.join(fixtureDir, ".."),
                     overrideConfigFile: true,
-                    cacheLocation,
+                    cacheLocation: cacheFilePath,
                     overrideConfig: {
                         rules: {
                             "no-console": 0,
                             "no-unused-vars": 2
                         }
                     }
-
                 });
                 const file = getFixturePath("cli-engine", "console.js");
 
-                assert(shell.test("-f", cacheLocation), "the cache for eslint exists");
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should exist");
 
                 await eslint.lintFiles([file]);
 
-                assert(!shell.test("-f", cacheLocation), "the cache for eslint has been deleted");
+                assert(!shell.test("-f", cacheFilePath), "the cache for eslint should have been deleted");
             });
 
-            describe("cacheFile", () => {
-                it("should use the specified cache file", async () => {
-                    const customCacheFile = path.resolve(".cache/custom-cache");
+            it("should use the specified cache file", async () => {
+                cacheFilePath = path.resolve(".cache/custom-cache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
 
-                    assert(!shell.test("-f", customCacheFile), "the cache for eslint does not exist");
+                eslint = new FlatESLint({
+                    overrideConfigFile: true,
 
-                    eslint = new FlatESLint({
-                        overrideConfigFile: true,
+                    // specify a custom cache file
+                    cacheLocation: cacheFilePath,
 
-                        // specify a custom cache file
-                        cacheLocation: customCacheFile,
+                    // specifying cache true the cache will be created
+                    cache: true,
+                    overrideConfig: {
+                        rules: {
+                            "no-console": 0,
+                            "no-unused-vars": 2
+                        }
+                    },
 
-                        // specifying cache true the cache will be created
-                        cache: true,
-                        overrideConfig: {
-                            rules: {
-                                "no-console": 0,
-                                "no-unused-vars": 2
-                            }
-                        },
-
-                        cwd: path.join(fixtureDir, "..")
-                    });
-                    const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
-                    const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
-                    const result = await eslint.lintFiles([badFile, goodFile]);
-
-                    assert(shell.test("-f", customCacheFile), "the cache for eslint was created");
-                    const fileCache = fCache.createFromFile(customCacheFile);
-                    const { cache } = fileCache;
-
-                    assert(typeof cache.getKey(goodFile) === "object", "the entry for the good file is in the cache");
-
-                    assert(typeof cache.getKey(badFile) === "object", "the entry for the bad file is in the cache");
-                    const cachedResult = await eslint.lintFiles([badFile, goodFile]);
-
-                    assert.deepStrictEqual(result, cachedResult, "result is the same with or without cache");
+                    cwd: path.join(fixtureDir, "..")
                 });
+                const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
+                const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
+                const result = await eslint.lintFiles([badFile, goodFile]);
+
+                assert(shell.test("-f", cacheFilePath), "the cache for eslint should have been created");
+
+                const fileCache = fCache.createFromFile(cacheFilePath);
+                const { cache } = fileCache;
+
+                assert(typeof cache.getKey(goodFile) === "object", "the entry for the good file should have been in the cache");
+                assert(typeof cache.getKey(badFile) === "object", "the entry for the bad file should have been in the cache");
+
+                const cachedResult = await eslint.lintFiles([badFile, goodFile]);
+
+                assert.deepStrictEqual(result, cachedResult, "result should be the same with or without cache");
             });
 
             describe("cacheStrategy", () => {
                 it("should detect changes using a file's modification time when set to 'metadata'", async () => {
-                    const cacheLocation = getFixturePath(".eslintcache");
-
-                    doDelete(cacheLocation);
+                    cacheFilePath = getFixturePath(".eslintcache");
+                    doDelete(cacheFilePath);
+                    assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
 
                     eslint = new FlatESLint({
                         cwd: path.join(fixtureDir, ".."),
@@ -2756,7 +2888,7 @@ describe("FlatESLint", () => {
 
                         // specifying cache true the cache will be created
                         cache: true,
-                        cacheLocation,
+                        cacheLocation: cacheFilePath,
                         cacheStrategy: "metadata",
                         overrideConfig: {
                             rules: {
@@ -2770,24 +2902,24 @@ describe("FlatESLint", () => {
                     const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
 
                     await eslint.lintFiles([badFile, goodFile]);
-                    let fileCache = fCache.createFromFile(cacheLocation);
+                    let fileCache = fCache.createFromFile(cacheFilePath);
                     const entries = fileCache.normalizeEntries([badFile, goodFile]);
 
                     entries.forEach(entry => {
-                        assert(entry.changed === false, `the entry for ${entry.key} is initially unchanged`);
+                        assert(entry.changed === false, `the entry for ${entry.key} should have been initially unchanged`);
                     });
 
                     // this should result in a changed entry
                     shell.touch(goodFile);
-                    fileCache = fCache.createFromFile(cacheLocation);
-                    assert(fileCache.getFileDescriptor(badFile).changed === false, `the entry for ${badFile} is unchanged`);
-                    assert(fileCache.getFileDescriptor(goodFile).changed === true, `the entry for ${goodFile} is changed`);
+                    fileCache = fCache.createFromFile(cacheFilePath);
+                    assert(fileCache.getFileDescriptor(badFile).changed === false, `the entry for ${badFile} should have been unchanged`);
+                    assert(fileCache.getFileDescriptor(goodFile).changed === true, `the entry for ${goodFile} should have been changed`);
                 });
 
                 it("should not detect changes using a file's modification time when set to 'content'", async () => {
-                    const cacheLocation = getFixturePath(".eslintcache");
-
-                    doDelete(cacheLocation);
+                    cacheFilePath = getFixturePath(".eslintcache");
+                    doDelete(cacheFilePath);
+                    assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
 
                     eslint = new FlatESLint({
                         cwd: path.join(fixtureDir, ".."),
@@ -2795,7 +2927,7 @@ describe("FlatESLint", () => {
 
                         // specifying cache true the cache will be created
                         cache: true,
-                        cacheLocation,
+                        cacheLocation: cacheFilePath,
                         cacheStrategy: "content",
                         overrideConfig: {
                             rules: {
@@ -2809,26 +2941,26 @@ describe("FlatESLint", () => {
                     const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
 
                     await eslint.lintFiles([badFile, goodFile]);
-                    let fileCache = fCache.createFromFile(cacheLocation, true);
+                    let fileCache = fCache.createFromFile(cacheFilePath, true);
                     let entries = fileCache.normalizeEntries([badFile, goodFile]);
 
                     entries.forEach(entry => {
-                        assert(entry.changed === false, `the entry for ${entry.key} is initially unchanged`);
+                        assert(entry.changed === false, `the entry for ${entry.key} should have been initially unchanged`);
                     });
 
                     // this should NOT result in a changed entry
                     shell.touch(goodFile);
-                    fileCache = fCache.createFromFile(cacheLocation, true);
+                    fileCache = fCache.createFromFile(cacheFilePath, true);
                     entries = fileCache.normalizeEntries([badFile, goodFile]);
                     entries.forEach(entry => {
-                        assert(entry.changed === false, `the entry for ${entry.key} remains unchanged`);
+                        assert(entry.changed === false, `the entry for ${entry.key} should have remained unchanged`);
                     });
                 });
 
                 it("should detect changes using a file's contents when set to 'content'", async () => {
-                    const cacheLocation = getFixturePath(".eslintcache");
-
-                    doDelete(cacheLocation);
+                    cacheFilePath = getFixturePath(".eslintcache");
+                    doDelete(cacheFilePath);
+                    assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
 
                     eslint = new FlatESLint({
                         cwd: path.join(fixtureDir, ".."),
@@ -2836,7 +2968,7 @@ describe("FlatESLint", () => {
 
                         // specifying cache true the cache will be created
                         cache: true,
-                        cacheLocation,
+                        cacheLocation: cacheFilePath,
                         cacheStrategy: "content",
                         overrideConfig: {
                             rules: {
@@ -2853,18 +2985,18 @@ describe("FlatESLint", () => {
                     shell.cp(goodFile, goodFileCopy);
 
                     await eslint.lintFiles([badFile, goodFileCopy]);
-                    let fileCache = fCache.createFromFile(cacheLocation, true);
+                    let fileCache = fCache.createFromFile(cacheFilePath, true);
                     const entries = fileCache.normalizeEntries([badFile, goodFileCopy]);
 
                     entries.forEach(entry => {
-                        assert(entry.changed === false, `the entry for ${entry.key} is initially unchanged`);
+                        assert(entry.changed === false, `the entry for ${entry.key} should have been initially unchanged`);
                     });
 
                     // this should result in a changed entry
                     shell.sed("-i", "abc", "xzy", goodFileCopy);
-                    fileCache = fCache.createFromFile(cacheLocation, true);
-                    assert(fileCache.getFileDescriptor(badFile).changed === false, `the entry for ${badFile} is unchanged`);
-                    assert(fileCache.getFileDescriptor(goodFileCopy).changed === true, `the entry for ${goodFileCopy} is changed`);
+                    fileCache = fCache.createFromFile(cacheFilePath, true);
+                    assert(fileCache.getFileDescriptor(badFile).changed === false, `the entry for ${badFile} should have been unchanged`);
+                    assert(fileCache.getFileDescriptor(goodFileCopy).changed === true, `the entry for ${goodFileCopy} should have been changed`);
                 });
             });
         });

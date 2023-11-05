@@ -258,7 +258,7 @@
                 "description": "Disallow calling some `Object.prototype` methods directly on objects",
                 "recommended": true,
                 "fixable": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "no-self-assign",
@@ -683,13 +683,6 @@
                 "hasSuggestions": false
             },
             {
-                "name": "no-confusing-arrow",
-                "description": "Disallow arrow functions where they could be confused with comparisons",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
                 "name": "no-console",
                 "description": "Disallow the use of `console`",
                 "recommended": false,
@@ -788,20 +781,6 @@
                 "hasSuggestions": false
             },
             {
-                "name": "no-extra-semi",
-                "description": "Disallow unnecessary semicolons",
-                "recommended": true,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "no-floating-decimal",
-                "description": "Disallow leading or trailing decimal points in numeric literals",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
                 "name": "no-global-assign",
                 "description": "Disallow assignments to native objects or read-only global variables",
                 "recommended": true,
@@ -888,13 +867,6 @@
             {
                 "name": "no-magic-numbers",
                 "description": "Disallow magic numbers",
-                "recommended": false,
-                "fixable": false,
-                "hasSuggestions": false
-            },
-            {
-                "name": "no-mixed-operators",
-                "description": "Disallow mixed binary operators",
                 "recommended": false,
                 "fixable": false,
                 "hasSuggestions": false
@@ -1236,13 +1208,6 @@
                 "hasSuggestions": false
             },
             {
-                "name": "one-var-declaration-per-line",
-                "description": "Require or disallow newlines around variable declarations",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
                 "name": "operator-assignment",
                 "description": "Require or disallow assignment operator shorthand where possible",
                 "recommended": false,
@@ -1341,13 +1306,6 @@
                 "hasSuggestions": false
             },
             {
-                "name": "quote-props",
-                "description": "Require quotes around object literal property names",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
                 "name": "radix",
                 "description": "Enforce the consistent use of the radix argument when using `parseInt()`",
                 "recommended": false,
@@ -1397,13 +1355,6 @@
                 "hasSuggestions": false
             },
             {
-                "name": "spaced-comment",
-                "description": "Enforce consistent spacing after the `//` or `/*` in a comment",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
                 "name": "strict",
                 "description": "Require or disallow strict mode directives",
                 "recommended": false,
@@ -1434,409 +1385,10 @@
         ],
         "layout": [
             {
-                "name": "array-bracket-newline",
-                "description": "Enforce linebreaks after opening and before closing array brackets",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "array-bracket-spacing",
-                "description": "Enforce consistent spacing inside array brackets",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "array-element-newline",
-                "description": "Enforce line breaks after each array element",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "arrow-parens",
-                "description": "Require parentheses around arrow function arguments",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "arrow-spacing",
-                "description": "Enforce consistent spacing before and after the arrow in arrow functions",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "block-spacing",
-                "description": "Disallow or enforce spaces inside of blocks after opening block and before closing block",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "brace-style",
-                "description": "Enforce consistent brace style for blocks",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "comma-dangle",
-                "description": "Require or disallow trailing commas",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "comma-spacing",
-                "description": "Enforce consistent spacing before and after commas",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "comma-style",
-                "description": "Enforce consistent comma style",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "computed-property-spacing",
-                "description": "Enforce consistent spacing inside computed property brackets",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "dot-location",
-                "description": "Enforce consistent newlines before and after dots",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "eol-last",
-                "description": "Require or disallow newline at the end of files",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "func-call-spacing",
-                "description": "Require or disallow spacing between function identifiers and their invocations",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "function-call-argument-newline",
-                "description": "Enforce line breaks between arguments of a function call",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "function-paren-newline",
-                "description": "Enforce consistent line breaks inside function parentheses",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "generator-star-spacing",
-                "description": "Enforce consistent spacing around `*` operators in generator functions",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "implicit-arrow-linebreak",
-                "description": "Enforce the location of arrow function bodies",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "indent",
-                "description": "Enforce consistent indentation",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "jsx-quotes",
-                "description": "Enforce the consistent use of either double or single quotes in JSX attributes",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "key-spacing",
-                "description": "Enforce consistent spacing between keys and values in object literal properties",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "keyword-spacing",
-                "description": "Enforce consistent spacing before and after keywords",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
                 "name": "line-comment-position",
                 "description": "Enforce position of line comments",
                 "recommended": false,
                 "fixable": false,
-                "hasSuggestions": false
-            },
-            {
-                "name": "linebreak-style",
-                "description": "Enforce consistent linebreak style",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "lines-around-comment",
-                "description": "Require empty lines around comments",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "lines-between-class-members",
-                "description": "Require or disallow an empty line between class members",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "max-len",
-                "description": "Enforce a maximum line length",
-                "recommended": false,
-                "fixable": false,
-                "hasSuggestions": false
-            },
-            {
-                "name": "max-statements-per-line",
-                "description": "Enforce a maximum number of statements allowed per line",
-                "recommended": false,
-                "fixable": false,
-                "hasSuggestions": false
-            },
-            {
-                "name": "multiline-ternary",
-                "description": "Enforce newlines between operands of ternary expressions",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "new-parens",
-                "description": "Enforce or disallow parentheses when invoking a constructor with no arguments",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "newline-per-chained-call",
-                "description": "Require a newline after each call in a method chain",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "no-extra-parens",
-                "description": "Disallow unnecessary parentheses",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "no-mixed-spaces-and-tabs",
-                "description": "Disallow mixed spaces and tabs for indentation",
-                "recommended": true,
-                "fixable": false,
-                "hasSuggestions": false
-            },
-            {
-                "name": "no-multi-spaces",
-                "description": "Disallow multiple spaces",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "no-multiple-empty-lines",
-                "description": "Disallow multiple empty lines",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "no-tabs",
-                "description": "Disallow all tabs",
-                "recommended": false,
-                "fixable": false,
-                "hasSuggestions": false
-            },
-            {
-                "name": "no-trailing-spaces",
-                "description": "Disallow trailing whitespace at the end of lines",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "no-whitespace-before-property",
-                "description": "Disallow whitespace before properties",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "nonblock-statement-body-position",
-                "description": "Enforce the location of single-line statements",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "object-curly-newline",
-                "description": "Enforce consistent line breaks after opening and before closing braces",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "object-curly-spacing",
-                "description": "Enforce consistent spacing inside braces",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "object-property-newline",
-                "description": "Enforce placing object properties on separate lines",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "operator-linebreak",
-                "description": "Enforce consistent linebreak style for operators",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "padded-blocks",
-                "description": "Require or disallow padding within blocks",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "padding-line-between-statements",
-                "description": "Require or disallow padding lines between statements",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "quotes",
-                "description": "Enforce the consistent use of either backticks, double, or single quotes",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "rest-spread-spacing",
-                "description": "Enforce spacing between rest and spread operators and their expressions",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "semi",
-                "description": "Require or disallow semicolons instead of ASI",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "semi-spacing",
-                "description": "Enforce consistent spacing before and after semicolons",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "semi-style",
-                "description": "Enforce location of semicolons",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "space-before-blocks",
-                "description": "Enforce consistent spacing before blocks",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "space-before-function-paren",
-                "description": "Enforce consistent spacing before `function` definition opening parenthesis",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "space-in-parens",
-                "description": "Enforce consistent spacing inside parentheses",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "space-infix-ops",
-                "description": "Require spacing around infix operators",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "space-unary-ops",
-                "description": "Enforce consistent spacing before or after unary operators",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "switch-colon-spacing",
-                "description": "Enforce spacing around colons of switch statements",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "template-curly-spacing",
-                "description": "Require or disallow spacing around embedded expressions of template strings",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "template-tag-spacing",
-                "description": "Require or disallow spacing between template tags and their literals",
-                "recommended": false,
-                "fixable": true,
                 "hasSuggestions": false
             },
             {
@@ -1845,33 +1397,80 @@
                 "recommended": false,
                 "fixable": true,
                 "hasSuggestions": false
-            },
-            {
-                "name": "wrap-iife",
-                "description": "Require parentheses around immediate `function` invocations",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "wrap-regex",
-                "description": "Require parenthesis around regex literals",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
-                "name": "yield-star-spacing",
-                "description": "Require or disallow spacing around the `*` in `yield*` expressions",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
             }
         ]
     },
     "deprecated": [
         {
+            "name": "array-bracket-newline",
+            "replacedBy": []
+        },
+        {
+            "name": "array-bracket-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "array-element-newline",
+            "replacedBy": []
+        },
+        {
+            "name": "arrow-parens",
+            "replacedBy": []
+        },
+        {
+            "name": "arrow-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "block-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "brace-style",
+            "replacedBy": []
+        },
+        {
             "name": "callback-return",
+            "replacedBy": []
+        },
+        {
+            "name": "comma-dangle",
+            "replacedBy": []
+        },
+        {
+            "name": "comma-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "comma-style",
+            "replacedBy": []
+        },
+        {
+            "name": "computed-property-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "dot-location",
+            "replacedBy": []
+        },
+        {
+            "name": "eol-last",
+            "replacedBy": []
+        },
+        {
+            "name": "func-call-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "function-call-argument-newline",
+            "replacedBy": []
+        },
+        {
+            "name": "function-paren-newline",
+            "replacedBy": []
+        },
+        {
+            "name": "generator-star-spacing",
             "replacedBy": []
         },
         {
@@ -1889,16 +1488,64 @@
             ]
         },
         {
+            "name": "implicit-arrow-linebreak",
+            "replacedBy": []
+        },
+        {
+            "name": "indent",
+            "replacedBy": []
+        },
+        {
             "name": "indent-legacy",
             "replacedBy": [
                 "indent"
             ]
         },
         {
+            "name": "jsx-quotes",
+            "replacedBy": []
+        },
+        {
+            "name": "key-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "keyword-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "linebreak-style",
+            "replacedBy": []
+        },
+        {
+            "name": "lines-around-comment",
+            "replacedBy": []
+        },
+        {
             "name": "lines-around-directive",
             "replacedBy": [
                 "padding-line-between-statements"
             ]
+        },
+        {
+            "name": "lines-between-class-members",
+            "replacedBy": []
+        },
+        {
+            "name": "max-len",
+            "replacedBy": []
+        },
+        {
+            "name": "max-statements-per-line",
+            "replacedBy": []
+        },
+        {
+            "name": "multiline-ternary",
+            "replacedBy": []
+        },
+        {
+            "name": "new-parens",
+            "replacedBy": []
         },
         {
             "name": "newline-after-var",
@@ -1913,6 +1560,10 @@
             ]
         },
         {
+            "name": "newline-per-chained-call",
+            "replacedBy": []
+        },
+        {
             "name": "no-buffer-constructor",
             "replacedBy": []
         },
@@ -1923,7 +1574,39 @@
             ]
         },
         {
+            "name": "no-confusing-arrow",
+            "replacedBy": []
+        },
+        {
+            "name": "no-extra-parens",
+            "replacedBy": []
+        },
+        {
+            "name": "no-extra-semi",
+            "replacedBy": []
+        },
+        {
+            "name": "no-floating-decimal",
+            "replacedBy": []
+        },
+        {
+            "name": "no-mixed-operators",
+            "replacedBy": []
+        },
+        {
             "name": "no-mixed-requires",
+            "replacedBy": []
+        },
+        {
+            "name": "no-mixed-spaces-and-tabs",
+            "replacedBy": []
+        },
+        {
+            "name": "no-multi-spaces",
+            "replacedBy": []
+        },
+        {
+            "name": "no-multiple-empty-lines",
             "replacedBy": []
         },
         {
@@ -1979,7 +1662,59 @@
             "replacedBy": []
         },
         {
+            "name": "no-tabs",
+            "replacedBy": []
+        },
+        {
+            "name": "no-trailing-spaces",
+            "replacedBy": []
+        },
+        {
+            "name": "no-whitespace-before-property",
+            "replacedBy": []
+        },
+        {
+            "name": "nonblock-statement-body-position",
+            "replacedBy": []
+        },
+        {
+            "name": "object-curly-newline",
+            "replacedBy": []
+        },
+        {
+            "name": "object-curly-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "object-property-newline",
+            "replacedBy": []
+        },
+        {
+            "name": "one-var-declaration-per-line",
+            "replacedBy": []
+        },
+        {
+            "name": "operator-linebreak",
+            "replacedBy": []
+        },
+        {
+            "name": "padded-blocks",
+            "replacedBy": []
+        },
+        {
+            "name": "padding-line-between-statements",
+            "replacedBy": []
+        },
+        {
             "name": "prefer-reflect",
+            "replacedBy": []
+        },
+        {
+            "name": "quote-props",
+            "replacedBy": []
+        },
+        {
+            "name": "quotes",
             "replacedBy": []
         },
         {
@@ -1987,7 +1722,71 @@
             "replacedBy": []
         },
         {
+            "name": "rest-spread-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "semi",
+            "replacedBy": []
+        },
+        {
+            "name": "semi-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "semi-style",
+            "replacedBy": []
+        },
+        {
+            "name": "space-before-blocks",
+            "replacedBy": []
+        },
+        {
+            "name": "space-before-function-paren",
+            "replacedBy": []
+        },
+        {
+            "name": "space-in-parens",
+            "replacedBy": []
+        },
+        {
+            "name": "space-infix-ops",
+            "replacedBy": []
+        },
+        {
+            "name": "space-unary-ops",
+            "replacedBy": []
+        },
+        {
+            "name": "spaced-comment",
+            "replacedBy": []
+        },
+        {
+            "name": "switch-colon-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "template-curly-spacing",
+            "replacedBy": []
+        },
+        {
+            "name": "template-tag-spacing",
+            "replacedBy": []
+        },
+        {
             "name": "valid-jsdoc",
+            "replacedBy": []
+        },
+        {
+            "name": "wrap-iife",
+            "replacedBy": []
+        },
+        {
+            "name": "wrap-regex",
+            "replacedBy": []
+        },
+        {
+            "name": "yield-star-spacing",
             "replacedBy": []
         }
     ],
