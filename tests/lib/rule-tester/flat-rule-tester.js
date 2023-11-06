@@ -2249,7 +2249,7 @@ describe("FlatRuleTester", () => {
 
         it("should fail if a rule produces two suggestions with the same messageId without data", () => {
             assert.throws(() => {
-                ruleTester.run("suggestions-missing-hasSuggestions-property", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateMessageIdsNoData, {
+                ruleTester.run("suggestions-with-duplicate-messageids-no-data", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateMessageIdsNoData, {
                     valid: [],
                     invalid: [
                         { code: "var foo = bar;", errors: 1 }
