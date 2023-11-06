@@ -282,6 +282,15 @@ ruleTester.run("no-restricted-imports", rule, {
                     importNames: ["Foo"]
                 }]
             }]
+        },
+        {
+            code: "import Foo from '../../my/relative-module';",
+            options: [{
+                patterns: [{
+                    group: ["**/my/relative-module"],
+                    importNamePatterns: "^Foo"
+                }]
+            }]
         }
     ],
     invalid: [{
@@ -1234,6 +1243,112 @@ ruleTester.run("no-restricted-imports", rule, {
             column: 8,
             endColumn: 11,
             message: "'default' import from 'mod' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "import { Foo } from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                group: ["**/my/relative-module"],
+                importNamePatterns: "^Foo"
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 13,
+            message: "'Foo' import from '../../my/relative-module' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "import { FooBar } from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                group: ["**/my/relative-module"],
+                importNamePatterns: "^Foo"
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 16,
+            message: "'FooBar' import from '../../my/relative-module' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "import Foo, { Bar } from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                group: ["**/my/relative-module"],
+                importNamePatterns: "^Foo|^Bar"
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 15,
+            endColumn: 18,
+            message: "'Bar' import from '../../my/relative-module' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "import { Foo, Bar } from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                group: ["**/my/relative-module"],
+                importNamePatterns: "^Foo|^Bar"
+            }]
+        }],
+        errors: [
+            {
+                type: "ImportDeclaration",
+                line: 1,
+                column: 10,
+                endColumn: 13,
+                message: "'Foo' import from '../../my/relative-module' is restricted from being used by a pattern."
+            },
+            {
+                type: "ImportDeclaration",
+                line: 1,
+                column: 15,
+                endColumn: 18,
+                message: "'Bar' import from '../../my/relative-module' is restricted from being used by a pattern."
+            }
+        ]
+    },
+    {
+        code: "import * as All from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                group: ["**/my/relative-module"],
+                importNamePatterns: "^Foo"
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because import name with '/^Foo/u' regex pattern from '../../my/relative-module' is restricted from being used by a pattern.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 16
+        }]
+    },
+    {
+        code: "import * as AllWithCustomMessage from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                group: ["**/my/relative-module"],
+                importNamePatterns: "^Foo",
+                message: "Import from @/utils instead."
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because import name with '/^Foo/u' regex pattern from '../../my/relative-module' is restricted from being used by a pattern. Import from @/utils instead.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 33
         }]
     }
     ]

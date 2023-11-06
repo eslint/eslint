@@ -118,6 +118,19 @@ Pattern matches can restrict specific import names only, similar to the `paths` 
 }]
 ```
 
+Regex patterns can also be used to restrict specific import Name:
+
+```json
+"no-restricted-imports": ["error", {
+    "patterns": [{
+      "group": ["import-foo/*"],
+      "importNamePatterns": "^foo",
+    }]
+}]
+```
+
+**Note:** In patterns array `importNames` and `importNamePatterns` can not be used together. If they are used together then the `importNames` will be considered.
+
 To restrict the use of all Node.js core imports (via <https://github.com/nodejs/node/tree/master/lib>):
 
 ```json
@@ -264,6 +277,18 @@ import pick from 'fooBar';
 import { isEmpty } from 'utils/collection-utils';
 ```
 
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNamePatterns: '^is',
+    message: "Use 'isEmpty' from lodash instead."
+}]}]*/
+
+import { isEmpty } from 'utils/collection-utils';
+```
+
 :::
 
 Examples of **correct** code for this rule:
@@ -351,6 +376,20 @@ import pick from 'food';
 }]}]*/
 
 import { hasValues } from 'utils/collection-utils';
+```
+
+:::
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNamePatterns: '^is',
+    message: "Use 'isEmpty' from lodash instead."
+}]}]*/
+
+import isEmpty, { hasValue } from 'utils/collection-utils';
 ```
 
 :::
