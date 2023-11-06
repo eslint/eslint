@@ -1,7 +1,7 @@
 ---
 title: Getting Started with ESLint
 eleventyNavigation:
-    key: getting started 
+    key: getting started
     parent: use eslint
     title: Getting Started
     order: 1
@@ -14,7 +14,7 @@ ESLint is completely pluggable. Every single rule is a plugin and you can add mo
 
 ## Prerequisites
 
-To use ESLint, you must have [Node.js](https://nodejs.org/en/) (`^12.22.0`, `^14.17.0`, or `>=16.0.0`) installed and built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
+To use ESLint, you must have [Node.js](https://nodejs.org/en/) (`^18.18.0`, `^20.7.0`, or `>=21.1.0`) installed and built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
 
 ## Quick start
 
