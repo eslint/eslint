@@ -320,6 +320,7 @@ module.exports = {
             }
         ],
         "no-use-before-define": "error",
+        "no-useless-assignment": "error",
         "no-useless-call": "error",
         "no-useless-computed-key": "error",
         "no-useless-concat": "error",
