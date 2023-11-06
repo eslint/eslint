@@ -1432,7 +1432,7 @@ describe("cli", () => {
 
             assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
             assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
-            assert.deepStrictEqual(log.error.firstCall.args, ["Option report-unused-disable-directives-severity: 'foo' not one of off, warn, or error."], "has the right text to log.error");
+            assert.deepStrictEqual(log.error.firstCall.args, ["Option report-unused-disable-directives-severity: 'foo' not one of off, warn, or error.\nYou're using eslint.config.js, some command line flags are no longer available. Please see https://eslint.org/docs/latest/use/command-line-interface for details."], "has the right text to log.error");
             assert.strictEqual(exitCode, 2, "exit code should be 2");
         });
 
