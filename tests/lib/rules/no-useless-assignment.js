@@ -247,7 +247,47 @@ ruleTester.run("no-useless-assignment", rule, {
                 console = bk;
             }`,
             env: { browser: true }
+        },
+
+        // Try catch
+        `let message = 'init';
+        try {
+            const result = call();
+            message = result.message;
+        } catch (e) {
+            // ignore
         }
+        console.log(message)`,
+        `let message = 'init';
+        try {
+            message = call().message;
+        } catch (e) {
+            // ignore
+        }
+        console.log(message)`,
+        `let v = 'init';
+        try {
+            v = callA();
+            try {
+                v = callB();
+            } catch (e) {
+                // ignore
+            }
+        } catch (e) {
+            // ignore
+        }
+        console.log(v)`,
+        `let v = 'init';
+        try {
+            try {
+                v = callA();
+            } catch (e) {
+                // ignore
+            }
+        } catch (e) {
+            // ignore
+        }
+        console.log(v)`
     ],
     invalid: [
         {
@@ -770,6 +810,81 @@ ruleTester.run("no-useless-assignment", rule, {
                     messageId: "unnecessaryAssignment",
                     line: 6,
                     column: 25
+                }
+            ]
+        },
+
+        // Try catch
+        {
+            code:
+            `let message = 'unused';
+            try {
+                const result = call();
+                message = result.message;
+            } catch (e) {
+                message = 'used';
+            }
+            console.log(message)`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 1,
+                    column: 5
+                }
+            ]
+        },
+        {
+            code:
+            `let message = 'unused';
+            try {
+                message = 'used';
+                console.log(message)
+            } catch (e) {
+            }`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 1,
+                    column: 5
+                }
+            ]
+        },
+        {
+            code:
+            `let message = 'unused';
+            try {
+                message = call();
+            } catch (e) {
+                message = 'used';
+            }
+            console.log(message)`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 1,
+                    column: 5
+                }
+            ]
+        },
+        {
+            code:
+            `let v = 'unused';
+            try {
+                v = callA();
+                try {
+                    v = callB();
+                } catch (e) {
+                    // ignore
+                }
+            } catch (e) {
+                v = 'used';
+            }
+            console.log(v)`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 1,
+                    column: 5
                 }
             ]
         }
