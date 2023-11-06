@@ -14,6 +14,8 @@ const { highlighter, lineNumberPlugin } = require("./src/_plugins/md-syntax-high
 const {
     DateTime
 } = require("luxon");
+const markdownIt = require("markdown-it");
+const markdownItRuleExample = require("./tools/markdown-it-rule-example");
 
 module.exports = function(eleventyConfig) {
 
@@ -113,7 +115,7 @@ module.exports = function(eleventyConfig) {
      * Source: https://github.com/11ty/eleventy/issues/658
      */
     eleventyConfig.addFilter("markdown", value => {
-        const markdown = require("markdown-it")({
+        const markdown = markdownIt({
             html: true
         });
 
@@ -191,57 +193,39 @@ module.exports = function(eleventyConfig) {
         return btoa(unescape(encodeURIComponent(text)));
     }
 
-    /**
-     * Creates markdownItContainer settings for a playground-linked codeblock.
-     * @param {string} name Plugin name and class name to add to the code block.
-     * @returns {[string, object]} Plugin name and options for markdown-it.
-     */
-    function withPlaygroundRender(name) {
-        return [
-            name,
-            {
-                render(tokens, index) {
-                    if (tokens[index].nesting !== 1) {
-                        return "</div>";
-                    }
+    // markdown-it plugin options for playground-linked code blocks in rule examples.
+    const ruleExampleOptions = markdownItRuleExample({
+        open(type, code, parserOptions) {
 
-                    // See https://github.com/eslint/eslint.org/blob/ac38ab41f99b89a8798d374f74e2cce01171be8b/src/playground/App.js#L44
-                    const parserOptionsJSON = tokens[index].info?.split("correct ")[1]?.trim();
-                    const parserOptions = { sourceType: "module", ...(parserOptionsJSON && JSON.parse(parserOptionsJSON)) };
+            // See https://github.com/eslint/eslint.org/blob/ac38ab41f99b89a8798d374f74e2cce01171be8b/src/playground/App.js#L44
+            const state = encodeToBase64(
+                JSON.stringify({
+                    options: { parserOptions },
+                    text: code
+                })
+            );
+            const prefix = process.env.CONTEXT && process.env.CONTEXT !== "deploy-preview"
+                ? ""
+                : "https://eslint.org";
 
-                    // Remove trailing newline and presentational `⏎` characters (https://github.com/eslint/eslint/issues/17627):
-                    const content = tokens[index + 1].content
-                        .replace(/\n$/u, "")
-                        .replace(/⏎(?=\n)/gu, "");
-                    const state = encodeToBase64(
-                        JSON.stringify({
-                            options: { parserOptions },
-                            text: content
-                        })
-                    );
-                    const prefix = process.env.CONTEXT && process.env.CONTEXT !== "deploy-preview"
-                        ? ""
-                        : "https://eslint.org";
-
-                    return `
-                        <div class="${name}">
+            return `
+                        <div class="${type}">
                             <a class="c-btn c-btn--secondary c-btn--playground" href="${prefix}/play#${state}" target="_blank">
                                 Open in Playground
                             </a>
-                    `.trim();
-                }
-            }
-        ];
-    }
+            `.trim();
+        },
+        close() {
+            return "</div>";
+        }
+    });
 
-    const markdownIt = require("markdown-it");
     const md = markdownIt({ html: true, linkify: true, typographer: true, highlight: (str, lang) => highlighter(md, str, lang) })
         .use(markdownItAnchor, {
             slugify: s => slug(s)
         })
         .use(markdownItContainer, "img-container", {})
-        .use(markdownItContainer, ...withPlaygroundRender("correct"))
-        .use(markdownItContainer, ...withPlaygroundRender("incorrect"))
+        .use(markdownItContainer, "rule-example", ruleExampleOptions)
         .use(markdownItContainer, "warning", {
             render(tokens, idx) {
                 return generateAlertMarkup("warning", tokens, idx);

@@ -867,6 +867,10 @@ target.checkRuleFiles = function() {
 
 };
 
+target.checkRuleExamples = function() {
+    exec(`${NODE}tools/check-rule-examples.js docs/src/rules/*.md`);
+};
+
 target.checkLicenses = function() {
 
     /**

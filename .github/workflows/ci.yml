@@ -33,6 +33,8 @@ jobs:
       run: npm run lint:scss
     - name: Lint Docs JS Files
       run: node Makefile lintDocsJS
+    - name: Check Rule Examples
+      run: node Makefile checkRuleExamples
     - name: Build Docs Website
       working-directory: docs
       run: npm run build
