@@ -72,16 +72,22 @@ describe("check-rule-examples", () => {
 
         await assert.rejects(
             promise,
-            {
-                code: 1,
-                stdout: "",
-                stderr:
+            ({ code, stdout, stderr }) => {
+                assert.strictEqual(code, 1);
+                assert.strictEqual(stdout, "");
+                const expectedStderr =
                 "\n" +
                 "tests/fixtures/non-existing-examples.md\n" +
-                "  0:0  error  Error checking file: ENOENT: no such file or directory, open 'tests/fixtures/non-existing-examples.md'\n" +
+                "  0:0  error  Error checking file: ENOENT: no such file or directory, open <FILE>\n" +
                 "\n" +
                 "✖ 1 problem (1 error, 0 warnings)\n" +
-                "\n"
+                "\n";
+
+                // Replace filename as it's OS-dependent.
+                const normalizedStderr = stderr.replace(/'.+'/u, "<FILE>");
+
+                assert.strictEqual(normalizedStderr, expectedStderr);
+                return true;
             }
         );
     });
