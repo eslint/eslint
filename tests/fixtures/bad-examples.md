@@ -17,10 +17,10 @@ export default "foo";
 
 :::correct
 
-```ts
+````ts
 const foo = "bar";
 
 const foo = "baz";
-```
+````
 
 :::

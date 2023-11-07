@@ -58,7 +58,7 @@ describe("check-rule-examples", () => {
                 "tests/fixtures/bad-examples.md\n" +
                 "  11:4  error  Missing language tag: use one of 'javascript', 'js' or 'jsx'\n" +
                 "  12:1  error  Syntax error: 'import' and 'export' may appear only with 'sourceType: module'\n" +
-                "  20:4  error  Nonstandard language tag 'ts': use one of 'javascript', 'js' or 'jsx'\n" +
+                "  20:5  error  Nonstandard language tag 'ts': use one of 'javascript', 'js' or 'jsx'\n" +
                 "  23:7  error  Syntax error: Identifier 'foo' has already been declared\n" +
                 "\n" +
                 "✖ 4 problems (4 errors, 0 warnings)\n" +
