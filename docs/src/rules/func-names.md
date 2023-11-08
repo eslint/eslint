@@ -22,16 +22,16 @@ This rule can enforce or disallow the use of named function expressions.
 
 This rule has a string option:
 
-*   `"always"` (default) requires function expressions to have a name
-*   `"as-needed"` requires function expressions to have a name, if the name isn't assigned automatically per the ECMAScript specification.
-*   `"never"` disallows named function expressions, except in recursive functions, where a name is needed
+* `"always"` (default) requires function expressions to have a name
+* `"as-needed"` requires function expressions to have a name, if the name isn't assigned automatically per the ECMAScript specification.
+* `"never"` disallows named function expressions, except in recursive functions, where a name is needed
 
 This rule has an object option:
 
-*   `"generators": "always" | "as-needed" | "never"`
-    *   `"always"` require named generators
-    *   `"as-needed"` require named generators if the name isn't assigned automatically per the ECMAScript specification.
-    *   `"never"` disallow named generators where possible.
+* `"generators": "always" | "as-needed" | "never"`
+    * `"always"` require named generators
+    * `"as-needed"` require named generators if the name isn't assigned automatically per the ECMAScript specification.
+    * `"never"` disallow named generators where possible.
 
 When a value for `generators` is not provided the behavior for generator functions falls back to the base option.
 
@@ -270,5 +270,5 @@ var foo = bar(function *baz() {});
 
 ## Compatibility
 
-*   **JSCS**: [requireAnonymousFunctions](https://jscs-dev.github.io/rule/requireAnonymousFunctions)
-*   **JSCS**: [disallowAnonymousFunctions](https://jscs-dev.github.io/rule/disallowAnonymousFunctions)
+* **JSCS**: [requireAnonymousFunctions](https://jscs-dev.github.io/rule/requireAnonymousFunctions)
+* **JSCS**: [disallowAnonymousFunctions](https://jscs-dev.github.io/rule/disallowAnonymousFunctions)

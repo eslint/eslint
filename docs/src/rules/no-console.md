@@ -49,7 +49,7 @@ Console.log("Hello world!");
 
 This rule has an object option for exceptions:
 
-*   `"allow"` has an array of strings which are allowed methods of the `console` object
+* `"allow"` has an array of strings which are allowed methods of the `console` object
 
 Examples of additional **correct** code for this rule with a sample `{ "allow": ["warn", "error"] }` option:
 

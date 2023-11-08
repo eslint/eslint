@@ -72,7 +72,7 @@ for (i = 0; i < l; i += 1) {
 
 This rule has an object option.
 
-*   `"allowForLoopAfterthoughts": true` allows unary operators `++` and `--` in the afterthought (final expression) of a `for` loop.
+* `"allowForLoopAfterthoughts": true` allows unary operators `++` and `--` in the afterthought (final expression) of a `for` loop.
 
 ### allowForLoopAfterthoughts
 

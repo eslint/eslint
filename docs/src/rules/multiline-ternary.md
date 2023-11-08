@@ -37,9 +37,9 @@ Note: The location of the operators is not enforced by this rule. Please see the
 
 This rule has a string option:
 
-*   `"always"` (default) enforces newlines between the operands of a ternary expression.
-*   `"always-multiline"` enforces newlines between the operands of a ternary expression if the expression spans multiple lines.
-*   `"never"` disallows newlines between the operands of a ternary expression.
+* `"always"` (default) enforces newlines between the operands of a ternary expression.
+* `"always-multiline"` enforces newlines between the operands of a ternary expression if the expression spans multiple lines.
+* `"never"` disallows newlines between the operands of a ternary expression.
 
 ### always
 
@@ -194,4 +194,4 @@ You can safely disable this rule if you do not have any strict conventions about
 
 ## Compatibility
 
-*   **JSCS**: [requireMultiLineTernary](https://jscs-dev.github.io/rule/requireMultiLineTernary)
+* **JSCS**: [requireMultiLineTernary](https://jscs-dev.github.io/rule/requireMultiLineTernary)

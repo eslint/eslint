@@ -27,17 +27,17 @@ Some style guides require JSDoc comments for all functions as a way of explainin
 
 This rule requires JSDoc comments for specified nodes. Supported nodes:
 
-*   `"FunctionDeclaration"`
-*   `"ClassDeclaration"`
-*   `"MethodDefinition"`
-*   `"ArrowFunctionExpression"`
-*   `"FunctionExpression"`
+* `"FunctionDeclaration"`
+* `"ClassDeclaration"`
+* `"MethodDefinition"`
+* `"ArrowFunctionExpression"`
+* `"FunctionExpression"`
 
 ## Options
 
 This rule has a single object option:
 
-*   `"require"` requires JSDoc comments for the specified nodes
+* `"require"` requires JSDoc comments for the specified nodes
 
 Default option settings are:
 

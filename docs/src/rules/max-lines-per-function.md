@@ -40,22 +40,22 @@ function() {
 }
 ```
 
-*   `max-statements` will only report this as 1 statement, despite being 16 lines of code.
-*   `complexity` will only report a complexity of 1
-*   `max-nested-callbacks` will only report 1
-*   `max-depth` will report a depth of 0
+* `max-statements` will only report this as 1 statement, despite being 16 lines of code.
+* `complexity` will only report a complexity of 1
+* `max-nested-callbacks` will only report 1
+* `max-depth` will report a depth of 0
 
 ## Options
 
 This rule has the following options that can be specified using an object:
 
-*   `"max"` (default `50`) enforces a maximum number of lines in a function.
+* `"max"` (default `50`) enforces a maximum number of lines in a function.
 
-*   `"skipBlankLines"` (default `false`) ignore lines made up purely of whitespace.
+* `"skipBlankLines"` (default `false`) ignore lines made up purely of whitespace.
 
-*   `"skipComments"` (default `false`) ignore lines containing just comments.
+* `"skipComments"` (default `false`) ignore lines containing just comments.
 
-*   `"IIFEs"` (default `false`) include any code included in IIFEs.
+* `"IIFEs"` (default `false`) include any code included in IIFEs.
 
 Alternatively, you may specify a single integer for the `max` option:
 

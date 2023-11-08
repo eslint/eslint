@@ -71,7 +71,7 @@ var c = {
 
 This rule has an object option:
 
-*   `enforceForClassMembers` set to `true` additionally applies this rule to class members (Default `false`).
+* `enforceForClassMembers` set to `true` additionally applies this rule to class members (Default `false`).
 
 ### enforceForClassMembers
 

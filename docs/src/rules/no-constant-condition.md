@@ -17,8 +17,8 @@ if (false) {
 
 This rule disallows constant expressions in the test condition of:
 
-*   `if`, `for`, `while`, or `do...while` statement
-*   `?:` ternary expression
+* `if`, `for`, `while`, or `do...while` statement
+* `?:` ternary expression
 
 Examples of **incorrect** code for this rule:
 

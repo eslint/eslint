@@ -134,27 +134,27 @@ export { foo };
 }
 ```
 
-*   `functions` (`boolean`) -
-    The flag which shows whether or not this rule checks function declarations.
-    If this is `true`, this rule warns every reference to a function before the function declaration.
-    Otherwise, ignores those references.
-    Function declarations are hoisted, so it's safe.
-    Default is `true`.
-*   `classes` (`boolean`) -
-    The flag which shows whether or not this rule checks class declarations of upper scopes.
-    If this is `true`, this rule warns every reference to a class before the class declaration.
-    Otherwise, ignores those references if the declaration is in upper function scopes.
-    Class declarations are not hoisted, so it might be danger.
-    Default is `true`.
-*   `variables` (`boolean`) -
-    This flag determines whether or not the rule checks variable declarations in upper scopes.
-    If this is `true`, the rule warns every reference to a variable before the variable declaration.
-    Otherwise, the rule ignores a reference if the declaration is in an upper scope, while still reporting the reference if it's in the same scope as the declaration.
-    Default is `true`.
-*   `allowNamedExports` (`boolean`) -
-    If this flag is set to `true`, the rule always allows references in `export {};` declarations.
-    These references are safe even if the variables are declared later in the code.
-    Default is `false`.
+* `functions` (`boolean`) -
+  The flag which shows whether or not this rule checks function declarations.
+  If this is `true`, this rule warns every reference to a function before the function declaration.
+  Otherwise, ignores those references.
+  Function declarations are hoisted, so it's safe.
+  Default is `true`.
+* `classes` (`boolean`) -
+  The flag which shows whether or not this rule checks class declarations of upper scopes.
+  If this is `true`, this rule warns every reference to a class before the class declaration.
+  Otherwise, ignores those references if the declaration is in upper function scopes.
+  Class declarations are not hoisted, so it might be danger.
+  Default is `true`.
+* `variables` (`boolean`) -
+  This flag determines whether or not the rule checks variable declarations in upper scopes.
+  If this is `true`, the rule warns every reference to a variable before the variable declaration.
+  Otherwise, the rule ignores a reference if the declaration is in an upper scope, while still reporting the reference if it's in the same scope as the declaration.
+  Default is `true`.
+* `allowNamedExports` (`boolean`) -
+  If this flag is set to `true`, the rule always allows references in `export {};` declarations.
+  These references are safe even if the variables are declared later in the code.
+  Default is `false`.
 
 This rule accepts `"nofunc"` string as an option.
 `"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true, "allowNamedExports": false }`.

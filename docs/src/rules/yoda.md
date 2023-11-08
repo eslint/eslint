@@ -36,13 +36,13 @@ This rule aims to enforce consistent style of conditions which compare a variabl
 
 This rule can take a string option:
 
-*   If it is the default `"never"`, then comparisons must never be Yoda conditions.
-*   If it is `"always"`, then the literal value must always come first.
+* If it is the default `"never"`, then comparisons must never be Yoda conditions.
+* If it is `"always"`, then the literal value must always come first.
 
 The default `"never"` option can have exception options in an object literal:
 
-*   If the `"exceptRange"` property is `true`, the rule _allows_ yoda conditions in range comparisons which are wrapped directly in parentheses, including the parentheses of an `if` or `while` condition. The default value is `false`. A _range_ comparison tests whether a variable is inside or outside the range between two literal values.
-*   If the `"onlyEquality"` property is `true`, the rule reports yoda conditions _only_ for the equality operators `==` and `===`. The default value is `false`.
+* If the `"exceptRange"` property is `true`, the rule _allows_ yoda conditions in range comparisons which are wrapped directly in parentheses, including the parentheses of an `if` or `while` condition. The default value is `false`. A _range_ comparison tests whether a variable is inside or outside the range between two literal values.
+* If the `"onlyEquality"` property is `true`, the rule reports yoda conditions _only_ for the equality operators `==` and `===`. The default value is `false`.
 
 The `onlyEquality` option allows a superset of the exceptions which `exceptRange` allows, thus both options are not useful together.
 

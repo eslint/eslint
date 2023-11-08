@@ -15,21 +15,21 @@ This rule enforces consistent spacing between keys and values in object literal 
 
 This rule has an object option:
 
-*   `"beforeColon": false (default) | true`
-    *   `false`: disallows spaces between the key and the colon in object literals.
-    *   `true`: requires at least one space between the key and the colon in object literals.
-*   `"afterColon": true (default) | false`
-    *   `true`: requires at least one space between the colon and the value in object literals.
-    *   `false`: disallows spaces between the colon and the value in object literals.
-*   `"mode": "strict" (default) | "minimum"`
-    *   `"strict"`: enforces exactly one space before or after colons in object literals.
-    *   `"minimum"`: enforces one or more spaces before or after colons in object literals.
-*   `"align": "value" | "colon"`
-    *   `"value"`: enforces horizontal alignment of values in object literals.
-    *   `"colon"` enforces horizontal alignment of both colons and values in object literals.
-*   `"align"` with an object value allows for fine-grained spacing when values are being aligned in object literals.
-*   `"singleLine"` specifies a spacing style for single-line object literals.
-*   `"multiLine"` specifies a spacing style for multi-line object literals.
+* `"beforeColon": false (default) | true`
+    * `false`: disallows spaces between the key and the colon in object literals.
+    * `true`: requires at least one space between the key and the colon in object literals.
+* `"afterColon": true (default) | false`
+    * `true`: requires at least one space between the colon and the value in object literals.
+    * `false`: disallows spaces between the colon and the value in object literals.
+* `"mode": "strict" (default) | "minimum"`
+    * `"strict"`: enforces exactly one space before or after colons in object literals.
+    * `"minimum"`: enforces one or more spaces before or after colons in object literals.
+* `"align": "value" | "colon"`
+    * `"value"`: enforces horizontal alignment of values in object literals.
+    * `"colon"` enforces horizontal alignment of both colons and values in object literals.
+* `"align"` with an object value allows for fine-grained spacing when values are being aligned in object literals.
+* `"singleLine"` specifies a spacing style for single-line object literals.
+* `"multiLine"` specifies a spacing style for multi-line object literals.
 
 Please note that you can either use the top-level options or the grouped options (`singleLine` and `multiLine`) but not both.
 

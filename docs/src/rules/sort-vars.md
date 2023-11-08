@@ -68,7 +68,7 @@ var c, d, a, e;
 
 This rule has an object option:
 
-*   `"ignoreCase": true` (default `false`) ignores the case-sensitivity of the variables order
+* `"ignoreCase": true` (default `false`) ignores the case-sensitivity of the variables order
 
 ### ignoreCase
 

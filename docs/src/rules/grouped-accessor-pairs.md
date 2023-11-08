@@ -153,9 +153,9 @@ const Bar = class {
 
 This rule has a string option:
 
-*   `"anyOrder"` (default) does not enforce order.
-*   `"getBeforeSet"` if a property has both getter and setter, requires the getter to be defined before the setter.
-*   `"setBeforeGet"` if a property has both getter and setter, requires the setter to be defined before the getter.
+* `"anyOrder"` (default) does not enforce order.
+* `"getBeforeSet"` if a property has both getter and setter, requires the getter to be defined before the setter.
+* `"setBeforeGet"` if a property has both getter and setter, requires the setter to be defined before the getter.
 
 ### getBeforeSet
 

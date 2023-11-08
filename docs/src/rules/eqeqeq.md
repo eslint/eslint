@@ -8,9 +8,9 @@ It is considered good practice to use the type-safe equality operators `===` and
 The reason for this is that `==` and `!=` do type coercion which follows the rather obscure [Abstract Equality Comparison Algorithm](https://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3).
 For instance, the following statements are all considered `true`:
 
-*   `[] == false`
-*   `[] == ![]`
-*   `3 == "03"`
+* `[] == false`
+* `[] == ![]`
+* `3 == "03"`
 
 If one of those occurs in an innocent-looking statement such as `a == b` the actual problem is very difficult to spot.
 
@@ -86,18 +86,18 @@ foo === null
 
 This rule optionally takes a second argument, which should be an object with the following supported properties:
 
-*   `"null"`: Customize how this rule treats `null` literals. Possible values:
-    *   `always` (default) - Always use === or !==.
-    *   `never` - Never use === or !== with `null`.
-    *   `ignore` - Do not apply this rule to `null`.
+* `"null"`: Customize how this rule treats `null` literals. Possible values:
+    * `always` (default) - Always use === or !==.
+    * `never` - Never use === or !== with `null`.
+    * `ignore` - Do not apply this rule to `null`.
 
 ### smart
 
 The `"smart"` option enforces the use of `===` and `!==` except for these cases:
 
-*   Comparing two literal values
-*   Evaluating the value of `typeof`
-*   Comparing against `null`
+* Comparing two literal values
+* Evaluating the value of `typeof`
+* Comparing against `null`
 
 Examples of **incorrect** code for the `"smart"` option:
 

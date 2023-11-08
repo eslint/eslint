@@ -14,10 +14,10 @@ This rule disallows control characters and some escape sequences that match cont
 
 The following elements of regular expression patterns are considered possible errors in typing and are therefore disallowed by this rule:
 
-*   Hexadecimal character escapes from `\x00` to `\x1F`.
-*   Unicode character escapes from `\u0000` to `\u001F`.
-*   Unicode code point escapes from `\u{0}` to `\u{1F}`.
-*   Unescaped raw characters from U+0000 to U+001F.
+* Hexadecimal character escapes from `\x00` to `\x1F`.
+* Unicode character escapes from `\u0000` to `\u001F`.
+* Unicode code point escapes from `\u{0}` to `\u{1F}`.
+* Unescaped raw characters from U+0000 to U+001F.
 
 Control escapes such as `\t` and `\n` are allowed by this rule.
 

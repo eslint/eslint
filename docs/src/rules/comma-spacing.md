@@ -31,20 +31,20 @@ This rule enforces consistent spacing before and after commas in variable declar
 
 This rule does not apply in either of the following cases:
 
-*   between two commas
-*   between opening bracket `[` and comma, to avoid conflicts with the [`array-bracket-spacing`](array-bracket-spacing) rule
-*   between comma and closing bracket `]`, to avoid conflicts with the [`array-bracket-spacing`](array-bracket-spacing) rule
-*   between comma and closing brace `}`, to avoid conflicts with the [`object-curly-spacing`](object-curly-spacing) rule
-*   between comma and closing parentheses `)`, to avoid conflicts with the [`space-in-parens`](space-in-parens) rule
+* between two commas
+* between opening bracket `[` and comma, to avoid conflicts with the [`array-bracket-spacing`](array-bracket-spacing) rule
+* between comma and closing bracket `]`, to avoid conflicts with the [`array-bracket-spacing`](array-bracket-spacing) rule
+* between comma and closing brace `}`, to avoid conflicts with the [`object-curly-spacing`](object-curly-spacing) rule
+* between comma and closing parentheses `)`, to avoid conflicts with the [`space-in-parens`](space-in-parens) rule
 
 ## Options
 
 This rule has an object option:
 
-*   `"before": false` (default) disallows spaces before commas
-*   `"before": true` requires one or more spaces before commas
-*   `"after": true` (default) requires one or more spaces after commas
-*   `"after": false` disallows spaces after commas
+* `"before": false` (default) disallows spaces before commas
+* `"before": true` requires one or more spaces before commas
+* `"after": true` (default) requires one or more spaces after commas
+* `"after": false` disallows spaces after commas
 
 ### after
 

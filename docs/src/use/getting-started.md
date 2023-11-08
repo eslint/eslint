@@ -77,9 +77,9 @@ After running `npm init @eslint/config`, you'll have an `.eslintrc.{js,yml,json}
 
 The names `"semi"` and `"quotes"` are the names of [rules](../rules) in ESLint. The first value is the error level of the rule and can be one of these values:
 
-*   `"off"` or `0` - turn the rule off
-*   `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
-*   `"error"` or `2` - turn the rule on as an error (exit code will be 1)
+* `"off"` or `0` - turn the rule off
+* `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
+* `"error"` or `2` - turn the rule on as an error (exit code will be 1)
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](configure/)).
 
@@ -105,48 +105,48 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 
 1. Install the ESLint package in your project:
 
-    ```shell
-    npm install --save-dev eslint
-    ```
+   ```shell
+   npm install --save-dev eslint
+   ```
 
 1. Add an `.eslintrc` file in one of the [supported configuration file formats](./configure/configuration-files#configuration-file-formats).
 
-    ```shell
-    # Create JavaScript configuration file
-    touch .eslintrc.js
-    ```
+   ```shell
+   # Create JavaScript configuration file
+   touch .eslintrc.js
+   ```
 
 1. Add configuration to the `.eslintrc` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, environments, custom configurations, plugins, and more.
 
-    ```js
-    // .eslintrc.js example
-    module.exports = {
-      "env": {
-          "browser": true,
-          "es2021": true
-      },
-      "extends": "eslint:recommended",
-      "parserOptions": {
-          "ecmaVersion": "latest",
-          "sourceType": "module"
-      },
-    }
-    ```
+   ```js
+   // .eslintrc.js example
+   module.exports = {
+     "env": {
+         "browser": true,
+         "es2021": true
+     },
+     "extends": "eslint:recommended",
+     "parserOptions": {
+         "ecmaVersion": "latest",
+         "sourceType": "module"
+     },
+   }
+   ```
 
 1. Lint code using the ESLint CLI:
 
-    ```shell
-    npx eslint project-dir/ file1.js
-    ```
+   ```shell
+   npx eslint project-dir/ file1.js
+   ```
 
-    For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).
+   For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).
 
 ---
 
 ## Next Steps
 
-*   Learn about [advanced configuration](configure/) of ESLint.
-*   Get familiar with the [command line options](command-line-interface).
-*   Explore [ESLint integrations](integrations) into other tools like editors, build systems, and more.
-*   Can't find just the right rule? Make your own [custom rule](../extend/custom-rules).
-*   Make ESLint even better by [contributing](../contribute/).
+* Learn about [advanced configuration](configure/) of ESLint.
+* Get familiar with the [command line options](command-line-interface).
+* Explore [ESLint integrations](integrations) into other tools like editors, build systems, and more.
+* Can't find just the right rule? Make your own [custom rule](../extend/custom-rules).
+* Make ESLint even better by [contributing](../contribute/).

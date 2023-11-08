@@ -48,7 +48,7 @@ See [no-redeclare](no-redeclare) if you also want to disallow those redeclaratio
 
 ## Options
 
-*   `typeof` set to true will warn for variables used inside typeof check (Default false).
+* `typeof` set to true will warn for variables used inside typeof check (Default false).
 
 ### typeof
 

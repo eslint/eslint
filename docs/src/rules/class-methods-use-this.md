@@ -108,8 +108,8 @@ class C {
 
 This rule has two options:
 
-*   `"exceptMethods"` allows specified method names to be ignored with this rule.
-*   `"enforceForClassFields"` enforces that functions used as instance field initializers utilize `this`. (default: `true`)
+* `"exceptMethods"` allows specified method names to be ignored with this rule.
+* `"enforceForClassFields"` enforces that functions used as instance field initializers utilize `this`. (default: `true`)
 
 ### exceptMethods
 

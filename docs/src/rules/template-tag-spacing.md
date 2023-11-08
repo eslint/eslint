@@ -31,8 +31,8 @@ This rule aims to maintain consistency around the spacing between template tag f
 
 This rule has one option whose value can be set to `"never"` or `"always"`
 
-*   `"never"` (default) - Disallows spaces between a tag function and its template literal.
-*   `"always"` - Requires one or more spaces between a tag function and its template literal.
+* `"never"` (default) - Disallows spaces between a tag function and its template literal.
+* `"always"` - Requires one or more spaces between a tag function and its template literal.
 
 ## Examples
 

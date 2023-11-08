@@ -40,8 +40,8 @@ This rule requires or disallows blank newlines around directive prologues. This 
 
 This rule has one option. It can either be a string or an object:
 
-*   `"always"` (default) enforces blank newlines around directives.
-*   `"never"` disallows blank newlines around directives.
+* `"always"` (default) enforces blank newlines around directives.
+* `"never"` disallows blank newlines around directives.
 
 or
 
@@ -406,5 +406,5 @@ You can safely disable this rule if you do not have any strict conventions about
 
 ## Compatibility
 
-*   **JSCS**: [requirePaddingNewLinesAfterUseStrict](https://jscs-dev.github.io/rule/requirePaddingNewLinesAfterUseStrict)
-*   **JSCS**: [disallowPaddingNewLinesAfterUseStrict](https://jscs-dev.github.io/rule/disallowPaddingNewLinesAfterUseStrict)
+* **JSCS**: [requirePaddingNewLinesAfterUseStrict](https://jscs-dev.github.io/rule/requirePaddingNewLinesAfterUseStrict)
+* **JSCS**: [disallowPaddingNewLinesAfterUseStrict](https://jscs-dev.github.io/rule/disallowPaddingNewLinesAfterUseStrict)

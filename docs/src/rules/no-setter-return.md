@@ -20,9 +20,9 @@ Only `return` without a value is allowed, as it's a control flow statement.
 
 This rule checks setters in:
 
-*   Object literals.
-*   Class declarations and class expressions.
-*   Property descriptors in `Object.create`, `Object.defineProperty`, `Object.defineProperties`, and `Reflect.defineProperty` methods of the global objects.
+* Object literals.
+* Class declarations and class expressions.
+* Property descriptors in `Object.create`, `Object.defineProperty`, `Object.defineProperties`, and `Reflect.defineProperty` methods of the global objects.
 
 Examples of **incorrect** code for this rule:
 

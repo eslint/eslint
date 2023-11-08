@@ -20,39 +20,39 @@ exceptions for various documentation styles.
 
 The rule takes two options.
 
-*   The first is a string which be either `"always"` or `"never"`. The default is `"always"`.
+* The first is a string which be either `"always"` or `"never"`. The default is `"always"`.
 
-    *   If `"always"` then the `//` or `/*` must be followed by at least one whitespace.
+    * If `"always"` then the `//` or `/*` must be followed by at least one whitespace.
 
-    *   If `"never"` then there should be no whitespace following.
+    * If `"never"` then there should be no whitespace following.
 
-*   This rule can also take a 2nd option, an object with any of the following keys: `"exceptions"` and `"markers"`.
+* This rule can also take a 2nd option, an object with any of the following keys: `"exceptions"` and `"markers"`.
 
-    *   The `"exceptions"` value is an array of string patterns which are considered exceptions to the rule. The rule will not warn when the pattern starts from the beginning of the comment and repeats until the end of the line or `*/` if the comment is a single line comment.
-        Please note that exceptions are ignored if the first argument is `"never"`.
+    * The `"exceptions"` value is an array of string patterns which are considered exceptions to the rule. The rule will not warn when the pattern starts from the beginning of the comment and repeats until the end of the line or `*/` if the comment is a single line comment.
+    Please note that exceptions are ignored if the first argument is `"never"`.
 
-    ```js
-    "spaced-comment": ["error", "always", { "exceptions": ["-", "+"] }]
-    ```
+  ```js
+  "spaced-comment": ["error", "always", { "exceptions": ["-", "+"] }]
+  ```
 
-    *   The `"markers"` value is an array of string patterns which are considered markers for docblock-style comments,
-        such as an additional `/`, used to denote documentation read by doxygen, vsdoc, etc. which must have additional characters.
-        The `"markers"` array will apply regardless of the value of the first argument, e.g. `"always"` or `"never"`.
+    * The `"markers"` value is an array of string patterns which are considered markers for docblock-style comments,
+    such as an additional `/`, used to denote documentation read by doxygen, vsdoc, etc. which must have additional characters.
+    The `"markers"` array will apply regardless of the value of the first argument, e.g. `"always"` or `"never"`.
 
-    ```js
-    "spaced-comment": ["error", "always", { "markers": ["/"] }]
-    ```
+  ```js
+  "spaced-comment": ["error", "always", { "markers": ["/"] }]
+  ```
 
 The difference between a marker and an exception is that a marker only appears at the beginning of the comment whereas
 exceptions can occur anywhere in the comment string.
 
 You can also define separate exceptions and markers for block and line comments. The `"block"` object can have an additional key `"balanced"`, a boolean that specifies if inline block comments should have balanced spacing. The default value is `false`.
 
-*   If `"balanced": true` and `"always"` then the `/*` must be followed by at least one whitespace, and the `*/` must be preceded by at least one whitespace.
+* If `"balanced": true` and `"always"` then the `/*` must be followed by at least one whitespace, and the `*/` must be preceded by at least one whitespace.
 
-*   If `"balanced": true` and `"never"` then there should be no whitespace following `/*` or preceding `*/`.
+* If `"balanced": true` and `"never"` then there should be no whitespace following `/*` or preceding `*/`.
 
-*   If `"balanced": false` then balanced whitespace is not enforced.
+* If `"balanced": false` then balanced whitespace is not enforced.
 
 ```json
 "spaced-comment": ["error", "always", {

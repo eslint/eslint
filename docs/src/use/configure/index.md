@@ -15,10 +15,10 @@ ESLint is designed to be flexible and configurable for your use case. You can tu
 
 Here are some of the options that you can configure in ESLint:
 
-*   [**Environments**](./language-options#specifying-environments) - which environments your script is designed to run in. Each environment brings with it a certain set of predefined global variables.
-*   [**Globals**](./language-options#specifying-globals) - the additional global variables your script accesses during execution.
-*   [**Rules**](rules) - which rules are enabled and at what error level.
-*   [**Plugins**](plugins) - which third-party plugins define additional rules, environments, configs, etc. for ESLint to use.
+* [**Environments**](./language-options#specifying-environments) - which environments your script is designed to run in. Each environment brings with it a certain set of predefined global variables.
+* [**Globals**](./language-options#specifying-globals) - the additional global variables your script accesses during execution.
+* [**Rules**](rules) - which rules are enabled and at what error level.
+* [**Plugins**](plugins) - which third-party plugins define additional rules, environments, configs, etc. for ESLint to use.
 
 All of these options give you fine-grained control over how ESLint treats your code.
 
@@ -26,38 +26,38 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 [**Configuration Files**](configuration-files)
 
-*   [Configuration File Formats](./configuration-files#configuration-file-formats)
-*   [Using Configuration Files](./configuration-files#using-configuration-files)
-*   [Adding Shared Settings](./configuration-files#adding-shared-settings)
-*   [Cascading and Hierarchy](./configuration-files#cascading-and-hierarchy)
-*   [Extending Configuration Files](./configuration-files#extending-configuration-files)
-*   [Configuration Based on Glob Patterns](./configuration-files#configuration-based-on-glob-patterns)
-*   [Personal Configuration Files](./configuration-files#personal-configuration-files-deprecated)
+* [Configuration File Formats](./configuration-files#configuration-file-formats)
+* [Using Configuration Files](./configuration-files#using-configuration-files)
+* [Adding Shared Settings](./configuration-files#adding-shared-settings)
+* [Cascading and Hierarchy](./configuration-files#cascading-and-hierarchy)
+* [Extending Configuration Files](./configuration-files#extending-configuration-files)
+* [Configuration Based on Glob Patterns](./configuration-files#configuration-based-on-glob-patterns)
+* [Personal Configuration Files](./configuration-files#personal-configuration-files-deprecated)
 
 [**Configure Language Options**](language-options)
 
-*   [Specifying Environments](./language-options#specifying-environments)
-*   [Specifying Globals](./language-options#specifying-globals)
-*   [Specifying Parser Options](./language-options#specifying-parser-options)
+* [Specifying Environments](./language-options#specifying-environments)
+* [Specifying Globals](./language-options#specifying-globals)
+* [Specifying Parser Options](./language-options#specifying-parser-options)
 
 [**Configure Rules**](rules)
 
-*   [Configuring Rules](./rules)
-*   [Disabling Rules](./rules#disabling-rules)
+* [Configuring Rules](./rules)
+* [Disabling Rules](./rules#disabling-rules)
 
 [**Configure Plugins**](plugins)
 
-*   [Configure Plugins](./plugins#configure-plugins)
-*   [Specify a Processor](./plugins#specify-a-processor)
+* [Configure Plugins](./plugins#configure-plugins)
+* [Specify a Processor](./plugins#specify-a-processor)
 
 [**Configure a Parser**](./parser)
 
-*   [Configure a Custom Parser](./parser#configure-a-custom-parser)
+* [Configure a Custom Parser](./parser#configure-a-custom-parser)
 
 [**Ignore Files**](ignore)
 
-*   [`ignorePatterns` in Config Files](./ignore#ignorepatterns-in-config-files)
-*   [The `.eslintignore` File](./ignore#the-eslintignore-file)
-*   [Using an Alternate File](./ignore#using-an-alternate-file)
-*   [Using eslintIgnore in package.json](./ignore#using-eslintignore-in-packagejson)
-*   [Ignored File Warnings](./ignore#ignored-file-warnings)
+* [`ignorePatterns` in Config Files](./ignore#ignorepatterns-in-config-files)
+* [The `.eslintignore` File](./ignore#the-eslintignore-file)
+* [Using an Alternate File](./ignore#using-an-alternate-file)
+* [Using eslintIgnore in package.json](./ignore#using-eslintignore-in-packagejson)
+* [Ignored File Warnings](./ignore#ignored-file-warnings)

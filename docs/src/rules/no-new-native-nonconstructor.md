@@ -25,8 +25,8 @@ Both `new Symbol` and `new BigInt` throw a type error because they are functions
 
 This rule is aimed at preventing the accidental calling of native JavaScript global functions with the `new` operator. These functions are:
 
-*   `Symbol`
-*   `BigInt`
+* `Symbol`
+* `BigInt`
 
 ## Examples
 

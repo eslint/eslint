@@ -79,7 +79,7 @@ function baz() {
 
 This rule has an object option:
 
-*   `allowAsStatement` set to `true` allows the void operator to be used as a statement (Default `false`).
+* `allowAsStatement` set to `true` allows the void operator to be used as a statement (Default `false`).
 
 ### allowAsStatement
 

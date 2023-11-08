@@ -20,14 +20,14 @@ This rule requires or disallows a line break between `{` and its following token
 
 This rule has either a string option:
 
-*   `"always"` requires line breaks after opening and before closing braces
-*   `"never"` disallows line breaks after opening and before closing braces
+* `"always"` requires line breaks after opening and before closing braces
+* `"never"` disallows line breaks after opening and before closing braces
 
 Or an object option:
 
-*   `"multiline": true` requires line breaks if there are line breaks inside properties or between properties. Otherwise, it disallows line breaks.
-*   `"minProperties"` requires line breaks if the number of properties is at least the given integer. By default, an error will also be reported if an object contains linebreaks and has fewer properties than the given integer. However, the second behavior is disabled if the `consistent` option is set to `true`
-*   `"consistent": true` (default) requires that either both curly braces, or neither, directly enclose newlines. Note that enabling this option will also change the behavior of the `minProperties` option. (See `minProperties` above for more information)
+* `"multiline": true` requires line breaks if there are line breaks inside properties or between properties. Otherwise, it disallows line breaks.
+* `"minProperties"` requires line breaks if the number of properties is at least the given integer. By default, an error will also be reported if an object contains linebreaks and has fewer properties than the given integer. However, the second behavior is disabled if the `consistent` option is set to `true`
+* `"consistent": true` (default) requires that either both curly braces, or neither, directly enclose newlines. Note that enabling this option will also change the behavior of the `minProperties` option. (See `minProperties` above for more information)
 
 You can specify different options for object literals, destructuring assignments, and named imports and exports:
 
@@ -42,10 +42,10 @@ You can specify different options for object literals, destructuring assignments
 }
 ```
 
-*   `"ObjectExpression"` configuration for object literals
-*   `"ObjectPattern"` configuration for object patterns of destructuring assignments
-*   `"ImportDeclaration"` configuration for named imports
-*   `"ExportDeclaration"` configuration for named exports
+* `"ObjectExpression"` configuration for object literals
+* `"ObjectPattern"` configuration for object patterns of destructuring assignments
+* `"ImportDeclaration"` configuration for named imports
+* `"ExportDeclaration"` configuration for named exports
 
 ### always
 
@@ -602,5 +602,5 @@ If you don't want to enforce consistent line breaks after opening and before clo
 
 ## Compatibility
 
-*   **JSCS**: [requirePaddingNewLinesInObjects](https://jscs-dev.github.io/rule/requirePaddingNewLinesInObjects)
-*   **JSCS**: [disallowPaddingNewLinesInObjects](https://jscs-dev.github.io/rule/disallowPaddingNewLinesInObjects)
+* **JSCS**: [requirePaddingNewLinesInObjects](https://jscs-dev.github.io/rule/requirePaddingNewLinesInObjects)
+* **JSCS**: [disallowPaddingNewLinesInObjects](https://jscs-dev.github.io/rule/disallowPaddingNewLinesInObjects)

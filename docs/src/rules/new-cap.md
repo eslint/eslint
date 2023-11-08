@@ -13,17 +13,17 @@ var friend = new Person();
 
 This rule requires constructor names to begin with a capital letter. Certain built-in identifiers are exempt from this rule. These identifiers are:
 
-*   `Array`
-*   `Boolean`
-*   `Date`
-*   `Error`
-*   `Function`
-*   `Number`
-*   `Object`
-*   `RegExp`
-*   `String`
-*   `Symbol`
-*   `BigInt`
+* `Array`
+* `Boolean`
+* `Date`
+* `Error`
+* `Function`
+* `Number`
+* `Object`
+* `RegExp`
+* `String`
+* `Symbol`
+* `BigInt`
 
 Examples of **correct** code for this rule:
 
@@ -43,16 +43,16 @@ function foo(arg) {
 
 This rule has an object option:
 
-*   `"newIsCap": true` (default) requires all `new` operators to be called with uppercase-started functions.
-*   `"newIsCap": false` allows `new` operators to be called with lowercase-started or uppercase-started functions.
-*   `"capIsNew": true` (default) requires all uppercase-started functions to be called with `new` operators.
-*   `"capIsNew": false` allows uppercase-started functions to be called without `new` operators.
-*   `"newIsCapExceptions"` allows specified lowercase-started function names to be called with the `new` operator.
-*   `"newIsCapExceptionPattern"` allows any lowercase-started function names that match the specified regex pattern to be called with the `new` operator.
-*   `"capIsNewExceptions"` allows specified uppercase-started function names to be called without the `new` operator.
-*   `"capIsNewExceptionPattern"` allows any uppercase-started function names that match the specified regex pattern to be called without the `new` operator.
-*   `"properties": true` (default) enables checks on object properties
-*   `"properties": false` disables checks on object properties
+* `"newIsCap": true` (default) requires all `new` operators to be called with uppercase-started functions.
+* `"newIsCap": false` allows `new` operators to be called with lowercase-started or uppercase-started functions.
+* `"capIsNew": true` (default) requires all uppercase-started functions to be called with `new` operators.
+* `"capIsNew": false` allows uppercase-started functions to be called without `new` operators.
+* `"newIsCapExceptions"` allows specified lowercase-started function names to be called with the `new` operator.
+* `"newIsCapExceptionPattern"` allows any lowercase-started function names that match the specified regex pattern to be called with the `new` operator.
+* `"capIsNewExceptions"` allows specified uppercase-started function names to be called without the `new` operator.
+* `"capIsNewExceptionPattern"` allows any uppercase-started function names that match the specified regex pattern to be called without the `new` operator.
+* `"properties": true` (default) enables checks on object properties
+* `"properties": false` disables checks on object properties
 
 ### newIsCap
 

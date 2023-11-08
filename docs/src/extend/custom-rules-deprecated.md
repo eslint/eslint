@@ -7,8 +7,8 @@ title: Working with Rules (Deprecated)
 
 Each rule in ESLint has two files named with its identifier (for example, `no-extra-semi`).
 
-*   in the `lib/rules` directory: a source file (for example, `no-extra-semi.js`)
-*   in the `tests/lib/rules` directory: a test file (for example, `no-extra-semi.js`)
+* in the `lib/rules` directory: a source file (for example, `no-extra-semi.js`)
+* in the `tests/lib/rules` directory: a test file (for example, `no-extra-semi.js`)
 
 **Important:** If you submit a **core** rule to the ESLint repository, you **must** follow some conventions explained below.
 
@@ -41,9 +41,9 @@ module.exports.schema = []; // no options
 
 `create` (function) returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
 
-*   if a key is a node type, ESLint calls that **visitor** function while going **down** the tree
-*   if a key is a node type plus `:exit`, ESLint calls that **visitor** function while going **up** the tree
-*   if a key is an event name, ESLint calls that **handler** function for [code path analysis](code-path-analysis)
+* if a key is a node type, ESLint calls that **visitor** function while going **down** the tree
+* if a key is a node type plus `:exit`, ESLint calls that **visitor** function while going **up** the tree
+* if a key is an event name, ESLint calls that **handler** function for [code path analysis](code-path-analysis)
 
 A rule can use the current node and its surrounding tree to report or fix problems.
 
@@ -77,54 +77,54 @@ module.exports = function(context) {
 
 The `context` object contains additional functionality that is helpful for rules to do their jobs. As the name implies, the `context` object contains information that is relevant to the context of the rule. The `context` object has the following properties:
 
-*   `parserOptions` - the parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
-*   `id` - the rule ID.
-*   `options` - an array of rule options.
-*   `settings` - the `settings` from configuration.
-*   `parserPath` - the full path to the `parser` from configuration.
+* `parserOptions` - the parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
+* `id` - the rule ID.
+* `options` - an array of rule options.
+* `settings` - the `settings` from configuration.
+* `parserPath` - the full path to the `parser` from configuration.
 
 Additionally, the `context` object has the following methods:
 
-*   `getAncestors()` - returns an array of ancestor nodes based on the current traversal.
-*   `getDeclaredVariables(node)` - returns the declared variables on the given node.
-*   `getFilename()` - returns the filename associated with the source.
-*   `getScope()` - returns the current scope.
-*   `getSourceCode()` - returns a `SourceCode` object that you can use to work with the source that was passed to ESLint
-*   `markVariableAsUsed(name)` - marks the named variable in scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule.
-*   `report(descriptor)` - reports a problem in the code.
+* `getAncestors()` - returns an array of ancestor nodes based on the current traversal.
+* `getDeclaredVariables(node)` - returns the declared variables on the given node.
+* `getFilename()` - returns the filename associated with the source.
+* `getScope()` - returns the current scope.
+* `getSourceCode()` - returns a `SourceCode` object that you can use to work with the source that was passed to ESLint
+* `markVariableAsUsed(name)` - marks the named variable in scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule.
+* `report(descriptor)` - reports a problem in the code.
 
 **Deprecated:** The following methods on the `context` object are deprecated. Please use the corresponding methods on `SourceCode` instead:
 
-*   `getAllComments()` - returns an array of all comments in the source. Use `sourceCode.getAllComments()` instead.
-*   `getComments(node)` - returns the leading and trailing comments arrays for the given node. Use `sourceCode.getComments(node)` instead.
-*   `getFirstToken(node)` - returns the first token representing the given node. Use `sourceCode.getFirstToken(node)` instead.
-*   `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node. Use `sourceCode.getFirstTokens(node, count)` instead.
-*   `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none. Use `sourceCode.getJSDocComment(node)` instead.
-*   `getLastToken(node)` - returns the last token representing the given node. Use `sourceCode.getLastToken(node)` instead.
-*   `getLastTokens(node, count)` - returns the last `count` tokens representing the given node. Use `sourceCode.getLastTokens(node, count)` instead.
-*   `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index. Use `sourceCode.getNodeByRangeIndex(index)` instead.
-*   `getSource(node)` - returns the source code for the given node. Omit `node` to get the whole source. Use `sourceCode.getText(node)` instead.
-*   `getSourceLines()` - returns the entire source code split into an array of string lines. Use `sourceCode.lines` instead.
-*   `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token. Use `sourceCode.getTokenAfter(nodeOrToken)` instead.
-*   `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token. Use `sourceCode.getTokenBefore(nodeOrToken)` instead.
-*   `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source. Use `sourceCode.getTokenByRangeStart(index)` instead.
-*   `getTokens(node)` - returns all tokens for the given node. Use `sourceCode.getTokens(node)` instead.
-*   `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token. Use `sourceCode.getTokensAfter(nodeOrToken, count)` instead.
-*   `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token. Use `sourceCode.getTokensBefore(nodeOrToken, count)` instead.
-*   `getTokensBetween(node1, node2)` - returns the tokens between two nodes. Use `sourceCode.getTokensBetween(node1, node2)` instead.
-*   `report(node, [location], message)` - reports a problem in the code.
+* `getAllComments()` - returns an array of all comments in the source. Use `sourceCode.getAllComments()` instead.
+* `getComments(node)` - returns the leading and trailing comments arrays for the given node. Use `sourceCode.getComments(node)` instead.
+* `getFirstToken(node)` - returns the first token representing the given node. Use `sourceCode.getFirstToken(node)` instead.
+* `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node. Use `sourceCode.getFirstTokens(node, count)` instead.
+* `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none. Use `sourceCode.getJSDocComment(node)` instead.
+* `getLastToken(node)` - returns the last token representing the given node. Use `sourceCode.getLastToken(node)` instead.
+* `getLastTokens(node, count)` - returns the last `count` tokens representing the given node. Use `sourceCode.getLastTokens(node, count)` instead.
+* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index. Use `sourceCode.getNodeByRangeIndex(index)` instead.
+* `getSource(node)` - returns the source code for the given node. Omit `node` to get the whole source. Use `sourceCode.getText(node)` instead.
+* `getSourceLines()` - returns the entire source code split into an array of string lines. Use `sourceCode.lines` instead.
+* `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token. Use `sourceCode.getTokenAfter(nodeOrToken)` instead.
+* `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token. Use `sourceCode.getTokenBefore(nodeOrToken)` instead.
+* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source. Use `sourceCode.getTokenByRangeStart(index)` instead.
+* `getTokens(node)` - returns all tokens for the given node. Use `sourceCode.getTokens(node)` instead.
+* `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token. Use `sourceCode.getTokensAfter(nodeOrToken, count)` instead.
+* `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token. Use `sourceCode.getTokensBefore(nodeOrToken, count)` instead.
+* `getTokensBetween(node1, node2)` - returns the tokens between two nodes. Use `sourceCode.getTokensBetween(node1, node2)` instead.
+* `report(node, [location], message)` - reports a problem in the code.
 
 ### context.report()
 
 The main method you'll use is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
 
-*   `message` - the problem message.
-*   `node` - (optional) the AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
-*   `loc` - (optional) an object specifying the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
-    *   `line` - the 1-based line number at which the problem occurred.
-    *   `column` - the 0-based column number at which the problem occurred.
-*   `data` - (optional) placeholder data for `message`.
-*   `fix` - (optional) a function that applies a fix to resolve the problem.
+* `message` - the problem message.
+* `node` - (optional) the AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
+* `loc` - (optional) an object specifying the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
+    * `line` - the 1-based line number at which the problem occurred.
+    * `column` - the 0-based column number at which the problem occurred.
+* `data` - (optional) placeholder data for `message`.
+* `fix` - (optional) a function that applies a fix to resolve the problem.
 
 Note that at least one of `node` or `loc` is required.
 
@@ -175,14 +175,14 @@ Here, the `fix()` function is used to insert a semicolon after the node. Note th
 
 The `fixer` object has the following methods:
 
-*   `insertTextAfter(nodeOrToken, text)` - inserts text after the given node or token
-*   `insertTextAfterRange(range, text)` - inserts text after the given range
-*   `insertTextBefore(nodeOrToken, text)` - inserts text before the given node or token
-*   `insertTextBeforeRange(range, text)` - inserts text before the given range
-*   `remove(nodeOrToken)` - removes the given node or token
-*   `removeRange(range)` - removes text in the given range
-*   `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
-*   `replaceTextRange(range, text)` - replaces the text in the given range
+* `insertTextAfter(nodeOrToken, text)` - inserts text after the given node or token
+* `insertTextAfterRange(range, text)` - inserts text after the given range
+* `insertTextBefore(nodeOrToken, text)` - inserts text before the given node or token
+* `insertTextBeforeRange(range, text)` - inserts text before the given range
+* `remove(nodeOrToken)` - removes the given node or token
+* `removeRange(range)` - removes text in the given range
+* `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
+* `replaceTextRange(range, text)` - replaces the text in the given range
 
 Best practices for fixes:
 
@@ -230,30 +230,30 @@ module.exports = function(context) {
 
 Once you have an instance of `SourceCode`, you can use the methods on it to work with the code:
 
-*   `getAllComments()` - returns an array of all comments in the source.
-*   `getComments(node)` - returns the leading and trailing comments arrays for the given node.
-*   `getFirstToken(node)` - returns the first token representing the given node.
-*   `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node.
-*   `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
-*   `getLastToken(node)` - returns the last token representing the given node.
-*   `getLastTokens(node, count)` - returns the last `count` tokens representing the given node.
-*   `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
-*   `isSpaceBetweenTokens(first, second)` - returns true if there is a whitespace character between the two tokens.
-*   `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
-*   `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token.
-*   `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token.
-*   `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source.
-*   `getTokens(node)` - returns all tokens for the given node.
-*   `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token.
-*   `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token.
-*   `getTokensBetween(node1, node2)` - returns the tokens between two nodes.
+* `getAllComments()` - returns an array of all comments in the source.
+* `getComments(node)` - returns the leading and trailing comments arrays for the given node.
+* `getFirstToken(node)` - returns the first token representing the given node.
+* `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node.
+* `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
+* `getLastToken(node)` - returns the last token representing the given node.
+* `getLastTokens(node, count)` - returns the last `count` tokens representing the given node.
+* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
+* `isSpaceBetweenTokens(first, second)` - returns true if there is a whitespace character between the two tokens.
+* `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
+* `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token.
+* `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token.
+* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source.
+* `getTokens(node)` - returns all tokens for the given node.
+* `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token.
+* `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token.
+* `getTokensBetween(node1, node2)` - returns the tokens between two nodes.
 
 There are also some properties you can access:
 
-*   `hasBOM` - the flag to indicate whether or not the source code has Unicode BOM.
-*   `text` - the full text of the code being linted. Unicode BOM has been stripped from this text.
-*   `ast` - the `Program` node of the AST for the code being linted.
-*   `lines` - an array of lines, split according to the specification's definition of line breaks.
+* `hasBOM` - the flag to indicate whether or not the source code has Unicode BOM.
+* `text` - the full text of the code being linted. Unicode BOM has been stripped from this text.
+* `ast` - the `Program` node of the AST for the code being linted.
+* `lines` - an array of lines, split according to the specification's definition of line breaks.
 
 You should use a `SourceCode` object whenever you need to get more information about the code being linted.
 
@@ -554,20 +554,20 @@ quotes |    18.066 |   100.0%
 
 The rule naming conventions for ESLint are fairly simple:
 
-*   If your rule is disallowing something, prefix it with `no-` such as `no-eval` for disallowing `eval()` and `no-debugger` for disallowing `debugger`.
-*   If your rule is enforcing the inclusion of something, use a short name without a special prefix.
-*   Keep your rule names as short as possible, use abbreviations where appropriate, and no more than four words.
-*   Use dashes between words.
+* If your rule is disallowing something, prefix it with `no-` such as `no-eval` for disallowing `eval()` and `no-debugger` for disallowing `debugger`.
+* If your rule is enforcing the inclusion of something, use a short name without a special prefix.
+* Keep your rule names as short as possible, use abbreviations where appropriate, and no more than four words.
+* Use dashes between words.
 
 ## Rule Acceptance Criteria
 
 Because rules are highly personal (and therefore very contentious), accepted rules should:
 
-*   Not be library-specific.
-*   Demonstrate a possible issue that can be resolved by rewriting the code.
-*   Be general enough so as to apply for a large number of developers.
-*   Not be the opposite of an existing rule.
-*   Not overlap with an existing rule.
+* Not be library-specific.
+* Demonstrate a possible issue that can be resolved by rewriting the code.
+* Be general enough so as to apply for a large number of developers.
+* Not be the opposite of an existing rule.
+* Not overlap with an existing rule.
 
 ## Runtime Rules
 

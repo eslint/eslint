@@ -17,7 +17,7 @@ This rule aims to ensure that Promises are only rejected with `Error` objects.
 
 This rule takes one optional object argument:
 
-*   `allowEmptyReject: true` (`false` by default) allows calls to `Promise.reject()` with no arguments.
+* `allowEmptyReject: true` (`false` by default) allows calls to `Promise.reject()` with no arguments.
 
 Examples of **incorrect** code for this rule:
 

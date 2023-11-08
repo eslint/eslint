@@ -32,8 +32,8 @@ The rule applies to the operators listed in the above table. It does not report 
 
 This rule has a single string option:
 
-*   `"always"` (default) requires assignment operator shorthand where possible
-*   `"never"` disallows assignment operator shorthand
+* `"always"` (default) requires assignment operator shorthand where possible
+* `"never"` disallows assignment operator shorthand
 
 ### always
 

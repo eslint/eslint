@@ -55,15 +55,15 @@ const baz = (_bar) => {};
 
 This rule has an object option:
 
-*   `"allow"` allows specified identifiers to have dangling underscores
-*   `"allowAfterThis": false` (default) disallows dangling underscores in members of the `this` object
-*   `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
-*   `"allowAfterThisConstructor": false` (default) disallows dangling underscores in members of the `this.constructor` object
-*   `"enforceInMethodNames": false` (default) allows dangling underscores in method names
-*   `"enforceInClassFields": false` (default) allows dangling underscores in es2022 class fields names
-*   `"allowInArrayDestructuring": true` (default) allows dangling underscores in variable names assigned by array destructuring
-*   `"allowInObjectDestructuring": true` (default) allows dangling underscores in variable names assigned by object destructuring
-*   `"allowFunctionParams": true` (default) allows dangling underscores in function parameter names
+* `"allow"` allows specified identifiers to have dangling underscores
+* `"allowAfterThis": false` (default) disallows dangling underscores in members of the `this` object
+* `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
+* `"allowAfterThisConstructor": false` (default) disallows dangling underscores in members of the `this.constructor` object
+* `"enforceInMethodNames": false` (default) allows dangling underscores in method names
+* `"enforceInClassFields": false` (default) allows dangling underscores in es2022 class fields names
+* `"allowInArrayDestructuring": true` (default) allows dangling underscores in variable names assigned by array destructuring
+* `"allowInObjectDestructuring": true` (default) allows dangling underscores in variable names assigned by object destructuring
+* `"allowFunctionParams": true` (default) allows dangling underscores in function parameter names
 
 ### allow
 

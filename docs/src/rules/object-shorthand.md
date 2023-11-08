@@ -92,12 +92,12 @@ var foo = {
 
 The rule takes an option which specifies when it should be applied. It can be set to one of the following values:
 
-*   `"always"` (default) expects that the shorthand will be used whenever possible.
-*   `"methods"` ensures the method shorthand is used (also applies to generators).
-*   `"properties"` ensures the property shorthand is used (where the key and variable name match).
-*   `"never"` ensures that no property or method shorthand is used in any object literal.
-*   `"consistent"` ensures that either all shorthand or all long-form will be used in an object literal.
-*   `"consistent-as-needed"` ensures that either all shorthand or all long-form will be used in an object literal, but ensures all shorthand whenever possible.
+* `"always"` (default) expects that the shorthand will be used whenever possible.
+* `"methods"` ensures the method shorthand is used (also applies to generators).
+* `"properties"` ensures the property shorthand is used (where the key and variable name match).
+* `"never"` ensures that no property or method shorthand is used in any object literal.
+* `"consistent"` ensures that either all shorthand or all long-form will be used in an object literal.
+* `"consistent-as-needed"` ensures that either all shorthand or all long-form will be used in an object literal, but ensures all shorthand whenever possible.
 
 You can set the option in configuration like this:
 
@@ -109,10 +109,10 @@ You can set the option in configuration like this:
 
 Additionally, the rule takes an optional object configuration:
 
-*   `"avoidQuotes": true` indicates that long-form syntax is preferred whenever the object key is a string literal (default: `false`). Note that this option can only be enabled when the string option is set to `"always"`, `"methods"`, or `"properties"`.
-*   `"ignoreConstructors": true` can be used to prevent the rule from reporting errors for constructor functions. (By default, the rule treats constructors the same way as other functions.) Note that this option can only be enabled when the string option is set to `"always"` or `"methods"`.
-*   `"methodsIgnorePattern"` (`string`) for methods whose names match this regex pattern, the method shorthand will not be enforced. Note that this option can only be used when the string option is set to `"always"` or `"methods"`.
-*   `"avoidExplicitReturnArrows": true` indicates that methods are preferred over explicit-return arrow functions for function properties. (By default, the rule allows either of these.) Note that this option can only be enabled when the string option is set to `"always"` or `"methods"`.
+* `"avoidQuotes": true` indicates that long-form syntax is preferred whenever the object key is a string literal (default: `false`). Note that this option can only be enabled when the string option is set to `"always"`, `"methods"`, or `"properties"`.
+* `"ignoreConstructors": true` can be used to prevent the rule from reporting errors for constructor functions. (By default, the rule treats constructors the same way as other functions.) Note that this option can only be enabled when the string option is set to `"always"` or `"methods"`.
+* `"methodsIgnorePattern"` (`string`) for methods whose names match this regex pattern, the method shorthand will not be enforced. Note that this option can only be used when the string option is set to `"always"` or `"methods"`.
+* `"avoidExplicitReturnArrows": true` indicates that methods are preferred over explicit-return arrow functions for function properties. (By default, the rule allows either of these.) Note that this option can only be enabled when the string option is set to `"always"` or `"methods"`.
 
 ### `avoidQuotes`
 

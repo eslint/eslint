@@ -76,8 +76,8 @@ f(x ? x : 1); // default assignment - would be disallowed if defaultAssignment o
 
 This rule has an object option:
 
-*   `"defaultAssignment": true` (default) allows the conditional expression as a default assignment pattern
-*   `"defaultAssignment": false` disallows the conditional expression as a default assignment pattern
+* `"defaultAssignment": true` (default) allows the conditional expression as a default assignment pattern
+* `"defaultAssignment": false` disallows the conditional expression as a default assignment pattern
 
 ### defaultAssignment
 

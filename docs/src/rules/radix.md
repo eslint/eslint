@@ -31,8 +31,8 @@ This rule is aimed at preventing the unintended conversion of a string to a numb
 
 There are two options for this rule:
 
-*   `"always"` enforces providing a radix (default)
-*   `"as-needed"` disallows providing the `10` radix
+* `"always"` enforces providing a radix (default)
+* `"as-needed"` disallows providing the `10` radix
 
 ### always
 

@@ -58,7 +58,7 @@ var x = 1; // test
 
 This rule has an optional object option with the following properties:
 
-*   `allowIndentationTabs` (default: false): If this is set to true, then the rule will not report tabs used for indentation.
+* `allowIndentationTabs` (default: false): If this is set to true, then the rule will not report tabs used for indentation.
 
 #### allowIndentationTabs
 
@@ -89,4 +89,4 @@ If you have established a standard where having tabs is fine, then you can disab
 
 ## Compatibility
 
-*   **JSCS**: [disallowTabs](https://jscs-dev.github.io/rule/disallowTabs)
+* **JSCS**: [disallowTabs](https://jscs-dev.github.io/rule/disallowTabs)

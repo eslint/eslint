@@ -101,12 +101,12 @@ data["y"] = 3;  // excused because of calculated property access
 
 This rule has an object option:
 
-*   `"min"` (default: 2) enforces a minimum identifier length
-*   `"max"` (default: Infinity) enforces a maximum identifier length
-*   `"properties": always` (default) enforces identifier length convention for property names
-*   `"properties": never` ignores identifier length convention for property names
-*   `"exceptions"` allows an array of specified identifier names
-*   `"exceptionPatterns"` array of strings representing regular expression patterns, allows identifiers that match any of the patterns.
+* `"min"` (default: 2) enforces a minimum identifier length
+* `"max"` (default: Infinity) enforces a maximum identifier length
+* `"properties": always` (default) enforces identifier length convention for property names
+* `"properties": never` ignores identifier length convention for property names
+* `"exceptions"` allows an array of specified identifier names
+* `"exceptionPatterns"` array of strings representing regular expression patterns, allows identifiers that match any of the patterns.
 
 ### min
 

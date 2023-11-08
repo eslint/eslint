@@ -84,9 +84,9 @@ function foo() {
 
 The `hoist` option has three settings:
 
-*   `functions` (by default) - reports shadowing before the outer functions are defined.
-*   `all` - reports all shadowing before the outer variables/functions are defined.
-*   `never` - never report shadowing before the outer variables/functions are defined.
+* `functions` (by default) - reports shadowing before the outer functions are defined.
+* `all` - reports all shadowing before the outer variables/functions are defined.
+* `never` - never report shadowing before the outer variables/functions are defined.
 
 #### hoist: functions
 

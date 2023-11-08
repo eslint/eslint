@@ -9,8 +9,8 @@ Negated conditions are more difficult to understand. Code can be made more reada
 
 This rule disallows negated conditions in either of the following:
 
-*   `if` statements which have an `else` branch
-*   ternary expressions
+* `if` statements which have an `else` branch
+* ternary expressions
 
 Examples of **incorrect** code for this rule:
 
