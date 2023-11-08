@@ -171,5 +171,6 @@
   "license": "MIT",
   "engines": {
     "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
-  }
+  },
+  "packageManager": "yarn@1.22.19"
 }
