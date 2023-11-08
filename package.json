@@ -133,7 +133,7 @@
     "lint-staged": "^11.0.0",
     "load-perf": "^0.2.0",
     "markdownlint": "^0.25.1",
-    "markdownlint-cli": "^0.31.1",
+    "markdownlint-cli": "^0.37.0",
     "marked": "^4.0.8",
     "memfs": "^3.0.1",
     "metascraper": "^5.25.7",
