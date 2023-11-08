@@ -53,4 +53,4 @@ If you aren't concerned about misinterpreting floating decimal point values, the
 
 ## Compatibility
 
-* **JSHint**: W008, W047
+*   **JSHint**: W008, W047

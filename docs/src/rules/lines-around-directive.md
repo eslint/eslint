@@ -6,8 +6,6 @@ related_rules:
 - padded-blocks
 ---
 
-
-
 This rule was **deprecated** in ESLint v4.0.0 and replaced by the [padding-line-between-statements](padding-line-between-statements) rule.
 
 Directives are used in JavaScript to indicate to the execution environment that a script would like to opt into a feature such as `"strict mode"`. Directives are grouped together in a [directive prologue](https://www.ecma-international.org/ecma-262/7.0/#directive-prologue) at the top of either a file or function block and are applied to the scope in which they occur.
@@ -42,8 +40,8 @@ This rule requires or disallows blank newlines around directive prologues. This 
 
 This rule has one option. It can either be a string or an object:
 
-* `"always"` (default) enforces blank newlines around directives.
-* `"never"` disallows blank newlines around directives.
+*   `"always"` (default) enforces blank newlines around directives.
+*   `"never"` disallows blank newlines around directives.
 
 or
 
@@ -274,7 +272,7 @@ var foo;
 
 :::
 
-Examples of **correct** code for this rule with the `{ "before": "never", "after": "always" }`  option:
+Examples of **correct** code for this rule with the `{ "before": "never", "after": "always" }` option:
 
 ::: correct { "sourceType": "script" }
 
@@ -408,5 +406,5 @@ You can safely disable this rule if you do not have any strict conventions about
 
 ## Compatibility
 
-* **JSCS**: [requirePaddingNewLinesAfterUseStrict](https://jscs-dev.github.io/rule/requirePaddingNewLinesAfterUseStrict)
-* **JSCS**: [disallowPaddingNewLinesAfterUseStrict](https://jscs-dev.github.io/rule/disallowPaddingNewLinesAfterUseStrict)
+*   **JSCS**: [requirePaddingNewLinesAfterUseStrict](https://jscs-dev.github.io/rule/requirePaddingNewLinesAfterUseStrict)
+*   **JSCS**: [disallowPaddingNewLinesAfterUseStrict](https://jscs-dev.github.io/rule/disallowPaddingNewLinesAfterUseStrict)

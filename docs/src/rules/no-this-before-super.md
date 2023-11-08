@@ -4,8 +4,6 @@ rule_type: problem
 handled_by_typescript: true
 ---
 
-
-
 In the constructor of derived classes, if `this`/`super` are used before `super()` calls, it raises a reference error.
 
 This rule checks `this`/`super` keywords in constructors, then reports those that are before `super()`.

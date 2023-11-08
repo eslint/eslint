@@ -5,7 +5,6 @@ related_rules:
 - no-empty
 ---
 
-
 Empty functions can reduce readability because readers need to guess whether it's intentional or not.
 So writing a clear comment for empty functions is a good practice.
 
@@ -182,17 +181,17 @@ class A {
 
 This rule has an option to allow specific kinds of functions to be empty.
 
-* `allow` (`string[]`) - A list of kind to allow empty functions. List items are some of the following strings. An empty array (`[]`) by default.
-    * `"functions"` - Normal functions.
-    * `"arrowFunctions"` - Arrow functions.
-    * `"generatorFunctions"` - Generator functions.
-    * `"methods"` - Class methods and method shorthands of object literals.
-    * `"generatorMethods"` - Class methods and method shorthands of object literals with generator.
-    * `"getters"` - Getters.
-    * `"setters"` - Setters.
-    * `"constructors"` - Class constructors.
-    * `"asyncFunctions"` - Async functions.
-    * `"asyncMethods"` - Async class methods and method shorthands of object literals.
+*   `allow` (`string[]`) - A list of kind to allow empty functions. List items are some of the following strings. An empty array (`[]`) by default.
+    *   `"functions"` - Normal functions.
+    *   `"arrowFunctions"` - Arrow functions.
+    *   `"generatorFunctions"` - Generator functions.
+    *   `"methods"` - Class methods and method shorthands of object literals.
+    *   `"generatorMethods"` - Class methods and method shorthands of object literals with generator.
+    *   `"getters"` - Getters.
+    *   `"setters"` - Setters.
+    *   `"constructors"` - Class constructors.
+    *   `"asyncFunctions"` - Async functions.
+    *   `"asyncMethods"` - Async class methods and method shorthands of object literals.
 
 ### allow: functions
 

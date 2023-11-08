@@ -66,21 +66,21 @@ ESLint only automatically looks for a config file named `eslint.config.js` and d
 
 Each configuration object contains all of the information ESLint needs to execute on a set of files. Each configuration object is made up of these properties:
 
-* `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
-* `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`.
-* `languageOptions` - An object containing settings related to how JavaScript is configured for linting.
-    * `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
-    * `sourceType` - The type of JavaScript source code. Possible values are `"script"` for traditional script files, `"module"` for ECMAScript modules (ESM), and `"commonjs"` for CommonJS files. (default: `"module"` for `.js` and `.mjs` files; `"commonjs"` for `.cjs` files)
-    * `globals` - An object specifying additional objects that should be added to the global scope during linting.
-    * `parser` - An object containing a `parse()` method or a `parseForESLint()` method. (default: [`espree`](https://github.com/eslint/espree))
-    * `parserOptions` - An object specifying additional options that are passed directly to the `parse()` or `parseForESLint()` method on the parser. The available options are parser-dependent.
-* `linterOptions` - An object containing settings related to the linting process.
-    * `noInlineConfig` - A Boolean value indicating if inline configuration is allowed.
-    * `reportUnusedDisableDirectives` - A Boolean value indicating if unused disable and enable directives should be tracked and reported.
-* `processor` - Either an object containing `preprocess()` and `postprocess()` methods or a string indicating the name of a processor inside of a plugin (i.e., `"pluginName/processorName"`).
-* `plugins` - An object containing a name-value mapping of plugin names to plugin objects. When `files` is specified, these plugins are only available to the matching files.
-* `rules` - An object containing the configured rules. When `files` or `ignores` are specified, these rule configurations are only available to the matching files.
-* `settings` - An object containing name-value pairs of information that should be available to all rules.
+*   `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
+*   `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`.
+*   `languageOptions` - An object containing settings related to how JavaScript is configured for linting.
+    *   `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
+    *   `sourceType` - The type of JavaScript source code. Possible values are `"script"` for traditional script files, `"module"` for ECMAScript modules (ESM), and `"commonjs"` for CommonJS files. (default: `"module"` for `.js` and `.mjs` files; `"commonjs"` for `.cjs` files)
+    *   `globals` - An object specifying additional objects that should be added to the global scope during linting.
+    *   `parser` - An object containing a `parse()` method or a `parseForESLint()` method. (default: [`espree`](https://github.com/eslint/espree))
+    *   `parserOptions` - An object specifying additional options that are passed directly to the `parse()` or `parseForESLint()` method on the parser. The available options are parser-dependent.
+*   `linterOptions` - An object containing settings related to the linting process.
+    *   `noInlineConfig` - A Boolean value indicating if inline configuration is allowed.
+    *   `reportUnusedDisableDirectives` - A Boolean value indicating if unused disable and enable directives should be tracked and reported.
+*   `processor` - Either an object containing `preprocess()` and `postprocess()` methods or a string indicating the name of a processor inside of a plugin (i.e., `"pluginName/processorName"`).
+*   `plugins` - An object containing a name-value mapping of plugin names to plugin objects. When `files` is specified, these plugins are only available to the matching files.
+*   `rules` - An object containing the configured rules. When `files` or `ignores` are specified, these rule configurations are only available to the matching files.
+*   `settings` - An object containing name-value pairs of information that should be available to all rules.
 
 ### Specifying `files` and `ignores`
 
@@ -510,7 +510,7 @@ export default [
 ];
 ```
 
-This configuration object specifies that there is a processor called `"markdown"` contained in the plugin named `"markdown"`.  The configuration applies the processor to all files ending with `.md`.
+This configuration object specifies that there is a processor called `"markdown"` contained in the plugin named `"markdown"`. The configuration applies the processor to all files ending with `.md`.
 
 Processors may make named code blocks that function as filenames in configuration objects, such as `0.js` and `1.js`. ESLint handles such a named code block as a child of the original file. You can specify additional configuration objects for named code blocks. For example, the following disables the `strict` rule for the named code blocks which end with `.js` in markdown files.
 
@@ -571,9 +571,9 @@ Each rule specifies its own options and can be any valid JSON data type. Please 
 
 There are three possible severities you can specify for a rule
 
-* `"error"` (or `2`) - the reported problem should be treated as an error. When using the ESLint CLI, errors cause the CLI to exit with a nonzero code.
-* `"warn"` (or `1`) - the reported problem should be treated as a warning. When using the ESLint CLI, warnings are reported but do not change the exit code. If only warnings are reported, the exit code is 0.
-* `"off"` (or `0`) - the rule should be turned off completely.
+*   `"error"` (or `2`) - the reported problem should be treated as an error. When using the ESLint CLI, errors cause the CLI to exit with a nonzero code.
+*   `"warn"` (or `1`) - the reported problem should be treated as a warning. When using the ESLint CLI, warnings are reported but do not change the exit code. If only warnings are reported, the exit code is 0.
+*   `"off"` (or `0`) - the rule should be turned off completely.
 
 #### Rule configuration cascade
 
@@ -631,8 +631,8 @@ export default [
 
 ESLint has two predefined configurations for JavaScript:
 
-* `js.configs.recommended` - enables the rules that ESLint recommends everyone use to avoid potential errors
-* `js.configs.all` - enables all of the rules shipped with ESLint
+*   `js.configs.recommended` - enables the rules that ESLint recommends everyone use to avoid potential errors
+*   `js.configs.all` - enables all of the rules shipped with ESLint
 
 To include these predefined configurations, install the `@eslint/js` package and then make any modifications to other properties in subsequent configuration objects:
 

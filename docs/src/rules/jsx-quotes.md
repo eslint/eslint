@@ -30,8 +30,8 @@ This rule enforces the consistent use of either double or single quotes in JSX a
 
 This rule has a string option:
 
-* `"prefer-double"` (default) enforces the use of double quotes for all JSX attribute values that don't contain a double quote.
-* `"prefer-single"` enforces the use of single quotes for all JSX attribute values that don’t contain a single quote.
+*   `"prefer-double"` (default) enforces the use of double quotes for all JSX attribute values that don't contain a double quote.
+*   `"prefer-single"` enforces the use of single quotes for all JSX attribute values that don’t contain a single quote.
 
 ### prefer-double
 

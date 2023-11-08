@@ -3,8 +3,6 @@ title: no-implicit-coercion
 rule_type: suggestion
 ---
 
-
-
 In JavaScript, there are a lot of different ways to convert value types.
 Some of them might be hard to read and understand.
 
@@ -38,11 +36,11 @@ This rule is aimed to flag shorter notations for the type conversion, then sugge
 
 This rule has three main options and one override option to allow some coercions as required.
 
-* `"boolean"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `boolean` type.
-* `"number"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `number` type.
-* `"string"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `string` type.
-* `"disallowTemplateShorthand"` (`false` by default) - When this is `true`, this rule warns `string` type conversions using `${expression}` form.
-* `"allow"` (`empty` by default) - Each entry in this array can be one of `~`, `!!`, `+` or `*` that are to be allowed.
+*   `"boolean"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `boolean` type.
+*   `"number"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `number` type.
+*   `"string"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `string` type.
+*   `"disallowTemplateShorthand"` (`false` by default) - When this is `true`, this rule warns `string` type conversions using `${expression}` form.
+*   `"allow"` (`empty` by default) - Each entry in this array can be one of `~`, `!!`, `+` or `*` that are to be allowed.
 
 Note that operator `+` in `allow` list would allow `+foo` (number coercion) as well as `"" + foo` (string coercion).
 

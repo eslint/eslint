@@ -3,7 +3,6 @@ title: no-octal-escape
 rule_type: suggestion
 ---
 
-
 As of the ECMAScript 5 specification, octal escape sequences in string literals are deprecated and should not be used. Unicode escape sequences should be used instead.
 
 ```js
@@ -18,7 +17,7 @@ If ESLint parses code in strict mode, the parser (instead of this rule) reports 
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect  { "sourceType": "script" }
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-octal-escape: "error"*/
@@ -30,7 +29,7 @@ var foo = "Copyright \251";
 
 Examples of **correct** code for this rule:
 
-::: correct  { "sourceType": "script" }
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-octal-escape: "error"*/

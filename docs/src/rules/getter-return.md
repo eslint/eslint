@@ -7,8 +7,6 @@ further_reading:
 - https://leanpub.com/understandinges6/read/#leanpub-auto-accessor-properties
 ---
 
-
-
 The get syntax binds an object property to a function that will be called when that property is looked up. It was first introduced in ECMAScript 5:
 
 ```js
@@ -91,7 +89,7 @@ class P{
 
 This rule has an object option:
 
-* `"allowImplicit": false` (default) disallows implicitly returning `undefined` with a `return` statement.
+*   `"allowImplicit": false` (default) disallows implicitly returning `undefined` with a `return` statement.
 
 Examples of **correct** code for the `{ "allowImplicit": true }` option:
 

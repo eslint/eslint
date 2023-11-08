@@ -28,8 +28,8 @@ This rule requires or disallows spaces between the function name and the opening
 
 This rule has a string option:
 
-* `"never"` (default) disallows space between the function name and the opening parenthesis.
-* `"always"` requires space between the function name and the opening parenthesis.
+*   `"never"` (default) disallows space between the function name and the opening parenthesis.
+*   `"always"` requires space between the function name and the opening parenthesis.
 
 Further, in `"always"` mode, a second object option is available that contains a single boolean `allowNewlines` property.
 
@@ -128,5 +128,5 @@ This rule can safely be turned off if your project does not care about enforcing
 
 ## Compatibility
 
-* **JSCS**: [disallowSpacesInCallExpression](https://jscs-dev.github.io/rule/disallowSpacesInCallExpression)
-* **JSCS**: [requireSpacesInCallExpression](https://jscs-dev.github.io/rule/requireSpacesInCallExpression)
+*   **JSCS**: [disallowSpacesInCallExpression](https://jscs-dev.github.io/rule/disallowSpacesInCallExpression)
+*   **JSCS**: [requireSpacesInCallExpression](https://jscs-dev.github.io/rule/requireSpacesInCallExpression)

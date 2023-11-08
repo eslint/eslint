@@ -19,21 +19,21 @@ This rule requires empty lines before and/or after comments. It can be enabled s
 
 This rule has an object option:
 
-* `"beforeBlockComment": true` (default) requires an empty line before block comments
-* `"afterBlockComment": true` requires an empty line after block comments
-* `"beforeLineComment": true` requires an empty line before line comments
-* `"afterLineComment": true` requires an empty line after line comments
-* `"allowBlockStart": true` allows comments to appear at the start of block statements, function bodies, classes, switch statements, and class static blocks
-* `"allowBlockEnd": true` allows comments to appear at the end of block statements, function bodies, classes, switch statements, and class static blocks
-* `"allowObjectStart": true` allows comments to appear at the start of object literals
-* `"allowObjectEnd": true` allows comments to appear at the end of object literals
-* `"allowArrayStart": true` allows comments to appear at the start of array literals
-* `"allowArrayEnd": true` allows comments to appear at the end of array literals
-* `"allowClassStart": true` allows comments to appear at the start of classes
-* `"allowClassEnd": true` allows comments to appear at the end of classes
-* `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
-* `"ignorePattern"` custom patterns to be ignored by the rule
-* `"afterHashbangComment": true` requires an empty line after hashbang comments
+*   `"beforeBlockComment": true` (default) requires an empty line before block comments
+*   `"afterBlockComment": true` requires an empty line after block comments
+*   `"beforeLineComment": true` requires an empty line before line comments
+*   `"afterLineComment": true` requires an empty line after line comments
+*   `"allowBlockStart": true` allows comments to appear at the start of block statements, function bodies, classes, switch statements, and class static blocks
+*   `"allowBlockEnd": true` allows comments to appear at the end of block statements, function bodies, classes, switch statements, and class static blocks
+*   `"allowObjectStart": true` allows comments to appear at the start of object literals
+*   `"allowObjectEnd": true` allows comments to appear at the end of object literals
+*   `"allowArrayStart": true` allows comments to appear at the start of array literals
+*   `"allowArrayEnd": true` allows comments to appear at the end of array literals
+*   `"allowClassStart": true` allows comments to appear at the start of classes
+*   `"allowClassEnd": true` allows comments to appear at the end of classes
+*   `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
+*   `"ignorePattern"` custom patterns to be ignored by the rule
+*   `"afterHashbangComment": true` requires an empty line after hashbang comments
 
 ### beforeBlockComment
 
@@ -233,7 +233,7 @@ class C {
 switch (foo) {
   /* what a great and wonderful day */
 
-  case 1:    
+  case 1:
     bar();
     break;
 }
@@ -317,7 +317,7 @@ class C {
 }
 
 switch (foo) {
-  case 1:    
+  case 1:
     bar();
     break;
 

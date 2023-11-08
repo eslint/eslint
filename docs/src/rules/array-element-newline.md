@@ -24,14 +24,14 @@ This rule enforces line breaks between array elements.
 
 This rule has either a string option:
 
-* `"always"` (default) requires line breaks between array elements
-* `"never"` disallows line breaks between array elements
-* `"consistent"` requires consistent usage of linebreaks between array elements
+*   `"always"` (default) requires line breaks between array elements
+*   `"never"` disallows line breaks between array elements
+*   `"consistent"` requires consistent usage of linebreaks between array elements
 
 Or an object option (Requires line breaks if any of properties is satisfied. Otherwise, disallows line breaks):
 
-* `"multiline": <boolean>` requires line breaks if there are line breaks inside elements. If this is false, this condition is disabled.
-* `"minItems": <number>` requires line breaks if the number of elements is at least the given integer. If this is 0, this condition will act the same as the option `"always"`. If this is `null` (the default), this condition is disabled.
+*   `"multiline": <boolean>` requires line breaks if there are line breaks inside elements. If this is false, this condition is disabled.
+*   `"minItems": <number>` requires line breaks if the number of elements is at least the given integer. If this is 0, this condition will act the same as the option `"always"`. If this is `null` (the default), this condition is disabled.
 
 Alternatively, different configurations can be specified for array expressions and array patterns:
 
@@ -44,8 +44,8 @@ Alternatively, different configurations can be specified for array expressions a
 }
 ```
 
-* `"ArrayExpression"` configuration for array expressions (if unspecified, this rule will not apply to array expressions)
-* `"ArrayPattern"` configuration for array patterns of destructuring assignments (if unspecified, this rule will not apply to array patterns)
+*   `"ArrayExpression"` configuration for array expressions (if unspecified, this rule will not apply to array expressions)
+*   `"ArrayPattern"` configuration for array patterns of destructuring assignments (if unspecified, this rule will not apply to array patterns)
 
 ### always
 
@@ -89,8 +89,8 @@ var d = [1,
     2,
     3];
 var d = [
-  1, 
-  2, 
+  1,
+  2,
   3
 ];
 var e = [
@@ -446,4 +446,4 @@ If you don't want to enforce linebreaks between array elements, don't enable thi
 
 ## Compatibility
 
-* **JSCS:** [validateNewlineAfterArrayElements](https://jscs-dev.github.io/rule/validateNewlineAfterArrayElements)
+*   **JSCS:** [validateNewlineAfterArrayElements](https://jscs-dev.github.io/rule/validateNewlineAfterArrayElements)

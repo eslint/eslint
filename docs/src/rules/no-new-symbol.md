@@ -6,8 +6,6 @@ further_reading:
 - https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-objects
 ---
 
-
-
 `Symbol` is not intended to be used with the `new` operator, but to be called as a function.
 
 ```js

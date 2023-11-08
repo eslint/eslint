@@ -6,8 +6,6 @@ related_rules:
 - quotes
 ---
 
-
-
 In ES2015 (ES6), we can use template literals instead of string concatenation.
 
 ```js

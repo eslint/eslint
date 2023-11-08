@@ -5,7 +5,6 @@ related_rules:
 - no-invalid-regexp
 ---
 
-
 ## Rule Details
 
 With the landing of ECMAScript 2018, named capture groups can be used in regular expressions, which can improve their readability.

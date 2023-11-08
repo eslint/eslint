@@ -5,7 +5,6 @@ further_reading:
 - https://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html
 ---
 
-
 There are two ways of defining functions in JavaScript: `function` declarations and `function` expressions. Declarations contain the `function` keyword first, followed by a name and then its arguments and the function body, for example:
 
 ```js
@@ -22,7 +21,7 @@ var doSomething = function() {
 };
 ```
 
-The primary difference between `function` declarations and `function expressions` is that declarations are *hoisted* to the top of the scope in which they are defined, which allows you to write code that uses the function before its declaration. For example:
+The primary difference between `function` declarations and `function expressions` is that declarations are _hoisted_ to the top of the scope in which they are defined, which allows you to write code that uses the function before its declaration. For example:
 
 ```js
 doSomething();
@@ -56,12 +55,12 @@ This rule enforces a particular type of `function` style throughout a JavaScript
 
 This rule has a string option:
 
-* `"expression"` (default) requires the use of function expressions instead of function declarations
-* `"declaration"` requires the use of function declarations instead of function expressions
+*   `"expression"` (default) requires the use of function expressions instead of function declarations
+*   `"declaration"` requires the use of function declarations instead of function expressions
 
 This rule has an object option for an exception:
 
-* `"allowArrowFunctions"`: `true` (default `false`) allows the use of arrow functions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
+*   `"allowArrowFunctions"`: `true` (default `false`) allows the use of arrow functions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
 
 ### expression
 

@@ -6,8 +6,6 @@ related_rules:
 - no-use-before-define
 ---
 
-
-
 If a variable is never reassigned, using the `const` declaration is better.
 
 `const` declaration tells readers, "this variable is never reassigned," reducing cognitive load and improving maintainability.
@@ -140,8 +138,8 @@ console.log(i);
 The kind of the way to address variables in destructuring.
 There are 2 values:
 
-* `"any"` (default) - If any variables in destructuring should be `const`, this rule warns for those variables.
-* `"all"` - If all variables in destructuring should be `const`, this rule warns the variables. Otherwise, ignores them.
+*   `"any"` (default) - If any variables in destructuring should be `const`, this rule warns for those variables.
+*   `"all"` - If all variables in destructuring should be `const`, this rule warns the variables. Otherwise, ignores them.
 
 Examples of **incorrect** code for the default `{"destructuring": "any"}` option:
 

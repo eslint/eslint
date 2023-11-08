@@ -17,9 +17,9 @@ function hello(indentSize, type) {
 
 These are the most common scenarios recommended in different style guides:
 
-* Two spaces, not longer and no tabs: Google, npm, Node.js, Idiomatic, Felix
-* Tabs: jQuery
-* Four spaces: Crockford
+*   Two spaces, not longer and no tabs: Google, npm, Node.js, Idiomatic, Felix
+*   Tabs: jQuery
+*   Four spaces: Crockford
 
 ## Rule Details
 
@@ -81,44 +81,44 @@ if (a) {
 
 This rule has an object option:
 
-* `"ignoredNodes"` can be used to disable indentation checking for any AST node. This accepts an array of [selectors](../extend/selectors). If an AST node is matched by any of the selectors, the indentation of tokens which are direct children of that node will be ignored. This can be used as an escape hatch to relax the rule if you disagree with the indentation that it enforces for a particular syntactic pattern.
-* `"SwitchCase"` (default: 0) enforces indentation level for `case` clauses in `switch` statements
-* `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations. It can also be `"first"`, indicating all the declarators should be aligned with the first declarator.
-* `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs. This can also be set to `"off"` to disable checking for file-level IIFEs.
-* `"MemberExpression"` (default: 1) enforces indentation level for multi-line property chains. This can also be set to `"off"` to disable checking for MemberExpression indentation.
-* `"FunctionDeclaration"` takes an object to define rules for function declarations.
-    * `parameters` (default: 1) enforces indentation level for parameters in a function declaration. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the declaration must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionDeclaration parameters.
-    * `body` (default: 1) enforces indentation level for the body of a function declaration.
-* `"FunctionExpression"` takes an object to define rules for function expressions.
-    * `parameters` (default: 1) enforces indentation level for parameters in a function expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the expression must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionExpression parameters.
-    * `body` (default: 1) enforces indentation level for the body of a function expression.
-* `"StaticBlock"` takes an object to define rules for class static blocks.
-    * `body` (default: 1) enforces indentation level for the body of a class static block.
-* `"CallExpression"` takes an object to define rules for function call expressions.
-    * `arguments` (default: 1) enforces indentation level for arguments in a call expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all arguments of the expression must be aligned with the first argument. This can also be set to `"off"` to disable checking for CallExpression arguments.
-* `"ArrayExpression"` (default: 1) enforces indentation level for elements in arrays. It can also be set to the string `"first"`, indicating that all the elements in the array should be aligned with the first element. This can also be set to `"off"` to disable checking for array elements.
-* `"ObjectExpression"` (default: 1) enforces indentation level for properties in objects. It can be set to the string `"first"`, indicating that all properties in the object should be aligned with the first property. This can also be set to `"off"` to disable checking for object properties.
-* `"ImportDeclaration"` (default: 1) enforces indentation level for import statements. It can be set to the string `"first"`, indicating that all imported members from a module should be aligned with the first member in the list. This can also be set to `"off"` to disable checking for imported module members.
-* `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
-* `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions.
-* `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
+*   `"ignoredNodes"` can be used to disable indentation checking for any AST node. This accepts an array of [selectors](../extend/selectors). If an AST node is matched by any of the selectors, the indentation of tokens which are direct children of that node will be ignored. This can be used as an escape hatch to relax the rule if you disagree with the indentation that it enforces for a particular syntactic pattern.
+*   `"SwitchCase"` (default: 0) enforces indentation level for `case` clauses in `switch` statements
+*   `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations. It can also be `"first"`, indicating all the declarators should be aligned with the first declarator.
+*   `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs. This can also be set to `"off"` to disable checking for file-level IIFEs.
+*   `"MemberExpression"` (default: 1) enforces indentation level for multi-line property chains. This can also be set to `"off"` to disable checking for MemberExpression indentation.
+*   `"FunctionDeclaration"` takes an object to define rules for function declarations.
+    *   `parameters` (default: 1) enforces indentation level for parameters in a function declaration. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the declaration must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionDeclaration parameters.
+    *   `body` (default: 1) enforces indentation level for the body of a function declaration.
+*   `"FunctionExpression"` takes an object to define rules for function expressions.
+    *   `parameters` (default: 1) enforces indentation level for parameters in a function expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the expression must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionExpression parameters.
+    *   `body` (default: 1) enforces indentation level for the body of a function expression.
+*   `"StaticBlock"` takes an object to define rules for class static blocks.
+    *   `body` (default: 1) enforces indentation level for the body of a class static block.
+*   `"CallExpression"` takes an object to define rules for function call expressions.
+    *   `arguments` (default: 1) enforces indentation level for arguments in a call expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all arguments of the expression must be aligned with the first argument. This can also be set to `"off"` to disable checking for CallExpression arguments.
+*   `"ArrayExpression"` (default: 1) enforces indentation level for elements in arrays. It can also be set to the string `"first"`, indicating that all the elements in the array should be aligned with the first element. This can also be set to `"off"` to disable checking for array elements.
+*   `"ObjectExpression"` (default: 1) enforces indentation level for properties in objects. It can be set to the string `"first"`, indicating that all properties in the object should be aligned with the first property. This can also be set to `"off"` to disable checking for object properties.
+*   `"ImportDeclaration"` (default: 1) enforces indentation level for import statements. It can be set to the string `"first"`, indicating that all imported members from a module should be aligned with the first member in the list. This can also be set to `"off"` to disable checking for imported module members.
+*   `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
+*   `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions.
+*   `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
-* Indent of 4 spaces with `VariableDeclarator` set to `2` will indent the multi-line variable declarations with 8 spaces.
-* Indent of 2 spaces with `VariableDeclarator` set to `2` will indent the multi-line variable declarations with 4 spaces.
-* Indent of 2 spaces with `VariableDeclarator` set to `{"var": 2, "let": 2, "const": 3}` will indent the multi-line variable declarations with 4 spaces for `var` and `let`, 6 spaces for `const` statements.
-* Indent of tab with `VariableDeclarator` set to `2` will indent the multi-line variable declarations with 2 tabs.
-* Indent of 2 spaces with `SwitchCase` set to `0` will not indent `case` clauses with respect to `switch` statements.
-* Indent of 2 spaces with `SwitchCase` set to `1` will indent `case` clauses with 2 spaces with respect to `switch` statements.
-* Indent of 2 spaces with `SwitchCase` set to `2` will indent `case` clauses with 4 spaces with respect to `switch` statements.
-* Indent of tab with `SwitchCase` set to `2` will indent `case` clauses with 2 tabs with respect to `switch` statements.
-* Indent of 2 spaces with `MemberExpression` set to `0` will indent the multi-line property chains with 0 spaces.
-* Indent of 2 spaces with `MemberExpression` set to `1` will indent the multi-line property chains with 2 spaces.
-* Indent of 2 spaces with `MemberExpression` set to `2` will indent the multi-line property chains with 4 spaces.
-* Indent of 4 spaces with `MemberExpression` set to `0` will indent the multi-line property chains with 0 spaces.
-* Indent of 4 spaces with `MemberExpression` set to `1` will indent the multi-line property chains with 4 spaces.
-* Indent of 4 spaces with `MemberExpression` set to `2` will indent the multi-line property chains with 8 spaces.
+*   Indent of 4 spaces with `VariableDeclarator` set to `2` will indent the multi-line variable declarations with 8 spaces.
+*   Indent of 2 spaces with `VariableDeclarator` set to `2` will indent the multi-line variable declarations with 4 spaces.
+*   Indent of 2 spaces with `VariableDeclarator` set to `{"var": 2, "let": 2, "const": 3}` will indent the multi-line variable declarations with 4 spaces for `var` and `let`, 6 spaces for `const` statements.
+*   Indent of tab with `VariableDeclarator` set to `2` will indent the multi-line variable declarations with 2 tabs.
+*   Indent of 2 spaces with `SwitchCase` set to `0` will not indent `case` clauses with respect to `switch` statements.
+*   Indent of 2 spaces with `SwitchCase` set to `1` will indent `case` clauses with 2 spaces with respect to `switch` statements.
+*   Indent of 2 spaces with `SwitchCase` set to `2` will indent `case` clauses with 4 spaces with respect to `switch` statements.
+*   Indent of tab with `SwitchCase` set to `2` will indent `case` clauses with 2 tabs with respect to `switch` statements.
+*   Indent of 2 spaces with `MemberExpression` set to `0` will indent the multi-line property chains with 0 spaces.
+*   Indent of 2 spaces with `MemberExpression` set to `1` will indent the multi-line property chains with 2 spaces.
+*   Indent of 2 spaces with `MemberExpression` set to `2` will indent the multi-line property chains with 4 spaces.
+*   Indent of 4 spaces with `MemberExpression` set to `0` will indent the multi-line property chains with 0 spaces.
+*   Indent of 4 spaces with `MemberExpression` set to `1` will indent the multi-line property chains with 4 spaces.
+*   Indent of 4 spaces with `MemberExpression` set to `2` will indent the multi-line property chains with 8 spaces.
 
 ### tab
 
@@ -143,6 +143,7 @@ Examples of **correct** code for this rule with the `"tab"` option:
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
+
 ::: correct
 
 ```js
@@ -157,6 +158,7 @@ if (a) {
 ```
 
 :::
+
 <!-- markdownlint-restore -->
 
 ### ignoredNodes
@@ -1078,5 +1080,5 @@ if (foo) {
 
 ## Compatibility
 
-* **JSHint**: `indent`
-* **JSCS**: [validateIndentation](https://jscs-dev.github.io/rule/validateIndentation)
+*   **JSHint**: `indent`
+*   **JSCS**: [validateIndentation](https://jscs-dev.github.io/rule/validateIndentation)

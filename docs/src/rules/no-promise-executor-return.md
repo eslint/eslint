@@ -7,8 +7,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 ---
 
-
-The `new Promise` constructor accepts a single argument, called an *executor*.
+The `new Promise` constructor accepts a single argument, called an _executor_.
 
 ```js
 const myPromise = new Promise(function executor(resolve, reject) {
@@ -115,7 +114,7 @@ Promise.resolve(1);
 
 This rule takes one option, an object, with the following properties:
 
-* `allowVoid`: If set to `true` (`false` by default), this rule will allow returning void values.
+*   `allowVoid`: If set to `true` (`false` by default), this rule will allow returning void values.
 
 ### allowVoid
 

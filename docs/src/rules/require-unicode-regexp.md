@@ -6,7 +6,6 @@ further_reading:
 - https://v8.dev/features/regexp-v-flag
 ---
 
-
 RegExp `u` flag has two effects:
 
 1. **Make the regular expression handling UTF-16 surrogate pairs correctly.**

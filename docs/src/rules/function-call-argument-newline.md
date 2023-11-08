@@ -20,9 +20,9 @@ This rule enforces line breaks between arguments of a function call.
 
 This rule has a string option:
 
-* `"always"` (default) requires line breaks between arguments
-* `"never"` disallows line breaks between arguments
-* `"consistent"` requires consistent usage of line breaks between arguments
+*   `"always"` (default) requires line breaks between arguments
+*   `"never"` disallows line breaks between arguments
+*   `"consistent"` requires consistent usage of line breaks between arguments
 
 ### always
 

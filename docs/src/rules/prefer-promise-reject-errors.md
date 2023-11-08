@@ -7,7 +7,6 @@ further_reading:
 - http://bluebirdjs.com/docs/warning-explanations.html#warning-a-promise-was-rejected-with-a-non-error
 ---
 
-
 It is considered good practice to only pass instances of the built-in `Error` object to the `reject()` function for user-defined errors in Promises. `Error` objects automatically store a stack trace, which can be used to debug an error by determining where it came from. If a Promise is rejected with a non-`Error` value, it can be difficult to determine where the rejection occurred.
 
 ## Rule Details
@@ -18,7 +17,7 @@ This rule aims to ensure that Promises are only rejected with `Error` objects.
 
 This rule takes one optional object argument:
 
-* `allowEmptyReject: true` (`false` by default) allows calls to `Promise.reject()` with no arguments.
+*   `allowEmptyReject: true` (`false` by default) allows calls to `Promise.reject()` with no arguments.
 
 Examples of **incorrect** code for this rule:
 

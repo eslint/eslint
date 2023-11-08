@@ -8,11 +8,10 @@ further_reading:
 - https://web.archive.org/web/20171224042620/https://docs.nodejitsu.com/articles/errors/what-are-the-error-conventions/
 ---
 
-
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 
 The callback pattern is at the heart of most I/O and event-driven programming
- in JavaScript.
+in JavaScript.
 
 ```js
 function doSomething(err, callback) {
@@ -24,9 +23,9 @@ function doSomething(err, callback) {
 ```
 
 To prevent calling the callback multiple times it is important to `return` anytime the callback is triggered outside
- of the main function body. Neglecting this technique often leads to issues where you do something more than once.
- For example, in the case of an HTTP request, you may try to send HTTP headers more than once leading Node.js to `throw`
- a `Can't render headers after they are sent to the client.` error.
+of the main function body. Neglecting this technique often leads to issues where you do something more than once.
+For example, in the case of an HTTP request, you may try to send HTTP headers more than once leading Node.js to `throw`
+a `Can't render headers after they are sent to the client.` error.
 
 ## Rule Details
 
@@ -127,14 +126,14 @@ function bar(err, send) {
 
 Because it is difficult to understand the meaning of a program through static analysis, this rule has limitations:
 
-* *false negatives* when this rule reports correct code, but the program calls the callback more than one time (which is incorrect behavior)
-* *false positives* when this rule reports incorrect code, but the program calls the callback only one time (which is correct behavior)
+*   _false negatives_ when this rule reports correct code, but the program calls the callback more than one time (which is incorrect behavior)
+*   _false positives_ when this rule reports incorrect code, but the program calls the callback only one time (which is correct behavior)
 
 ### Passing the callback by reference
 
-The static analysis of this rule does not detect that the program calls the callback if it is an argument of a function (for example,  `setTimeout`).
+The static analysis of this rule does not detect that the program calls the callback if it is an argument of a function (for example, `setTimeout`).
 
-Example of a *false negative* when this rule reports correct code:
+Example of a _false negative_ when this rule reports correct code:
 
 ```js
 /*eslint callback-return: "error"*/
@@ -151,7 +150,7 @@ function foo(err, callback) {
 
 The static analysis of this rule does not detect that the program calls the callback from within a nested function or an immediately-invoked function expression (IIFE).
 
-Example of a *false negative* when this rule reports correct code:
+Example of a _false negative_ when this rule reports correct code:
 
 ```js
 /*eslint callback-return: "error"*/
@@ -170,7 +169,7 @@ function foo(err, callback) {
 
 The static analysis of this rule does not detect that the program calls the callback only one time in each branch of an `if` statement.
 
-Example of a *false positive* when this rule reports incorrect code:
+Example of a _false positive_ when this rule reports incorrect code:
 
 ```js
 /*eslint callback-return: "error"*/
@@ -187,5 +186,5 @@ function foo(err, callback) {
 ## When Not To Use It
 
 There are some cases where you might want to call a callback function more than once. In those cases this rule
- may lead to incorrect behavior. In those cases you may want to reserve a special name for those callbacks and
- not include that in the list of callbacks that trigger warnings.
+may lead to incorrect behavior. In those cases you may want to reserve a special name for those callbacks and
+not include that in the list of callbacks that trigger warnings.

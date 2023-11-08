@@ -3,7 +3,6 @@ title: no-new-func
 rule_type: suggestion
 ---
 
-
 It's possible to create functions in JavaScript from strings at runtime using the `Function` constructor, such as:
 
 ```js

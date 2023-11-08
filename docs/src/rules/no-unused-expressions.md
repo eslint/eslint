@@ -3,7 +3,6 @@ title: no-unused-expressions
 rule_type: suggestion
 ---
 
-
 An unused expression which has no effect on the state of the program indicates a logic error.
 
 For example, `n + 1;` is not a syntax error, but it might be a typing mistake where a programmer meant an assignment statement `n += 1;` instead. Sometimes, such unused expressions may be eliminated by some build tools in production environment, which possibly breaks application logic.
@@ -12,7 +11,7 @@ For example, `n + 1;` is not a syntax error, but it might be a typing mistake wh
 
 This rule aims to eliminate unused expressions which have no effect on the state of the program.
 
-This rule does not apply to function calls or constructor calls with the `new` operator, because they could have *side effects* on the state of the program.
+This rule does not apply to function calls or constructor calls with the `new` operator, because they could have _side effects_ on the state of the program.
 
 ```js
 var i = 0;
@@ -32,12 +31,12 @@ Sequence expressions (those using a comma, such as `a = 1, b = 2`) are always co
 
 This rule, in its default state, does not require any arguments. If you would like to enable one or more of the following you may pass an object with the options set as follows:
 
-* `allowShortCircuit` set to `true` will allow you to use short circuit evaluations in your expressions (Default: `false`).
-* `allowTernary` set to `true` will enable you to use ternary operators in your expressions similarly to short circuit evaluations (Default: `false`).
-* `allowTaggedTemplates` set to `true` will enable you to use tagged template literals in your expressions (Default: `false`).
-* `enforceForJSX` set to `true` will flag unused JSX element expressions (Default: `false`).
+*   `allowShortCircuit` set to `true` will allow you to use short circuit evaluations in your expressions (Default: `false`).
+*   `allowTernary` set to `true` will enable you to use ternary operators in your expressions similarly to short circuit evaluations (Default: `false`).
+*   `allowTaggedTemplates` set to `true` will enable you to use tagged template literals in your expressions (Default: `false`).
+*   `enforceForJSX` set to `true` will flag unused JSX element expressions (Default: `false`).
 
-These options allow unused expressions *only if all* of the code paths either directly change the state (for example, assignment statement) or could have *side effects* (for example, function call).
+These options allow unused expressions _only if all_ of the code paths either directly change the state (for example, assignment statement) or could have _side effects_ (for example, function call).
 
 Examples of **incorrect** code for the default `{ "allowShortCircuit": false, "allowTernary": false }` options:
 

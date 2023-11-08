@@ -3,7 +3,6 @@ title: camelcase
 rule_type: suggestion
 ---
 
-
 When it comes to naming variables, style guides generally fall into one of two camps: camelcase (`variableName`) and underscores (`variable_name`). This rule focuses on using the camelcase approach. If your style guide calls for camelCasing your variable names, then this rule is for you!
 
 ## Rule Details
@@ -14,15 +13,15 @@ This rule looks for any underscores (`_`) located within the source code. It ign
 
 This rule has an object option:
 
-* `"properties": "always"` (default) enforces camelcase style for property names
-* `"properties": "never"` does not check property names
-* `"ignoreDestructuring": false` (default) enforces camelcase style for destructured identifiers
-* `"ignoreDestructuring": true` does not check destructured identifiers (but still checks any use of those identifiers later in the code)
-* `"ignoreImports": false` (default) enforces camelcase style for ES2015 imports
-* `"ignoreImports": true` does not check ES2015 imports (but still checks any use of the imports later in the code except function arguments)
-* `"ignoreGlobals": false` (default) enforces camelcase style for global variables
-* `"ignoreGlobals": true` does not enforce camelcase style for global variables
-* `allow` (`string[]`) list of properties to accept. Accept regex.
+*   `"properties": "always"` (default) enforces camelcase style for property names
+*   `"properties": "never"` does not check property names
+*   `"ignoreDestructuring": false` (default) enforces camelcase style for destructured identifiers
+*   `"ignoreDestructuring": true` does not check destructured identifiers (but still checks any use of those identifiers later in the code)
+*   `"ignoreImports": false` (default) enforces camelcase style for ES2015 imports
+*   `"ignoreImports": true` does not check ES2015 imports (but still checks any use of the imports later in the code except function arguments)
+*   `"ignoreGlobals": false` (default) enforces camelcase style for global variables
+*   `"ignoreGlobals": true` does not enforce camelcase style for global variables
+*   `allow` (`string[]`) list of properties to accept. Accept regex.
 
 ### properties: "always"
 

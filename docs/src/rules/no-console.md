@@ -6,7 +6,6 @@ related_rules:
 - no-debugger
 ---
 
-
 In JavaScript that is designed to be executed in the browser, it's considered a best practice to avoid using methods on `console`. Such messages are considered to be for debugging purposes and therefore not suitable to ship to the client. In general, calls using `console` should be stripped before being pushed to production.
 
 ```js
@@ -50,7 +49,7 @@ Console.log("Hello world!");
 
 This rule has an object option for exceptions:
 
-* `"allow"` has an array of strings which are allowed methods of the `console` object
+*   `"allow"` has an array of strings which are allowed methods of the `console` object
 
 Examples of additional **correct** code for this rule with a sample `{ "allow": ["warn", "error"] }` option:
 

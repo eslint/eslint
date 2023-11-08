@@ -7,10 +7,6 @@ related_rules:
 - no-label-var
 ---
 
-
-
-
-
 Labels that are declared and not used anywhere in the code are most likely an error due to incomplete refactoring.
 
 ```js

@@ -5,8 +5,6 @@ related_rules:
 - no-empty-function
 ---
 
-
-
 Empty block statements, while not technically errors, usually occur due to refactoring that wasn't completed. They can cause confusion when reading code.
 
 ## Rule Details
@@ -74,7 +72,7 @@ try {
 
 This rule has an object option for exceptions:
 
-* `"allowEmptyCatch": true` allows empty `catch` clauses (that is, which do not contain a comment)
+*   `"allowEmptyCatch": true` allows empty `catch` clauses (that is, which do not contain a comment)
 
 ### allowEmptyCatch
 

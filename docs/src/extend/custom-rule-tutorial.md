@@ -6,14 +6,15 @@ eleventyNavigation:
     title: Custom Rule Tutorial
     order: 1
 ---
+
 This tutorial covers how to create a custom rule for ESLint and distribute it with a plugin.
 
 You can create custom rules to validate if your code meets a certain expectation, and determine what to do if it does not meet that expectation. Plugins package custom rules and other configuration, allowing you to easily share and reuse them in different projects.
 
 To learn more about custom rules and plugins refer to the following documentation:
 
-* [Custom Rules](custom-rules)
-* [Plugins](plugins)
+*   [Custom Rules](custom-rules)
+*   [Plugins](plugins)
 
 ## Why Create a Custom Rule?
 
@@ -25,8 +26,8 @@ Before creating a custom rule that isn't specific to your company or project, it
 
 Before you begin, make sure you have the following installed in your development environment:
 
-* [Node.js](https://nodejs.org/en/download/)
-* [npm](https://www.npmjs.com/)
+*   [Node.js](https://nodejs.org/en/download/)
+*   [npm](https://www.npmjs.com/)
 
 This tutorial also assumes that you have a basic understanding of ESLint and ESLint rules.
 
@@ -281,8 +282,8 @@ You can use a locally defined plugin to execute the custom rule in your project.
 
 You might want to use a locally defined plugin in one of the following scenarios:
 
-* You want to test the plugin before publishing it to npm.
-* You want to use a plugin, but do not want to publish it to npm.
+*   You want to test the plugin before publishing it to npm.
+*   You want to use a plugin, but do not want to publish it to npm.
 
 Before you can add the plugin to the project, create an ESLint configuration for your project using a [flat configuration file](../use/configure/configuration-files-new), `eslint.config.js`:
 

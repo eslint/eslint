@@ -3,7 +3,6 @@ title: no-catch-shadow
 rule_type: suggestion
 ---
 
-
 This rule was **deprecated** in ESLint v5.1.0.
 
 In IE 8 and earlier, the catch clause parameter can overwrite the value of a variable in the outer scope, if that variable has the same name as the catch clause parameter.

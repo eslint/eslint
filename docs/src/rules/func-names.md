@@ -6,14 +6,13 @@ further_reading:
 - https://2ality.com/2015/09/function-names-es6.html
 ---
 
-
 A pattern that's becoming more common is to give function expressions names to aid in debugging. For example:
 
 ```js
 Foo.prototype.bar = function bar() {};
 ```
 
-Adding the second `bar` in the above example is optional.  If you leave off the function name then when the function throws an exception you are likely to get something similar to `anonymous function` in the stack trace.  If you provide the optional name for a function expression then you will get the name of the function expression in the stack trace.
+Adding the second `bar` in the above example is optional. If you leave off the function name then when the function throws an exception you are likely to get something similar to `anonymous function` in the stack trace. If you provide the optional name for a function expression then you will get the name of the function expression in the stack trace.
 
 ## Rule Details
 
@@ -23,16 +22,16 @@ This rule can enforce or disallow the use of named function expressions.
 
 This rule has a string option:
 
-* `"always"` (default) requires function expressions to have a name
-* `"as-needed"` requires function expressions to have a name, if the name isn't assigned automatically per the ECMAScript specification.
-* `"never"` disallows named function expressions, except in recursive functions, where a name is needed
+*   `"always"` (default) requires function expressions to have a name
+*   `"as-needed"` requires function expressions to have a name, if the name isn't assigned automatically per the ECMAScript specification.
+*   `"never"` disallows named function expressions, except in recursive functions, where a name is needed
 
 This rule has an object option:
 
-* `"generators": "always" | "as-needed" | "never"`
-    * `"always"` require named generators
-    * `"as-needed"` require named generators if the name isn't assigned automatically per the ECMAScript specification.
-    * `"never"` disallow named generators where possible.
+*   `"generators": "always" | "as-needed" | "never"`
+    *   `"always"` require named generators
+    *   `"as-needed"` require named generators if the name isn't assigned automatically per the ECMAScript specification.
+    *   `"never"` disallow named generators where possible.
 
 When a value for `generators` is not provided the behavior for generator functions falls back to the base option.
 
@@ -271,5 +270,5 @@ var foo = bar(function *baz() {});
 
 ## Compatibility
 
-* **JSCS**: [requireAnonymousFunctions](https://jscs-dev.github.io/rule/requireAnonymousFunctions)
-* **JSCS**: [disallowAnonymousFunctions](https://jscs-dev.github.io/rule/disallowAnonymousFunctions)
+*   **JSCS**: [requireAnonymousFunctions](https://jscs-dev.github.io/rule/requireAnonymousFunctions)
+*   **JSCS**: [disallowAnonymousFunctions](https://jscs-dev.github.io/rule/disallowAnonymousFunctions)

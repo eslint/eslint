@@ -3,7 +3,6 @@ title: no-continue
 rule_type: suggestion
 ---
 
-
 The `continue` statement terminates execution of the statements in the current iteration of the current or labeled loop, and continues execution of the loop with the next iteration. When used incorrectly it makes code less testable, less readable and less maintainable. Structured control flow statements such as `if` should be used instead.
 
 ```js
@@ -84,4 +83,4 @@ for(i = 0; i < 10; i++) {
 
 ## Compatibility
 
-* **JSLint**: `continue`
+*   **JSLint**: `continue`

@@ -3,8 +3,6 @@ title: no-unsafe-optional-chaining
 rule_type: problem
 ---
 
-
-
 The optional chaining (`?.`) expression can short-circuit with a return value of `undefined`. Therefore, treating an evaluated optional chaining expression as a function, object, number, etc., can cause TypeError or unexpected results. For example:
 
 ```js
@@ -128,15 +126,15 @@ async function foo () {
 
 This rule has an object option:
 
-* `disallowArithmeticOperators`: Disallow arithmetic operations on optional chaining expressions (Default `false`). If this is `true`, this rule warns arithmetic operations on optional chaining expressions, which possibly result in `NaN`.
+*   `disallowArithmeticOperators`: Disallow arithmetic operations on optional chaining expressions (Default `false`). If this is `true`, this rule warns arithmetic operations on optional chaining expressions, which possibly result in `NaN`.
 
 ### disallowArithmeticOperators
 
 With this option set to `true` the rule is enforced for:
 
-* Unary operators: `-`, `+`
-* Arithmetic operators: `+`, `-`, `/`, `*`, `%`, `**`
-* Assignment operators: `+=`, `-=`, `/=`, `*=`, `%=`, `**=`
+*   Unary operators: `-`, `+`
+*   Arithmetic operators: `+`, `-`, `/`, `*`, `%`, `**`
+*   Assignment operators: `+=`, `-=`, `/=`, `*=`, `%=`, `**=`
 
 Examples of additional **incorrect** code for this rule with the `{ "disallowArithmeticOperators": true }` option:
 

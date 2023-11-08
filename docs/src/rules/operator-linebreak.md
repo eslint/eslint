@@ -33,13 +33,13 @@ This rule has two options, a string option and an object option.
 
 String option:
 
-* `"after"` requires linebreaks to be placed after the operator
-* `"before"` requires linebreaks to be placed before the operator
-* `"none"` disallows linebreaks on either side of the operator
+*   `"after"` requires linebreaks to be placed after the operator
+*   `"before"` requires linebreaks to be placed before the operator
+*   `"none"` disallows linebreaks on either side of the operator
 
 Object option:
 
-* `"overrides"` overrides the global setting for specified operators
+*   `"overrides"` overrides the global setting for specified operators
 
 The default configuration is `"after", { "overrides": { "?": "before", ":": "before" } }`
 

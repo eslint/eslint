@@ -5,8 +5,6 @@ handled_by_typescript: true
 extra_typescript_info: Note that the compiler will not catch the `Object.assign()` case. Thus, if you use `Object.assign()` in your codebase, this rule will still provide some value.
 ---
 
-
-
 The updates of imported bindings by ES Modules cause runtime errors.
 
 ## Rule Details

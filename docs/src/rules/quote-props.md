@@ -48,17 +48,17 @@ This rule has two options, a string option and an object option.
 
 String option:
 
-* `"always"` (default) requires quotes around all object literal property names
-* `"as-needed"` disallows quotes around object literal property names that are not strictly required
-* `"consistent"` enforces a consistent quote style; in a given object, either all of the properties should be quoted, or none of the properties should be quoted
-* `"consistent-as-needed"` requires quotes around all object literal property names if any name strictly requires quotes, otherwise disallows quotes around object property names
+*   `"always"` (default) requires quotes around all object literal property names
+*   `"as-needed"` disallows quotes around object literal property names that are not strictly required
+*   `"consistent"` enforces a consistent quote style; in a given object, either all of the properties should be quoted, or none of the properties should be quoted
+*   `"consistent-as-needed"` requires quotes around all object literal property names if any name strictly requires quotes, otherwise disallows quotes around object property names
 
 Object option:
 
-* `"keywords": true` requires quotes around language keywords used as object property names (only applies when using `as-needed` or `consistent-as-needed`)
-* `"unnecessary": true` (default) disallows quotes around object literal property names that are not strictly required (only applies when using `as-needed`)
-* `"unnecessary": false` allows quotes around object literal property names that are not strictly required (only applies when using `as-needed`)
-* `"numbers": true` requires quotes around numbers used as object property names (only applies when using `as-needed`)
+*   `"keywords": true` requires quotes around language keywords used as object property names (only applies when using `as-needed` or `consistent-as-needed`)
+*   `"unnecessary": true` (default) disallows quotes around object literal property names that are not strictly required (only applies when using `as-needed`)
+*   `"unnecessary": false` allows quotes around object literal property names that are not strictly required (only applies when using `as-needed`)
+*   `"numbers": true` requires quotes around numbers used as object property names (only applies when using `as-needed`)
 
 ### always
 
