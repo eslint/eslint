@@ -150,7 +150,7 @@
     "progress": "^2.0.3",
     "proxyquire": "^2.0.1",
     "recast": "^0.20.4",
-    "regenerator-runtime": "^0.13.2",
+    "regenerator-runtime": "^0.14.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "semver": "^7.5.3",
     "shelljs": "^0.8.2",
