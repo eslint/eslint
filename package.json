@@ -149,7 +149,7 @@
     "pirates": "^4.0.5",
     "progress": "^2.0.3",
     "proxyquire": "^2.0.1",
-    "recast": "^0.20.4",
+    "recast": "^0.23.0",
     "regenerator-runtime": "^0.14.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "semver": "^7.5.3",
