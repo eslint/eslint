@@ -28,7 +28,7 @@ const STANDARD_LANGUAGE_TAGS = new Set(["javascript", "js", "jsx"]);
  * Tries to parse a specified JavaScript code with Playground presets.
  * @param {string} code The JavaScript code to parse.
  * @param {ParserOptions} parserOptions Explicitly specified parser options.
- * @returns {SyntaxError|undefined} An error message if the code cannot be parsed, or undefined.
+ * @returns {SyntaxError | null} A `SyntaxError` object if the code cannot be parsed, or `null`.
  */
 function tryParseForPlayground(code, parserOptions) {
     try {
@@ -36,7 +36,7 @@ function tryParseForPlayground(code, parserOptions) {
     } catch (error) {
         return error;
     }
-    return void 0;
+    return null;
 }
 
 /**
@@ -72,7 +72,7 @@ async function findProblems(filename) {
 
             const error = tryParseForPlayground(code, parserOptions);
 
-            if (error !== void 0) {
+            if (error) {
                 const message = `Syntax error: ${error.message}`;
                 const line = codeBlockToken.map[0] + 1 + error.lineNumber;
                 const { column } = error;
@@ -88,6 +88,7 @@ async function findProblems(filename) {
         }
     });
 
+    // Run `markdown-it` to check rule examples in the current file.
     markdownIt({ html: true })
         .use(markdownItContainer, "rule-example", ruleExampleOptions)
         .render(text);
