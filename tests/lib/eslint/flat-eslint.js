@@ -1004,6 +1004,19 @@ describe("FlatESLint", () => {
                     assert.strictEqual(results[1].messages.length, 0);
                     assert.strictEqual(results[0].suppressedMessages.length, 0);
                 });
+
+                it(`should return an empty array when ${name} is passed with passOnNoPatterns: true`, async () => {
+                    eslint = new FlatESLint({
+                        ignore: false,
+                        cwd: getFixturePath("files"),
+                        overrideConfig: { files: ["**/*.js"] },
+                        overrideConfigFile: getFixturePath("eslint.config.js"),
+                        passOnNoPatterns: true
+                    });
+                    const results = await eslint.lintFiles(value);
+
+                    assert.strictEqual(results.length, 0);
+                });
             });
 
         });

@@ -1093,7 +1093,20 @@ describe("ESLint", () => {
 
                     await assert.rejects(async () => await eslint.lintFiles(value), /'patterns' must be a non-empty string or an array of non-empty strings/u);
                 });
+
+                if (value === "" || Array.isArray(value) && value.length === 0) {
+                    it(`should not throw an error when passed ${name} and passOnNoPatterns: true`, async () => {
+                        eslint = new ESLint({
+                            useEslintrc: false,
+                            passOnNoPatterns: true
+                        });
+
+                        await assert.doesNotReject(async () => await eslint.lintFiles(value));
+                    });
+                }
+
             });
+
 
         });
 
