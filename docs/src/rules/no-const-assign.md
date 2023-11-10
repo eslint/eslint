@@ -4,8 +4,6 @@ rule_type: problem
 handled_by_typescript: true
 ---
 
-
-
 We cannot modify variables that are declared using `const` keyword.
 It will raise a runtime error.
 

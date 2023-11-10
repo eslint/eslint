@@ -3,8 +3,6 @@ title: dot-notation
 rule_type: suggestion
 ---
 
-
-
 In JavaScript, one can access properties using the dot notation (`foo.bar`) or square-bracket notation (`foo["bar"]`). However, the dot notation is often preferred because it is easier to read, less verbose, and works better with aggressive JavaScript minimizers.
 
 ```js
@@ -45,8 +43,8 @@ var x = foo[bar];    // Property name is a variable, square-bracket notation req
 
 This rule accepts a single options argument:
 
-* Set the `allowKeywords` option to `false` (default is `true`) to follow ECMAScript version 3 compatible style, avoiding dot notation for reserved word properties.
-* Set the `allowPattern` option to a regular expression string to allow bracket notation for property names that match a pattern (by default, no pattern is tested).
+*   Set the `allowKeywords` option to `false` (default is `true`) to follow ECMAScript version 3 compatible style, avoiding dot notation for reserved word properties.
+*   Set the `allowPattern` option to a regular expression string to allow bracket notation for property names that match a pattern (by default, no pattern is tested).
 
 ### allowKeywords
 
@@ -82,7 +80,7 @@ class C {
 
 ### allowPattern
 
-For example, when preparing data to be sent to an external API, it is often required to use property names that include underscores.  If the `camelcase` rule is in effect, these [snake case](https://en.wikipedia.org/wiki/Snake_case) properties would not be allowed.  By providing an `allowPattern` to the `dot-notation` rule, these snake case properties can be accessed with bracket notation.
+For example, when preparing data to be sent to an external API, it is often required to use property names that include underscores. If the `camelcase` rule is in effect, these [snake case](https://en.wikipedia.org/wiki/Snake_case) properties would not be allowed. By providing an `allowPattern` to the `dot-notation` rule, these snake case properties can be accessed with bracket notation.
 
 Examples of **correct** code for the sample `{ "allowPattern": "^[a-z]+(_[a-z]+)+$" }` option:
 

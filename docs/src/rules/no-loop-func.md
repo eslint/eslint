@@ -3,7 +3,6 @@ title: no-loop-func
 rule_type: suggestion
 ---
 
-
 Writing functions within loops tends to result in errors due to the way the function creates a closure around the loop. For example:
 
 ```js

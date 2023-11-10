@@ -3,7 +3,6 @@ title: no-new
 rule_type: suggestion
 ---
 
-
 The goal of using `new` with a constructor is typically to create an object of a particular type and store that object in a variable, such as:
 
 ```js

@@ -29,8 +29,8 @@ As long as you do not explicitly disallow empty parentheses using the `"empty"` 
 
 There are two options for this rule:
 
-* `"never"` (default) enforces zero spaces inside of parentheses
-* `"always"` enforces a space inside of parentheses
+*   `"never"` (default) enforces zero spaces inside of parentheses
+*   `"always"` enforces a space inside of parentheses
 
 Depending on your coding conventions, you can choose either option by specifying it in your configuration:
 
@@ -123,7 +123,7 @@ var foo = ( 1 + 2 ) * 3;
 
 ### Exceptions
 
-An object literal may be used as a third array item to specify exceptions, with the key `"exceptions"` and an array as the value. These exceptions work in the context of the first option. That is, if `"always"` is set to enforce spacing, then any "exception" will *disallow* spacing. Conversely, if `"never"` is set to disallow spacing, then any "exception" will *enforce* spacing.
+An object literal may be used as a third array item to specify exceptions, with the key `"exceptions"` and an array as the value. These exceptions work in the context of the first option. That is, if `"always"` is set to enforce spacing, then any "exception" will _disallow_ spacing. Conversely, if `"never"` is set to disallow spacing, then any "exception" will _enforce_ spacing.
 
 Note that this rule only enforces spacing within parentheses; it does not check spacing within curly or square brackets, but will enforce or disallow spacing of those brackets if and only if they are adjacent to an opening or closing parenthesis.
 
@@ -133,10 +133,10 @@ The following exceptions are available: `["{}", "[]", "()", "empty"]`.
 
 Empty parens exception and behavior:
 
-* `always` allows for both `()` and `( )`
-* `never` (default) requires `()`
-* `always` excepting `empty` requires `()`
-* `never` excepting `empty` requires `( )` (empty parens without a space is here forbidden)
+*   `always` allows for both `()` and `( )`
+*   `never` (default) requires `()`
+*   `always` excepting `empty` requires `()`
+*   `never` excepting `empty` requires `( )` (empty parens without a space is here forbidden)
 
 ### Examples
 

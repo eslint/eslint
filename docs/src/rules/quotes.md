@@ -31,14 +31,14 @@ This rule has two options, a string option and an object option.
 
 String option:
 
-* `"double"` (default) requires the use of double quotes wherever possible
-* `"single"` requires the use of single quotes wherever possible
-* `"backtick"` requires the use of backticks wherever possible
+*   `"double"` (default) requires the use of double quotes wherever possible
+*   `"single"` requires the use of single quotes wherever possible
+*   `"backtick"` requires the use of backticks wherever possible
 
 Object option:
 
-* `"avoidEscape": true` allows strings to use single-quotes or double-quotes so long as the string contains a quote that would have to be escaped otherwise
-* `"allowTemplateLiterals": true` allows strings to use backticks
+*   `"avoidEscape": true` allows strings to use single-quotes or double-quotes so long as the string contains a quote that would have to be escaped otherwise
+*   `"allowTemplateLiterals": true` allows strings to use backticks
 
 **Deprecated**: The object property `avoid-escape` is deprecated; please use the object property `avoidEscape` instead.
 

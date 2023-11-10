@@ -11,7 +11,6 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 ---
 
-
 A getter and setter for the same property don't necessarily have to be defined adjacent to each other.
 
 For example, the following statements would create the same object:
@@ -154,9 +153,9 @@ const Bar = class {
 
 This rule has a string option:
 
-* `"anyOrder"` (default) does not enforce order.
-* `"getBeforeSet"` if a property has both getter and setter, requires the getter to be defined before the setter.
-* `"setBeforeGet"` if a property has both getter and setter, requires the setter to be defined before the getter.
+*   `"anyOrder"` (default) does not enforce order.
+*   `"getBeforeSet"` if a property has both getter and setter, requires the getter to be defined before the setter.
+*   `"setBeforeGet"` if a property has both getter and setter, requires the setter to be defined before the getter.
 
 ### getBeforeSet
 

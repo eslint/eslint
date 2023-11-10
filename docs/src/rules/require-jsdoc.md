@@ -5,7 +5,6 @@ related_rules:
 - valid-jsdoc
 ---
 
-
 This rule was [**deprecated**](https://eslint.org/blog/2018/11/jsdoc-end-of-life) in ESLint v5.10.0.
 
 [JSDoc](http://usejsdoc.org) is a JavaScript API documentation generator. It uses specially-formatted comments inside of code to generate API documentation automatically. For example, this is what a JSDoc comment looks like for a function:
@@ -28,17 +27,17 @@ Some style guides require JSDoc comments for all functions as a way of explainin
 
 This rule requires JSDoc comments for specified nodes. Supported nodes:
 
-* `"FunctionDeclaration"`
-* `"ClassDeclaration"`
-* `"MethodDefinition"`
-* `"ArrowFunctionExpression"`
-* `"FunctionExpression"`
+*   `"FunctionDeclaration"`
+*   `"ClassDeclaration"`
+*   `"MethodDefinition"`
+*   `"ArrowFunctionExpression"`
+*   `"FunctionExpression"`
 
 ## Options
 
 This rule has a single object option:
 
-* `"require"` requires JSDoc comments for the specified nodes
+*   `"require"` requires JSDoc comments for the specified nodes
 
 Default option settings are:
 

@@ -9,7 +9,6 @@ further_reading:
 - https://2ality.com/2012/01/objects-as-maps.html
 ---
 
-
 Looping over objects with a `for in` loop will include properties that are inherited through the prototype chain. This behavior can lead to unexpected items in your for loop.
 
 ```js

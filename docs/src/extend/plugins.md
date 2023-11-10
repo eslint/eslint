@@ -185,9 +185,9 @@ ESLint provides the [`RuleTester`](../integrate/nodejs-api#ruletester) utility t
 
 ESLint plugins should be linted too! It's suggested to lint your plugin with the `recommended` configurations of:
 
-* [eslint](https://www.npmjs.com/package/eslint)
-* [eslint-plugin-eslint-plugin](https://www.npmjs.com/package/eslint-plugin-eslint-plugin)
-* [eslint-plugin-n](https://www.npmjs.com/package/eslint-plugin-n)
+*   [eslint](https://www.npmjs.com/package/eslint)
+*   [eslint-plugin-eslint-plugin](https://www.npmjs.com/package/eslint-plugin-eslint-plugin)
+*   [eslint-plugin-n](https://www.npmjs.com/package/eslint-plugin-n)
 
 ## Share Plugins
 
@@ -195,5 +195,5 @@ In order to make your plugin available to the community you have to publish it o
 
 To make it easy for others to find your plugin, add these [keywords](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) to your `package.json` file:
 
-* `eslint`
-* `eslintplugin`
+*   `eslint`
+*   `eslintplugin`

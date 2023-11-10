@@ -15,6 +15,7 @@ Examples of **incorrect** code for this rule:
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
+
 ::: incorrect
 
 ```js
@@ -31,6 +32,7 @@ var x = 1; // 	 test
 ```
 
 :::
+
 <!-- markdownlint-restore -->
 
 Examples of **correct** code for this rule:
@@ -56,7 +58,7 @@ var x = 1; // test
 
 This rule has an optional object option with the following properties:
 
-* `allowIndentationTabs` (default: false): If this is set to true, then the rule will not report tabs used for indentation.
+*   `allowIndentationTabs` (default: false): If this is set to true, then the rule will not report tabs used for indentation.
 
 #### allowIndentationTabs
 
@@ -64,6 +66,7 @@ Examples of **correct** code for this rule with the `allowIndentationTabs: true`
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
+
 ::: correct
 
 ```js
@@ -77,6 +80,7 @@ function test() {
 ```
 
 :::
+
 <!-- markdownlint-restore -->
 
 ## When Not To Use It
@@ -85,4 +89,4 @@ If you have established a standard where having tabs is fine, then you can disab
 
 ## Compatibility
 
-* **JSCS**: [disallowTabs](https://jscs-dev.github.io/rule/disallowTabs)
+*   **JSCS**: [disallowTabs](https://jscs-dev.github.io/rule/disallowTabs)

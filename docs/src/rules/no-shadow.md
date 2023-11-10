@@ -7,7 +7,6 @@ further_reading:
 - https://en.wikipedia.org/wiki/Variable_shadowing
 ---
 
-
 Shadowing is the process by which a local variable shares the same name as a variable in its containing scope. For example:
 
 ```js
@@ -85,9 +84,9 @@ function foo() {
 
 The `hoist` option has three settings:
 
-* `functions` (by default) - reports shadowing before the outer functions are defined.
-* `all` - reports all shadowing before the outer variables/functions are defined.
-* `never` - never report shadowing before the outer variables/functions are defined.
+*   `functions` (by default) - reports shadowing before the outer functions are defined.
+*   `all` - reports all shadowing before the outer variables/functions are defined.
+*   `never` - never report shadowing before the outer variables/functions are defined.
 
 #### hoist: functions
 
@@ -108,7 +107,7 @@ function b() {}
 
 :::
 
-Although `let b` in the `if` statement is before the *function* declaration in the outer scope, it is incorrect.
+Although `let b` in the `if` statement is before the _function_ declaration in the outer scope, it is incorrect.
 
 Examples of **correct** code for the default `{ "hoist": "functions" }` option:
 
@@ -127,7 +126,7 @@ let a = 5;
 
 :::
 
-Because `let a` in the `if` statement is before the *variable* declaration in the outer scope, it is correct.
+Because `let a` in the `if` statement is before the _variable_ declaration in the outer scope, it is correct.
 
 #### hoist: all
 

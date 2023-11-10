@@ -5,8 +5,6 @@ further_reading:
 - https://www.nczonline.net/blog/2007/09/09/inconsistent-array-literals/
 ---
 
-
-
 Sparse arrays contain empty slots, most frequently due to multiple commas being used in an array literal, such as:
 
 ```js

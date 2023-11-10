@@ -9,8 +9,6 @@ further_reading:
 - https://tc39.es/ecma262/#sec-bigint-constructor
 ---
 
-
-
 It is a convention in JavaScript that global variables beginning with an uppercase letter typically represent classes that can be instantiated using the `new` operator, such as `new Array` and `new Map`. Confusingly, JavaScript also provides some global variables that begin with an uppercase letter that cannot be called using the `new` operator and will throw an error if you attempt to do so. These are typically functions that are related to data types and are easy to mistake for classes. Consider the following example:
 
 ```js
@@ -27,8 +25,8 @@ Both `new Symbol` and `new BigInt` throw a type error because they are functions
 
 This rule is aimed at preventing the accidental calling of native JavaScript global functions with the `new` operator. These functions are:
 
-* `Symbol`
-* `BigInt`
+*   `Symbol`
+*   `BigInt`
 
 ## Examples
 

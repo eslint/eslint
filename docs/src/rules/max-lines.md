@@ -12,7 +12,6 @@ further_reading:
 - https://web.archive.org/web/20160725154648/http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size
 ---
 
-
 Some people consider large files a code smell. Large files tend to do a lot of things and can make it hard following what's going. While there is not an objective maximum number of lines considered acceptable in a file, most people would agree it should not be in the thousands. Recommendations usually range from 100 to 500 lines.
 
 ## Rule Details
@@ -25,11 +24,11 @@ Please note that most editors show an additional empty line at the end if the fi
 
 This rule has a number or object option:
 
-* `"max"` (default `300`) enforces a maximum number of lines in a file
+*   `"max"` (default `300`) enforces a maximum number of lines in a file
 
-* `"skipBlankLines": true` ignore lines made up purely of whitespace.
+*   `"skipBlankLines": true` ignore lines made up purely of whitespace.
 
-* `"skipComments": true` ignore lines containing just comments
+*   `"skipComments": true` ignore lines containing just comments
 
 ### max
 
@@ -164,4 +163,4 @@ You can turn this rule off if you are not concerned with the number of lines in 
 
 ## Compatibility
 
-* **JSCS**: [maximumNumberOfLines](https://jscs-dev.github.io/rule/maximumNumberOfLines)
+*   **JSCS**: [maximumNumberOfLines](https://jscs-dev.github.io/rule/maximumNumberOfLines)

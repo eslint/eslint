@@ -6,8 +6,6 @@ further_reading:
 - https://bugs.chromium.org/p/v8/issues/detail?id=5848
 ---
 
-
-
 Introduced in ES2016, the infix exponentiation operator `**` is an alternative for the standard `Math.pow` function.
 
 Infix notation is considered to be more readable and thus more preferable than the function notation.

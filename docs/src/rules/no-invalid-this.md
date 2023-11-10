@@ -5,7 +5,6 @@ handled_by_typescript: true
 extra_typescript_info: Note that, technically, TypeScript will only catch this if you have the `strict` or `noImplicitThis` flags enabled. These are enabled in most TypeScript projects, since they are considered to be best practice.
 ---
 
-
 Under the strict mode, `this` keywords outside of classes or class-like objects might be `undefined` and raise a `TypeError`.
 
 ## Rule Details
@@ -20,27 +19,27 @@ For `this` inside functions, this rule basically checks whether or not the funct
 
 This rule judges from following conditions whether or not the function is a constructor:
 
-* The name of the function starts with uppercase.
-* The function is assigned to a variable which starts with an uppercase letter.
-* The function is a constructor of ES2015 Classes.
+*   The name of the function starts with uppercase.
+*   The function is assigned to a variable which starts with an uppercase letter.
+*   The function is a constructor of ES2015 Classes.
 
 This rule judges from following conditions whether or not the function is a method:
 
-* The function is on an object literal.
-* The function is assigned to a property.
-* The function is a method/getter/setter of ES2015 Classes.
+*   The function is on an object literal.
+*   The function is assigned to a property.
+*   The function is a method/getter/setter of ES2015 Classes.
 
 And this rule allows `this` keywords in functions below:
 
-* The `call/apply/bind` method of the function is called directly.
-* The function is a callback of array methods (such as `.forEach()`) if `thisArg` is given.
-* The function has `@this` tag in its JSDoc comment.
+*   The `call/apply/bind` method of the function is called directly.
+*   The function is a callback of array methods (such as `.forEach()`) if `thisArg` is given.
+*   The function has `@this` tag in its JSDoc comment.
 
 And this rule always allows `this` keywords in the following contexts:
 
-* At the top level of scripts.
-* In class field initializers.
-* In class static blocks.
+*   At the top level of scripts.
+*   In class field initializers.
+*   In class static blocks.
 
 Otherwise are considered problems.
 
@@ -233,7 +232,7 @@ function foo() {
 
 This rule has an object option, with one option:
 
-* `"capIsConstructor": false` (default `true`) disables the assumption that a function which name starts with an uppercase is a constructor.
+*   `"capIsConstructor": false` (default `true`) disables the assumption that a function which name starts with an uppercase is a constructor.
 
 ### capIsConstructor
 

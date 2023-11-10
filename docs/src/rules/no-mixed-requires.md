@@ -3,7 +3,6 @@ title: no-mixed-requires
 rule_type: suggestion
 ---
 
-
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 
 In the Node.js community it is often customary to separate initializations with calls to `require` modules from other variable declarations, sometimes also grouping them by the type of module. This rule helps you enforce this convention.
@@ -12,19 +11,19 @@ In the Node.js community it is often customary to separate initializations with 
 
 When this rule is enabled, each `var` statement must satisfy the following conditions:
 
-* either none or all variable declarations must be require declarations (default)
-* all require declarations must be of the same type (grouping)
+*   either none or all variable declarations must be require declarations (default)
+*   all require declarations must be of the same type (grouping)
 
 This rule distinguishes between six kinds of variable declaration types:
 
-* `core`: declaration of a required [core module][1]
-* `file`: declaration of a required [file module][2]
-* `module`: declaration of a required module from the [node_modules folder][3]
-* `computed`: declaration of a required module whose type could not be determined (either because it is computed or because require was called without an argument)
-* `uninitialized`: a declaration that is not initialized
-* `other`: any other kind of declaration
+*   `core`: declaration of a required [core module][1]
+*   `file`: declaration of a required [file module][2]
+*   `module`: declaration of a required module from the [node_modules folder][3]
+*   `computed`: declaration of a required module whose type could not be determined (either because it is computed or because require was called without an argument)
+*   `uninitialized`: a declaration that is not initialized
+*   `other`: any other kind of declaration
 
-In this document, the first four types are summed up under the term *require declaration*.
+In this document, the first four types are summed up under the term _require declaration_.
 
 ```js
 var fs = require('fs'),        // "core"     \
@@ -135,10 +134,10 @@ var async = require('async'),
 
 ## Known Limitations
 
-* The implementation is not aware of any local functions with the name `require` that may shadow Node.js' global `require`.
+*   The implementation is not aware of any local functions with the name `require` that may shadow Node.js' global `require`.
 
-* Internally, the list of core modules is retrieved via `require("repl")._builtinLibs`. If you use different versions of Node.js for ESLint and your application, the list of core modules for each version may be different.
-  The above mentioned `_builtinLibs` property became available in 0.8, for earlier versions a hardcoded list of module names is used as a fallback. If your version of Node.js is older than 0.6 that list may be inaccurate.
+*   Internally, the list of core modules is retrieved via `require("repl")._builtinLibs`. If you use different versions of Node.js for ESLint and your application, the list of core modules for each version may be different.
+    The above mentioned `_builtinLibs` property became available in 0.8, for earlier versions a hardcoded list of module names is used as a fallback. If your version of Node.js is older than 0.6 that list may be inaccurate.
 
 ## When Not To Use It
 

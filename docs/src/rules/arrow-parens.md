@@ -57,12 +57,12 @@ This rule has a string option and an object one.
 
 String options are:
 
-* `"always"` (default) requires parens around arguments in all cases.
-* `"as-needed"` enforces no parens where they can be omitted.
+*   `"always"` (default) requires parens around arguments in all cases.
+*   `"as-needed"` enforces no parens where they can be omitted.
 
 Object properties for variants of the `"as-needed"` option:
 
-* `"requireForBlockBody": true` modifies the as-needed rule in order to require parens if the function body is in an instructions block (surrounded by braces).
+*   `"requireForBlockBody": true` modifies the as-needed rule in order to require parens if the function body is in an instructions block (surrounded by braces).
 
 ### always
 

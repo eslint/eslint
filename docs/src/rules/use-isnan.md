@@ -3,14 +3,12 @@ title: use-isnan
 rule_type: problem
 ---
 
-
-
 In JavaScript, `NaN` is a special value of the `Number` type. It's used to represent any of the "not-a-number" values represented by the double-precision 64-bit format as specified by the IEEE Standard for Binary Floating-Point Arithmetic.
 
 Because `NaN` is unique in JavaScript by not being equal to anything, including itself, the results of comparisons to `NaN` are confusing:
 
-* `NaN === NaN` or `NaN == NaN` evaluate to false
-* `NaN !== NaN` or `NaN != NaN` evaluate to true
+*   `NaN === NaN` or `NaN == NaN` evaluate to false
+*   `NaN !== NaN` or `NaN != NaN` evaluate to true
 
 Therefore, use `Number.isNaN()` or global `isNaN()` functions to test whether a value is `NaN`.
 
@@ -66,8 +64,8 @@ if (!isNaN(foo)) {
 
 This rule has an object option, with two options:
 
-* `"enforceForSwitchCase": true` (default) additionally disallows `case NaN` and `switch(NaN)` in `switch` statements.
-* `"enforceForIndexOf": true` additionally disallows the use of `indexOf` and `lastIndexOf` methods with `NaN`. Default is `false`, meaning that this rule by default does not warn about `indexOf(NaN)` or `lastIndexOf(NaN)` method calls.
+*   `"enforceForSwitchCase": true` (default) additionally disallows `case NaN` and `switch(NaN)` in `switch` statements.
+*   `"enforceForIndexOf": true` additionally disallows the use of `indexOf` and `lastIndexOf` methods with `NaN`. Default is `false`, meaning that this rule by default does not warn about `indexOf(NaN)` or `lastIndexOf(NaN)` method calls.
 
 ### enforceForSwitchCase
 
@@ -205,8 +203,8 @@ switch (Number.NaN) {
 
 The following methods internally use the `===` comparison to match the given value with an array element:
 
-* [`Array.prototype.indexOf`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.indexof)
-* [`Array.prototype.lastIndexOf`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.lastindexof)
+*   [`Array.prototype.indexOf`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.indexof)
+*   [`Array.prototype.lastIndexOf`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.lastindexof)
 
 Therefore, for any array `foo`, `foo.indexOf(NaN)` and `foo.lastIndexOf(NaN)` will always return `-1`.
 
@@ -279,4 +277,4 @@ var hasNaN = myArray.includes(NaN);
 
 #### Known Limitations
 
-This option checks methods with the given names, *even if* the object which has the method is *not* an array.
+This option checks methods with the given names, _even if_ the object which has the method is _not_ an array.

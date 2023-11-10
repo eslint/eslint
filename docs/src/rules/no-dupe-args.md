@@ -4,8 +4,6 @@ rule_type: problem
 handled_by_typescript: true
 ---
 
-
-
 If more than one parameter has the same name in a function definition, the last occurrence "shadows" the preceding occurrences. A duplicated name might be a typing error.
 
 ## Rule Details

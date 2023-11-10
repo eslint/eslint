@@ -31,8 +31,8 @@ This rule enforces a consistent newlines around variable declarations. This rule
 
 This rule has a single string option:
 
-* `"initializations"` (default) enforces a newline around variable initializations
-* `"always"` enforces a newline around variable declarations
+*   `"initializations"` (default) enforces a newline around variable initializations
+*   `"always"` enforces a newline around variable declarations
 
 ### initializations
 

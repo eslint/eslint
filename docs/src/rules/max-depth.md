@@ -11,7 +11,6 @@ related_rules:
 - max-statements
 ---
 
-
 Many developers consider code difficult to read if blocks are nested beyond a certain depth.
 
 ## Rule Details
@@ -22,7 +21,7 @@ This rule enforces a maximum depth that blocks can be nested to reduce code comp
 
 This rule has a number or object option:
 
-* `"max"` (default `4`) enforces a maximum depth that blocks can be nested
+*   `"max"` (default `4`) enforces a maximum depth that blocks can be nested
 
 **Deprecated:** The object property `maximum` is deprecated; please use the object property `max` instead.
 

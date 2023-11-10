@@ -3,7 +3,6 @@ title: max-classes-per-file
 rule_type: suggestion
 ---
 
-
 Files containing multiple classes can often result in a less navigable
 and poorly structured codebase. Best practice is to keep each file
 limited to a single responsibility.
@@ -44,8 +43,8 @@ This rule may be configured with either an object or a number.
 
 If the option is an object, it may contain one or both of:
 
-* `ignoreExpressions`: a boolean option (defaulted to `false`) to ignore class expressions.
-* `max`: a numeric option (defaulted to 1) to specify the maximum number of classes.
+*   `ignoreExpressions`: a boolean option (defaulted to `false`) to ignore class expressions.
+*   `max`: a numeric option (defaulted to 1) to specify the maximum number of classes.
 
 For example:
 

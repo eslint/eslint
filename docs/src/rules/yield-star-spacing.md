@@ -15,11 +15,11 @@ This rule enforces spacing around the `*` in `yield*` expressions.
 
 The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`.
 
-* `before` enforces spacing between the `yield` and the `*`.
-  If `true`, a space is required, otherwise spaces are disallowed.
+*   `before` enforces spacing between the `yield` and the `*`.
+    If `true`, a space is required, otherwise spaces are disallowed.
 
-* `after` enforces spacing between the `*` and the argument.
-  If it is `true`, a space is required, otherwise spaces are disallowed.
+*   `after` enforces spacing between the `*` and the argument.
+    If it is `true`, a space is required, otherwise spaces are disallowed.
 
 The default is `{"before": false, "after": true}`.
 
@@ -29,10 +29,10 @@ The default is `{"before": false, "after": true}`.
 
 The option also has a string shorthand:
 
-* `{"before": false, "after": true}` → `"after"`
-* `{"before": true, "after": false}` → `"before"`
-* `{"before": true, "after": true}` → `"both"`
-* `{"before": false, "after": false}` → `"neither"`
+*   `{"before": false, "after": true}` → `"after"`
+*   `{"before": true, "after": false}` → `"before"`
+*   `{"before": true, "after": true}` → `"both"`
+*   `{"before": false, "after": false}` → `"neither"`
 
 ```json
 "yield-star-spacing": ["error", "after"]

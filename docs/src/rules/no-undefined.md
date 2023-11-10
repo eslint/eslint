@@ -12,7 +12,6 @@ further_reading:
 - https://es5.github.io/#x15.1.1.3
 ---
 
-
 The `undefined` variable in JavaScript is actually a property of the global object. As such, in ECMAScript 3 it was possible to overwrite the value of `undefined`. While ECMAScript 5 disallows overwriting `undefined`, it's still possible to shadow `undefined`, such as:
 
 ```js
@@ -29,9 +28,9 @@ function doSomething(data) {
 
 Because `undefined` can be overwritten or shadowed, reading `undefined` can give an unexpected value. (This is not the case for `null`, which is a keyword that always produces the same value.) To guard against this, you can avoid all uses of `undefined`, which is what some style guides recommend and what this rule enforces. Those style guides then also recommend:
 
-* Variables that should be `undefined` are simply left uninitialized. (All uninitialized variables automatically get the value of `undefined` in JavaScript.)
-* Checking if a value is `undefined` should be done with `typeof`.
-* Using the `void` operator to generate the value of `undefined` if necessary.
+*   Variables that should be `undefined` are simply left uninitialized. (All uninitialized variables automatically get the value of `undefined` in JavaScript.)
+*   Checking if a value is `undefined` should be done with `typeof`.
+*   Using the `void` operator to generate the value of `undefined` if necessary.
 
 As an alternative, you can use the [no-global-assign](no-global-assign) and [no-shadow-restricted-names](no-shadow-restricted-names) rules to prevent `undefined` from being shadowed or assigned a different value. This ensures that `undefined` will always hold its original, expected value.
 

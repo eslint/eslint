@@ -17,14 +17,14 @@ This rule enforces line breaks after opening and before closing array brackets.
 
 This rule has either a string option:
 
-* `"always"` requires line breaks inside brackets
-* `"never"` disallows line breaks inside brackets
-* `"consistent"` requires consistent usage of linebreaks for each pair of brackets. It reports an error if one bracket in the pair has a linebreak inside it and the other bracket does not.
+*   `"always"` requires line breaks inside brackets
+*   `"never"` disallows line breaks inside brackets
+*   `"consistent"` requires consistent usage of linebreaks for each pair of brackets. It reports an error if one bracket in the pair has a linebreak inside it and the other bracket does not.
 
 Or an object option (Requires line breaks if any of properties is satisfied. Otherwise, disallows line breaks):
 
-* `"multiline": true` (default) requires line breaks if there are line breaks inside elements or between elements. If this is false, this condition is disabled.
-* `"minItems": null` (default) requires line breaks if the number of elements is at least the given integer. If this is 0, this condition will act the same as the option `"always"`. If this is `null` (the default), this condition is disabled.
+*   `"multiline": true` (default) requires line breaks if there are line breaks inside elements or between elements. If this is false, this condition is disabled.
+*   `"minItems": null` (default) requires line breaks if the number of elements is at least the given integer. If this is 0, this condition will act the same as the option `"always"`. If this is `null` (the default), this condition is disabled.
 
 ### always
 
@@ -328,4 +328,4 @@ If you don't want to enforce line breaks after opening and before closing array 
 
 ## Compatibility
 
-* **JSCS:** [validateNewlineAfterArrayElements](https://jscs-dev.github.io/rule/validateNewlineAfterArrayElements)
+*   **JSCS:** [validateNewlineAfterArrayElements](https://jscs-dev.github.io/rule/validateNewlineAfterArrayElements)

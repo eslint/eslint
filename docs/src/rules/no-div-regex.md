@@ -6,8 +6,6 @@ related_rules:
 - no-regex-spaces
 ---
 
-
-
 Characters `/=` at the beginning of a regular expression literal can be confused with a division assignment operator.
 
 ```js
