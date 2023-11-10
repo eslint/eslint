@@ -17,6 +17,7 @@
     "build:site": "node Makefile.js gensite",
     "build:webpack": "node Makefile.js webpack",
     "build:readme": "node tools/update-readme.js",
+    "format": "prettier \"**/*.md\" --write",
     "lint": "node Makefile.js lint",
     "lint:docs:js": "node Makefile.js lintDocsJS",
     "lint:fix": "node Makefile.js lint -- fix",
