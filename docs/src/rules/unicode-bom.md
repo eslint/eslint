@@ -19,8 +19,8 @@ begin with U+FEFF.
 
 This rule has a string option:
 
-* `"always"` files must begin with the Unicode BOM
-* `"never"` (default) files must not begin with the Unicode BOM
+*   `"always"` files must begin with the Unicode BOM
+*   `"never"` (default) files must not begin with the Unicode BOM
 
 ### always
 

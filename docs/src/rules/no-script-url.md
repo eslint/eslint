@@ -25,4 +25,4 @@ location.href = `javascript:void(0)`;
 
 ## Compatibility
 
-* **JSHint**: This rule corresponds to `scripturl` rule of JSHint.
+*   **JSHint**: This rule corresponds to `scripturl` rule of JSHint.

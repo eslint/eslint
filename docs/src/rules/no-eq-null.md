@@ -57,4 +57,4 @@ If you want to enforce type-checking operations in general, use the more powerfu
 
 ## Compatibility
 
-* **JSHint**: This rule corresponds to `eqnull` rule of JSHint.
+*   **JSHint**: This rule corresponds to `eqnull` rule of JSHint.

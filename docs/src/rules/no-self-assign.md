@@ -84,7 +84,7 @@ This rule has the option to check properties as well.
 }
 ```
 
-* `props` - if this is `true`, `no-self-assign` rule warns self-assignments of properties. Default is `true`.
+*   `props` - if this is `true`, `no-self-assign` rule warns self-assignments of properties. Default is `true`.
 
 ### props
 

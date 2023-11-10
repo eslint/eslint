@@ -31,10 +31,10 @@ Sequence expressions (those using a comma, such as `a = 1, b = 2`) are always co
 
 This rule, in its default state, does not require any arguments. If you would like to enable one or more of the following you may pass an object with the options set as follows:
 
-* `allowShortCircuit` set to `true` will allow you to use short circuit evaluations in your expressions (Default: `false`).
-* `allowTernary` set to `true` will enable you to use ternary operators in your expressions similarly to short circuit evaluations (Default: `false`).
-* `allowTaggedTemplates` set to `true` will enable you to use tagged template literals in your expressions (Default: `false`).
-* `enforceForJSX` set to `true` will flag unused JSX element expressions (Default: `false`).
+*   `allowShortCircuit` set to `true` will allow you to use short circuit evaluations in your expressions (Default: `false`).
+*   `allowTernary` set to `true` will enable you to use ternary operators in your expressions similarly to short circuit evaluations (Default: `false`).
+*   `allowTaggedTemplates` set to `true` will enable you to use tagged template literals in your expressions (Default: `false`).
+*   `enforceForJSX` set to `true` will flag unused JSX element expressions (Default: `false`).
 
 These options allow unused expressions _only if all_ of the code paths either directly change the state (for example, assignment statement) or could have _side effects_ (for example, function call).
 

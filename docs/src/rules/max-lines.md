@@ -24,11 +24,11 @@ Please note that most editors show an additional empty line at the end if the fi
 
 This rule has a number or object option:
 
-* `"max"` (default `300`) enforces a maximum number of lines in a file
+*   `"max"` (default `300`) enforces a maximum number of lines in a file
 
-* `"skipBlankLines": true` ignore lines made up purely of whitespace.
+*   `"skipBlankLines": true` ignore lines made up purely of whitespace.
 
-* `"skipComments": true` ignore lines containing just comments
+*   `"skipComments": true` ignore lines containing just comments
 
 ### max
 
@@ -163,4 +163,4 @@ You can turn this rule off if you are not concerned with the number of lines in 
 
 ## Compatibility
 
-* **JSCS**: [maximumNumberOfLines](https://jscs-dev.github.io/rule/maximumNumberOfLines)
+*   **JSCS**: [maximumNumberOfLines](https://jscs-dev.github.io/rule/maximumNumberOfLines)

@@ -11,10 +11,10 @@ This rule is aimed at eliminating unused variables, functions, and function para
 
 A variable `foo` is considered to be used if any of the following are true:
 
-* It is called (`foo()`) or constructed (`new foo()`)
-* It is read (`var bar = foo`)
-* It is passed into a function as an argument (`doSomething(foo)`)
-* It is read inside of a function that is passed to another function (`doSomething(function() { foo(); })`)
+*   It is called (`foo()`) or constructed (`new foo()`)
+*   It is read (`var bar = foo`)
+*   It is passed into a function as an argument (`doSomething(foo)`)
+*   It is read inside of a function that is passed to another function (`doSomething(function() { foo(); })`)
 
 A variable is _not_ considered to be used if it is only ever declared (`var foo = 5`) or assigned to (`foo = 7`).
 
@@ -97,9 +97,9 @@ In environments outside of CommonJS or ECMAScript modules, you may use `var` to 
 
 Note that `/* exported */` has no effect for any of the following:
 
-* when the environment is `node` or `commonjs`
-* when `parserOptions.sourceType` is `module`
-* when `ecmaFeatures.globalReturn` is `true`
+*   when the environment is `node` or `commonjs`
+*   when `parserOptions.sourceType` is `module`
+*   when `ecmaFeatures.globalReturn` is `true`
 
 The line comment `// exported variableName` will not work as `exported` is not line-specific.
 
@@ -133,8 +133,8 @@ By default this rule is enabled with `all` option for variables and `after-used`
 
 The `vars` option has two settings:
 
-* `all` checks all variables for usage, including those in the global scope. This is the default setting.
-* `local` checks only that locally-declared variables are used but will allow global variables to be unused.
+*   `all` checks all variables for usage, including those in the global scope. This is the default setting.
+*   `local` checks only that locally-declared variables are used but will allow global variables to be unused.
 
 #### vars: local
 
@@ -173,9 +173,9 @@ console.log(secondVar);
 
 The `args` option has three settings:
 
-* `after-used` - unused positional arguments that occur before the last used argument will not be checked, but all named arguments and all positional arguments after the last used argument will be checked.
-* `all` - all named arguments must be used.
-* `none` - do not check arguments.
+*   `after-used` - unused positional arguments that occur before the last used argument will not be checked, but all named arguments and all positional arguments after the last used argument will be checked.
+*   `all` - all named arguments must be used.
+*   `none` - do not check arguments.
 
 #### args: after-used
 
@@ -270,8 +270,8 @@ The `caughtErrors` option is used for `catch` block arguments validation.
 
 It has two settings:
 
-* `none` - do not check error objects. This is the default setting.
-* `all` - all named arguments must be used.
+*   `none` - do not check error objects. This is the default setting.
+*   `all` - all named arguments must be used.
 
 #### caughtErrors: none
 

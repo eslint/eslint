@@ -10,13 +10,6 @@
 const config = {
 
     /**
-     * The default Prettier "tabWidth" value is 2, but Prettier will read a
-     * value of 4 from the ".editorconfig" file, so we must explicitly specify
-     * this.
-     */
-    tabWidth: 2,
-
-    /**
      * By default, Prettier will format the JavaScript source code blocks
      * inside of the Markdown files, which is not desired, because:
      * - It would break the examples for all of the formatting rules.

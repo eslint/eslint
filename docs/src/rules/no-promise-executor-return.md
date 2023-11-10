@@ -114,7 +114,7 @@ Promise.resolve(1);
 
 This rule takes one option, an object, with the following properties:
 
-* `allowVoid`: If set to `true` (`false` by default), this rule will allow returning void values.
+*   `allowVoid`: If set to `true` (`false` by default), this rule will allow returning void values.
 
 ### allowVoid
 

@@ -29,8 +29,8 @@ As long as you do not explicitly disallow empty parentheses using the `"empty"` 
 
 There are two options for this rule:
 
-* `"never"` (default) enforces zero spaces inside of parentheses
-* `"always"` enforces a space inside of parentheses
+*   `"never"` (default) enforces zero spaces inside of parentheses
+*   `"always"` enforces a space inside of parentheses
 
 Depending on your coding conventions, you can choose either option by specifying it in your configuration:
 
@@ -133,10 +133,10 @@ The following exceptions are available: `["{}", "[]", "()", "empty"]`.
 
 Empty parens exception and behavior:
 
-* `always` allows for both `()` and `( )`
-* `never` (default) requires `()`
-* `always` excepting `empty` requires `()`
-* `never` excepting `empty` requires `( )` (empty parens without a space is here forbidden)
+*   `always` allows for both `()` and `( )`
+*   `never` (default) requires `()`
+*   `always` excepting `empty` requires `()`
+*   `never` excepting `empty` requires `( )` (empty parens without a space is here forbidden)
 
 ### Examples
 

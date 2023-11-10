@@ -30,11 +30,11 @@ This rule enforces a coding style where empty lines are required or disallowed a
 
 This rule has a string option:
 
-* `"always"` (default) requires an empty line after `var`, `let`, or `const`
+*   `"always"` (default) requires an empty line after `var`, `let`, or `const`
 
-  Comments on a line directly after var statements are treated like additional var statements.
+    Comments on a line directly after var statements are treated like additional var statements.
 
-* `"never"` disallows empty lines after `var`, `let`, or `const`
+*   `"never"` disallows empty lines after `var`, `let`, or `const`
 
 ### always
 

@@ -16,8 +16,8 @@ This rule enforces consistent spacing inside an open block token and the next to
 
 This rule has a string option:
 
-* `"always"` (default) requires one or more spaces
-* `"never"` disallows spaces
+*   `"always"` (default) requires one or more spaces
+*   `"never"` disallows spaces
 
 ### always
 

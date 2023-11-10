@@ -56,13 +56,13 @@ This rule enforces consistent brace style for blocks.
 
 This rule has a string option:
 
-* `"1tbs"` (default) enforces one true brace style
-* `"stroustrup"` enforces Stroustrup style
-* `"allman"` enforces Allman style
+*   `"1tbs"` (default) enforces one true brace style
+*   `"stroustrup"` enforces Stroustrup style
+*   `"allman"` enforces Allman style
 
 This rule has an object option for an exception:
 
-* `"allowSingleLine": true` (default `false`) allows the opening and closing braces for a block to be on the _same_ line
+*   `"allowSingleLine": true` (default `false`) allows the opening and closing braces for a block to be on the _same_ line
 
 ### 1tbs
 

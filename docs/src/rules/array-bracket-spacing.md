@@ -30,25 +30,25 @@ This rule enforces consistent spacing inside array brackets.
 
 This rule has a string option:
 
-* `"never"` (default) disallows spaces inside array brackets
-* `"always"` requires one or more spaces or newlines inside array brackets
+*   `"never"` (default) disallows spaces inside array brackets
+*   `"always"` requires one or more spaces or newlines inside array brackets
 
 This rule has an object option for exceptions to the `"never"` option:
 
-* `"singleValue": true` requires one or more spaces or newlines inside brackets of array literals that contain a single element
-* `"objectsInArrays": true` requires one or more spaces or newlines between brackets of array literals and braces of their object literal elements `[ {` or `} ]`
-* `"arraysInArrays": true` requires one or more spaces or newlines between brackets of array literals and brackets of their array literal elements `[ [` or `] ]`
+*   `"singleValue": true` requires one or more spaces or newlines inside brackets of array literals that contain a single element
+*   `"objectsInArrays": true` requires one or more spaces or newlines between brackets of array literals and braces of their object literal elements `[ {` or `} ]`
+*   `"arraysInArrays": true` requires one or more spaces or newlines between brackets of array literals and brackets of their array literal elements `[ [` or `] ]`
 
 This rule has an object option for exceptions to the `"always"` option:
 
-* `"singleValue": false` disallows spaces inside brackets of array literals that contain a single element
-* `"objectsInArrays": false` disallows spaces between brackets of array literals and braces of their object literal elements `[{` or `}]`
-* `"arraysInArrays": false` disallows spaces between brackets of array literals and brackets of their array literal elements `[[` or `]]`
+*   `"singleValue": false` disallows spaces inside brackets of array literals that contain a single element
+*   `"objectsInArrays": false` disallows spaces between brackets of array literals and braces of their object literal elements `[{` or `}]`
+*   `"arraysInArrays": false` disallows spaces between brackets of array literals and brackets of their array literal elements `[[` or `]]`
 
 This rule has built-in exceptions:
 
-* `"never"` (and also the exceptions to the `"always"` option) allows newlines inside array brackets, because this is a common pattern
-* `"always"` does not require spaces or newlines in empty array literals `[]`
+*   `"never"` (and also the exceptions to the `"always"` option) allows newlines inside array brackets, because this is a common pattern
+*   `"always"` does not require spaces or newlines in empty array literals `[]`
 
 ### never
 

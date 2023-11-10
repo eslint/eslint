@@ -72,7 +72,7 @@ try {
 
 This rule has an object option for exceptions:
 
-* `"allowEmptyCatch": true` allows empty `catch` clauses (that is, which do not contain a comment)
+*   `"allowEmptyCatch": true` allows empty `catch` clauses (that is, which do not contain a comment)
 
 ### allowEmptyCatch
 

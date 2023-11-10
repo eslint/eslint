@@ -17,13 +17,13 @@ This rule requires or disallows logical assignment operator shorthand.
 This rule has a string and an object option.
 String option:
 
-* `"always"` (default)
-* `"never"`
+*   `"always"` (default)
+*   `"never"`
 
 Object option (only available if string option is set to `"always"`):
 
-* `"enforceForIfStatements": false`(default) Do _not_ check for equivalent `if` statements
-* `"enforceForIfStatements": true` Check for equivalent `if` statements
+*   `"enforceForIfStatements": false`(default) Do _not_ check for equivalent `if` statements
+*   `"enforceForIfStatements": true` Check for equivalent `if` statements
 
 #### always
 

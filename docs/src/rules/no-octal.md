@@ -44,4 +44,4 @@ var num  = "071";
 
 ## Compatibility
 
-* **JSHint**: W115
+*   **JSHint**: W115

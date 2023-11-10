@@ -10,8 +10,8 @@ eleventyNavigation:
 
 Releases are when a project formally publishes a new version so the community can use it. There are two types of releases:
 
-* Regular releases that follow [semantic versioning](https://semver.org/) and are considered production-ready.
-* Prereleases that are not considered production-ready and are intended to give the community a preview of upcoming changes.
+*   Regular releases that follow [semantic versioning](https://semver.org/) and are considered production-ready.
+*   Prereleases that are not considered production-ready and are intended to give the community a preview of upcoming changes.
 
 ## Release Manager
 
@@ -37,10 +37,10 @@ Each scheduled release should be associated with a release issue ([example](http
 On the day of a scheduled release, the release manager should follow these steps:
 
 1. Review open pull requests to see if any should be merged. In general, you can merge pull requests that:
-   * Have been open for at least two days and approved (these are just waiting for merge).
-   * Important pull requests (as determined by the team). You should stop and have people review before merging if they haven't been already.
-   * Documentation changes.
-   * Small bugfixes written by a team member.
+    * Have been open for at least two days and approved (these are just waiting for merge).
+    * Important pull requests (as determined by the team). You should stop and have people review before merging if they haven't been already.
+    * Documentation changes.
+    * Small bugfixes written by a team member.
 1. Log into Jenkins and schedule a build for the "ESLint Release" job.
 1. Watch the console output of the build on Jenkins. At some point, the build will pause and a link will be produced with an input field for a six-digit 2FA code.
 1. Enter the current six-digit 2FA code from your authenticator app.
@@ -55,8 +55,8 @@ All release-related communications occur in the `#team` channel on Discord.
 
 On the Monday following the scheduled release, the release manager needs to determine if a patch release is necessary. A patch release is considered necessary if any of the following occurred since the scheduled release:
 
-* A regression bug is causing people's lint builds to fail when it previously passed.
-* Any bug that is causing a lot of problems for users (frequently happens due to new functionality).
+*   A regression bug is causing people's lint builds to fail when it previously passed.
+*   Any bug that is causing a lot of problems for users (frequently happens due to new functionality).
 
 The patch release decision should be made as early on Monday as possible. If a patch release is necessary, then follow the same steps as the scheduled release process.
 

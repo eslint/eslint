@@ -83,4 +83,4 @@ for(i = 0; i < 10; i++) {
 
 ## Compatibility
 
-* **JSLint**: `continue`
+*   **JSLint**: `continue`

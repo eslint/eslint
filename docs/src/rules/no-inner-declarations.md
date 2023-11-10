@@ -65,8 +65,8 @@ This rule requires that function declarations and, optionally, variable declarat
 
 This rule has a string option:
 
-* `"functions"` (default) disallows `function` declarations in nested blocks
-* `"both"` disallows `function` and `var` declarations in nested blocks
+*   `"functions"` (default) disallows `function` declarations in nested blocks
+*   `"both"` disallows `function` and `var` declarations in nested blocks
 
 ### functions
 

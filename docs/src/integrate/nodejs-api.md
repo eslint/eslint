@@ -126,55 +126,55 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 
 ##### File Enumeration
 
-* `options.cwd` (`string`)<br>
-  Default is `process.cwd()`. The working directory. This must be an absolute path.
-* `options.errorOnUnmatchedPattern` (`boolean`)<br>
-  Default is `true`. Unless set to `false`, the [`eslint.lintFiles()`][eslint-lintfiles] method will throw an error when no target files are found.
-* `options.extensions` (`string[] | null`)<br>
-  Default is `null`. If you pass directory paths to the [`eslint.lintFiles()`][eslint-lintfiles] method, ESLint checks the files in those directories that have the given extensions. For example, when passing the `src/` directory and `extensions` is `[".js", ".ts"]`, ESLint will lint `*.js` and `*.ts` files in `src/`. If `extensions` is `null`, ESLint checks `*.js` files and files that match `overrides[].files` patterns in your configuration.<br>**Note:** This option only applies when you pass directory paths to the [`eslint.lintFiles()`][eslint-lintfiles] method. If you pass glob patterns like `lib/**/*`, ESLint will lint all files matching the glob pattern regardless of extension.
-* `options.globInputPaths` (`boolean`)<br>
-  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't interpret glob patterns.
-* `options.ignore` (`boolean`)<br>
-  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't respect `.eslintignore` files or `ignorePatterns` in your configuration.
-* `options.ignorePath` (`string | null`)<br>
-  Default is `null`. The path to a file ESLint uses instead of `$CWD/.eslintignore`. If a path is present and the file doesn't exist, this constructor will throw an error.
+*   `options.cwd` (`string`)<br>
+    Default is `process.cwd()`. The working directory. This must be an absolute path.
+*   `options.errorOnUnmatchedPattern` (`boolean`)<br>
+    Default is `true`. Unless set to `false`, the [`eslint.lintFiles()`][eslint-lintfiles] method will throw an error when no target files are found.
+*   `options.extensions` (`string[] | null`)<br>
+    Default is `null`. If you pass directory paths to the [`eslint.lintFiles()`][eslint-lintfiles] method, ESLint checks the files in those directories that have the given extensions. For example, when passing the `src/` directory and `extensions` is `[".js", ".ts"]`, ESLint will lint `*.js` and `*.ts` files in `src/`. If `extensions` is `null`, ESLint checks `*.js` files and files that match `overrides[].files` patterns in your configuration.<br>**Note:** This option only applies when you pass directory paths to the [`eslint.lintFiles()`][eslint-lintfiles] method. If you pass glob patterns like `lib/**/*`, ESLint will lint all files matching the glob pattern regardless of extension.
+*   `options.globInputPaths` (`boolean`)<br>
+    Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't interpret glob patterns.
+*   `options.ignore` (`boolean`)<br>
+    Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't respect `.eslintignore` files or `ignorePatterns` in your configuration.
+*   `options.ignorePath` (`string | null`)<br>
+    Default is `null`. The path to a file ESLint uses instead of `$CWD/.eslintignore`. If a path is present and the file doesn't exist, this constructor will throw an error.
 
 ##### Linting
 
-* `options.allowInlineConfig` (`boolean`)<br>
-  Default is `true`. If `false` is present, ESLint suppresses directive comments in source code. If this option is `false`, it overrides the `noInlineConfig` setting in your configurations.
-* `options.baseConfig` (`ConfigData | null`)<br>
-  Default is `null`. [Configuration object], extended by all configurations used with this instance. You can use this option to define the default settings that will be used if your configuration files don't configure it.
-* `options.overrideConfig` (`ConfigData | null`)<br>
-  Default is `null`. [Configuration object], overrides all configurations used with this instance. You can use this option to define the settings that will be used even if your configuration files configure it.
-* `options.overrideConfigFile` (`string | null`)<br>
-  Default is `null`. The path to a configuration file, overrides all configurations used with this instance. The `options.overrideConfig` option is applied after this option is applied.
-* `options.plugins` (`Record<string, Plugin> | null`)<br>
-  Default is `null`. The plugin implementations that ESLint uses for the `plugins` setting of your configuration. This is a map-like object. Those keys are plugin IDs and each value is implementation.
-* `options.reportUnusedDisableDirectives` (`"error" | "warn" | "off" | null`)<br>
-  Default is `null`. The severity to report unused eslint-disable and eslint-enable directives. If this option is a severity, it overrides the `reportUnusedDisableDirectives` setting in your configurations.
-* `options.resolvePluginsRelativeTo` (`string` | `null`)<br>
-  Default is `null`. The path to a directory where plugins should be resolved from. If `null` is present, ESLint loads plugins from the location of the configuration file that contains the plugin setting. If a path is present, ESLint loads all plugins from there.
-* `options.rulePaths` (`string[]`)<br>
-  Default is `[]`. An array of paths to directories to load custom rules from.
-* `options.useEslintrc` (`boolean`)<br>
-  Default is `true`. If `false` is present, ESLint doesn't load configuration files (`.eslintrc.*` files). Only the configuration of the constructor options is valid.
+*   `options.allowInlineConfig` (`boolean`)<br>
+    Default is `true`. If `false` is present, ESLint suppresses directive comments in source code. If this option is `false`, it overrides the `noInlineConfig` setting in your configurations.
+*   `options.baseConfig` (`ConfigData | null`)<br>
+    Default is `null`. [Configuration object], extended by all configurations used with this instance. You can use this option to define the default settings that will be used if your configuration files don't configure it.
+*   `options.overrideConfig` (`ConfigData | null`)<br>
+    Default is `null`. [Configuration object], overrides all configurations used with this instance. You can use this option to define the settings that will be used even if your configuration files configure it.
+*   `options.overrideConfigFile` (`string | null`)<br>
+    Default is `null`. The path to a configuration file, overrides all configurations used with this instance. The `options.overrideConfig` option is applied after this option is applied.
+*   `options.plugins` (`Record<string, Plugin> | null`)<br>
+    Default is `null`. The plugin implementations that ESLint uses for the `plugins` setting of your configuration. This is a map-like object. Those keys are plugin IDs and each value is implementation.
+*   `options.reportUnusedDisableDirectives` (`"error" | "warn" | "off" | null`)<br>
+    Default is `null`. The severity to report unused eslint-disable and eslint-enable directives. If this option is a severity, it overrides the `reportUnusedDisableDirectives` setting in your configurations.
+*   `options.resolvePluginsRelativeTo` (`string` | `null`)<br>
+    Default is `null`. The path to a directory where plugins should be resolved from. If `null` is present, ESLint loads plugins from the location of the configuration file that contains the plugin setting. If a path is present, ESLint loads all plugins from there.
+*   `options.rulePaths` (`string[]`)<br>
+    Default is `[]`. An array of paths to directories to load custom rules from.
+*   `options.useEslintrc` (`boolean`)<br>
+    Default is `true`. If `false` is present, ESLint doesn't load configuration files (`.eslintrc.*` files). Only the configuration of the constructor options is valid.
 
 ##### Autofix
 
-* `options.fix` (`boolean | (message: LintMessage) => boolean`)<br>
-  Default is `false`. If `true` is present, the [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods work in autofix mode. If a predicate function is present, the methods pass each lint message to the function, then use only the lint messages for which the function returned `true`.
-* `options.fixTypes` (`("directive" | "problem" | "suggestion" | "layout")[] | null`)<br>
-  Default is `null`. The types of the rules that the [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods use for autofix.
+*   `options.fix` (`boolean | (message: LintMessage) => boolean`)<br>
+    Default is `false`. If `true` is present, the [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods work in autofix mode. If a predicate function is present, the methods pass each lint message to the function, then use only the lint messages for which the function returned `true`.
+*   `options.fixTypes` (`("directive" | "problem" | "suggestion" | "layout")[] | null`)<br>
+    Default is `null`. The types of the rules that the [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods use for autofix.
 
 ##### Cache-related
 
-* `options.cache` (`boolean`)<br>
-  Default is `false`. If `true` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method caches lint results and uses it if each target file is not changed. Please mind that ESLint doesn't clear the cache when you upgrade ESLint plugins. In that case, you have to remove the cache file manually. The [`eslint.lintText()`][eslint-linttext] method doesn't use caches even if you pass the `options.filePath` to the method.
-* `options.cacheLocation` (`string`)<br>
-  Default is `.eslintcache`. The [`eslint.lintFiles()`][eslint-lintfiles] method writes caches into this file.
-* `options.cacheStrategy` (`string`)<br>
-  Default is `"metadata"`. Strategy for the cache to use for detecting changed files. Can be either `"metadata"` or `"content"`.
+*   `options.cache` (`boolean`)<br>
+    Default is `false`. If `true` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method caches lint results and uses it if each target file is not changed. Please mind that ESLint doesn't clear the cache when you upgrade ESLint plugins. In that case, you have to remove the cache file manually. The [`eslint.lintText()`][eslint-linttext] method doesn't use caches even if you pass the `options.filePath` to the method.
+*   `options.cacheLocation` (`string`)<br>
+    Default is `.eslintcache`. The [`eslint.lintFiles()`][eslint-lintfiles] method writes caches into this file.
+*   `options.cacheStrategy` (`string`)<br>
+    Default is `"metadata"`. Strategy for the cache to use for detecting changed files. Can be either `"metadata"` or `"content"`.
 
 ### ◆ eslint.lintFiles(patterns)
 
@@ -186,13 +186,13 @@ This method lints the files that match the glob patterns and then returns the re
 
 #### Parameters
 
-* `patterns` (`string | string[]`)<br>
-  The lint target files. This can contain any of file paths, directory paths, and glob patterns.
+*   `patterns` (`string | string[]`)<br>
+    The lint target files. This can contain any of file paths, directory paths, and glob patterns.
 
 #### Return Value
 
-* (`Promise<LintResult[]>`)<br>
-  The promise that will be fulfilled with an array of [LintResult] objects.
+*   (`Promise<LintResult[]>`)<br>
+    The promise that will be fulfilled with an array of [LintResult] objects.
 
 ### ◆ eslint.lintText(code, options)
 
@@ -210,17 +210,17 @@ If the `options.filePath` value is configured to be ignored, this method returns
 
 The second parameter `options` is omittable.
 
-* `code` (`string`)<br>
-  The source code text to check.
-* `options.filePath` (`string`)<br>
-  Optional. The path to the file of the source code text. If omitted, the `result.filePath` becomes the string `"<text>"`.
-* `options.warnIgnored` (`boolean`)<br>
-  Optional. If `true` is present and the `options.filePath` is a file ESLint should ignore, this method returns a lint result contains a warning message.
+*   `code` (`string`)<br>
+    The source code text to check.
+*   `options.filePath` (`string`)<br>
+    Optional. The path to the file of the source code text. If omitted, the `result.filePath` becomes the string `"<text>"`.
+*   `options.warnIgnored` (`boolean`)<br>
+    Optional. If `true` is present and the `options.filePath` is a file ESLint should ignore, this method returns a lint result contains a warning message.
 
 #### Return Value
 
-* (`Promise<LintResult[]>`)<br>
-  The promise that will be fulfilled with an array of [LintResult] objects. This is an array (despite there being only one lint result) in order to keep the interfaces between this and the [`eslint.lintFiles()`][eslint-lintfiles] method similar.
+*   (`Promise<LintResult[]>`)<br>
+    The promise that will be fulfilled with an array of [LintResult] objects. This is an array (despite there being only one lint result) in order to keep the interfaces between this and the [`eslint.lintFiles()`][eslint-lintfiles] method similar.
 
 ### ◆ eslint.getRulesMetaForResults(results)
 
@@ -233,13 +233,13 @@ This method returns an object containing meta information for each rule that tri
 
 #### Parameters
 
-* `results` (`LintResult[]`)<br>
-  An array of [LintResult] objects returned from a call to `ESLint#lintFiles()` or `ESLint#lintText()`.
+*   `results` (`LintResult[]`)<br>
+    An array of [LintResult] objects returned from a call to `ESLint#lintFiles()` or `ESLint#lintText()`.
 
 #### Return Value
 
-* (`Object`)<br>
-  An object whose property names are the rule IDs from the `results` and whose property values are the rule's meta information (if available).
+*   (`Object`)<br>
+    An object whose property names are the rule IDs from the `results` and whose property values are the rule's meta information (if available).
 
 ### ◆ eslint.calculateConfigForFile(filePath)
 
@@ -249,21 +249,21 @@ const config = await eslint.calculateConfigForFile(filePath);
 
 This method calculates the configuration for a given file, which can be useful for debugging purposes.
 
-* It resolves and merges `extends` and `overrides` settings into the top level configuration.
-* It resolves the `parser` setting to absolute paths.
-* It normalizes the `plugins` setting to align short names. (e.g., `eslint-plugin-foo` → `foo`)
-* It adds the `processor` setting if a legacy file extension processor is matched.
-* It doesn't interpret the `env` setting to the `globals` and `parserOptions` settings, so the result object contains the `env` setting as is.
+*   It resolves and merges `extends` and `overrides` settings into the top level configuration.
+*   It resolves the `parser` setting to absolute paths.
+*   It normalizes the `plugins` setting to align short names. (e.g., `eslint-plugin-foo` → `foo`)
+*   It adds the `processor` setting if a legacy file extension processor is matched.
+*   It doesn't interpret the `env` setting to the `globals` and `parserOptions` settings, so the result object contains the `env` setting as is.
 
 #### Parameters
 
-* `filePath` (`string`)<br>
-  The path to the file whose configuration you would like to calculate. Directory paths are forbidden because ESLint cannot handle the `overrides` setting.
+*   `filePath` (`string`)<br>
+    The path to the file whose configuration you would like to calculate. Directory paths are forbidden because ESLint cannot handle the `overrides` setting.
 
 #### Return Value
 
-* (`Promise<Object>`)<br>
-  The promise that will be fulfilled with a configuration object.
+*   (`Promise<Object>`)<br>
+    The promise that will be fulfilled with a configuration object.
 
 ### ◆ eslint.isPathIgnored(filePath)
 
@@ -275,13 +275,13 @@ This method checks if a given file is ignored by your configuration.
 
 #### Parameters
 
-* `filePath` (`string`)<br>
-  The path to the file you want to check.
+*   `filePath` (`string`)<br>
+    The path to the file you want to check.
 
 #### Return Value
 
-* (`Promise<boolean>`)<br>
-  The promise that will be fulfilled with whether the file is ignored or not. If the file is ignored, then it will return `true`.
+*   (`Promise<boolean>`)<br>
+    The promise that will be fulfilled with whether the file is ignored or not. If the file is ignored, then it will return `true`.
 
 ### ◆ eslint.loadFormatter(nameOrPath)
 
@@ -293,20 +293,20 @@ This method loads a formatter. Formatters convert lint results to a human- or ma
 
 #### Parameters
 
-* `nameOrPath` (`string | undefined`)<br>
-  The path to the file you want to check. The following values are allowed:
-    * `undefined`. In this case, loads the `"stylish"` built-in formatter.
-    * A name of [built-in formatters][builtin-formatters].
-    * A name of [third-party formatters][third-party-formatters]. For examples:
-        * `"foo"` will load `eslint-formatter-foo`.
-        * `"@foo"` will load `@foo/eslint-formatter`.
-        * `"@foo/bar"` will load `@foo/eslint-formatter-bar`.
-    * A path to the file that defines a formatter. The path must contain one or more path separators (`/`) in order to distinguish if it's a path or not. For example, start with `./`.
+*   `nameOrPath` (`string | undefined`)<br>
+    The path to the file you want to check. The following values are allowed:
+    *   `undefined`. In this case, loads the `"stylish"` built-in formatter.
+    *   A name of [built-in formatters][builtin-formatters].
+    *   A name of [third-party formatters][third-party-formatters]. For examples:
+        *   `"foo"` will load `eslint-formatter-foo`.
+        *   `"@foo"` will load `@foo/eslint-formatter`.
+        *   `"@foo/bar"` will load `@foo/eslint-formatter-bar`.
+    *   A path to the file that defines a formatter. The path must contain one or more path separators (`/`) in order to distinguish if it's a path or not. For example, start with `./`.
 
 #### Return Value
 
-* (`Promise<LoadedFormatter>`)<br>
-  The promise that will be fulfilled with a [LoadedFormatter] object.
+*   (`Promise<LoadedFormatter>`)<br>
+    The promise that will be fulfilled with a [LoadedFormatter] object.
 
 ### ◆ ESLint.version
 
@@ -330,13 +330,13 @@ This is a static method.
 
 #### Parameters
 
-* `results` (`LintResult[]`)<br>
-  The [LintResult] objects to write.
+*   `results` (`LintResult[]`)<br>
+    The [LintResult] objects to write.
 
 #### Return Value
 
-* (`Promise<void>`)<br>
-  The promise that will be fulfilled after all files are written.
+*   (`Promise<void>`)<br>
+    The promise that will be fulfilled after all files are written.
 
 ### ◆ ESLint.getErrorResults(results)
 
@@ -350,101 +350,101 @@ This is a static method.
 
 #### Parameters
 
-* `results` (`LintResult[]`)<br>
-  The [LintResult] objects to filter.
+*   `results` (`LintResult[]`)<br>
+    The [LintResult] objects to filter.
 
 #### Return Value
 
-* (`LintResult[]`)<br>
-  The filtered [LintResult] objects.
+*   (`LintResult[]`)<br>
+    The filtered [LintResult] objects.
 
 ### ◆ LintResult type
 
 The `LintResult` value is the information of the linting result of each file. The [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext] methods return it. It has the following properties:
 
-* `filePath` (`string`)<br>
-  The absolute path to the file of this result. This is the string `"<text>"` if the file path is unknown (when you didn't pass the `options.filePath` option to the [`eslint.lintText()`][eslint-linttext] method).
-* `messages` (`LintMessage[]`)<br>
-  The array of [LintMessage] objects.
-* `suppressedMessages` (`SuppressedLintMessage[]`)<br>
-  The array of [SuppressedLintMessage] objects.
-* `fixableErrorCount` (`number`)<br>
-  The number of errors that can be fixed automatically by the `fix` constructor option.
-* `fixableWarningCount` (`number`)<br>
-  The number of warnings that can be fixed automatically by the `fix` constructor option.
-* `errorCount` (`number`)<br>
-  The number of errors. This includes fixable errors and fatal errors.
-* `fatalErrorCount` (`number`)<br>
-  The number of fatal errors.
-* `warningCount` (`number`)<br>
-  The number of warnings. This includes fixable warnings.
-* `output` (`string | undefined`)<br>
-  The modified source code text. This property is undefined if any fixable messages didn't exist.
-* `source` (`string | undefined`)<br>
-  The original source code text. This property is undefined if any messages didn't exist or the `output` property exists.
-* `usedDeprecatedRules` (`{ ruleId: string; replacedBy: string[] }[]`)<br>
-  The information about the deprecated rules that were used to check this file.
+*   `filePath` (`string`)<br>
+    The absolute path to the file of this result. This is the string `"<text>"` if the file path is unknown (when you didn't pass the `options.filePath` option to the [`eslint.lintText()`][eslint-linttext] method).
+*   `messages` (`LintMessage[]`)<br>
+    The array of [LintMessage] objects.
+*   `suppressedMessages` (`SuppressedLintMessage[]`)<br>
+    The array of [SuppressedLintMessage] objects.
+*   `fixableErrorCount` (`number`)<br>
+    The number of errors that can be fixed automatically by the `fix` constructor option.
+*   `fixableWarningCount` (`number`)<br>
+    The number of warnings that can be fixed automatically by the `fix` constructor option.
+*   `errorCount` (`number`)<br>
+    The number of errors. This includes fixable errors and fatal errors.
+*   `fatalErrorCount` (`number`)<br>
+    The number of fatal errors.
+*   `warningCount` (`number`)<br>
+    The number of warnings. This includes fixable warnings.
+*   `output` (`string | undefined`)<br>
+    The modified source code text. This property is undefined if any fixable messages didn't exist.
+*   `source` (`string | undefined`)<br>
+    The original source code text. This property is undefined if any messages didn't exist or the `output` property exists.
+*   `usedDeprecatedRules` (`{ ruleId: string; replacedBy: string[] }[]`)<br>
+    The information about the deprecated rules that were used to check this file.
 
 ### ◆ LintMessage type
 
 The `LintMessage` value is the information of each linting error. The `messages` property of the [LintResult] type contains it. It has the following properties:
 
-* `ruleId` (`string` | `null`)<br>
-  The rule name that generates this lint message. If this message is generated by the ESLint core rather than rules, this is `null`.
-* `severity` (`1 | 2`)<br>
-  The severity of this message. `1` means warning and `2` means error.
-* `fatal` (`boolean | undefined`)<br>
-  `true` if this is a fatal error unrelated to a rule, like a parsing error.
-* `message` (`string`)<br>
-  The error message.
-* `line` (`number | undefined`)<br>
-  The 1-based line number of the begin point of this message.
-* `column` (`number | undefined`)<br>
-  The 1-based column number of the begin point of this message.
-* `endLine` (`number | undefined`)<br>
-  The 1-based line number of the end point of this message. This property is undefined if this message is not a range.
-* `endColumn` (`number | undefined`)<br>
-  The 1-based column number of the end point of this message. This property is undefined if this message is not a range.
-* `fix` (`EditInfo | undefined`)<br>
-  The [EditInfo] object of autofix. This property is undefined if this message is not fixable.
-* `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
-  The list of suggestions. Each suggestion is the pair of a description and an [EditInfo] object to fix code. API users such as editor integrations can choose one of them to fix the problem of this message. This property is undefined if this message doesn't have any suggestions.
+*   `ruleId` (`string` | `null`)<br>
+    The rule name that generates this lint message. If this message is generated by the ESLint core rather than rules, this is `null`.
+*   `severity` (`1 | 2`)<br>
+    The severity of this message. `1` means warning and `2` means error.
+*   `fatal` (`boolean | undefined`)<br>
+    `true` if this is a fatal error unrelated to a rule, like a parsing error.
+*   `message` (`string`)<br>
+    The error message.
+*   `line` (`number | undefined`)<br>
+    The 1-based line number of the begin point of this message.
+*   `column` (`number | undefined`)<br>
+    The 1-based column number of the begin point of this message.
+*   `endLine` (`number | undefined`)<br>
+    The 1-based line number of the end point of this message. This property is undefined if this message is not a range.
+*   `endColumn` (`number | undefined`)<br>
+    The 1-based column number of the end point of this message. This property is undefined if this message is not a range.
+*   `fix` (`EditInfo | undefined`)<br>
+    The [EditInfo] object of autofix. This property is undefined if this message is not fixable.
+*   `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
+    The list of suggestions. Each suggestion is the pair of a description and an [EditInfo] object to fix code. API users such as editor integrations can choose one of them to fix the problem of this message. This property is undefined if this message doesn't have any suggestions.
 
 ### ◆ SuppressedLintMessage type
 
 The `SuppressedLintMessage` value is the information of each suppressed linting error. The `suppressedMessages` property of the [LintResult] type contains it. It has the following properties:
 
-* `ruleId` (`string` | `null`)<br>
-  Same as `ruleId` in [LintMessage] type.
-* `severity` (`1 | 2`)<br>
-  Same as `severity` in [LintMessage] type.
-* `fatal` (`boolean | undefined`)<br>
-  Same as `fatal` in [LintMessage] type.
-* `message` (`string`)<br>
-  Same as `message` in [LintMessage] type.
-* `line` (`number | undefined`)<br>
-  Same as `line` in [LintMessage] type.
-* `column` (`number | undefined`)<br>
-  Same as `column` in [LintMessage] type.
-* `endLine` (`number | undefined`)<br>
-  Same as `endLine` in [LintMessage] type.
-* `endColumn` (`number | undefined`)<br>
-  Same as `endColumn` in [LintMessage] type.
-* `fix` (`EditInfo | undefined`)<br>
-  Same as `fix` in [LintMessage] type.
-* `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
-  Same as `suggestions` in [LintMessage] type.
-* `suppressions` (`{ kind: string; justification: string}[]`)<br>
-  The list of suppressions. Each suppression is the pair of a kind and a justification.
+*   `ruleId` (`string` | `null`)<br>
+    Same as `ruleId` in [LintMessage] type.
+*   `severity` (`1 | 2`)<br>
+    Same as `severity` in [LintMessage] type.
+*   `fatal` (`boolean | undefined`)<br>
+    Same as `fatal` in [LintMessage] type.
+*   `message` (`string`)<br>
+    Same as `message` in [LintMessage] type.
+*   `line` (`number | undefined`)<br>
+    Same as `line` in [LintMessage] type.
+*   `column` (`number | undefined`)<br>
+    Same as `column` in [LintMessage] type.
+*   `endLine` (`number | undefined`)<br>
+    Same as `endLine` in [LintMessage] type.
+*   `endColumn` (`number | undefined`)<br>
+    Same as `endColumn` in [LintMessage] type.
+*   `fix` (`EditInfo | undefined`)<br>
+    Same as `fix` in [LintMessage] type.
+*   `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
+    Same as `suggestions` in [LintMessage] type.
+*   `suppressions` (`{ kind: string; justification: string}[]`)<br>
+    The list of suppressions. Each suppression is the pair of a kind and a justification.
 
 ### ◆ EditInfo type
 
 The `EditInfo` value is information to edit text. The `fix` and `suggestions` properties of [LintMessage] type contain it. It has following properties:
 
-* `range` (`[number, number]`)<br>
-  The pair of 0-based indices in source code text to remove.
-* `text` (`string`)<br>
-  The text to add.
+*   `range` (`[number, number]`)<br>
+    The pair of 0-based indices in source code text to remove.
+*   `text` (`string`)<br>
+    The text to add.
 
 This edit information means replacing the range of the `range` property by the `text` property value. It's like `sourceCodeText.slice(0, edit.range[0]) + edit.text + sourceCodeText.slice(edit.range[1])`. Therefore, it's an add if the `range[0]` and `range[1]` property values are the same value, and it's removal if the `text` property value is empty string.
 
@@ -452,8 +452,8 @@ This edit information means replacing the range of the `range` property by the `
 
 The `LoadedFormatter` value is the object to convert the [LintResult] objects to text. The [eslint.loadFormatter()][eslint-loadformatter] method returns it. It has the following method:
 
-* `format` (`(results: LintResult[], resultsMeta: ResultsMeta) => string | Promise<string>`)<br>
-  The method to convert the [LintResult] objects to text. `resultsMeta` is an object that will contain a `maxWarningsExceeded` object if `--max-warnings` was set and the number of warnings exceeded the limit. The `maxWarningsExceeded` object will contain two properties: `maxWarnings`, the value of the `--max-warnings` option, and `foundWarnings`, the number of lint warnings.
+*   `format` (`(results: LintResult[], resultsMeta: ResultsMeta) => string | Promise<string>`)<br>
+    The method to convert the [LintResult] objects to text. `resultsMeta` is an object that will contain a `maxWarningsExceeded` object if `--max-warnings` was set and the number of warnings exceeded the limit. The `maxWarningsExceeded` object will contain two properties: `maxWarnings`, the value of the `--max-warnings` option, and `foundWarnings`, the number of lint warnings.
 
 ---
 
@@ -510,7 +510,7 @@ The `Linter` object does the actual evaluation of the JavaScript code. It doesn'
 
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
-* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules from `context.cwd` or by calling `context.getCwd()` (see [The Context Object](../extend/custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
+*   `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules from `context.cwd` or by calling `context.getCwd()` (see [The Context Object](../extend/custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
 
 For example:
 
@@ -527,17 +527,17 @@ Those run on `linter2` will get `process.cwd()` if the global `process` object i
 
 The most important method on `Linter` is `verify()`, which initiates linting of the given text. This method accepts three arguments:
 
-* `code` - the source code to lint (a string or instance of `SourceCode`).
-* `config` - a configuration object that has been processed and normalized by `ESLint` using eslintrc files and/or other configuration arguments.
-    * **Note**: If you want to lint text and have your configuration be read and processed, use [`ESLint#lintFiles()`][eslint-lintfiles] or [`ESLint#lintText()`][eslint-linttext] instead.
-* `options` - (optional) Additional options for this run.
-    * `filename` - (optional) the filename to associate with the source code.
-    * `preprocess` - (optional) A function that [Processors in Plugins](../extend/plugins#processors-in-plugins) documentation describes as the `preprocess` method.
-    * `postprocess` - (optional) A function that [Processors in Plugins](../extend/plugins#processors-in-plugins) documentation describes as the `postprocess` method.
-    * `filterCodeBlock` - (optional) A function that decides which code blocks the linter should adopt. The function receives two arguments. The first argument is the virtual filename of a code block. The second argument is the text of the code block. If the function returned `true` then the linter adopts the code block. If the function was omitted, the linter adopts only `*.js` code blocks. If you provided a `filterCodeBlock` function, it overrides this default behavior, so the linter doesn't adopt `*.js` code blocks automatically.
-    * `disableFixes` - (optional) when set to `true`, the linter doesn't make either the `fix` or `suggestions` property of the lint result.
-    * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
-    * `reportUnusedDisableDirectives` - (optional) when set to `true`, adds reported errors for unused `eslint-disable` and `eslint-enable` directives when no problems would be reported in the disabled area anyway.
+*   `code` - the source code to lint (a string or instance of `SourceCode`).
+*   `config` - a configuration object that has been processed and normalized by `ESLint` using eslintrc files and/or other configuration arguments.
+    *   **Note**: If you want to lint text and have your configuration be read and processed, use [`ESLint#lintFiles()`][eslint-lintfiles] or [`ESLint#lintText()`][eslint-linttext] instead.
+*   `options` - (optional) Additional options for this run.
+    *   `filename` - (optional) the filename to associate with the source code.
+    *   `preprocess` - (optional) A function that [Processors in Plugins](../extend/plugins#processors-in-plugins) documentation describes as the `preprocess` method.
+    *   `postprocess` - (optional) A function that [Processors in Plugins](../extend/plugins#processors-in-plugins) documentation describes as the `postprocess` method.
+    *   `filterCodeBlock` - (optional) A function that decides which code blocks the linter should adopt. The function receives two arguments. The first argument is the virtual filename of a code block. The second argument is the text of the code block. If the function returned `true` then the linter adopts the code block. If the function was omitted, the linter adopts only `*.js` code blocks. If you provided a `filterCodeBlock` function, it overrides this default behavior, so the linter doesn't adopt `*.js` code blocks automatically.
+    *   `disableFixes` - (optional) when set to `true`, the linter doesn't make either the `fix` or `suggestions` property of the lint result.
+    *   `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
+    *   `reportUnusedDisableDirectives` - (optional) when set to `true`, adds reported errors for unused `eslint-disable` and `eslint-enable` directives when no problems would be reported in the disabled area anyway.
 
 If the third argument is a string, it is interpreted as the `filename`.
 
@@ -587,17 +587,17 @@ The `verify()` method returns an array of objects containing information about t
 
 The information available for each linting message is:
 
-* `column` - the column on which the error occurred.
-* `fatal` - usually omitted, but will be set to true if there's a parsing error (not related to a rule).
-* `line` - the line on which the error occurred.
-* `message` - the message that should be output.
-* `nodeType` - the node or token type that was reported with the problem.
-* `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
-* `severity` - either 1 or 2, depending on your configuration.
-* `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
-* `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
-* `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
-* `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](../extend/custom-rules#providing-suggestions)).
+*   `column` - the column on which the error occurred.
+*   `fatal` - usually omitted, but will be set to true if there's a parsing error (not related to a rule).
+*   `line` - the line on which the error occurred.
+*   `message` - the message that should be output.
+*   `nodeType` - the node or token type that was reported with the problem.
+*   `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
+*   `severity` - either 1 or 2, depending on your configuration.
+*   `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
+*   `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
+*   `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
+*   `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](../extend/custom-rules#providing-suggestions)).
 
 You can get the suppressed messages from the previous run by `getSuppressedMessages()` method. If there is not a previous run, `getSuppressedMessage()` will return an empty list.
 
@@ -663,9 +663,9 @@ Output object from this method:
 
 The information available is:
 
-* `fixed` - True, if the code was fixed.
-* `output` - Fixed code text (might be the same as input if no fixes were applied).
-* `messages` - Collection of all messages for the given code (It has the same information as explained above under `verify` block).
+*   `fixed` - True, if the code was fixed.
+*   `output` - Fixed code text (might be the same as input if no fixes were applied).
+*   `messages` - Collection of all messages for the given code (It has the same information as explained above under `verify` block).
 
 ### Linter#defineRule
 
@@ -808,35 +808,35 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 
 The `RuleTester#run()` method is used to run the tests. It should be passed the following arguments:
 
-* The name of the rule (string)
-* The rule object itself (see ["working with rules"](../extend/custom-rules))
-* An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
+*   The name of the rule (string)
+*   The rule object itself (see ["working with rules"](../extend/custom-rules))
+*   An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
 
 A test case is an object with the following properties:
 
-* `name` (string, optional): The name to use for the test case, to make it easier to find
-* `code` (string, required): The source code that the rule should be run on
-* `options` (array, optional): The options passed to the rule. The rule severity should not be included in this list.
-* `filename` (string, optional): The filename for the given case (useful for rules that make assertions about filenames).
-* `only` (boolean, optional): Run this case exclusively for debugging in supported test frameworks.
+*   `name` (string, optional): The name to use for the test case, to make it easier to find
+*   `code` (string, required): The source code that the rule should be run on
+*   `options` (array, optional): The options passed to the rule. The rule severity should not be included in this list.
+*   `filename` (string, optional): The filename for the given case (useful for rules that make assertions about filenames).
+*   `only` (boolean, optional): Run this case exclusively for debugging in supported test frameworks.
 
 In addition to the properties above, invalid test cases can also have the following properties:
 
-* `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional):
+*   `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional):
 
-    * `message` (string/regexp): The message for the error
-    * `messageId` (string): The Id for the error. See [testing errors with messageId](#testing-errors-with-messageid) for details
-    * `data` (object): Placeholder data which can be used in combination with `messageId`
-    * `type` (string): The type of the reported AST node
-    * `line` (number): The 1-based line number of the reported location
-    * `column` (number): The 1-based column number of the reported location
-    * `endLine` (number): The 1-based line number of the end of the reported location
-    * `endColumn` (number): The 1-based column number of the end of the reported location
-    * `suggestions` (array): An array of objects with suggestion details to check. See [Testing Suggestions](#testing-suggestions) for details
+    *   `message` (string/regexp): The message for the error
+    *   `messageId` (string): The Id for the error. See [testing errors with messageId](#testing-errors-with-messageid) for details
+    *   `data` (object): Placeholder data which can be used in combination with `messageId`
+    *   `type` (string): The type of the reported AST node
+    *   `line` (number): The 1-based line number of the reported location
+    *   `column` (number): The 1-based column number of the reported location
+    *   `endLine` (number): The 1-based line number of the end of the reported location
+    *   `endColumn` (number): The 1-based column number of the end of the reported location
+    *   `suggestions` (array): An array of objects with suggestion details to check. See [Testing Suggestions](#testing-suggestions) for details
 
-  If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
+    If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
 
-* `output` (string, required if the rule fixes code): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
+*   `output` (string, required if the rule fixes code): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
 
 Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `parserOptions` property to configure parser behavior:
 
@@ -875,10 +875,10 @@ Please note that `data` in a test case does not assert `data` passed to `context
 
 Suggestions can be tested by defining a `suggestions` key on an errors object. The options to check for the suggestions are the following (all are optional):
 
-* `desc` (string): The suggestion `desc` value
-* `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s
-* `data` (object): Placeholder data which can be used in combination with `messageId`
-* `output` (string): A code string representing the result of applying the suggestion fix to the input code
+*   `desc` (string): The suggestion `desc` value
+*   `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s
+*   `data` (object): Placeholder data which can be used in combination with `messageId`
+*   `output` (string): A code string representing the result of applying the suggestion fix to the input code
 
 Example:
 
@@ -921,7 +921,7 @@ ruleTester.run("my-rule-for-no-foo", rule, {
 
 1. If `RuleTester.describe` and `RuleTester.it` have been set to function values, `RuleTester` will use `RuleTester.describe` and `RuleTester.it` to run tests. You can use this to customize the behavior of `RuleTester` to match a test framework that you're using.
 
-   If `RuleTester.itOnly` has been set to a function value, `RuleTester` will call `RuleTester.itOnly` instead of `RuleTester.it` to run cases with `only: true`. If `RuleTester.itOnly` is not set but `RuleTester.it` has an `only` function property, `RuleTester` will fall back to `RuleTester.it.only`.
+    If `RuleTester.itOnly` has been set to a function value, `RuleTester` will call `RuleTester.itOnly` instead of `RuleTester.it` to run cases with `only: true`. If `RuleTester.itOnly` is not set but `RuleTester.it` has an `only` function property, `RuleTester` will fall back to `RuleTester.it.only`.
 
 2. Otherwise, if `describe` and `it` are present as globals, `RuleTester` will use `global.describe` and `global.it` to run tests and `global.it.only` to run cases with `only: true`. This allows `RuleTester` to work when using frameworks like [Mocha](https://mochajs.org/) without any additional configuration.
 3. Otherwise, `RuleTester#run` will simply execute all of the tests in sequence, and will throw an error if one of them fails. This means you can simply execute a test file that calls `RuleTester.run` using `Node.js`, without needing a testing framework.

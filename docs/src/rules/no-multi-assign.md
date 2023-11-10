@@ -75,7 +75,7 @@ b = "quux";
 
 This rule has an object option:
 
-* `"ignoreNonDeclaration"`: When set to `true`, the rule allows chains that don't include initializing a variable in a declaration or initializing a class field. Default is `false`.
+*   `"ignoreNonDeclaration"`: When set to `true`, the rule allows chains that don't include initializing a variable in a declaration or initializing a class field. Default is `false`.
 
 ### ignoreNonDeclaration
 

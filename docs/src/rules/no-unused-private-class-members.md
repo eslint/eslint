@@ -9,8 +9,8 @@ Private class members that are declared and not used anywhere in the code are mo
 
 This rule reports unused private class members.
 
-* A private field or method is considered to be unused if its value is never read.
-* A private accessor is considered to be unused if it is never accessed (read or write).
+*   A private field or method is considered to be unused if its value is never read.
+*   A private accessor is considered to be unused if it is never accessed (read or write).
 
 Examples of **incorrect** code for this rule:
 

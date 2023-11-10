@@ -40,14 +40,14 @@ Note that this rule does not enforce the usage of single-line statements in gene
 
 This rule accepts a string option:
 
-* `"beside"` (default) disallows a newline before a single-line statement.
-* `"below"` requires a newline before a single-line statement.
-* `"any"` does not enforce the position of a single-line statement.
+*   `"beside"` (default) disallows a newline before a single-line statement.
+*   `"below"` requires a newline before a single-line statement.
+*   `"any"` does not enforce the position of a single-line statement.
 
 Additionally, the rule accepts an optional object option with an `"overrides"` key. This can be used to specify a location for particular statements that override the default. For example:
 
-* `"beside", { "overrides": { "while": "below" } }` requires all single-line statements to appear on the same line as their parent, unless the parent is a `while` statement, in which case the single-line statement must not be on the same line.
-* `"below", { "overrides": { "do": "any" } }` disallows all single-line statements from appearing on the same line as their parent, unless the parent is a `do-while` statement, in which case the position of the single-line statement is not enforced.
+*   `"beside", { "overrides": { "while": "below" } }` requires all single-line statements to appear on the same line as their parent, unless the parent is a `while` statement, in which case the single-line statement must not be on the same line.
+*   `"below", { "overrides": { "do": "any" } }` disallows all single-line statements from appearing on the same line as their parent, unless the parent is a `do-while` statement, in which case the position of the single-line statement is not enforced.
 
 Examples of **incorrect** code for this rule with the default `"beside"` option:
 

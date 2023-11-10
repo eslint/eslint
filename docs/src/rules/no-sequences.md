@@ -19,8 +19,8 @@ while (a = next(), a && a.length);
 
 This rule forbids the use of the comma operator, with the following exceptions:
 
-* In the initialization or update portions of a `for` statement.
-* By default, if the expression sequence is explicitly wrapped in parentheses. This exception can be removed with the `allowInParentheses` option.
+*   In the initialization or update portions of a `for` statement.
+*   By default, if the expression sequence is explicitly wrapped in parentheses. This exception can be removed with the `allowInParentheses` option.
 
 Examples of **incorrect** code for this rule:
 
@@ -112,7 +112,7 @@ const qux = () => { return ((bar = 123), 10) }
 
 This rule takes one option, an object, with the following properties:
 
-* `"allowInParentheses"`: If set to `true` (default), this rule allows expression sequences that are explicitly wrapped in parentheses.
+*   `"allowInParentheses"`: If set to `true` (default), this rule allows expression sequences that are explicitly wrapped in parentheses.
 
 ### allowInParentheses
 

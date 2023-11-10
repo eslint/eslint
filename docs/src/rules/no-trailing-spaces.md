@@ -42,10 +42,10 @@ var baz = 5;
 
 This rule has an object option:
 
-* `"skipBlankLines": false` (default) disallows trailing whitespace on empty lines
-* `"skipBlankLines": true` allows trailing whitespace on empty lines
-* `"ignoreComments": false` (default) disallows trailing whitespace in comment blocks
-* `"ignoreComments": true` allows trailing whitespace in comment blocks
+*   `"skipBlankLines": false` (default) disallows trailing whitespace on empty lines
+*   `"skipBlankLines": true` allows trailing whitespace on empty lines
+*   `"ignoreComments": false` (default) disallows trailing whitespace in comment blocks
+*   `"ignoreComments": true` allows trailing whitespace in comment blocks
 
 ### skipBlankLines
 

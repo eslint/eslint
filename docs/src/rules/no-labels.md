@@ -94,8 +94,8 @@ while (true) {
 
 The options allow labels with loop or switch statements:
 
-* `"allowLoop"` (`boolean`, default is `false`) - If this option was set `true`, this rule ignores labels which are sticking to loop statements.
-* `"allowSwitch"` (`boolean`, default is `false`) - If this option was set `true`, this rule ignores labels which are sticking to switch statements.
+*   `"allowLoop"` (`boolean`, default is `false`) - If this option was set `true`, this rule ignores labels which are sticking to loop statements.
+*   `"allowSwitch"` (`boolean`, default is `false`) - If this option was set `true`, this rule ignores labels which are sticking to switch statements.
 
 Actually labeled statements in JavaScript can be used with other than loop and switch statements.
 However, this way is ultra rare, not well-known, so this would be confusing developers.
