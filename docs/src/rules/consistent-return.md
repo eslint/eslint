@@ -3,20 +3,21 @@ title: consistent-return
 rule_type: suggestion
 ---
 
+
 Unlike statically-typed languages which enforce that a function returns a specified type of value, JavaScript allows different code paths in a function to return different types of values.
 
 A confusing aspect of JavaScript is that a function returns `undefined` if any of the following are true:
 
-*   it does not execute a `return` statement before it exits
-*   it executes `return` which does not specify a value explicitly
-*   it executes `return undefined`
-*   it executes `return void` followed by an expression (for example, a function call)
-*   it executes `return` followed by any other expression which evaluates to `undefined`
+* it does not execute a `return` statement before it exits
+* it executes `return` which does not specify a value explicitly
+* it executes `return undefined`
+* it executes `return void` followed by an expression (for example, a function call)
+* it executes `return` followed by any other expression which evaluates to `undefined`
 
 If any code paths in a function return a value explicitly but some code path do not return a value explicitly, it might be a typing mistake, especially in a large function. In the following example:
 
-*   a code path through the function returns a Boolean value `true`
-*   another code path does not return a value explicitly, therefore returns `undefined` implicitly
+* a code path through the function returns a Boolean value `true`
+* another code path does not return a value explicitly, therefore returns `undefined` implicitly
 
 ```js
 function doSomething(condition) {
@@ -86,8 +87,8 @@ function Foo() {
 
 This rule has an object option:
 
-*   `"treatUndefinedAsUnspecified": false` (default) always either specify values or return `undefined` implicitly only.
-*   `"treatUndefinedAsUnspecified": true` always either specify values or return `undefined` explicitly or implicitly.
+* `"treatUndefinedAsUnspecified": false` (default) always either specify values or return `undefined` implicitly only.
+* `"treatUndefinedAsUnspecified": true` always either specify values or return `undefined` explicitly or implicitly.
 
 ### treatUndefinedAsUnspecified
 

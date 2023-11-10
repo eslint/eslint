@@ -5,6 +5,7 @@ related_rules:
 - no-global-assign
 ---
 
+
 In JavaScript, you can extend any object, including builtin or "native" objects. Sometimes people change the behavior of these native objects in ways that break the assumptions made about them in other parts of the code.
 
 For example here we are overriding a builtin method that will then affect all Objects, even other builtins.
@@ -64,7 +65,7 @@ Object.prototype.a = "a";
 
 ## Known Limitations
 
-This rule _does not_ report any of the following less obvious approaches to modify the prototype of builtin objects:
+This rule *does not* report any of the following less obvious approaches to modify the prototype of builtin objects:
 
 ```js
 var x = Object;

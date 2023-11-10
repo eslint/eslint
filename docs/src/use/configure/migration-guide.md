@@ -13,8 +13,8 @@ To learn more about the flat config format, refer to [this blog post](https://es
 
 For reference information on these configuration formats, refer to the following documentation:
 
-*   [eslintrc configuration files](configuration-files)
-*   [flat configuration files](configuration-files-new)
+* [eslintrc configuration files](configuration-files)
+* [flat configuration files](configuration-files-new)
 
 ## Start Using Flat Config Files
 
@@ -26,10 +26,10 @@ To use flat config with ESLint v8, place a `eslint.config.js` file in the root o
 
 While the configuration file format has changed from eslintrc to flat config, the following has stayed the same:
 
-*   Syntax for configuring rules
-*   Syntax for configuring processors
-*   The CLI, except for the flag changes noted in [CLI Flag Changes](#cli-flag-changes).
-*   Global variables are configured the same way, but on a different property (see [Configuring Language Options](#configuring-language-options)).
+* Syntax for configuring rules
+* Syntax for configuring processors
+* The CLI, except for the flag changes noted in [CLI Flag Changes](#cli-flag-changes).
+* Global variables are configured the same way, but on a different property (see [Configuring Language Options](#configuring-language-options)).
 
 ## Key Differences between Configuration Formats
 
@@ -395,8 +395,8 @@ export default [
 
 In eslintrc files, use the `extends` property to use predefined and shareable configs. ESLint comes with two predefined configs that you can access as strings:
 
-*   `"eslint:recommended"`: the rules recommended by ESLint
-*   `"eslint:all"`: all rules shipped with ESLint
+* `"eslint:recommended"`: the rules recommended by ESLint
+* `"eslint:all"`: all rules shipped with ESLint
 
 You can also use the `extends` property to extend a shareable config. Shareable configs can either be paths to local config files or npm package names.
 
@@ -587,9 +587,9 @@ export default [
 
 The following CLI flags are no longer supported with the flat config file format:
 
-*   `--rulesdir`
-*   `--ext`
-*   `--resolve-plugins-relative-to`
+* `--rulesdir`
+* `--ext`
+* `--resolve-plugins-relative-to`
 
 The flag `--no-eslintrc` has been replaced with `--no-config-lookup`.
 
@@ -597,9 +597,9 @@ The flag `--no-eslintrc` has been replaced with `--no-config-lookup`.
 
 The following changes have been made from the eslintrc to the flat config file format:
 
-*   The `root` option no longer exists. (Flat config files act as if `root: true` is set.)
-*   The `files` option cannot be a single string anymore, it must be an array.
-*   The `sourceType` option now supports the new value `"commonjs"` (`.eslintrc` supports it too, but it was never documented).
+* The `root` option no longer exists. (Flat config files act as if `root: true` is set.)
+* The `files` option cannot be a single string anymore, it must be an array.
+* The `sourceType` option now supports the new value `"commonjs"` (`.eslintrc` supports it too, but it was never documented).
 
 ## TypeScript Types for Flat Config Files
 
@@ -609,6 +609,6 @@ You can view the type definitions in the [DefinitelyTyped repository on Github](
 
 ## Further Reading
 
-*   [Overview of the flat config file format blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/)
-*   [API usage of new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-3/)
-*   [Background to new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-1/)
+* [Overview of the flat config file format blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/)
+* [API usage of new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-3/)
+* [Background to new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-1/)

@@ -8,6 +8,7 @@ related_rules:
 - for-direction
 ---
 
+
 A loop that can never reach the second iteration is a possible error in the code.
 
 ```js
@@ -164,17 +165,17 @@ for (const a of [1]) {
 
 This rule has an object option, with one option:
 
-*   `"ignore"` - an optional array of loop types that will be ignored by this rule.
+* `"ignore"` - an optional array of loop types that will be ignored by this rule.
 
 ### ignore
 
 You can specify up to 5 different elements in the `"ignore"` array:
 
-*   `"WhileStatement"` - to ignore all `while` loops.
-*   `"DoWhileStatement"` - to ignore all `do-while` loops.
-*   `"ForStatement"` - to ignore all `for` loops (does not apply to `for-in` and `for-of` loops).
-*   `"ForInStatement"` - to ignore all `for-in` loops.
-*   `"ForOfStatement"` - to ignore all `for-of` loops.
+* `"WhileStatement"` - to ignore all `while` loops.
+* `"DoWhileStatement"` - to ignore all `do-while` loops.
+* `"ForStatement"` - to ignore all `for` loops (does not apply to `for-in` and `for-of` loops).
+* `"ForInStatement"` - to ignore all `for-in` loops.
+* `"ForOfStatement"` - to ignore all `for-of` loops.
 
 Examples of **correct** code for this rule with the `"ignore"` option:
 

@@ -3,6 +3,8 @@ title: operator-assignment
 rule_type: suggestion
 ---
 
+
+
 JavaScript provides shorthand operators that combine variable assignment and some simple mathematical operations. For example, `x = x + 4` can be shortened to `x += 4`. The supported shorthand forms are as follows:
 
 ```text
@@ -32,8 +34,8 @@ The rule applies to the operators listed in the above table. It does not report 
 
 This rule has a single string option:
 
-*   `"always"` (default) requires assignment operator shorthand where possible
-*   `"never"` disallows assignment operator shorthand
+* `"always"` (default)  requires assignment operator shorthand where possible
+* `"never"` disallows assignment operator shorthand
 
 ### always
 

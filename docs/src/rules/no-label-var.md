@@ -7,6 +7,7 @@ related_rules:
 - no-unused-labels
 ---
 
+
 ## Rule Details
 
 This rule aims to create clearer code by disallowing the bad practice of creating a label that shares a name with a variable that is in scope.

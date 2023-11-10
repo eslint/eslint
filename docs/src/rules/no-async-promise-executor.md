@@ -3,7 +3,9 @@ title: no-async-promise-executor
 rule_type: problem
 ---
 
-The `new Promise` constructor accepts an _executor_ function as an argument, which has `resolve` and `reject` parameters that can be used to control the state of the created Promise. For example:
+
+
+The `new Promise` constructor accepts an *executor* function as an argument, which has `resolve` and `reject` parameters that can be used to control the state of the created Promise. For example:
 
 ```js
 const result = new Promise(function executor(resolve, reject) {
@@ -19,8 +21,8 @@ const result = new Promise(function executor(resolve, reject) {
 
 The executor function can also be an `async function`. However, this is usually a mistake, for a few reasons:
 
-*   If an async executor function throws an error, the error will be lost and won't cause the newly-constructed `Promise` to reject. This could make it difficult to debug and handle some errors.
-*   If a Promise executor function is using `await`, this is usually a sign that it is not actually necessary to use the `new Promise` constructor, or the scope of the `new Promise` constructor can be reduced.
+* If an async executor function throws an error, the error will be lost and won't cause the newly-constructed `Promise` to reject. This could make it difficult to debug and handle some errors.
+* If a Promise executor function is using `await`, this is usually a sign that it is not actually necessary to use the `new Promise` constructor, or the scope of the `new Promise` constructor can be reduced.
 
 ## Rule Details
 

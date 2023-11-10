@@ -4,6 +4,8 @@ rule_type: problem
 handled_by_typescript: true
 ---
 
+
+
 Because the `return`, `throw`, `break`, and `continue` statements unconditionally exit a block of code, any statements after them cannot be executed. Unreachable statements are usually a mistake.
 
 ```js

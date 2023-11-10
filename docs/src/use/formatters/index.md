@@ -14,17 +14,17 @@ You can specify a formatter using the `--format` or `-f` flag in the CLI. For ex
 
 The built-in formatter options are:
 
-*   [checkstyle](#checkstyle)
-*   [compact](#compact)
-*   [html](#html)
-*   [jslint-xml](#jslint-xml)
-*   [json-with-metadata](#json-with-metadata)
-*   [json](#json)
-*   [junit](#junit)
-*   [stylish](#stylish)
-*   [tap](#tap)
-*   [unix](#unix)
-*   [visualstudio](#visualstudio)
+* [checkstyle](#checkstyle)
+* [compact](#compact)
+* [html](#html)
+* [jslint-xml](#jslint-xml)
+* [json-with-metadata](#json-with-metadata)
+* [json](#json)
+* [junit](#junit)
+* [stylish](#stylish)
+* [tap](#tap)
+* [unix](#unix)
+* [visualstudio](#visualstudio)
 
 ## Example Source
 

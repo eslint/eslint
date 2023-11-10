@@ -3,6 +3,7 @@ title: no-await-in-loop
 rule_type: problem
 ---
 
+
 Performing an operation on each element of an iterable is a common task. However, performing an
 `await` as part of each operation is an indication that the program is not taking full advantage of
 the parallelization benefits of `async`/`await`.

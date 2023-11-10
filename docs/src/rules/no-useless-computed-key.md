@@ -3,6 +3,8 @@ title: no-useless-computed-key
 rule_type: suggestion
 ---
 
+
+
 It's unnecessary to use computed properties with literals such as:
 
 ```js
@@ -71,7 +73,7 @@ var c = {
 
 This rule has an object option:
 
-*   `enforceForClassMembers` set to `true` additionally applies this rule to class members (Default `false`).
+* `enforceForClassMembers` set to `true` additionally applies this rule to class members (Default `false`).
 
 ### enforceForClassMembers
 

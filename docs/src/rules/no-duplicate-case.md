@@ -3,6 +3,8 @@ title: no-duplicate-case
 rule_type: problem
 ---
 
+
+
 If a `switch` statement has duplicate test expressions in `case` clauses, it is likely that a programmer copied a `case` clause but forgot to change the test expression.
 
 ## Rule Details

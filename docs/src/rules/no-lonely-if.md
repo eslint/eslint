@@ -3,6 +3,8 @@ title: no-lonely-if
 rule_type: suggestion
 ---
 
+
+
 If an `if` statement is the only statement in the `else` block, it is often clearer to use an `else if` form.
 
 ```js

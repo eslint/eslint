@@ -5,6 +5,8 @@ related_rules:
 - default-case
 ---
 
+
+
 The `switch` statement in JavaScript is one of the more error-prone constructs of the language thanks in part to the ability to "fall through" from one `case` to the next. For example:
 
 ```js
@@ -167,9 +169,9 @@ Note that the last `case` statement in these examples does not cause a warning b
 
 This rule has an object option:
 
-*   Set the `commentPattern` option to a regular expression string to change the test for intentional fallthrough comment. If the fallthrough comment matches a directive, that takes precedence over `commentPattern`.
+* Set the `commentPattern` option to a regular expression string to change the test for intentional fallthrough comment. If the fallthrough comment matches a directive, that takes precedence over `commentPattern`.
 
-*   Set the `allowEmptyCase` option to `true` to allow empty cases regardless of the layout. By default, this rule does not require a fallthrough comment after an empty `case` only if the empty `case` and the next `case` are on the same line or on consecutive lines.
+* Set the `allowEmptyCase` option to `true` to allow empty cases regardless of the layout. By default, this rule does not require a fallthrough comment after an empty `case` only if the empty `case` and the next `case` are on the same line or on consecutive lines.
 
 ### commentPattern
 
@@ -219,7 +221,7 @@ switch(foo){
 switch(foo){
     case 1:
     /*
-    Put a message here
+    Put a message here 
     */
     case 2: doSomething();
 }

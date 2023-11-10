@@ -17,8 +17,8 @@ This rule aims to enforce a consistent location for an arrow function containing
 
 This rule accepts a string option:
 
-*   `"beside"` (default) disallows a newline before an arrow function body.
-*   `"below"` requires a newline before an arrow function body.
+* `"beside"` (default) disallows a newline before an arrow function body.
+* `"below"` requires a newline before an arrow function body.
 
 Examples of **incorrect** code for this rule with the default `"beside"` option:
 

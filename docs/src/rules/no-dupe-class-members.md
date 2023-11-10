@@ -4,6 +4,8 @@ rule_type: problem
 handled_by_typescript: true
 ---
 
+
+
 If there are declarations of the same name in class members, the last declaration overwrites other declarations silently.
 It can cause unexpected behaviors.
 

@@ -3,6 +3,7 @@ title: require-atomic-updates
 rule_type: problem
 ---
 
+
 When writing asynchronous code, it is possible to create subtle race condition bugs. Consider the following example:
 
 ```js
@@ -17,7 +18,7 @@ Promise.all([addLengthOfSinglePage(1), addLengthOfSinglePage(2)]).then(() => {
 });
 ```
 
-This code looks like it will sum the results of calling `getPageLength(1)` and `getPageLength(2)`, but in reality the final value of `totalLength` will only be the length of one of the two pages. The bug is in the statement `totalLength += await getPageLength(pageNum);`. This statement first reads an initial value of `totalLength`, then calls `getPageLength(pageNum)` and waits for that Promise to fulfill. Finally, it sets the value of `totalLength` to the sum of `await getPageLength(pageNum)` and the _initial_ value of `totalLength`. If the `totalLength` variable is updated in a separate function call during the time that the `getPageLength(pageNum)` Promise is pending, that update will be lost because the new value is overwritten without being read.
+This code looks like it will sum the results of calling `getPageLength(1)` and `getPageLength(2)`, but in reality the final value of `totalLength` will only be the length of one of the two pages. The bug is in the statement `totalLength += await getPageLength(pageNum);`. This statement first reads an initial value of `totalLength`, then calls `getPageLength(pageNum)` and waits for that Promise to fulfill. Finally, it sets the value of `totalLength` to the sum of `await getPageLength(pageNum)` and the *initial* value of `totalLength`. If the `totalLength` variable is updated in a separate function call during the time that the `getPageLength(pageNum)` Promise is pending, that update will be lost because the new value is overwritten without being read.
 
 One way to fix this issue would be to ensure that `totalLength` is read at the same time as it's updated, like this:
 
@@ -55,8 +56,8 @@ The assignment in step 3 is reported because it may be incorrectly resolved beca
 
 Note that the rule does not report the assignment in step 3 in any of the following cases:
 
-*   If the variable is read again between steps 2 and 3.
-*   If the variable cannot be accessed while the function is paused (for example, if it's a local variable).
+* If the variable is read again between steps 2 and 3.
+* If the variable cannot be accessed while the function is paused (for example, if it's a local variable).
 
 Examples of **incorrect** code for this rule:
 
@@ -180,7 +181,7 @@ async function foo(obj) {
 
 This rule has an object option:
 
-*   `"allowProperties"`: When set to `true`, the rule does not report assignments to properties. Default is `false`.
+* `"allowProperties"`: When set to `true`, the rule does not report assignments to properties. Default is `false`.
 
 ### allowProperties
 

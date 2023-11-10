@@ -10,6 +10,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
 ---
 
+
 It's a common mistake in JavaScript to create an object with just a setter for a property but never have a corresponding getter defined for it. Without a getter, you cannot read the property, so it ends up not being used.
 
 Here are some examples:
@@ -47,9 +48,9 @@ This rule always checks object literals and property descriptors. By default, it
 
 ## Options
 
-*   `setWithoutGet` set to `true` will warn for setters without getters (Default `true`).
-*   `getWithoutSet` set to `true` will warn for getters without setters (Default `false`).
-*   `enforceForClassMembers` set to `true` additionally applies this rule to class getters/setters (Default `true`). Set `enforceForClassMembers` to `false` if you want this rule to ignore class declarations and class expressions.
+* `setWithoutGet` set to `true` will warn for setters without getters (Default `true`).
+* `getWithoutSet` set to `true` will warn for getters without setters (Default `false`).
+* `enforceForClassMembers` set to `true` additionally applies this rule to class getters/setters (Default `true`). Set `enforceForClassMembers` to `false` if you want this rule to ignore class declarations and class expressions.
 
 ### setWithoutGet
 
@@ -178,8 +179,8 @@ Object.defineProperty(o, 'c', {
 
 When `enforceForClassMembers` is set to `true` (default):
 
-*   `"getWithoutSet": true` will also warn for getters without setters in classes.
-*   `"setWithoutGet": true` will also warn for setters without getters in classes.
+* `"getWithoutSet": true` will also warn for getters without setters in classes.
+* `"setWithoutGet": true` will also warn for setters without getters in classes.
 
 Examples of **incorrect** code for `{ "getWithoutSet": true, "enforceForClassMembers": true }`:
 

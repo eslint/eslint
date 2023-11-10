@@ -42,12 +42,12 @@ This rule has two options, a string option and an object option.
 
 String option:
 
-*   `"never"` (default) disallows spaces inside computed property brackets
-*   `"always"` requires one or more spaces inside computed property brackets
+* `"never"` (default) disallows spaces inside computed property brackets
+* `"always"` requires one or more spaces inside computed property brackets
 
 Object option:
 
-*   `"enforceForClassMembers": true` (default) additionally applies this rule to class members.
+* `"enforceForClassMembers": true` (default) additionally applies this rule to class members.
 
 ### never
 

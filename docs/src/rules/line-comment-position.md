@@ -3,6 +3,7 @@ title: line-comment-position
 rule_type: layout
 ---
 
+
 Line comments can be positioned above or beside code. This rule helps teams maintain a consistent style.
 
 ```js
@@ -22,8 +23,8 @@ This rule takes one argument, which can be a string or an object. The string set
 
 The `position` option has two settings:
 
-*   `above` (default) enforces line comments only above code, in its own line.
-*   `beside` enforces line comments only at the end of code lines.
+* `above` (default) enforces line comments only above code, in its own line.
+* `beside` enforces line comments only at the end of code lines.
 
 #### position: above
 

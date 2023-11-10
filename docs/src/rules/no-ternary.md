@@ -6,6 +6,7 @@ related_rules:
 - no-unneeded-ternary
 ---
 
+
 The ternary operator is used to conditionally assign a value to a variable. Some believe that the use of ternary operators leads to unclear code.
 
 ```js

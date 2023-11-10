@@ -3,6 +3,8 @@ title: no-class-assign
 rule_type: problem
 ---
 
+
+
 `ClassDeclaration` creates a variable, and we can modify the variable.
 
 ```js

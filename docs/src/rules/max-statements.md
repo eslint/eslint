@@ -11,6 +11,7 @@ related_rules:
 - max-params
 ---
 
+
 The `max-statements` rule allows you to specify the maximum number of statements allowed in a function.
 
 ```js
@@ -29,13 +30,13 @@ This rule enforces a maximum number of statements allowed in function blocks.
 
 This rule has a number or object option:
 
-*   `"max"` (default `10`) enforces a maximum number of statements allows in function blocks
+* `"max"` (default `10`) enforces a maximum number of statements allows in function blocks
 
 **Deprecated:** The object property `maximum` is deprecated; please use the object property `max` instead.
 
 This rule has an object option:
 
-*   `"ignoreTopLevelFunctions": true` ignores top-level functions
+* `"ignoreTopLevelFunctions": true` ignores top-level functions
 
 ### max
 

@@ -6,6 +6,7 @@ related_rules:
 - no-object-constructor
 ---
 
+
 Use of the `Array` constructor to construct a new array is generally
 discouraged in favor of array literal notation because of the single-argument
 pitfall and because the `Array` global may be redefined. The exception is when

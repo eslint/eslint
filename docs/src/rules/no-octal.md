@@ -3,6 +3,8 @@ title: no-octal
 rule_type: suggestion
 ---
 
+
+
 Octal literals are numerals that begin with a leading zero, such as:
 
 ```js
@@ -44,4 +46,4 @@ var num  = "071";
 
 ## Compatibility
 
-*   **JSHint**: W115
+* **JSHint**: W115

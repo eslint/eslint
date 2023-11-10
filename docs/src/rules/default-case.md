@@ -5,6 +5,7 @@ related_rules:
 - no-fallthrough
 ---
 
+
 Some code conventions require that all `switch` statements have a `default` case, even if the default case is empty, such as:
 
 ```js
@@ -103,7 +104,7 @@ switch (a) {
 
 This rule accepts a single options argument:
 
-*   Set the `commentPattern` option to a regular expression string to change the default `/^no default$/i` comment test pattern
+* Set the `commentPattern` option to a regular expression string to change the default `/^no default$/i` comment test pattern
 
 ### commentPattern
 

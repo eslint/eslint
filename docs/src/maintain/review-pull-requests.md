@@ -78,8 +78,8 @@ Team members may merge a pull request immediately if it:
 
 Otherwise, team members should observe a waiting period before merging a pull request:
 
-*   Wait **2 days** if the pull request was opened Monday through Friday.
-*   Wait **3 days** if the pull request was opened on Saturday or Sunday.
+* Wait **2 days** if the pull request was opened Monday through Friday.
+* Wait **3 days** if the pull request was opened on Saturday or Sunday.
 
 The waiting period ensures that other team members have a chance to review the pull request before it is merged.
 

@@ -5,15 +5,17 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
 ---
 
+
+
 Arrow functions can be an attractive alternative to function expressions for callbacks or function arguments.
 
 For example, arrow functions are automatically bound to their surrounding scope/context. This provides an alternative to the pre-ES6 standard of explicitly binding function expressions to achieve similar behavior.
 
 Additionally, arrow functions are:
 
-*   less verbose, and easier to reason about.
+* less verbose, and easier to reason about.
 
-*   bound lexically regardless of where or when they are invoked.
+* bound lexically regardless of where or when they are invoked.
 
 ## Rule Details
 
@@ -112,6 +114,6 @@ someArray.map(function(item) { return this.doSomething(item); }, someObject);
 
 ## When Not To Use It
 
-*   In environments that have not yet adopted ES6 language features (ES3/5).
+* In environments that have not yet adopted ES6 language features (ES3/5).
 
-*   In ES6+ environments that allow the use of function expressions when describing callbacks or function arguments.
+* In ES6+ environments that allow the use of function expressions when describing callbacks or function arguments.

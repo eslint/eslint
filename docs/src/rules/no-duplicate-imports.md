@@ -3,6 +3,7 @@ title: no-duplicate-imports
 rule_type: problem
 ---
 
+
 Using a single `import` statement per module will make the code clearer because you can see everything being imported from that module on one line.
 
 In the following example the `module` import on line 1 is repeated on line 3. These can be combined to make the list of imports more succinct.

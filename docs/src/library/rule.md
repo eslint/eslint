@@ -6,11 +6,11 @@ The rule component is a macro defined in `/components/rule.macro.html`. The macr
 
 A rule has a:
 
-*   name
-*   description
-*   a flag to indicate whether it's deprecated or removed: `deprecated` and `removed` respectively
-*   a replacedBy value indicating the rule it has been replaced with (if applicable)
-*   a categories object indicating the rule's category
+* name
+* description
+* a flag to indicate whether it's deprecated or removed: `deprecated` and `removed` respectively
+* a replacedBy value indicating the rule it has been replaced with (if applicable)
+* a categories object indicating the rule's category
 
 ## Usage
 
@@ -36,7 +36,7 @@ A rule has a:
 
 {% from 'components/rule.macro.html' import rule %}
 
-{{ rule({
+ {{ rule({
     name: "getter-return",
     deprecated: true,
     description: 'Enforce `return` statements in getters.',
@@ -47,7 +47,7 @@ A rule has a:
     }
 }) }}
 
-{{ rule({
+ {{ rule({
     name: "getter-return",
     removed: true,
     description: 'Enforce `return` statements in getters.',
@@ -60,13 +60,13 @@ A rule has a:
 }) }}
 
 {{ rule({
-name: "getter-return",
-deprecated: false,
-description: 'Enforce `return` statements in getters.',
-categories: {
-recommended: true,
-fixable: false,
-hasSuggestions: false
-}
+    name: "getter-return",
+    deprecated: false,
+    description: 'Enforce `return` statements in getters.',
+    categories: {
+        recommended: true,
+        fixable: false,
+        hasSuggestions: false
+    }
 
 }) }}
