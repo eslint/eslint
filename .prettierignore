@@ -1,0 +1,10 @@
+# Auto-generated files
+CHANGELOG.md
+
+# Files in the "library" directory contain macro examples and preserving the
+# indentation is useful.
+library
+
+# The "rules.md" file has a lot of templating code that does not play very well
+# with Prettier.
+rules.md
