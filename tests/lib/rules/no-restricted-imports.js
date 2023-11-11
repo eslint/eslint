@@ -288,7 +288,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 patterns: [{
                     group: ["**/my/relative-module"],
-                    importNamePatterns: "^Foo"
+                    importNamePattern: "^Foo"
                 }]
             }]
         }
@@ -1250,7 +1250,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             patterns: [{
                 group: ["**/my/relative-module"],
-                importNamePatterns: "^Foo"
+                importNamePattern: "^Foo"
             }]
         }],
         errors: [{
@@ -1266,7 +1266,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             patterns: [{
                 group: ["**/my/relative-module"],
-                importNamePatterns: "^Foo"
+                importNamePattern: "^Foo"
             }]
         }],
         errors: [{
@@ -1282,7 +1282,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             patterns: [{
                 group: ["**/my/relative-module"],
-                importNamePatterns: "^Foo|^Bar"
+                importNamePattern: "^Foo|^Bar"
             }]
         }],
         errors: [{
@@ -1298,7 +1298,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             patterns: [{
                 group: ["**/my/relative-module"],
-                importNamePatterns: "^Foo|^Bar"
+                importNamePattern: "^Foo|^Bar"
             }]
         }],
         errors: [
@@ -1323,7 +1323,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             patterns: [{
                 group: ["**/my/relative-module"],
-                importNamePatterns: "^Foo"
+                importNamePattern: "^Foo"
             }]
         }],
         errors: [{
@@ -1339,7 +1339,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             patterns: [{
                 group: ["**/my/relative-module"],
-                importNamePatterns: "^Foo",
+                importNamePattern: "^Foo",
                 message: "Import from @/utils instead."
             }]
         }],
@@ -1350,6 +1350,118 @@ ruleTester.run("no-restricted-imports", rule, {
             column: 8,
             endColumn: 33
         }]
+    },
+    {
+        code: "import * as AllWithCustomMessage from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                importNames: ["Foo"],
+                group: ["**/my/relative-module"],
+                importNamePattern: "^Foo",
+                message: "Import from @/utils instead."
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because 'Foo' from '../../my/relative-module' is restricted from being used by a pattern. Import from @/utils instead.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 33
+        }]
+    },
+    {
+        code: "import { Foo } from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                importNames: ["Foo"],
+                group: ["**/my/relative-module"],
+                importNamePattern: "^Foo"
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 13,
+            message: "'Foo' import from '../../my/relative-module' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "import { Foo } from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                importNames: ["Foo", "Bar"],
+                group: ["**/my/relative-module"],
+                importNamePattern: "^Foo"
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 13,
+            message: "'Foo' import from '../../my/relative-module' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "import { Foo } from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                importNames: ["Bar"],
+                group: ["**/my/relative-module"],
+                importNamePattern: "^Foo"
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 13,
+            message: "'Foo' import from '../../my/relative-module' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "import { Foo } from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                importNames: ["Foo"],
+                group: ["**/my/relative-module"],
+                importNamePattern: "^Bar"
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 13,
+            message: "'Foo' import from '../../my/relative-module' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "import { Foo, Bar } from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                importNames: ["Foo"],
+                group: ["**/my/relative-module"],
+                importNamePattern: "^Bar"
+            }]
+        }],
+        errors: [
+            {
+                type: "ImportDeclaration",
+                line: 1,
+                column: 10,
+                endColumn: 13,
+                message: "'Foo' import from '../../my/relative-module' is restricted from being used by a pattern."
+            },
+            {
+                type: "ImportDeclaration",
+                line: 1,
+                column: 15,
+                endColumn: 18,
+                message: "'Bar' import from '../../my/relative-module' is restricted from being used by a pattern."
+            }
+        ]
     }
     ]
 });

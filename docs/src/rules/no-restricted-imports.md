@@ -124,12 +124,12 @@ Regex patterns can also be used to restrict specific import Name:
 "no-restricted-imports": ["error", {
     "patterns": [{
       "group": ["import-foo/*"],
-      "importNamePatterns": "^foo",
+      "importNamePattern": "^foo",
     }]
 }]
 ```
 
-**Note:** In patterns array `importNames` and `importNamePatterns` can not be used together. If they are used together then the `importNames` will be considered.
+**Note:** If `importNames` and `importNamePattern` are used together then the `importNames` will be first considered.
 
 To restrict the use of all Node.js core imports (via <https://github.com/nodejs/node/tree/master/lib>):
 
@@ -282,11 +282,25 @@ import { isEmpty } from 'utils/collection-utils';
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["utils/*"],
-    importNamePatterns: '^is',
+    importNamePattern: '^is',
     message: "Use 'isEmpty' from lodash instead."
 }]}]*/
 
 import { isEmpty } from 'utils/collection-utils';
+```
+
+:::
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    importNames: ["foo"],
+    group: ["bar/*"],
+    importNamePattern: '^bar',
+}]}]*/
+
+import { bar } from 'bar/*';
 ```
 
 :::
@@ -385,7 +399,7 @@ import { hasValues } from 'utils/collection-utils';
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["utils/*"],
-    importNamePatterns: '^is',
+    importNamePattern: '^is',
     message: "Use 'isEmpty' from lodash instead."
 }]}]*/
 
