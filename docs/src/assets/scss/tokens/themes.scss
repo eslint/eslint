@@ -135,6 +135,8 @@ html[data-theme="light"] {
 }
 
 html[data-theme="dark"] {
+    color-scheme: dark;
+
     --body-background-color: var(--color-neutral-900);
     --body-text-color: var(--color-neutral-300);
     --headings-color: #fff;
