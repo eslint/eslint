@@ -237,11 +237,12 @@ describe("cli", () => {
 
         describe("Formatters", () => {
 
+            const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
+
             describe("when given a valid built-in formatter name", () => {
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
-                    const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
-                    const exit = await cli.execute(`${flag} -f json ${filePath}`, null, useFlatConfig);
+                    const exit = await cli.execute(`${flag} -f checkstyle ${filePath}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -289,7 +290,6 @@ describe("cli", () => {
             });
 
             describe("when the --max-warnings option is passed", () => {
-                const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
 
                 describe("and there are too many warnings", () => {
                     it(`should provide \`maxWarningsExceeded\` metadata to the formatter with configType:${configType}`, async () => {
@@ -330,7 +330,7 @@ describe("cli", () => {
             describe("when given an invalid built-in formatter name", () => {
                 it(`should execute with error: with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`-f fakeformatter ${filePath}`);
+                    const exit = await cli.execute(`-f fakeformatter ${filePath} ${flag}`, null, configType === "flat");
 
                     assert.strictEqual(exit, 2);
                 });
@@ -340,7 +340,7 @@ describe("cli", () => {
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const formatterPath = getFixturePath("formatters", "simple.js");
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`-f ${formatterPath} ${filePath}`);
+                    const exit = await cli.execute(`-f ${formatterPath} ${filePath} ${flag}`, null, configType === "flat");
 
                     assert.strictEqual(exit, 0);
                 });
