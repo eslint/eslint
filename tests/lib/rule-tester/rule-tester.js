@@ -2835,6 +2835,43 @@ describe("RuleTester", () => {
         }, /A fatal parsing error occurred in autofix.\nError: .+\nAutofix output:\n.+/u);
     });
 
+    describe("type checking", () => {
+        it('should throw if "only" property is not a boolean', () => {
+
+            // "only" has to be falsy as itOnly is not mocked for all test cases
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [{ code: "foo", only: "" }],
+                    invalid: []
+                });
+            }, /Optional test case property 'only' must be a boolean/u);
+
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [],
+                    invalid: [{ code: "foo", only: 0, errors: 1 }]
+                });
+            }, /Optional test case property 'only' must be a boolean/u);
+        });
+
+        it('should throw if "filename" property is not a string', () => {
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [{ code: "foo", filename: false }],
+                    invalid: []
+
+                });
+            }, /Optional test case property 'filename' must be a string/u);
+
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: ["foo"],
+                    invalid: [{ code: "foo", errors: 1, filename: 0 }]
+                });
+            }, /Optional test case property 'filename' must be a string/u);
+        });
+    });
+
     describe("sanitize test cases", () => {
         let originalRuleTesterIt;
         let spyRuleTesterIt;
