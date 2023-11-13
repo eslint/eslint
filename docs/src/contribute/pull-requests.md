@@ -63,7 +63,7 @@ Longer description here if necessary
 Fixes #1234
 ```
 
-The first line of the commit message (the summary) must have a specific format. Although this format is not enforced by our build tools, it will be used to generate the title of a pull request, which will be checked when the pull request is submitted.
+The first line of the commit message (the summary) must have a specific format. This format is checked by our build tools. Although the commit message is not checked directly, it will be used to generate the title of a pull request, which will be checked when the pull request is submitted.
 
 The `tag` is one of the following:
 
