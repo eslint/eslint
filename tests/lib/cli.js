@@ -262,7 +262,6 @@ describe("cli", () => {
 
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
-                    const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
                     const exit = await cli.execute(`--no-ignore -f json-with-metadata ${filePath} ${flag}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 0);
