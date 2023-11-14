@@ -60,6 +60,24 @@ ruleTester.run("no-this-before-super", rule, {
         "class A extends B { constructor() { if (a) { super(); this.a(); } else { super(); this.b(); } } }",
         "class A extends B { constructor() { if (a) super(); else super(); this.a(); } }",
         "class A extends B { constructor() { try { super(); } finally {} this.a(); } }",
+        `class A extends B {
+            constructor() {
+                while (foo) {
+                    super();
+                    this.a();
+                }
+            }
+        }`,
+        `class A extends B {
+            constructor() {
+                while (foo) {
+                    if (init) {
+                        super();
+                        this.a();
+                    }
+                }
+            }
+        }`,
 
         // https://github.com/eslint/eslint/issues/5261
         "class A extends B { constructor(a) { super(); for (const b of a) { this.a(); } } }",
@@ -185,6 +203,83 @@ ruleTester.run("no-this-before-super", rule, {
         {
             code: "class A extends B { constructor() { foo ??= super().a; this.c(); } }",
             languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+        },
+        {
+            code: `
+            class A extends B {
+                constructor() {
+                    if (foo) {
+                        if (bar) { }
+                        super();
+                    }
+                    this.a();
+                }
+            }`,
+            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+        },
+        {
+            code: `
+            class A extends B {
+                constructor() {
+                    if (foo) {
+                    } else {
+                      super();
+                    }
+                    this.a();
+                }
+            }`,
+            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+        },
+        {
+            code: `
+            class A extends B {
+                constructor() {
+                    try {
+                        call();
+                    } finally {
+                        this.a();
+                    }
+                }
+            }`,
+            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+        },
+        {
+            code: `
+            class A extends B {
+                constructor() {
+                    while (foo) {
+                        super();
+                    }
+                    this.a();
+                }
+            }`,
+            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+        },
+        {
+            code: `
+            class A extends B {
+                constructor() {
+                    while (foo) {
+                        this.a();
+                        super();
+                    }
+                }
+            }`,
+            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+        },
+        {
+            code: `
+            class A extends B {
+                constructor() {
+                    while (foo) {
+                        if (init) {
+                            this.a();
+                            super();
+                        }
+                    }
+                }
+            }`,
             errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
         }
     ]
