@@ -127,6 +127,28 @@ ruleTester.run("no-array-constructor", rule, {
                 }]
             }]
         },
+        {
+            code: "a = new (Array);",
+            errors: [{
+                messageId: "preferLiteral",
+                type: "NewExpression",
+                suggestions: [{
+                    messageId: "useLiteral",
+                    output: "a = [];"
+                }]
+            }]
+        },
+        {
+            code: "a = new (Array) && (foo);",
+            errors: [{
+                messageId: "preferLiteral",
+                type: "NewExpression",
+                suggestions: [{
+                    messageId: "useLiteral",
+                    output: "a = [] && (foo);"
+                }]
+            }]
+        },
 
         ...[
 
