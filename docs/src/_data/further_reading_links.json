@@ -755,32 +755,11 @@
         "title": "Dead store - Wikipedia",
         "description": null
     },
-    "https://www.npmjs.com/package/eslint-plugin-no-useless-assign": {
-        "domain": "www.npmjs.com",
-        "url": "https://www.npmjs.com/package/eslint-plugin-no-useless-assign",
-        "logo": "https://static-production.npmjs.com/1996fcfdf7ca81ea795f67f093d7f449.png",
-        "title": "eslint-plugin-no-useless-assign",
-        "description": "Prevent useless assignment.. Latest version: 1.0.3, last published: 4 years ago. Start using eslint-plugin-no-useless-assign in your project by running `npm i eslint-plugin-no-useless-assign`. There are 5 other projects in the npm registry using eslint-plugin-no-useless-assign."
-    },
-    "https://sonarsource.atlassian.net/browse/RSPEC-1854": {
-        "domain": "sonarsource.atlassian.net",
-        "url": "https://sonarsource.atlassian.net/browse/RSPEC-1854",
-        "logo": "https://sonarsource.atlassian.net/images/jira-safari-pintab-icon.svg",
-        "title": "[RSPEC-1854] - Jira",
-        "description": null
-    },
     "https://rules.sonarsource.com/javascript/RSPEC-1854/": {
         "domain": "rules.sonarsource.com",
         "url": "https://rules.sonarsource.com/javascript/RSPEC-1854/",
         "logo": "https://rules.sonarsource.com/favicon.ico",
         "title": "JavaScript static code analysis: Unused assignments should be removed",
-        "description": "Dead stores refer to assignments made to local variables that are subsequently never used or immediately overwritten. Such assignments are\nunnecessary and don’t contribute to the functionality or clarity of the code. They may even negatively impact performance. Removing them enhances code\ncleanlines…"
-    },
-    "https://rules.sonarsource.com/typescript/RSPEC-1854/": {
-        "domain": "rules.sonarsource.com",
-        "url": "https://rules.sonarsource.com/typescript/RSPEC-1854/",
-        "logo": "https://rules.sonarsource.com/favicon.ico",
-        "title": "TypeScript static code analysis: Unused assignments should be removed",
         "description": "Dead stores refer to assignments made to local variables that are subsequently never used or immediately overwritten. Such assignments are\nunnecessary and don’t contribute to the functionality or clarity of the code. They may even negatively impact performance. Removing them enhances code\ncleanlines…"
     },
     "https://cwe.mitre.org/data/definitions/563.html": {

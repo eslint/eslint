@@ -5,10 +5,7 @@ related_rules:
 - no-unused-vars
 further_reading:
 - https://en.wikipedia.org/wiki/Dead_store
-- https://www.npmjs.com/package/eslint-plugin-no-useless-assign
-- https://sonarsource.atlassian.net/browse/RSPEC-1854
 - https://rules.sonarsource.com/javascript/RSPEC-1854/
-- https://rules.sonarsource.com/typescript/RSPEC-1854/
 - https://cwe.mitre.org/data/definitions/563.html
 - https://wiki.sei.cmu.edu/confluence/display/c/MSC13-C.+Detect+and+remove+unused+values
 - https://wiki.sei.cmu.edu/confluence/display/java/MSC56-J.+Detect+and+remove+superfluous+code+and+values
@@ -22,6 +19,10 @@ further_reading:
 "Dead stores" waste processing and memory, so it is better to remove unnecessary assignments to variables.
 
 Also, if the author intended the variable to be used, there is likely a mistake around the dead store.
+For example,
+
+* you should have used a stored value but forgot to do so.
+* you made a mistake in the name of the variable to be stored.
 
 ## Rule Details
 
@@ -34,13 +35,13 @@ Examples of **incorrect** code for this rule:
 ```js
 /* eslint no-useless-assignment: "error" */
 
-function foo() {
+function fn1() {
     let v = 'used';
     doSomething(v);
     v = 'unused';
 }
 
-function foo() {
+function fn2() {
     let v = 'used';
     if (condition) {
         v = 'unused';
@@ -49,7 +50,7 @@ function foo() {
     doSomething(v);
 }
 
-function foo() {
+function fn3() {
     let v = 'used';
     if (condition) {
         doSomething(v);
@@ -58,7 +59,7 @@ function foo() {
     }
 }
 
-function foo() {
+function fn4() {
     let v = 'unused';
     if (condition) {
         v = 'used';
@@ -67,7 +68,7 @@ function foo() {
     }
 }
 
-function foo() {
+function fn5() {
     let v = 'used';
     if (condition) {
         let v = 'used';
@@ -87,14 +88,14 @@ Examples of **correct** code for this rule:
 ```js
 /* eslint no-useless-assignment: "error" */
 
-function foo() {
+function fn1() {
     let v = 'used';
     doSomething(v);
     v = 'used-2';
     doSomething(v);
 }
 
-function foo() {
+function fn2() {
     let v = 'used';
     if (condition) {
         v = 'used-2';
@@ -104,7 +105,7 @@ function foo() {
     doSomething(v);
 }
 
-function foo() {
+function fn3() {
     let v = 'used';
     if (condition) {
         doSomething(v);
@@ -114,7 +115,7 @@ function foo() {
     }
 }
 
-function foo () {
+function fn4() {
     let v = 'used';
     for (let i = 0; i < 10; i++) {
         doSomething(v);
@@ -131,7 +132,7 @@ Because it's clearly an unused variable. If you want it reported, please enable 
 ```js
 /* eslint no-useless-assignment: "error" */
 
-function foo() {
+function fn() {
     let v = 'unused';
     v = 'unused-2'
     doSomething();
