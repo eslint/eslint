@@ -659,7 +659,7 @@
                 "description": "Disallow `Array` constructors",
                 "recommended": false,
                 "fixable": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "no-bitwise",
