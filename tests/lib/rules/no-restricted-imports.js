@@ -284,10 +284,94 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         },
         {
+            code: "import Foo from 'foo';",
+            options: [{
+                patterns: [{
+                    group: ["foo"],
+                    importNamePattern: "^Foo"
+                }]
+            }]
+        },
+        {
+            code: "import Foo from 'foo';",
+            options: [{
+                patterns: [{
+                    importNames: ["Foo"],
+                    group: ["foo"],
+                    importNamePattern: "^Foo"
+                }]
+            }]
+        },
+        {
             code: "import Foo from '../../my/relative-module';",
             options: [{
                 patterns: [{
                     group: ["**/my/relative-module"],
+                    importNamePattern: "^Foo"
+                }]
+            }]
+        },
+        {
+            code: "import { Bar } from '../../my/relative-module';",
+            options: [{
+                patterns: [{
+                    group: ["**/my/relative-module"],
+                    importNamePattern: "^Foo"
+                }]
+            }]
+        },
+        {
+            code: "import { Bar as Foo } from '../../my/relative-module';",
+            options: [{
+                patterns: [{
+                    group: ["**/my/relative-module"],
+                    importNamePattern: "^Foo"
+                }]
+            }]
+        },
+        {
+            code: "import { Bar as Foo } from '../../my/relative-module';",
+            options: [{
+                patterns: [{
+                    importNames: ["Foo"],
+                    group: ["**/my/relative-module"],
+                    importNamePattern: "^Foo"
+                }]
+            }]
+        },
+        {
+            code: "import Foo, { Baz as Bar } from '../../my/relative-module';",
+            options: [{
+                patterns: [{
+                    group: ["**/my/relative-module"],
+                    importNamePattern: "^(Foo|Bar)"
+                }]
+            }]
+        },
+        {
+            code: "import Foo, { Baz as Bar } from '../../my/relative-module';",
+            options: [{
+                patterns: [{
+                    importNames: ["Foo"],
+                    group: ["**/my/relative-module"],
+                    importNamePattern: "^Bar"
+                }]
+            }]
+        },
+        {
+            code: "export { Bar } from 'foo';",
+            options: [{
+                patterns: [{
+                    group: ["foo"],
+                    importNamePattern: "^Foo"
+                }]
+            }]
+        },
+        {
+            code: "export { Bar as Foo } from 'foo';",
+            options: [{
+                patterns: [{
+                    group: ["foo"],
                     importNamePattern: "^Foo"
                 }]
             }]
@@ -1246,6 +1330,54 @@ ruleTester.run("no-restricted-imports", rule, {
         }]
     },
     {
+        code: "import { Foo } from 'foo';",
+        options: [{
+            patterns: [{
+                group: ["foo"],
+                importNamePattern: "^Foo"
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 13,
+            message: "'Foo' import from 'foo' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "import { Foo as Bar } from 'foo';",
+        options: [{
+            patterns: [{
+                group: ["foo"],
+                importNamePattern: "^Foo"
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 20,
+            message: "'Foo' import from 'foo' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "import Foo, { Bar } from 'foo';",
+        options: [{
+            patterns: [{
+                group: ["foo"],
+                importNamePattern: "^(Foo|Bar)"
+            }]
+        }],
+        errors: [{
+            type: "ImportDeclaration",
+            line: 1,
+            column: 15,
+            endColumn: 18,
+            message: "'Bar' import from 'foo' is restricted from being used by a pattern."
+        }]
+    },
+    {
         code: "import { Foo } from '../../my/relative-module';",
         options: [{
             patterns: [{
@@ -1317,6 +1449,22 @@ ruleTester.run("no-restricted-imports", rule, {
                 message: "'Bar' import from '../../my/relative-module' is restricted from being used by a pattern."
             }
         ]
+    },
+    {
+        code: "import * as Foo from 'foo';",
+        options: [{
+            patterns: [{
+                group: ["foo"],
+                importNamePattern: "^Foo"
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because import name with '/^Foo/u' regex pattern from 'foo' is restricted from being used by a pattern.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 16
+        }]
     },
     {
         code: "import * as All from '../../my/relative-module';",
@@ -1462,6 +1610,71 @@ ruleTester.run("no-restricted-imports", rule, {
                 message: "'Bar' import from '../../my/relative-module' is restricted from being used by a pattern."
             }
         ]
+    },
+    {
+        code: "export { Foo } from 'foo';",
+        options: [{
+            patterns: [{
+                group: ["foo"],
+                importNamePattern: "^Foo"
+            }]
+        }],
+        errors: [{
+            type: "ExportNamedDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 13,
+            message: "'Foo' import from 'foo' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "export { Foo as Bar } from 'foo';",
+        options: [{
+            patterns: [{
+                group: ["foo"],
+                importNamePattern: "^Foo"
+            }]
+        }],
+        errors: [{
+            type: "ExportNamedDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 20,
+            message: "'Foo' import from 'foo' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "export { Foo } from 'foo';",
+        options: [{
+            patterns: [{
+                importNames: ["Bar"],
+                group: ["foo"],
+                importNamePattern: "^Foo"
+            }]
+        }],
+        errors: [{
+            type: "ExportNamedDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 13,
+            message: "'Foo' import from 'foo' is restricted from being used by a pattern."
+        }]
+    },
+    {
+        code: "export * from 'foo';",
+        options: [{
+            patterns: [{
+                group: ["foo"],
+                importNamePattern: "^Foo"
+            }]
+        }],
+        errors: [{
+            type: "ExportAllDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 9,
+            message: "* import is invalid because import name with '/^Foo/u' regex pattern from 'foo' is restricted from being used by a pattern."
+        }]
     }
     ]
 });

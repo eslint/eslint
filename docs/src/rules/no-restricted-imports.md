@@ -129,7 +129,7 @@ Regex patterns can also be used to restrict specific import Name:
 }]
 ```
 
-**Note:** If `importNames` and `importNamePattern` are used together then the `importNames` will be first considered.
+**Note:** If `importNames` and `importNamePattern` are used together, it initially reviews the value specified in `importNames`. Afterward, it focuses on assessing the value specified in `importNamePattern`.
 
 To restrict the use of all Node.js core imports (via <https://github.com/nodejs/node/tree/master/lib>):
 
@@ -287,6 +287,20 @@ import { isEmpty } from 'utils/collection-utils';
 }]}]*/
 
 import { isEmpty } from 'utils/collection-utils';
+```
+
+:::
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["bar/*"],
+    importNamePattern: '^(is|bar)',
+    message: "Use 'isBar' from foo/bar instead"
+}]}]*/
+
+import bar { isBar } from 'bar/*';
 ```
 
 :::
