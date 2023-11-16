@@ -9,7 +9,6 @@ Requires spaces after unary word operators.
 This rule was removed in ESLint v0.10.0 and replaced by the [space-unary-ops](space-unary-ops) rule.
 :::
 
-
 ## Rule Details
 
 Examples of **incorrect** code for this rule:
