@@ -16,7 +16,6 @@ const checker = require("npm-license"),
     glob = require("glob"),
     marked = require("marked"),
     matter = require("gray-matter"),
-    markdownlint = require("markdownlint"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
@@ -433,6 +432,7 @@ function getFirstVersionOfDeletion(filePath) {
  * @private
  */
 function lintMarkdown(files) {
+    const markdownlint = require("markdownlint");
     const config = yaml.load(fs.readFileSync(path.join(__dirname, "./.markdownlint.yml"), "utf8")),
         result = markdownlint.sync({
             files,
