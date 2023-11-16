@@ -1430,7 +1430,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             patterns: [{
                 group: ["**/my/relative-module"],
-                importNamePattern: "^Foo|^Bar"
+                importNamePattern: "^(Foo|Bar)"
             }]
         }],
         errors: [
@@ -1459,7 +1459,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "* import is invalid because import name with '/^Foo/u' regex pattern from 'foo' is restricted from being used by a pattern.",
+            message: "* import is invalid because import name matching '/^Foo/u' pattern from 'foo' is restricted from being used.",
             type: "ImportDeclaration",
             line: 1,
             column: 8,
@@ -1475,7 +1475,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "* import is invalid because import name with '/^Foo/u' regex pattern from '../../my/relative-module' is restricted from being used by a pattern.",
+            message: "* import is invalid because import name matching '/^Foo/u' pattern from '../../my/relative-module' is restricted from being used.",
             type: "ImportDeclaration",
             line: 1,
             column: 8,
@@ -1492,7 +1492,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "* import is invalid because import name with '/^Foo/u' regex pattern from '../../my/relative-module' is restricted from being used by a pattern. Import from @/utils instead.",
+            message: "* import is invalid because import name matching '/^Foo/u' pattern from '../../my/relative-module' is restricted from being used. Import from @/utils instead.",
             type: "ImportDeclaration",
             line: 1,
             column: 8,
@@ -1673,7 +1673,7 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 8,
             endColumn: 9,
-            message: "* import is invalid because import name with '/^Foo/u' regex pattern from 'foo' is restricted from being used by a pattern."
+            message: "* import is invalid because import name matching '/^Foo/u' pattern from 'foo' is restricted from being used."
         }]
     }
     ]

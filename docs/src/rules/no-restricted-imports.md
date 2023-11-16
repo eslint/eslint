@@ -295,12 +295,12 @@ import { isEmpty } from 'utils/collection-utils';
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
-    group: ["bar/*"],
+    group: ["foo/*"],
     importNamePattern: '^(is|bar)',
-    message: "Use 'isBar' from foo/bar instead"
+    message: "Use 'isBar' from baz/bar instead"
 }]}]*/
 
-import bar { isBar } from 'bar/*';
+import bar, { isBar } from 'foo/bar';
 ```
 
 :::
@@ -310,11 +310,11 @@ import bar { isBar } from 'bar/*';
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     importNames: ["foo"],
-    group: ["bar/*"],
+    group: ["foo/*"],
     importNamePattern: '^bar',
 }]}]*/
 
-import { bar } from 'bar/*';
+import { bar } from 'foo/bar';
 ```
 
 :::
