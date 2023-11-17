@@ -68,7 +68,7 @@ function markdownItRuleExample({ open, close }) {
                 return typeof text === "string" ? text : "";
             }
 
-            const { type, parserOptionsJSON } = /^\s*(?<type>\S+)(\s+(?<parserOptionsJSON>.+?))?\s*$/u.exec(tagToken.info).groups;
+            const { type, parserOptionsJSON } = /^\s*(?<type>\S+)(\s+(?<parserOptionsJSON>\S.*?))?\s*$/u.exec(tagToken.info).groups;
             const parserOptions = { sourceType: "module", ...(parserOptionsJSON && JSON.parse(parserOptionsJSON)) };
             const codeBlockToken = tokens[index + 1];
 
