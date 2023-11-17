@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const assert = require("assert"),
-    { Linter } = require("../../../../lib/linter");
+    { Linter } = require("../../../../lib/linter"),
+    debug = require("../../../../lib/linter/code-path-analysis/debug-helpers");
 const linter = new Linter({ configType: "eslintrc" });
 
 //------------------------------------------------------------------------------
@@ -59,6 +60,7 @@ function getOrderOfTraversing(codePath, options, callback) {
             callback(segment, controller); // eslint-disable-line n/callback-return -- At end of inner function
         }
     });
+    debug.dumpDot(codePath);
 
     return retv;
 }
@@ -352,6 +354,34 @@ describe("CodePathAnalyzer", () => {
                 s1_1->s1_5->s1_6;
                 s1_2->s1_4;
                 s1_6->final;
+            }
+            */
+        });
+
+        it("should not skip the next branch when 'controller.skip()' was called.", () => {
+            const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } out1();")[0];
+            const order = getOrderOfTraversing(codePath, null, (segment, controller) => {
+                if (segment.id === "s1_4") {
+                    controller.skip(); // Since s1_5 is connected from s1_1, we expect it not to be skipped.
+                }
+            });
+
+            assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4", "s1_5"]);
+
+            /*
+            digraph {
+                node[shape=box,style="rounded,filled",fillcolor=white];
+                initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
+                final[label="",shape=doublecircle,style=filled,fillcolor=black,width=0.25,height=0.25];
+                s1_1[label="Program:enter\nIfStatement:enter\nIdentifier (a)"];
+                s1_2[label="BlockStatement:enter\nIfStatement:enter\nIdentifier (b)"];
+                s1_3[label="BlockStatement:enter\nExpressionStatement:enter\nCallExpression:enter\nIdentifier (foo)\nCallExpression:exit\nExpressionStatement:exit\nBlockStatement:exit"];
+                s1_4[label="IfStatement:exit\nExpressionStatement:enter\nCallExpression:enter\nIdentifier (bar)\nCallExpression:exit\nExpressionStatement:exit\nBlockStatement:exit"];
+                s1_5[label="IfStatement:exit\nExpressionStatement:enter\nCallExpression:enter\nIdentifier (out1)\nCallExpression:exit\nExpressionStatement:exit\nProgram:exit"];
+                initial->s1_1->s1_2->s1_3->s1_4->s1_5;
+                s1_1->s1_5;
+                s1_2->s1_4;
+                s1_5->final;
             }
             */
         });
