@@ -72,7 +72,7 @@ Outputs results to the [Checkstyle](https://checkstyle.sourceforge.io/) format.
 Example output:
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?><checkstyle version="4.3"><file name="/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js"><error line="1" column="10" severity="error" message="&apos;addOne&apos; is defined but never used. (no-unused-vars)" source="eslint.rules.no-unused-vars" /><error line="2" column="9" severity="error" message="Use the isNaN function to compare with NaN. (use-isnan)" source="eslint.rules.use-isnan" /><error line="3" column="16" severity="error" message="Unexpected space before unary operator &apos;++&apos;. (space-unary-ops)" source="eslint.rules.space-unary-ops" /><error line="3" column="20" severity="warning" message="Missing semicolon. (semi)" source="eslint.rules.semi" /><error line="4" column="12" severity="warning" message="Unnecessary &apos;else&apos; after &apos;return&apos;. (no-else-return)" source="eslint.rules.no-else-return" /><error line="5" column="1" severity="warning" message="Expected indentation of 8 spaces but found 6. (indent)" source="eslint.rules.indent" /><error line="5" column="7" severity="error" message="Function &apos;addOne&apos; expected a return value. (consistent-return)" source="eslint.rules.consistent-return" /><error line="5" column="13" severity="warning" message="Missing semicolon. (semi)" source="eslint.rules.semi" /><error line="7" column="2" severity="error" message="Unnecessary semicolon. (no-extra-semi)" source="eslint.rules.no-extra-semi" /></file></checkstyle>
+<?xml version="1.0" encoding="utf-8"?><checkstyle version="4.3"><file name="/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js"><error line="1" column="10" severity="error" message="&apos;addOne&apos; is defined but never used. (no-unused-vars)" source="eslint.rules.no-unused-vars" /><error line="2" column="9" severity="error" message="Use the isNaN function to compare with NaN. (use-isnan)" source="eslint.rules.use-isnan" /><error line="3" column="16" severity="error" message="Unexpected space before unary operator &apos;++&apos;. (space-unary-ops)" source="eslint.rules.space-unary-ops" /><error line="3" column="20" severity="warning" message="Missing semicolon. (semi)" source="eslint.rules.semi" /><error line="4" column="12" severity="warning" message="Unnecessary &apos;else&apos; after &apos;return&apos;. (no-else-return)" source="eslint.rules.no-else-return" /><error line="5" column="1" severity="warning" message="Expected indentation of 8 spaces but found 6. (indent)" source="eslint.rules.indent" /><error line="5" column="7" severity="error" message="Function &apos;addOne&apos; expected a return value. (consistent-return)" source="eslint.rules.consistent-return" /><error line="5" column="13" severity="warning" message="Missing semicolon. (semi)" source="eslint.rules.semi" /><error line="7" column="2" severity="error" message="Unnecessary semicolon. (no-extra-semi)" source="eslint.rules.no-extra-semi" /></file></checkstyle>
 ```
 
 ### compact
@@ -82,15 +82,15 @@ Human-readable output format. Mimics the default output of JSHint.
 Example output:
 
 ```text
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js: line 1, col 10, Error - 'addOne' is defined but never used. (no-unused-vars)
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js: line 2, col 9, Error - Use the isNaN function to compare with NaN. (use-isnan)
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js: line 3, col 16, Error - Unexpected space before unary operator '++'. (space-unary-ops)
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js: line 3, col 20, Warning - Missing semicolon. (semi)
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js: line 4, col 12, Warning - Unnecessary 'else' after 'return'. (no-else-return)
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js: line 5, col 1, Warning - Expected indentation of 8 spaces but found 6. (indent)
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js: line 5, col 7, Error - Function 'addOne' expected a return value. (consistent-return)
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js: line 5, col 13, Warning - Missing semicolon. (semi)
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js: line 7, col 2, Error - Unnecessary semicolon. (no-extra-semi)
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js: line 1, col 10, Error - 'addOne' is defined but never used. (no-unused-vars)
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js: line 2, col 9, Error - Use the isNaN function to compare with NaN. (use-isnan)
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js: line 3, col 16, Error - Unexpected space before unary operator '++'. (space-unary-ops)
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js: line 3, col 20, Warning - Missing semicolon. (semi)
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js: line 4, col 12, Warning - Unnecessary 'else' after 'return'. (no-else-return)
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js: line 5, col 1, Warning - Expected indentation of 8 spaces but found 6. (indent)
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js: line 5, col 7, Error - Function 'addOne' expected a return value. (consistent-return)
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js: line 5, col 13, Warning - Missing semicolon. (semi)
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js: line 7, col 2, Error - Unnecessary semicolon. (no-extra-semi)
 
 9 problems
 ```
@@ -110,7 +110,7 @@ Outputs results to format compatible with the [JSLint Jenkins plugin](https://pl
 Example output:
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?><jslint><file name="/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js"><issue line="1" char="10" evidence="" reason="&apos;addOne&apos; is defined but never used. (no-unused-vars)" /><issue line="2" char="9" evidence="" reason="Use the isNaN function to compare with NaN. (use-isnan)" /><issue line="3" char="16" evidence="" reason="Unexpected space before unary operator &apos;++&apos;. (space-unary-ops)" /><issue line="3" char="20" evidence="" reason="Missing semicolon. (semi)" /><issue line="4" char="12" evidence="" reason="Unnecessary &apos;else&apos; after &apos;return&apos;. (no-else-return)" /><issue line="5" char="1" evidence="" reason="Expected indentation of 8 spaces but found 6. (indent)" /><issue line="5" char="7" evidence="" reason="Function &apos;addOne&apos; expected a return value. (consistent-return)" /><issue line="5" char="13" evidence="" reason="Missing semicolon. (semi)" /><issue line="7" char="2" evidence="" reason="Unnecessary semicolon. (no-extra-semi)" /></file></jslint>
+<?xml version="1.0" encoding="utf-8"?><jslint><file name="/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js"><issue line="1" char="10" evidence="" reason="&apos;addOne&apos; is defined but never used. (no-unused-vars)" /><issue line="2" char="9" evidence="" reason="Use the isNaN function to compare with NaN. (use-isnan)" /><issue line="3" char="16" evidence="" reason="Unexpected space before unary operator &apos;++&apos;. (space-unary-ops)" /><issue line="3" char="20" evidence="" reason="Missing semicolon. (semi)" /><issue line="4" char="12" evidence="" reason="Unnecessary &apos;else&apos; after &apos;return&apos;. (no-else-return)" /><issue line="5" char="1" evidence="" reason="Expected indentation of 8 spaces but found 6. (indent)" /><issue line="5" char="7" evidence="" reason="Function &apos;addOne&apos; expected a return value. (consistent-return)" /><issue line="5" char="13" evidence="" reason="Missing semicolon. (semi)" /><issue line="7" char="2" evidence="" reason="Unnecessary semicolon. (no-extra-semi)" /></file></jslint>
 ```
 
 ### json-with-metadata
@@ -125,7 +125,7 @@ Example output (formatted for easier reading):
 {
     "results": [
         {
-            "filePath": "/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js",
+            "filePath": "/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js",
             "messages": [
                 {
                     "ruleId": "no-unused-vars",
@@ -727,7 +727,7 @@ Example output (formatted for easier reading):
 ```json
 [
     {
-        "filePath": "/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js",
+        "filePath": "/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js",
         "messages": [
             {
                 "ruleId": "no-unused-vars",
@@ -891,16 +891,16 @@ Example output:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <testsuites>
-<testsuite package="org.eslint" time="0" tests="9" errors="9" name="/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js">
-<testcase time="0" name="org.eslint.no-unused-vars" classname="/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems"><failure message="&apos;addOne&apos; is defined but never used."><![CDATA[line 1, col 10, Error - &apos;addOne&apos; is defined but never used. (no-unused-vars)]]></failure></testcase>
-<testcase time="0" name="org.eslint.use-isnan" classname="/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems"><failure message="Use the isNaN function to compare with NaN."><![CDATA[line 2, col 9, Error - Use the isNaN function to compare with NaN. (use-isnan)]]></failure></testcase>
-<testcase time="0" name="org.eslint.space-unary-ops" classname="/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems"><failure message="Unexpected space before unary operator &apos;++&apos;."><![CDATA[line 3, col 16, Error - Unexpected space before unary operator &apos;++&apos;. (space-unary-ops)]]></failure></testcase>
-<testcase time="0" name="org.eslint.semi" classname="/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems"><failure message="Missing semicolon."><![CDATA[line 3, col 20, Warning - Missing semicolon. (semi)]]></failure></testcase>
-<testcase time="0" name="org.eslint.no-else-return" classname="/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems"><failure message="Unnecessary &apos;else&apos; after &apos;return&apos;."><![CDATA[line 4, col 12, Warning - Unnecessary &apos;else&apos; after &apos;return&apos;. (no-else-return)]]></failure></testcase>
-<testcase time="0" name="org.eslint.indent" classname="/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems"><failure message="Expected indentation of 8 spaces but found 6."><![CDATA[line 5, col 1, Warning - Expected indentation of 8 spaces but found 6. (indent)]]></failure></testcase>
-<testcase time="0" name="org.eslint.consistent-return" classname="/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems"><failure message="Function &apos;addOne&apos; expected a return value."><![CDATA[line 5, col 7, Error - Function &apos;addOne&apos; expected a return value. (consistent-return)]]></failure></testcase>
-<testcase time="0" name="org.eslint.semi" classname="/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems"><failure message="Missing semicolon."><![CDATA[line 5, col 13, Warning - Missing semicolon. (semi)]]></failure></testcase>
-<testcase time="0" name="org.eslint.no-extra-semi" classname="/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems"><failure message="Unnecessary semicolon."><![CDATA[line 7, col 2, Error - Unnecessary semicolon. (no-extra-semi)]]></failure></testcase>
+<testsuite package="org.eslint" time="0" tests="9" errors="9" name="/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js">
+<testcase time="0" name="org.eslint.no-unused-vars" classname="/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems"><failure message="&apos;addOne&apos; is defined but never used."><![CDATA[line 1, col 10, Error - &apos;addOne&apos; is defined but never used. (no-unused-vars)]]></failure></testcase>
+<testcase time="0" name="org.eslint.use-isnan" classname="/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems"><failure message="Use the isNaN function to compare with NaN."><![CDATA[line 2, col 9, Error - Use the isNaN function to compare with NaN. (use-isnan)]]></failure></testcase>
+<testcase time="0" name="org.eslint.space-unary-ops" classname="/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems"><failure message="Unexpected space before unary operator &apos;++&apos;."><![CDATA[line 3, col 16, Error - Unexpected space before unary operator &apos;++&apos;. (space-unary-ops)]]></failure></testcase>
+<testcase time="0" name="org.eslint.semi" classname="/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems"><failure message="Missing semicolon."><![CDATA[line 3, col 20, Warning - Missing semicolon. (semi)]]></failure></testcase>
+<testcase time="0" name="org.eslint.no-else-return" classname="/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems"><failure message="Unnecessary &apos;else&apos; after &apos;return&apos;."><![CDATA[line 4, col 12, Warning - Unnecessary &apos;else&apos; after &apos;return&apos;. (no-else-return)]]></failure></testcase>
+<testcase time="0" name="org.eslint.indent" classname="/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems"><failure message="Expected indentation of 8 spaces but found 6."><![CDATA[line 5, col 1, Warning - Expected indentation of 8 spaces but found 6. (indent)]]></failure></testcase>
+<testcase time="0" name="org.eslint.consistent-return" classname="/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems"><failure message="Function &apos;addOne&apos; expected a return value."><![CDATA[line 5, col 7, Error - Function &apos;addOne&apos; expected a return value. (consistent-return)]]></failure></testcase>
+<testcase time="0" name="org.eslint.semi" classname="/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems"><failure message="Missing semicolon."><![CDATA[line 5, col 13, Warning - Missing semicolon. (semi)]]></failure></testcase>
+<testcase time="0" name="org.eslint.no-extra-semi" classname="/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems"><failure message="Unnecessary semicolon."><![CDATA[line 7, col 2, Error - Unnecessary semicolon. (no-extra-semi)]]></failure></testcase>
 </testsuite>
 </testsuites>
 
@@ -914,7 +914,7 @@ Example output:
 
 ```text
 
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js
   1:10  error    'addOne' is defined but never used            no-unused-vars
   2:9   error    Use the isNaN function to compare with NaN    use-isnan
   3:16  error    Unexpected space before unary operator '++'   space-unary-ops
@@ -939,7 +939,7 @@ Example output:
 ```text
 TAP version 13
 1..1
-not ok 1 - /var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js
+not ok 1 - /var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js
   ---
   message: '''addOne'' is defined but never used.'
   severity: error
@@ -1007,15 +1007,15 @@ Outputs results to a format similar to many commands in UNIX-like systems. Parsa
 Example output:
 
 ```text
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js:1:10: 'addOne' is defined but never used. [Error/no-unused-vars]
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js:2:9: Use the isNaN function to compare with NaN. [Error/use-isnan]
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js:3:16: Unexpected space before unary operator '++'. [Error/space-unary-ops]
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js:3:20: Missing semicolon. [Warning/semi]
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js:4:12: Unnecessary 'else' after 'return'. [Warning/no-else-return]
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js:5:1: Expected indentation of 8 spaces but found 6. [Warning/indent]
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js:5:7: Function 'addOne' expected a return value. [Error/consistent-return]
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js:5:13: Missing semicolon. [Warning/semi]
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js:7:2: Unnecessary semicolon. [Error/no-extra-semi]
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js:1:10: 'addOne' is defined but never used. [Error/no-unused-vars]
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js:2:9: Use the isNaN function to compare with NaN. [Error/use-isnan]
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js:3:16: Unexpected space before unary operator '++'. [Error/space-unary-ops]
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js:3:20: Missing semicolon. [Warning/semi]
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js:4:12: Unnecessary 'else' after 'return'. [Warning/no-else-return]
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js:5:1: Expected indentation of 8 spaces but found 6. [Warning/indent]
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js:5:7: Function 'addOne' expected a return value. [Error/consistent-return]
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js:5:13: Missing semicolon. [Warning/semi]
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js:7:2: Unnecessary semicolon. [Error/no-extra-semi]
 
 9 problems
 ```
@@ -1027,15 +1027,15 @@ Outputs results to format compatible with the integrated terminal of the [Visual
 Example output:
 
 ```text
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js(1,10): error no-unused-vars : 'addOne' is defined but never used.
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js(2,9): error use-isnan : Use the isNaN function to compare with NaN.
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js(3,16): error space-unary-ops : Unexpected space before unary operator '++'.
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js(3,20): warning semi : Missing semicolon.
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js(4,12): warning no-else-return : Unnecessary 'else' after 'return'.
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js(5,1): warning indent : Expected indentation of 8 spaces but found 6.
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js(5,7): error consistent-return : Function 'addOne' expected a return value.
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js(5,13): warning semi : Missing semicolon.
-/var/lib/jenkins/workspace/Releases/eslint Release/eslint/fullOfProblems.js(7,2): error no-extra-semi : Unnecessary semicolon.
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js(1,10): error no-unused-vars : 'addOne' is defined but never used.
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js(2,9): error use-isnan : Use the isNaN function to compare with NaN.
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js(3,16): error space-unary-ops : Unexpected space before unary operator '++'.
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js(3,20): warning semi : Missing semicolon.
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js(4,12): warning no-else-return : Unnecessary 'else' after 'return'.
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js(5,1): warning indent : Expected indentation of 8 spaces but found 6.
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js(5,7): error consistent-return : Function 'addOne' expected a return value.
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js(5,13): warning semi : Missing semicolon.
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js(7,2): error no-extra-semi : Unnecessary semicolon.
 
 9 problems
 ```

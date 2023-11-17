@@ -866,7 +866,8 @@
             "description": "Disallow the use of `console`",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-console"
-        }
+        },
+        "hasSuggestions": true
     },
     "no-const-assign": {
         "type": "problem",
