@@ -13,13 +13,13 @@
     "./use-at-your-own-risk": "./lib/unsupported-api.js"
   },
   "scripts": {
-    "build:docs:check-rule-examples": "node Makefile.js checkRuleExamples",
     "build:docs:update-links": "node tools/fetch-docs-links.js",
     "build:site": "node Makefile.js gensite",
     "build:webpack": "node Makefile.js webpack",
     "build:readme": "node tools/update-readme.js",
     "lint": "node Makefile.js lint",
     "lint:docs:js": "node Makefile.js lintDocsJS",
+    "lint:docs:rule-examples": "node Makefile.js checkRuleExamples",
     "lint:fix": "node Makefile.js lint -- fix",
     "lint:fix:docs:js": "node Makefile.js lintDocsJS -- fix",
     "release:generate:alpha": "node Makefile.js generatePrerelease -- alpha",
