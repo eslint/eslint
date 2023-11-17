@@ -163,6 +163,15 @@ ruleTester.run("no-console", rule, {
             }]
         },
         {
+            code: "a++\nconsole.log();\n/b/",
+            parserOptions: { ecmaVersion: "latest" },
+            errors: [{
+                messageId: "unexpected",
+                type: "MemberExpression",
+                suggestions: null
+            }]
+        },
+        {
             code: "a();\nconsole.log(foo);\n[1, 2, 3].forEach(a => doSomething(a));",
             parserOptions: { ecmaVersion: "latest" },
             errors: [{
