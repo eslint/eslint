@@ -21,7 +21,8 @@ const { promisify } = require("util");
 async function runCheckRuleExamples(...filenames) {
     return await promisify(execFile)(
         process.execPath,
-        ["--no-deprecation", "tools/check-rule-examples.js", ...filenames]
+        ["--no-deprecation", "tools/check-rule-examples.js", ...filenames],
+        { env: { FORCE_COLOR: "3" } } // 24-bit color mode
     );
 }
 
@@ -54,15 +55,15 @@ describe("check-rule-examples", () => {
                 code: 1,
                 stdout: "",
                 stderr:
-                "\n" +
-                "tests/fixtures/bad-examples.md\n" +
-                "  11:4  error  Missing language tag: use one of 'javascript', 'js' or 'jsx'\n" +
-                "  12:1  error  Syntax error: 'import' and 'export' may appear only with 'sourceType: module'\n" +
-                "  20:5  error  Nonstandard language tag 'ts': use one of 'javascript', 'js' or 'jsx'\n" +
-                "  23:7  error  Syntax error: Identifier 'foo' has already been declared\n" +
-                "\n" +
-                "✖ 4 problems (4 errors, 0 warnings)\n" +
-                "\n"
+                "\x1B[0m\x1B[0m\n" +
+                "\x1B[0m\x1B[4mtests/fixtures/bad-examples.md\x1B[24m\x1B[0m\n" +
+                "\x1B[0m  \x1B[2m11:4\x1B[22m  \x1B[31merror\x1B[39m  Missing language tag: use one of 'javascript', 'js' or 'jsx'\x1B[0m\n" +
+                "\x1B[0m  \x1B[2m12:1\x1B[22m  \x1B[31merror\x1B[39m  Syntax error: 'import' and 'export' may appear only with 'sourceType: module'\x1B[0m\n" +
+                "\x1B[0m  \x1B[2m20:5\x1B[22m  \x1B[31merror\x1B[39m  Nonstandard language tag 'ts': use one of 'javascript', 'js' or 'jsx'\x1B[0m\n" +
+                "\x1B[0m  \x1B[2m23:7\x1B[22m  \x1B[31merror\x1B[39m  Syntax error: Identifier 'foo' has already been declared\x1B[0m\n" +
+                "\x1B[0m\x1B[0m\n" +
+                "\x1B[0m\x1B[31m\x1B[1m✖ 4 problems (4 errors, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
+                "\x1B[0m\x1B[31m\x1B[1m\x1B[22m\x1B[39m\x1B[0m\n"
             }
         );
     });
@@ -76,12 +77,12 @@ describe("check-rule-examples", () => {
                 assert.strictEqual(code, 1);
                 assert.strictEqual(stdout, "");
                 const expectedStderr =
-                "\n" +
-                "tests/fixtures/non-existing-examples.md\n" +
-                "  0:0  error  Error checking file: ENOENT: no such file or directory, open <FILE>\n" +
-                "\n" +
-                "✖ 1 problem (1 error, 0 warnings)\n" +
-                "\n";
+                "\x1B[0m\x1B[0m\n" +
+                "\x1B[0m\x1B[4mtests/fixtures/non-existing-examples.md\x1B[24m\x1B[0m\n" +
+                "\x1B[0m  \x1B[2m0:0\x1B[22m  \x1B[31merror\x1B[39m  Error checking file: ENOENT: no such file or directory, open <FILE>\x1B[0m\n" +
+                "\x1B[0m\x1B[0m\n" +
+                "\x1B[0m\x1B[31m\x1B[1m✖ 1 problem (1 error, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
+                "\x1B[0m\x1B[31m\x1B[1m\x1B[22m\x1B[39m\x1B[0m\n";
 
                 // Replace filename as it's OS-dependent.
                 const normalizedStderr = stderr.replace(/'.+'/u, "<FILE>");

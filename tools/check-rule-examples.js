@@ -6,8 +6,10 @@
 
 const { parse } = require("espree");
 const { readFile } = require("fs").promises;
+const glob = require("glob");
 const markdownIt = require("markdown-it");
 const markdownItContainer = require("markdown-it-container");
+const { promisify } = require("util");
 const markdownItRuleExample = require("../docs/tools/markdown-it-rule-example");
 
 //------------------------------------------------------------------------------
@@ -127,10 +129,13 @@ async function checkFile(filename) {
 // Main
 //------------------------------------------------------------------------------
 
-// determine which files to check
-const filenames = process.argv.slice(2);
+const patterns = process.argv.slice(2);
 
 (async function() {
+    const globAsync = promisify(glob);
+
+    // determine which files to check
+    const filenames = (await Promise.all(patterns.map(pattern => globAsync(pattern, { nonull: true })))).flat();
     const results = await Promise.all(filenames.map(checkFile));
 
     if (results.every(result => result.errorCount === 0)) {
