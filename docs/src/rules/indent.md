@@ -3,7 +3,7 @@ title: indent
 rule_type: layout
 ---
 
-This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/indent) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 There are several common guidelines which require specific indentation of nested blocks and statements, like:
 

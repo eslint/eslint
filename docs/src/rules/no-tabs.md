@@ -3,7 +3,7 @@ title: no-tabs
 rule_type: layout
 ---
 
-This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/no-tabs) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Some style guides don't allow the use of tab characters at all, including within comments.
 
