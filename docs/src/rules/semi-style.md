@@ -89,34 +89,6 @@ Examples of **incorrect** code for this rule with `"first"` option:
 ```js
 /*eslint semi-style: ["error", "first"]*/
 
-foo();
-[1, 2, 3].forEach(bar)
-
-for (
-    var i = 0
-    ; i < 10
-    ; ++i
-) {
-    foo()
-}
-
-class C {
-    static {
-        foo();
-        bar()
-    }
-}
-```
-
-:::
-
-Examples of **correct** code for this rule with `"first"` option:
-
-::: correct
-
-```js
-/*eslint semi-style: ["error", "first"]*/
-
 foo()
 ;[1, 2, 3].forEach(bar)
 
@@ -132,6 +104,34 @@ class C {
     static {
         foo()
         ;bar()
+    }
+}
+```
+
+:::
+
+Examples of **correct** code for this rule with `"first"` option:
+
+::: correct
+
+```js
+/*eslint semi-style: ["error", "first"]*/
+
+foo();
+[1, 2, 3].forEach(bar)
+
+for (
+    var i = 0
+    ; i < 10
+    ; ++i
+) {
+    foo()
+}
+
+class C {
+    static {
+        foo();
+        bar()
     }
 }
 ```
