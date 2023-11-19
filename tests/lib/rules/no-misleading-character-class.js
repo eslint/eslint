@@ -86,8 +86,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[👍]/",
             errors: [{
-                column: 9,
-                endColumn: 15,
+                column: 11,
+                endColumn: 13,
                 line: 1,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👍]/u" }]
@@ -142,8 +142,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /[👍]/",
             parserOptions: { ecmaVersion: 3 },
             errors: [{
-                column: 9,
-                endColumn: 15,
+                column: 11,
+                endColumn: 13,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null // ecmaVersion doesn't support the 'u' flag
             }]
@@ -152,8 +152,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /[👍]/",
             parserOptions: { ecmaVersion: 5 },
             errors: [{
-                column: 9,
-                endColumn: 15,
+                column: 11,
+                endColumn: 13,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null // ecmaVersion doesn't support the 'u' flag
             }]
@@ -161,8 +161,17 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[👍]\\a/",
             errors: [{
-                column: 9,
-                endColumn: 17,
+                column: 11,
+                endColumn: 13,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // pattern would be invalid with the 'u' flag
+            }]
+        },
+        {
+            code: "var r = /\\a[👍]\\a/",
+            errors: [{
+                column: 13,
+                endColumn: 15,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null // pattern would be invalid with the 'u' flag
             }]
@@ -171,8 +180,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /(?<=[👍])/",
             parserOptions: { ecmaVersion: 9 },
             errors: [{
-                column: 9,
-                endColumn: 20,
+                column: 15,
+                endColumn: 17,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /(?<=[👍])/u" }]
             }]
@@ -181,8 +190,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /(?<=[👍])/",
             parserOptions: { ecmaVersion: 2018 },
             errors: [{
-                column: 9,
-                endColumn: 20,
+                column: 15,
+                endColumn: 17,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /(?<=[👍])/u" }]
             }]
@@ -190,8 +199,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[Á]/",
             errors: [{
-                column: 9,
-                endColumn: 15,
+                column: 11,
+                endColumn: 13,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -199,8 +208,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[Á]/u",
             errors: [{
-                column: 9,
-                endColumn: 16,
+                column: 11,
+                endColumn: 13,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -235,8 +244,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[❇️]/",
             errors: [{
-                column: 9,
-                endColumn: 15,
+                column: 11,
+                endColumn: 13,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -244,8 +253,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[❇️]/u",
             errors: [{
-                column: 9,
-                endColumn: 16,
+                column: 11,
+                endColumn: 13,
                 messageId: "combiningClass",
                 suggestions: null
             }]
@@ -281,14 +290,14 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /[👶🏻]/",
             errors: [
                 {
-                    column: 9,
-                    endColumn: 17,
+                    column: 11,
+                    endColumn: 13,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👶🏻]/u" }]
                 },
                 {
-                    column: 9,
-                    endColumn: 17,
+                    column: 13,
+                    endColumn: 15,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👶🏻]/u" }]
                 }
@@ -297,8 +306,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[👶🏻]/u",
             errors: [{
-                column: 9,
-                endColumn: 18,
+                column: 11,
+                endColumn: 15,
                 messageId: "emojiModifier",
                 suggestions: null
             }]
@@ -325,14 +334,14 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /[🇯🇵]/",
             errors: [
                 {
-                    column: 9,
-                    endColumn: 17,
+                    column: 11,
+                    endColumn: 13,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/u" }]
                 },
                 {
-                    column: 9,
-                    endColumn: 17,
+                    column: 13,
+                    endColumn: 15,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/u" }]
                 }
@@ -342,14 +351,14 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /[🇯🇵]/i",
             errors: [
                 {
-                    column: 9,
-                    endColumn: 18,
+                    column: 11,
+                    endColumn: 13,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/iu" }]
                 },
                 {
-                    column: 9,
-                    endColumn: 18,
+                    column: 13,
+                    endColumn: 15,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[🇯🇵]/iu" }]
                 }
@@ -358,8 +367,8 @@ ruleTester.run("no-misleading-character-class", rule, {
         {
             code: "var r = /[🇯🇵]/u",
             errors: [{
-                column: 9,
-                endColumn: 18,
+                column: 11,
+                endColumn: 15,
                 messageId: "regionalIndicatorSymbol",
                 suggestions: null
             }]
@@ -386,33 +395,33 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /[👨‍👩‍👦]/",
             errors: [
                 {
-                    column: 9,
-                    endColumn: 21,
+                    column: 11,
+                    endColumn: 13,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
                 },
                 {
-                    column: 9,
-                    endColumn: 21,
-                    messageId: "surrogatePairWithoutUFlag",
-                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
-                },
-                {
-                    column: 9,
-                    endColumn: 21,
-                    messageId: "surrogatePairWithoutUFlag",
-                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
-                },
-                {
-                    column: 9,
-                    endColumn: 21,
+                    column: 12,
+                    endColumn: 14,
                     messageId: "zwj",
                     suggestions: null
                 },
                 {
-                    column: 9,
-                    endColumn: 21,
+                    column: 14,
+                    endColumn: 16,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
+                },
+                {
+                    column: 15,
+                    endColumn: 17,
                     messageId: "zwj"
+                },
+                {
+                    column: 17,
+                    endColumn: 19,
+                    messageId: "surrogatePairWithoutUFlag",
+                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
                 }
             ]
         },
@@ -420,14 +429,14 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /[👨‍👩‍👦]/u",
             errors: [
                 {
-                    column: 9,
-                    endColumn: 22,
+                    column: 11,
+                    endColumn: 14,
                     messageId: "zwj",
                     suggestions: null
                 },
                 {
-                    column: 9,
-                    endColumn: 22,
+                    column: 14,
+                    endColumn: 17,
                     messageId: "zwj",
                     suggestions: null
                 }
@@ -1189,8 +1198,8 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: "var r = /[[👶🏻]]/v",
             parserOptions: { ecmaVersion: 2024 },
             errors: [{
-                column: 9,
-                endColumn: 20,
+                column: 12,
+                endColumn: 16,
                 messageId: "emojiModifier",
                 suggestions: null
             }]
@@ -1211,8 +1220,8 @@ flatRuleTester.run("no-misleading-character-class", rule, {
                 sourceType: "script"
             },
             errors: [{
-                column: 9,
-                endColumn: 15,
+                column: 11,
+                endColumn: 13,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null // ecmaVersion doesn't support the 'u' flag
             }]
@@ -1223,8 +1232,8 @@ flatRuleTester.run("no-misleading-character-class", rule, {
                 ecmaVersion: 2015
             },
             errors: [{
-                column: 9,
-                endColumn: 15,
+                column: 11,
+                endColumn: 13,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👍]/u" }]
             }]
