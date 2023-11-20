@@ -26,7 +26,6 @@ body:
     options:
       - Warns about a potential problem
       - Suggests an alternate way of doing something
-      - Enforces a formatting/stylistic preference
   validations:
     required: true
 - type: textarea
