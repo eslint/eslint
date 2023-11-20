@@ -477,7 +477,9 @@ This option allows you to specify a warning threshold, which can be used to forc
 
 Normally, if ESLint runs and finds no errors (only warnings), it exits with a success exit status. However, if `--max-warnings` is specified and the total warning count is greater than the specified threshold, ESLint exits with an error status.
 
+::: important
 When used alongside `--quiet`, this will cause rules marked as warn to still be run, but not reported.
+:::
 
 ##### `--max-warnings` example
 

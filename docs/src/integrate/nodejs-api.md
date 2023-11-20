@@ -159,7 +159,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `[]`. An array of paths to directories to load custom rules from.
 * `options.useEslintrc` (`boolean`)<br>
   Default is `true`. If `false` is present, ESLint doesn't load configuration files (`.eslintrc.*` files). Only the configuration of the constructor options is valid.
-* `options.ruleFilter` (`Function`)<br>
+* `options.ruleFilter` (`({ruleId: string, severity: number}) => boolean`)<br>
   Default is `() => true`. A predicate function that filters rules to be run. This function is called with an object containing `ruleId` and `severity`, and returns `true` if the rule should be run.
 
 ##### Autofix
