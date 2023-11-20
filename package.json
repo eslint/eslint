@@ -19,6 +19,7 @@
     "build:readme": "node tools/update-readme.js",
     "lint": "node Makefile.js lint",
     "lint:docs:js": "node Makefile.js lintDocsJS",
+    "lint:docs:rule-examples": "node Makefile.js checkRuleExamples",
     "lint:fix": "node Makefile.js lint -- fix",
     "lint:fix:docs:js": "node Makefile.js lintDocsJS -- fix",
     "release:generate:alpha": "node Makefile.js generatePrerelease -- alpha",
@@ -42,6 +43,7 @@
       "git add packages/js/src/configs/eslint-all.js"
     ],
     "docs/src/rules/*.md": [
+      "node tools/check-rule-examples.js",
       "node tools/fetch-docs-links.js",
       "git add docs/src/_data/further_reading_links.json"
     ],
@@ -132,6 +134,8 @@
     "gray-matter": "^4.0.3",
     "lint-staged": "^11.0.0",
     "load-perf": "^0.2.0",
+    "markdown-it": "^12.2.0",
+    "markdown-it-container": "^3.0.0",
     "markdownlint": "^0.31.1",
     "markdownlint-cli": "^0.37.0",
     "marked": "^4.0.8",

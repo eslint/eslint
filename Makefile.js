@@ -867,6 +867,17 @@ target.checkRuleFiles = function() {
 
 };
 
+target.checkRuleExamples = function() {
+    const { execFileSync } = require("child_process");
+
+    // We don't need the stack trace of execFileSync if the command fails.
+    try {
+        execFileSync(process.execPath, ["tools/check-rule-examples.js", "docs/src/rules/*.md"], { stdio: "inherit" });
+    } catch {
+        exit(1);
+    }
+};
+
 target.checkLicenses = function() {
 
     /**
