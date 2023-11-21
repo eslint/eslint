@@ -7,7 +7,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("assert");
-const { deepMergeArrays } = require("../../../lib/linter/deep-merge-arrays");
+const { deepMergeArrays } = require("../../../lib/shared/deep-merge-arrays");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -24,6 +24,7 @@ function stringify(value) {
 
 describe("deepMerge", () => {
     for (const [first, second, result] of [
+        [[], undefined, []],
         [["abc"], undefined, ["abc"]],
         [undefined, ["abc"], ["abc"]],
         [[], ["abc"], ["abc"]],
@@ -39,6 +40,7 @@ describe("deepMerge", () => {
         [["abc"], [undefined], ["abc"]],
         [["abc"], [null], [null]],
         [["abc"], ["def"], ["def"]],
+        [["abc"], [{ a: 0 }], [{ a: 0 }]],
         [[["abc"]], [null], [null]],
         [[["abc"]], ["def"], ["def"]],
         [[["abc"]], [{ a: 0 }], [{ a: 0 }]],
