@@ -29,9 +29,11 @@ describe("deepMerge", () => {
         [null, undefined, null],
         [null, null, null],
         [{}, null, null],
-        [null, {}, null],
+        [null, {}, {}],
         [null, "abc", "abc"],
+        [null, { abc: true }, { abc: true }],
         [null, 123, 123],
+        [null, [123], [123]],
         [{ a: undefined }, { a: 0 }, { a: 0 }],
         [{ a: null }, { a: 0 }, { a: 0 }],
         [{ a: 0 }, { a: 1 }, { a: 1 }],
@@ -49,8 +51,10 @@ describe("deepMerge", () => {
         ["abc", { a: 0 }, { a: 0 }],
         [["abc"], undefined, ["abc"]],
         [["abc"], null, null],
-        [[], ["def"], []],
-        [["abc"], ["def"], ["abc"]]
+        [[], ["def"], ["def"]],
+        [["abc"], ["def"], ["def"]],
+        [["abc"], { def: 0 }, { def: 0 }],
+        [{ abc: true }, ["def"], ["def"]]
     ]) {
         it(`${stringify(first)}, ${stringify(second)}`, () => {
             assert.deepStrictEqual(deepMerge(first, second), result);
