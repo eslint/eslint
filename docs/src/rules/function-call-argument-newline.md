@@ -8,7 +8,7 @@ related_rules:
 - array-element-newline
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 A number of style guides require or disallow line breaks between arguments of a function call.
 

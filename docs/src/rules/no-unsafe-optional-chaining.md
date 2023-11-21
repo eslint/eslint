@@ -32,7 +32,7 @@ This rule aims to detect some cases where the use of optional chaining doesn't p
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-unsafe-optional-chaining: "error"*/

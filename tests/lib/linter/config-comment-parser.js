@@ -224,6 +224,28 @@ describe("ConfigCommentParser", () => {
                 b: true
             });
         });
+
+        it("should parse list config with quoted items", () => {
+            const code = "'a', \"b\", 'c\", \"d'";
+            const result = commentParser.parseListConfig(code);
+
+            assert.deepStrictEqual(result, {
+                a: true,
+                b: true,
+                "\"d'": true, // This result is correct because used mismatched quotes.
+                "'c\"": true // This result is correct because used mismatched quotes.
+            });
+        });
+        it("should parse list config with spaced items", () => {
+            const code = " a b , 'c d' , \"e f\" ";
+            const result = commentParser.parseListConfig(code);
+
+            assert.deepStrictEqual(result, {
+                "a b": true,
+                "c d": true,
+                "e f": true
+            });
+        });
     });
 
 });

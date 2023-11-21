@@ -56,19 +56,19 @@ Examples of **correct** code for this rule:
 
 class A { }
 
-class A {
+class B {
     constructor () {
         doSomething();
     }
 }
 
-class B extends A {
+class C extends A {
     constructor() {
         super('foo');
     }
 }
 
-class B extends A {
+class D extends A {
     constructor() {
         super();
         doSomething();

@@ -17,36 +17,36 @@ This rule reports the regular expressions which include multiple code point char
 The combining characters are characters which belong to one of `Mc`, `Me`, and `Mn` [Unicode general categories](http://www.unicode.org/L2/L1999/UnicodeData.html#General%20Category).
 
 ```js
-/^[Á]$/u.test("Á") //→ false
-/^[❇️]$/u.test("❇️") //→ false
+/^[Á]$/u.test("Á"); //→ false
+/^[❇️]$/u.test("❇️"); //→ false
 ```
 
 **A character with Emoji modifiers:**
 
 ```js
-/^[👶🏻]$/u.test("👶🏻") //→ false
-/^[👶🏽]$/u.test("👶🏽") //→ false
+/^[👶🏻]$/u.test("👶🏻"); //→ false
+/^[👶🏽]$/u.test("👶🏽"); //→ false
 ```
 
 **A pair of regional indicator symbols:**
 
 ```js
-/^[🇯🇵]$/u.test("🇯🇵") //→ false
+/^[🇯🇵]$/u.test("🇯🇵"); //→ false
 ```
 
 **Characters that ZWJ joins:**
 
 ```js
-/^[👨‍👩‍👦]$/u.test("👨‍👩‍👦") //→ false
+/^[👨‍👩‍👦]$/u.test("👨‍👩‍👦"); //→ false
 ```
 
 **A surrogate pair without Unicode flag:**
 
 ```js
-/^[👍]$/.test("👍") //→ false
+/^[👍]$/.test("👍"); //→ false
 
 // Surrogate pair is OK if with u flag.
-/^[👍]$/u.test("👍") //→ true
+/^[👍]$/u.test("👍"); //→ true
 ```
 
 ## Rule Details
@@ -60,12 +60,12 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-misleading-character-class: error */
 
-/^[Á]$/u
-/^[❇️]$/u
-/^[👶🏻]$/u
-/^[🇯🇵]$/u
-/^[👨‍👩‍👦]$/u
-/^[👍]$/
+/^[Á]$/u;
+/^[❇️]$/u;
+/^[👶🏻]$/u;
+/^[🇯🇵]$/u;
+/^[👨‍👩‍👦]$/u;
+/^[👍]$/;
 ```
 
 :::
@@ -77,9 +77,9 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-misleading-character-class: error */
 
-/^[abc]$/
-/^[👍]$/u
-/^[\q{👶🏻}]$/v
+/^[abc]$/;
+/^[👍]$/u;
+/^[\q{👶🏻}]$/v;
 ```
 
 :::

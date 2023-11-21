@@ -82,19 +82,37 @@ import {alpha, beta} from 'alpha.js';
 import {delta, gamma} from 'delta.js';
 import a from 'baz.js';
 import {b} from 'qux.js';
+```
 
+:::
+
+::: correct
+
+```js
 /*eslint sort-imports: "error"*/
 import a from 'foo.js';
 import b from 'bar.js';
 import c from 'baz.js';
+```
 
+:::
+
+::: correct
+
+```js
 /*eslint sort-imports: "error"*/
 import 'foo.js'
 import * as bar from 'bar.js';
 import {a, b} from 'baz.js';
 import c from 'qux.js';
 import {d} from 'quux.js';
+```
 
+:::
+
+::: correct
+
+```js
 /*eslint sort-imports: "error"*/
 import {a, b, c} from 'foo.js'
 ```
@@ -109,27 +127,63 @@ Examples of **incorrect** code for this rule when using default options:
 /*eslint sort-imports: "error"*/
 import b from 'foo.js';
 import a from 'bar.js';
+```
 
+:::
+
+::: incorrect
+
+```js
 /*eslint sort-imports: "error"*/
 import a from 'foo.js';
 import A from 'bar.js';
+```
 
+:::
+
+::: incorrect
+
+```js
 /*eslint sort-imports: "error"*/
-import {b, c} from 'foo.js';
+import {c, d} from 'foo.js';
 import {a, b} from 'bar.js';
+```
 
+:::
+
+::: incorrect
+
+```js
 /*eslint sort-imports: "error"*/
 import a from 'foo.js';
 import {b, c} from 'bar.js';
+```
 
+:::
+
+::: incorrect
+
+```js
 /*eslint sort-imports: "error"*/
 import {a} from 'foo.js';
 import {b, c} from 'bar.js';
+```
 
+:::
+
+::: incorrect
+
+```js
 /*eslint sort-imports: "error"*/
 import a from 'foo.js';
 import * as b from 'bar.js';
+```
 
+:::
+
+::: incorrect
+
+```js
 /*eslint sort-imports: "error"*/
 import {b, a, c} from 'foo.js'
 ```

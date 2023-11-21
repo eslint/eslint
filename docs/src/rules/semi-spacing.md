@@ -9,7 +9,7 @@ related_rules:
 - space-in-parens
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 JavaScript allows you to place unnecessary spaces before or after a semicolon.
 

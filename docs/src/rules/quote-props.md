@@ -6,7 +6,7 @@ further_reading:
 - https://mathiasbynens.be/notes/javascript-properties
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Object literal property names can be defined in two ways: using literals or using strings. For example, these two objects are equivalent:
 

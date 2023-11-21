@@ -38,13 +38,13 @@ Examples of **incorrect** code for this rule:
 
 function foo() {}
 
-var foo = function() {};
+var bar = function() {};
 
-var foo = () => {};
+var bar = () => {};
 
-function* foo() {}
+function* baz() {}
 
-var foo = function*() {};
+var bar = function*() {};
 
 var obj = {
     foo: function() {},
@@ -95,19 +95,19 @@ function foo() {
     // do nothing.
 }
 
-var foo = function() {
+var baz = function() {
     // any clear comments.
 };
 
-var foo = () => {
+var baz = () => {
     bar();
 };
 
-function* foo() {
+function* foobar() {
     // do nothing.
 }
 
-var foo = function*() {
+var baz = function*() {
     // do nothing.
 };
 
@@ -205,7 +205,7 @@ Examples of **correct** code for the `{ "allow": ["functions"] }` option:
 
 function foo() {}
 
-var foo = function() {};
+var bar = function() {};
 
 var obj = {
     foo: function() {}
@@ -241,7 +241,7 @@ Examples of **correct** code for the `{ "allow": ["generatorFunctions"] }` optio
 
 function* foo() {}
 
-var foo = function*() {};
+var bar = function*() {};
 
 var obj = {
     foo: function*() {}

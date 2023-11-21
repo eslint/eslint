@@ -8,7 +8,7 @@ related_rules:
 - object-property-newline
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 A number of style guides require or disallow line breaks inside of object braces and other tokens.
 
@@ -554,9 +554,9 @@ Examples of **incorrect** code for this rule with the `{ "ImportDeclaration": "a
 /*eslint-env es6*/
 
 import {foo, bar} from 'foo-bar';
-import {foo as f, bar} from 'foo-bar';
-import {foo,
-    bar} from 'foo-bar';
+import {foo as f, baz} from 'foo-bar';
+import {qux,
+    foobar} from 'foo-bar';
 
 export {
    foo,
@@ -564,7 +564,7 @@ export {
 };
 export {
    foo as f,
-   bar
+   baz
 } from 'foo-bar';
 ```
 
@@ -583,15 +583,15 @@ import {
     bar
 } from 'foo-bar';
 import {
-    foo, bar
+    baz, qux
 } from 'foo-bar';
 import {
     foo as f,
-    bar
+    foobar
 } from 'foo-bar';
 
 export { foo, bar } from 'foo-bar';
-export { foo as f, bar } from 'foo-bar';
+export { foo as f, baz } from 'foo-bar';
 ```
 
 :::

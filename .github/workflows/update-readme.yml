@@ -14,7 +14,7 @@ jobs:
         token: ${{ secrets.WORKFLOW_PUSH_BOT_TOKEN }}
 
     - name: Set up Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
 
     - name: Install npm packages
       run: npm install

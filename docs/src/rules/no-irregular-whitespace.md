@@ -4,6 +4,7 @@ rule_type: problem
 further_reading:
 - https://es5.github.io/#x7.2
 - https://web.archive.org/web/20200414142829/http://timelessrepo.com/json-isnt-a-javascript-subset
+- https://codepoints.net/U+1680
 ---
 
 
@@ -16,11 +17,17 @@ A simple fix for this problem could be to rewrite the offending line from scratc
 
 Known issues these spaces cause:
 
+* Ogham Space Mark
+    * Is a valid token separator, but is rendered as a visible glyph in most typefaces, which may be misleading in source code.
+* Mongolian Vowel Separator
+    * Is no longer considered a space separator since Unicode 6.3. It will result in a syntax error in current parsers when used in place of a regular token separator.
+* Line Separator and Paragraph Separator
+    * These have always been valid whitespace characters and line terminators, but were considered illegal in string literals prior to ECMAScript 2019.
 * Zero Width Space
-    * Is NOT considered a separator for tokens and is often parsed as an `Unexpected token ILLEGAL`
-    * Is NOT shown in modern browsers making code repository software expected to resolve the visualization
-* Line Separator
-    * Is NOT a valid character within JSON which would cause parse errors
+    * Is NOT considered a separator for tokens and is often parsed as an `Unexpected token ILLEGAL`.
+    * Is NOT shown in modern browsers making code repository software expected to resolve the visualization.
+
+In JSON, none of the characters listed as irregular whitespace by this rule may appear outside of a string.
 
 ## Rule Details
 
@@ -74,31 +81,31 @@ Examples of **incorrect** code for this rule with the default `{ "skipStrings": 
 ```js
 /*eslint no-irregular-whitespace: "error"*/
 
-function thing() /*<NBSP>*/{
+var thing = function() /*<NBSP>*/{
     return 'test';
 }
 
-function thing( /*<NBSP>*/){
+var thing = function( /*<NBSP>*/){
     return 'test';
 }
 
-function thing /*<NBSP>*/(){
+var thing = function /*<NBSP>*/(){
     return 'test';
 }
 
-function thing᠎/*<MVS>*/(){
+var thing = function /*<Ogham Space Mark>*/(){
     return 'test';
 }
 
-function thing() {
+var thing = function() {
     return 'test'; /*<ENSP>*/
 }
 
-function thing() {
+var thing = function() {
     return 'test'; /*<NBSP>*/
 }
 
-function thing() {
+var thing = function() {
     // Description <NBSP>: some descriptive text
 }
 
@@ -106,12 +113,12 @@ function thing() {
 Description <NBSP>: some descriptive text
 */
 
-function thing() {
+var thing = function() {
     return / <NBSP>regexp/;
 }
 
 /*eslint-env es6*/
-function thing() {
+var thing = function() {
     return `template <NBSP>string`;
 }
 ```
@@ -125,15 +132,15 @@ Examples of **correct** code for this rule with the default `{ "skipStrings": tr
 ```js
 /*eslint no-irregular-whitespace: "error"*/
 
-function thing() {
+var thing = function() {
     return ' <NBSP>thing';
 }
 
-function thing() {
+var thing = function() {
     return '​<ZWSP>thing';
 }
 
-function thing() {
+var thing = function() {
     return 'th <NBSP>ing';
 }
 ```
@@ -204,7 +211,7 @@ Examples of additional **correct** code for this rule with the `{ "skipJSXText":
 /*eslint-env es6*/
 
 function Thing() {
-    return <div>text in <NBSP>JSX</div>;
+    return <div>text in JSX</div>; // <NBSP> before `JSX`
 }
 ```
 

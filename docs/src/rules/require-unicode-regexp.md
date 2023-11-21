@@ -91,7 +91,7 @@ const g = new RegExp("ccc", "v")
 const h = new RegExp("ddd", "giv")
 
 // This rule ignores RegExp calls if the flags could not be evaluated to a static value.
-function f(flags) {
+function i(flags) {
     return new RegExp("eee", flags)
 }
 ```
