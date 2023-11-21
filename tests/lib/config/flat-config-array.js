@@ -17,6 +17,7 @@ const {
 } = require("@eslint/js").configs;
 const stringify = require("json-stable-stringify-without-jsonify");
 const espree = require("espree");
+const rules = require("../../../lib/rules");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -139,7 +140,7 @@ function normalizeRuleConfig(rulesConfig) {
     };
 
     for (const ruleId of Object.keys(rulesConfigCopy)) {
-        rulesConfigCopy[ruleId] = [2];
+        rulesConfigCopy[ruleId] = [2, ...(rules.get(ruleId).meta.defaultOptions || [])];
     }
 
     return rulesConfigCopy;
@@ -2008,9 +2009,11 @@ describe("FlatConfigArray", () => {
 
             assert.deepStrictEqual(config.rules, {
                 camelcase: [2, {
+                    allow: [],
                     ignoreDestructuring: false,
                     ignoreGlobals: false,
-                    ignoreImports: false
+                    ignoreImports: false,
+                    properties: "always"
                 }],
                 "default-case": [2, {}]
             });
