@@ -2231,38 +2231,6 @@ describe("RuleTester", () => {
             processStub.restore();
         });
 
-        it("should log a deprecation warning when using the legacy function-style API for rule", () => {
-
-            /**
-             * Legacy-format rule (a function instead of an object with `create` method).
-             * @param {RuleContext} context The ESLint rule context object.
-             * @returns {Object} Listeners.
-             */
-            function functionStyleRule(context) {
-                return {
-                    Program(node) {
-                        context.report({ node, message: "bad" });
-                    }
-                };
-            }
-
-            ruleTester.run("function-style-rule", functionStyleRule, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", errors: 1 }
-                ]
-            });
-
-            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
-            assert.deepStrictEqual(
-                processStub.getCall(0).args,
-                [
-                    "\"function-style-rule\" rule is using the deprecated function-style format and will stop working in ESLint v9. Please use object-style format: https://eslint.org/docs/latest/extend/custom-rules",
-                    "DeprecationWarning"
-                ]
-            );
-        });
-
         it("should log a deprecation warning when meta is not defined for the rule", () => {
             ruleTester.run("rule-with-no-meta-1", ruleWithNoMeta, {
                 valid: [],
@@ -2382,17 +2350,6 @@ describe("RuleTester", () => {
             ruleTester.run("rule-with-no-options", ruleWithEmptySchema, {
                 valid: [],
                 invalid: [{ code: "var foo = bar;", errors: 1 }]
-            });
-
-            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
-        });
-
-        it("When the rule is an object-style rule, the legacy rule API warning is not emitted", () => {
-            ruleTester.run("rule-with-no-schema-2", ruleWithNoSchema, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", errors: 1 }
-                ]
             });
 
             assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
