@@ -293,8 +293,8 @@ function generateConfigsFromSchema(schema) {
  */
 function createCoreRuleConfigs(noDeprecated = false) {
     return Array.from(builtInRules).reduce((accumulator, [id, rule]) => {
-        const schema = (typeof rule === "function") ? rule.schema : rule.meta.schema;
-        const isDeprecated = (typeof rule === "function") ? rule.deprecated : rule.meta.deprecated;
+        const schema = rule.meta.schema;
+        const isDeprecated = rule.meta.deprecated;
 
         if (noDeprecated && isDeprecated) {
             return accumulator;
