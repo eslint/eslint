@@ -131,28 +131,14 @@ The `context` object has the following properties:
 * `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
 * `settings`: (`object`) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from the configuration.
 * `parserPath`: (`string`) The name of the `parser` from the configuration.
-* `parserServices`: (**Deprecated:** Use `SourceCode#parserServices` instead.) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 * `parserOptions`: The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
 
 Additionally, the `context` object has the following methods:
 
-* `getAncestors()`: (**Deprecated:** Use `SourceCode#getAncestors(node)` instead.) Returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
 * `getCwd()`: (**Deprecated:** Use `context.cwd` instead.) Returns the `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
-* `getDeclaredVariables(node)`: (**Deprecated:** Use `SourceCode#getDeclaredVariables(node)` instead.) Returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
-    * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
-    * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
-    * If the node is a `FunctionDeclaration` or `FunctionExpression`, the variable for the function name is returned, in addition to variables for the function parameters.
-    * If the node is an `ArrowFunctionExpression`, variables for the parameters are returned.
-    * If the node is a `ClassDeclaration` or a `ClassExpression`, the variable for the class name is returned.
-    * If the node is a `CatchClause`, the variable for the exception is returned.
-    * If the node is an `ImportDeclaration`, variables for all of its specifiers are returned.
-    * If the node is an `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`, the declared variable is returned.
-    * Otherwise, if the node does not declare any variables, an empty array is returned.
 * `getFilename()`: (**Deprecated:** Use `context.filename` instead.) Returns the filename associated with the source.
 * `getPhysicalFilename()`: (**Deprecated:** Use `context.physicalFilename` instead.) When linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
-* `getScope()`: (**Deprecated:** Use `SourceCode#getScope(node)` instead.) Returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
 * `getSourceCode()`: (**Deprecated:** Use `context.sourceCode` instead.) Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
-* `markVariableAsUsed(name)`: (**Deprecated:** Use `SourceCode#markVariableAsUsed(name, node)` instead.)  Marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
 * `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#reporting-problems)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
@@ -551,6 +537,20 @@ Once you have an instance of `SourceCode`, you can use the following methods on 
 * `getLocFromIndex(index)`: Returns an object with `line` and `column` properties, corresponding to the location of the given source index. `line` is 1-based and `column` is 0-based.
 * `getIndexFromLoc(loc)`: Returns the index of a given location in the source code, where `loc` is an object with a 1-based `line` key and a 0-based `column` key.
 * `commentsExistBetween(nodeOrToken1, nodeOrToken2)`: Returns `true` if comments exist between two nodes.
+* `getAncestors()`: Returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
+* `getDeclaredVariables(node)`: Returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
+    * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
+    * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
+    * If the node is a `FunctionDeclaration` or `FunctionExpression`, the variable for the function name is returned, in addition to variables for the function parameters.
+    * If the node is an `ArrowFunctionExpression`, variables for the parameters are returned.
+    * If the node is a `ClassDeclaration` or a `ClassExpression`, the variable for the class name is returned.
+    * If the node is a `CatchClause`, the variable for the exception is returned.
+    * If the node is an `ImportDeclaration`, variables for all of its specifiers are returned.
+    * If the node is an `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`, the declared variable is returned.
+    * Otherwise, if the node does not declare any variables, an empty array is returned.
+* `getScope()`: Returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
+* `markVariableAsUsed(name)`: Marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
+
 
 `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
 

@@ -1277,7 +1277,6 @@ describe("FlatRuleTester", () => {
             const disallowHiRule = {
                 create: context => ({
                     Literal(node) {
-                        assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
 
                         const disallowed = context.sourceCode.parserServices.test.getMessage(); // returns "Hi!"
 

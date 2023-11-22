@@ -284,436 +284,6 @@ describe("Linter", () => {
         });
     });
 
-    describe("when calling context.getAncestors", () => {
-        const code = TEST_CODE;
-
-        it("should retrieve all ancestors when used", () => {
-
-            const config = { rules: { checker: "error" } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const ancestors = context.getAncestors();
-
-                        assert.strictEqual(ancestors.length, 3);
-                    });
-                    return { BinaryExpression: spy };
-                }
-            });
-
-            linter.verify(code, config, filename, true);
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should retrieve empty ancestors for root node", () => {
-            const config = { rules: { checker: "error" } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const ancestors = context.getAncestors();
-
-                        assert.strictEqual(ancestors.length, 0);
-                    });
-
-                    return { Program: spy };
-                }
-            });
-
-            linter.verify(code, config);
-            assert(spy && spy.calledOnce);
-        });
-    });
-
-    describe("when calling context.getScope", () => {
-        const code = "function foo() { q: for(;;) { break q; } } function bar () { var q = t; } var baz = (() => { return 1; });";
-
-        it("should retrieve the global scope correctly from a Program", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(scope.type, "global");
-                    });
-                    return { Program: spy };
-                }
-            });
-
-            linter.verify(code, config);
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should retrieve the function scope correctly from a FunctionDeclaration", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(scope.type, "function");
-                    });
-                    return { FunctionDeclaration: spy };
-                }
-            });
-
-            linter.verify(code, config);
-            assert(spy && spy.calledTwice);
-        });
-
-        it("should retrieve the function scope correctly from a LabeledStatement", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block.id.name, "foo");
-                    });
-                    return { LabeledStatement: spy };
-                }
-            });
-
-            linter.verify(code, config);
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should retrieve the function scope correctly from within an ArrowFunctionExpression", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block.type, "ArrowFunctionExpression");
-                    });
-
-                    return { ReturnStatement: spy };
-                }
-            });
-
-            linter.verify(code, config);
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should retrieve the function scope correctly from within an SwitchStatement", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(scope.type, "switch");
-                        assert.strictEqual(scope.block.type, "SwitchStatement");
-                    });
-
-                    return { SwitchStatement: spy };
-                }
-            });
-
-            linter.verify("switch(foo){ case 'a': var b = 'foo'; }", config);
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should retrieve the function scope correctly from within a BlockStatement", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(scope.type, "block");
-                        assert.strictEqual(scope.block.type, "BlockStatement");
-                    });
-
-                    return { BlockStatement: spy };
-                }
-            });
-
-            linter.verify("var x; {let y = 1}", config);
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should retrieve the function scope correctly from within a nested block statement", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(scope.type, "block");
-                        assert.strictEqual(scope.block.type, "BlockStatement");
-                    });
-
-                    return { BlockStatement: spy };
-                }
-            });
-
-            linter.verify("if (true) { let x = 1 }", config);
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should retrieve the function scope correctly from within a FunctionDeclaration", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block.type, "FunctionDeclaration");
-                    });
-
-                    return { FunctionDeclaration: spy };
-                }
-            });
-
-            linter.verify("function foo() {}", config);
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should retrieve the function scope correctly from within a FunctionExpression", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block.type, "FunctionExpression");
-                    });
-
-                    return { FunctionExpression: spy };
-                }
-            });
-
-            linter.verify("(function foo() {})();", config);
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should retrieve the catch scope correctly from within a CatchClause", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(scope.type, "catch");
-                        assert.strictEqual(scope.block.type, "CatchClause");
-                    });
-
-                    return { CatchClause: spy };
-                }
-            });
-
-            linter.verify("try {} catch (err) {}", config);
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should retrieve module scope correctly from an ES6 module", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(scope.type, "module");
-                    });
-
-                    return { AssignmentExpression: spy };
-                }
-            });
-
-            linter.verify("var foo = {}; foo.bar = 1;", config);
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should retrieve function scope correctly when globalReturn is true", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } };
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.strictEqual(scope.type, "function");
-                    });
-
-                    return { AssignmentExpression: spy };
-                }
-            });
-
-            linter.verify("var foo = {}; foo.bar = 1;", config);
-            assert(spy && spy.calledOnce);
-        });
-    });
-
-    describe("marking variables as used", () => {
-        it("should mark variables in current scope as used", () => {
-            const code = "var a = 1, b = 2;";
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        assert.isTrue(context.markVariableAsUsed("a"));
-
-                        const scope = context.getScope();
-
-                        assert.isTrue(getVariable(scope, "a").eslintUsed);
-                        assert.notOk(getVariable(scope, "b").eslintUsed);
-                    });
-
-                    return { "Program:exit": spy };
-                }
-            });
-
-            linter.verify(code, { rules: { checker: "error" } });
-            assert(spy && spy.calledOnce);
-        });
-        it("should mark variables in function args as used", () => {
-            const code = "function abc(a, b) { return 1; }";
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        assert.isTrue(context.markVariableAsUsed("a"));
-
-                        const scope = context.getScope();
-
-                        assert.isTrue(getVariable(scope, "a").eslintUsed);
-                        assert.notOk(getVariable(scope, "b").eslintUsed);
-                    });
-
-                    return { ReturnStatement: spy };
-                }
-            });
-
-            linter.verify(code, { rules: { checker: "error" } });
-            assert(spy && spy.calledOnce);
-        });
-        it("should mark variables in higher scopes as used", () => {
-            const code = "var a, b; function abc() { return 1; }";
-            let returnSpy, exitSpy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    returnSpy = sinon.spy(() => {
-                        assert.isTrue(context.markVariableAsUsed("a"));
-                    });
-                    exitSpy = sinon.spy(() => {
-                        const scope = context.getScope();
-
-                        assert.isTrue(getVariable(scope, "a").eslintUsed);
-                        assert.notOk(getVariable(scope, "b").eslintUsed);
-                    });
-
-                    return { ReturnStatement: returnSpy, "Program:exit": exitSpy };
-                }
-            });
-
-            linter.verify(code, { rules: { checker: "error" } });
-            assert(returnSpy && returnSpy.calledOnce);
-            assert(exitSpy && exitSpy.calledOnce);
-        });
-
-        it("should mark variables in Node.js environment as used", () => {
-            const code = "var a = 1, b = 2;";
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const globalScope = context.getScope(),
-                            childScope = globalScope.childScopes[0];
-
-                        assert.isTrue(context.markVariableAsUsed("a"));
-
-                        assert.isTrue(getVariable(childScope, "a").eslintUsed);
-                        assert.isUndefined(getVariable(childScope, "b").eslintUsed);
-                    });
-
-                    return { "Program:exit": spy };
-                }
-            });
-
-            linter.verify(code, { rules: { checker: "error" }, env: { node: true } });
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should mark variables in modules as used", () => {
-            const code = "var a = 1, b = 2;";
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        const globalScope = context.getScope(),
-                            childScope = globalScope.childScopes[0];
-
-                        assert.isTrue(context.markVariableAsUsed("a"));
-
-                        assert.isTrue(getVariable(childScope, "a").eslintUsed);
-                        assert.isUndefined(getVariable(childScope, "b").eslintUsed);
-                    });
-
-                    return { "Program:exit": spy };
-                }
-            });
-
-            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } }, filename, true);
-            assert(spy && spy.calledOnce);
-        });
-
-        it("should return false if the given variable is not found", () => {
-            const code = "var a = 1, b = 2;";
-            let spy;
-
-            linter.defineRule("checker", {
-                create(context) {
-                    spy = sinon.spy(() => {
-                        assert.isFalse(context.markVariableAsUsed("c"));
-                    });
-
-                    return { "Program:exit": spy };
-                }
-            });
-
-            linter.verify(code, { rules: { checker: "error" } });
-            assert(spy && spy.calledOnce);
-        });
-    });
-
     describe("when evaluating code", () => {
         const code = TEST_CODE;
 
@@ -910,59 +480,6 @@ describe("Linter", () => {
             assert.strictEqual(suppressedMessages.length, 0);
         });
 
-        it("should expose parser services when using parseForESLint() and services are specified", () => {
-            linter.defineParser("enhanced-parser", testParsers.enhancedParser);
-            linter.defineRule("test-service-rule", {
-                create: context => ({
-                    Literal(node) {
-                        assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
-                        context.report({
-                            node,
-                            message: context.sourceCode.parserServices.test.getMessage()
-                        });
-                    }
-                })
-            });
-
-            const config = { rules: { "test-service-rule": 2 }, parser: "enhanced-parser" };
-            const messages = linter.verify("0", config, filename);
-            const suppressedMessages = linter.getSuppressedMessages();
-
-            assert.strictEqual(messages.length, 1);
-            assert.strictEqual(messages[0].message, "Hi!");
-            assert.strictEqual(suppressedMessages.length, 0);
-        });
-
-        it("should use the same parserServices if source code object is reused", () => {
-            linter.defineParser("enhanced-parser", testParsers.enhancedParser);
-            linter.defineRule("test-service-rule", {
-                create: context => ({
-                    Literal(node) {
-                        assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
-                        context.report({
-                            node,
-                            message: context.sourceCode.parserServices.test.getMessage()
-                        });
-                    }
-                })
-            });
-
-            const config = { rules: { "test-service-rule": 2 }, parser: "enhanced-parser" };
-            const messages = linter.verify("0", config, filename);
-            const suppressedMessages = linter.getSuppressedMessages();
-
-            assert.strictEqual(messages.length, 1);
-            assert.strictEqual(messages[0].message, "Hi!");
-            assert.strictEqual(suppressedMessages.length, 0);
-
-            const messages2 = linter.verify(linter.getSourceCode(), config, filename);
-            const suppressedMessages2 = linter.getSuppressedMessages();
-
-            assert.strictEqual(messages2.length, 1);
-            assert.strictEqual(messages2[0].message, "Hi!");
-            assert.strictEqual(suppressedMessages2.length, 0);
-        });
-
         it("should pass parser as parserPath to all rules when default parser is used", () => {
             linter.defineRule("test-rule", {
                 create: sinon.mock().withArgs(
@@ -1080,8 +597,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node);
                         const a = getVariable(scope, "a"),
                             b = getVariable(scope, "b"),
                             c = getVariable(scope, "c"),
@@ -1128,8 +645,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
                             a = getVariable(scope, "a"),
                             b = getVariable(scope, "b"),
                             c = getVariable(scope, "c");
@@ -1169,8 +686,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
                             exports = getVariable(scope, "exports"),
                             window = getVariable(scope, "window");
 
@@ -1193,8 +710,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
                             exports = getVariable(scope, "exports"),
                             window = getVariable(scope, "window"),
                             it = getVariable(scope, "it");
@@ -1222,8 +739,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
                             exports = getVariable(scope, "exports"),
                             window = getVariable(scope, "window");
 
@@ -1256,8 +773,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
                             horse = getVariable(scope, "horse");
 
                         assert.strictEqual(horse.eslintUsed, true);
@@ -1278,8 +795,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
                             horse = getVariable(scope, "horse");
 
                         assert.strictEqual(horse, null);
@@ -1300,8 +817,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
                             horse = getVariable(scope, "horse");
 
                         assert.strictEqual(horse.eslintUsed, true);
@@ -1322,8 +839,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
                             horse = getVariable(scope, "horse");
 
                         assert.strictEqual(horse, null); // there is no global scope at all
@@ -1344,8 +861,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
                             horse = getVariable(scope, "horse");
 
                         assert.strictEqual(horse, null); // there is no global scope at all
@@ -1369,8 +886,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node)
 
                         assert.strictEqual(getVariable(scope, "a"), null);
                     });
@@ -1393,8 +910,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node);
 
                         assert.strictEqual(getVariable(scope, "a"), null);
                         assert.strictEqual(getVariable(scope, "b"), null);
@@ -1420,8 +937,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node);
 
                         assert.notStrictEqual(getVariable(scope, "Object"), null);
                         assert.notStrictEqual(getVariable(scope, "Array"), null);
@@ -1442,9 +959,9 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
-
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node)
+;
                         assert.strictEqual(getVariable(scope, "Promise"), null);
                         assert.strictEqual(getVariable(scope, "Symbol"), null);
                         assert.strictEqual(getVariable(scope, "WeakMap"), null);
@@ -1464,8 +981,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node);
 
                         assert.notStrictEqual(getVariable(scope, "Promise"), null);
                         assert.notStrictEqual(getVariable(scope, "Symbol"), null);
@@ -1486,8 +1003,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node);
 
                         assert.strictEqual(getVariable(scope, "Promise"), null);
                         assert.strictEqual(getVariable(scope, "Symbol"), null);
@@ -3683,8 +3200,8 @@ var a = "test2";
             linter.defineRules({
                 test: {
                     create: context => ({
-                        Program() {
-                            const scope = context.getScope();
+                        Program(node) {
+                            const scope = context.sourceCode.getScope(node);
                             const sourceCode = context.sourceCode;
                             const comments = sourceCode.getAllComments();
 
@@ -5705,8 +5222,8 @@ var a = "test2";
 
                 linter.defineRule("block-scope", {
                     create: context => ({
-                        BlockStatement() {
-                            blockScope = context.getScope();
+                        BlockStatement(node) {
+                            blockScope = context.sourceCode.getScope(node);
                         }
                     })
                 });
@@ -6110,8 +5627,8 @@ var a = "test2";
             linter.defineRules({
                 test: {
                     create: context => ({
-                        Program() {
-                            const scope = context.getScope();
+                        Program(node) {
+                            const scope = context.sourceCode.getScope(node);
                             const sourceCode = context.sourceCode;
                             const comments = sourceCode.getAllComments();
 
@@ -6681,258 +6198,6 @@ var a = "test2";
         });
     });
 
-    describe("context.getScope()", () => {
-
-        /**
-         * Get the scope on the node `astSelector` specified.
-         * @param {string} code The source code to verify.
-         * @param {string} astSelector The AST selector to get scope.
-         * @param {number} [ecmaVersion=5] The ECMAScript version.
-         * @returns {{node: ASTNode, scope: escope.Scope}} Gotten scope.
-         */
-        function getScope(code, astSelector, ecmaVersion = 5) {
-            let node, scope;
-
-            linter.defineRule("get-scope", {
-                create: context => ({
-                    [astSelector](node0) {
-                        node = node0;
-                        scope = context.getScope();
-                    }
-                })
-            });
-            linter.verify(
-                code,
-                {
-                    parserOptions: { ecmaVersion },
-                    rules: { "get-scope": 2 }
-                }
-            );
-
-            return { node, scope };
-        }
-
-        it("should return 'function' scope on FunctionDeclaration (ES5)", () => {
-            const { node, scope } = getScope("function f() {}", "FunctionDeclaration");
-
-            assert.strictEqual(scope.type, "function");
-            assert.strictEqual(scope.block, node);
-        });
-
-        it("should return 'function' scope on FunctionExpression (ES5)", () => {
-            const { node, scope } = getScope("!function f() {}", "FunctionExpression");
-
-            assert.strictEqual(scope.type, "function");
-            assert.strictEqual(scope.block, node);
-        });
-
-        it("should return 'function' scope on the body of FunctionDeclaration (ES5)", () => {
-            const { node, scope } = getScope("function f() {}", "BlockStatement");
-
-            assert.strictEqual(scope.type, "function");
-            assert.strictEqual(scope.block, node.parent);
-        });
-
-        it("should return 'function' scope on the body of FunctionDeclaration (ES2015)", () => {
-            const { node, scope } = getScope("function f() {}", "BlockStatement", 2015);
-
-            assert.strictEqual(scope.type, "function");
-            assert.strictEqual(scope.block, node.parent);
-        });
-
-        it("should return 'function' scope on BlockStatement in functions (ES5)", () => {
-            const { node, scope } = getScope("function f() { { var b; } }", "BlockStatement > BlockStatement");
-
-            assert.strictEqual(scope.type, "function");
-            assert.strictEqual(scope.block, node.parent.parent);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "b"]);
-        });
-
-        it("should return 'block' scope on BlockStatement in functions (ES2015)", () => {
-            const { node, scope } = getScope("function f() { { let a; var b; } }", "BlockStatement > BlockStatement", 2015);
-
-            assert.strictEqual(scope.type, "block");
-            assert.strictEqual(scope.upper.type, "function");
-            assert.strictEqual(scope.block, node);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["a"]);
-            assert.deepStrictEqual(scope.variableScope.variables.map(v => v.name), ["arguments", "b"]);
-        });
-
-        it("should return 'block' scope on nested BlockStatement in functions (ES2015)", () => {
-            const { node, scope } = getScope("function f() { { let a; { let b; var c; } } }", "BlockStatement > BlockStatement > BlockStatement", 2015);
-
-            assert.strictEqual(scope.type, "block");
-            assert.strictEqual(scope.upper.type, "block");
-            assert.strictEqual(scope.upper.upper.type, "function");
-            assert.strictEqual(scope.block, node);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["b"]);
-            assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["a"]);
-            assert.deepStrictEqual(scope.variableScope.variables.map(v => v.name), ["arguments", "c"]);
-        });
-
-        it("should return 'function' scope on SwitchStatement in functions (ES5)", () => {
-            const { node, scope } = getScope("function f() { switch (a) { case 0: var b; } }", "SwitchStatement");
-
-            assert.strictEqual(scope.type, "function");
-            assert.strictEqual(scope.block, node.parent.parent);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "b"]);
-        });
-
-        it("should return 'switch' scope on SwitchStatement in functions (ES2015)", () => {
-            const { node, scope } = getScope("function f() { switch (a) { case 0: let b; } }", "SwitchStatement", 2015);
-
-            assert.strictEqual(scope.type, "switch");
-            assert.strictEqual(scope.block, node);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["b"]);
-        });
-
-        it("should return 'function' scope on SwitchCase in functions (ES5)", () => {
-            const { node, scope } = getScope("function f() { switch (a) { case 0: var b; } }", "SwitchCase");
-
-            assert.strictEqual(scope.type, "function");
-            assert.strictEqual(scope.block, node.parent.parent.parent);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "b"]);
-        });
-
-        it("should return 'switch' scope on SwitchCase in functions (ES2015)", () => {
-            const { node, scope } = getScope("function f() { switch (a) { case 0: let b; } }", "SwitchCase", 2015);
-
-            assert.strictEqual(scope.type, "switch");
-            assert.strictEqual(scope.block, node.parent);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["b"]);
-        });
-
-        it("should return 'catch' scope on CatchClause in functions (ES5)", () => {
-            const { node, scope } = getScope("function f() { try {} catch (e) { var a; } }", "CatchClause");
-
-            assert.strictEqual(scope.type, "catch");
-            assert.strictEqual(scope.block, node);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["e"]);
-        });
-
-        it("should return 'catch' scope on CatchClause in functions (ES2015)", () => {
-            const { node, scope } = getScope("function f() { try {} catch (e) { let a; } }", "CatchClause", 2015);
-
-            assert.strictEqual(scope.type, "catch");
-            assert.strictEqual(scope.block, node);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["e"]);
-        });
-
-        it("should return 'catch' scope on the block of CatchClause in functions (ES5)", () => {
-            const { node, scope } = getScope("function f() { try {} catch (e) { var a; } }", "CatchClause > BlockStatement");
-
-            assert.strictEqual(scope.type, "catch");
-            assert.strictEqual(scope.block, node.parent);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["e"]);
-        });
-
-        it("should return 'block' scope on the block of CatchClause in functions (ES2015)", () => {
-            const { node, scope } = getScope("function f() { try {} catch (e) { let a; } }", "CatchClause > BlockStatement", 2015);
-
-            assert.strictEqual(scope.type, "block");
-            assert.strictEqual(scope.block, node);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["a"]);
-        });
-
-        it("should return 'function' scope on ForStatement in functions (ES5)", () => {
-            const { node, scope } = getScope("function f() { for (var i = 0; i < 10; ++i) {} }", "ForStatement");
-
-            assert.strictEqual(scope.type, "function");
-            assert.strictEqual(scope.block, node.parent.parent);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "i"]);
-        });
-
-        it("should return 'for' scope on ForStatement in functions (ES2015)", () => {
-            const { node, scope } = getScope("function f() { for (let i = 0; i < 10; ++i) {} }", "ForStatement", 2015);
-
-            assert.strictEqual(scope.type, "for");
-            assert.strictEqual(scope.block, node);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["i"]);
-        });
-
-        it("should return 'function' scope on the block body of ForStatement in functions (ES5)", () => {
-            const { node, scope } = getScope("function f() { for (var i = 0; i < 10; ++i) {} }", "ForStatement > BlockStatement");
-
-            assert.strictEqual(scope.type, "function");
-            assert.strictEqual(scope.block, node.parent.parent.parent);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "i"]);
-        });
-
-        it("should return 'block' scope on the block body of ForStatement in functions (ES2015)", () => {
-            const { node, scope } = getScope("function f() { for (let i = 0; i < 10; ++i) {} }", "ForStatement > BlockStatement", 2015);
-
-            assert.strictEqual(scope.type, "block");
-            assert.strictEqual(scope.upper.type, "for");
-            assert.strictEqual(scope.block, node);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), []);
-            assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["i"]);
-        });
-
-        it("should return 'function' scope on ForInStatement in functions (ES5)", () => {
-            const { node, scope } = getScope("function f() { for (var key in obj) {} }", "ForInStatement");
-
-            assert.strictEqual(scope.type, "function");
-            assert.strictEqual(scope.block, node.parent.parent);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "key"]);
-        });
-
-        it("should return 'for' scope on ForInStatement in functions (ES2015)", () => {
-            const { node, scope } = getScope("function f() { for (let key in obj) {} }", "ForInStatement", 2015);
-
-            assert.strictEqual(scope.type, "for");
-            assert.strictEqual(scope.block, node);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["key"]);
-        });
-
-        it("should return 'function' scope on the block body of ForInStatement in functions (ES5)", () => {
-            const { node, scope } = getScope("function f() { for (var key in obj) {} }", "ForInStatement > BlockStatement");
-
-            assert.strictEqual(scope.type, "function");
-            assert.strictEqual(scope.block, node.parent.parent.parent);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "key"]);
-        });
-
-        it("should return 'block' scope on the block body of ForInStatement in functions (ES2015)", () => {
-            const { node, scope } = getScope("function f() { for (let key in obj) {} }", "ForInStatement > BlockStatement", 2015);
-
-            assert.strictEqual(scope.type, "block");
-            assert.strictEqual(scope.upper.type, "for");
-            assert.strictEqual(scope.block, node);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), []);
-            assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["key"]);
-        });
-
-        it("should return 'for' scope on ForOfStatement in functions (ES2015)", () => {
-            const { node, scope } = getScope("function f() { for (let x of xs) {} }", "ForOfStatement", 2015);
-
-            assert.strictEqual(scope.type, "for");
-            assert.strictEqual(scope.block, node);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), ["x"]);
-        });
-
-        it("should return 'block' scope on the block body of ForOfStatement in functions (ES2015)", () => {
-            const { node, scope } = getScope("function f() { for (let x of xs) {} }", "ForOfStatement > BlockStatement", 2015);
-
-            assert.strictEqual(scope.type, "block");
-            assert.strictEqual(scope.upper.type, "for");
-            assert.strictEqual(scope.block, node);
-            assert.deepStrictEqual(scope.variables.map(v => v.name), []);
-            assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["x"]);
-        });
-
-        it("should shadow the same name variable by the iteration variable.", () => {
-            const { node, scope } = getScope("let x; for (let x of x) {}", "ForOfStatement", 2015);
-
-            assert.strictEqual(scope.type, "for");
-            assert.strictEqual(scope.upper.type, "global");
-            assert.strictEqual(scope.block, node);
-            assert.strictEqual(scope.upper.variables[0].references.length, 0);
-            assert.strictEqual(scope.references[0].identifier, node.left.declarations[0].id);
-            assert.strictEqual(scope.references[1].identifier, node.right);
-            assert.strictEqual(scope.references[1].resolved, scope.variables[0]);
-        });
-    });
-
     describe("Variables and references", () => {
         const code = [
             "a;",
@@ -6954,8 +6219,8 @@ var a = "test2";
             linter.defineRules({
                 test: {
                     create: context => ({
-                        Program() {
-                            scope = context.getScope();
+                        Program(node) {
+                            scope = context.sourceCode.getScope(node);
                             ok = true;
                         }
                     })
@@ -7031,247 +6296,6 @@ var a = "test2";
             assert.strictEqual(scope.set.get("d").references[0].resolved, scope.set.get("d"));
             assert.strictEqual(scope.set.get("e").references[0].resolved, scope.set.get("e"));
             assert.strictEqual(scope.set.get("f").references[0].resolved, scope.set.get("f"));
-        });
-    });
-
-    describe("context.getDeclaredVariables(node)", () => {
-
-        /**
-         * Assert `context.getDeclaredVariables(node)` is valid.
-         * @param {string} code A code to check.
-         * @param {string} type A type string of ASTNode. This method checks variables on the node of the type.
-         * @param {Array<Array<string>>} expectedNamesList An array of expected variable names. The expected variable names is an array of string.
-         * @returns {void}
-         */
-        function verify(code, type, expectedNamesList) {
-            linter.defineRules({
-                test: {
-                    create(context) {
-
-                        /**
-                         * Assert `context.getDeclaredVariables(node)` is empty.
-                         * @param {ASTNode} node A node to check.
-                         * @returns {void}
-                         */
-                        function checkEmpty(node) {
-                            assert.strictEqual(0, context.getDeclaredVariables(node).length);
-                        }
-                        const rule = {
-                            Program: checkEmpty,
-                            EmptyStatement: checkEmpty,
-                            BlockStatement: checkEmpty,
-                            ExpressionStatement: checkEmpty,
-                            LabeledStatement: checkEmpty,
-                            BreakStatement: checkEmpty,
-                            ContinueStatement: checkEmpty,
-                            WithStatement: checkEmpty,
-                            SwitchStatement: checkEmpty,
-                            ReturnStatement: checkEmpty,
-                            ThrowStatement: checkEmpty,
-                            TryStatement: checkEmpty,
-                            WhileStatement: checkEmpty,
-                            DoWhileStatement: checkEmpty,
-                            ForStatement: checkEmpty,
-                            ForInStatement: checkEmpty,
-                            DebuggerStatement: checkEmpty,
-                            ThisExpression: checkEmpty,
-                            ArrayExpression: checkEmpty,
-                            ObjectExpression: checkEmpty,
-                            Property: checkEmpty,
-                            SequenceExpression: checkEmpty,
-                            UnaryExpression: checkEmpty,
-                            BinaryExpression: checkEmpty,
-                            AssignmentExpression: checkEmpty,
-                            UpdateExpression: checkEmpty,
-                            LogicalExpression: checkEmpty,
-                            ConditionalExpression: checkEmpty,
-                            CallExpression: checkEmpty,
-                            NewExpression: checkEmpty,
-                            MemberExpression: checkEmpty,
-                            SwitchCase: checkEmpty,
-                            Identifier: checkEmpty,
-                            Literal: checkEmpty,
-                            ForOfStatement: checkEmpty,
-                            ArrowFunctionExpression: checkEmpty,
-                            YieldExpression: checkEmpty,
-                            TemplateLiteral: checkEmpty,
-                            TaggedTemplateExpression: checkEmpty,
-                            TemplateElement: checkEmpty,
-                            ObjectPattern: checkEmpty,
-                            ArrayPattern: checkEmpty,
-                            RestElement: checkEmpty,
-                            AssignmentPattern: checkEmpty,
-                            ClassBody: checkEmpty,
-                            MethodDefinition: checkEmpty,
-                            MetaProperty: checkEmpty
-                        };
-
-                        rule[type] = function(node) {
-                            const expectedNames = expectedNamesList.shift();
-                            const variables = context.getDeclaredVariables(node);
-
-                            assert(Array.isArray(expectedNames));
-                            assert(Array.isArray(variables));
-                            assert.strictEqual(expectedNames.length, variables.length);
-                            for (let i = variables.length - 1; i >= 0; i--) {
-                                assert.strictEqual(expectedNames[i], variables[i].name);
-                            }
-                        };
-                        return rule;
-                    }
-                }
-            });
-            linter.verify(code, {
-                rules: { test: 2 },
-                parserOptions: {
-                    ecmaVersion: 6,
-                    sourceType: "module"
-                }
-            });
-
-            // Check all expected names are asserted.
-            assert.strictEqual(0, expectedNamesList.length);
-        }
-
-        it("VariableDeclaration", () => {
-            const code = "\n var {a, x: [b], y: {c = 0}} = foo;\n let {d, x: [e], y: {f = 0}} = foo;\n const {g, x: [h], y: {i = 0}} = foo, {j, k = function(z) { let l; }} = bar;\n ";
-            const namesList = [
-                ["a", "b", "c"],
-                ["d", "e", "f"],
-                ["g", "h", "i", "j", "k"],
-                ["l"]
-            ];
-
-            verify(code, "VariableDeclaration", namesList);
-        });
-
-        it("VariableDeclaration (on for-in/of loop)", () => {
-
-            // TDZ scope is created here, so tests to exclude those.
-            const code = "\n for (var {a, x: [b], y: {c = 0}} in foo) {\n let g;\n }\n for (let {d, x: [e], y: {f = 0}} of foo) {\n let h;\n }\n ";
-            const namesList = [
-                ["a", "b", "c"],
-                ["g"],
-                ["d", "e", "f"],
-                ["h"]
-            ];
-
-            verify(code, "VariableDeclaration", namesList);
-        });
-
-        it("VariableDeclarator", () => {
-
-            // TDZ scope is created here, so tests to exclude those.
-            const code = "\n var {a, x: [b], y: {c = 0}} = foo;\n let {d, x: [e], y: {f = 0}} = foo;\n const {g, x: [h], y: {i = 0}} = foo, {j, k = function(z) { let l; }} = bar;\n ";
-            const namesList = [
-                ["a", "b", "c"],
-                ["d", "e", "f"],
-                ["g", "h", "i"],
-                ["j", "k"],
-                ["l"]
-            ];
-
-            verify(code, "VariableDeclarator", namesList);
-        });
-
-        it("FunctionDeclaration", () => {
-            const code = "\n function foo({a, x: [b], y: {c = 0}}, [d, e]) {\n let z;\n }\n function bar({f, x: [g], y: {h = 0}}, [i, j = function(q) { let w; }]) {\n let z;\n }\n ";
-            const namesList = [
-                ["foo", "a", "b", "c", "d", "e"],
-                ["bar", "f", "g", "h", "i", "j"]
-            ];
-
-            verify(code, "FunctionDeclaration", namesList);
-        });
-
-        it("FunctionExpression", () => {
-            const code = "\n (function foo({a, x: [b], y: {c = 0}}, [d, e]) {\n let z;\n });\n (function bar({f, x: [g], y: {h = 0}}, [i, j = function(q) { let w; }]) {\n let z;\n });\n ";
-            const namesList = [
-                ["foo", "a", "b", "c", "d", "e"],
-                ["bar", "f", "g", "h", "i", "j"],
-                ["q"]
-            ];
-
-            verify(code, "FunctionExpression", namesList);
-        });
-
-        it("ArrowFunctionExpression", () => {
-            const code = "\n (({a, x: [b], y: {c = 0}}, [d, e]) => {\n let z;\n });\n (({f, x: [g], y: {h = 0}}, [i, j]) => {\n let z;\n });\n ";
-            const namesList = [
-                ["a", "b", "c", "d", "e"],
-                ["f", "g", "h", "i", "j"]
-            ];
-
-            verify(code, "ArrowFunctionExpression", namesList);
-        });
-
-        it("ClassDeclaration", () => {
-            const code = "\n class A { foo(x) { let y; } }\n class B { foo(x) { let y; } }\n ";
-            const namesList = [
-                ["A", "A"], // outer scope's and inner scope's.
-                ["B", "B"]
-            ];
-
-            verify(code, "ClassDeclaration", namesList);
-        });
-
-        it("ClassExpression", () => {
-            const code = "\n (class A { foo(x) { let y; } });\n (class B { foo(x) { let y; } });\n ";
-            const namesList = [
-                ["A"],
-                ["B"]
-            ];
-
-            verify(code, "ClassExpression", namesList);
-        });
-
-        it("CatchClause", () => {
-            const code = "\n try {} catch ({a, b}) {\n let x;\n try {} catch ({c, d}) {\n let y;\n }\n }\n ";
-            const namesList = [
-                ["a", "b"],
-                ["c", "d"]
-            ];
-
-            verify(code, "CatchClause", namesList);
-        });
-
-        it("ImportDeclaration", () => {
-            const code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
-            const namesList = [
-                [],
-                ["a"],
-                ["b", "c", "d"]
-            ];
-
-            verify(code, "ImportDeclaration", namesList);
-        });
-
-        it("ImportSpecifier", () => {
-            const code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
-            const namesList = [
-                ["c"],
-                ["d"]
-            ];
-
-            verify(code, "ImportSpecifier", namesList);
-        });
-
-        it("ImportDefaultSpecifier", () => {
-            const code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
-            const namesList = [
-                ["b"]
-            ];
-
-            verify(code, "ImportDefaultSpecifier", namesList);
-        });
-
-        it("ImportNamespaceSpecifier", () => {
-            const code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
-            const namesList = [
-                ["a"]
-            ];
-
-            verify(code, "ImportNamespaceSpecifier", namesList);
         });
     });
 
@@ -8143,8 +7167,8 @@ var a = "test2";
                 linter.defineParser("enhanced-parser3", testParsers.enhancedParser3);
                 linter.defineRule("save-scope1", {
                     create: context => ({
-                        Program() {
-                            scope = context.getScope();
+                        Program(node) {
+                            scope = context.sourceCode.getScope(node);
                         }
                     })
                 });
@@ -8166,8 +7190,8 @@ var a = "test2";
 
                 linter.defineRule("save-scope2", {
                     create: context => ({
-                        Program() {
-                            scope2 = context.getScope();
+                        Program(node) {
+                            scope2 = context.sourceCode.getScope(node);
                         }
                     })
                 });
@@ -8624,86 +7648,6 @@ describe("Linter with FlatConfigArray", () => {
                     assert.strictEqual(suppressedMessages.length, 0);
                 });
 
-                it("should expose parser services when using parseForESLint() and services are specified", () => {
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    "test-service-rule": {
-                                        create: context => ({
-                                            Literal(node) {
-                                                assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
-                                                context.report({
-                                                    node,
-                                                    message: context.sourceCode.parserServices.test.getMessage()
-                                                });
-                                            }
-                                        })
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            parser: testParsers.enhancedParser
-                        },
-                        rules: {
-                            "test/test-service-rule": 2
-                        }
-                    };
-
-                    const messages = linter.verify("0", config, filename);
-                    const suppressedMessages = linter.getSuppressedMessages();
-
-                    assert.strictEqual(messages.length, 1);
-                    assert.strictEqual(messages[0].message, "Hi!");
-
-                    assert.strictEqual(suppressedMessages.length, 0);
-                });
-
-                it("should use the same parserServices if source code object is reused", () => {
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    "test-service-rule": {
-                                        create: context => ({
-                                            Literal(node) {
-                                                assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
-                                                context.report({
-                                                    node,
-                                                    message: context.sourceCode.parserServices.test.getMessage()
-                                                });
-                                            }
-                                        })
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            parser: testParsers.enhancedParser
-                        },
-                        rules: {
-                            "test/test-service-rule": 2
-                        }
-                    };
-
-                    const messages = linter.verify("0", config, filename);
-                    const suppressedMessages = linter.getSuppressedMessages();
-
-                    assert.strictEqual(messages.length, 1);
-                    assert.strictEqual(messages[0].message, "Hi!");
-                    assert.strictEqual(suppressedMessages.length, 0);
-
-                    const messages2 = linter.verify(linter.getSourceCode(), config, filename);
-                    const suppressedMessages2 = linter.getSuppressedMessages();
-
-                    assert.strictEqual(messages2.length, 1);
-                    assert.strictEqual(messages2[0].message, "Hi!");
-                    assert.strictEqual(suppressedMessages2.length, 0);
-                });
-
                 it("should pass parser as context.languageOptions.parser to all rules when default parser is used", () => {
 
                     // references to Espree get messed up in a browser context, so wrap it
@@ -8982,8 +7926,8 @@ describe("Linter with FlatConfigArray", () => {
                                         rules: {
                                             "save-scope1": {
                                                 create: context => ({
-                                                    Program() {
-                                                        scope = context.getScope();
+                                                    Program(node) {
+                                                        scope = context.sourceCode.getScope(node);
                                                     }
                                                 })
                                             }
@@ -9019,8 +7963,8 @@ describe("Linter with FlatConfigArray", () => {
                                         rules: {
                                             "save-scope2": {
                                                 create: context => ({
-                                                    Program() {
-                                                        scope2 = context.getScope();
+                                                    Program(node) {
+                                                        scope2 = context.sourceCode.getScope(node);
                                                     }
                                                 })
                                             }
@@ -10050,1234 +8994,6 @@ describe("Linter with FlatConfigArray", () => {
 
             });
 
-            describe("context.getScope()", () => {
-                const codeToTestScope = "function foo() { q: for(;;) { break q; } } function bar () { var q = t; } var baz = (() => { return 1; });";
-
-                it("should retrieve the global scope correctly from a Program", () => {
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.strictEqual(scope.type, "global");
-                                            });
-                                            return { Program: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-                    linter.verify(codeToTestScope, config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should retrieve the function scope correctly from a FunctionDeclaration", () => {
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.strictEqual(scope.type, "function");
-                                            });
-                                            return { FunctionDeclaration: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-                    linter.verify(codeToTestScope, config);
-                    assert(spy && spy.calledTwice);
-                });
-
-                it("should retrieve the function scope correctly from a LabeledStatement", () => {
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.strictEqual(scope.type, "function");
-                                                assert.strictEqual(scope.block.id.name, "foo");
-                                            });
-                                            return { LabeledStatement: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-
-                    linter.verify(codeToTestScope, config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should retrieve the function scope correctly from within an ArrowFunctionExpression", () => {
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.strictEqual(scope.type, "function");
-                                                assert.strictEqual(scope.block.type, "ArrowFunctionExpression");
-                                            });
-
-                                            return { ReturnStatement: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-
-                    linter.verify(codeToTestScope, config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should retrieve the function scope correctly from within an SwitchStatement", () => {
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.strictEqual(scope.type, "switch");
-                                                assert.strictEqual(scope.block.type, "SwitchStatement");
-                                            });
-
-                                            return { SwitchStatement: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-                    linter.verify("switch(foo){ case 'a': var b = 'foo'; }", config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should retrieve the function scope correctly from within a BlockStatement", () => {
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.strictEqual(scope.type, "block");
-                                                assert.strictEqual(scope.block.type, "BlockStatement");
-                                            });
-
-                                            return { BlockStatement: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-
-                    linter.verify("var x; {let y = 1}", config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should retrieve the function scope correctly from within a nested block statement", () => {
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.strictEqual(scope.type, "block");
-                                                assert.strictEqual(scope.block.type, "BlockStatement");
-                                            });
-
-                                            return { BlockStatement: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-
-                    linter.verify("if (true) { let x = 1 }", config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should retrieve the function scope correctly from within a FunctionDeclaration", () => {
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.strictEqual(scope.type, "function");
-                                                assert.strictEqual(scope.block.type, "FunctionDeclaration");
-                                            });
-
-                                            return { FunctionDeclaration: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-
-                    linter.verify("function foo() {}", config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should retrieve the function scope correctly from within a FunctionExpression", () => {
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.strictEqual(scope.type, "function");
-                                                assert.strictEqual(scope.block.type, "FunctionExpression");
-                                            });
-
-                                            return { FunctionExpression: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-
-                    linter.verify("(function foo() {})();", config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should retrieve the catch scope correctly from within a CatchClause", () => {
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.strictEqual(scope.type, "catch");
-                                                assert.strictEqual(scope.block.type, "CatchClause");
-                                            });
-
-                                            return { CatchClause: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-                    linter.verify("try {} catch (err) {}", config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should retrieve module scope correctly from an ES6 module", () => {
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.strictEqual(scope.type, "module");
-                                            });
-
-                                            return { AssignmentExpression: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6,
-                            sourceType: "module"
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-
-                    linter.verify("var foo = {}; foo.bar = 1;", config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should retrieve function scope correctly when sourceType is commonjs", () => {
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.strictEqual(scope.type, "function");
-                                            });
-
-                                            return { AssignmentExpression: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6,
-                            sourceType: "commonjs"
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-                    linter.verify("var foo = {}; foo.bar = 1;", config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                describe("Scope Internals", () => {
-
-                    /**
-                     * Get the scope on the node `astSelector` specified.
-                     * @param {string} codeToEvaluate The source code to verify.
-                     * @param {string} astSelector The AST selector to get scope.
-                     * @param {number} [ecmaVersion=5] The ECMAScript version.
-                     * @returns {{node: ASTNode, scope: escope.Scope}} Gotten scope.
-                     */
-                    function getScope(codeToEvaluate, astSelector, ecmaVersion = 5) {
-                        let node, scope;
-
-                        const config = {
-                            plugins: {
-                                test: {
-                                    rules: {
-                                        "get-scope": {
-                                            create: context => ({
-                                                [astSelector](node0) {
-                                                    node = node0;
-                                                    scope = context.getScope();
-                                                }
-                                            })
-                                        }
-                                    }
-                                }
-                            },
-                            languageOptions: {
-                                ecmaVersion,
-                                sourceType: "script"
-                            },
-                            rules: { "test/get-scope": "error" }
-                        };
-
-                        linter.verify(
-                            codeToEvaluate,
-                            config
-                        );
-
-                        return { node, scope };
-                    }
-
-                    it("should return 'function' scope on FunctionDeclaration (ES5)", () => {
-                        const { node, scope } = getScope("function f() {}", "FunctionDeclaration");
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block, node);
-                    });
-
-                    it("should return 'function' scope on FunctionExpression (ES5)", () => {
-                        const { node, scope } = getScope("!function f() {}", "FunctionExpression");
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block, node);
-                    });
-
-                    it("should return 'function' scope on the body of FunctionDeclaration (ES5)", () => {
-                        const { node, scope } = getScope("function f() {}", "BlockStatement");
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block, node.parent);
-                    });
-
-                    it("should return 'function' scope on the body of FunctionDeclaration (ES2015)", () => {
-                        const { node, scope } = getScope("function f() {}", "BlockStatement", 2015);
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block, node.parent);
-                    });
-
-                    it("should return 'function' scope on BlockStatement in functions (ES5)", () => {
-                        const { node, scope } = getScope("function f() { { var b; } }", "BlockStatement > BlockStatement");
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block, node.parent.parent);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "b"]);
-                    });
-
-                    it("should return 'block' scope on BlockStatement in functions (ES2015)", () => {
-                        const { node, scope } = getScope("function f() { { let a; var b; } }", "BlockStatement > BlockStatement", 2015);
-
-                        assert.strictEqual(scope.type, "block");
-                        assert.strictEqual(scope.upper.type, "function");
-                        assert.strictEqual(scope.block, node);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["a"]);
-                        assert.deepStrictEqual(scope.variableScope.variables.map(v => v.name), ["arguments", "b"]);
-                    });
-
-                    it("should return 'block' scope on nested BlockStatement in functions (ES2015)", () => {
-                        const { node, scope } = getScope("function f() { { let a; { let b; var c; } } }", "BlockStatement > BlockStatement > BlockStatement", 2015);
-
-                        assert.strictEqual(scope.type, "block");
-                        assert.strictEqual(scope.upper.type, "block");
-                        assert.strictEqual(scope.upper.upper.type, "function");
-                        assert.strictEqual(scope.block, node);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["b"]);
-                        assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["a"]);
-                        assert.deepStrictEqual(scope.variableScope.variables.map(v => v.name), ["arguments", "c"]);
-                    });
-
-                    it("should return 'function' scope on SwitchStatement in functions (ES5)", () => {
-                        const { node, scope } = getScope("function f() { switch (a) { case 0: var b; } }", "SwitchStatement");
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block, node.parent.parent);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "b"]);
-                    });
-
-                    it("should return 'switch' scope on SwitchStatement in functions (ES2015)", () => {
-                        const { node, scope } = getScope("function f() { switch (a) { case 0: let b; } }", "SwitchStatement", 2015);
-
-                        assert.strictEqual(scope.type, "switch");
-                        assert.strictEqual(scope.block, node);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["b"]);
-                    });
-
-                    it("should return 'function' scope on SwitchCase in functions (ES5)", () => {
-                        const { node, scope } = getScope("function f() { switch (a) { case 0: var b; } }", "SwitchCase");
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block, node.parent.parent.parent);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "b"]);
-                    });
-
-                    it("should return 'switch' scope on SwitchCase in functions (ES2015)", () => {
-                        const { node, scope } = getScope("function f() { switch (a) { case 0: let b; } }", "SwitchCase", 2015);
-
-                        assert.strictEqual(scope.type, "switch");
-                        assert.strictEqual(scope.block, node.parent);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["b"]);
-                    });
-
-                    it("should return 'catch' scope on CatchClause in functions (ES5)", () => {
-                        const { node, scope } = getScope("function f() { try {} catch (e) { var a; } }", "CatchClause");
-
-                        assert.strictEqual(scope.type, "catch");
-                        assert.strictEqual(scope.block, node);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["e"]);
-                    });
-
-                    it("should return 'catch' scope on CatchClause in functions (ES2015)", () => {
-                        const { node, scope } = getScope("function f() { try {} catch (e) { let a; } }", "CatchClause", 2015);
-
-                        assert.strictEqual(scope.type, "catch");
-                        assert.strictEqual(scope.block, node);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["e"]);
-                    });
-
-                    it("should return 'catch' scope on the block of CatchClause in functions (ES5)", () => {
-                        const { node, scope } = getScope("function f() { try {} catch (e) { var a; } }", "CatchClause > BlockStatement");
-
-                        assert.strictEqual(scope.type, "catch");
-                        assert.strictEqual(scope.block, node.parent);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["e"]);
-                    });
-
-                    it("should return 'block' scope on the block of CatchClause in functions (ES2015)", () => {
-                        const { node, scope } = getScope("function f() { try {} catch (e) { let a; } }", "CatchClause > BlockStatement", 2015);
-
-                        assert.strictEqual(scope.type, "block");
-                        assert.strictEqual(scope.block, node);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["a"]);
-                    });
-
-                    it("should return 'function' scope on ForStatement in functions (ES5)", () => {
-                        const { node, scope } = getScope("function f() { for (var i = 0; i < 10; ++i) {} }", "ForStatement");
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block, node.parent.parent);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "i"]);
-                    });
-
-                    it("should return 'for' scope on ForStatement in functions (ES2015)", () => {
-                        const { node, scope } = getScope("function f() { for (let i = 0; i < 10; ++i) {} }", "ForStatement", 2015);
-
-                        assert.strictEqual(scope.type, "for");
-                        assert.strictEqual(scope.block, node);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["i"]);
-                    });
-
-                    it("should return 'function' scope on the block body of ForStatement in functions (ES5)", () => {
-                        const { node, scope } = getScope("function f() { for (var i = 0; i < 10; ++i) {} }", "ForStatement > BlockStatement");
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block, node.parent.parent.parent);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "i"]);
-                    });
-
-                    it("should return 'block' scope on the block body of ForStatement in functions (ES2015)", () => {
-                        const { node, scope } = getScope("function f() { for (let i = 0; i < 10; ++i) {} }", "ForStatement > BlockStatement", 2015);
-
-                        assert.strictEqual(scope.type, "block");
-                        assert.strictEqual(scope.upper.type, "for");
-                        assert.strictEqual(scope.block, node);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), []);
-                        assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["i"]);
-                    });
-
-                    it("should return 'function' scope on ForInStatement in functions (ES5)", () => {
-                        const { node, scope } = getScope("function f() { for (var key in obj) {} }", "ForInStatement");
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block, node.parent.parent);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "key"]);
-                    });
-
-                    it("should return 'for' scope on ForInStatement in functions (ES2015)", () => {
-                        const { node, scope } = getScope("function f() { for (let key in obj) {} }", "ForInStatement", 2015);
-
-                        assert.strictEqual(scope.type, "for");
-                        assert.strictEqual(scope.block, node);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["key"]);
-                    });
-
-                    it("should return 'function' scope on the block body of ForInStatement in functions (ES5)", () => {
-                        const { node, scope } = getScope("function f() { for (var key in obj) {} }", "ForInStatement > BlockStatement");
-
-                        assert.strictEqual(scope.type, "function");
-                        assert.strictEqual(scope.block, node.parent.parent.parent);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["arguments", "key"]);
-                    });
-
-                    it("should return 'block' scope on the block body of ForInStatement in functions (ES2015)", () => {
-                        const { node, scope } = getScope("function f() { for (let key in obj) {} }", "ForInStatement > BlockStatement", 2015);
-
-                        assert.strictEqual(scope.type, "block");
-                        assert.strictEqual(scope.upper.type, "for");
-                        assert.strictEqual(scope.block, node);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), []);
-                        assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["key"]);
-                    });
-
-                    it("should return 'for' scope on ForOfStatement in functions (ES2015)", () => {
-                        const { node, scope } = getScope("function f() { for (let x of xs) {} }", "ForOfStatement", 2015);
-
-                        assert.strictEqual(scope.type, "for");
-                        assert.strictEqual(scope.block, node);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), ["x"]);
-                    });
-
-                    it("should return 'block' scope on the block body of ForOfStatement in functions (ES2015)", () => {
-                        const { node, scope } = getScope("function f() { for (let x of xs) {} }", "ForOfStatement > BlockStatement", 2015);
-
-                        assert.strictEqual(scope.type, "block");
-                        assert.strictEqual(scope.upper.type, "for");
-                        assert.strictEqual(scope.block, node);
-                        assert.deepStrictEqual(scope.variables.map(v => v.name), []);
-                        assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["x"]);
-                    });
-
-                    it("should shadow the same name variable by the iteration variable.", () => {
-                        const { node, scope } = getScope("let x; for (let x of x) {}", "ForOfStatement", 2015);
-
-                        assert.strictEqual(scope.type, "for");
-                        assert.strictEqual(scope.upper.type, "global");
-                        assert.strictEqual(scope.block, node);
-                        assert.strictEqual(scope.upper.variables[0].references.length, 0);
-                        assert.strictEqual(scope.references[0].identifier, node.left.declarations[0].id);
-                        assert.strictEqual(scope.references[1].identifier, node.right);
-                        assert.strictEqual(scope.references[1].resolved, scope.variables[0]);
-                    });
-                });
-
-                describe("Variables and references", () => {
-                    const code = [
-                        "a;",
-                        "function foo() { b; }",
-                        "Object;",
-                        "foo;",
-                        "var c;",
-                        "c;",
-                        "/* global d */",
-                        "d;",
-                        "e;",
-                        "f;"
-                    ].join("\n");
-                    let scope = null;
-
-                    beforeEach(() => {
-                        let ok = false;
-
-                        const config = {
-                            plugins: {
-                                test: {
-                                    rules: {
-                                        test: {
-                                            create: context => ({
-                                                Program() {
-                                                    scope = context.getScope();
-                                                    ok = true;
-                                                }
-                                            })
-                                        }
-                                    }
-                                }
-                            },
-                            languageOptions: {
-                                globals: { e: true, f: false },
-                                sourceType: "script",
-                                ecmaVersion: 5
-                            },
-                            rules: {
-                                "test/test": 2
-                            }
-                        };
-
-                        linter.verify(code, config);
-                        assert(ok);
-                    });
-
-                    afterEach(() => {
-                        scope = null;
-                    });
-
-                    it("Scope#through should contain references of undefined variables", () => {
-                        assert.strictEqual(scope.through.length, 2);
-                        assert.strictEqual(scope.through[0].identifier.name, "a");
-                        assert.strictEqual(scope.through[0].identifier.loc.start.line, 1);
-                        assert.strictEqual(scope.through[0].resolved, null);
-                        assert.strictEqual(scope.through[1].identifier.name, "b");
-                        assert.strictEqual(scope.through[1].identifier.loc.start.line, 2);
-                        assert.strictEqual(scope.through[1].resolved, null);
-                    });
-
-                    it("Scope#variables should contain global variables", () => {
-                        assert(scope.variables.some(v => v.name === "Object"));
-                        assert(scope.variables.some(v => v.name === "foo"));
-                        assert(scope.variables.some(v => v.name === "c"));
-                        assert(scope.variables.some(v => v.name === "d"));
-                        assert(scope.variables.some(v => v.name === "e"));
-                        assert(scope.variables.some(v => v.name === "f"));
-                    });
-
-                    it("Scope#set should contain global variables", () => {
-                        assert(scope.set.get("Object"));
-                        assert(scope.set.get("foo"));
-                        assert(scope.set.get("c"));
-                        assert(scope.set.get("d"));
-                        assert(scope.set.get("e"));
-                        assert(scope.set.get("f"));
-                    });
-
-                    it("Variables#references should contain their references", () => {
-                        assert.strictEqual(scope.set.get("Object").references.length, 1);
-                        assert.strictEqual(scope.set.get("Object").references[0].identifier.name, "Object");
-                        assert.strictEqual(scope.set.get("Object").references[0].identifier.loc.start.line, 3);
-                        assert.strictEqual(scope.set.get("Object").references[0].resolved, scope.set.get("Object"));
-                        assert.strictEqual(scope.set.get("foo").references.length, 1);
-                        assert.strictEqual(scope.set.get("foo").references[0].identifier.name, "foo");
-                        assert.strictEqual(scope.set.get("foo").references[0].identifier.loc.start.line, 4);
-                        assert.strictEqual(scope.set.get("foo").references[0].resolved, scope.set.get("foo"));
-                        assert.strictEqual(scope.set.get("c").references.length, 1);
-                        assert.strictEqual(scope.set.get("c").references[0].identifier.name, "c");
-                        assert.strictEqual(scope.set.get("c").references[0].identifier.loc.start.line, 6);
-                        assert.strictEqual(scope.set.get("c").references[0].resolved, scope.set.get("c"));
-                        assert.strictEqual(scope.set.get("d").references.length, 1);
-                        assert.strictEqual(scope.set.get("d").references[0].identifier.name, "d");
-                        assert.strictEqual(scope.set.get("d").references[0].identifier.loc.start.line, 8);
-                        assert.strictEqual(scope.set.get("d").references[0].resolved, scope.set.get("d"));
-                        assert.strictEqual(scope.set.get("e").references.length, 1);
-                        assert.strictEqual(scope.set.get("e").references[0].identifier.name, "e");
-                        assert.strictEqual(scope.set.get("e").references[0].identifier.loc.start.line, 9);
-                        assert.strictEqual(scope.set.get("e").references[0].resolved, scope.set.get("e"));
-                        assert.strictEqual(scope.set.get("f").references.length, 1);
-                        assert.strictEqual(scope.set.get("f").references[0].identifier.name, "f");
-                        assert.strictEqual(scope.set.get("f").references[0].identifier.loc.start.line, 10);
-                        assert.strictEqual(scope.set.get("f").references[0].resolved, scope.set.get("f"));
-                    });
-
-                    it("Reference#resolved should be their variable", () => {
-                        assert.strictEqual(scope.set.get("Object").references[0].resolved, scope.set.get("Object"));
-                        assert.strictEqual(scope.set.get("foo").references[0].resolved, scope.set.get("foo"));
-                        assert.strictEqual(scope.set.get("c").references[0].resolved, scope.set.get("c"));
-                        assert.strictEqual(scope.set.get("d").references[0].resolved, scope.set.get("d"));
-                        assert.strictEqual(scope.set.get("e").references[0].resolved, scope.set.get("e"));
-                        assert.strictEqual(scope.set.get("f").references[0].resolved, scope.set.get("f"));
-                    });
-                });
-            });
-
-            describe("context.getDeclaredVariables(node)", () => {
-
-                /**
-                 * Assert `context.getDeclaredVariables(node)` is valid.
-                 * @param {string} code A code to check.
-                 * @param {string} type A type string of ASTNode. This method checks variables on the node of the type.
-                 * @param {Array<Array<string>>} expectedNamesList An array of expected variable names. The expected variable names is an array of string.
-                 * @returns {void}
-                 */
-                function verify(code, type, expectedNamesList) {
-                    const config = {
-                        plugins: {
-                            test: {
-
-                                rules: {
-                                    test: {
-                                        create(context) {
-
-                                            /**
-                                             * Assert `context.getDeclaredVariables(node)` is empty.
-                                             * @param {ASTNode} node A node to check.
-                                             * @returns {void}
-                                             */
-                                            function checkEmpty(node) {
-                                                assert.strictEqual(0, context.getDeclaredVariables(node).length);
-                                            }
-                                            const rule = {
-                                                Program: checkEmpty,
-                                                EmptyStatement: checkEmpty,
-                                                BlockStatement: checkEmpty,
-                                                ExpressionStatement: checkEmpty,
-                                                LabeledStatement: checkEmpty,
-                                                BreakStatement: checkEmpty,
-                                                ContinueStatement: checkEmpty,
-                                                WithStatement: checkEmpty,
-                                                SwitchStatement: checkEmpty,
-                                                ReturnStatement: checkEmpty,
-                                                ThrowStatement: checkEmpty,
-                                                TryStatement: checkEmpty,
-                                                WhileStatement: checkEmpty,
-                                                DoWhileStatement: checkEmpty,
-                                                ForStatement: checkEmpty,
-                                                ForInStatement: checkEmpty,
-                                                DebuggerStatement: checkEmpty,
-                                                ThisExpression: checkEmpty,
-                                                ArrayExpression: checkEmpty,
-                                                ObjectExpression: checkEmpty,
-                                                Property: checkEmpty,
-                                                SequenceExpression: checkEmpty,
-                                                UnaryExpression: checkEmpty,
-                                                BinaryExpression: checkEmpty,
-                                                AssignmentExpression: checkEmpty,
-                                                UpdateExpression: checkEmpty,
-                                                LogicalExpression: checkEmpty,
-                                                ConditionalExpression: checkEmpty,
-                                                CallExpression: checkEmpty,
-                                                NewExpression: checkEmpty,
-                                                MemberExpression: checkEmpty,
-                                                SwitchCase: checkEmpty,
-                                                Identifier: checkEmpty,
-                                                Literal: checkEmpty,
-                                                ForOfStatement: checkEmpty,
-                                                ArrowFunctionExpression: checkEmpty,
-                                                YieldExpression: checkEmpty,
-                                                TemplateLiteral: checkEmpty,
-                                                TaggedTemplateExpression: checkEmpty,
-                                                TemplateElement: checkEmpty,
-                                                ObjectPattern: checkEmpty,
-                                                ArrayPattern: checkEmpty,
-                                                RestElement: checkEmpty,
-                                                AssignmentPattern: checkEmpty,
-                                                ClassBody: checkEmpty,
-                                                MethodDefinition: checkEmpty,
-                                                MetaProperty: checkEmpty
-                                            };
-
-                                            rule[type] = function(node) {
-                                                const expectedNames = expectedNamesList.shift();
-                                                const variables = context.getDeclaredVariables(node);
-
-                                                assert(Array.isArray(expectedNames));
-                                                assert(Array.isArray(variables));
-                                                assert.strictEqual(expectedNames.length, variables.length);
-                                                for (let i = variables.length - 1; i >= 0; i--) {
-                                                    assert.strictEqual(expectedNames[i], variables[i].name);
-                                                }
-                                            };
-                                            return rule;
-                                        }
-
-                                    }
-                                }
-
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6,
-                            sourceType: "module"
-                        },
-                        rules: {
-                            "test/test": 2
-                        }
-                    };
-
-                    linter.verify(code, config);
-
-                    // Check all expected names are asserted.
-                    assert.strictEqual(0, expectedNamesList.length);
-                }
-
-                it("VariableDeclaration", () => {
-                    const code = "\n var {a, x: [b], y: {c = 0}} = foo;\n let {d, x: [e], y: {f = 0}} = foo;\n const {g, x: [h], y: {i = 0}} = foo, {j, k = function(z) { let l; }} = bar;\n ";
-                    const namesList = [
-                        ["a", "b", "c"],
-                        ["d", "e", "f"],
-                        ["g", "h", "i", "j", "k"],
-                        ["l"]
-                    ];
-
-                    verify(code, "VariableDeclaration", namesList);
-                });
-
-                it("VariableDeclaration (on for-in/of loop)", () => {
-
-                    // TDZ scope is created here, so tests to exclude those.
-                    const code = "\n for (var {a, x: [b], y: {c = 0}} in foo) {\n let g;\n }\n for (let {d, x: [e], y: {f = 0}} of foo) {\n let h;\n }\n ";
-                    const namesList = [
-                        ["a", "b", "c"],
-                        ["g"],
-                        ["d", "e", "f"],
-                        ["h"]
-                    ];
-
-                    verify(code, "VariableDeclaration", namesList);
-                });
-
-                it("VariableDeclarator", () => {
-
-                    // TDZ scope is created here, so tests to exclude those.
-                    const code = "\n var {a, x: [b], y: {c = 0}} = foo;\n let {d, x: [e], y: {f = 0}} = foo;\n const {g, x: [h], y: {i = 0}} = foo, {j, k = function(z) { let l; }} = bar;\n ";
-                    const namesList = [
-                        ["a", "b", "c"],
-                        ["d", "e", "f"],
-                        ["g", "h", "i"],
-                        ["j", "k"],
-                        ["l"]
-                    ];
-
-                    verify(code, "VariableDeclarator", namesList);
-                });
-
-                it("FunctionDeclaration", () => {
-                    const code = "\n function foo({a, x: [b], y: {c = 0}}, [d, e]) {\n let z;\n }\n function bar({f, x: [g], y: {h = 0}}, [i, j = function(q) { let w; }]) {\n let z;\n }\n ";
-                    const namesList = [
-                        ["foo", "a", "b", "c", "d", "e"],
-                        ["bar", "f", "g", "h", "i", "j"]
-                    ];
-
-                    verify(code, "FunctionDeclaration", namesList);
-                });
-
-                it("FunctionExpression", () => {
-                    const code = "\n (function foo({a, x: [b], y: {c = 0}}, [d, e]) {\n let z;\n });\n (function bar({f, x: [g], y: {h = 0}}, [i, j = function(q) { let w; }]) {\n let z;\n });\n ";
-                    const namesList = [
-                        ["foo", "a", "b", "c", "d", "e"],
-                        ["bar", "f", "g", "h", "i", "j"],
-                        ["q"]
-                    ];
-
-                    verify(code, "FunctionExpression", namesList);
-                });
-
-                it("ArrowFunctionExpression", () => {
-                    const code = "\n (({a, x: [b], y: {c = 0}}, [d, e]) => {\n let z;\n });\n (({f, x: [g], y: {h = 0}}, [i, j]) => {\n let z;\n });\n ";
-                    const namesList = [
-                        ["a", "b", "c", "d", "e"],
-                        ["f", "g", "h", "i", "j"]
-                    ];
-
-                    verify(code, "ArrowFunctionExpression", namesList);
-                });
-
-                it("ClassDeclaration", () => {
-                    const code = "\n class A { foo(x) { let y; } }\n class B { foo(x) { let y; } }\n ";
-                    const namesList = [
-                        ["A", "A"], // outer scope's and inner scope's.
-                        ["B", "B"]
-                    ];
-
-                    verify(code, "ClassDeclaration", namesList);
-                });
-
-                it("ClassExpression", () => {
-                    const code = "\n (class A { foo(x) { let y; } });\n (class B { foo(x) { let y; } });\n ";
-                    const namesList = [
-                        ["A"],
-                        ["B"]
-                    ];
-
-                    verify(code, "ClassExpression", namesList);
-                });
-
-                it("CatchClause", () => {
-                    const code = "\n try {} catch ({a, b}) {\n let x;\n try {} catch ({c, d}) {\n let y;\n }\n }\n ";
-                    const namesList = [
-                        ["a", "b"],
-                        ["c", "d"]
-                    ];
-
-                    verify(code, "CatchClause", namesList);
-                });
-
-                it("ImportDeclaration", () => {
-                    const code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
-                    const namesList = [
-                        [],
-                        ["a"],
-                        ["b", "c", "d"]
-                    ];
-
-                    verify(code, "ImportDeclaration", namesList);
-                });
-
-                it("ImportSpecifier", () => {
-                    const code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
-                    const namesList = [
-                        ["c"],
-                        ["d"]
-                    ];
-
-                    verify(code, "ImportSpecifier", namesList);
-                });
-
-                it("ImportDefaultSpecifier", () => {
-                    const code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
-                    const namesList = [
-                        ["b"]
-                    ];
-
-                    verify(code, "ImportDefaultSpecifier", namesList);
-                });
-
-                it("ImportNamespaceSpecifier", () => {
-                    const code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
-                    const namesList = [
-                        ["a"]
-                    ];
-
-                    verify(code, "ImportNamespaceSpecifier", namesList);
-                });
-            });
-
-            describe("context.markVariableAsUsed()", () => {
-
-                it("should mark variables in current scope as used", () => {
-                    const code = "var a = 1, b = 2;";
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                assert.isTrue(context.markVariableAsUsed("a"));
-
-                                                const scope = context.getScope();
-
-                                                assert.isTrue(getVariable(scope, "a").eslintUsed);
-                                                assert.notOk(getVariable(scope, "b").eslintUsed);
-                                            });
-
-                                            return { "Program:exit": spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            sourceType: "script"
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-                    linter.verify(code, config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should mark variables in function args as used", () => {
-                    const code = "function abc(a, b) { return 1; }";
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                assert.isTrue(context.markVariableAsUsed("a"));
-
-                                                const scope = context.getScope();
-
-                                                assert.isTrue(getVariable(scope, "a").eslintUsed);
-                                                assert.notOk(getVariable(scope, "b").eslintUsed);
-                                            });
-
-                                            return { ReturnStatement: spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-                    linter.verify(code, config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should mark variables in higher scopes as used", () => {
-                    const code = "var a, b; function abc() { return 1; }";
-                    let returnSpy, exitSpy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            returnSpy = sinon.spy(() => {
-                                                assert.isTrue(context.markVariableAsUsed("a"));
-                                            });
-                                            exitSpy = sinon.spy(() => {
-                                                const scope = context.getScope();
-
-                                                assert.isTrue(getVariable(scope, "a").eslintUsed);
-                                                assert.notOk(getVariable(scope, "b").eslintUsed);
-                                            });
-
-                                            return { ReturnStatement: returnSpy, "Program:exit": exitSpy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            sourceType: "script"
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-                    linter.verify(code, config);
-                    assert(returnSpy && returnSpy.calledOnce);
-                    assert(exitSpy && exitSpy.calledOnce);
-                });
-
-                it("should mark variables as used when sourceType is commonjs", () => {
-                    const code = "var a = 1, b = 2;";
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const globalScope = context.getScope(),
-                                                    childScope = globalScope.childScopes[0];
-
-                                                assert.isTrue(context.markVariableAsUsed("a"), "Call to markVariableAsUsed should return true");
-
-                                                assert.isTrue(getVariable(childScope, "a").eslintUsed, "'a' should be marked as used.");
-                                                assert.isUndefined(getVariable(childScope, "b").eslintUsed, "'b' should be marked as used.");
-                                            });
-
-                                            return { "Program:exit": spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            sourceType: "commonjs"
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-                    linter.verify(code, config);
-                    assert(spy && spy.calledOnce, "Spy wasn't called.");
-                });
-
-                it("should mark variables in modules as used", () => {
-                    const code = "var a = 1, b = 2;";
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                const globalScope = context.getScope(),
-                                                    childScope = globalScope.childScopes[0];
-
-                                                assert.isTrue(context.markVariableAsUsed("a"));
-
-                                                assert.isTrue(getVariable(childScope, "a").eslintUsed);
-                                                assert.isUndefined(getVariable(childScope, "b").eslintUsed);
-                                            });
-
-                                            return { "Program:exit": spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        languageOptions: {
-                            ecmaVersion: 6,
-                            sourceType: "module"
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-                    linter.verify(code, config);
-                    assert(spy && spy.calledOnce);
-                });
-
-                it("should return false if the given variable is not found", () => {
-                    const code = "var a = 1, b = 2;";
-                    let spy;
-
-                    const config = {
-                        plugins: {
-                            test: {
-                                rules: {
-                                    checker: {
-                                        create(context) {
-                                            spy = sinon.spy(() => {
-                                                assert.isFalse(context.markVariableAsUsed("c"));
-                                            });
-
-                                            return { "Program:exit": spy };
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        rules: { "test/checker": "error" }
-                    };
-
-                    linter.verify(code, config);
-                    assert(spy && spy.calledOnce);
-                });
-            });
-
             describe("context.getCwd()", () => {
                 const code = "a;\nb;";
                 const baseConfig = { rules: { "test/checker": "error" } };
@@ -11742,8 +9458,8 @@ describe("Linter with FlatConfigArray", () => {
                                     rules: {
                                         checker: {
                                             create(context) {
-                                                spy = sinon.spy(() => {
-                                                    const scope = context.getScope();
+                                                spy = sinon.spy(node => {
+                                                    const scope = context.sourceCode.getScope(node);
                                                     const a = getVariable(scope, "a"),
                                                         b = getVariable(scope, "b"),
                                                         c = getVariable(scope, "c"),
@@ -11801,8 +9517,8 @@ describe("Linter with FlatConfigArray", () => {
                                     rules: {
                                         checker: {
                                             create(context) {
-                                                spy = sinon.spy(() => {
-                                                    const scope = context.getScope(),
+                                                spy = sinon.spy(node => {
+                                                    const scope = context.sourceCode.getScope(node),
                                                         a = getVariable(scope, "a"),
                                                         b = getVariable(scope, "b"),
                                                         c = getVariable(scope, "c");
@@ -11841,8 +9557,8 @@ describe("Linter with FlatConfigArray", () => {
                                     rules: {
                                         checker: {
                                             create(context) {
-                                                spy = sinon.spy(() => {
-                                                    const scope = context.getScope();
+                                                spy = sinon.spy(node => {
+                                                    const scope = context.sourceCode.getScope(node);
 
                                                     assert.strictEqual(getVariable(scope, "a"), null);
                                                 });
@@ -11874,8 +9590,8 @@ describe("Linter with FlatConfigArray", () => {
                                     rules: {
                                         checker: {
                                             create(context) {
-                                                spy = sinon.spy(() => {
-                                                    const scope = context.getScope();
+                                                spy = sinon.spy(node => {
+                                                    const scope = context.sourceCode.getScope(node);
 
                                                     assert.strictEqual(getVariable(scope, "a"), null);
                                                     assert.strictEqual(getVariable(scope, "b"), null);
@@ -11907,8 +9623,8 @@ describe("Linter with FlatConfigArray", () => {
                                 rules: {
                                     test: {
                                         create: context => ({
-                                            Program() {
-                                                const scope = context.getScope();
+                                            Program(node) {
+                                                const scope = context.sourceCode.getScope(node);
                                                 const sourceCode = context.sourceCode;
                                                 const comments = sourceCode.getAllComments();
 
@@ -11998,8 +9714,8 @@ describe("Linter with FlatConfigArray", () => {
                                 rules: {
                                     checker: {
                                         create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope(),
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node),
                                                     horse = getVariable(scope, "horse");
 
                                                 assert.strictEqual(horse.eslintUsed, true);
@@ -12030,8 +9746,8 @@ describe("Linter with FlatConfigArray", () => {
                                 rules: {
                                     checker: {
                                         create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope(),
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node),
                                                     horse = getVariable(scope, "horse");
 
                                                 assert.strictEqual(horse, null);
@@ -12062,8 +9778,8 @@ describe("Linter with FlatConfigArray", () => {
                                 rules: {
                                     checker: {
                                         create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope(),
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node),
                                                     horse = getVariable(scope, "horse");
 
                                                 assert.strictEqual(horse.eslintUsed, true);
@@ -12094,8 +9810,8 @@ describe("Linter with FlatConfigArray", () => {
                                 rules: {
                                     checker: {
                                         create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope(),
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node),
                                                     horse = getVariable(scope, "horse");
 
                                                 assert.strictEqual(horse, null); // there is no global scope at all
@@ -12127,8 +9843,8 @@ describe("Linter with FlatConfigArray", () => {
                                 rules: {
                                     checker: {
                                         create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope(),
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node),
                                                     horse = getVariable(scope, "horse");
 
                                                 assert.strictEqual(horse, null); // there is no global scope at all
@@ -14357,8 +12073,8 @@ var a = "test2";
                                     rules: {
                                         test: {
                                             create: context => ({
-                                                Program() {
-                                                    const scope = context.getScope();
+                                                Program(node) {
+                                                    const scope = context.sourceCode.getScope(node);
                                                     const sourceCode = context.sourceCode;
                                                     const comments = sourceCode.getAllComments();
 
@@ -16128,8 +13844,8 @@ var a = "test2";
                             rules: {
                                 checker: {
                                     create(context) {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                        spy = sinon.spy(node => {
+                                            const scope = context.sourceCode.getScope(node);
 
                                             assert.notStrictEqual(getVariable(scope, "Object"), null);
                                             assert.notStrictEqual(getVariable(scope, "Array"), null);
@@ -16163,8 +13879,8 @@ var a = "test2";
                             rules: {
                                 checker: {
                                     create(context) {
-                                        spy = sinon.spy(() => {
-                                            const scope = context.getScope();
+                                        spy = sinon.spy(node => {
+                                            const scope = context.sourceCode.getScope(node);
 
                                             assert.notStrictEqual(getVariable(scope, "Promise"), null);
                                             assert.notStrictEqual(getVariable(scope, "Symbol"), null);
