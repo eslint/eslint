@@ -129,8 +129,6 @@ Regex patterns can also be used to restrict specific import Name:
 }]
 ```
 
-**Note:** If `importNames` and `importNamePattern` are used together, it initially reviews the value specified in `importNames`. Afterward, it focuses on assessing the value specified in `importNamePattern`.
-
 To restrict the use of all Node.js core imports (via <https://github.com/nodejs/node/tree/master/lib>):
 
 ```json
