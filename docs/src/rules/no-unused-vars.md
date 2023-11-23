@@ -56,6 +56,7 @@ function fact(n) {
 function getY([x, y]) {
     return y;
 }
+getY(["a", "b"]);
 ```
 
 :::
@@ -89,6 +90,7 @@ myFunc = setTimeout(function() {
 function getY([, y]) {
     return y;
 }
+getY(["a", "b"]);
 ```
 
 :::
@@ -105,12 +107,24 @@ Note that `/* exported */` has no effect for any of the following:
 
 The line comment `// exported variableName` will not work as `exported` is not line-specific.
 
-Examples of **correct** code for `/* exported variableName */` operation:
+```js
+/* exported global_var */
+
+var global_var = 42;
+```
+
+Examples of **correct** code for `/* exported variableName */` operation with `no-unused-var`:
 
 ::: correct
 
 ```js
+/*eslint no-unused-vars: "error"*/
 /* exported global_var */
+
+// rule will not report global_var
+// sourcType must be set to script
+// environment should not be node or commonjs
+// globalReturn must be set to false
 
 var global_var = 42;
 ```
@@ -119,9 +133,19 @@ var global_var = 42;
 
 ## Options
 
-This rule takes one argument which can be a string or an object. The string settings are the same as those of the `vars` property (explained below).
+This rule takes one argument which can be a string or an object.
 
-By default this rule is enabled with `all` option for variables and `after-used` for arguments.
+String setting has two possible modes `all` and `local` to allow global and local variables (works similar as `vars` option explained below).
+
+```json
+{
+    "rules": {
+        "no-unused-vars": ["error", "local"]
+    }
+}
+```
+
+Object setting has several options.
 
 ```json
 {
@@ -130,6 +154,8 @@ By default this rule is enabled with `all` option for variables and `after-used`
     }
 }
 ```
+
+By default this rule is enabled with `all` option for variables and `after-used` for arguments.
 
 ### vars
 
@@ -386,11 +412,15 @@ Examples of **correct** code for the `{ "ignoreRestSiblings": true }` option:
 
 ```js
 /*eslint no-unused-vars: ["error", { "ignoreRestSiblings": true }]*/
+
 // 'foo' and 'bar' were ignored because they have a rest property sibling.
-var { foo, ...coords } = data;
+var { foo, ...rest } = data;
+console.log(rest);
+
+// OR
 
 var bar;
-({ bar, ...coords } = data);
+({ bar, ...rest } = data);
 ```
 
 :::
