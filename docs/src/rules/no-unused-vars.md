@@ -113,18 +113,13 @@ The line comment `// exported variableName` will not work as `exported` is not l
 var global_var = 42;
 ```
 
-Examples of **correct** code for `/* exported variableName */` operation with `no-unused-var`:
+Examples of **correct** code for `/* exported variableName */` operation with `no-unused-vars`:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-unused-vars: "error"*/
 /* exported global_var */
-
-// rule will not report global_var
-// sourcType must be set to script
-// environment should not be node or commonjs
-// globalReturn must be set to false
 
 var global_var = 42;
 ```
@@ -133,19 +128,9 @@ var global_var = 42;
 
 ## Options
 
-This rule takes one argument which can be a string or an object.
+This rule takes one argument which can be a string or an object. The string settings are the same as those of the `vars` property (explained below).
 
-String setting has two possible modes `all` and `local` to allow global and local variables (works similar as `vars` option explained below).
-
-```json
-{
-    "rules": {
-        "no-unused-vars": ["error", "local"]
-    }
-}
-```
-
-Object setting has several options.
+By default this rule is enabled with `all` option for variables and `after-used` for arguments.
 
 ```json
 {
@@ -154,8 +139,6 @@ Object setting has several options.
     }
 }
 ```
-
-By default this rule is enabled with `all` option for variables and `after-used` for arguments.
 
 ### vars
 
