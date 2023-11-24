@@ -281,7 +281,7 @@ import { isEmpty } from 'utils/collection-utils';
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["utils/*"],
     importNamePattern: '^is',
-    message: "Use 'isEmpty' from lodash instead."
+    message: "Use 'is*' functions from lodash instead."
 }]}]*/
 
 import { isEmpty } from 'utils/collection-utils';
@@ -294,11 +294,11 @@ import { isEmpty } from 'utils/collection-utils';
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["foo/*"],
-    importNamePattern: '^(is|bar)',
-    message: "Use 'isBar' from baz/bar instead"
+    importNamePattern: '^(is|has)',
+    message: "Use 'is*' and 'has*' functions from baz/bar instead"
 }]}]*/
 
-import bar, { isBar } from 'foo/bar';
+import { isSomething, hasSomething } from 'foo/bar';
 ```
 
 :::
@@ -307,12 +307,12 @@ import bar, { isBar } from 'foo/bar';
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
-    importNames: ["foo"],
     group: ["foo/*"],
-    importNamePattern: '^bar',
+    importNames: ["bar"],
+    importNamePattern: '^baz',
 }]}]*/
 
-import { bar } from 'foo/bar';
+import { bar, bazQux } from 'foo/quux';
 ```
 
 :::
@@ -412,7 +412,7 @@ import { hasValues } from 'utils/collection-utils';
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["utils/*"],
     importNamePattern: '^is',
-    message: "Use 'isEmpty' from lodash instead."
+    message: "Use 'is*' functions from lodash instead."
 }]}]*/
 
 import isEmpty, { hasValue } from 'utils/collection-utils';
