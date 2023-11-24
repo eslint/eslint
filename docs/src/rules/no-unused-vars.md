@@ -56,6 +56,7 @@ function fact(n) {
 function getY([x, y]) {
     return y;
 }
+getY(["a", "b"]);
 ```
 
 :::
@@ -89,6 +90,7 @@ myFunc = setTimeout(function() {
 function getY([, y]) {
     return y;
 }
+getY(["a", "b"]);
 ```
 
 :::
@@ -105,11 +107,18 @@ Note that `/* exported */` has no effect for any of the following:
 
 The line comment `// exported variableName` will not work as `exported` is not line-specific.
 
-Examples of **correct** code for `/* exported variableName */` operation:
+```js
+/* exported global_var */
 
-::: correct
+var global_var = 42;
+```
+
+Examples of **correct** code for `/* exported variableName */` operation with `no-unused-vars`:
+
+::: correct { "sourceType": "script" }
 
 ```js
+/*eslint no-unused-vars: "error"*/
 /* exported global_var */
 
 var global_var = 42;
@@ -386,11 +395,15 @@ Examples of **correct** code for the `{ "ignoreRestSiblings": true }` option:
 
 ```js
 /*eslint no-unused-vars: ["error", { "ignoreRestSiblings": true }]*/
+
 // 'foo' and 'bar' were ignored because they have a rest property sibling.
-var { foo, ...coords } = data;
+var { foo, ...rest } = data;
+console.log(rest);
+
+// OR
 
 var bar;
-({ bar, ...coords } = data);
+({ bar, ...rest } = data);
 ```
 
 :::
