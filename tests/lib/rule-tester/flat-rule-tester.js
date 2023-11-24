@@ -1638,6 +1638,52 @@ describe("FlatRuleTester", () => {
         }, "Use node.range[0] instead of node.start");
     });
 
+    it("should throw an error if rule is a function", () => {
+
+        /**
+         * Legacy-format rule (a function instead of an object with `create` method).
+         * @param {RuleContext} context The ESLint rule context object.
+         * @returns {Object} Listeners.
+         */
+        function functionStyleRule(context) {
+            return {
+                Program(node) {
+                    context.report({ node, message: "bad" });
+                }
+            };
+        }
+
+        assert.throws(() => {
+            ruleTester.run("function-style-rule", functionStyleRule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, "Rule must be an object with a `create` method");
+    });
+
+    it("should throw an error if rule is an object without 'create' method", () => {
+        const rule = {
+            create_(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("object-rule-without-create", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, "Rule must be an object with a `create` method");
+    });
+
     it("should throw an error if no test scenarios given", () => {
         assert.throws(() => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"));
