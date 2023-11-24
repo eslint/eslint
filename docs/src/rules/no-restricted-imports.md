@@ -275,6 +275,8 @@ import pick from 'fooBar';
 import { isEmpty } from 'utils/collection-utils';
 ```
 
+:::
+
 ::: incorrect { "sourceType": "module" }
 
 ```js
