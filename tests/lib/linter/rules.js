@@ -32,18 +32,6 @@ describe("rules", () => {
             assert.ok(rules.get(ruleId));
         });
 
-        it("should return the rule as an object with a create() method if the rule was defined as a function", () => {
-
-            /**
-             * A rule that does nothing
-             * @returns {void}
-             */
-            function rule() {}
-            rule.schema = [];
-            rules.define("foo", rule);
-            assert.deepStrictEqual(rules.get("foo"), { create: rule, schema: [] });
-        });
-
         it("should return the rule as-is if it was defined as an object with a create() method", () => {
             const rule = { create() {} };
 
