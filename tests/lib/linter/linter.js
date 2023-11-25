@@ -319,6 +319,50 @@ describe("Linter", () => {
             sinon.assert.calledOnce(spyBinaryExpression);
         });
 
+        it("should throw an error if a rule is a function", () => {
+
+            /**
+             * Legacy-format rule (a function instead of an object with `create` method).
+             * @param {RuleContext} context The ESLint rule context object.
+             * @returns {Object} Listeners.
+             */
+            function functionStyleRule(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+
+            linter.defineRule("function-style-rule", functionStyleRule);
+
+            assert.throws(
+                () => linter.verify("foo", { rules: { "function-style-rule": "error" } }),
+                TypeError,
+                "Error while loading rule 'function-style-rule': Rule must be an object with a `create` method"
+            );
+        });
+
+        it("should throw an error if a rule is an object without 'create' method", () => {
+            const rule = {
+                create_(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+            };
+
+            linter.defineRule("object-rule-without-create", rule);
+
+            assert.throws(
+                () => linter.verify("foo", { rules: { "object-rule-without-create": "error" } }),
+                TypeError,
+                "Error while loading rule 'object-rule-without-create': Rule must be an object with a `create` method"
+            );
+        });
+
         it("should throw an error if a rule reports a problem without a message", () => {
             linter.defineRule("invalid-report", {
                 create: context => ({
@@ -8985,6 +9029,68 @@ describe("Linter with FlatConfigArray", () => {
                 sinon.assert.calledOnce(spyBinaryExpression);
 
                 assert.strictEqual(suppressedMessages.length, 0);
+            });
+
+            it("should throw an error if a rule is a function", () => {
+
+                /**
+                 * Legacy-format rule (a function instead of an object with `create` method).
+                 * @param {RuleContext} context The ESLint rule context object.
+                 * @returns {Object} Listeners.
+                 */
+                function functionStyleRule(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                "function-style-rule": functionStyleRule
+                            }
+                        }
+                    },
+                    rules: { "test/function-style-rule": "error" }
+                };
+
+                assert.throws(
+                    () => linter.verify("foo", config),
+                    TypeError,
+                    "Error while loading rule 'test/function-style-rule': Rule must be an object with a `create` method"
+                );
+            });
+
+            it("should throw an error if a rule is an object without 'create' method", () => {
+                const rule = {
+                    create_(context) {
+                        return {
+                            Program(node) {
+                                context.report({ node, message: "bad" });
+                            }
+                        };
+                    }
+                };
+
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                "object-rule-without-create": rule
+                            }
+                        }
+                    },
+                    rules: { "test/object-rule-without-create": "error" }
+                };
+
+                assert.throws(
+                    () => linter.verify("foo", config),
+                    TypeError,
+                    "Error while loading rule 'test/object-rule-without-create': Rule must be an object with a `create` method"
+                );
             });
 
             it("should throw an error if a rule reports a problem without a message", () => {
