@@ -3961,11 +3961,15 @@ describe("CLIEngine", () => {
                 cwd: rootPath,
                 files: {
                     "internal-rules/test.js": `
-                            module.exports = context => ({
-                                ExpressionStatement(node) {
-                                    context.report({ node, message: "ok" })
-                                }
-                            })
+                            module.exports = {
+                                create(context) {
+                                    return {
+                                        ExpressionStatement(node) {
+                                            context.report({ node, message: "ok" });
+                                        },
+                                    };
+                                },
+                            };
                         `,
                     ".eslintrc.json": {
                         root: true,

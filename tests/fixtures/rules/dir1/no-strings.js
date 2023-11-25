@@ -1,14 +1,15 @@
 "use strict";
 
-module.exports = function(context) {
+module.exports = {
+    create(context) {
+        return {
 
-    return {
+            "Literal": function(node) {
+                if (typeof node.value === 'string') {
+                    context.report(node, "String!");
+                }
 
-        "Literal": function(node) {
-            if (typeof node.value === 'string') {
-                context.report(node, "String!");
             }
-
-        }
-    };
+        };
+    }
 };
