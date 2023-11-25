@@ -10,8 +10,6 @@ eleventyNavigation:
 
 You can create custom rules to use with ESLint. You might want to create a custom rule if the [core rules](../rules/) do not cover your use case.
 
-**Note:** This page covers the most recent rule format for ESLint >= 3.0.0. There is also a [deprecated rule format](./custom-rules-deprecated).
-
 Here's the basic format of a custom rule:
 
 ```js
