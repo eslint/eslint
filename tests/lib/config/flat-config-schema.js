@@ -20,7 +20,7 @@ describe("merge", () => {
         assert.deepStrictEqual(result, { ...first, ...second });
     });
 
-    it("does not merge an object and an array", () => {
+    it("overrides an object with an array", () => {
         const first = { foo: 42 };
         const second = ["bar", "baz"];
         const result = merge(first, second);
@@ -28,20 +28,20 @@ describe("merge", () => {
         assert.strictEqual(result, second);
     });
 
-    it("does not merge an array with an object", () => {
+    it("merges an array with an object", () => {
         const first = ["foo", "bar"];
         const second = { baz: 42 };
         const result = merge(first, second);
 
-        assert.deepStrictEqual(result, second);
+        assert.deepStrictEqual(result, { 0: "foo", 1: "bar", baz: 42 });
     });
 
-    it("does not merge two arrays", () => {
+    it("overrides an array with another array", () => {
         const first = ["foo", "bar"];
         const second = ["baz", "qux"];
         const result = merge(first, second);
 
-        assert.deepStrictEqual(result, second);
+        assert.strictEqual(result, second);
     });
 
     it("returns an emtpy object if both values are undefined", () => {
@@ -74,7 +74,7 @@ describe("merge", () => {
         assert.deepStrictEqual(result, { foo: { bar: "baz", qux: 42 } });
     });
 
-    it("does not overwrite a value in the first object with undefined in the second one", () => {
+    it("does not override a value in a property with undefined", () => {
         const first = { foo: { bar: "baz" } };
         const second = { foo: void 0 };
         const result = merge(first, second);
@@ -100,22 +100,28 @@ describe("merge", () => {
         assert.notStrictEqual(result, second);
     });
 
-    it("overwrites a value in the first object with null in the second one", () => {
+    it("throws an error if a value in a property is overriden with null", () => {
         const first = { foo: { bar: "baz" } };
         const second = { foo: null };
-        const result = merge(first, second);
 
-        assert.deepStrictEqual(result, second);
-        assert.notStrictEqual(result, second);
+        assert.throws(() => merge(first, second), TypeError);
     });
 
-    it("overwrites a value in the first object with a primitive in the second one", () => {
+    it("does not override a value in a property with a primitive", () => {
         const first = { foo: { bar: "baz" } };
         const second = { foo: 42 };
         const result = merge(first, second);
 
-        assert.deepStrictEqual(result, second);
-        assert.notStrictEqual(result, second);
+        assert.deepStrictEqual(result, first);
+        assert.notStrictEqual(result, first);
+    });
+
+    it("merges an object in a property with a string", () => {
+        const first = { foo: { bar: "baz" } };
+        const second = { foo: "qux" };
+        const result = merge(first, second);
+
+        assert.deepStrictEqual(result, { foo: { 0: "q", 1: "u", 2: "x", bar: "baz" } });
     });
 
     it("merges objects with self-references", () => {
@@ -128,7 +134,7 @@ describe("merge", () => {
         const result = merge(first, second);
 
         assert.strictEqual(result.first, first);
-        assert.strictEqual(result.second, second);
+        assert.deepStrictEqual(result.second, second);
 
         const expected = { foo: 42, bar: "baz" };
 
@@ -164,7 +170,7 @@ describe("merge", () => {
 
         const result = merge(first, second);
 
-        assert.strictEqual(result.first, first);
+        assert.deepStrictEqual(result.first, first);
         assert.strictEqual(result.second, second);
 
         const expected = { foo: 42, bar: "baz" };
@@ -208,7 +214,7 @@ describe("merge", () => {
         };
         const result = merge(first, second);
 
-        assert.strictEqual(result.a, result.d);
+        assert.deepStrictEqual(result.a, result.d);
 
         const expected = {
             a: { foo: 42, bar: "baz" },

@@ -6065,7 +6065,7 @@ describe("FlatESLint", () => {
 
             await eslint.lintText("debugger;");
 
-            assert.strictEqual(resolvedSettings.sharedData, circular);
+            assert.deepStrictEqual(resolvedSettings.sharedData, circular);
         });
 
         it("in 'parserOptions'", async () => {
@@ -6093,7 +6093,7 @@ describe("FlatESLint", () => {
 
             await eslint.lintText("debugger;");
 
-            assert.strictEqual(resolvedParserOptions.testOption, circular);
+            assert.deepStrictEqual(resolvedParserOptions.testOption, circular);
         });
     });
 
