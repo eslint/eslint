@@ -1673,6 +1673,23 @@ describe("ESLint", () => {
             }, /Error while loading rule 'custom-rule'/u);
         });
 
+        it("should throw an error when loading a function-style custom rule", async () => {
+            eslint = new ESLint({
+                ignore: false,
+                useEslintrc: false,
+                rulePaths: [getFixturePath("rules", "function-style")],
+                overrideConfig: {
+                    rules: {
+                        "no-strings": "error"
+                    }
+                }
+            });
+
+            await assert.rejects(async () => {
+                await eslint.lintFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
+            }, /Error while loading rule 'no-strings': Rule must be an object with a `create` method/u);
+        });
+
         it("should return one message when a custom rule matches a file", async () => {
             eslint = new ESLint({
                 ignore: false,
@@ -2362,6 +2379,24 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].messages[0].ruleId, "test/example-rule");
             });
 
+            it("should throw an error when executing with a function-style rule from a preloaded plugin", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    overrideConfig: {
+                        plugins: ["test"],
+                        rules: { "test/example-rule": 1 }
+                    },
+                    plugins: {
+                        "eslint-plugin-test": { rules: { "example-rule": () => ({}) } }
+                    }
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+                }, /Error while loading rule 'test\/example-rule': Rule must be an object with a `create` method/u);
+            });
+
             it("should return two messages when executing with `baseConfig` that extends preloaded plugin config", async () => {
                 eslint = new ESLint({
                     cwd: path.join(fixtureDir, ".."),
@@ -2407,6 +2442,21 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].ruleId, "with-rules/rule1");
                 assert.strictEqual(results[0].messages[0].message, "Rule report from plugin");
+            });
+
+            it("should throw an error when executing with a function-style rule from a plugin", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["with-function-style-rules"],
+                        rules: { "with-function-style-rules/rule1": "error" }
+                    },
+                    useEslintrc: false
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintText("foo");
+                }, /Error while loading rule 'with-function-style-rules\/rule1': Rule must be an object with a `create` method/u);
             });
         });
 
@@ -4216,11 +4266,15 @@ describe("ESLint", () => {
                 cwd: rootPath,
                 files: {
                     "internal-rules/test.js": `
-                            module.exports = context => ({
-                                ExpressionStatement(node) {
-                                    context.report({ node, message: "ok" })
-                                }
-                            })
+                            module.exports = {
+                                create(context) {
+                                    return {
+                                        ExpressionStatement(node) {
+                                            context.report({ node, message: "ok" });
+                                        },
+                                    };
+                                },
+                            };
                         `,
                     ".eslintrc.json": {
                         root: true,
