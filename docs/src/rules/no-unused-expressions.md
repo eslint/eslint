@@ -79,6 +79,8 @@ Examples of **correct** code for the default `{ "allowShortCircuit": false, "all
 
 {} // In this context, this is a block statement, not an object literal
 
+{ myLabel: foo() } // In this context, this is a block statement with a label and expression, not an object literal
+
 function namedFunctionDeclaration () {}
 
 (function aGenuineIIFE () {}());

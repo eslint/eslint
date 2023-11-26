@@ -131,7 +131,7 @@ var obj = { x: "foo" },
 
 Examples of **correct** code for this rule with the `{"allowIndirect": true}` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-eval: ["error", {"allowIndirect": true} ]*/

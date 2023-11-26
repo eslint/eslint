@@ -72,7 +72,7 @@ is equivalent to
 
 ### code
 
-Examples of **incorrect** code for this rule with a perticular max value:
+Examples of **incorrect** code for this rule with a particular max value:
 
 ::: incorrect
 
@@ -110,7 +110,7 @@ function foo() {
 
 :::
 
-Examples of **correct** code for this rule with a perticular max value:
+Examples of **correct** code for this rule with a particular max value:
 
 ::: correct
 
