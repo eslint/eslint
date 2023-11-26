@@ -50,7 +50,7 @@ async function findProblems(filename) {
     const text = await readFile(filename, "UTF-8");
     const problems = [];
     const ruleExampleOptions = markdownItRuleExample({
-        open(type, code, parserOptions, codeBlockToken) {
+        open({ code, parserOptions, codeBlockToken }) {
             const languageTag = codeBlockToken.info;
 
             if (!STANDARD_LANGUAGE_TAGS.has(languageTag)) {

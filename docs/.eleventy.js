@@ -195,7 +195,12 @@ module.exports = function(eleventyConfig) {
 
     // markdown-it plugin options for playground-linked code blocks in rule examples.
     const ruleExampleOptions = markdownItRuleExample({
-        open(type, code, parserOptions) {
+        open({ type, code, parserOptions, env }) {
+            const isRuleRemoved = !Object.prototype.hasOwnProperty.call(env.rules_meta, env.title);
+
+            if (isRuleRemoved) {
+                return `<div class="${type}">`;
+            }
 
             // See https://github.com/eslint/eslint.org/blob/ac38ab41f99b89a8798d374f74e2cce01171be8b/src/playground/App.js#L44
             const state = encodeToBase64(
