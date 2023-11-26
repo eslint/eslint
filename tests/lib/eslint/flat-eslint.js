@@ -230,7 +230,7 @@ describe("FlatESLint", () => {
                     "- 'overrideConfig' must be an object or null.",
                     "- 'overrideConfigFile' must be a non-empty string, null, or true.",
                     "- 'plugins' must be an object or null.",
-                    "- 'reportUnusedDisableDirectives' must be any of \"error\", \"warn\", \"off\", and null.",
+                    "- 'reportUnusedDisableDirectives' must be any of \"error\", \"warn\", \"off\", 2, 1, 0, and null.",
                     "- 'warnIgnored' must be a boolean."
                 ].join("\n")), "u")
             );
