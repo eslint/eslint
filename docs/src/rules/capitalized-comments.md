@@ -216,10 +216,12 @@ Examples of **correct** code with `ignoreConsecutiveComments` set to `true`:
 ```js
 /* eslint capitalized-comments: ["error", "always", { "ignoreConsecutiveComments": true }] */
 
+foo();
 // This comment is valid since it has the correct capitalization.
 // this comment is ignored since it follows another comment,
 // and this one as well because it follows yet another comment.
 
+bar();
 /* Here is a block comment which has the correct capitalization, */
 /* but this one is ignored due to being consecutive; */
 /*
@@ -236,6 +238,7 @@ Examples of **incorrect** code with `ignoreConsecutiveComments` set to `true`:
 ```js
 /* eslint capitalized-comments: ["error", "always", { "ignoreConsecutiveComments": true }] */
 
+foo();
 // this comment is invalid, but only on this line.
 // this comment does NOT get reported, since it is a consecutive comment.
 ```
