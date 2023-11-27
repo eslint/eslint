@@ -28,43 +28,43 @@ ruleTester.run("no-inner-declarations", rule, {
         "if (test) { var fn = function expr() { }; }",
         "function decl() { var fn = function expr() { }; }",
         "function decl(arg) { var fn; if (arg) { fn = function() { }; } }",
-        { code: "var x = {doSomething() {function doSomethingElse() {}}}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function decl(arg) { var fn; if (arg) { fn = function expr() { }; } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = {doSomething() {function doSomethingElse() {}}}", languageOptions: { ecmaVersion: 6 } },
+        { code: "function decl(arg) { var fn; if (arg) { fn = function expr() { }; } }", languageOptions: { ecmaVersion: 6 } },
         "function decl(arg) { var fn; if (arg) { fn = function expr() { }; } }",
         "if (test) { var foo; }",
-        { code: "if (test) { let x = 1; }", options: ["both"], parserOptions: { ecmaVersion: 6 } },
-        { code: "if (test) { const x = 1; }", options: ["both"], parserOptions: { ecmaVersion: 6 } },
+        { code: "if (test) { let x = 1; }", options: ["both"], languageOptions: { ecmaVersion: 6 } },
+        { code: "if (test) { const x = 1; }", options: ["both"], languageOptions: { ecmaVersion: 6 } },
         "function doSomething() { while (test) { var foo; } }",
         { code: "var foo;", options: ["both"] },
         { code: "var foo = 42;", options: ["both"] },
         { code: "function doSomething() { var foo; }", options: ["both"] },
         { code: "(function() { var foo; }());", options: ["both"] },
-        { code: "foo(() => { function bar() { } });", parserOptions: { ecmaVersion: 6 } },
-        { code: "var fn = () => {var foo;}", options: ["both"], parserOptions: { ecmaVersion: 6 } },
+        { code: "foo(() => { function bar() { } });", languageOptions: { ecmaVersion: 6 } },
+        { code: "var fn = () => {var foo;}", options: ["both"], languageOptions: { ecmaVersion: 6 } },
         {
             code: "var x = {doSomething() {var foo;}}",
             options: ["both"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "export var foo;",
             options: ["both"],
-            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+            languageOptions: { sourceType: "module", ecmaVersion: 6 }
         },
         {
             code: "export function bar() {}",
             options: ["both"],
-            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+            languageOptions: { sourceType: "module", ecmaVersion: 6 }
         },
         {
             code: "export default function baz() {}",
             options: ["both"],
-            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+            languageOptions: { sourceType: "module", ecmaVersion: 6 }
         },
         {
             code: "exports.foo = () => {}",
             options: ["both"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "exports.foo = function(){}",
@@ -77,22 +77,22 @@ ruleTester.run("no-inner-declarations", rule, {
         {
             code: "class C { method() { function foo() {} } }",
             options: ["both"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { method() { var x; } }",
             options: ["both"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { function foo() {} } }",
             options: ["both"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { var x; } }",
             options: ["both"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
 
@@ -281,7 +281,7 @@ ruleTester.run("no-inner-declarations", rule, {
         }, {
             code: "const doSomething = () => { if (test) { var foo = 42; } }",
             options: ["both"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "moveDeclToRoot",
                 data: {
@@ -293,7 +293,7 @@ ruleTester.run("no-inner-declarations", rule, {
         }, {
             code: "class C { method() { if(test) { var foo; } } }",
             options: ["both"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "moveDeclToRoot",
                 data: {
@@ -305,7 +305,7 @@ ruleTester.run("no-inner-declarations", rule, {
         }, {
             code: "class C { static { if (test) { function foo() {} } } }",
             options: ["both"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "moveDeclToRoot",
                 data: {
@@ -317,7 +317,7 @@ ruleTester.run("no-inner-declarations", rule, {
         }, {
             code: "class C { static { if (test) { var foo; } } }",
             options: ["both"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "moveDeclToRoot",
                 data: {
@@ -329,7 +329,7 @@ ruleTester.run("no-inner-declarations", rule, {
         }, {
             code: "class C { static { if (test) { if (anotherTest) { var foo; } } } }",
             options: ["both"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "moveDeclToRoot",
                 data: {

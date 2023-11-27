@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-constructor-return"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2015 } });
 
 const errors = [{ type: "ReturnStatement", messageId: "unexpected" }];
 
@@ -30,7 +30,7 @@ ruleTester.run("no-constructor-return", rule, {
         "const fn = () => { if (kumiko) { return kumiko } }",
         {
             code: "return 'Kumiko Oumae'",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { ecmaFeatures: { globalReturn: true } }
         },
 
         "class C {  }",

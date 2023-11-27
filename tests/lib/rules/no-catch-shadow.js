@@ -35,7 +35,7 @@ ruleTester.run("no-catch-shadow", rule, {
                 "",
                 "module.exports = broken;"
             ].join("\n"),
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "try {} catch (error) {}",
@@ -43,7 +43,7 @@ ruleTester.run("no-catch-shadow", rule, {
         },
         {
             code: "try {} catch {}",
-            parserOptions: { ecmaVersion: 2019 }
+            languageOptions: { ecmaVersion: 2019 }
         }
     ],
     invalid: [

@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/yield-star-spacing"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
 const missingBeforeError = { messageId: "missingBefore", type: "Punctuator" };
 const missingAfterError = { messageId: "missingAfter", type: "Punctuator" };

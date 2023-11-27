@@ -37,12 +37,12 @@ ruleTester.run("consistent-return", rule, {
         { code: "function foo() { if (true) return undefined; else return void 0; }", options: [{ treatUndefinedAsUnspecified: true }] },
         { code: "function foo() { if (true) return void 0; else return; }", options: [{ treatUndefinedAsUnspecified: true }] },
         { code: "function foo() { if (true) return void 0; else return undefined; }", options: [{ treatUndefinedAsUnspecified: true }] },
-        { code: "var x = () => {  return {}; };", parserOptions: { ecmaVersion: 6 } },
-        { code: "if (true) { return 1; } return 0;", parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } },
+        { code: "var x = () => {  return {}; };", languageOptions: { ecmaVersion: 6 } },
+        { code: "if (true) { return 1; } return 0;", languageOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } },
 
         // https://github.com/eslint/eslint/issues/7790
-        { code: "class Foo { constructor() { if (true) return foo; } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "var Foo = class { constructor() { if (true) return foo; } }", parserOptions: { ecmaVersion: 6 } }
+        { code: "class Foo { constructor() { if (true) return foo; } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "var Foo = class { constructor() { if (true) return foo; } }", languageOptions: { ecmaVersion: 6 } }
     ],
 
     invalid: [
@@ -62,7 +62,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "var foo = () => { if (true) return true; else return; }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingReturnValue",
@@ -119,7 +119,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "f(a => { if (true) return; else return false; })",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedReturnValue",
@@ -194,7 +194,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "if (true) { return 1; } return;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            languageOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 {
                     messageId: "missingReturnValue",
@@ -265,7 +265,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "f(() => { if (a) return true; });",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingReturn",
@@ -280,7 +280,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "var obj = {foo() { if (a) return true; }};",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingReturn",
@@ -295,7 +295,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "class A {foo() { if (a) return true; }};",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingReturn",
@@ -310,7 +310,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "if (a) return true;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            languageOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 {
                     messageId: "missingReturn",
@@ -325,7 +325,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "class A { CapitalizedFunction() { if (a) return true; } }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingReturn",
@@ -340,7 +340,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "({ constructor() { if (a) return true; } });",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingReturn",

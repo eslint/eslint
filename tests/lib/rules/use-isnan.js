@@ -266,7 +266,7 @@ ruleTester.run("use-isnan", rule, {
         {
             code: "foo.indexOf(...NaN)",
             options: [{ enforceForIndexOf: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.lastIndexOf(NaN())",
@@ -339,7 +339,7 @@ ruleTester.run("use-isnan", rule, {
         {
             code: "foo.indexOf(...Number.NaN)",
             options: [{ enforceForIndexOf: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.lastIndexOf(Number.NaN())",
@@ -477,7 +477,7 @@ ruleTester.run("use-isnan", rule, {
         },
         {
             code: "x === Number?.NaN;",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [comparisonError]
         },
         {
@@ -685,19 +685,19 @@ ruleTester.run("use-isnan", rule, {
         {
             code: "foo.indexOf?.(NaN)",
             options: [{ enforceForIndexOf: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
         },
         {
             code: "foo?.indexOf(NaN)",
             options: [{ enforceForIndexOf: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
         },
         {
             code: "(foo?.indexOf)(NaN)",
             options: [{ enforceForIndexOf: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
         },
         {
@@ -733,19 +733,19 @@ ruleTester.run("use-isnan", rule, {
         {
             code: "foo.indexOf?.(Number.NaN)",
             options: [{ enforceForIndexOf: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
         },
         {
             code: "foo?.indexOf(Number.NaN)",
             options: [{ enforceForIndexOf: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
         },
         {
             code: "(foo?.indexOf)(Number.NaN)",
             options: [{ enforceForIndexOf: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
         }
     ]

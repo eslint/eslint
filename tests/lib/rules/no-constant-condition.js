@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-constant-condition"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2021 } });
 
 ruleTester.run("no-constant-condition", rule, {
     valid: [
@@ -141,15 +141,15 @@ ruleTester.run("no-constant-condition", rule, {
         "if ((foo || 'bar' || 'bar') === 'bar');",
         {
             code: "if ((foo || 1n) === 'baz') {}",
-            parserOptions: { ecmaVersion: 11 }
+            languageOptions: { ecmaVersion: 11 }
         },
         {
             code: "if (a && 0n || b);",
-            parserOptions: { ecmaVersion: 11 }
+            languageOptions: { ecmaVersion: 11 }
         },
         {
             code: "if(1n && a){};",
-            parserOptions: { ecmaVersion: 11 }
+            languageOptions: { ecmaVersion: 11 }
         },
 
         // #12225
@@ -386,15 +386,15 @@ ruleTester.run("no-constant-condition", rule, {
         },
 
         // #13238
-        { code: "if(/foo/ui);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "if(0n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "if(0b0n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "if(0o0n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "if(0x0n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "if(0b1n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "if(0o1n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "if(0x1n);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "if(0x1n || foo);", parserOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(/foo/ui);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0b0n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0o0n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0x0n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0b1n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0o1n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0x1n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0x1n || foo);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
 
         // Classes and instances are always truthy
         { code: "if(class {}) {}", errors: [{ messageId: "unexpected" }] },

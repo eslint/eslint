@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("no-this-before-super", rule, {
     valid: [
@@ -174,17 +174,17 @@ ruleTester.run("no-this-before-super", rule, {
         },
         {
             code: "class A extends B { constructor() { foo &&= super().a; this.c(); } }",
-            parserOptions: { ecmaVersion: 2021 },
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
         },
         {
             code: "class A extends B { constructor() { foo ||= super().a; this.c(); } }",
-            parserOptions: { ecmaVersion: 2021 },
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
         },
         {
             code: "class A extends B { constructor() { foo ??= super().a; this.c(); } }",
-            parserOptions: { ecmaVersion: 2021 },
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
         }
     ]

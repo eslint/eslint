@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/operator-assignment"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("operator-assignment", rule, {
 

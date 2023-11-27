@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/logical-assignment-operators"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2021 } });
 
 ruleTester.run("logical-assignment-operators", rule, {
     valid: [
@@ -76,10 +76,10 @@ ruleTester.run("logical-assignment-operators", rule, {
         "a?.b || (a.b = b)",
         {
             code: "class Class { #prop; constructor() { this.#prop || (this.prop = value) } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }, {
             code: "class Class { #prop; constructor() { this.prop || (this.#prop = value) } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // If
@@ -751,7 +751,7 @@ ruleTester.run("logical-assignment-operators", rule, {
         }, {
             code: "class Class { #prop; constructor() { this.#prop || (this.#prop = value) } }",
             output: "class Class { #prop; constructor() { this.#prop ||= value } }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||=" } }]
         }, {
             code: "a['b'] || (a['b'] = c)",

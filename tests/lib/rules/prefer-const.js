@@ -17,7 +17,7 @@ const rule = require("../../../lib/rules/prefer-const"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
 ruleTester.defineRule("use-x", {
     create(context) {
@@ -115,7 +115,7 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let { name, ...otherStuff } = obj; otherStuff = {};",
             options: [{ destructuring: "all" }],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "let { name, ...otherStuff } = obj; otherStuff = {};",
@@ -126,49 +126,49 @@ ruleTester.run("prefer-const", rule, {
         // https://github.com/eslint/eslint/issues/8308
         {
             code: "let predicate; [typeNode.returnType, predicate] = foo();",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "let predicate; [typeNode.returnType, ...predicate] = foo();",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
 
             // intentionally testing empty slot in destructuring assignment
             code: "let predicate; [typeNode.returnType,, predicate] = foo();",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "let predicate; [typeNode.returnType=5, predicate] = foo();",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "let predicate; [[typeNode.returnType=5], predicate] = foo();",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "let predicate; [[typeNode.returnType, predicate]] = foo();",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "let predicate; [typeNode.returnType, [predicate]] = foo();",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "let predicate; [, [typeNode.returnType, predicate]] = foo();",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "let predicate; [, {foo:typeNode.returnType, predicate}] = foo();",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "let predicate; [, {foo:typeNode.returnType, ...predicate}] = foo();",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "let a; const b = {}; ({ a, c: b.c } = func());",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
 
         // ignoreReadBeforeAssign
@@ -183,28 +183,28 @@ ruleTester.run("prefer-const", rule, {
 
         {
             code: "class C { static { let a = 1; a = 2; } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { let a; a = 1; a = 2; } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "let a; class C { static { a = 1; } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { let a; if (foo) { a = 1; } } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { let a; if (foo) a = 1; } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { let a, b; if (foo) { ({ a, b } = foo); } } }",
             output: null,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
                 { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
@@ -213,7 +213,7 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "class C { static { let a, b; if (foo) ({ a, b } = foo); } }",
             output: null,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
                 { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
@@ -222,12 +222,12 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "class C { static { a; } } let a = 1; ",
             options: [{ ignoreReadBeforeAssign: true }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { () => a; let a = 1; } };",
             options: [{ ignoreReadBeforeAssign: true }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -431,7 +431,7 @@ ruleTester.run("prefer-const", rule, {
             code: "let { name, ...otherStuff } = obj; otherStuff = {};",
             output: null,
             options: [{ destructuring: "any" }],
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{ messageId: "useConst", data: { name: "name" }, type: "Identifier", column: 7 }]
         },
         {
@@ -453,7 +453,7 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "/*eslint use-x:error*/ let x = 1",
             output: "/*eslint use-x:error*/ const x = 1",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            languageOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
@@ -489,7 +489,7 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let predicate; [, {foo:returnType, predicate}] = foo();",
             output: null,
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 { message: "'predicate' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
@@ -497,7 +497,7 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let predicate; [, {foo:returnType, predicate}, ...bar ] = foo();",
             output: null,
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 { message: "'predicate' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
@@ -505,7 +505,7 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let predicate; [, {foo:returnType, ...predicate} ] = foo();",
             output: null,
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 { message: "'predicate' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
@@ -615,7 +615,7 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let a = 1; class C { static { a; } }",
             output: "const a = 1; class C { static { a; } }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
         },
         {
@@ -623,43 +623,43 @@ ruleTester.run("prefer-const", rule, {
             // this is a TDZ error with either `let` or `const`, but that isn't a concern of this rule
             code: "class C { static { a; } } let a = 1;",
             output: "class C { static { a; } } const a = 1;",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "class C { static { let a = 1; } }",
             output: "class C { static { const a = 1; } }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "class C { static { if (foo) { let a = 1; } } }",
             output: "class C { static { if (foo) { const a = 1; } } }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "class C { static { let a = 1; if (foo) { a; } } }",
             output: "class C { static { const a = 1; if (foo) { a; } } }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "class C { static { if (foo) { let a; a = 1; } } }",
             output: null,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "class C { static { let a; a = 1; } }",
             output: null,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier", column: 27 }]
         },
         {
             code: "class C { static { let { a, b } = foo; } }",
             output: "class C { static { const { a, b } = foo; } }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
                 { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
@@ -668,7 +668,7 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "class C { static { let a, b; ({ a, b } = foo); } }",
             output: null,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
                 { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
@@ -677,7 +677,7 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "class C { static { let a; let b; ({ a, b } = foo); } }",
             output: null,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
                 { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
@@ -686,7 +686,7 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "class C { static { let a; a = 0; console.log(a); } }",
             output: null,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "useConst", data: { name: "a" }, type: "Identifier" }
             ]
@@ -703,7 +703,7 @@ ruleTester.run("prefer-const", rule, {
             `,
             output: null,
             options: [{ destructuring: "any", ignoreReadBeforeAssign: true }],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "useConst", data: { name: "itemId" }, type: "Identifier" },
                 { messageId: "useConst", data: { name: "list" }, type: "Identifier" },
@@ -722,7 +722,7 @@ ruleTester.run("prefer-const", rule, {
             console.log(itemId, list, obj);
             `,
             options: [{ destructuring: "any", ignoreReadBeforeAssign: true }],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "useConst", data: { name: "itemId" }, type: "Identifier" },
                 { messageId: "useConst", data: { name: "list" }, type: "Identifier" },
@@ -738,7 +738,7 @@ ruleTester.run("prefer-const", rule, {
             `,
             output: null,
             options: [{ destructuring: "any", ignoreReadBeforeAssign: true }],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "useConst", data: { name: "itemId" }, type: "Identifier" },
                 { messageId: "useConst", data: { name: "list" }, type: "Identifier" }
@@ -756,7 +756,7 @@ ruleTester.run("prefer-const", rule, {
             console.log(itemId, list, obj);
             `,
             options: [{ destructuring: "any", ignoreReadBeforeAssign: true }],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "useConst", data: { name: "itemId" }, type: "Identifier" },
                 { messageId: "useConst", data: { name: "list" }, type: "Identifier" },

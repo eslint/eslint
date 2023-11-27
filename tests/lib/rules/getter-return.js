@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 const expectedError = { messageId: "expected", data: { name: "getter 'bar'" } };
 const expectedAlwaysError = { messageId: "expectedAlways", data: { name: "getter 'bar'" } };
 const options = [{ allowImplicit: true }];
@@ -304,30 +304,30 @@ ruleTester.run("getter-return", rule, {
         // Optional chaining
         {
             code: "Object?.defineProperty(foo, 'bar', { get: function (){} });",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
         },
         {
             code: "(Object?.defineProperty)(foo, 'bar', { get: function (){} });",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
         },
         {
             code: "Object?.defineProperty(foo, 'bar', { get: function (){} });",
             options,
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
         },
         {
             code: "(Object?.defineProperty)(foo, 'bar', { get: function (){} });",
             options,
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
         },
         {
             code: "(Object?.create)(foo, { bar: { get: function (){} } });",
             options,
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
         }
     ]

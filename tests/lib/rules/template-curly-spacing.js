@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/template-curly-spacing"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("template-curly-spacing", rule, {
     valid: [

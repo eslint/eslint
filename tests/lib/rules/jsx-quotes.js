@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/jsx-quotes"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
 
 ruleTester.run("jsx-quotes", rule, {
     valid: [

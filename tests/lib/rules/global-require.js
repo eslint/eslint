@@ -36,7 +36,7 @@ const valid = [
     // Optional chaining
     {
         code: "var x = require('y')?.foo;",
-        parserOptions: { ecmaVersion: 2020 }
+        languageOptions: { ecmaVersion: 2020 }
     }
 ];
 
@@ -69,12 +69,12 @@ const invalid = [
     // non-block statements
     {
         code: "var getModule = x => require(x);",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors: [error]
     },
     {
         code: "var x = (x => require(x))('weird')",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors: [error]
     },
     {

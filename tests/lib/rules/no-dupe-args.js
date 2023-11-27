@@ -22,9 +22,9 @@ ruleTester.run("no-dupe-args", rule, {
     valid: [
         "function a(a, b, c){}",
         "var a = function(a, b, c){}",
-        { code: "function a({a, b}, {c, d}){}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function a([ , a]) {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo([[a, b], [c, d]]) {}", parserOptions: { ecmaVersion: 6 } }
+        { code: "function a({a, b}, {c, d}){}", languageOptions: { ecmaVersion: 6 } },
+        { code: "function a([ , a]) {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "function foo([[a, b], [c, d]]) {}", languageOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "function a(a, b, b) {}", errors: [{ messageId: "unexpected", data: { name: "b" } }] },

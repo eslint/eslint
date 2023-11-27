@@ -383,7 +383,7 @@ ruleTester.run("no-mixed-operators", rule, {
         {
             code: "a + b ?? c",
             options: [{ groups: [["+", "??"]] }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     column: 3,

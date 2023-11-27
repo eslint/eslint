@@ -21,7 +21,7 @@ const errors = [{
     type: "FunctionExpression"
 }];
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2020 } });
 
 ruleTester.run("prefer-arrow-callback", rule, {
     valid: [

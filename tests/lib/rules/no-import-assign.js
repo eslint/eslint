@@ -17,7 +17,7 @@ const rule = require("../../../lib/rules/no-import-assign"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-    parserOptions: {
+    languageOptions: {
         ecmaVersion: 2018,
         sourceType: "module"
     },
@@ -315,17 +315,17 @@ ruleTester.run("no-import-assign", rule, {
         // Optional chaining
         {
             code: "import * as mod from 'mod'; Object?.defineProperty(mod, key, d)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
         },
         {
             code: "import * as mod from 'mod'; (Object?.defineProperty)(mod, key, d)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
         },
         {
             code: "import * as mod from 'mod'; delete mod?.prop",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
         }
     ]

@@ -48,7 +48,7 @@ ruleTester.run("no-global-assign", rule, {
         },
         {
             code: "({Object = 0, String = 0} = {});",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "globalShouldNotBeModified",

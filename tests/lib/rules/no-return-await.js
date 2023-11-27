@@ -35,7 +35,7 @@ function createErrorList({ suggestionOutput: output } = {}) {
 }
 
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2017 } });
 
 ruleTester.run("no-return-await", rule, {
 

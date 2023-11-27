@@ -42,20 +42,20 @@ ruleTester.run("no-eval", rule, {
         { code: "function foo() { var eval = 'foo'; globalThis[eval]('foo') }", env: { es2020: true } },
         "this.noeval('foo');",
         "function foo() { 'use strict'; this.eval('foo'); }",
-        { code: "'use strict'; this.eval('foo');", parserOptions: { ecmaFeatures: { globalReturn: true } } },
-        { code: "this.eval('foo');", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "function foo() { this.eval('foo'); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "function foo() { this.eval('foo'); }", parserOptions: { ecmaFeatures: { impliedStrict: true } } },
+        { code: "'use strict'; this.eval('foo');", languageOptions: { ecmaFeatures: { globalReturn: true } } },
+        { code: "this.eval('foo');", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "function foo() { this.eval('foo'); }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "function foo() { this.eval('foo'); }", languageOptions: { ecmaFeatures: { impliedStrict: true } } },
         "var obj = {foo: function() { this.eval('foo'); }}",
         "var obj = {}; obj.foo = function() { this.eval('foo'); }",
-        { code: "() => { this.eval('foo') }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "function f() { 'use strict'; () => { this.eval('foo') } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "(function f() { 'use strict'; () => { this.eval('foo') } })", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { foo() { this.eval(); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { static foo() { this.eval(); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { field = this.eval(); }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { field = () => this.eval(); }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { static { this.eval(); } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "() => { this.eval('foo') }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "function f() { 'use strict'; () => { this.eval('foo') } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "(function f() { 'use strict'; () => { this.eval('foo') } })", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { foo() { this.eval(); } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { static foo() { this.eval(); } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { field = this.eval(); }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { field = () => this.eval(); }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { static { this.eval(); } }", languageOptions: { ecmaVersion: 2022 } },
 
         // User-defined this.eval in callbacks
         "array.findLast(function (x) { return this.eval.includes(x); }, { eval: ['foo', 'bar'] });",
@@ -81,9 +81,9 @@ ruleTester.run("no-eval", rule, {
         { code: "var EVAL = globalThis.eval; EVAL('foo')", options: [{ allowIndirect: true }] },
         { code: "function foo() { globalThis.eval('foo') }", options: [{ allowIndirect: true }], env: { es2020: true } },
         { code: "globalThis.globalThis.eval('foo');", options: [{ allowIndirect: true }], env: { es2020: true } },
-        { code: "eval?.('foo')", options: [{ allowIndirect: true }], parserOptions: { ecmaVersion: 2020 } },
-        { code: "window?.eval('foo')", options: [{ allowIndirect: true }], parserOptions: { ecmaVersion: 2020 }, env: { browser: true } },
-        { code: "(window?.eval)('foo')", options: [{ allowIndirect: true }], parserOptions: { ecmaVersion: 2020 }, env: { browser: true } }
+        { code: "eval?.('foo')", options: [{ allowIndirect: true }], languageOptions: { ecmaVersion: 2020 } },
+        { code: "window?.eval('foo')", options: [{ allowIndirect: true }], languageOptions: { ecmaVersion: 2020 }, env: { browser: true } },
+        { code: "(window?.eval)('foo')", options: [{ allowIndirect: true }], languageOptions: { ecmaVersion: 2020 }, env: { browser: true } }
     ],
 
     invalid: [
@@ -103,17 +103,17 @@ ruleTester.run("no-eval", rule, {
         { code: "var EVAL = eval; EVAL('foo')", errors: [{ messageId: "unexpected", type: "Identifier", column: 12, endColumn: 16 }] },
         { code: "var EVAL = this.eval; EVAL('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression", column: 17, endColumn: 21 }] },
         { code: "'use strict'; var EVAL = this.eval; EVAL('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression", column: 31, endColumn: 35 }] },
-        { code: "() => { this.eval('foo'); }", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 14, endColumn: 18 }] },
-        { code: "() => { 'use strict'; this.eval('foo'); }", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 28, endColumn: 32 }] },
-        { code: "'use strict'; () => { this.eval('foo'); }", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 28, endColumn: 32 }] },
-        { code: "() => { 'use strict'; () => { this.eval('foo'); } }", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 36, endColumn: 40 }] },
+        { code: "() => { this.eval('foo'); }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 14, endColumn: 18 }] },
+        { code: "() => { 'use strict'; this.eval('foo'); }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 28, endColumn: 32 }] },
+        { code: "'use strict'; () => { this.eval('foo'); }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 28, endColumn: 32 }] },
+        { code: "() => { 'use strict'; () => { this.eval('foo'); } }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 36, endColumn: 40 }] },
         { code: "(function(exe){ exe('foo') })(eval);", errors: [{ messageId: "unexpected", type: "Identifier", column: 31, endColumn: 35 }] },
         { code: "window.eval('foo')", env: { browser: true }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 8, endColumn: 12 }] },
         { code: "window.window.eval('foo')", env: { browser: true }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 19 }] },
         { code: "window.window['eval']('foo')", env: { browser: true }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 21 }] },
         { code: "global.eval('foo')", env: { node: true }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 8, endColumn: 12 }] },
         { code: "global.global.eval('foo')", env: { node: true }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 19 }] },
-        { code: "global.global[`eval`]('foo')", parserOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 21 }] },
+        { code: "global.global[`eval`]('foo')", languageOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 21 }] },
         { code: "this.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 6, endColumn: 10 }] },
         { code: "'use strict'; this.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 20, endColumn: 24 }] },
         { code: "function foo() { this.eval('foo') }", errors: [{ messageId: "unexpected", type: "CallExpression", column: 23, endColumn: 27 }] },
@@ -127,19 +127,19 @@ ruleTester.run("no-eval", rule, {
         // Optional chaining
         {
             code: "window?.eval('foo')",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             globals: { window: "readonly" },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "(window?.eval)('foo')",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             globals: { window: "readonly" },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "(window?.window).eval('foo')",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             globals: { window: "readonly" },
             errors: [{ messageId: "unexpected" }]
         },
@@ -147,32 +147,32 @@ ruleTester.run("no-eval", rule, {
         // Class fields
         {
             code: "class C { [this.eval('foo')] }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "'use strict'; class C { [this.eval('foo')] }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected" }]
         },
 
         {
             code: "class A { static {} [this.eval()]; }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected" }]
         },
 
         // in es3, "use strict" directives do not apply
         {
             code: "function foo() { 'use strict'; this.eval(); }",
-            parserOptions: { ecmaVersion: 3 },
+            languageOptions: { ecmaVersion: 3 },
             errors: [{ messageId: "unexpected" }]
         },
 
         // this.eval in callbacks (not user-defined)
         {
             code: "array.findLast(x => this.eval.includes(x), { eval: 'abc' });",
-            parserOptions: { ecmaVersion: 2023 },
+            languageOptions: { ecmaVersion: 2023 },
             errors: [{ messageId: "unexpected" }]
         },
         {

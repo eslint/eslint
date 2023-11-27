@@ -84,7 +84,7 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "class C { #assign; foo() { Object.#assign({}, foo); } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // ignore Object.assign() with > 1 arguments if any of the arguments is an object expression with a getter/setter
@@ -347,7 +347,7 @@ ruleTester.run("prefer-object-spread", rule, {
                 baz: "cats"
                 --> weird
             }`,
-            parserOptions: {
+            languageOptions: {
                 sourceType: "script"
             },
             errors: [

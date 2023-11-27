@@ -177,7 +177,7 @@ ruleTester.run("no-lonely-if", rule, {
             "}\n" +
             "`template literal`;",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors
         },
         {

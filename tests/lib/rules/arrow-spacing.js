@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/arrow-spacing"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
 const valid = [
     {

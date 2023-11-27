@@ -36,14 +36,14 @@ ruleTester.run("no-new-object", rule, {
         }
         new Object();
         `,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: `
         import { Object } from './'
         new Object();
         `,
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         }
     ],
     invalid: [
@@ -62,7 +62,7 @@ ruleTester.run("no-new-object", rule, {
         },
         {
             code: "const a = new Object()",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "preferLiteral", type: "NewExpression" }]
         }
     ]

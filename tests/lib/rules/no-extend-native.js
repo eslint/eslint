@@ -47,7 +47,7 @@ ruleTester.run("no-extend-native", rule, {
         "function foo() { var Object = function() {}; Object.prototype.p = 0 }",
         {
             code: "{ let Object = function() {}; Object.prototype.p = 0 }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [{
@@ -167,39 +167,39 @@ ruleTester.run("no-extend-native", rule, {
     // Optional chaining
     {
         code: "(Object?.prototype).p = 0",
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
     },
     {
         code: "Object.defineProperty(Object?.prototype, 'p', { value: 0 })",
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
     },
     {
         code: "Object?.defineProperty(Object.prototype, 'p', { value: 0 })",
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
     },
     {
         code: "(Object?.defineProperty)(Object.prototype, 'p', { value: 0 })",
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
     },
 
     // Logical assignments
     {
         code: "Array.prototype.p &&= 0",
-        parserOptions: { ecmaVersion: 2021 },
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{ messageId: "unexpected", data: { builtin: "Array" } }]
     },
     {
         code: "Array.prototype.p ||= 0",
-        parserOptions: { ecmaVersion: 2021 },
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{ messageId: "unexpected", data: { builtin: "Array" } }]
     },
     {
         code: "Array.prototype.p ??= 0",
-        parserOptions: { ecmaVersion: 2021 },
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{ messageId: "unexpected", data: { builtin: "Array" } }]
     }
 

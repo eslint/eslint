@@ -35,7 +35,7 @@ ruleTester.run("no-native-reassign", rule, {
         { code: "String++;", errors: [{ messageId: "nativeReassign", data: { name: "String" }, type: "Identifier" }] },
         {
             code: "({Object = 0, String = 0} = {});",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "nativeReassign", data: { name: "Object" }, type: "Identifier" },
                 { messageId: "nativeReassign", data: { name: "String" }, type: "Identifier" }

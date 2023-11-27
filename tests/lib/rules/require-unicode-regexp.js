@@ -17,7 +17,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-    parserOptions: { ecmaVersion: 2015 }
+    languageOptions: { ecmaVersion: 2015 }
 });
 
 ruleTester.run("require-unicode-regexp", rule, {
@@ -45,20 +45,20 @@ ruleTester.run("require-unicode-regexp", rule, {
         { code: "const flags = 'u'; new globalThis.RegExp('', flags)", env: { es2020: true } },
         { code: "const flags = 'g'; new globalThis.RegExp('', flags + 'u')", env: { es2020: true } },
         { code: "const flags = 'gimu'; new globalThis.RegExp('foo', flags[3])", env: { es2020: true } },
-        { code: "class C { #RegExp; foo() { new globalThis.#RegExp('foo') } }", parserOptions: { ecmaVersion: 2022 }, env: { es2020: true } },
+        { code: "class C { #RegExp; foo() { new globalThis.#RegExp('foo') } }", languageOptions: { ecmaVersion: 2022 }, env: { es2020: true } },
 
         // for v flag
-        { code: "/foo/v", parserOptions: { ecmaVersion: 2024 } },
-        { code: "/foo/gimvy", parserOptions: { ecmaVersion: 2024 } },
-        { code: "RegExp('', 'v')", parserOptions: { ecmaVersion: 2024 } },
-        { code: "RegExp('', `v`)", parserOptions: { ecmaVersion: 2024 } },
-        { code: "new RegExp('', 'v')", parserOptions: { ecmaVersion: 2024 } },
-        { code: "RegExp('', 'gimvy')", parserOptions: { ecmaVersion: 2024 } },
-        { code: "RegExp('', `gimvy`)", parserOptions: { ecmaVersion: 2024 } },
-        { code: "new RegExp('', 'gimvy')", parserOptions: { ecmaVersion: 2024 } },
-        { code: "const flags = 'v'; new RegExp('', flags)", parserOptions: { ecmaVersion: 2024 } },
-        { code: "const flags = 'g'; new RegExp('', flags + 'v')", parserOptions: { ecmaVersion: 2024 } },
-        { code: "const flags = 'gimv'; new RegExp('foo', flags[3])", parserOptions: { ecmaVersion: 2024 } }
+        { code: "/foo/v", languageOptions: { ecmaVersion: 2024 } },
+        { code: "/foo/gimvy", languageOptions: { ecmaVersion: 2024 } },
+        { code: "RegExp('', 'v')", languageOptions: { ecmaVersion: 2024 } },
+        { code: "RegExp('', `v`)", languageOptions: { ecmaVersion: 2024 } },
+        { code: "new RegExp('', 'v')", languageOptions: { ecmaVersion: 2024 } },
+        { code: "RegExp('', 'gimvy')", languageOptions: { ecmaVersion: 2024 } },
+        { code: "RegExp('', `gimvy`)", languageOptions: { ecmaVersion: 2024 } },
+        { code: "new RegExp('', 'gimvy')", languageOptions: { ecmaVersion: 2024 } },
+        { code: "const flags = 'v'; new RegExp('', flags)", languageOptions: { ecmaVersion: 2024 } },
+        { code: "const flags = 'g'; new RegExp('', flags + 'v')", languageOptions: { ecmaVersion: 2024 } },
+        { code: "const flags = 'gimv'; new RegExp('foo', flags[3])", languageOptions: { ecmaVersion: 2024 } }
     ],
     invalid: [
         {

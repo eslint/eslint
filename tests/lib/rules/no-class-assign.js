@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-class-assign", rule, {
     valid: [

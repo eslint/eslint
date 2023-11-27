@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 8 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 8 } });
 
 ruleTester.run("no-async-promise-executor", rule, {
 

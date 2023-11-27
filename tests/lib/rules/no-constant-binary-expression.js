@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021, ecmaFeatures: { jsx: true } } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2021, ecmaFeatures: { jsx: true } } });
 
 ruleTester.run("no-constant-binary-expression", rule, {
     valid: [

@@ -10,99 +10,112 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/strict"),
-    { RuleTester } = require("../../../lib/rule-tester"),
-    FlatRuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
+const es5 = { languageOptions: { ecmaVersion: 5, sourceType: "script" } };
 const ruleTester = new RuleTester();
 
 ruleTester.run("strict", rule, {
     valid: [
 
         // "never" mode
-        { code: "foo();", options: ["never"] },
-        { code: "function foo() { return; }", options: ["never"] },
-        { code: "var foo = function() { return; };", options: ["never"] },
-        { code: "foo(); 'use strict';", options: ["never"] },
-        { code: "function foo() { bar(); 'use strict'; return; }", options: ["never"] },
-        { code: "var foo = function() { { 'use strict'; } return; };", options: ["never"] },
-        { code: "(function() { bar('use strict'); return; }());", options: ["never"] },
-        { code: "var fn = x => 1;", options: ["never"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var fn = x => { return; };", options: ["never"], parserOptions: { ecmaVersion: 6 } },
-        { code: "foo();", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "function foo() { return; }", options: ["never"], parserOptions: { ecmaFeatures: { impliedStrict: true } } },
+        { code: "foo();", options: ["never"], ...es5 },
+        { code: "function foo() { return; }", options: ["never"], ...es5 },
+        { code: "var foo = function() { return; };", options: ["never"], ...es5 },
+        { code: "foo(); 'use strict';", options: ["never"], ...es5 },
+        { code: "function foo() { bar(); 'use strict'; return; }", options: ["never"], ...es5 },
+        { code: "var foo = function() { { 'use strict'; } return; };", options: ["never"], ...es5 },
+        { code: "(function() { bar('use strict'); return; }());", options: ["never"], ...es5 },
+        { code: "var fn = x => 1;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var fn = x => { return; };", options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        { code: "foo();", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "function foo() { return; }", options: ["never"], languageOptions: { ecmaFeatures: { impliedStrict: true } } },
 
         // "global" mode
         { code: "// Intentionally empty", options: ["global"] },
         { code: "\"use strict\"; foo();", options: ["global"] },
-        { code: "foo();", options: ["global"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "function foo() { return; }", options: ["global"], parserOptions: { ecmaFeatures: { impliedStrict: true } } },
+        { code: "foo();", options: ["global"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "function foo() { return; }", options: ["global"], languageOptions: { ecmaFeatures: { impliedStrict: true } } },
         { code: "'use strict'; function foo() { return; }", options: ["global"] },
         { code: "'use strict'; var foo = function() { return; };", options: ["global"] },
         { code: "'use strict'; function foo() { bar(); 'use strict'; return; }", options: ["global"] },
         { code: "'use strict'; var foo = function() { bar(); 'use strict'; return; };", options: ["global"] },
         { code: "'use strict'; function foo() { return function() { bar(); 'use strict'; return; }; }", options: ["global"] },
-        { code: "'use strict'; var foo = () => { return () => { bar(); 'use strict'; return; }; }", options: ["global"], parserOptions: { ecmaVersion: 6 } },
+        { code: "'use strict'; var foo = () => { return () => { bar(); 'use strict'; return; }; }", options: ["global"], languageOptions: { ecmaVersion: 6 } },
 
         // "function" mode
         { code: "function foo() { 'use strict'; return; }", options: ["function"] },
-        { code: "function foo() { return; }", options: ["function"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "function foo() { return; }", options: ["function"], parserOptions: { ecmaFeatures: { impliedStrict: true } } },
-        { code: "var foo = function() { return; }", options: ["function"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "function foo() { return; }", options: ["function"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "function foo() { return; }", options: ["function"], languageOptions: { ecmaFeatures: { impliedStrict: true } } },
+        { code: "var foo = function() { return; }", options: ["function"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "var foo = function() { 'use strict'; return; }", options: ["function"] },
         { code: "function foo() { 'use strict'; return; } var bar = function() { 'use strict'; bar(); };", options: ["function"] },
         { code: "var foo = function() { 'use strict'; function bar() { return; } bar(); };", options: ["function"] },
-        { code: "var foo = () => { 'use strict'; var bar = () => 1; bar(); };", options: ["function"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = () => { var bar = () => 1; bar(); };", options: ["function"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var foo = () => { 'use strict'; var bar = () => 1; bar(); };", options: ["function"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => { var bar = () => 1; bar(); };", options: ["function"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         {
             code: "class A { constructor() { } }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { foo() { } }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { foo() { function bar() { } } }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "(function() { 'use strict'; function foo(a = 0) { } }())",
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
 
         // "safe" mode corresponds to "global" if ecmaFeatures.globalReturn is true, otherwise "function"
         { code: "function foo() { 'use strict'; return; }", options: ["safe"] },
-        { code: "'use strict'; function foo() { return; }", options: ["safe"], parserOptions: { ecmaFeatures: { globalReturn: true } } },
-        { code: "function foo() { return; }", options: ["safe"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "function foo() { return; }", options: ["safe"], parserOptions: { ecmaFeatures: { impliedStrict: true } } },
+        { code: "'use strict'; function foo() { return; }", options: ["safe"], languageOptions: { ecmaFeatures: { globalReturn: true } } },
+        { code: "function foo() { return; }", options: ["safe"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "function foo() { return; }", options: ["safe"], languageOptions: { ecmaFeatures: { impliedStrict: true } } },
 
         // defaults to "safe" mode
         "function foo() { 'use strict'; return; }",
-        { code: "'use strict'; function foo() { return; }", parserOptions: { ecmaFeatures: { globalReturn: true } } },
-        { code: "function foo() { return; }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "function foo() { return; }", parserOptions: { ecmaFeatures: { impliedStrict: true } } },
+        { code: "'use strict'; function foo() { return; }", languageOptions: { ecmaFeatures: { globalReturn: true } } },
+        { code: "function foo() { return; }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "function foo() { return; }", languageOptions: { ecmaFeatures: { impliedStrict: true } } },
 
         // class static blocks do not have directive prologues, therefore this rule should never require od disallow "use strict" statement in them.
-        { code: "'use strict'; class C { static { foo; } }", options: ["global"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "'use strict'; class C { static { 'use strict'; } }", options: ["global"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "'use strict'; class C { static { 'use strict'; 'use strict'; } }", options: ["global"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo; } }", options: ["function"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { 'use strict'; } }", options: ["function"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { 'use strict'; 'use strict'; } }", options: ["function"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo; } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { 'use strict'; } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { 'use strict'; 'use strict'; } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { 'use strict'; } }", options: ["safe"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "class C { static { 'use strict'; } }", options: ["safe"], parserOptions: { ecmaVersion: 2022, ecmaFeatures: { impliedStrict: true } } }
+        { code: "'use strict'; class C { static { foo; } }", options: ["global"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "'use strict'; class C { static { 'use strict'; } }", options: ["global"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "'use strict'; class C { static { 'use strict'; 'use strict'; } }", options: ["global"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo; } }", options: ["function"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { 'use strict'; } }", options: ["function"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { 'use strict'; 'use strict'; } }", options: ["function"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo; } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { 'use strict'; } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { 'use strict'; 'use strict'; } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { 'use strict'; } }", options: ["safe"], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "class C { static { 'use strict'; } }", options: ["safe"], languageOptions: { ecmaVersion: 2022, ecmaFeatures: { impliedStrict: true } } },
+        {
+            code: "'use strict'; module.exports = function identity (value) { return value; }",
+            languageOptions: {
+                sourceType: "commonjs"
+            }
+        },
+        {
+            code: "'use strict'; module.exports = function identity (value) { return value; }",
+            options: ["safe"],
+            languageOptions: {
+                sourceType: "commonjs"
+            }
+        }
 
     ],
     invalid: [
@@ -148,7 +161,7 @@ ruleTester.run("strict", rule, {
             code: "\"use strict\"; foo();",
             output: " foo();",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "module", type: "ExpressionStatement" }
             ]
@@ -156,7 +169,7 @@ ruleTester.run("strict", rule, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
             output: " function foo() {  return; }",
             options: ["never"],
-            parserOptions: { ecmaFeatures: { impliedStrict: true } },
+            languageOptions: { ecmaFeatures: { impliedStrict: true } },
             errors: [
                 { messageId: "implied", type: "ExpressionStatement" },
                 { messageId: "implied", type: "ExpressionStatement" }
@@ -165,7 +178,7 @@ ruleTester.run("strict", rule, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
             output: " function foo() {  return; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { impliedStrict: true } },
+            languageOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { impliedStrict: true } },
             errors: [
                 { messageId: "module", type: "ExpressionStatement" },
                 { messageId: "module", type: "ExpressionStatement" }
@@ -200,7 +213,7 @@ ruleTester.run("strict", rule, {
             code: "var foo = () => { 'use strict'; return () => 1; }",
             output: null,
             options: ["global"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "global", type: "Program" },
                 { messageId: "global", type: "ExpressionStatement" }
@@ -230,7 +243,7 @@ ruleTester.run("strict", rule, {
             code: "'use strict'; foo();",
             output: " foo();",
             options: ["global"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "module", type: "ExpressionStatement" }
             ]
@@ -238,7 +251,7 @@ ruleTester.run("strict", rule, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
             output: " function foo() {  return; }",
             options: ["global"],
-            parserOptions: { ecmaFeatures: { impliedStrict: true } },
+            languageOptions: { ecmaFeatures: { impliedStrict: true } },
             errors: [
                 { messageId: "implied", type: "ExpressionStatement" },
                 { messageId: "implied", type: "ExpressionStatement" }
@@ -247,7 +260,7 @@ ruleTester.run("strict", rule, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
             output: " function foo() {  return; }",
             options: ["global"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { impliedStrict: true } },
+            languageOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { impliedStrict: true } },
             errors: [
                 { messageId: "module", type: "ExpressionStatement" },
                 { messageId: "module", type: "ExpressionStatement" }
@@ -287,7 +300,7 @@ ruleTester.run("strict", rule, {
             code: "(() => { return true; })();",
             output: null,
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "function", type: "ArrowFunctionExpression" }
             ]
@@ -295,7 +308,7 @@ ruleTester.run("strict", rule, {
             code: "(() => true)();",
             output: null,
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "function", type: "ArrowFunctionExpression" }
             ]
@@ -325,7 +338,7 @@ ruleTester.run("strict", rule, {
             code: "var foo = function() {  'use strict'; return; }",
             output: "var foo = function() {   return; }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "module", type: "ExpressionStatement" }
             ]
@@ -333,7 +346,7 @@ ruleTester.run("strict", rule, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
             output: " function foo() {  return; }",
             options: ["function"],
-            parserOptions: { ecmaFeatures: { impliedStrict: true } },
+            languageOptions: { ecmaFeatures: { impliedStrict: true } },
             errors: [
                 { messageId: "implied", type: "ExpressionStatement" },
                 { messageId: "implied", type: "ExpressionStatement" }
@@ -342,7 +355,7 @@ ruleTester.run("strict", rule, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
             output: " function foo() {  return; }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { impliedStrict: true } },
+            languageOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { impliedStrict: true } },
             errors: [
                 { messageId: "module", type: "ExpressionStatement" },
                 { messageId: "module", type: "ExpressionStatement" }
@@ -396,7 +409,7 @@ ruleTester.run("strict", rule, {
             code: "var foo = () => { return; };",
             output: null,
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "function", type: "ArrowFunctionExpression" }]
         },
 
@@ -405,35 +418,35 @@ ruleTester.run("strict", rule, {
             code: "class A { constructor() { \"use strict\"; } }",
             output: "class A { constructor() {  } }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unnecessaryInClasses", type: "ExpressionStatement" }]
         },
         {
             code: "class A { foo() { \"use strict\"; } }",
             output: "class A { foo() {  } }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unnecessaryInClasses", type: "ExpressionStatement" }]
         },
         {
             code: "class A { foo() { function bar() { \"use strict\"; } } }",
             output: "class A { foo() { function bar() {  } } }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unnecessaryInClasses", type: "ExpressionStatement" }]
         },
         {
             code: "class A { field = () => { \"use strict\"; } }",
             output: "class A { field = () => {  } }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unnecessaryInClasses", type: "ExpressionStatement" }]
         },
         {
             code: "class A { field = function() { \"use strict\"; } }",
             output: "class A { field = function() {  } }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unnecessaryInClasses", type: "ExpressionStatement" }]
         },
 
@@ -451,7 +464,7 @@ ruleTester.run("strict", rule, {
             code: "function foo() { 'use strict'; return; }",
             output: null,
             options: ["safe"],
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            languageOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 { messageId: "global", type: "Program" },
                 { messageId: "global", type: "ExpressionStatement" }
@@ -461,7 +474,7 @@ ruleTester.run("strict", rule, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
             output: " function foo() {  return; }",
             options: ["safe"],
-            parserOptions: { ecmaFeatures: { impliedStrict: true } },
+            languageOptions: { ecmaFeatures: { impliedStrict: true } },
             errors: [
                 { messageId: "implied", type: "ExpressionStatement" },
                 { messageId: "implied", type: "ExpressionStatement" }
@@ -471,7 +484,7 @@ ruleTester.run("strict", rule, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
             output: " function foo() {  return; }",
             options: ["safe"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { impliedStrict: true } },
+            languageOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { impliedStrict: true } },
             errors: [
                 { messageId: "module", type: "ExpressionStatement" },
                 { messageId: "module", type: "ExpressionStatement" }
@@ -495,7 +508,7 @@ ruleTester.run("strict", rule, {
         {
             code: "function foo() { 'use strict'; return; }",
             output: null,
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            languageOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 { messageId: "global", type: "Program" },
                 { messageId: "global", type: "ExpressionStatement" }
@@ -504,7 +517,7 @@ ruleTester.run("strict", rule, {
         {
             code: "'use strict'; function foo() { 'use strict'; return; }",
             output: " function foo() {  return; }",
-            parserOptions: { ecmaFeatures: { impliedStrict: true } },
+            languageOptions: { ecmaFeatures: { impliedStrict: true } },
             errors: [
                 { messageId: "implied", type: "ExpressionStatement" },
                 { messageId: "implied", type: "ExpressionStatement" }
@@ -513,7 +526,7 @@ ruleTester.run("strict", rule, {
         {
             code: "'use strict'; function foo() { 'use strict'; return; }",
             output: " function foo() {  return; }",
-            parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { impliedStrict: true } },
+            languageOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { impliedStrict: true } },
             errors: [
                 { messageId: "module", type: "ExpressionStatement" },
                 { messageId: "module", type: "ExpressionStatement" }
@@ -525,21 +538,21 @@ ruleTester.run("strict", rule, {
             code: "function foo(a = 0) { 'use strict' }",
             output: null,
             options: [],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "nonSimpleParameterList" }]
         },
         {
             code: "(function() { 'use strict'; function foo(a = 0) { 'use strict' } }())",
             output: null,
             options: [],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "nonSimpleParameterList" }]
         },
         {
             code: "function foo(a = 0) { 'use strict' }",
             output: null,
             options: [],
-            parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } },
+            languageOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } },
             errors: [
                 "Use the global form of 'use strict'.",
                 { messageId: "nonSimpleParameterList" }
@@ -549,21 +562,21 @@ ruleTester.run("strict", rule, {
             code: "'use strict'; function foo(a = 0) { 'use strict' }",
             output: null,
             options: [],
-            parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } },
+            languageOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } },
             errors: [{ messageId: "nonSimpleParameterList" }]
         },
         {
             code: "function foo(a = 0) { 'use strict' }",
             output: null,
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "nonSimpleParameterList" }]
         },
         {
             code: "function foo(a = 0) { 'use strict' }",
             output: null,
             options: ["global"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 "Use the global form of 'use strict'.",
                 { messageId: "nonSimpleParameterList" }
@@ -573,35 +586,35 @@ ruleTester.run("strict", rule, {
             code: "'use strict'; function foo(a = 0) { 'use strict' }",
             output: null,
             options: ["global"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "nonSimpleParameterList" }]
         },
         {
             code: "function foo(a = 0) { 'use strict' }",
             output: null,
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "nonSimpleParameterList" }]
         },
         {
             code: "(function() { 'use strict'; function foo(a = 0) { 'use strict' } }())",
             output: null,
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "nonSimpleParameterList" }]
         },
         {
             code: "function foo(a = 0) { }",
             output: null,
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "wrap", data: { name: "function 'foo'" } }]
         },
         {
             code: "(function() { function foo(a = 0) { } }())",
             output: null,
             options: ["function"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: ["Use the function form of 'use strict'."]
         },
 
@@ -610,78 +623,54 @@ ruleTester.run("strict", rule, {
             code: "'use strict'; class C { static { function foo() { \n'use strict'; } } }",
             output: null,
             options: ["global"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "global", line: 2 }]
         },
         {
             code: "class C { static { function foo() { \n'use strict'; } } }",
             output: null,
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "never", line: 2 }]
         },
         {
             code: "class C { static { function foo() { \n'use strict'; } } }",
             output: "class C { static { function foo() { \n } } }",
             options: ["safe"],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: [{ messageId: "module", line: 2 }]
         },
         {
             code: "class C { static { function foo() { \n'use strict'; } } }",
             output: "class C { static { function foo() { \n } } }",
             options: ["safe"],
-            parserOptions: { ecmaVersion: 2022, ecmaFeatures: { impliedStrict: true } },
+            languageOptions: { ecmaVersion: 2022, ecmaFeatures: { impliedStrict: true } },
             errors: [{ messageId: "implied", line: 2 }]
         },
         {
             code: "function foo() {'use strict'; class C { static { function foo() { \n'use strict'; } } } }",
             output: "function foo() {'use strict'; class C { static { function foo() { \n } } } }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unnecessary", line: 2 }]
         },
         {
             code: "class C { static { function foo() { \n'use strict'; } } }",
             output: "class C { static { function foo() { \n } } }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unnecessaryInClasses", line: 2 }]
         },
         {
             code: "class C { static { function foo() { \n'use strict';\n'use strict'; } } }",
             output: "class C { static { function foo() { \n\n } } }",
             options: ["function"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "unnecessaryInClasses", line: 2 },
                 { messageId: "multiple", line: 3 }
             ]
-        }
-    ]
-});
-
-const flatRuleTester = new FlatRuleTester();
-
-// TODO: merge these tests into `ruleTester.run` once we switch to FlatRuleTester (when FlatRuleTester becomes RuleTester).
-flatRuleTester.run("strict", rule, {
-    valid: [
-        {
-            code: "'use strict'; module.exports = function identity (value) { return value; }",
-            languageOptions: {
-                sourceType: "commonjs"
-            }
         },
-        {
-            code: "'use strict'; module.exports = function identity (value) { return value; }",
-            options: ["safe"],
-            languageOptions: {
-                sourceType: "commonjs"
-            }
-        }
-    ],
-
-    invalid: [
         {
             code: "module.exports = function identity (value) { return value; }",
             options: ["safe"],

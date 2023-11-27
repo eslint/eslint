@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/prefer-rest-params"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("prefer-rest-params", rule, {
     valid: [

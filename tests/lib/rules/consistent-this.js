@@ -26,7 +26,7 @@ function destructuringTest(code) {
         code,
         options: ["self"],
         env: { es6: true },
-        parserOptions: { ecmaVersion: 6 }
+        languageOptions: { ecmaVersion: 6 }
     };
 }
 

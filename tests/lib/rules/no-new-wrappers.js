@@ -32,7 +32,7 @@ ruleTester.run("no-new-wrappers", rule, {
             import String from "./string";
             const str = new String(42);
             `,
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         `
         if (foo) {
@@ -91,7 +91,7 @@ ruleTester.run("no-new-wrappers", rule, {
                 const b = new String('foo');
             }
             `,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noConstructor",
                 data: {

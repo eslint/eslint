@@ -129,12 +129,12 @@ ruleTester.run("no-alert", rule, {
         // Optional chaining
         {
             code: "window?.alert(foo)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected", data: { name: "alert" } }]
         },
         {
             code: "(window?.alert)(foo)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected", data: { name: "alert" } }]
         }
     ]

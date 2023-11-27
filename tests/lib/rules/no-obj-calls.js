@@ -96,20 +96,20 @@ ruleTester.run("no-obj-calls", rule, {
         "var Math; new Math();",
         {
             code: "let JSON; JSON();",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "let JSON; new JSON();",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "if (foo) { const Reflect = 1; Reflect(); }",
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             env: { es6: true }
         },
         {
             code: "if (foo) { const Reflect = 1; new Reflect(); }",
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             env: { es6: true }
         },
         "function foo(Math) { Math(); }",
@@ -120,7 +120,7 @@ ruleTester.run("no-obj-calls", rule, {
         },
         {
             code: "function foo() { if (bar) { let Atomics; if (baz) { new Atomics(); } } }",
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             env: { es2017: true }
         },
         "function foo() { var JSON; JSON(); }",
@@ -138,12 +138,12 @@ ruleTester.run("no-obj-calls", rule, {
         },
         {
             code: "if (foo) { const Intl = 1; Intl(); }",
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             env: { browser: true }
         },
         {
             code: "if (foo) { const Intl = 1; new Intl(); }",
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             env: { browser: true }
         }
     ],

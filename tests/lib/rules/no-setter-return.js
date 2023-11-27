@@ -39,7 +39,7 @@ function error(column, type = "ReturnStatement") {
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("no-setter-return", rule, {
     valid: [
@@ -71,7 +71,7 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "return 1;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { ecmaFeatures: { globalReturn: true } }
         },
         {
             code: "return 1; function foo(){ return 1; } return 1;",
@@ -511,12 +511,12 @@ ruleTester.run("no-setter-return", rule, {
         // Optional chaining
         {
             code: "Object?.defineProperty(foo, 'bar', { set(val) { return 1; } })",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [error()]
         },
         {
             code: "(Object?.defineProperty)(foo, 'bar', { set(val) { return 1; } })",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [error()]
         }
     ]

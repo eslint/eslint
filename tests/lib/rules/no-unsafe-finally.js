@@ -32,15 +32,15 @@ ruleTester.run("no-unsafe-finally", rule, {
         "var foo = function() { try {} finally { do { break; } while (true) } }",
         {
             code: "var foo = function() { try { return 1; } catch(err) { return 2; } finally { var bar = () => { throw new Error(); }; } };",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function() { try { return 1; } catch(err) { return 2 } finally { (x) => x } }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function() { try { return 1; } finally { class bar { constructor() {} static ehm() { return 'Hola!'; } } } };",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [

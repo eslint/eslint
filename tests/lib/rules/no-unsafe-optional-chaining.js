@@ -296,7 +296,7 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         },
         {
             code: "with (obj?.foo) {};",
-            parserOptions: {
+            languageOptions: {
                 sourceType: "script"
             },
             errors: [
@@ -310,7 +310,7 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         },
         {
             code: "async function foo() { with ( await obj?.foo) {}; }",
-            parserOptions: {
+            languageOptions: {
                 sourceType: "script"
             },
             errors: [

@@ -15,7 +15,7 @@ const rule = require("../../../lib/rules/arrow-body-style"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("arrow-body-style", rule, {
     valid: [

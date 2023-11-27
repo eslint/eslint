@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/sort-imports"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType: "module" } }),
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6, sourceType: "module" } }),
     expectedError = {
         messageId: "sortImportsAlphabetically",
         type: "ImportDeclaration"

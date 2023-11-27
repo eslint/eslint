@@ -48,10 +48,10 @@ ruleTester.run("radix", rule, {
         "parseInt",
         "Number.foo();",
         "Number[parseInt]();",
-        { code: "class C { #parseInt; foo() { Number.#parseInt(); } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { #parseInt; foo() { Number.#parseInt(foo); } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { #parseInt; foo() { Number.#parseInt(foo, 'bar'); } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { #parseInt; foo() { Number.#parseInt(foo, 10); } }", options: ["as-needed"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { #parseInt; foo() { Number.#parseInt(); } }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { #parseInt; foo() { Number.#parseInt(foo); } }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { #parseInt; foo() { Number.#parseInt(foo, 'bar'); } }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { #parseInt; foo() { Number.#parseInt(foo, 10); } }", options: ["as-needed"], languageOptions: { ecmaVersion: 2022 } },
 
         // Ignores if it's shadowed or disabled.
         "var parseInt; parseInt();",
@@ -90,7 +90,7 @@ ruleTester.run("radix", rule, {
         },
         {
             code: "parseInt(\"10\",);", // Function parameter with trailing comma
-            parserOptions: { ecmaVersion: 2017 },
+            languageOptions: { ecmaVersion: 2017 },
             errors: [{
                 messageId: "missingRadix",
                 type: "CallExpression",
@@ -107,7 +107,7 @@ ruleTester.run("radix", rule, {
         },
         {
             code: "parseInt((0, \"10\"),);", // Sequence expression (with trailing comma).
-            parserOptions: { ecmaVersion: 2017 },
+            languageOptions: { ecmaVersion: 2017 },
             errors: [{
                 messageId: "missingRadix",
                 type: "CallExpression",
@@ -226,7 +226,7 @@ ruleTester.run("radix", rule, {
         // Optional chaining
         {
             code: "parseInt?.(\"10\");",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "missingRadix",
@@ -237,7 +237,7 @@ ruleTester.run("radix", rule, {
         },
         {
             code: "Number.parseInt?.(\"10\");",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "missingRadix",
@@ -248,7 +248,7 @@ ruleTester.run("radix", rule, {
         },
         {
             code: "Number?.parseInt(\"10\");",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "missingRadix",
@@ -259,7 +259,7 @@ ruleTester.run("radix", rule, {
         },
         {
             code: "(Number?.parseInt)(\"10\");",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "missingRadix",

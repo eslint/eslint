@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022, sourceType: "module" } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022, sourceType: "module" } });
 
 ruleTester.run("no-restricted-exports", rule, {
     valid: [

@@ -54,7 +54,7 @@ ruleTester.run("no-floating-decimal", rule, {
         {
             code: "for(foo of.2);",
             output: "for(foo of 0.2);",
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             errors: [leadingError]
         }
     ]

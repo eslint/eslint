@@ -17,7 +17,7 @@ const rule = require("../../../lib/rules/require-await"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-    parserOptions: {
+    languageOptions: {
         ecmaVersion: 2018
     }
 });
@@ -58,7 +58,7 @@ ruleTester.run("require-await", rule, {
         },
         {
             code: "async function* run() { yield * anotherAsyncGenerator() }",
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         },
         {
             code: `async function* run() {
@@ -67,23 +67,23 @@ ruleTester.run("require-await", rule, {
                 console.log('World');
             }
             `,
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         },
         {
             code: "async function* run() { }",
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         },
         {
             code: "const foo = async function *(){}",
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         },
         {
             code: 'const foo = async function *(){ console.log("bar") }',
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         },
         {
             code: 'async function* run() { console.log("bar") }',
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         }
 
     ],

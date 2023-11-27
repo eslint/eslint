@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/prefer-named-capture-group"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2018 } });
 
 ruleTester.run("prefer-named-capture-group", rule, {
     valid: [

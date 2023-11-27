@@ -18,7 +18,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 const SHOULD_BE_LAST = "shouldBeLast";
 
 const ruleTester = new RuleTester({
-    parserOptions: { ecmaVersion: 8 }
+    languageOptions: { ecmaVersion: 8 }
 });
 
 const cannedError = {
