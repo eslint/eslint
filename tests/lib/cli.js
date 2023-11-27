@@ -370,7 +370,7 @@ describe("cli", () => {
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const formatterPath = getFixturePath("formatters", "async.js");
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`-f ${formatterPath} ${filePath} --no-config-lookup`);
+                    const exit = await cli.execute(`-f ${formatterPath} ${filePath} ${flag}`, null, useFlatConfig);
 
                     assert.strictEqual(log.info.getCall(0).args[0], "from async formatter");
                     assert.strictEqual(exit, 0);
