@@ -124,6 +124,14 @@ ruleTester.run("max-params", rule, {
                 endLine: 1,
                 endColumn: 14
             }]
+        },
+        {
+            code: "class x { constructor(a, b, c, d, e) {} }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "exceed",
+                data: { name: "Constructor", count: 5, max: 3 }
+            }]
         }
     ]
 });
