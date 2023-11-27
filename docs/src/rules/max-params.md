@@ -30,6 +30,8 @@ This rule has a number or object option:
 
 * `"max"` (default `3`) enforces a maximum number of parameters in function definitions
 
+* `"constructorMax"`  enforces a maximum number of parameters in constructor definitions, default is the value set by `max`
+
 **Deprecated:** The object property `maximum` is deprecated; please use the object property `max` instead.
 
 ### max

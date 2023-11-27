@@ -26,7 +26,8 @@ ruleTester.run("max-params", rule, {
         { code: "var test = function test(a, b, c) {};", options: [3] },
 
         // object property options
-        { code: "var test = function(a, b, c) {};", options: [{ max: 3 }] }
+        { code: "var test = function(a, b, c) {};", options: [{ max: 3 }] },
+        { code: "class x { constructor(a, b, c, d, e) {} }", options: [{ max: 3, constructorMax: 5 }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
