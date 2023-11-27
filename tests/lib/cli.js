@@ -339,7 +339,7 @@ describe("cli", () => {
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const formatterPath = getFixturePath("formatters", "simple.js");
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`-f ${formatterPath} ${filePath} ${flag}`, null, configType === "flat");
+                    const exit = await cli.execute(`-f ${formatterPath} ${filePath} ${flag}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 0);
                 });
