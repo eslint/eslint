@@ -160,10 +160,8 @@ describe("bin/eslint.js", () => {
             "gives a detailed error message if no config file is found in /",
             () => {
                 if (
-                    fs.readdirSync("/").some(
-                        fileName =>
-                            /^\.eslintrc(?:\.(?:js|yaml|yml|json))?$/u
-                                .test(fileName)
+                    fs.readdirSync("/").includes(
+                        "eslint.config.js"
                     )
                 ) {
                     return Promise.resolve(true);
