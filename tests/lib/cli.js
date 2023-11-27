@@ -142,11 +142,15 @@ describe("cli", () => {
             const originalEnv = process.env;
             const originalCwd = process.cwd;
 
+            let processStub;
+
             beforeEach(() => {
+                processStub = sinon.stub(process, "emitWarning");
                 process.env = { ...originalEnv };
             });
 
             afterEach(() => {
+                processStub.restore();
                 process.env = originalEnv;
                 process.cwd = originalCwd;
             });
@@ -167,6 +171,12 @@ describe("cli", () => {
                 const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
 
                 assert.strictEqual(exitCode, 0);
+
+
+                if (useFlatConfig) {
+                    assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+                    assert.strictEqual(processStub.getCall(0).args[1], "ESLintRCWarning");
+                }
             });
 
             it(`should use it when ESLINT_USE_FLAT_CONFIG=true and useFlatConfig is true even if an eslint.config.js is not present:${configType}`, async () => {
@@ -1594,29 +1604,6 @@ describe("cli", () => {
 
                 assert.isTrue(log.info.notCalled);
                 assert.strictEqual(exit, 0);
-            });
-        });
-
-        describe("when using an eslintrc config file", () => {
-
-            let processStub;
-
-            beforeEach(() => {
-                processStub = sinon.stub(process, "emitWarning");
-            });
-
-            afterEach(() => {
-                processStub.restore();
-            });
-
-            it("should emit deprecation warning", async () => {
-                const configPath = getFixturePath(".eslintrc");
-                const filePath = getFixturePath("passing.js");
-
-                await cli.execute(`--config ${configPath} ${filePath}`, null, false);
-
-                assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
-                assert.strictEqual(processStub.getCall(0).args[1], "ESLintRCWarning");
             });
         });
 
