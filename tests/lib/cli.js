@@ -329,7 +329,7 @@ describe("cli", () => {
             describe("when given an invalid built-in formatter name", () => {
                 it(`should execute with error: with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`-f fakeformatter ${filePath} ${flag}`, null, configType === "flat");
+                    const exit = await cli.execute(`-f fakeformatter ${filePath} ${flag}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 2);
                 });
