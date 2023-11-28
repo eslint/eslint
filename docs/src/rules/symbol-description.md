@@ -5,6 +5,7 @@ further_reading:
 - https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-description
 ---
 
+
 The `Symbol` function may have an optional description:
 
 ```js

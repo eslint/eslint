@@ -58,21 +58,21 @@ This rule has a string option or an object option:
 }
 ```
 
-*   `"never"` (default) disallows trailing commas
-*   `"always"` requires trailing commas
-*   `"always-multiline"` requires trailing commas when the last element or property is in a _different_ line than the closing `]` or `}` and disallows trailing commas when the last element or property is on the _same_ line as the closing `]` or `}`
-*   `"only-multiline"` allows (but does not require) trailing commas when the last element or property is in a _different_ line than the closing `]` or `}` and disallows trailing commas when the last element or property is on the _same_ line as the closing `]` or `}`
+* `"never"` (default) disallows trailing commas
+* `"always"` requires trailing commas
+* `"always-multiline"` requires trailing commas when the last element or property is in a *different* line than the closing `]` or `}` and disallows trailing commas when the last element or property is on the *same* line as the closing `]` or `}`
+* `"only-multiline"` allows (but does not require) trailing commas when the last element or property is in a *different* line than the closing `]` or `}` and disallows trailing commas when the last element or property is on the *same* line as the closing `]` or `}`
 
 You can also use an object option to configure this rule for each type of syntax.
 Each of the following options can be set to `"never"`, `"always"`, `"always-multiline"`, `"only-multiline"`, or `"ignore"`.
 The default for each option is `"never"` unless otherwise specified.
 
-*   `arrays` is for array literals and array patterns of destructuring. (e.g. `let [a,] = [1,];`)
-*   `objects` is for object literals and object patterns of destructuring. (e.g. `let {a,} = {a: 1};`)
-*   `imports` is for import declarations of ES Modules. (e.g. `import {a,} from "foo";`)
-*   `exports` is for export declarations of ES Modules. (e.g. `export {a,};`)
-*   `functions` is for function declarations and function calls. (e.g. `(function(a,){ })(b,);`)
-    *   `functions` should only be enabled when linting ECMAScript 2017 or higher.
+* `arrays` is for array literals and array patterns of destructuring. (e.g. `let [a,] = [1,];`)
+* `objects` is for object literals and object patterns of destructuring. (e.g. `let {a,} = {a: 1};`)
+* `imports` is for import declarations of ES Modules. (e.g. `import {a,} from "foo";`)
+* `exports` is for export declarations of ES Modules. (e.g. `export {a,};`)
+* `functions` is for function declarations and function calls. (e.g. `(function(a,){ })(b,);`)
+    * `functions` should only be enabled when linting ECMAScript 2017 or higher.
 
 ### never
 

@@ -3,6 +3,7 @@ title: no-useless-concat
 rule_type: suggestion
 ---
 
+
 It's unnecessary to concatenate two strings together, such as:
 
 ```js

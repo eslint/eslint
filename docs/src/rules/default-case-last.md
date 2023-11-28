@@ -7,6 +7,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch
 ---
 
+
 A `switch` statement can optionally have a `default` clause.
 
 If present, it's usually the last clause, but it doesn't need to be. It is also allowed to put the `default` clause before all `case` clauses, or anywhere between. The behavior is mostly the same as if it was the last clause. The `default` block will be still executed only if there is no match in the `case` clauses (including those defined after the `default`), but there is also the ability to "fall through" from the `default` clause to the following clause in the list. However, such flow is not common and it would be confusing to the readers.

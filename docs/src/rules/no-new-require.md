@@ -3,6 +3,7 @@ title: no-new-require
 rule_type: suggestion
 ---
 
+
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 
 The `require` function is used to include modules that exist in separate files, such as:

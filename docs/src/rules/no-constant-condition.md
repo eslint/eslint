@@ -5,6 +5,8 @@ related_rules:
 - no-constant-binary-expression
 ---
 
+
+
 A constant expression (for example, a literal) as a test condition might be a typo or development trigger for a specific behavior. For example, the following code looks as if it is not ready for production.
 
 ```js
@@ -17,8 +19,8 @@ if (false) {
 
 This rule disallows constant expressions in the test condition of:
 
-*   `if`, `for`, `while`, or `do...while` statement
-*   `?:` ternary expression
+* `if`, `for`, `while`, or `do...while` statement
+* `?:` ternary expression
 
 Examples of **incorrect** code for this rule:
 

@@ -3,6 +3,10 @@ title: no-extra-boolean-cast
 rule_type: suggestion
 ---
 
+
+
+
+
 In contexts such as an `if` statement's test where the result of the expression will already be coerced to a Boolean, casting to a Boolean via double negation (`!!`) or a `Boolean` call is unnecessary. For example, these `if` statements are equivalent:
 
 ```js
@@ -84,7 +88,7 @@ var foo = bar ? !!baz : !!bat;
 
 This rule has an object option:
 
-*   `"enforceForLogicalOperands"` when set to `true`, in addition to checking default contexts, checks whether the extra boolean cast is contained within a logical expression. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside logical expression.
+* `"enforceForLogicalOperands"` when set to `true`, in addition to checking default contexts, checks whether the extra boolean cast is contained within a logical expression. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside logical expression.
 
 ### enforceForLogicalOperands
 

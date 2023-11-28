@@ -7,6 +7,7 @@ related_rules:
 - no-shadow
 ---
 
+
 This rule was **deprecated** in ESLint v3.3.0 and replaced by the [no-global-assign](no-global-assign) rule.
 
 JavaScript environments contain a number of built-in global variables, such as `window` in browsers and `process` in Node.js. In almost all cases, you don't want to assign a value to these global variables as doing so could result in losing access to important functionality. For example, you probably don't want to do this in browser code:
@@ -23,8 +24,8 @@ This rule disallows modifications to read-only global variables.
 
 ESLint has the capability to configure global variables as read-only.
 
-*   [Specifying Environments](../use/configure#specifying-environments)
-*   [Specifying Globals](../use/configure#specifying-globals)
+* [Specifying Environments](../use/configure#specifying-environments)
+* [Specifying Globals](../use/configure#specifying-globals)
 
 Examples of **incorrect** code for this rule:
 

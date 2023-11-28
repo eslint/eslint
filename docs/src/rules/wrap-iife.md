@@ -25,13 +25,13 @@ This rule has two options, a string option and an object option.
 
 String option:
 
-*   `"outside"` enforces always wrapping the _call_ expression. The default is `"outside"`.
-*   `"inside"` enforces always wrapping the _function_ expression.
-*   `"any"` enforces always wrapping, but allows either style.
+* `"outside"` enforces always wrapping the *call* expression. The default is `"outside"`.
+* `"inside"` enforces always wrapping the *function* expression.
+* `"any"` enforces always wrapping, but allows either style.
 
 Object option:
 
-*   `"functionPrototypeMethods": true` additionally enforces wrapping function expressions invoked using `.call` and `.apply`. The default is `false`.
+* `"functionPrototypeMethods": true` additionally enforces wrapping function expressions invoked using `.call` and `.apply`. The default is `false`.
 
 ### outside
 

@@ -3,6 +3,7 @@ title: no-return-assign
 rule_type: suggestion
 ---
 
+
 One of the interesting, and sometimes confusing, aspects of JavaScript is that assignment can happen at almost any point. Because of this, an errant equals sign can end up causing assignment when the true intent was to do a comparison. This is especially true when using a `return` statement. For example:
 
 ```js
@@ -23,8 +24,8 @@ This rule aims to eliminate assignments from `return` statements. As such, it wi
 
 The rule takes one option, a string, which must contain one of the following values:
 
-*   `except-parens` (default): Disallow assignments unless they are enclosed in parentheses.
-*   `always`: Disallow all assignments.
+* `except-parens` (default): Disallow assignments unless they are enclosed in parentheses.
+* `always`: Disallow all assignments.
 
 ### except-parens
 

@@ -5,6 +5,7 @@ further_reading:
 - https://spin.atomicobject.com/2011/04/10/javascript-don-t-reassign-your-function-arguments/
 ---
 
+
 Assignment to variables declared as function parameters can be misleading and lead to confusing behavior, as modifying function parameters will also mutate the `arguments` object when not in strict mode (see [When Not To Use It](#when-not-to-use-it) below). Often, assignment to function parameters is unintended and indicative of a mistake or programmer error.
 
 This rule can be also configured to fail when function parameters are modified. Side effects on parameters can cause counter-intuitive execution flow and make errors difficult to track down.
@@ -55,7 +56,7 @@ var foo = function(bar) {
 
 ## Options
 
-This rule takes one option, an object, with a boolean property `"props"`, and arrays `"ignorePropertyModificationsFor"` and `"ignorePropertyModificationsForRegex"`. `"props"` is `false` by default. If `"props"` is set to `true`, this rule warns against the modification of parameter properties unless they're included in `"ignorePropertyModificationsFor"` or `"ignorePropertyModificationsForRegex"`, which is an empty array by default.
+This rule takes one option, an object, with a boolean property `"props"`, and  arrays `"ignorePropertyModificationsFor"` and `"ignorePropertyModificationsForRegex"`. `"props"` is `false` by default. If `"props"` is set to `true`, this rule warns against the modification of parameter properties unless they're included in `"ignorePropertyModificationsFor"` or `"ignorePropertyModificationsForRegex"`, which is an empty array by default.
 
 ### props
 

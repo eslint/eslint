@@ -11,6 +11,7 @@ related_rules:
 - max-statements
 ---
 
+
 Functions that take numerous parameters can be difficult to read and write because it requires the memorization of what each parameter is, its type, and the order they should appear in. As a result, many coders adhere to a convention that caps the number of parameters a function can take.
 
 ```js
@@ -27,7 +28,7 @@ This rule enforces a maximum number of parameters allowed in function definition
 
 This rule has a number or object option:
 
-*   `"max"` (default `3`) enforces a maximum number of parameters in function definitions
+* `"max"` (default `3`) enforces a maximum number of parameters in function definitions
 
 **Deprecated:** The object property `maximum` is deprecated; please use the object property `max` instead.
 

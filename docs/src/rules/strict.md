@@ -3,6 +3,8 @@ title: strict
 rule_type: suggestion
 ---
 
+
+
 A strict mode directive is a `"use strict"` literal at the beginning of a script or function body. It enables strict mode semantics.
 
 When a directive occurs in global scope, strict mode applies to the entire script:
@@ -47,8 +49,8 @@ This rule requires or disallows strict mode directives.
 
 This rule disallows strict mode directives, no matter which option is specified, if ESLint configuration specifies either of the following as [parser options](../use/configure/language-options#specifying-parser-options):
 
-*   `"sourceType": "module"` that is, files are **ECMAScript** modules
-*   `"impliedStrict": true` property in the `ecmaFeatures` object
+* `"sourceType": "module"` that is, files are **ECMAScript** modules
+* `"impliedStrict": true` property in the `ecmaFeatures` object
 
 This rule disallows strict mode directives, no matter which option is specified, in functions with non-simple parameter lists (for example, parameter lists with default parameter values) because that is a syntax error in **ECMAScript 2016** and later. See the examples of the [function](#function) option.
 
@@ -60,19 +62,19 @@ The `--fix` option on the command line does not insert new `"use strict"` statem
 
 This rule has a string option:
 
-*   `"safe"` (default) corresponds either of the following options:
-    *   `"global"` if ESLint considers a file to be a **CommonJS** module
-    *   `"function"` otherwise
-*   `"global"` requires one strict mode directive in the global scope (and disallows any other strict mode directives)
-*   `"function"` requires one strict mode directive in each top-level function declaration or expression (and disallows any other strict mode directives)
-*   `"never"` disallows strict mode directives
+* `"safe"` (default) corresponds either of the following options:
+    * `"global"` if ESLint considers a file to be a **CommonJS** module
+    * `"function"` otherwise
+* `"global"` requires one strict mode directive in the global scope (and disallows any other strict mode directives)
+* `"function"` requires one strict mode directive in each top-level function declaration or expression (and disallows any other strict mode directives)
+* `"never"` disallows strict mode directives
 
 ### safe
 
 The `"safe"` option corresponds to the `"global"` option if ESLint considers a file to be a **Node.js** or **CommonJS** module because the configuration specifies either of the following:
 
-*   `node` or `commonjs` [environments](../use/configure/language-options#specifying-environments)
-*   `"globalReturn": true` property in the `ecmaFeatures` object of [parser options](../use/configure/language-options#specifying-parser-options)
+* `node` or `commonjs` [environments](../use/configure/language-options#specifying-environments)
+* `"globalReturn": true` property in the `ecmaFeatures` object of [parser options](../use/configure/language-options#specifying-parser-options)
 
 Otherwise the `"safe"` option corresponds to the `"function"` option. Note that if `"globalReturn": false` is explicitly specified in the configuration, the `"safe"` option will correspond to the `"function"` option regardless of the specified environment.
 

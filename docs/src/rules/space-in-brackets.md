@@ -26,14 +26,14 @@ foo['bar'];
 
 ## Rule Details
 
-This rule aims to maintain consistency around the spacing inside of square brackets, either by disallowing spaces inside of brackets between the brackets and other tokens or enforcing spaces. Brackets that are separated from the adjacent value by a new line are excepted from this rule, as this is a common pattern. Object literals that are used as the first or last element in an array are also ignored.
+This rule aims to maintain consistency around the spacing inside of square brackets, either by disallowing spaces inside of brackets between the brackets and other tokens or enforcing spaces. Brackets that are separated from the adjacent value by a new line are excepted from this rule, as this is a common pattern.  Object literals that are used as the first or last element in an array are also ignored.
 
 ## Options
 
 There are two options for this rule:
 
-*   `"always"` enforces a space inside of object and array literals
-*   `"never"` enforces zero spaces inside of object and array literals (default)
+* `"always"` enforces a space inside of object and array literals
+* `"never"` enforces zero spaces inside of object and array literals (default)
 
 Depending on your coding conventions, you can choose either option by specifying it in your configuration:
 
@@ -216,12 +216,12 @@ In case of `"never"` option, set an exception to `true` to enable it:
 
 The following exceptions are available:
 
-*   `singleValue` sets the spacing of a single value inside of square brackets of an array.
-*   `objectsInArrays` sets the spacings between the curly braces and square brackets of object literals that are the first or last element in an array.
-*   `arraysInArrays` sets the spacing between the square brackets of array literals that are the first or last element in an array.
-*   `arraysInObjects` sets the spacing between the square bracket and the curly brace of an array literal that is the last element in an object.
-*   `objectsInObjects` sets the spacing between the curly brace of an object literal that is the last element in an object and the curly brace of the containing object.
-*   `propertyName` sets the spacing in square brackets of computed member expressions.
+* `singleValue` sets the spacing of a single value inside of square brackets of an array.
+* `objectsInArrays` sets the spacings between the curly braces and square brackets of object literals that are the first or last element in an array.
+* `arraysInArrays` sets the spacing between the square brackets of array literals that are the first or last element in an array.
+* `arraysInObjects` sets the spacing between the square bracket and the curly brace of an array literal that is the last element in an object.
+* `objectsInObjects` sets the spacing between the curly brace of an object literal that is the last element in an object and the curly brace of the containing object.
+* `propertyName` sets the spacing in square brackets of computed member expressions.
 
 In each of the following examples, the `"always"` option is assumed.
 

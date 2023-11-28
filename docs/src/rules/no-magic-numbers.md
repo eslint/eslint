@@ -3,6 +3,7 @@ title: no-magic-numbers
 rule_type: suggestion
 ---
 
+
 'Magic numbers' are numbers that occur multiple times in code without an explicit meaning.
 They should preferably be replaced by named constants.
 

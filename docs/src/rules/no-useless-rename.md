@@ -5,6 +5,8 @@ related_rules:
 - object-shorthand
 ---
 
+
+
 ES2015 allows for the renaming of references in import and export statements as well as destructuring assignments. This gives programmers a concise syntax for performing these operations while renaming these references:
 
 ```js
@@ -37,9 +39,9 @@ This rule disallows the renaming of import, export, and destructured assignments
 
 This rule allows for more fine-grained control with the following options:
 
-*   `ignoreImport`: When set to `true`, this rule does not check imports
-*   `ignoreExport`: When set to `true`, this rule does not check exports
-*   `ignoreDestructuring`: When set to `true`, this rule does not check destructuring assignments
+* `ignoreImport`: When set to `true`, this rule does not check imports
+* `ignoreExport`: When set to `true`, this rule does not check exports
+* `ignoreDestructuring`: When set to `true`, this rule does not check destructuring assignments
 
 By default, all options are set to `false`:
 
@@ -149,4 +151,4 @@ You can safely disable this rule if you do not care about redundantly renaming i
 
 ## Compatibility
 
-*   **JSCS**: [disallowIdenticalDestructuringNames](https://jscs-dev.github.io/rule/disallowIdenticalDestructuringNames)
+* **JSCS**: [disallowIdenticalDestructuringNames](https://jscs-dev.github.io/rule/disallowIdenticalDestructuringNames)

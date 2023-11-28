@@ -3,6 +3,8 @@ title: newline-after-var
 rule_type: layout
 ---
 
+
+
 This rule was **deprecated** in ESLint v4.0.0 and replaced by the [padding-line-between-statements](padding-line-between-statements) rule.
 
 As of today there is no consistency in separating variable declarations from the rest of the code. Some developers leave an empty line between var statements and the rest of the code like:
@@ -30,11 +32,11 @@ This rule enforces a coding style where empty lines are required or disallowed a
 
 This rule has a string option:
 
-*   `"always"` (default) requires an empty line after `var`, `let`, or `const`
+* `"always"` (default) requires an empty line after `var`, `let`, or `const`
 
-    Comments on a line directly after var statements are treated like additional var statements.
+  Comments on a line directly after var statements are treated like additional var statements.
 
-*   `"never"` disallows empty lines after `var`, `let`, or `const`
+* `"never"` disallows empty lines after `var`, `let`, or `const`
 
 ### always
 

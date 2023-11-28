@@ -3,6 +3,7 @@ title: no-caller
 rule_type: suggestion
 ---
 
+
 The use of `arguments.caller` and `arguments.callee` make several code optimizations impossible. They have been deprecated in future versions of JavaScript and their use is forbidden in ECMAScript 5 while in strict mode.
 
 ```js

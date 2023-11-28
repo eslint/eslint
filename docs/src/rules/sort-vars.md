@@ -6,6 +6,8 @@ related_rules:
 - sort-imports
 ---
 
+
+
 When declaring multiple variables within the same block, some developers prefer to sort variable names alphabetically to be able to find necessary variable easier at the later time. Others feel that it adds complexity and becomes burden to maintain.
 
 ## Rule Details
@@ -68,7 +70,7 @@ var c, d, a, e;
 
 This rule has an object option:
 
-*   `"ignoreCase": true` (default `false`) ignores the case-sensitivity of the variables order
+* `"ignoreCase": true` (default `false`) ignores the case-sensitivity of the variables order
 
 ### ignoreCase
 

@@ -3,6 +3,7 @@ title: no-eq-null
 rule_type: suggestion
 ---
 
+
 Comparing to `null` without a type-checking operator (`==` or `!=`), can have unintended results as the comparison will evaluate to true when comparing to not just a `null`, but also an `undefined` value.
 
 ```js
@@ -57,4 +58,4 @@ If you want to enforce type-checking operations in general, use the more powerfu
 
 ## Compatibility
 
-*   **JSHint**: This rule corresponds to `eqnull` rule of JSHint.
+* **JSHint**: This rule corresponds to `eqnull` rule of JSHint.

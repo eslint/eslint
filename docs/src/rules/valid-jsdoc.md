@@ -7,6 +7,8 @@ further_reading:
 - https://jsdoc.app
 ---
 
+
+
 This rule was [**deprecated**](https://eslint.org/blog/2018/11/jsdoc-end-of-life) in ESLint v5.10.0.
 
 [JSDoc](http://usejsdoc.org) generates application programming interface (API) documentation from specially-formatted comments in JavaScript code. For example, this is a JSDoc comment for a function:
@@ -31,12 +33,12 @@ If comments are inconsistent because they are not updated when function definiti
 
 This rule enforces valid and consistent JSDoc comments. It reports any of the following problems:
 
-*   missing parameter tag: `@arg`, `@argument`, or `@param`
-*   inconsistent order of parameter names in a comment compared to the function or method
-*   missing return tag: `@return` or `@returns`
-*   missing parameter or return type
-*   missing parameter or return description
-*   syntax error
+* missing parameter tag: `@arg`, `@argument`, or `@param`
+* inconsistent order of parameter names in a comment compared to the function or method
+* missing return tag: `@return` or `@returns`
+* missing parameter or return type
+* missing parameter or return description
+* syntax error
 
 This rule does not report missing JSDoc comments for classes, functions, or methods.
 
@@ -171,16 +173,16 @@ class WonderfulWidget extends Widget {
 
 This rule has an object option:
 
-*   `"prefer"` enforces consistent documentation tags specified by an object whose properties mean instead of key use value (for example, `"return": "returns"` means instead of `@return` use `@returns`)
-*   `"preferType"` enforces consistent type strings specified by an object whose properties mean instead of key use value (for example, `"object": "Object"` means instead of `object` use `Object`)
-*   `"requireReturn"` requires a return tag:
-    *   `true` (default) **even if** the function or method does not have a `return` statement (this option value does not apply to constructors)
-    *   `false` **if and only if** the function or method has a `return` statement or returns a value e.g. `async` function (this option value does apply to constructors)
-*   `"requireReturnType": false` allows missing type in return tags
-*   `"matchDescription"` specifies (as a string) a regular expression to match the description in each JSDoc comment (for example, `".+"` requires a description; this option does not apply to descriptions in parameter or return tags)
-*   `"requireParamDescription": false` allows missing description in parameter tags
-*   `"requireReturnDescription": false` allows missing description in return tags
-*   `"requireParamType": false` allows missing type in parameter tags
+* `"prefer"` enforces consistent documentation tags specified by an object whose properties mean instead of key use value (for example, `"return": "returns"` means instead of `@return` use `@returns`)
+* `"preferType"` enforces consistent type strings specified by an object whose properties mean instead of key use value (for example, `"object": "Object"` means instead of `object` use `Object`)
+* `"requireReturn"` requires a return tag:
+    * `true` (default) **even if** the function or method does not have a `return` statement (this option value does not apply to constructors)
+    * `false` **if and only if** the function or method has a `return` statement or returns a value e.g. `async` function (this option value does apply to constructors)
+* `"requireReturnType": false` allows missing type in return tags
+* `"matchDescription"` specifies (as a string) a regular expression to match the description in each JSDoc comment (for example, `".+"` requires a description; this option does not apply to descriptions in parameter or return tags)
+* `"requireParamDescription": false` allows missing description in parameter tags
+* `"requireReturnDescription": false` allows missing description in return tags
+* `"requireParamType": false` allows missing type in parameter tags
 
 ### prefer
 

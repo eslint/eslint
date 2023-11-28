@@ -11,8 +11,8 @@ This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rul
 
 The Comma Style rule enforces styles for comma-separated lists. There are two comma styles primarily used in JavaScript:
 
-*   The standard style, in which commas are placed at the end of the current line
-*   Comma First style, in which commas are placed at the start of the next line
+* The standard style, in which commas are placed at the end of the current line
+* Comma First style, in which commas are placed at the start of the next line
 
 One of the justifications for using Comma First style is that it can help track missing and trailing commas. These are problematic because missing commas in variable declarations can lead to the leakage of global variables and trailing commas can lead to errors in older versions of IE.
 
@@ -22,31 +22,31 @@ This rule enforce consistent comma style in array literals, object literals, and
 
 This rule does not apply in either of the following cases:
 
-*   comma preceded and followed by linebreak (lone comma)
-*   single-line array literals, object literals, and variable declarations
+* comma preceded and followed by linebreak (lone comma)
+* single-line array literals, object literals, and variable declarations
 
 ## Options
 
 This rule has a string option:
 
-*   `"last"` (default) requires a comma after and on the same line as an array element, object property, or variable declaration
-*   `"first"` requires a comma before and on the same line as an array element, object property, or variable declaration
+* `"last"` (default) requires a comma after and on the same line as an array element, object property, or variable declaration
+* `"first"` requires a comma before and on the same line as an array element, object property, or variable declaration
 
 This rule also accepts an additional `exceptions` object:
 
-*   `"exceptions"` has properties whose names correspond to node types in the abstract syntax tree (AST) of JavaScript code:
+* `"exceptions"` has properties whose names correspond to node types in the abstract syntax tree (AST) of JavaScript code:
 
-    *   `"ArrayExpression": true` ignores comma style in array literals
-    *   `"ArrayPattern": true` ignores comma style in array patterns of destructuring
-    *   `"ArrowFunctionExpression": true` ignores comma style in the parameters of arrow function expressions
-    *   `"CallExpression": true` ignores comma style in the arguments of function calls
-    *   `"FunctionDeclaration": true` ignores comma style in the parameters of function declarations
-    *   `"FunctionExpression": true` ignores comma style in the parameters of function expressions
-    *   `"ImportDeclaration": true` ignores comma style in the specifiers of import declarations
-    *   `"ObjectExpression": true` ignores comma style in object literals
-    *   `"ObjectPattern": true` ignores comma style in object patterns of destructuring
-    *   `"VariableDeclaration": true` ignores comma style in variable declarations
-    *   `"NewExpression": true` ignores comma style in the parameters of constructor expressions
+    * `"ArrayExpression": true` ignores comma style in array literals
+    * `"ArrayPattern": true` ignores comma style in array patterns of destructuring
+    * `"ArrowFunctionExpression": true` ignores comma style in the parameters of arrow function expressions
+    * `"CallExpression": true` ignores comma style in the arguments of function calls
+    * `"FunctionDeclaration": true` ignores comma style in the parameters of function declarations
+    * `"FunctionExpression": true` ignores comma style in the parameters of function expressions
+    * `"ImportDeclaration": true` ignores comma style in the specifiers of import declarations
+    * `"ObjectExpression": true` ignores comma style in object literals
+    * `"ObjectPattern": true` ignores comma style in object patterns of destructuring
+    * `"VariableDeclaration": true` ignores comma style in variable declarations
+    * `"NewExpression": true` ignores comma style in the parameters of constructor expressions
 
 A way to determine the node types as defined by [ESTree](https://github.com/estree/estree) is to use [AST Explorer](https://astexplorer.net/) with the espree parser.
 
@@ -156,7 +156,7 @@ function baz() {
 
 ### exceptions
 
-An example use case is to enforce comma style _only_ in var statements.
+An example use case is to enforce comma style *only* in var statements.
 
 Examples of **incorrect** code for this rule with sample `"first", { "exceptions": { … } }` options:
 

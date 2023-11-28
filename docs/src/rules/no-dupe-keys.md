@@ -4,6 +4,8 @@ rule_type: problem
 handled_by_typescript: true
 ---
 
+
+
 Multiple properties with the same key in object literals can cause unexpected behavior in your application.
 
 ```js

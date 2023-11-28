@@ -5,6 +5,8 @@ related_rules:
 - require-await
 ---
 
+
+
 ## Rule Details
 
 This rule generates warnings for generator functions that do not have the `yield` keyword.

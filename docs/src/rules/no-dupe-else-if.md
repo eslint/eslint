@@ -6,6 +6,8 @@ related_rules:
 - no-lonely-if
 ---
 
+
+
 `if-else-if` chains are commonly used when there is a need to execute only one branch (or at most one branch) out of several possible branches, based on certain conditions.
 
 ```js

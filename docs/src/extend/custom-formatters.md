@@ -94,33 +94,33 @@ also be manually applied to that page. -->
 
 Each object in the `results` array is a `result` object. Each `result` object contains the path of the file that was linted and information about linting issues that were encountered. Here are the properties available on each `result` object:
 
-*   **filePath**: The absolute path to the file that was linted.
-*   **messages**: An array of [`message`](#the-message-object) objects. See below for more info about messages.
-*   **errorCount**: The number of errors for the given file.
-*   **warningCount**: The number of warnings for the given file.
-*   **source**: The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
-*   **output**: The source code for the given file with as many fixes applied as possible. This property is omitted if no fix is available.
+* **filePath**: The absolute path to the file that was linted.
+* **messages**: An array of [`message`](#the-message-object) objects. See below for more info about messages.
+* **errorCount**: The number of errors for the given file.
+* **warningCount**: The number of warnings for the given file.
+* **source**: The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
+* **output**: The source code for the given file with as many fixes applied as possible. This property is omitted if no fix is available.
 
 ##### The `message` Object
 
 Each `message` object contains information about the ESLint rule that was triggered by some source code. The properties available on each `message` object are:
 
-*   **ruleId**: the ID of the rule that produced the error or warning.
-*   **severity**: the severity of the failure, `1` for warnings and `2` for errors.
-*   **message**: the human readable description of the error.
-*   **line**: the line where the issue is located.
-*   **column**: the column where the issue is located.
-*   **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/es5.md#node-objects)
+* **ruleId**: the ID of the rule that produced the error or warning.
+* **severity**: the severity of the failure, `1` for warnings and `2` for errors.
+* **message**: the human readable description of the error.
+* **line**: the line where the issue is located.
+* **column**: the column where the issue is located.
+* **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/es5.md#node-objects)
 
 ### The `context` Argument
 
 The formatter function receives a `context` object as its second argument. The object has the following properties:
 
-*   `cwd`: The current working directory. This value comes from the `cwd` constructor option of the [ESLint](../integrate/nodejs-api#-new-eslintoptions) class.
-*   `maxWarningsExceeded` (optional): If `--max-warnings` was set and the number of warnings exceeded the limit, this property's value is an object containing two properties:
-    *   `maxWarnings`: the value of the `--max-warnings` option
-    *   `foundWarnings`: the number of lint warnings
-*   `rulesMeta`: The `meta` property values of rules. See the [Custom Rules](custom-rules) page for more information about rules.
+* `cwd`: The current working directory. This value comes from the `cwd` constructor option of the [ESLint](../integrate/nodejs-api#-new-eslintoptions) class.
+* `maxWarningsExceeded` (optional): If `--max-warnings` was set and the number of warnings exceeded the limit, this property's value is an object containing two properties:
+    * `maxWarnings`: the value of the `--max-warnings` option
+    * `foundWarnings`: the number of lint warnings
+* `rulesMeta`: The `meta` property values of rules. See the [Custom Rules](custom-rules) page for more information about rules.
 
 For example, here's what the object would look like if the rule `no-extra-semi` had been run:
 
@@ -266,11 +266,11 @@ Because ESLint knows to look for packages beginning with `eslint-formatter-` whe
 
 Tips for the `package.json` of a custom formatter:
 
-*   The [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) entry point must be the JavaScript file implementing your custom formatter.
-*   Add these [`keywords`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) to help users find your formatter:
-    *   `"eslint"`
-    *   `"eslint-formatter"`
-    *   `"eslintformatter"`
+* The [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) entry point must be the JavaScript file implementing your custom formatter.
+* Add these [`keywords`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) to help users find your formatter:
+    * `"eslint"`
+    * `"eslint-formatter"`
+    * `"eslintformatter"`
 
 See all [custom formatters on npm](https://www.npmjs.com/search?q=eslint-formatter).
 

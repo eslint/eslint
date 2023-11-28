@@ -7,6 +7,8 @@ related_rules:
 - no-redeclare
 ---
 
+
+
 This rule can help you locate potential ReferenceErrors resulting from misspellings of variable and parameter names, or accidental implicit globals (for example, from forgetting the `var` keyword in a `for` loop initializer).
 
 ## Rule Details
@@ -48,7 +50,7 @@ See [no-redeclare](no-redeclare) if you also want to disallow those redeclaratio
 
 ## Options
 
-*   `typeof` set to true will warn for variables used inside typeof check (Default false).
+* `typeof` set to true will warn for variables used inside typeof check (Default false).
 
 ### typeof
 
@@ -95,7 +97,7 @@ if(typeof a === "string"){}
 
 ## Environments
 
-For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](../use/configure/language-options#specifying-environments). A few examples are given below.
+For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](../use/configure/language-options#specifying-environments).  A few examples are given below.
 
 ### browser
 

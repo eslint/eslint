@@ -5,6 +5,7 @@ related_rules:
 - prefer-spread
 ---
 
+
 The function invocation can be written by `Function.prototype.call()` and `Function.prototype.apply()`.
 But `Function.prototype.call()` and `Function.prototype.apply()` are slower than the normal function invocation.
 

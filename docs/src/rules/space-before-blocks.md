@@ -20,9 +20,9 @@ Having an inconsistent style distracts the reader from seeing the important part
 
 This rule will enforce consistency of spacing before blocks. It is only applied on blocks that don’t begin on a new line.
 
-*   This rule ignores spacing which is between `=>` and a block. The spacing is handled by the `arrow-spacing` rule.
-*   This rule ignores spacing which is between a keyword and a block. The spacing is handled by the `keyword-spacing` rule.
-*   This rule ignores spacing which is between `:` of a switch case and a block. The spacing is handled by the `switch-colon-spacing` rule.
+* This rule ignores spacing which is between `=>` and a block. The spacing is handled by the `arrow-spacing` rule.
+* This rule ignores spacing which is between a keyword and a block. The spacing is handled by the `keyword-spacing` rule.
+* This rule ignores spacing which is between `:` of a switch case and a block. The spacing is handled by the `switch-colon-spacing` rule.
 
 ## Options
 

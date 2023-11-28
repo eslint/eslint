@@ -3,6 +3,7 @@ title: func-name-matching
 rule_type: suggestion
 ---
 
+
 ## Rule Details
 
 This rule requires function names to match the name of the variable or property to which they are assigned. The rule will ignore property assignments where the property name is a literal that is not a valid identifier in the ECMAScript version specified in your configuration (default ES5).
@@ -206,4 +207,4 @@ Do not use this rule if you want to allow named functions to have different name
 
 ## Compatibility
 
-*   **JSCS**: [requireMatchingFunctionName](https://jscs-dev.github.io/rule/requireMatchingFunctionName)
+* **JSCS**: [requireMatchingFunctionName](https://jscs-dev.github.io/rule/requireMatchingFunctionName)

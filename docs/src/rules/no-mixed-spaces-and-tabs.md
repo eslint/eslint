@@ -17,7 +17,6 @@ Examples of **incorrect** code for this rule:
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
-
 ::: incorrect
 
 ```js
@@ -34,14 +33,12 @@ function main() {
 ```
 
 :::
-
 <!-- markdownlint-restore -->
 
 Examples of **correct** code for this rule:
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
-
 ::: correct
 
 ```js
@@ -53,14 +50,13 @@ function add(x, y) {
 ```
 
 :::
-
 <!-- markdownlint-restore -->
 
 ## Options
 
 This rule has a string option.
 
-*   `"smart-tabs"` allows mixed tabs and spaces when the spaces are used for alignment.
+* `"smart-tabs"` allows mixed tabs and spaces when the spaces are used for alignment.
 
 ### smart-tabs
 
@@ -68,7 +64,6 @@ Examples of **correct** code for this rule with the `"smart-tabs"` option:
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
-
 ::: correct
 
 ```js
@@ -81,5 +76,4 @@ function main() {
 ```
 
 :::
-
 <!-- markdownlint-restore -->

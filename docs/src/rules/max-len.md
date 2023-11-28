@@ -25,16 +25,16 @@ This rule enforces a maximum line length to increase code readability and mainta
 
 This rule can have up to two numbers as positional arguments (for `code` and `tabWidth` options), followed by an object option (provided positional arguments have priority):
 
-*   `"code"` (default `80`) enforces a maximum line length
-*   `"tabWidth"` (default `4`) specifies the character width for tab characters
-*   `"comments"` enforces a maximum line length for comments; defaults to value of `code`
-*   `"ignorePattern"` ignores lines matching a regular expression; can only match a single line and need to be double escaped when written in YAML or JSON
-*   `"ignoreComments": true` ignores all trailing comments and comments on their own line
-*   `"ignoreTrailingComments": true` ignores only trailing comments
-*   `"ignoreUrls": true` ignores lines that contain a URL
-*   `"ignoreStrings": true` ignores lines that contain a double-quoted or single-quoted string
-*   `"ignoreTemplateLiterals": true` ignores lines that contain a template literal
-*   `"ignoreRegExpLiterals": true` ignores lines that contain a RegExp literal
+* `"code"` (default `80`) enforces a maximum line length
+* `"tabWidth"` (default `4`) specifies the character width for tab characters
+* `"comments"` enforces a maximum line length for comments; defaults to value of `code`
+* `"ignorePattern"` ignores lines matching a regular expression; can only match a single line and need to be double escaped when written in YAML or JSON
+* `"ignoreComments": true` ignores all trailing comments and comments on their own line
+* `"ignoreTrailingComments": true` ignores only trailing comments
+* `"ignoreUrls": true` ignores lines that contain a URL
+* `"ignoreStrings": true` ignores lines that contain a double-quoted or single-quoted string
+* `"ignoreTemplateLiterals": true` ignores lines that contain a template literal
+* `"ignoreRegExpLiterals": true` ignores lines that contain a RegExp literal
 
 ### code
 
@@ -72,7 +72,6 @@ Examples of **incorrect** code for this rule with the default `{ "tabWidth": 4 }
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
-
 ::: incorrect
 
 ```js
@@ -82,14 +81,12 @@ Examples of **incorrect** code for this rule with the default `{ "tabWidth": 4 }
 ```
 
 :::
-
 <!-- markdownlint-restore -->
 
 Examples of **correct** code for this rule with the default `{ "tabWidth": 4 }` option:
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
-
 ::: correct
 
 ```js
@@ -102,7 +99,6 @@ Examples of **correct** code for this rule with the default `{ "tabWidth": 4 }` 
 ```
 
 :::
-
 <!-- markdownlint-restore -->
 
 ### comments

@@ -5,6 +5,7 @@ related_rules:
 - no-useless-call
 ---
 
+
 Before ES2015, one must use `Function.prototype.apply()` to call variadic functions.
 
 ```js

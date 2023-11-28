@@ -5,6 +5,7 @@ related_rules:
 - require-yield
 ---
 
+
 Asynchronous functions in JavaScript behave differently than other functions in two important ways:
 
 1. The return value is always a `Promise`.

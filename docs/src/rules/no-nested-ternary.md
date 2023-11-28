@@ -6,6 +6,7 @@ related_rules:
 - no-unneeded-ternary
 ---
 
+
 Nesting ternary expressions can make code more difficult to understand.
 
 ```js

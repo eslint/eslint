@@ -3,6 +3,7 @@ title: no-restricted-modules
 rule_type: suggestion
 ---
 
+
 This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 
 A module in Node.js is a simple or complex functionality organized in a JavaScript file which can be reused throughout the Node.js
@@ -72,7 +73,7 @@ To restrict the use of all Node.js core modules (via <https://github.com/nodejs/
 
 ## Examples
 
-Examples of **incorrect** code for this rule with sample `"fs", "cluster", "lodash"` restricted modules:
+Examples of **incorrect** code for this rule  with sample `"fs", "cluster", "lodash"` restricted modules:
 
 ::: incorrect
 

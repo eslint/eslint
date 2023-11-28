@@ -6,7 +6,8 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static
 ---
 
-If a class method does not use `this`, it can _sometimes_ be made into a static function. If you do convert the method into a static function, instances of the class that call that particular method have to be converted to a static call as well (`MyClass.callStaticMethod()`)
+
+If a class method does not use `this`, it can *sometimes* be made into a static function. If you do convert the method into a static function, instances of the class that call that particular method have to be converted to a static call as well (`MyClass.callStaticMethod()`)
 
 It's possible to have a class method which doesn't use `this`, such as:
 
@@ -49,7 +50,7 @@ class A {
 A.sayHi(); // => "hi"
 ```
 
-Also note in the above examples that if you switch a method to a static method, _instances_ of the class that call the static method (`let a = new A(); a.sayHi();`) have to be updated to being a static call (`A.sayHi();`) instead of having the instance of the _class_ call the method
+Also note in the above examples that if you switch a method to a static method, *instances* of the class that call the static method (`let a = new A(); a.sayHi();`) have to be updated to being a static call (`A.sayHi();`) instead of having the instance of the *class* call the method
 
 ## Rule Details
 
@@ -108,8 +109,8 @@ class C {
 
 This rule has two options:
 
-*   `"exceptMethods"` allows specified method names to be ignored with this rule.
-*   `"enforceForClassFields"` enforces that functions used as instance field initializers utilize `this`. (default: `true`)
+* `"exceptMethods"` allows specified method names to be ignored with this rule.
+* `"enforceForClassFields"` enforces that functions used as instance field initializers utilize `this`. (default: `true`)
 
 ### exceptMethods
 

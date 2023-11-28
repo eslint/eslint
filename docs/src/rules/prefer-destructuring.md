@@ -6,7 +6,9 @@ further_reading:
 - https://2ality.com/2015/01/es6-destructuring.html
 ---
 
-With JavaScript ES6, a new syntax was added for creating variables from an array index or object property, called [destructuring](#further-reading). This rule enforces usage of destructuring instead of accessing a property through a member expression.
+
+
+With JavaScript ES6, a new syntax was added for creating variables from an array index or object property, called [destructuring](#further-reading).  This rule enforces usage of destructuring instead of accessing a property through a member expression.
 
 ## Rule Details
 
@@ -18,14 +20,14 @@ The two properties, `array` and `object`, can be used to turn on or off the dest
 
 Alternatively, you can use separate configurations for different assignment types. It accepts 2 other keys instead of `array` and `object`.
 
-One key is `VariableDeclarator` and the other is `AssignmentExpression`, which can be used to control the destructuring requirement for each of those types independently. Each property accepts an object that accepts two properties, `array` and `object`, which can be used to control the destructuring requirement for each of `array` and `object` independently for variable declarations and assignment expressions. By default, `array` and `object` are set to true for both `VariableDeclarator` and `AssignmentExpression`.
+One key is `VariableDeclarator` and the other is `AssignmentExpression`, which can be used to control the destructuring requirement for each of those types independently. Each property accepts an object that accepts two properties, `array` and `object`, which can be used to control the destructuring requirement for each of `array` and `object` independently for variable declarations and assignment expressions.  By default, `array` and `object` are set to true for both `VariableDeclarator` and `AssignmentExpression`.
 
 The rule has a second object with a single key, `enforceForRenamedProperties`, which determines whether the `object` destructuring applies to renamed variables.
 
 **Note**: It is not possible to determine if a variable will be referring to an object or an array at runtime. This rule therefore guesses the assignment type by checking whether the key being accessed is an integer. This can lead to the following possibly confusing situations:
 
-*   Accessing an object property whose key is an integer will fall under the category `array` destructuring.
-*   Accessing an array element through a computed index will fall under the category `object` destructuring.
+* Accessing an object property whose key is an integer will fall under the category `array` destructuring.
+* Accessing an array element through a computed index will fall under the category `object` destructuring.
 
 The `--fix` option on the command line fixes only problems reported in variable declarations, and among them only those that fall under the category `object` destructuring. Furthermore, the name of the declared variable has to be the same as the name used for non-computed member access in the initializer. For example, `var foo = object.foo` can be automatically fixed by this rule. Problems that involve computed member access (e.g., `var foo = object[foo]`) or renamed properties (e.g., `var foo = object.bar`) are not automatically fixed.
 
