@@ -6,8 +6,6 @@ related_rules:
 - no-nested-ternary
 ---
 
-
-
 It's a common mistake in JavaScript to use a conditional expression to select between two Boolean values instead of using ! to convert the test to a Boolean.
 Here are some examples:
 

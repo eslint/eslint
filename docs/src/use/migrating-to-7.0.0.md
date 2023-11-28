@@ -64,7 +64,7 @@ overrides:
 
 then running `eslint src` would check both `*.js` and `*.ts` files in the `src` directory.
 
-**To address:** Using the `--ext` CLI option will override this new behavior. Run ESLint with `--ext .js`  if you are using `overrides` but only want to lint files that have a `.js` extension.
+**To address:** Using the `--ext` CLI option will override this new behavior. Run ESLint with `--ext .js` if you are using `overrides` but only want to lint files that have a `.js` extension.
 
 If you maintain plugins that check files with extensions other than `.js`, this feature will allow you to check these files by default by configuring an `overrides` setting in your `recommended` preset.
 
@@ -149,8 +149,8 @@ The ten Node.js/CommonJS rules in core have been deprecated and moved to the [es
 
 **To address:** As per [our deprecation policy](../use/rule-deprecation), the deprecated rules will remain in core for the foreseeable future and are still available for use. However, we will no longer be updating or fixing any bugs in those rules. To use a supported version of the rules, we recommend using the corresponding rules in the plugin instead.
 
-| Deprecated Rules                                                             | Replacement                                                                                                                     |
-| :--------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Deprecated Rules                                        | Replacement                                                                                                                     |
+| :------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------ |
 | [callback-return](../rules/callback-return)             | [node/callback-return](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/callback-return.md)             |
 | [global-require](../rules/global-require)               | [node/global-require](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/global-require.md)               |
 | [handle-callback-err](../rules/handle-callback-err)     | [node/handle-callback-err](https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/handle-callback-err.md)     |

@@ -3,8 +3,6 @@ title: no-else-return
 rule_type: suggestion
 ---
 
-
-
 If an `if` block contains a `return` statement, the `else` block becomes unnecessary. Its contents can be placed outside of the block.
 
 ```js

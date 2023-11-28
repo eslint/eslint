@@ -54,18 +54,18 @@ You'll be guided through a series of questions that will help you setup a basic 
 
 There are shareable configs available for most JSCS presets. The equivalent shareable configs for each JSCS preset are listed in the following table:
 
-| **JSCS Preset** | **ESLint Shareable Config** |
-|-----------------|-----------------------------|
-| `airbnb`        | [`eslint-config-airbnb-base`](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base) |
-| `crockford`        | (not available) |
-| `google`        | [`eslint-config-google`](https://github.com/google/eslint-config-google) |
-| `grunt`        | [`eslint-config-grunt`](https://github.com/markelog/eslint-config-grunt) |
-| `idiomatic`        | [`eslint-config-idiomatic`](https://github.com/jamespamplin/eslint-config-idiomatic) |
-| `jquery`        | [`eslint-config-jquery`](https://github.com/jquery/eslint-config-jquery) |
-| `mdcs`        | [`eslint-config-mdcs`](https://github.com/zz85/mrdoobapproves) |
-| `node-style-guide`        | [`eslint-config-node-style-guide`](https://github.com/pdehaan/eslint-config-node-style-guide) |
-| `wikimedia`        | [`eslint-config-wikimedia`](https://github.com/wikimedia/eslint-config-wikimedia) |
-| `wordpress`        | [`eslint-config-wordpress`](https://github.com/WordPress-Coding-Standards/eslint-config-wordpress) |
+| **JSCS Preset**    | **ESLint Shareable Config**                                                                                        |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `airbnb`           | [`eslint-config-airbnb-base`](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base) |
+| `crockford`        | (not available)                                                                                                    |
+| `google`           | [`eslint-config-google`](https://github.com/google/eslint-config-google)                                           |
+| `grunt`            | [`eslint-config-grunt`](https://github.com/markelog/eslint-config-grunt)                                           |
+| `idiomatic`        | [`eslint-config-idiomatic`](https://github.com/jamespamplin/eslint-config-idiomatic)                               |
+| `jquery`           | [`eslint-config-jquery`](https://github.com/jquery/eslint-config-jquery)                                           |
+| `mdcs`             | [`eslint-config-mdcs`](https://github.com/zz85/mrdoobapproves)                                                     |
+| `node-style-guide` | [`eslint-config-node-style-guide`](https://github.com/pdehaan/eslint-config-node-style-guide)                      |
+| `wikimedia`        | [`eslint-config-wikimedia`](https://github.com/wikimedia/eslint-config-wikimedia)                                  |
+| `wordpress`        | [`eslint-config-wordpress`](https://github.com/WordPress-Coding-Standards/eslint-config-wordpress)                 |
 
 As an example, suppose that you are using the `airbnb` preset, so your `.jscsrc` file looks like this:
 
@@ -95,15 +95,15 @@ ESLint sees `"airbnb-base"` and will look for `eslint-config-airbnb-base` (to sa
 
 Both JSCS and ESLint use comments inside of files to disable rules around certain parts of your code. The following table lists out the JSCS inline configuration comments and their ESLint equivalents.
 
-| **Description** | **JSCS Comment** | **ESLint Comment** |
-|-----------------|------------------|--------------------|
-| Disable all rules | `// jscs:disable` or `/* jscs:disable */` | `/* eslint-disable */` |
-| Enable all rules | `// jscs:enable` or `/* jscs:enable */` | `/* eslint-enable */` |
-| Disable one rule | `// jscs:disable ruleName` or `/* jscs:disable ruleName */` | `/* eslint-disable rule-name */` |
-| Enable one rule | `// jscs:enable ruleName` or `/* jscs:enable ruleName */` | `/* eslint-enable rule-name */` |
-| Disable multiple rules | `// jscs:disable ruleName1, ruleName2` or `/* jscs:disable ruleName1, ruleName2 */` | `/* eslint-disable rule-name1, rule-name2 */` |
-| Enable multiple rules | `// jscs:enable ruleName1, ruleName2` or `/* jscs:enable ruleName1, ruleName2 */` | `/* eslint-enable rule-name1, rule-name2 */` |
-| Disable one rule on single line | `// jscs:ignore ruleName` | `// eslint-disable-line rule-name` |
+| **Description**                 | **JSCS Comment**                                                                    | **ESLint Comment**                            |
+| ------------------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------- |
+| Disable all rules               | `// jscs:disable` or `/* jscs:disable */`                                           | `/* eslint-disable */`                        |
+| Enable all rules                | `// jscs:enable` or `/* jscs:enable */`                                             | `/* eslint-enable */`                         |
+| Disable one rule                | `// jscs:disable ruleName` or `/* jscs:disable ruleName */`                         | `/* eslint-disable rule-name */`              |
+| Enable one rule                 | `// jscs:enable ruleName` or `/* jscs:enable ruleName */`                           | `/* eslint-enable rule-name */`               |
+| Disable multiple rules          | `// jscs:disable ruleName1, ruleName2` or `/* jscs:disable ruleName1, ruleName2 */` | `/* eslint-disable rule-name1, rule-name2 */` |
+| Enable multiple rules           | `// jscs:enable ruleName1, ruleName2` or `/* jscs:enable ruleName1, ruleName2 */`   | `/* eslint-enable rule-name1, rule-name2 */`  |
+| Disable one rule on single line | `// jscs:ignore ruleName`                                                           | `// eslint-disable-line rule-name`            |
 
 ## Command Line Options
 

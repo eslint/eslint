@@ -15,6 +15,7 @@ Examples of **incorrect** code for this rule:
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
+
 ::: incorrect
 
 ```js
@@ -31,6 +32,7 @@ var x = 1; // 	 test
 ```
 
 :::
+
 <!-- markdownlint-restore -->
 
 Examples of **correct** code for this rule:
@@ -64,6 +66,7 @@ Examples of **correct** code for this rule with the `allowIndentationTabs: true`
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
+
 ::: correct
 
 ```js
@@ -77,6 +80,7 @@ function test() {
 ```
 
 :::
+
 <!-- markdownlint-restore -->
 
 ## When Not To Use It

@@ -11,7 +11,6 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 ---
 
-
 A getter and setter for the same property don't necessarily have to be defined adjacent to each other.
 
 For example, the following statements would create the same object:

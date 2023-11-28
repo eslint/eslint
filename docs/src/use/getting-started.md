@@ -91,7 +91,7 @@ Your `.eslintrc.{js,yml,json}` configuration file will also include the line:
 }
 ```
 
-Because of this line, all of the rules marked "(recommended)" on the [rules page](../rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
+Because of this line, all of the rules marked "(recommended)" on the [rules page](../rules) will be turned on. Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config). ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
 
 ## Global Install
 
@@ -148,5 +148,5 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 * Learn about [advanced configuration](configure/) of ESLint.
 * Get familiar with the [command line options](command-line-interface).
 * Explore [ESLint integrations](integrations) into other tools like editors, build systems, and more.
-* Can't find just the right rule?  Make your own [custom rule](../extend/custom-rules).
+* Can't find just the right rule? Make your own [custom rule](../extend/custom-rules).
 * Make ESLint even better by [contributing](../contribute/).

@@ -38,7 +38,7 @@ export default [
         rules: {
             ...js.configs.recommended.rules,
             "no-unused-vars": "warn"
-        } 
+        }
     },
 
     // apply all rules to JS files
@@ -47,7 +47,7 @@ export default [
         rules: {
             ...js.configs.all.rules,
             "no-unused-vars": "warn"
-        } 
+        }
     }
 ]
 ```

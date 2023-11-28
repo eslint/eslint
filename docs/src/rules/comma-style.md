@@ -156,7 +156,7 @@ function baz() {
 
 ### exceptions
 
-An example use case is to enforce comma style *only* in var statements.
+An example use case is to enforce comma style _only_ in var statements.
 
 Examples of **incorrect** code for this rule with sample `"first", { "exceptions": { … } }` options:
 

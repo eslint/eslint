@@ -57,35 +57,35 @@ The steps for triaging an issue or pull request are:
 
 1. Move the issue or pull request from "Needs Triage" to "Triaging" in the Triage project.
 1. Check: Has all the information in the issue template been provided?
-    * **No:** If information is missing from the issue template, or you can't tell what is being requested, please ask the author to provide the missing information:
-        * Add the "needs info" label to the issue so we know that this issue is stalled due to lack of information.
-        * Don't move on to other steps until the necessary information has been provided.
-        * If the issue author hasn't provided the necessary information after 7 days, please close the issue. The bot will add a comment stating that the issue was closed because there was information missing.
-    * **Yes:**
-        * If the issue is actually a question (rather than something the dev team needs to change), please [convert it to a discussion](https://docs.github.com/en/free-pro-team@latest/discussions/managing-discussions-for-your-community/moderating-discussions#converting-an-issue-to-a-discussion). You can continue the conversation as a discussion.
-        * If the issue is reporting a bug, or if a pull request is fixing a bug, try to reproduce the issue following the instructions in the issue. If you can reproduce the bug, please add the "repro:yes" label. (The bot will automatically remove the "repro:needed" label.) If you can't reproduce the bug, ask the author for more information about their environment or to clarify reproduction steps.
-        * If the issue or pull request is reporting something that works as intended, please add the "works as intended" label and close the issue.
-        * Please add labels describing the part of ESLint affected:
-            * **3rd party plugin**: Related to third-party functionality (plugins, parsers, rules, etc.)
-            * **build**: Related to commands run during a build (testing, linting, release scripts, etc.)
-            * **cli**: Related to command line input or output, or to `CLIEngine`
-            * **core**: Related to internal APIs
-            * **documentation**: Related to content on eslint.org
-            * **infrastructure**: Related to resources needed for builds or deployment (VMs, CI tools, bots, etc.)
-            * **rule**: Related to core rules
-        * Please assign an initial priority based on the importance of the issue or pull request. If you're not sure, use your best judgment. We can always change the priority later.
-            * **P1**: Urgent and important, we need to address this immediately.
-            * **P2**: Important but not urgent. Should be handled by a TSC member or reviewer.
-            * **P3**: Nice to have but not important. Can be handled by any team member.
-            * **P4**: A good idea that we'd like to have but may take a while for the team to get to it.
-            * **P5**: A good idea that the core team can't commit to. Will likely need to be done by an outside contributor.
-        * Please assign an initial impact assessment (make your best guess):
-            * **Low**: Doesn't affect many users.
-            * **Medium**: Affects most users or has a noticeable effect on user experience.
-            * **High**: Affects a lot of users, is a breaking change, or otherwise will be very noticeable to users.
-        * If you can't properly triage the issue or pull request, move the issue back to the "Needs Triage" column in the Triage project so someone else can triage it.
-        * If a pull request references an already accepted issue, move it to the "Implementing" column in the Triage project.
-        * If you have triaged the issue, move the issue to the "Ready for Dev Team" column in the Triage project.
+   * **No:** If information is missing from the issue template, or you can't tell what is being requested, please ask the author to provide the missing information:
+     * Add the "needs info" label to the issue so we know that this issue is stalled due to lack of information.
+     * Don't move on to other steps until the necessary information has been provided.
+     * If the issue author hasn't provided the necessary information after 7 days, please close the issue. The bot will add a comment stating that the issue was closed because there was information missing.
+   * **Yes:**
+     * If the issue is actually a question (rather than something the dev team needs to change), please [convert it to a discussion](https://docs.github.com/en/free-pro-team@latest/discussions/managing-discussions-for-your-community/moderating-discussions#converting-an-issue-to-a-discussion). You can continue the conversation as a discussion.
+     * If the issue is reporting a bug, or if a pull request is fixing a bug, try to reproduce the issue following the instructions in the issue. If you can reproduce the bug, please add the "repro:yes" label. (The bot will automatically remove the "repro:needed" label.) If you can't reproduce the bug, ask the author for more information about their environment or to clarify reproduction steps.
+     * If the issue or pull request is reporting something that works as intended, please add the "works as intended" label and close the issue.
+     * Please add labels describing the part of ESLint affected:
+       * **3rd party plugin**: Related to third-party functionality (plugins, parsers, rules, etc.)
+       * **build**: Related to commands run during a build (testing, linting, release scripts, etc.)
+       * **cli**: Related to command line input or output, or to `CLIEngine`
+       * **core**: Related to internal APIs
+       * **documentation**: Related to content on eslint.org
+       * **infrastructure**: Related to resources needed for builds or deployment (VMs, CI tools, bots, etc.)
+       * **rule**: Related to core rules
+     * Please assign an initial priority based on the importance of the issue or pull request. If you're not sure, use your best judgment. We can always change the priority later.
+       * **P1**: Urgent and important, we need to address this immediately.
+       * **P2**: Important but not urgent. Should be handled by a TSC member or reviewer.
+       * **P3**: Nice to have but not important. Can be handled by any team member.
+       * **P4**: A good idea that we'd like to have but may take a while for the team to get to it.
+       * **P5**: A good idea that the core team can't commit to. Will likely need to be done by an outside contributor.
+     * Please assign an initial impact assessment (make your best guess):
+       * **Low**: Doesn't affect many users.
+       * **Medium**: Affects most users or has a noticeable effect on user experience.
+       * **High**: Affects a lot of users, is a breaking change, or otherwise will be very noticeable to users.
+     * If you can't properly triage the issue or pull request, move the issue back to the "Needs Triage" column in the Triage project so someone else can triage it.
+     * If a pull request references an already accepted issue, move it to the "Implementing" column in the Triage project.
+     * If you have triaged the issue, move the issue to the "Ready for Dev Team" column in the Triage project.
 
 ## Evaluation Process
 
@@ -93,16 +93,16 @@ When an issue has been moved to the "Ready for Dev Team" column, any dev team me
 
 1. Move the issue into the "Evaluating" column.
 1. Next steps:
-    * **Bugs**: If you can verify the bug, add the "accepted" label and ask if they would like to submit a pull request.
-    * **New Rules**: If you are willing to champion the rule (meaning you believe it should be included in ESLint core and you will take ownership of the process for including it), add a comment saying you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
-    * **Rule Changes**: If you are willing to champion the change and it would not be a breaking change (requiring a major version increment), add a comment saying that you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
-    * **Breaking Changes**: If you suspect or can verify that a change would be breaking, label it as "Breaking".
-    * **Duplicates**: If you can verify the issue is a duplicate, add a comment mentioning the duplicate issue (such as, "Duplicate of #1234") and close the issue.
+   * **Bugs**: If you can verify the bug, add the "accepted" label and ask if they would like to submit a pull request.
+   * **New Rules**: If you are willing to champion the rule (meaning you believe it should be included in ESLint core and you will take ownership of the process for including it), add a comment saying you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
+   * **Rule Changes**: If you are willing to champion the change and it would not be a breaking change (requiring a major version increment), add a comment saying that you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
+   * **Breaking Changes**: If you suspect or can verify that a change would be breaking, label it as "Breaking".
+   * **Duplicates**: If you can verify the issue is a duplicate, add a comment mentioning the duplicate issue (such as, "Duplicate of #1234") and close the issue.
 1. Regardless of the above, always leave a comment. Don't just add labels; engage with the person who opened the issue by asking a question (request more information if necessary) or stating your opinion of the issue. If it's a verified bug, ask if the user would like to submit a pull request.
 1. If the issue can't be implemented because it needs an external dependency to be updated or needs to wait for another issue to be resolved, move the issue to the "Blocked" column.
 1. If the issue has been accepted and an RFC is required as the next step, move the issue to the "Waiting for RFC" column and comment on the issue that an RFC is needed.
 
-**Note:** "Good first issue" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance to work on these issues, issues labeled "good first issue" must be open for 30 days *from the day the issue was labeled* before a team member is permitted to work on them.
+**Note:** "Good first issue" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance to work on these issues, issues labeled "good first issue" must be open for 30 days _from the day the issue was labeled_ before a team member is permitted to work on them.
 
 ## Accepting Issues and Pull Requests
 

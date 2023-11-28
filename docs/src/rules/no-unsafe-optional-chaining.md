@@ -3,8 +3,6 @@ title: no-unsafe-optional-chaining
 rule_type: problem
 ---
 
-
-
 The optional chaining (`?.`) expression can short-circuit with a return value of `undefined`. Therefore, treating an evaluated optional chaining expression as a function, object, number, etc., can cause TypeError or unexpected results. For example:
 
 ```js

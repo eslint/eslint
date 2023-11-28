@@ -3,7 +3,6 @@ title: no-restricted-exports
 rule_type: suggestion
 ---
 
-
 In a project, certain names may be disallowed from being used as exported names for various reasons.
 
 ## Rule Details

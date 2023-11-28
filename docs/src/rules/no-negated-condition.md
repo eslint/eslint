@@ -3,7 +3,6 @@ title: no-negated-condition
 rule_type: suggestion
 ---
 
-
 Negated conditions are more difficult to understand. Code can be made more readable by inverting the condition instead.
 
 ## Rule Details

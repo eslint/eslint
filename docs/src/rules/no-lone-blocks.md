@@ -3,7 +3,6 @@ title: no-lone-blocks
 rule_type: suggestion
 ---
 
-
 In JavaScript, prior to ES6, standalone code blocks delimited by curly braces do not create a new scope and have no use. For example, these curly braces do nothing to `foo`:
 
 ```js

@@ -6,7 +6,6 @@ related_rules:
 - sort-vars
 ---
 
-
 When declaring multiple properties, some developers prefer to sort property names alphabetically to more easily find and/or diff necessary properties at a later time. Others feel that it adds complexity and becomes burden to maintain.
 
 ## Rule Details
@@ -342,7 +341,7 @@ let obj3 = {
 
     b () {
 
-    }, 
+    },
     e: 3,
 }
 

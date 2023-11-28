@@ -5,7 +5,6 @@ further_reading:
 - https://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html
 ---
 
-
 There are two ways of defining functions in JavaScript: `function` declarations and `function` expressions. Declarations contain the `function` keyword first, followed by a name and then its arguments and the function body, for example:
 
 ```js
@@ -22,7 +21,7 @@ var doSomething = function() {
 };
 ```
 
-The primary difference between `function` declarations and `function expressions` is that declarations are *hoisted* to the top of the scope in which they are defined, which allows you to write code that uses the function before its declaration. For example:
+The primary difference between `function` declarations and `function expressions` is that declarations are _hoisted_ to the top of the scope in which they are defined, which allows you to write code that uses the function before its declaration. For example:
 
 ```js
 doSomething();

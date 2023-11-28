@@ -3,8 +3,6 @@ title: no-self-assign
 rule_type: problem
 ---
 
-
-
 Self assignments have no effect, so probably those are an error due to incomplete refactoring.
 Those indicate that what you should do is still remaining.
 

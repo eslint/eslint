@@ -3,7 +3,6 @@ title: consistent-return
 rule_type: suggestion
 ---
 
-
 Unlike statically-typed languages which enforce that a function returns a specified type of value, JavaScript allows different code paths in a function to return different types of values.
 
 A confusing aspect of JavaScript is that a function returns `undefined` if any of the following are true:

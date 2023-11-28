@@ -5,8 +5,6 @@ related_rules:
 - default-case
 ---
 
-
-
 The `switch` statement in JavaScript is one of the more error-prone constructs of the language thanks in part to the ability to "fall through" from one `case` to the next. For example:
 
 ```js
@@ -221,7 +219,7 @@ switch(foo){
 switch(foo){
     case 1:
     /*
-    Put a message here 
+    Put a message here
     */
     case 2: doSomething();
 }

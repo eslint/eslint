@@ -6,6 +6,7 @@ eleventyNavigation:
     title: Custom Rule Tutorial
     order: 1
 ---
+
 This tutorial covers how to create a custom rule for ESLint and distribute it with a plugin.
 
 You can create custom rules to validate if your code meets a certain expectation, and determine what to do if it does not meet that expectation. Plugins package custom rules and other configuration, allowing you to easily share and reuse them in different projects.

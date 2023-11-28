@@ -3,8 +3,6 @@ title: strict
 rule_type: suggestion
 ---
 
-
-
 A strict mode directive is a `"use strict"` literal at the beginning of a script or function body. It enables strict mode semantics.
 
 When a directive occurs in global scope, strict mode applies to the entire script:

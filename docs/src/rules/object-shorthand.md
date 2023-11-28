@@ -7,8 +7,6 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer
 ---
 
-
-
 ECMAScript 6 provides a concise form for defining object literal methods and properties. This
 syntax can make defining complex object literals much cleaner.
 
@@ -79,7 +77,7 @@ var foo = {
 ```
 
 This rule does not flag arrow functions inside of object literals.
-The following will *not* warn:
+The following will _not_ warn:
 
 ```js
 /*eslint object-shorthand: "error"*/

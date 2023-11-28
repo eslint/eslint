@@ -3,8 +3,6 @@ title: one-var
 rule_type: suggestion
 ---
 
-
-
 Variables can be declared at any point in JavaScript code using `var`, `let`, or `const`. There are many styles and preferences related to the declaration of variables, and one of those is deciding on how many variable declarations should be allowed in a single function.
 
 There are two schools of thought in this regard:

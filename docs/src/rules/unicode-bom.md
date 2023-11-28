@@ -3,8 +3,6 @@ title: unicode-bom
 rule_type: layout
 ---
 
-
-
 The Unicode Byte Order Mark (BOM) is used to specify whether code units are big
 endian or little endian. That is, whether the most significant or least
 significant bytes come first. UTF-8 does not require a BOM because byte ordering

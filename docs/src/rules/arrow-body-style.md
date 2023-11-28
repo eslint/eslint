@@ -3,7 +3,7 @@ title: arrow-body-style
 rule_type: suggestion
 ---
 
-Arrow functions have two syntactic forms for their function bodies.  They may be defined with a *block* body (denoted by curly braces) `() => { ... }` or with a single expression `() => ...`, whose value is implicitly returned.
+Arrow functions have two syntactic forms for their function bodies. They may be defined with a _block_ body (denoted by curly braces) `() => { ... }` or with a single expression `() => ...`, whose value is implicitly returned.
 
 ## Rule Details
 

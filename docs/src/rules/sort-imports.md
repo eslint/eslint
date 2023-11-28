@@ -6,8 +6,6 @@ related_rules:
 - sort-vars
 ---
 
-
-
 The import statement is used to import members (functions, objects or primitives) that have been exported from an external module. Using a specific member syntax:
 
 ```js

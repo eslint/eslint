@@ -3,7 +3,6 @@ title: array-callback-return
 rule_type: problem
 ---
 
-
 `Array` has several methods for filtering, mapping, and folding.
 If we forget to write `return` statement in a callback of those, it's probably a mistake. If you don't want to use a return or don't need the returned results, consider using [.forEach](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) instead.
 
@@ -98,7 +97,7 @@ This rule accepts a configuration object with three options:
 * `"checkForEach": false` (default) When set to `true`, rule will also report `forEach` callbacks that return a value.
 * `"allowVoid": false` (default) When set to `true`, allows `void` in `forEach` callbacks, so rule will not report the return value with a `void` operator.
 
-**Note:** `{ "allowVoid": true }` works only if `checkForEach` option is set to `true`.  
+**Note:** `{ "allowVoid": true }` works only if `checkForEach` option is set to `true`.
 
 ### allowImplicit
 
@@ -214,7 +213,7 @@ myArray.forEach(item => {
 
 ## Known Limitations
 
-This rule checks callback functions of methods with the given names, *even if* the object which has the method is *not* an array.
+This rule checks callback functions of methods with the given names, _even if_ the object which has the method is _not_ an array.
 
 ## When Not To Use It
 

@@ -5,7 +5,7 @@ title: ScopeManager
 
 This document was written based on the implementation of [eslint-scope](https://github.com/eslint/eslint-scope), a fork of [escope](https://github.com/estools/escope), and deprecates some members ESLint is not using.
 
-----
+---
 
 ## ScopeManager interface
 
@@ -69,7 +69,7 @@ Those members are defined but not used in ESLint.
 * **Return type:** `Scope[] | null`
 * **Description:** Get the scopes of a given AST node. The gotten scopes' `block` property is the node. If the node does not have their scope, this returns `null`.
 
-----
+---
 
 ## Scope interface
 
@@ -194,7 +194,7 @@ Those members are defined but not used in ESLint.
 * **Return type:** `boolean`
 * **Description:** `true` if a given name is used in variable names or reference names.
 
-----
+---
 
 ## Variable interface
 
@@ -243,7 +243,7 @@ Those members are defined but not used in ESLint.
 * **Type:** `boolean`
 * **Description:** The `stack` flag. (I'm not sure what this means.)
 
-----
+---
 
 ## Reference interface
 
@@ -333,7 +333,7 @@ Those members are defined but not used in ESLint.
 * **Return type:** `boolean`
 * **Description:** `true` if this reference is resolved statically.
 
-----
+---
 
 ## Definition interface
 
@@ -356,30 +356,30 @@ Those members are defined but not used in ESLint.
 * **Type:** `ASTNode`
 * **Description:** The enclosing node of the name.
 
-| type                       | node |
-|:---------------------------|:-----|
-| `"CatchClause"`            | `CatchClause`
-| `"ClassName"`              | `ClassDeclaration` or `ClassExpression`
-| `"FunctionName"`           | `FunctionDeclaration` or `FunctionExpression`
-| `"ImplicitGlobalVariable"` | `Program`
-| `"ImportBinding"`          | `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`
-| `"Parameter"`              | `FunctionDeclaration`, `FunctionExpression`, or `ArrowFunctionExpression`
-| `"Variable"`               | `VariableDeclarator`
+| type                       | node                                                                       |
+| :------------------------- | :------------------------------------------------------------------------- |
+| `"CatchClause"`            | `CatchClause`                                                              |
+| `"ClassName"`              | `ClassDeclaration` or `ClassExpression`                                    |
+| `"FunctionName"`           | `FunctionDeclaration` or `FunctionExpression`                              |
+| `"ImplicitGlobalVariable"` | `Program`                                                                  |
+| `"ImportBinding"`          | `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier` |
+| `"Parameter"`              | `FunctionDeclaration`, `FunctionExpression`, or `ArrowFunctionExpression`  |
+| `"Variable"`               | `VariableDeclarator`                                                       |
 
 #### parent
 
 * **Type:** `ASTNode | undefined | null`
 * **Description:** The enclosing statement node of the name.
 
-| type                       | parent |
-|:---------------------------|:-------|
-| `"CatchClause"`            | `null`
-| `"ClassName"`              | `null`
-| `"FunctionName"`           | `null`
-| `"ImplicitGlobalVariable"` | `null`
-| `"ImportBinding"`          | `ImportDeclaration`
-| `"Parameter"`              | `null`
-| `"Variable"`               | `VariableDeclaration`
+| type                       | parent                |
+| :------------------------- | :-------------------- |
+| `"CatchClause"`            | `null`                |
+| `"ClassName"`              | `null`                |
+| `"FunctionName"`           | `null`                |
+| `"ImplicitGlobalVariable"` | `null`                |
+| `"ImportBinding"`          | `ImportDeclaration`   |
+| `"Parameter"`              | `null`                |
+| `"Variable"`               | `VariableDeclaration` |
 
 ### Deprecated members
 

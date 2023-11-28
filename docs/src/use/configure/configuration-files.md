@@ -171,7 +171,7 @@ And in YAML:
   root: true
 ```
 
-For example, consider `projectA` which has `"root": true` set in the `.eslintrc` file in the `lib/` directory.  In this case, while linting `main.js`, the configurations within `lib/` are used, but the `.eslintrc` file in `projectA/` is not.
+For example, consider `projectA` which has `"root": true` set in the `.eslintrc` file in the `lib/` directory. In this case, while linting `main.js`, the configurations within `lib/` are used, but the `.eslintrc` file in `projectA/` is not.
 
 ```text
 home
@@ -186,18 +186,18 @@ home
 The complete configuration hierarchy, from highest to lowest precedence, is as follows:
 
 1. Inline configuration
-    1. `/*eslint-disable*/` and `/*eslint-enable*/`
-    1. `/*global*/`
-    1. `/*eslint*/`
-    1. `/*eslint-env*/`
+   1. `/*eslint-disable*/` and `/*eslint-enable*/`
+   1. `/*global*/`
+   1. `/*eslint*/`
+   1. `/*eslint-env*/`
 1. Command line options (or CLIEngine equivalents):
-    1. `--global`
-    1. `--rule`
-    1. `--env`
-    1. `-c`, `--config`
+   1. `--global`
+   1. `--rule`
+   1. `--env`
+   1. `-c`, `--config`
 1. Project-level configuration:
-    1. `.eslintrc.*` or `package.json` file in the same directory as the linted file
-    1. Continue searching for `.eslintrc.*` and `package.json` files in ancestor directories up to and including the root directory or until a config with `"root": true` is found.
+   1. `.eslintrc.*` or `package.json` file in the same directory as the linted file
+   1. Continue searching for `.eslintrc.*` and `package.json` files in ancestor directories up to and including the root directory or until a config with `"root": true` is found.
 
 Please note that the [home directory of the current user on your preferred operating system](https://nodejs.org/api/os.html#os_os_homedir) (`~/`) is also considered a root directory in this context and searching for configuration files stops there as well. And with the [removal of support for Personal Configuration Files](configuration-files#personal-configuration-files-deprecated) from the 8.0.0 release forward, configuration files present in that directory are ignored.
 

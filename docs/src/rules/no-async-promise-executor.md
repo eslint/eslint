@@ -3,9 +3,7 @@ title: no-async-promise-executor
 rule_type: problem
 ---
 
-
-
-The `new Promise` constructor accepts an *executor* function as an argument, which has `resolve` and `reject` parameters that can be used to control the state of the created Promise. For example:
+The `new Promise` constructor accepts an _executor_ function as an argument, which has `resolve` and `reject` parameters that can be used to control the state of the created Promise. For example:
 
 ```js
 const result = new Promise(function executor(resolve, reject) {

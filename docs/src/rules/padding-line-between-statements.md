@@ -44,6 +44,7 @@ You can supply any number of configurations. If a statement pair matches multipl
 ```
 
 * `LINEBREAK_TYPE` is one of the following.
+
     * `"any"` just ignores the statement pair.
     * `"never"` disallows blank lines.
     * `"always"` requires one or more blank lines. Note it does not count lines that comments exist as blank lines.
@@ -133,7 +134,7 @@ function foo2() {
 
 :::
 
-----
+---
 
 This configuration would require blank lines after every sequence of variable declarations, like the [newline-after-var](newline-after-var) rule.
 
@@ -217,7 +218,7 @@ class C {
 
 :::
 
-----
+---
 
 This configuration would require blank lines after all directive prologues, like the [lines-around-directive](lines-around-directive) rule.
 
@@ -257,7 +258,7 @@ foo();
 
 :::
 
-----
+---
 
 This configuration would require blank lines between clauses in `switch` statements.
 

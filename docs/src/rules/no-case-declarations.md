@@ -5,8 +5,6 @@ related_rules:
 - no-fallthrough
 ---
 
-
-
 This rule disallows lexical declarations (`let`, `const`, `function` and `class`)
 in `case`/`default` clauses. The reason is that the lexical declaration is visible
 in the entire switch block but it only gets initialized when it is assigned, which

@@ -3,7 +3,6 @@ title: no-constructor-return
 rule_type: problem
 ---
 
-
 In JavaScript, returning a value in the constructor of a class may be a mistake. Forbidding this pattern prevents mistakes resulting from unfamiliarity with the language or a copy-paste error.
 
 ## Rule Details

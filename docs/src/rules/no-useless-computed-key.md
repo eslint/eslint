@@ -3,8 +3,6 @@ title: no-useless-computed-key
 rule_type: suggestion
 ---
 
-
-
 It's unnecessary to use computed properties with literals such as:
 
 ```js

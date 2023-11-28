@@ -17,13 +17,13 @@ We use labels to indicate the status of issues. The most complete documentation 
 1. What is this issue about? Labels describing the nature of issues include `bug`, `enhancement`, `feature`, `question`, `rule`, `documentation`, `core`, `build`, `cli`, `infrastructure`, `breaking`, and `chore`. These are documented in [Maintain ESLint](../maintain/manage-issues#types-of-issues-and-pull-requests).
 1. What is the priority of this issue? Because we have a lot of issues, we prioritize certain issues above others. The following is the list of priorities, from highest to lowest:
 
-    1. **Bugs** - problems with the project are actively affecting users. We want to get these resolved as quickly as possible.
-    1. **Documentation** - documentation issues are a type of bug in that they actively affect current users. As such, we want to address documentation issues as quickly as possible.
-    1. **Features** - new functionality that will aid users in the future.
-    1. **Enhancements** - requested improvements for existing functionality.
-    1. **Other** - anything else.
+   1. **Bugs** - problems with the project are actively affecting users. We want to get these resolved as quickly as possible.
+   1. **Documentation** - documentation issues are a type of bug in that they actively affect current users. As such, we want to address documentation issues as quickly as possible.
+   1. **Features** - new functionality that will aid users in the future.
+   1. **Enhancements** - requested improvements for existing functionality.
+   1. **Other** - anything else.
 
-    Some issues have had monetary rewards attached to them. Those are labeled `bounty`. Bounties are assigned via [BountySource](https://www.bountysource.com/teams/eslint/issues).
+   Some issues have had monetary rewards attached to them. Those are labeled `bounty`. Bounties are assigned via [BountySource](https://www.bountysource.com/teams/eslint/issues).
 
 ## Starting Work
 

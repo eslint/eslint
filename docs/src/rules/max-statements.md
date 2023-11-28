@@ -11,7 +11,6 @@ related_rules:
 - max-params
 ---
 
-
 The `max-statements` rule allows you to specify the maximum number of statements allowed in a function.
 
 ```js

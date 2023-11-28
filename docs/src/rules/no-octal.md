@@ -3,8 +3,6 @@ title: no-octal
 rule_type: suggestion
 ---
 
-
-
 Octal literals are numerals that begin with a leading zero, such as:
 
 ```js

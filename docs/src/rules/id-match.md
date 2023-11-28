@@ -3,7 +3,6 @@ title: id-match
 rule_type: suggestion
 ---
 
-
 > "There are only two hard things in Computer Science: cache invalidation and naming things." — Phil Karlton
 
 Naming things consistently in a project is an often underestimated aspect of code creation.

@@ -61,7 +61,7 @@ The following rules have been added to the [`eslint:recommended`](../use/configu
 * [`no-with`](../rules/no-with) disallows use of the [`with` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with), which can make code difficult to understand and cause compatibility problems.
 * [`require-atomic-updates`](../rules/require-atomic-updates) reports race condition bugs that can occur when reassigning variables in async functions.
 
-Additionally, the following rule has been *removed* from `eslint:recommended`:
+Additionally, the following rule has been _removed_ from `eslint:recommended`:
 
 * [`no-console`](../rules/no-console) disallows calling functions like `console.log`. While this rule is useful in many cases (e.g. to avoid inadvertently leaving debugging statements in production code), it is not as broadly applicable as the other rules in `eslint:recommended`, and it was a source of false positives in cases where `console.log` is acceptable (e.g. in CLI applications).
 
@@ -119,13 +119,13 @@ If you use a config file located outside of a local project (with the `--config`
 
 To catch config errors earlier, ESLint v6 will report a linting error if you are trying to configure a non-existent rule.
 
-config | ESLint v5 | ESLint v6
-------------- | ------------- | -------------
-`/*eslint-enable foo*/`  | no error | linting error
-`/*eslint-disable(-line) foo*/`  | no error | linting error
-`/*eslint foo: 0*/` | no error | linting error
-`{rules: {foo: 0}}` | no error | no error
-`{rules: {foo: 1}` | linting warning | linting error
+| config                          | ESLint v5       | ESLint v6     |
+| ------------------------------- | --------------- | ------------- |
+| `/*eslint-enable foo*/`         | no error        | linting error |
+| `/*eslint-disable(-line) foo*/` | no error        | linting error |
+| `/*eslint foo: 0*/`             | no error        | linting error |
+| `{rules: {foo: 0}}`             | no error        | no error      |
+| `{rules: {foo: 1}`              | linting warning | linting error |
 
 **To address:** You can remove the non-existent rule in your (inline) config.
 

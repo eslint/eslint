@@ -189,7 +189,7 @@ npx eslint . --ext .js,.ts
 
 #### `--global`
 
-This option defines global variables so that they are not  flagged as undefined by the [`no-undef`](../rules/no-undef) rule.
+This option defines global variables so that they are not flagged as undefined by the [`no-undef`](../rules/no-undef) rule.
 
 * **Argument Type**: String. Name of the global variable. Any specified global variables are assumed to be read-only by default, but appending `:true` to a variable's name ensures that `no-undef` also allows writes.
 * **Multiple Arguments**: Yes
@@ -378,7 +378,7 @@ npx eslint --fix --fix-type suggestion,layout .
 
 * **Argument Type**: String. Path to file.
 * **Multiple Arguments**: No
-* **Default Value**:  By default, ESLint looks for `.eslintignore` in the current working directory.
+* **Default Value**: By default, ESLint looks for `.eslintignore` in the current working directory.
 
 **Note:** `--ignore-path` is not supported when using [flat configuration](./configure/configuration-files-new) (`eslint.config.js`).
 

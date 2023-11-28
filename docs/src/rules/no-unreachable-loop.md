@@ -8,7 +8,6 @@ related_rules:
 - for-direction
 ---
 
-
 A loop that can never reach the second iteration is a possible error in the code.
 
 ```js

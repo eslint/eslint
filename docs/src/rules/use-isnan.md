@@ -3,8 +3,6 @@ title: use-isnan
 rule_type: problem
 ---
 
-
-
 In JavaScript, `NaN` is a special value of the `Number` type. It's used to represent any of the "not-a-number" values represented by the double-precision 64-bit format as specified by the IEEE Standard for Binary Floating-Point Arithmetic.
 
 Because `NaN` is unique in JavaScript by not being equal to anything, including itself, the results of comparisons to `NaN` are confusing:
@@ -279,4 +277,4 @@ var hasNaN = myArray.includes(NaN);
 
 #### Known Limitations
 
-This option checks methods with the given names, *even if* the object which has the method is *not* an array.
+This option checks methods with the given names, _even if_ the object which has the method is _not_ an array.

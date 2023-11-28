@@ -143,6 +143,7 @@ Examples of **correct** code for this rule with the `"tab"` option:
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
+
 ::: correct
 
 ```js
@@ -157,6 +158,7 @@ if (a) {
 ```
 
 :::
+
 <!-- markdownlint-restore -->
 
 ### ignoredNodes

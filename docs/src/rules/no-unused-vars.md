@@ -3,8 +3,6 @@ title: no-unused-vars
 rule_type: problem
 ---
 
-
-
 Variables that are declared and not used anywhere in the code are most likely an error due to incomplete refactoring. Such variables take up space in the code and can lead to confusion by readers.
 
 ## Rule Details
@@ -18,7 +16,7 @@ A variable `foo` is considered to be used if any of the following are true:
 * It is passed into a function as an argument (`doSomething(foo)`)
 * It is read inside of a function that is passed to another function (`doSomething(function() { foo(); })`)
 
-A variable is *not* considered to be used if it is only ever declared (`var foo = 5`) or assigned to (`foo = 7`).
+A variable is _not_ considered to be used if it is only ever declared (`var foo = 5`) or assigned to (`foo = 7`).
 
 Examples of **incorrect** code for this rule:
 

@@ -44,8 +44,8 @@ In this case, the rule will not try to remove the parentheses around `"use stric
 
 This rule has a string option:
 
-* `"all"` (default) disallows unnecessary parentheses around *any* expression
-* `"functions"` disallows unnecessary parentheses *only* around function expressions
+* `"all"` (default) disallows unnecessary parentheses around _any_ expression
+* `"functions"` disallows unnecessary parentheses _only_ around function expressions
 
 This rule has an object option for exceptions to the `"all"` option:
 

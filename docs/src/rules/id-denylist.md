@@ -3,7 +3,6 @@ title: id-denylist
 rule_type: suggestion
 ---
 
-
 > "There are only two hard things in Computer Science: cache invalidation and naming things." — Phil Karlton
 
 Generic names can lead to hard-to-decipher code. This rule allows you to specify a deny list of disallowed identifier names to avoid this practice.

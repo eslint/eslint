@@ -3,8 +3,6 @@ title: indent-legacy
 rule_type: layout
 ---
 
-
-
 This rule was **deprecated** in ESLint v4.0.0.
 
 ESLint 4.0.0 introduced a rewrite of the [`indent`](indent) rule, which now reports more errors than it did in previous versions. To ease the process of migrating to 4.0.0, the `indent-legacy` rule was introduced as a snapshot of the `indent` rule from ESLint 3.x. If your build is failing after the upgrade to 4.0.0, you can disable `indent` and enable `indent-legacy` as a quick fix. Eventually, you should switch back to the `indent` rule to get bugfixes and improvements in future versions.
@@ -142,6 +140,7 @@ Examples of **correct** code for this rule with the `"tab"` option:
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable MD010 -->
+
 ::: correct
 
 ```js
@@ -156,6 +155,7 @@ if (a) {
 ```
 
 :::
+
 <!-- markdownlint-restore -->
 
 ### SwitchCase

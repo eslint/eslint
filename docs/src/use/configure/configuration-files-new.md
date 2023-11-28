@@ -510,7 +510,7 @@ export default [
 ];
 ```
 
-This configuration object specifies that there is a processor called `"markdown"` contained in the plugin named `"markdown"`.  The configuration applies the processor to all files ending with `.md`.
+This configuration object specifies that there is a processor called `"markdown"` contained in the plugin named `"markdown"`. The configuration applies the processor to all files ending with `.md`.
 
 Processors may make named code blocks that function as filenames in configuration objects, such as `0.js` and `1.js`. ESLint handles such a named code block as a child of the original file. You can specify additional configuration objects for named code blocks. For example, the following disables the `strict` rule for the named code blocks which end with `.js` in markdown files.
 

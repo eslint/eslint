@@ -4,10 +4,6 @@ rule_type: problem
 handled_by_typescript: true
 ---
 
-
-
-
-
 Just as developers might type `-a + b` when they mean `-(a + b)` for the negative of a sum, they might type `!key in object` by mistake when they almost certainly mean `!(key in object)` to test that a key is not in an object. `!obj instanceof Ctor` is similar.
 
 ## Rule Details

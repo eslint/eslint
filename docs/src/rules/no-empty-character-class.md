@@ -3,8 +3,6 @@ title: no-empty-character-class
 rule_type: problem
 ---
 
-
-
 Because empty character classes in regular expressions do not match anything, they might be typing mistakes.
 
 ```js
@@ -68,7 +66,7 @@ Examples of **correct** code for this rule:
 
 This rule does not report empty character classes in the string argument of calls to the `RegExp` constructor.
 
-Example of a *false negative* when this rule reports correct code:
+Example of a _false negative_ when this rule reports correct code:
 
 ```js
 /*eslint no-empty-character-class: "error"*/

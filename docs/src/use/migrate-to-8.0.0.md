@@ -246,10 +246,10 @@ The `CLIEngine` class has been removed and replaced by the [`ESLint` class](../i
 | `isPathIgnored(filePath)`                    | `isPathIgnored(filePath)`          |
 | `static outputFixes(results)`                | `static outputFixes(results)`      |
 | `static getErrorResults(results)`            | `static getErrorResults(results)`  |
-| `static getFormatter(name)`                  | (removed ※1)                      |
+| `static getFormatter(name)`                  | (removed ※1)                       |
 | `addPlugin(pluginId, definition)`            | the `plugins` constructor option   |
-| `getRules()`                                 | (removed ※2)                      |
-| `resolveFileGlobPatterns()`                  | (removed ※3)                      |
+| `getRules()`                                 | (removed ※2)                       |
+| `resolveFileGlobPatterns()`                  | (removed ※3)                       |
 
 * ※1 The `engine.getFormatter()` method currently returns the object of loaded packages as-is, which made it difficult to add new features to formatters for backward compatibility reasons. The new `eslint.loadFormatter()` method returns an adapter object that wraps the object of loaded packages, to ease the process of adding new features. Additionally, the adapter object has access to the `ESLint` instance to calculate default data (using loaded plugin rules to make `rulesMeta`, for example). As a result, the `ESLint` class only implements an instance version of the `loadFormatter()` method.
 * ※2 The `CLIEngine#getRules()` method had side effects and so was removed. If you were using `CLIEngine#getRules()` to retrieve meta information about rules based on linting results, use `ESLint#getRulesMetaForResults()` instead. If you were using `CLIEngine#getRules()` to retrieve all built-in rules, import `builtinRules` from `eslint/use-at-your-own-risk` for an unsupported API that allows access to internal rules.

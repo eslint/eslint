@@ -11,7 +11,6 @@ related_rules:
 - max-statements
 ---
 
-
 Many developers consider code difficult to read if blocks are nested beyond a certain depth.
 
 ## Rule Details

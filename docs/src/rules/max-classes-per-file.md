@@ -3,7 +3,6 @@ title: max-classes-per-file
 rule_type: suggestion
 ---
 
-
 Files containing multiple classes can often result in a less navigable
 and poorly structured codebase. Best practice is to keep each file
 limited to a single responsibility.

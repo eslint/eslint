@@ -5,7 +5,6 @@ related_rules:
 - no-fallthrough
 ---
 
-
 Some code conventions require that all `switch` statements have a `default` case, even if the default case is empty, such as:
 
 ```js

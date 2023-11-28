@@ -3,7 +3,6 @@ title: no-bitwise
 rule_type: suggestion
 ---
 
-
 The use of bitwise operators in JavaScript is very rare and often `&` or `|` is simply a mistyped `&&` or `||`, which will lead to unexpected behavior.
 
 ```js

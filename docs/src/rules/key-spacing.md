@@ -309,9 +309,9 @@ var obj = {
 
 ### align and multiLine
 
-The `multiLine` and `align` options can differ, which allows for fine-tuned control over the `key-spacing` of your files.  `align` will **not** inherit from `multiLine` if `align` is configured as an object.
+The `multiLine` and `align` options can differ, which allows for fine-tuned control over the `key-spacing` of your files. `align` will **not** inherit from `multiLine` if `align` is configured as an object.
 
-`multiLine` is used any time  an object literal spans multiple lines.  The `align` configuration is used when there is a group of properties in the same object. For example:
+`multiLine` is used any time an object literal spans multiple lines. The `align` configuration is used when there is a group of properties in the same object. For example:
 
 ```javascript
 var myObj = {

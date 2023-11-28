@@ -110,16 +110,16 @@ By default, ESLint does not perform autofixes when a custom processor is used, e
 
 1. Update the `postprocess` method to additionally transform the `fix` property of reported problems. All autofixable problems have a `fix` property, which is an object with the following schema:
 
-    ```typescript
-    {
-        range: [number, number],
-        text: string
-    }
-    ```
+   ```typescript
+   {
+       range: [number, number],
+       text: string
+   }
+   ```
 
-    The `range` property contains two indexes in the code, referring to the start and end location of a contiguous section of text that will be replaced. The `text` property refers to the text that will replace the given range.
+   The `range` property contains two indexes in the code, referring to the start and end location of a contiguous section of text that will be replaced. The `text` property refers to the text that will replace the given range.
 
-    In the initial list of problems, the `fix` property will refer to a fix in the processed JavaScript. The `postprocess` method should transform the object to refer to a fix in the original, unprocessed file.
+   In the initial list of problems, the `fix` property will refer to a fix in the processed JavaScript. The `postprocess` method should transform the object to refer to a fix in the original, unprocessed file.
 
 2. Add a `supportsAutofix: true` property to the processor.
 

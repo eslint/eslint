@@ -3,7 +3,6 @@ title: no-plusplus
 rule_type: suggestion
 ---
 
-
 Because the unary `++` and `--` operators are subject to automatic semicolon insertion, differences in whitespace can change semantics of source code.
 
 ```js

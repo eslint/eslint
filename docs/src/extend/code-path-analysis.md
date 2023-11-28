@@ -179,7 +179,7 @@ bar();
 1. First, the analysis advances to the end of loop.
 
 :::img-container
-   ![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-while-1.svg)
+![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-while-1.svg)
 :::
 
 2. Second, it creates the looping path.
@@ -187,13 +187,13 @@ bar();
    It fires `onCodePathSegmentLoop` instead.
 
 :::img-container
-   ![Loop Event's Example 2](../assets/images/code-path-analysis/loop-event-example-while-2.svg)
+![Loop Event's Example 2](../assets/images/code-path-analysis/loop-event-example-while-2.svg)
 :::
 
 3. Last, it advances to the end.
 
 :::img-container
-   ![Loop Event's Example 3](../assets/images/code-path-analysis/loop-event-example-while-3.svg)
+![Loop Event's Example 3](../assets/images/code-path-analysis/loop-event-example-while-3.svg)
 :::
 
 For example 2:
@@ -210,7 +210,7 @@ bar();
    The `update` segment is hovered at first.
 
 :::img-container
-   ![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-for-1.svg)
+![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-for-1.svg)
 :::
 
 2. Second, it advances to `ForStatement.body`.
@@ -218,7 +218,7 @@ bar();
    It keeps the `update` segment hovering.
 
 :::img-container
-   ![Loop Event's Example 2](../assets/images/code-path-analysis/loop-event-example-for-2.svg)
+![Loop Event's Example 2](../assets/images/code-path-analysis/loop-event-example-for-2.svg)
 :::
 
 3. Third, it creates the looping path from `body` segment to `update` segment.
@@ -226,7 +226,7 @@ bar();
    It fires `onCodePathSegmentLoop` instead.
 
 :::img-container
-   ![Loop Event's Example 3](../assets/images/code-path-analysis/loop-event-example-for-3.svg)
+![Loop Event's Example 3](../assets/images/code-path-analysis/loop-event-example-for-3.svg)
 :::
 
 4. Fourth, also it creates the looping path from `update` segment to `test` segment.
@@ -234,13 +234,13 @@ bar();
    It fires `onCodePathSegmentLoop` instead.
 
 :::img-container
-   ![Loop Event's Example 4](../assets/images/code-path-analysis/loop-event-example-for-4.svg)
+![Loop Event's Example 4](../assets/images/code-path-analysis/loop-event-example-for-4.svg)
 :::
 
 5. Last, it advances to the end.
 
 :::img-container
-   ![Loop Event's Example 5](../assets/images/code-path-analysis/loop-event-example-for-5.svg)
+![Loop Event's Example 5](../assets/images/code-path-analysis/loop-event-example-for-5.svg)
 :::
 
 ## Usage Examples
@@ -748,11 +748,11 @@ It creates two code paths.
 * The global's
 
 :::img-container
-  ![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-g.svg)
+![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-g.svg)
 :::
 
 * The function's
 
 :::img-container
-  ![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-f.svg)
+![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-f.svg)
 :::
