@@ -1803,6 +1803,50 @@ describe("FlatConfigArray", () => {
                 ], /Value \[\] should NOT have fewer than 1 items/u);
             });
 
+            it("should error with a message that contains the rule name when a configured rule has invalid `meta.schema` (invalid type)", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        plugins: {
+                            foo: {
+                                rules: {
+                                    bar: {
+                                        meta: {
+                                            schema: 5
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        rules: {
+                            "foo/bar": "error"
+                        }
+                    }
+                ], "Error while processing options validation schema of rule 'foo/bar': Rule's `meta.schema` must be an array or object");
+            });
+
+            it("should error with a message that contains the rule name when a configured rule has invalid `meta.schema` (invalid JSON Schema definition)", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        plugins: {
+                            foo: {
+                                rules: {
+                                    bar: {
+                                        meta: {
+                                            schema: { minItems: [] }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        rules: {
+                            "foo/bar": "error"
+                        }
+                    }
+                ], "Error while processing options validation schema of rule 'foo/bar': minItems must be number");
+            });
+
             it("should merge two objects", () => assertMergedResult([
                 {
                     rules: {

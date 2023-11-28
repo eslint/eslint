@@ -180,6 +180,13 @@ describe("Config Helpers", () => {
                 }, "Rule's `meta.schema` must be an array or object");
             });
         });
+
+        it("should ignore top-level `schema` property", () => {
+            const rule = { schema: { enum: ["always", "never"] } };
+            const result = getRuleOptionsSchema(rule);
+
+            assert.deepStrictEqual(result, noOptionsSchema);
+        });
     });
 
 });
