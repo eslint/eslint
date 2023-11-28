@@ -1327,6 +1327,29 @@ describe("FlatRuleTester", () => {
 
     });
 
+    it("should throw an error with the original message and an additional description if rule has `meta.schema` of an invalid type", () => {
+        const rule = {
+            meta: {
+                schema: true
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("rule-with-invalid-schema-type", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, /Rule's `meta.schema` must be an array or object.*set `meta.schema` to an array or non-empty object to enable options validation/us);
+    });
 
     it("should prevent invalid options schemas", () => {
         assert.throws(() => {
