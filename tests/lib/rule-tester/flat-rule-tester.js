@@ -1365,6 +1365,92 @@ describe("FlatRuleTester", () => {
 
     });
 
+    it("should throw an error if rule schema is `{}`", () => {
+        const rule = {
+            meta: {
+                schema: {}
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("rule-with-empty-object-schema", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, /`schema: \{\}` is a no-op.*set `meta.schema` to an array or non-empty object to enable options validation/us);
+    });
+
+    it("should throw an error if rule schema has only non-enumerable properties", () => {
+        const rule = {
+            meta: {
+                schema: Object.create(null, {
+                    type: {
+                        value: "array",
+                        enumerable: false
+                    },
+                    items: {
+                        value: [{ enum: ["foo"] }],
+                        enumerable: false
+                    }
+                })
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("rule-with-empty-object-schema", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, /`schema: \{\}` is a no-op.*set `meta.schema` to an array or non-empty object to enable options validation/us);
+    });
+
+    it("should throw an error if rule schema has only inherited enumerable properties", () => {
+        const rule = {
+            meta: {
+                schema: {
+                    __proto__: {
+                        type: "array",
+                        items: [{ enum: ["foo"] }]
+                    }
+                }
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("rule-with-empty-object-schema", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, /`schema: \{\}` is a no-op.*set `meta.schema` to an array or non-empty object to enable options validation/us);
+    });
+
     it("should prevent schema violations in options", () => {
         assert.throws(() => {
             ruleTester.run("no-schema-violation", require("../../fixtures/testers/rule-tester/no-schema-violation"), {
