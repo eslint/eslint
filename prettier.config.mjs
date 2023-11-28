@@ -21,7 +21,13 @@ const config = {
      * - Removing newlines makes invalid examples valid in
      *   `no-unexpected-multiline`.
      */
-    embeddedLanguageFormatting: "off"
+    embeddedLanguageFormatting: "off",
+
+    /**
+     * This setting is needed to work around a bug in Prettier:
+     * https://github.com/prettier/prettier/pull/15526
+     */
+    tabWidth: 2
 };
 
 export default config;
