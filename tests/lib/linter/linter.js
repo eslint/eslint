@@ -10214,6 +10214,61 @@ describe("Linter with FlatConfigArray", () => {
                 );
             });
 
+            it("should throw an error if a rule with invalid `meta.schema` is enabled in the configuration", () => {
+                const config = [
+                    {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    "rule-with-invalid-schema": {
+                                        meta: {
+                                            schema: true
+                                        },
+                                        create() {
+                                            return {};
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        rules: { "test/rule-with-invalid-schema": "error" }
+                    }
+                ];
+
+                assert.throws(
+                    () => linter.verify("foo", config),
+                    "Error while processing options validation schema of rule 'test/rule-with-invalid-schema': Rule's `meta.schema` must be an array or object"
+                );
+            });
+
+            it("should throw an error if a rule with invalid `meta.schema` is enabled in a configuration comment", () => {
+                const config = [
+                    {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    "rule-with-invalid-schema": {
+                                        meta: {
+                                            schema: true
+                                        },
+                                        create() {
+                                            return {};
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ];
+
+                assert.throws(
+                    () => linter.verify("/* eslint test/rule-with-invalid-schema: 2 */", config),
+                    "Error while processing options validation schema of rule 'test/rule-with-invalid-schema': Rule's `meta.schema` must be an array or object"
+                );
+            });
+
             it("should throw an error if a rule reports a problem without a message", () => {
 
                 const config = {
