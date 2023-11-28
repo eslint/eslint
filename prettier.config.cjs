@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * This is the configuration file for Prettier, the auto-formatter:
  * https://prettier.io/docs/en/configuration.html
@@ -30,4 +32,4 @@ const config = {
     tabWidth: 2
 };
 
-export default config;
+module.exports = config;
