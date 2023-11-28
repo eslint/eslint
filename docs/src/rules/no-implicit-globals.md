@@ -78,7 +78,7 @@ window.bar = function() {};
 
 Examples of **correct** code for this rule with `"parserOptions": { "sourceType": "module" }` in the ESLint configuration:
 
-::: correct { "sourceType": "script" }
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-implicit-globals: "error"*/

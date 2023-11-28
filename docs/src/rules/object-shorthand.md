@@ -114,7 +114,7 @@ Additionally, the rule takes an optional object configuration:
 * `"methodsIgnorePattern"` (`string`) for methods whose names match this regex pattern, the method shorthand will not be enforced. Note that this option can only be used when the string option is set to `"always"` or `"methods"`.
 * `"avoidExplicitReturnArrows": true` indicates that methods are preferred over explicit-return arrow functions for function properties. (By default, the rule allows either of these.) Note that this option can only be enabled when the string option is set to `"always"` or `"methods"`.
 
-### `avoidQuotes`
+### avoidQuotes
 
 ```json
 {
@@ -153,7 +153,7 @@ var foo = {
 
 :::
 
-### `ignoreConstructors`
+### ignoreConstructors
 
 ```json
 {
@@ -176,7 +176,7 @@ var foo = {
 
 :::
 
-### `methodsIgnorePattern`
+### methodsIgnorePattern
 
 Example of **correct** code for this rule with the `"always", { "methodsIgnorePattern": "^bar$" }` option:
 
@@ -192,7 +192,7 @@ var foo = {
 
 :::
 
-### `avoidExplicitReturnArrows`
+### avoidExplicitReturnArrows
 
 ```json
 {

@@ -5,7 +5,7 @@ further_reading:
 - https://www.emacswiki.org/emacs/SmartTabs
 ---
 
-This rule was **deprecated** in ESLint v8.53.0. Please use the corresponding rule in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/no-mixed-spaces-and-tabs) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Most code conventions require either tabs or spaces be used for indentation. As such, it's usually an error if a single line of code is indented with both tabs and spaces.
 

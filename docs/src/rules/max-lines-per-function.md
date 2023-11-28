@@ -71,7 +71,7 @@ is equivalent to
 
 ### code
 
-Examples of **incorrect** code for this rule with a max value of `2`:
+Examples of **incorrect** code for this rule with a particular max value:
 
 ::: incorrect
 
@@ -87,7 +87,7 @@ function foo() {
 ::: incorrect
 
 ```js
-/*eslint max-lines-per-function: ["error", 2]*/
+/*eslint max-lines-per-function: ["error", 3]*/
 function foo() {
     // a comment
     var x = 0;
@@ -99,7 +99,7 @@ function foo() {
 ::: incorrect
 
 ```js
-/*eslint max-lines-per-function: ["error", 2]*/
+/*eslint max-lines-per-function: ["error", 4]*/
 function foo() {
     // a comment followed by a blank line
 
@@ -109,7 +109,7 @@ function foo() {
 
 :::
 
-Examples of **correct** code for this rule with a max value of `3`:
+Examples of **correct** code for this rule with a particular max value:
 
 ::: correct
 
@@ -125,7 +125,7 @@ function foo() {
 ::: correct
 
 ```js
-/*eslint max-lines-per-function: ["error", 3]*/
+/*eslint max-lines-per-function: ["error", 4]*/
 function foo() {
     // a comment
     var x = 0;
@@ -137,7 +137,7 @@ function foo() {
 ::: correct
 
 ```js
-/*eslint max-lines-per-function: ["error", 3]*/
+/*eslint max-lines-per-function: ["error", 5]*/
 function foo() {
     // a comment followed by a blank line
 

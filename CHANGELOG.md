@@ -1,3 +1,26 @@
+v8.54.0 - November 17, 2023
+
+* [`d644de9`](https://github.com/eslint/eslint/commit/d644de9a4b593b565617303a095bc9aa69e7b768) chore: upgrade @eslint/js@8.54.0 (#17773) (Milos Djermanovic)
+* [`1e6e314`](https://github.com/eslint/eslint/commit/1e6e31415cc429a3a9fc64b2ec03df0e0ec0c91b) chore: package.json update for @eslint/js release (Jenkins)
+* [`98926e6`](https://github.com/eslint/eslint/commit/98926e6e7323e5dd12a9f016cb558144296665af) fix: Ensure that extra data is not accidentally stored in the cache file (#17760) (Milos Djermanovic)
+* [`a7a883b`](https://github.com/eslint/eslint/commit/a7a883bd6ba4f140b60cbbb2be5b53d750f6c8db) feat: for-direction rule add check for condition in reverse order (#17755) (Angelo Annunziata)
+* [`1452dc9`](https://github.com/eslint/eslint/commit/1452dc9f12c45c05d7c569f737221f0d988ecef1) feat: Add suggestions to no-console (#17680) (Joel Mathew Koshy)
+* [`6fb8805`](https://github.com/eslint/eslint/commit/6fb8805310afe7476d6c404f172177a6d15fcf11) chore: Fixed grammar in issue_templates/rule_change (#17770) (Joel Mathew Koshy)
+* [`becfdd3`](https://github.com/eslint/eslint/commit/becfdd39b25d795e56c9a13eb3e77af6b9c86e8a) docs: Make clear when rules are removed (#17728) (Nicholas C. Zakas)
+* [`e8cf9f6`](https://github.com/eslint/eslint/commit/e8cf9f6a524332293f8b2c90a2db4a532e47d919) fix: Make dark scroll bar in dark theme (#17753) (Pavel)
+* [`85db724`](https://github.com/eslint/eslint/commit/85db7243ddb8706ed60ab64a7ddf604d0d7de493) chore: upgrade `markdownlint` to 0.31.1 (#17754) (Nitin Kumar)
+* [`21ebf8a`](https://github.com/eslint/eslint/commit/21ebf8a811be9f4b009cf70a10be5062d4fdc736) feat: update `no-array-constructor` rule (#17711) (Francesco Trotta)
+* [`05d6e99`](https://github.com/eslint/eslint/commit/05d6e99153ed6d94eb30f46c57609371918a41f3) docs: update "Submit a Pull Request" page (#17712) (Francesco Trotta)
+* [`eb2279e`](https://github.com/eslint/eslint/commit/eb2279e5148cee8fdea7dae614f4f8af7a2d06c3) docs: display info about deprecated rules (#17749) (Percy Ma)
+* [`6d470d2`](https://github.com/eslint/eslint/commit/6d470d2e74535761bd56dcb1c021b463ef9e8a9c) chore: update dependency recast to ^0.23.0 (#17736) (renovate[bot])
+* [`b7121b5`](https://github.com/eslint/eslint/commit/b7121b590d578c9c9b38ee481313317f30e54817) chore: update dependency markdownlint-cli to ^0.37.0 (#17735) (renovate[bot])
+* [`633b9a1`](https://github.com/eslint/eslint/commit/633b9a19752b6a22ab4d6c824f27a75ac0e4151b) chore: update dependency regenerator-runtime to ^0.14.0 (#17739) (renovate[bot])
+* [`acac16f`](https://github.com/eslint/eslint/commit/acac16fdf8540f7ba86cf637e3c1b253bd35a268) chore: update dependency vite-plugin-commonjs to ^0.10.0 (#17740) (renovate[bot])
+* [`ba8ca7e`](https://github.com/eslint/eslint/commit/ba8ca7e3debcba68ee7015b9221cf5acd7870206) chore: add .github/renovate.json5 (#17567) (Josh Goldberg ✨)
+* [`3cbeaad`](https://github.com/eslint/eslint/commit/3cbeaad7b943c153937ce34365cec2c406f2b98b) fix: Use `cwd` constructor option as config `basePath` in Linter (#17705) (Milos Djermanovic)
+* [`d245326`](https://github.com/eslint/eslint/commit/d24532601e64714ac5d08507e05aa5c14ecd1d5a) docs: Correct working in migrating plugin docs (#17722) (Filip Tammergård)
+* [`5454c22`](https://github.com/eslint/eslint/commit/5454c22b24f39be2dac7f28cfcfdb6c753faaf4e) Revert "chore: remove metascraper (#17707)" (#17708) (Milos Djermanovic)
+
 v8.53.0 - November 3, 2023
 
 * [`ba4d4d5`](https://github.com/eslint/eslint/commit/ba4d4d567a82554250dd8c7933322824e6a73944) chore: remove metascraper (#17707) (Milos Djermanovic)

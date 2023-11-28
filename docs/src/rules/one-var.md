@@ -460,6 +460,9 @@ var bar = "bar";
 ::: correct
 
 ```js
+/*eslint one-var: ["error", { separateRequires: true, var: "always" }]*/
+/*eslint-env node*/
+
 var foo = require("foo"),
     bar = require("bar");
 ```

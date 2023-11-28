@@ -31,6 +31,8 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
+/*eslint no-async-promise-executor: "error"*/
+
 const foo = new Promise(async (resolve, reject) => {
   readFile('foo.txt', function(err, result) {
     if (err) {
@@ -53,6 +55,8 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
+/*eslint no-async-promise-executor: "error"*/
+
 const foo = new Promise((resolve, reject) => {
   readFile('foo.txt', function(err, result) {
     if (err) {
