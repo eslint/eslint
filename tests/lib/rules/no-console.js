@@ -412,7 +412,11 @@ ruleTester.run("no-console", rule, {
         // In case that implicit global variable of 'console' exists
         {
             code: "console.log(foo)",
-            env: { node: true },
+            languageOptions: {
+                globals: {
+                    console: "readonly"
+                }
+            },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",

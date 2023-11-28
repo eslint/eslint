@@ -16,7 +16,12 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ env: { es6: true } });
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 6,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("symbol-description", rule, {
 

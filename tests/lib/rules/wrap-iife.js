@@ -16,7 +16,12 @@ const rule = require("../../../lib/rules/wrap-iife"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 const wrapInvocationError = { messageId: "wrapInvocation", type: "CallExpression" };
 const wrapExpressionError = { messageId: "wrapExpression", type: "CallExpression" };

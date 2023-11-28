@@ -25,14 +25,14 @@ ruleTester.run("no-magic-numbers", rule, {
         "var x = Number.parseInt(y, 10);",
         {
             code: "const foo = 42;",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = 42;",
             options: [{
                 enforceConst: false
             }],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "var foo = -42;",
         {
@@ -217,27 +217,27 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "const { param = 123 } = sourceObject;",
             options: [{ ignoreDefaultValues: true }],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const func = (param = 123) => {}",
             options: [{ ignoreDefaultValues: true }],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const func = ({ param = 123 }) => {}",
             options: [{ ignoreDefaultValues: true }],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const [one = 1, two = 2] = []",
             options: [{ ignoreDefaultValues: true }],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var one, two; [one = 1, two = 2] = []",
             options: [{ ignoreDefaultValues: true }],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Optional chaining
@@ -292,7 +292,7 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 enforceConst: true
             }],
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "useConst" }]
         },
         {
@@ -418,7 +418,7 @@ ruleTester.run("no-magic-numbers", rule, {
                 "function invokeInTen(func) {\n" +
                   "setTimeout(func, 10);\n" +
                 "}\n",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "10" }, line: 7 },
                 { messageId: "noMagic", data: { raw: "10" }, line: 7 },
@@ -794,7 +794,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "const func = (param = 123) => {}",
             options: [{ ignoreDefaultValues: false }],
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
             ]
@@ -802,14 +802,14 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "const { param = 123 } = sourceObject;",
             options: [{}],
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
             ]
         },
         {
             code: "const { param = 123 } = sourceObject;",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
             ]
@@ -817,7 +817,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "const { param = 123 } = sourceObject;",
             options: [{ ignoreDefaultValues: false }],
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
             ]
@@ -825,7 +825,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "const [one = 1, two = 2] = []",
             options: [{ ignoreDefaultValues: false }],
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "1" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "2" }, line: 1 }
@@ -834,7 +834,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "var one, two; [one = 1, two = 2] = []",
             options: [{ ignoreDefaultValues: false }],
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "1" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "2" }, line: 1 }

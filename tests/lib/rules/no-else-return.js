@@ -16,7 +16,12 @@ const rule = require("../../../lib/rules/no-else-return"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-else-return", rule, {
     valid: [
@@ -508,15 +513,13 @@ ruleTester.run("no-else-return", rule, {
         {
             code: "if (foo) { return true; } else { let a; }",
             output: "if (foo) { return true; }  let a; ",
-            languageOptions: { ecmaVersion: 6 },
-            env: { node: true },
+            languageOptions: { ecmaVersion: 6, sourceType: "commonjs" },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "let a; if (foo) { return true; } else { let a; }",
             output: null,
-            languageOptions: { ecmaVersion: 6 },
-            env: { node: true },
+            languageOptions: { ecmaVersion: 6, sourceType: "commonjs" },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         }
     ]

@@ -765,7 +765,7 @@ ruleTester.run("lines-between-class-members", rule, {
                 get area() {
                     return this.method1();
                 }
-                
+
                 method2() {}
               }
             `,
@@ -798,7 +798,7 @@ ruleTester.run("lines-between-class-members", rule, {
                 get area() {
                     return this.method1();
                 }
-                
+
                 method2() {}
               }
             `,
@@ -1625,7 +1625,7 @@ ruleTester.run("lines-between-class-members", rule, {
                 fieldA = 'Field A';
                 #fieldB = 'Field B';
                 method1() {}
-                
+
                 get area() {
                     return this.method1();
                 }
@@ -1787,7 +1787,7 @@ fieldA = 'Field A';
                     this.height = height;
                     this.width = width;
                 }
-                
+
                 fieldA = 'Field A';
 
                 #fieldB = 'Field B';

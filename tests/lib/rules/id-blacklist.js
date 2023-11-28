@@ -182,14 +182,18 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "foo = { [myGlobal]: 1 };",
             options: ["myGlobal"],
-            languageOptions: { ecmaVersion: 6 },
-            globals: { myGlobal: "readonly" }
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: { myGlobal: "readonly" }
+            },
         },
         {
             code: "({ myGlobal } = foo);", // writability doesn't affect the logic, it's always assumed that user doesn't have control over the names of globals.
             options: ["myGlobal"],
-            languageOptions: { ecmaVersion: 6 },
-            globals: { myGlobal: "writable" }
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: { myGlobal: "writable" }
+            },
         },
         {
             code: "/* global myGlobal: readonly */ myGlobal = 5;",
@@ -198,12 +202,16 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "var foo = [Map];",
             options: ["Map"],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6, sourceType: "script" }
         },
         {
             code: "var foo = { bar: window.baz };",
             options: ["window"],
-            env: { browser: true }
+            languageOptions: {
+                globals: {
+                    window: "readonly"
+                }
+            }
         }
     ],
     invalid: [
@@ -993,7 +1001,9 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "myGlobal: while(foo) { break myGlobal; } ",
             options: ["myGlobal"],
-            globals: { myGlobal: "readonly" },
+            languageOptions: {
+                globals: { myGlobal: "readonly" }
+            },
             errors: [
                 {
                     messageId: "restricted",
@@ -1188,7 +1198,11 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "/* globals myGlobal */ window.myGlobal = 5; foo = myGlobal;",
             options: ["myGlobal"],
-            env: { browser: true },
+            languageOptions: {
+                globals: {
+                    window: "readonly"
+                }
+            },
             errors: [
                 {
                     messageId: "restricted",
@@ -1203,7 +1217,9 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "var foo = undefined;",
             options: ["undefined"],
-            globals: { undefined: "off" },
+            languageOptions: {
+                globals: { undefined: "off" }
+            },
             errors: [
                 {
                     messageId: "restricted",
@@ -1276,7 +1292,9 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "function foo() { var myGlobal; x = myGlobal; }",
             options: ["myGlobal"],
-            globals: { myGlobal: "readonly" },
+            languageOptions: {
+                globals: { myGlobal: "readonly" }
+            },
             errors: [
                 {
                     messageId: "restricted",

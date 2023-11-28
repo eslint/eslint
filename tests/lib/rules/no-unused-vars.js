@@ -16,28 +16,35 @@ const rule = require("../../../lib/rules/no-unused-vars"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    plugins: {
+        custom: {
+            rules: {
+                "use-every-a": {
+                    create(context) {
 
-ruleTester.defineRule("use-every-a", {
-    create(context) {
+                        const sourceCode = context.sourceCode;
 
-        const sourceCode = context.sourceCode;
-
-        /**
-         * Mark a variable as used
-         * @param {ASTNode} node The node representing the scope to search
-         * @returns {void}
-         * @private
-         */
-        function useA(node) {
-            sourceCode.markVariableAsUsed("a", node);
+                        /**
+                         * Mark a variable as used
+                         * @param {ASTNode} node The node representing the scope to search
+                         * @returns {void}
+                         * @private
+                         */
+                        function useA(node) {
+                            sourceCode.markVariableAsUsed("a", node);
+                        }
+                        return {
+                            VariableDeclaration: useA,
+                            ReturnStatement: useA
+                        };
+                    }
+                }
+            }
         }
-        return {
-            VariableDeclaration: useA,
-            ReturnStatement: useA
-        };
     }
 });
+
 
 /**
  * Returns an expected error for defined-but-not-used variables.
@@ -157,9 +164,9 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "/*exported x, y*/  var { x, y } = z", languageOptions: { ecmaVersion: 6 } },
 
         // Can mark variables as used via context.markVariableAsUsed()
-        "/*eslint use-every-a:1*/ var a;",
-        "/*eslint use-every-a:1*/ !function(a) { return 1; }",
-        "/*eslint use-every-a:1*/ !function() { var a; return 1 }",
+        "/*eslint custom/use-every-a:1*/ var a;",
+        "/*eslint custom/use-every-a:1*/ !function(a) { return 1; }",
+        "/*eslint custom/use-every-a:1*/ !function() { var a; return 1 }",
 
         // ignore pattern
         { code: "var _a;", options: [{ vars: "all", varsIgnorePattern: "^_" }] },
@@ -393,7 +400,7 @@ ruleTester.run("no-unused-vars", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/10952
-        "/*eslint use-every-a:1*/ !function(b, a) { return 1 }",
+        "/*eslint custom/use-every-a:1*/ !function(b, a) { return 1 }",
 
         // https://github.com/eslint/eslint/issues/10982
         "var a = function () { a(); }; a();",
@@ -735,7 +742,7 @@ ruleTester.run("no-unused-vars", rule, {
         // For-of loops
         {
             code: "(function(iter) { var name; for ( name of iter ) { i(); return; } })({});",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 35,
@@ -749,7 +756,7 @@ ruleTester.run("no-unused-vars", rule, {
         },
         {
             code: "(function(iter) { var name; for ( name of iter ) { } })({});",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 35,
@@ -763,7 +770,7 @@ ruleTester.run("no-unused-vars", rule, {
         },
         {
             code: "(function(iter) { for ( var name of iter ) { } })({});",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 29,
@@ -1061,7 +1068,7 @@ ruleTester.run("no-unused-vars", rule, {
         // surrogate pair.
         {
             code: "/*global 𠮷𩸽, 𠮷*/\n\\u{20BB7}\\u{29E3D};",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     line: 1,

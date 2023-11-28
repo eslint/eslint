@@ -16,7 +16,12 @@ const rule = require("../../../lib/rules/no-extend-native"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-extend-native", rule, {
     valid: [
@@ -59,7 +64,7 @@ ruleTester.run("no-extend-native", rule, {
         }]
     }, {
         code: "BigInt.prototype.p = 0",
-        env: { es2020: true },
+        languageOptions: { ecmaVersion: 2020 },
         errors: [{
             messageId: "unexpected",
             data: { builtin: "BigInt" },
@@ -67,7 +72,7 @@ ruleTester.run("no-extend-native", rule, {
         }]
     }, {
         code: "WeakRef.prototype.p = 0",
-        env: { es2021: true },
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{
             messageId: "unexpected",
             data: { builtin: "WeakRef" },
@@ -75,7 +80,7 @@ ruleTester.run("no-extend-native", rule, {
         }]
     }, {
         code: "FinalizationRegistry.prototype.p = 0",
-        env: { es2021: true },
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{
             messageId: "unexpected",
             data: { builtin: "FinalizationRegistry" },
@@ -83,7 +88,7 @@ ruleTester.run("no-extend-native", rule, {
         }]
     }, {
         code: "AggregateError.prototype.p = 0",
-        env: { es2021: true },
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{
             messageId: "unexpected",
             data: { builtin: "AggregateError" },

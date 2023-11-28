@@ -69,18 +69,18 @@ ruleTester.run("prefer-object-spread", rule, {
         "globalThis.Object.assign({}, foo)",
         {
             code: "globalThis.Object.assign({}, { foo: 'bar' })",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "globalThis.Object.assign({}, baz, { foo: 'bar' })",
-            env: { es2017: true }
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: `
                 var globalThis = foo;
                 globalThis.Object.assign({}, foo)
                 `,
-            env: { es2020: true }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "class C { #assign; foo() { Object.#assign({}, foo); } }",
@@ -784,7 +784,7 @@ ruleTester.run("prefer-object-spread", rule, {
             output: `
                 const actions = {
                     onChangeInput: this.handleChangeInput, //
-                    
+
                     ...this.props.actions
                 };
             `,
@@ -837,7 +837,7 @@ ruleTester.run("prefer-object-spread", rule, {
             `,
             output: `
                 const actions = {
-                    
+
                             onChangeInput: this.handleChangeInput
                         ,
                     ...(
@@ -899,7 +899,7 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code: "globalThis.Object.assign({ });",
             output: "({});",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -912,7 +912,7 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code: "globalThis.Object.assign({\n});",
             output: "({});",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -931,7 +931,7 @@ ruleTester.run("prefer-object-spread", rule, {
                 function foo () { var globalThis = bar; }
                 ({});
             `,
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -950,7 +950,7 @@ ruleTester.run("prefer-object-spread", rule, {
                 const Foo = require('foo');
                 ({foo: Foo});
             `,
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useLiteralMessage",

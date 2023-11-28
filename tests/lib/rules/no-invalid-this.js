@@ -45,8 +45,10 @@ function USE_STRICT(pattern) {
  */
 function IMPLIED_STRICT(pattern) {
     pattern.code = `/* implied strict mode */ ${pattern.code}`;
-    pattern.parserOptions.ecmaFeatures = pattern.parserOptions.ecmaFeatures || {};
-    pattern.parserOptions.ecmaFeatures.impliedStrict = true;
+    pattern.languageOptions = pattern.languageOptions || {};
+    pattern.languageOptions.parserOptions = pattern.languageOptions.parserOptions || {};
+    pattern.languageOptions.parserOptions.ecmaFeatures = pattern.languageOptions.parserOptions.ecmaFeatures || {};
+    pattern.languageOptions.parserOptions.ecmaFeatures.impliedStrict = true;
 }
 
 /**
@@ -57,7 +59,7 @@ function IMPLIED_STRICT(pattern) {
  */
 function MODULES(pattern) {
     pattern.code = `/* modules */ ${pattern.code}`;
-    pattern.parserOptions.sourceType = "module";
+    pattern.languageOptions.sourceType = "module";
 }
 
 /**
@@ -112,7 +114,9 @@ const patterns = [
         code: "console.log(this); z(x => console.log(x, this));",
         languageOptions: {
             ecmaVersion: 6,
-            ecmaFeatures: { globalReturn: true }
+            parserOptions: {
+                ecmaFeatures: { globalReturn: true }
+            }
         },
         errors,
         valid: [NORMAL],
@@ -189,7 +193,9 @@ const patterns = [
         code: "return function() { console.log(this); z(x => console.log(x, this)); };",
         languageOptions: {
             ecmaVersion: 6,
-            ecmaFeatures: { globalReturn: true }
+            parserOptions: {
+                ecmaFeatures: { globalReturn: true }
+            }
         },
         errors,
         valid: [NORMAL],

@@ -21,43 +21,54 @@ const path = require("path"),
 /**
  * Gets the path to the parser of the given name.
  * @param {string} name The name of a parser to get.
- * @returns {string} The path to the specified parser.
+ * @returns {object} The parser object.
  */
 function parser(name) {
-    return path.resolve(
+    return require(path.resolve(
         __dirname,
         `../../fixtures/parsers/comma-dangle/${name}.js`
-    );
+    ));
 }
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    plugins: {
+        custom: {
+            rules: {
+                "add-named-import": {
+                    meta: {
+                        fixable: "code"
+                    },
+                    create(context) {
+                        return {
+                            ImportDeclaration(node) {
+                                const sourceCode = context.sourceCode;
+                                const closingBrace = sourceCode.getLastToken(node, token => token.value === "}");
+                                const addComma = sourceCode.getTokenBefore(closingBrace).value !== ",";
 
-ruleTester.defineRule("add-named-import", {
-    meta: {
-        fixable: "code"
-    },
-    create(context) {
-        return {
-            ImportDeclaration(node) {
-                const sourceCode = context.sourceCode;
-                const closingBrace = sourceCode.getLastToken(node, token => token.value === "}");
-                const addComma = sourceCode.getTokenBefore(closingBrace).value !== ",";
-
-                context.report({
-                    message: "Add I18nManager.",
-                    node,
-                    fix(fixer) {
-                        return fixer.insertTextBefore(closingBrace, `${addComma ? "," : ""}I18nManager`);
+                                context.report({
+                                    message: "Add I18nManager.",
+                                    node,
+                                    fix(fixer) {
+                                        return fixer.insertTextBefore(closingBrace, `${addComma ? "," : ""}I18nManager`);
+                                    }
+                                });
+                            }
+                        };
                     }
-                });
+                }
             }
-        };
+        }
+    },
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
     }
 });
+
 
 ruleTester.run("comma-dangle", rule, {
     valid: [
@@ -511,22 +522,30 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "function foo({a}: {a: string,}) {}",
             options: ["never"],
-            parser: parser("object-pattern-1")
+            languageOptions: {
+                parser: parser("object-pattern-1")
+            },
         },
         {
             code: "function foo({a,}: {a: string}) {}",
             options: ["always"],
-            parser: parser("object-pattern-2")
+            languageOptions: {
+                parser: parser("object-pattern-2")
+            },
         },
         {
             code: "function foo(a): {b: boolean,} {}",
             options: [{ functions: "never" }],
-            parser: parser("return-type-1")
+            languageOptions: {
+                parser: parser("return-type-1")
+            },
         },
         {
             code: "function foo(a,): {b: boolean} {}",
             options: [{ functions: "always" }],
-            parser: parser("return-type-2")
+            languageOptions: {
+                parser: parser("return-type-2")
+            },
         },
 
         // https://github.com/eslint/eslint/issues/16442
@@ -1810,28 +1829,36 @@ let d = 0;export {d,};
             code: "function foo({a}: {a: string,}) {}",
             output: "function foo({a,}: {a: string,}) {}",
             options: ["always"],
-            parser: parser("object-pattern-1"),
+            languageOptions: {
+                parser: parser("object-pattern-1"),
+            },
             errors: [{ messageId: "missing" }]
         },
         {
             code: "function foo({a,}: {a: string}) {}",
             output: "function foo({a}: {a: string}) {}",
             options: ["never"],
-            parser: parser("object-pattern-2"),
+            languageOptions: {
+                parser: parser("object-pattern-2"),
+            },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "function foo(a): {b: boolean,} {}",
             output: "function foo(a,): {b: boolean,} {}",
             options: [{ functions: "always" }],
-            parser: parser("return-type-1"),
+            languageOptions: {
+                parser: parser("return-type-1"),
+            },
             errors: [{ messageId: "missing" }]
         },
         {
             code: "function foo(a,): {b: boolean} {}",
             output: "function foo(a): {b: boolean} {}",
             options: [{ functions: "never" }],
-            parser: parser("return-type-2"),
+            languageOptions: {
+                parser: parser("return-type-2"),
+            },
             errors: [{ messageId: "unexpected" }]
         },
 
@@ -1846,7 +1873,7 @@ let d = 0;export {d,};
         // https://github.com/eslint/eslint/issues/15660
         {
             code: unIndent`
-                /*eslint add-named-import:1*/
+                /*eslint custom/add-named-import:1*/
                 import {
                     StyleSheet,
                     View,
@@ -1858,7 +1885,7 @@ let d = 0;export {d,};
                 } from 'react-native';
             `,
             output: unIndent`
-                /*eslint add-named-import:1*/
+                /*eslint custom/add-named-import:1*/
                 import {
                     StyleSheet,
                     View,
@@ -1875,7 +1902,7 @@ let d = 0;export {d,};
         },
         {
             code: unIndent`
-                /*eslint add-named-import:1*/
+                /*eslint custom/add-named-import:1*/
                 import {
                     StyleSheet,
                     View,
@@ -1887,7 +1914,7 @@ let d = 0;export {d,};
                 } from 'react-native';
             `,
             output: unIndent`
-                /*eslint add-named-import:1*/
+                /*eslint custom/add-named-import:1*/
                 import {
                     StyleSheet,
                     View,

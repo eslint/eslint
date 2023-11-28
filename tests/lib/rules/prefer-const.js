@@ -17,18 +17,25 @@ const rule = require("../../../lib/rules/prefer-const"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({
+    plugins: {
+        custom: {
+            rules: {
+                "use-x": {
+                    create(context) {
+                        const sourceCode = context.sourceCode;
 
-ruleTester.defineRule("use-x", {
-    create(context) {
-        const sourceCode = context.sourceCode;
-
-        return {
-            VariableDeclaration(node) {
-                sourceCode.markVariableAsUsed("x", node);
+                        return {
+                            VariableDeclaration(node) {
+                                sourceCode.markVariableAsUsed("x", node);
+                            }
+                        };
+                    }
+                }
             }
-        };
-    }
+        }
+    },
+    languageOptions: { ecmaVersion: 6 }
 });
 
 ruleTester.run("prefer-const", rule, {
@@ -451,14 +458,14 @@ ruleTester.run("prefer-const", rule, {
 
         // https://github.com/eslint/eslint/issues/5837
         {
-            code: "/*eslint use-x:error*/ let x = 1",
-            output: "/*eslint use-x:error*/ const x = 1",
+            code: "/*eslint custom/use-x:error*/ let x = 1",
+            output: "/*eslint custom/use-x:error*/ const x = 1",
             languageOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
-            code: "/*eslint use-x:error*/ { let x = 1 }",
-            output: "/*eslint use-x:error*/ { const x = 1 }",
+            code: "/*eslint custom/use-x:error*/ { let x = 1 }",
+            output: "/*eslint custom/use-x:error*/ { const x = 1 }",
             errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {

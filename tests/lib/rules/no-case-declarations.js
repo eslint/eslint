@@ -37,35 +37,35 @@ ruleTester.run("no-case-declarations", rule, {
             languageOptions: { ecmaVersion: 6 }
         },
         `
-                switch (a) { 
-                    case 1: 
-                    case 2: {} 
+                switch (a) {
+                    case 1:
+                    case 2: {}
                 }
             `,
         `
                 switch (a) {
-                    case 1: var x; 
+                    case 1: var x;
                 }
             `
     ],
     invalid: [
         {
             code: `
-                switch (a) { 
-                    case 1: 
-                        {} 
-                        function f() {} 
-                        break; 
+                switch (a) {
+                    case 1:
+                        {}
+                        function f() {}
+                        break;
                 }
             `,
             errors: [{ messageId: "unexpected", type: "FunctionDeclaration" }]
         },
         {
             code: `
-                switch (a) { 
-                    case 1: 
-                    case 2: 
-                        let x; 
+                switch (a) {
+                    case 1:
+                    case 2:
+                        let x;
                 }
             `,
             languageOptions: { ecmaVersion: 6 },

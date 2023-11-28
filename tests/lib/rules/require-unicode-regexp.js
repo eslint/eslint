@@ -38,14 +38,14 @@ ruleTester.run("require-unicode-regexp", rule, {
         "function f(flags) { return new RegExp('', flags) }",
         "function f(RegExp) { return new RegExp('foo') }",
         "function f(patternAndFlags) { return new RegExp(...patternAndFlags) }",
-        { code: "new globalThis.RegExp('foo')", env: { es6: true } },
-        { code: "new globalThis.RegExp('foo')", env: { es2017: true } },
-        { code: "new globalThis.RegExp('foo', 'u')", env: { es2020: true } },
-        { code: "globalThis.RegExp('foo', 'u')", env: { es2020: true } },
-        { code: "const flags = 'u'; new globalThis.RegExp('', flags)", env: { es2020: true } },
-        { code: "const flags = 'g'; new globalThis.RegExp('', flags + 'u')", env: { es2020: true } },
-        { code: "const flags = 'gimu'; new globalThis.RegExp('foo', flags[3])", env: { es2020: true } },
-        { code: "class C { #RegExp; foo() { new globalThis.#RegExp('foo') } }", languageOptions: { ecmaVersion: 2022 }, env: { es2020: true } },
+        { code: "new globalThis.RegExp('foo')", languageOptions: { ecmaVersion: 6 } },
+        { code: "new globalThis.RegExp('foo')", languageOptions: { ecmaVersion: 2017 } },
+        { code: "new globalThis.RegExp('foo', 'u')", languageOptions: { ecmaVersion: 2020 } },
+        { code: "globalThis.RegExp('foo', 'u')", languageOptions: { ecmaVersion: 2020 } },
+        { code: "const flags = 'u'; new globalThis.RegExp('', flags)", languageOptions: { ecmaVersion: 2020 } },
+        { code: "const flags = 'g'; new globalThis.RegExp('', flags + 'u')", languageOptions: { ecmaVersion: 2020 } },
+        { code: "const flags = 'gimu'; new globalThis.RegExp('foo', flags[3])", languageOptions: { ecmaVersion: 2020 } },
+        { code: "class C { #RegExp; foo() { new globalThis.#RegExp('foo') } }", languageOptions: { ecmaVersion: 2022 }, languageOptions: { ecmaVersion: 2020 } },
 
         // for v flag
         { code: "/foo/v", languageOptions: { ecmaVersion: 2024 } },
@@ -291,7 +291,7 @@ ruleTester.run("require-unicode-regexp", rule, {
         },
         {
             code: "new globalThis.RegExp('foo')",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "requireUFlag",
                 suggestions: [

@@ -103,7 +103,7 @@ ruleTester.run("sort-vars", rule, {
                 "}"
             ].join("\n"),
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         {

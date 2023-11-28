@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2015 }, env: { es6: true } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2015 }, languageOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-promise-executor-return", rule, {
     valid: [

@@ -196,7 +196,7 @@ ruleTester.run("sort-keys", rule, {
             code: `
                 var obj = {
                     b: 1
-                    
+
                     ,
 
                     // comment

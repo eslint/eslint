@@ -33,7 +33,7 @@ ruleTester.run("no-implied-eval", rule, {
         { code: "global.setTimeout = foo;", env: { node: true } },
         { code: "global['setTimeout'];", env: { node: true } },
         { code: "global['setTimeout'] = foo;", env: { node: true } },
-        { code: "globalThis['setTimeout'] = foo;", env: { es2020: true } },
+        { code: "globalThis['setTimeout'] = foo;", languageOptions: { ecmaVersion: 2020 } },
 
         "window.setTimeout('foo')",
         "window.setInterval('foo')",
@@ -48,14 +48,14 @@ ruleTester.run("no-implied-eval", rule, {
         { code: "global.setInterval('foo')", env: { browser: true } },
         { code: "global['setTimeout']('foo')", env: { browser: true } },
         { code: "global['setInterval']('foo')", env: { browser: true } },
-        { code: "globalThis.setTimeout('foo')", env: { es6: true } },
-        { code: "globalThis['setInterval']('foo')", env: { es2017: true } },
+        { code: "globalThis.setTimeout('foo')", languageOptions: { ecmaVersion: 6 } },
+        { code: "globalThis['setInterval']('foo')", languageOptions: { ecmaVersion: 2017 } },
 
         { code: "window[`SetTimeOut`]('foo', 100);", languageOptions: { ecmaVersion: 6 }, env: { browser: true } },
         { code: "global[`SetTimeOut`]('foo', 100);", languageOptions: { ecmaVersion: 6 }, env: { node: true } },
         { code: "global[`setTimeout${foo}`]('foo', 100);", languageOptions: { ecmaVersion: 6 }, env: { browser: true } },
         { code: "global[`setTimeout${foo}`]('foo', 100);", languageOptions: { ecmaVersion: 6 }, env: { node: true } },
-        { code: "globalThis[`setTimeout${foo}`]('foo', 100);", languageOptions: { ecmaVersion: 6 }, env: { es2020: true } },
+        { code: "globalThis[`setTimeout${foo}`]('foo', 100);", languageOptions: { ecmaVersion: 6 }, languageOptions: { ecmaVersion: 2020 } },
 
         // normal usage
         "setTimeout(function() { x = 1; }, 100);",
@@ -73,7 +73,7 @@ ruleTester.run("no-implied-eval", rule, {
         { code: "global.setTimeout(foo, 100);", env: { node: true } },
         { code: "global.setInterval(foo, 100);", env: { node: true } },
         { code: "global.execScript(foo, 100);", env: { node: true } },
-        { code: "globalThis.setTimeout(foo, 100);", env: { es2020: true } },
+        { code: "globalThis.setTimeout(foo, 100);", languageOptions: { ecmaVersion: 2020 } },
 
         // only checks on top-level statements or window.*
         "foo.setTimeout('hi')",
@@ -141,8 +141,8 @@ ruleTester.run("no-implied-eval", rule, {
         { code: "global['setInterval']('foo')", env: { node: true }, errors: [expectedError] },
         { code: "global[`setInterval`]('foo')", languageOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [expectedError] },
         { code: "global.global['setInterval']('foo')", env: { node: true }, errors: [expectedError] },
-        { code: "globalThis.setTimeout('foo')", env: { es2020: true }, errors: [expectedError] },
-        { code: "globalThis.setInterval('foo')", env: { es2020: true }, errors: [expectedError] },
+        { code: "globalThis.setTimeout('foo')", languageOptions: { ecmaVersion: 2020 }, errors: [expectedError] },
+        { code: "globalThis.setInterval('foo')", languageOptions: { ecmaVersion: 2020 }, errors: [expectedError] },
 
         // template literals
         { code: "setTimeout(`foo${bar}`)", languageOptions: { ecmaVersion: 6 }, errors: [expectedError] },
@@ -165,7 +165,7 @@ ruleTester.run("no-implied-eval", rule, {
         { code: "global.setTimeout(`foo` + bar)", languageOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [expectedError] },
         { code: "global.setTimeout(1 + ';' + 1)", env: { node: true }, errors: [expectedError] },
         { code: "global.global.setTimeout(1 + ';' + 1)", env: { node: true }, errors: [expectedError] },
-        { code: "globalThis.setTimeout('foo' + bar)", env: { es2020: true }, errors: [expectedError] },
+        { code: "globalThis.setTimeout('foo' + bar)", languageOptions: { ecmaVersion: 2020 }, errors: [expectedError] },
 
         // gives the correct node when dealing with nesting
         {
