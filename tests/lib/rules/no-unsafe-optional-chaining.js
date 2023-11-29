@@ -6,18 +6,18 @@
 "use strict";
 
 const rule = require("../../../lib/rules/no-unsafe-optional-chaining");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const parserOptions = {
+const languageOptions = {
     ecmaVersion: 2021,
     sourceType: "module"
 };
 
-const ruleTester = new RuleTester({ parserOptions });
+const ruleTester = new RuleTester({ languageOptions });
 
 ruleTester.run("no-unsafe-optional-chaining", rule, {
     valid: [
@@ -296,9 +296,6 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         },
         {
             code: "with (obj?.foo) {};",
-            parserOptions: {
-                sourceType: "script"
-            },
             errors: [
                 {
                     messageId: "unsafeOptionalChain",
@@ -306,13 +303,13 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
                     line: 1,
                     column: 7
                 }
-            ]
+            ],
+            languageOptions: {
+                sourceType: "script"
+            }
         },
         {
             code: "async function foo() { with ( await obj?.foo) {}; }",
-            parserOptions: {
-                sourceType: "script"
-            },
             errors: [
                 {
                     messageId: "unsafeOptionalChain",
@@ -320,7 +317,10 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
                     line: 1,
                     column: 37
                 }
-            ]
+            ],
+            languageOptions: {
+                sourceType: "script"
+            }
         },
         {
             code: "(foo ? obj?.foo : obj?.bar).bar",

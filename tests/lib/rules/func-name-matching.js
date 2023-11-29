@@ -10,8 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/func-name-matching"),
-    { RuleTester } = require("../../../lib/rule-tester"),
-    FlatRuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -26,13 +25,13 @@ ruleTester.run("func-name-matching", rule, {
         { code: "var foo = function foo() {};", options: ["always"] },
         { code: "var foo = function bar() {};", options: ["never"] },
         "var foo = function() {}",
-        { code: "var foo = () => {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => {}", languageOptions: { ecmaVersion: 6 } },
         "foo = function foo() {};",
         { code: "foo = function foo() {};", options: ["always"] },
         { code: "foo = function bar() {};", options: ["never"] },
-        { code: "foo &&= function foo() {};", parserOptions: { ecmaVersion: 2021 } },
-        { code: "obj.foo ||= function foo() {};", parserOptions: { ecmaVersion: 2021 } },
-        { code: "obj['foo'] ??= function foo() {};", parserOptions: { ecmaVersion: 2021 } },
+        { code: "foo &&= function foo() {};", languageOptions: { ecmaVersion: 2021 } },
+        { code: "obj.foo ||= function foo() {};", languageOptions: { ecmaVersion: 2021 } },
+        { code: "obj['foo'] ??= function foo() {};", languageOptions: { ecmaVersion: 2021 } },
         "obj.foo = function foo() {};",
         { code: "obj.foo = function foo() {};", options: ["always"] },
         { code: "obj.foo = function bar() {};", options: ["never"] },
@@ -63,124 +62,124 @@ ruleTester.run("func-name-matching", rule, {
         "var obj = {foo: function() {}};",
         { code: "var obj = {foo: function() {}};", options: ["always"] },
         { code: "var obj = {foo: function() {}};", options: ["never"] },
-        { code: "var obj = {[foo]: function bar() {}} ", parserOptions: { ecmaVersion: 6 } },
-        { code: "var obj = {['x' + 2]: function bar(){}};", parserOptions: { ecmaVersion: 6 } },
+        { code: "var obj = {[foo]: function bar() {}} ", languageOptions: { ecmaVersion: 6 } },
+        { code: "var obj = {['x' + 2]: function bar(){}};", languageOptions: { ecmaVersion: 6 } },
         "obj['x' + 2] = function bar(){};",
-        { code: "var [ bar ] = [ function bar(){} ];", parserOptions: { ecmaVersion: 6 } },
-        { code: "function a(foo = function bar() {}) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "var [ bar ] = [ function bar(){} ];", languageOptions: { ecmaVersion: 6 } },
+        { code: "function a(foo = function bar() {}) {}", languageOptions: { ecmaVersion: 6 } },
         "module.exports = function foo(name) {};",
         "module['exports'] = function foo(name) {};",
         {
             code: "module.exports = function foo(name) {};",
             options: [{ includeCommonJSModuleExports: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "module.exports = function foo(name) {};",
             options: ["always", { includeCommonJSModuleExports: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "module.exports = function foo(name) {};",
             options: ["never", { includeCommonJSModuleExports: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "module['exports'] = function foo(name) {};",
             options: [{ includeCommonJSModuleExports: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "module['exports'] = function foo(name) {};",
             options: ["always", { includeCommonJSModuleExports: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "module['exports'] = function foo(name) {};",
             options: ["never", { includeCommonJSModuleExports: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({['foo']: function foo() {}})",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({['foo']: function foo() {}})",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({['foo']: function bar() {}})",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({['❤']: function foo() {}})",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({[foo]: function bar() {}})",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({[null]: function foo() {}})",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({[1]: function foo() {}})",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({[true]: function foo() {}})",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({[`x`]: function foo() {}})",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({[/abc/]: function foo() {}})",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({[[1, 2, 3]]: function foo() {}})",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({[{x: 1}]: function foo() {}})",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "[] = function foo() {}",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({} = function foo() {})",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "[a] = function foo() {}",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({a} = function foo() {})",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [] = function foo() {}",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var {} = function foo() {}",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [a] = function foo() {}",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var {a} = function foo() {}",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({ value: function value() {} })",
@@ -225,27 +224,27 @@ ruleTester.run("func-name-matching", rule, {
         {
             code: "Object.defineProperties(foo, { ['bar']: { value: function bar() {} } })",
             options: ["always", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "Object.create(proto, { ['bar']: { value: function bar() {} } })",
             options: ["always", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "Object.defineProperty(foo, 'bar', { value() {} })",
             options: ["never", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "Object.defineProperties(foo, { bar: { value() {} } })",
             options: ["never", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "Object.create(proto, { bar: { value() {} } })",
             options: ["never", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { value: function bar() {} })",
@@ -258,7 +257,7 @@ ruleTester.run("func-name-matching", rule, {
         {
             code: "Reflect.defineProperty(foo, 'bar', { value() {} })",
             options: ["never", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo({ value: function value() {} })",
@@ -269,378 +268,385 @@ ruleTester.run("func-name-matching", rule, {
         {
             code: "class C { x = function () {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { x = function () {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { 'x' = function () {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { 'x' = function () {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x = function () {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x = function () {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [x] = function () {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [x] = function () {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { ['x'] = function () {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { ['x'] = function () {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { x = function x() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { x = function y() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { 'x' = function x() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { 'x' = function y() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x = function x() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x = function x() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x = function y() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x = function y() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [x] = function x() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [x] = function x() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [x] = function y() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [x] = function y() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { ['x'] = function x() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { ['x'] = function y() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { 'xy ' = function foo() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { 'xy ' = function xy() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { ['xy '] = function foo() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { ['xy '] = function xy() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { 1 = function x0() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { 1 = function x1() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [1] = function x0() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [1] = function x1() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [f()] = function g() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [f()] = function f() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static x = function x() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static x = function y() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { x = (function y() {})(); }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { x = (function x() {})(); }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "(class { x = function x() {}; })",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "(class { x = function y() {}; })",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x; foo() { this.#x = function x() {}; } }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x; foo() { this.#x = function x() {}; } }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x; foo() { this.#x = function y() {}; } }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x; foo() { this.#x = function y() {}; } }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x; foo() { a.b.#x = function x() {}; } }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x; foo() { a.b.#x = function x() {}; } }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x; foo() { a.b.#x = function y() {}; } }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #x; foo() { a.b.#x = function y() {}; } }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
-        "var obj = { '\\u1885': function foo() {} };" // not a valid identifier in es5
+        {
+            code: "var obj = { '\\u1885': function foo() {} };", // not a valid identifier in es5
+            languageOptions: {
+                ecmaVersion: 5,
+                sourceType: "script"
+            }
+        }
+
     ],
     invalid: [
         {
             code: "let foo = function bar() {};",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "let foo = function bar() {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo = function bar() {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo &&= function bar() {};",
-            parserOptions: { ecmaVersion: 2021 },
             errors: [
                 { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2021 }
         },
         {
             code: "obj.foo ||= function bar() {};",
-            parserOptions: { ecmaVersion: 2021 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2021 }
         },
         {
             code: "obj['foo'] ??= function bar() {};",
-            parserOptions: { ecmaVersion: 2021 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2021 }
         },
         {
             code: "obj.foo = function bar() {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "obj.bar.foo = function bar() {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "obj['foo'] = function bar() {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "let obj = {foo: function bar() {}};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "let obj = {'foo': function bar() {}};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({['foo']: function bar() {}})",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "module.exports = function foo(name) {};",
             options: [{ includeCommonJSModuleExports: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "module.exports = function foo(name) {};",
             options: ["always", { includeCommonJSModuleExports: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "module.exports = function exports(name) {};",
             options: ["never", { includeCommonJSModuleExports: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "exports", name: "exports" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "module['exports'] = function foo(name) {};",
             options: [{ includeCommonJSModuleExports: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "module['exports'] = function foo(name) {};",
             options: ["always", { includeCommonJSModuleExports: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "module['exports'] = function exports(name) {};",
             options: ["never", { includeCommonJSModuleExports: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "exports", name: "exports" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function foo(name) {};",
@@ -730,189 +736,163 @@ ruleTester.run("func-name-matching", rule, {
         // Optional chaining
         {
             code: "(obj?.aaa).foo = function bar() {};",
-            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "Object?.defineProperty(foo, 'bar', { value: function baz() {} })",
             options: ["always", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Object?.defineProperty)(foo, 'bar', { value: function baz() {} })",
             options: ["always", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "Object?.defineProperty(foo, 'bar', { value: function bar() {} })",
             options: ["never", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Object?.defineProperty)(foo, 'bar', { value: function bar() {} })",
             options: ["never", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "Object?.defineProperties(foo, { bar: { value: function baz() {} } })",
             options: ["always", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Object?.defineProperties)(foo, { bar: { value: function baz() {} } })",
             options: ["always", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "Object?.defineProperties(foo, { bar: { value: function bar() {} } })",
             options: ["never", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Object?.defineProperties)(foo, { bar: { value: function bar() {} } })",
             options: ["never", { considerPropertyDescriptor: true }],
-            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // class fields
         {
             code: "class C { x = function y() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { x = function x() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { 'x' = function y() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { 'x' = function x() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { ['x'] = function y() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { ['x'] = function x() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static x = function y() {}; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static x = function x() {}; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "(class { x = function y() {}; })",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "(class { x = function x() {}; })",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "var obj = { '\\u1885': function foo() {} };", // valid identifier in es2015
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "matchProperty", data: { funcName: "foo", name: "\u1885" } }
-            ]
-        }
-    ]
-});
-
-const flatRuleTester = new FlatRuleTester();
-
-flatRuleTester.run("func-name-matching", rule, {
-    valid: [
-        {
-            code: "var obj = { '\\u1885': function foo() {} };", // not a valid identifier in es5
-            languageOptions: {
-                ecmaVersion: 5,
-                sourceType: "script"
-            }
-        }
-    ],
-
-    invalid: [
-        {
-            code: "var obj = { '\\u1885': function foo() {} };", // valid identifier in es2015
-            languageOptions: {
-                ecmaVersion: 2015
-            },
-            errors: [
-                { messageId: "matchProperty", data: { funcName: "foo", name: "\u1885" } }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         }
     ]
 });

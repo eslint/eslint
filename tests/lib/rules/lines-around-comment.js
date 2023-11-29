@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/lines-around-comment"),
-    { RuleTester } = require("../../../lib/rule-tester"),
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester"),
     { unIndent } = require("../../_utils");
 
 //------------------------------------------------------------------------------
@@ -222,14 +222,14 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 allowBlockStart: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A {\n/**\n* hi\n */\nconstructor() {}\n}",
             options: [{
                 allowClassStart: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A {\n/**\n* hi\n */\nconstructor() {}\n}",
@@ -237,7 +237,7 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockStart: false,
                 allowClassStart: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch ('foo'){\ncase 'foo':\n/* block comment at switch case start */\nbreak;\n}",
@@ -279,7 +279,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true,
                 allowBlockStart: true
             }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -299,7 +299,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true,
                 allowBlockStart: true
             }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -328,7 +328,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeBlockComment: true,
                 allowBlockStart: true
             }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -361,19 +361,19 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeBlockComment: true,
                 allowBlockStart: true
             }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // https://github.com/eslint/eslint/issues/16131
         {
             code: `
             switch (foo) {
-            // this comment is allowed by allowBlockStart: true 
-                
-            case 1:    
+            // this comment is allowed by allowBlockStart: true
+
+            case 1:
                 bar();
                 break;
-                
+
             // this comment is allowed by allowBlockEnd: true
             }
             `,
@@ -388,9 +388,9 @@ ruleTester.run("lines-around-comment", rule, {
             code: `
             switch (foo)
             {
-            // this comment is allowed by allowBlockStart: true 
-                
-            case 1:    
+            // this comment is allowed by allowBlockStart: true
+
+            case 1:
                 bar();
                 break;
             }
@@ -580,7 +580,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true,
                 allowBlockEnd: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class B {\nconstructor() {}\n\n/**\n* hi\n */\n}",
@@ -588,7 +588,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true,
                 allowClassEnd: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class B {\nconstructor() {}\n\n/**\n* hi\n */\n}",
@@ -597,7 +597,7 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockEnd: false,
                 allowClassEnd: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch ('foo'){\ncase 'foo':\nvar g = 1;\n\n/* block comment at switch case end */\n}",
@@ -643,7 +643,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true,
                 allowBlockEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -673,7 +673,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true,
                 allowBlockEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // check for object start comments
@@ -749,7 +749,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true,
                 allowObjectStart: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -761,7 +761,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true,
                 allowObjectStart: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -773,7 +773,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeBlockComment: true,
                 allowObjectStart: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -785,7 +785,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeBlockComment: true,
                 allowObjectStart: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // check for object end comments
@@ -863,7 +863,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true,
                 allowObjectEnd: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -875,7 +875,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true,
                 allowObjectEnd: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -888,7 +888,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true,
                 allowObjectEnd: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -901,7 +901,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true,
                 allowObjectEnd: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // check for array start comments
@@ -947,7 +947,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true,
                 allowArrayStart: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -959,7 +959,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeBlockComment: true,
                 allowArrayStart: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // check for array end comments
@@ -1006,7 +1006,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true,
                 allowArrayEnd: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1019,7 +1019,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true,
                 allowArrayEnd: true
             }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // ignorePattern
@@ -1221,8 +1221,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "before", type: "Line", line: 2 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A {\n// line at class start\nconstructor() {}\n}",
@@ -1232,8 +1232,8 @@ ruleTester.run("lines-around-comment", rule, {
                 allowClassStart: false,
                 beforeLineComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "before", type: "Line", line: 2 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class B {\nconstructor() {}\n\n// line at class end\n}",
@@ -1241,8 +1241,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterLineComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Line", line: 4 }]
+            errors: [{ messageId: "after", type: "Line", line: 4 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class B {\nconstructor() {}\n\n// line at class end\n}",
@@ -1252,8 +1252,8 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockEnd: true,
                 allowClassEnd: false
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Line", line: 4 }]
+            errors: [{ messageId: "after", type: "Line", line: 4 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch ('foo'){\ncase 'foo':\nvar g = 1;\n\n// line at switch case end\n}",
@@ -1291,10 +1291,10 @@ ruleTester.run("lines-around-comment", rule, {
                 allowClassStart: true,
                 allowClassEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "after", type: "Line", line: 2 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -1318,10 +1318,10 @@ ruleTester.run("lines-around-comment", rule, {
                 allowClassStart: true,
                 allowClassEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "after", type: "Block", line: 2 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -1346,11 +1346,11 @@ ruleTester.run("lines-around-comment", rule, {
                 allowClassStart: true,
                 allowClassEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "before", type: "Line", line: 3 },
                 { messageId: "after", type: "Line", line: 3 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -1377,11 +1377,11 @@ ruleTester.run("lines-around-comment", rule, {
                 allowClassStart: true,
                 allowClassEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "before", type: "Block", line: 3 },
                 { messageId: "after", type: "Block", line: 3 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -1405,10 +1405,10 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockStart: true,
                 allowBlockEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "after", type: "Line", line: 3 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -1434,10 +1434,10 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockStart: true,
                 allowBlockEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "after", type: "Block", line: 3 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -1461,10 +1461,10 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockStart: true,
                 allowBlockEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "before", type: "Line", line: 4 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -1490,10 +1490,10 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockStart: true,
                 allowBlockEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "before", type: "Block", line: 4 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -1520,11 +1520,11 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockStart: true,
                 allowBlockEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "before", type: "Line", line: 4 },
                 { messageId: "after", type: "Line", line: 4 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -1553,11 +1553,11 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockStart: true,
                 allowBlockEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "before", type: "Block", line: 4 },
                 { messageId: "after", type: "Block", line: 4 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -1579,10 +1579,10 @@ ruleTester.run("lines-around-comment", rule, {
                 allowClassStart: true,
                 allowClassEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "before", type: "Line", line: 3 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -1606,10 +1606,10 @@ ruleTester.run("lines-around-comment", rule, {
                 allowClassStart: true,
                 allowClassEnd: true
             }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "before", type: "Block", line: 3 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // object start comments
@@ -1712,8 +1712,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "before", type: "Line", line: 2 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1730,8 +1730,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "before", type: "Line", line: 2 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1748,8 +1748,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeBlockComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Block", line: 2 }]
+            errors: [{ messageId: "before", type: "Block", line: 2 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1766,8 +1766,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeBlockComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Block", line: 2 }]
+            errors: [{ messageId: "before", type: "Block", line: 2 }],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // object end comments
@@ -1874,8 +1874,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterLineComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Line", line: 3 }]
+            errors: [{ messageId: "after", type: "Line", line: 3 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1892,8 +1892,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterLineComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Line", line: 3 }]
+            errors: [{ messageId: "after", type: "Line", line: 3 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1912,8 +1912,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterBlockComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Block", line: 4 }]
+            errors: [{ messageId: "after", type: "Block", line: 4 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1932,8 +1932,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterBlockComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Block", line: 4 }]
+            errors: [{ messageId: "after", type: "Block", line: 4 }],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // array start comments
@@ -1986,8 +1986,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "before", type: "Line", line: 2 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -2004,8 +2004,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeBlockComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Block", line: 2 }]
+            errors: [{ messageId: "before", type: "Block", line: 2 }],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // array end comments
@@ -2060,8 +2060,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterLineComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Line", line: 3 }]
+            errors: [{ messageId: "after", type: "Line", line: 3 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -2080,8 +2080,8 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterBlockComment: true
             }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Block", line: 4 }]
+            errors: [{ messageId: "after", type: "Block", line: 4 }],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // ignorePattern
@@ -2187,8 +2187,8 @@ ruleTester.run("lines-around-comment", rule, {
 
                 foo
             )
-            {   
-            case 1:    
+            {
+            case 1:
                 bar();
                 break;
             }
@@ -2200,8 +2200,8 @@ ruleTester.run("lines-around-comment", rule, {
 
                 foo
             )
-            {   
-            case 1:    
+            {
+            case 1:
                 bar();
                 break;
             }

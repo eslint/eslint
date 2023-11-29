@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-new-func"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -24,13 +24,13 @@ ruleTester.run("no-new-func", rule, {
         "var a = _function(\"b\", \"c\", \"return b+c\");",
         {
             code: "class Function {}; new Function()",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2015
             }
         },
         {
             code: "const fn = () => { class Function {}; new Function() }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2015
             }
         },
@@ -96,21 +96,21 @@ ruleTester.run("no-new-func", rule, {
         },
         {
             code: "var a = (Function?.call)(null, \"b\", \"c\", \"return b+c\");",
-            parserOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "noFunctionConstructor",
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2021 }
         },
         {
             code: "const fn = () => { class Function {} }; new Function('', '')",
-            parserOptions: {
-                ecmaVersion: 2015
-            },
             errors: [{
                 messageId: "noFunctionConstructor",
                 type: "NewExpression"
-            }]
+            }],
+            languageOptions: {
+                ecmaVersion: 2015
+            }
         },
         {
             code: "var fn = function () { function Function() {} }; Function('', '')",

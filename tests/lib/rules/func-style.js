@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/func-style"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -55,7 +55,7 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => {};\n var bar = () => {}",
             options: ["expression"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // https://github.com/eslint/eslint/issues/3819
@@ -66,21 +66,21 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => { this; };",
             options: ["declaration"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "export default function () {};",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "var foo = () => {};",
             options: ["declaration", { allowArrowFunctions: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = () => { function foo() { this; } };",
             options: ["declaration", { allowArrowFunctions: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -98,24 +98,24 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => {};",
             options: ["declaration"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "declaration",
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = () => { function foo() { this; } };",
             options: ["declaration"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "declaration",
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo(){}",

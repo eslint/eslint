@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-call");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -49,13 +49,13 @@ ruleTester.run("no-useless-call", rule, {
         // Optional chaining
         {
             code: "obj?.foo.bar.call(obj.foo, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // Private members
         {
             code: "class C { #call; wrap(foo) { foo.#call(undefined, 1, 2); } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -187,81 +187,81 @@ ruleTester.run("no-useless-call", rule, {
         // Optional chaining
         {
             code: "foo.call?.(undefined, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }]
+            errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "foo?.call(undefined, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }]
+            errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(foo?.call)(undefined, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }]
+            errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "obj.foo.call?.(obj, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "obj?.foo.call(obj, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(obj?.foo).call(obj, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(obj?.foo.call)(obj, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "obj?.foo.bar.call(obj?.foo, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(obj?.foo).bar.call(obj?.foo, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "obj.foo?.bar.call(obj.foo, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         }
     ]
 });

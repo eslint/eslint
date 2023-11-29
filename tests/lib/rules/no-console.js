@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-console"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -142,7 +142,6 @@ ruleTester.run("no-console", rule, {
         },
         {
             code: "class A { static { console.info(foo) } }",
-            parserOptions: { ecmaVersion: "latest" },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
@@ -151,29 +150,29 @@ ruleTester.run("no-console", rule, {
                     data: { propertyName: "info" },
                     output: "class A { static {  } }"
                 }]
-            }]
+            }],
+            languageOptions: { ecmaVersion: "latest" }
         },
         {
             code: "a()\nconsole.log(foo);\n[1, 2, 3].forEach(a => doSomething(a))",
-            parserOptions: { ecmaVersion: "latest" },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
                 suggestions: null
-            }]
+            }],
+            languageOptions: { ecmaVersion: "latest" }
         },
         {
             code: "a++\nconsole.log();\n/b/",
-            parserOptions: { ecmaVersion: "latest" },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
                 suggestions: null
-            }]
+            }],
+            languageOptions: { ecmaVersion: "latest" }
         },
         {
             code: "a();\nconsole.log(foo);\n[1, 2, 3].forEach(a => doSomething(a));",
-            parserOptions: { ecmaVersion: "latest" },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
@@ -182,7 +181,8 @@ ruleTester.run("no-console", rule, {
                     data: { propertyName: "log" },
                     output: "a();\n\n[1, 2, 3].forEach(a => doSomething(a));"
                 }]
-            }]
+            }],
+            languageOptions: { ecmaVersion: "latest" }
         },
 
         //  one option
@@ -285,7 +285,6 @@ ruleTester.run("no-console", rule, {
         {
             code: "class A { static { console.error(foo) } }",
             options: [{ allow: ["log"] }],
-            parserOptions: { ecmaVersion: "latest" },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
@@ -294,7 +293,8 @@ ruleTester.run("no-console", rule, {
                     data: { propertyName: "error" },
                     output: "class A { static {  } }"
                 }]
-            }]
+            }],
+            languageOptions: { ecmaVersion: "latest" }
         },
 
         // multiple options
@@ -397,7 +397,6 @@ ruleTester.run("no-console", rule, {
         {
             code: "class A { static { console.info(foo) } }",
             options: [{ allow: ["log", "error", "warn"] }],
-            parserOptions: { ecmaVersion: "latest" },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
@@ -406,13 +405,13 @@ ruleTester.run("no-console", rule, {
                     data: { propertyName: "info" },
                     output: "class A { static {  } }"
                 }]
-            }]
+            }],
+            languageOptions: { ecmaVersion: "latest" }
         },
 
         // In case that implicit global variable of 'console' exists
         {
             code: "console.log(foo)",
-            env: { node: true },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
@@ -421,7 +420,12 @@ ruleTester.run("no-console", rule, {
                     data: { propertyName: "log" },
                     output: ""
                 }]
-            }]
+            }],
+            languageOptions: {
+                globals: {
+                    console: "readonly"
+                }
+            }
         }
     ]
 });

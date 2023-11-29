@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/id-length"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -41,45 +41,45 @@ ruleTester.run("id-length", rule, {
         "var obj = { 'a': 1, bc: 2 }; obj.tk = obj.a;",
         "var query = location.query.q || '';",
         "var query = location.query.q ? location.query.q : ''",
-        { code: "let {a: foo} = bar;", parserOptions: { ecmaVersion: 6 } },
-        { code: "let foo = { [a]: 1 };", parserOptions: { ecmaVersion: 6 } },
-        { code: "let foo = { [a + b]: 1 };", parserOptions: { ecmaVersion: 6 } },
+        { code: "let {a: foo} = bar;", languageOptions: { ecmaVersion: 6 } },
+        { code: "let foo = { [a]: 1 };", languageOptions: { ecmaVersion: 6 } },
+        { code: "let foo = { [a + b]: 1 };", languageOptions: { ecmaVersion: 6 } },
         { code: "var x = Foo(42)", options: [{ min: 1 }] },
         { code: "var x = Foo(42)", options: [{ min: 0 }] },
         { code: "foo.$x = Foo(42)", options: [{ min: 1 }] },
         { code: "var lalala = Foo(42)", options: [{ max: 6 }] },
         { code: "for (var q, h=0; h < 10; h++) { console.log(h); q++; }", options: [{ exceptions: ["h", "q"] }] },
-        { code: "(num) => { num * num };", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo(num = 0) { }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class MyClass { }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class Foo { method() {} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo(...args) { }", parserOptions: { ecmaVersion: 6 } },
-        { code: "var { prop } = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var { [a]: prop } = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var { a: foo } = {};", options: [{ min: 3 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var { prop: foo } = {};", options: [{ max: 3 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var { longName: foo } = {};", options: [{ min: 3, max: 5 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var { foo: a } = {};", options: [{ exceptions: ["a"] }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var { a: { b: { c: longName } } } = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "({ a: obj.x.y.z } = {});", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "import something from 'y';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export var num = 0;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "({ prop: obj.x.y.something } = {});", parserOptions: { ecmaVersion: 6 } },
-        { code: "({ prop: obj.longName } = {});", parserOptions: { ecmaVersion: 6 } },
+        { code: "(num) => { num * num };", languageOptions: { ecmaVersion: 6 } },
+        { code: "function foo(num = 0) { }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class MyClass { }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class Foo { method() {} }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function foo(...args) { }", languageOptions: { ecmaVersion: 6 } },
+        { code: "var { prop } = {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "var { [a]: prop } = {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "var { a: foo } = {};", options: [{ min: 3 }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var { prop: foo } = {};", options: [{ max: 3 }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var { longName: foo } = {};", options: [{ min: 3, max: 5 }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var { foo: a } = {};", options: [{ exceptions: ["a"] }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var { a: { b: { c: longName } } } = {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "({ a: obj.x.y.z } = {});", options: [{ properties: "never" }], languageOptions: { ecmaVersion: 6 } },
+        { code: "import something from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export var num = 0;", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "({ prop: obj.x.y.something } = {});", languageOptions: { ecmaVersion: 6 } },
+        { code: "({ prop: obj.longName } = {});", languageOptions: { ecmaVersion: 6 } },
         { code: "var obj = { a: 1, bc: 2 };", options: [{ properties: "never" }] },
-        { code: "var obj = { [a]: 2 };", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var obj = { [a]: 2 };", options: [{ properties: "never" }], languageOptions: { ecmaVersion: 6 } },
         { code: "var obj = {}; obj.a = 1; obj.bc = 2;", options: [{ properties: "never" }] },
-        { code: "({ prop: obj.x } = {});", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "({ prop: obj.x } = {});", options: [{ properties: "never" }], languageOptions: { ecmaVersion: 6 } },
         { code: "var obj = { aaaaa: 1 };", options: [{ max: 4, properties: "never" }] },
         { code: "var obj = {}; obj.aaaaa = 1;", options: [{ max: 4, properties: "never" }] },
-        { code: "({ a: obj.x.y.z } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "({ prop: obj.xxxxx } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var arr = [i,j,f,b]", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo([arr]) {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "var {x} = foo;", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var {x, y: {z}} = foo;", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "let foo = { [a]: 1 };", options: [{ properties: "always" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "let foo = { [a + b]: 1 };", options: [{ properties: "always" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "({ a: obj.x.y.z } = {});", options: [{ max: 4, properties: "never" }], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ prop: obj.xxxxx } = {});", options: [{ max: 4, properties: "never" }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var arr = [i,j,f,b]", languageOptions: { ecmaVersion: 6 } },
+        { code: "function foo([arr]) {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "var {x} = foo;", options: [{ properties: "never" }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var {x, y: {z}} = foo;", options: [{ properties: "never" }], languageOptions: { ecmaVersion: 6 } },
+        { code: "let foo = { [a]: 1 };", options: [{ properties: "always" }], languageOptions: { ecmaVersion: 6 } },
+        { code: "let foo = { [a + b]: 1 };", options: [{ properties: "always" }], languageOptions: { ecmaVersion: 6 } },
         { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_"] }] },
         { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_", "send$"] }] },
         { code: "function BEFORE_send() {};", options: [{ min: 3, max: 5, exceptionPatterns: ["^BEFORE_", "^A", "^Z"] }] },
@@ -89,145 +89,145 @@ ruleTester.run("id-length", rule, {
         // Class Fields
         {
             code: "class Foo { #xyz() {} }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class Foo { xyz = 1 }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class Foo { #xyz = 1 }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class Foo { #abc() {} }",
             options: [{ max: 3 }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class Foo { abc = 1 }",
             options: [{ max: 3 }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class Foo { #abc = 1 }",
             options: [{ max: 3 }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // Identifier consisting of two code units
         {
             code: "var 𠮟 = 2",
             options: [{ min: 1, max: 1 }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var 葛󠄀 = 2", // 2 code points but only 1 grapheme
             options: [{ min: 1, max: 1 }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var a = { 𐌘: 1 };",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "(𐌘) => { 𐌘 * 𐌘 };",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "class 𠮟 { }",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "class F { 𐌘() {} }",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "class F { #𐌘() {} }",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "class F { 𐌘 = 1 }",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "class F { #𐌘 = 1 }",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "function f(...𐌘) { }",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "function f([𐌘]) { }",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "var [ 𐌘 ] = a;",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "var { p: [𐌘]} = {};",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "function f({𐌘}) { }",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "var { 𐌘 } = {};",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "var { p: 𐌘} = {};",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "({ prop: o.𐌘 } = {});",
             options: [{ min: 1, max: 1 }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         }
@@ -243,9 +243,9 @@ ruleTester.run("id-length", rule, {
         { code: "var handler = function (e) {};", errors: [tooShortError] },
         { code: "for (var i=0; i < 10; i++) { console.log(i); }", errors: [tooShortError] },
         { code: "var j=0; while (j > -10) { console.log(--j); }", errors: [tooShortError] },
-        { code: "var [i] = arr;", parserOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
-        { code: "var [,i,a] = arr;", parserOptions: { ecmaVersion: 6 }, errors: [tooShortError, tooShortError] },
-        { code: "function foo([a]) {}", parserOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
+        { code: "var [i] = arr;", errors: [tooShortError], languageOptions: { ecmaVersion: 6 } },
+        { code: "var [,i,a] = arr;", errors: [tooShortError, tooShortError], languageOptions: { ecmaVersion: 6 } },
+        { code: "function foo([a]) {}", errors: [tooShortError], languageOptions: { ecmaVersion: 6 } },
         {
             code: "var _$xt_$ = Foo(42)",
             options: [{ min: 2, max: 4 }],
@@ -269,84 +269,83 @@ ruleTester.run("id-length", rule, {
         },
         {
             code: "(a) => { a * a };",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo(x = 0) { }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class x { }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { x() {} }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo(...x) { }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({x}) { }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({x: a}) { }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
                     data: { name: "a", min: 2 },
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({x: a, longName}) { }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({ longName: a }) {}",
             options: [{ min: 3, max: 5 }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({ prop: longName }) {};",
             options: [{ min: 3, max: 5 }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooLongError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({ a: b }) {};",
             options: [{ exceptions: ["a"] }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
@@ -355,7 +354,8 @@ ruleTester.run("id-length", rule, {
                     column: 19,
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var hasOwnProperty;",
@@ -372,7 +372,6 @@ ruleTester.run("id-length", rule, {
         },
         {
             code: "function foo({ a: { b: { c: d, e } } }) { }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
@@ -388,66 +387,66 @@ ruleTester.run("id-length", rule, {
                     column: 32,
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { x} = {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { x: a} = {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
                     data: { name: "a", min: 2 },
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { a: a} = {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { prop: a } = {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { longName: a } = {};",
             options: [{ min: 3, max: 5 }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { prop: [x] } = {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { prop: [[x]] } = {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { prop: longName } = {};",
             options: [{ min: 3, max: 5 }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooLong",
@@ -456,12 +455,12 @@ ruleTester.run("id-length", rule, {
                     column: 13,
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { x: a} = {};",
             options: [{ exceptions: ["x"] }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
@@ -470,11 +469,11 @@ ruleTester.run("id-length", rule, {
                     column: 10,
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { a: { b: { c: d } } } = {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
@@ -483,11 +482,11 @@ ruleTester.run("id-length", rule, {
                     column: 20,
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { a: { b: { c: d, e } } } = {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
@@ -503,11 +502,11 @@ ruleTester.run("id-length", rule, {
                     column: 23,
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { a: { b: { c, e: longName } } } = {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
@@ -516,11 +515,11 @@ ruleTester.run("id-length", rule, {
                     column: 17,
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { a: { b: { c: d, e: longName } } } = {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
@@ -529,11 +528,11 @@ ruleTester.run("id-length", rule, {
                     column: 20,
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { a, b: { c: d, e: longName } } = {};",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
@@ -549,25 +548,25 @@ ruleTester.run("id-length", rule, {
                     column: 18,
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "import x from 'y';",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export var x = 0;",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "({ a: obj.x.y.z } = {});",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
@@ -576,11 +575,11 @@ ruleTester.run("id-length", rule, {
                     column: 15,
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({ prop: obj.x } = {});",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
@@ -589,13 +588,13 @@ ruleTester.run("id-length", rule, {
                     column: 14,
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         { code: "var x = 1;", options: [{ properties: "never" }], errors: [tooShortError] },
         {
             code: "var {prop: x} = foo;",
             options: [{ properties: "never" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "tooShort",
@@ -604,15 +603,16 @@ ruleTester.run("id-length", rule, {
                     column: 12,
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = {x: prop};",
             options: [{ properties: "always" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function BEFORE_send() {};",
@@ -639,199 +639,199 @@ ruleTester.run("id-length", rule, {
         // Class Fields
         {
             code: "class Foo { #x() {} }",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 tooShortErrorPrivate
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class Foo { x = 1 }",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class Foo { #x = 1 }",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 tooShortErrorPrivate
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class Foo { #abcdefg() {} }",
             options: [{ max: 3 }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 tooLongErrorPrivate
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class Foo { abcdefg = 1 }",
             options: [{ max: 3 }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 tooLongError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class Foo { #abcdefg = 1 }",
             options: [{ max: 3 }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 tooLongErrorPrivate
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // Identifier consisting of two code units
         {
             code: "var 𠮟 = 2",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var 葛󠄀 = 2", // 2 code points but only 1 grapheme
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var myObj = { 𐌘: 1 };",
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "(𐌘) => { 𐌘 * 𐌘 };",
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "class 𠮟 { }",
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "class Foo { 𐌘() {} }",
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "class Foo1 { #𐌘() {} }",
-            parserOptions: {
-                ecmaVersion: 2022
-            },
             errors: [
                 tooShortErrorPrivate
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 2022
+            }
         },
         {
             code: "class Foo2 { 𐌘 = 1 }",
-            parserOptions: {
-                ecmaVersion: 2022
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 2022
+            }
         },
         {
             code: "class Foo3 { #𐌘 = 1 }",
-            parserOptions: {
-                ecmaVersion: 2022
-            },
             errors: [
                 tooShortErrorPrivate
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 2022
+            }
         },
         {
             code: "function foo1(...𐌘) { }",
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "function foo([𐌘]) { }",
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "var [ 𐌘 ] = arr;",
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "var { prop: [𐌘]} = {};",
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "function foo({𐌘}) { }",
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "var { 𐌘 } = {};",
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "var { prop: 𐌘} = {};",
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "({ prop: obj.𐌘 } = {});",
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 tooShortError
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         }
     ]
 });

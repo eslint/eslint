@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/callback-return"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -51,24 +51,24 @@ ruleTester.run("callback-return", rule, {
         // arrow functions
         {
             code: "var x = err => { if (err) { callback(); return; } }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var x = err => callback(err)",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var x = err => { setTimeout( () => { callback(); }); }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // classes
         {
             code: "class x { horse() { callback(); } } ",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "class x { horse() { if (err) { return callback(); } callback(); } } ",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // options (only warns with the correct callback name)
@@ -191,23 +191,23 @@ ruleTester.run("callback-return", rule, {
         },
         {
             code: "var x = (err) => { if (err) { callback (err); } }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingReturn",
                 line: 1,
                 column: 31,
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var x = { x(err) { if (err) { callback (err); } } }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingReturn",
                 line: 1,
                 column: 31,
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function x(err) { if (err) {\n log();\n callback(err); } }",
@@ -220,13 +220,13 @@ ruleTester.run("callback-return", rule, {
         },
         {
             code: "var x = { x(err) { if (err) { callback && callback (err); } } }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingReturn",
                 line: 1,
                 column: 43,
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function a(err) { callback (err); callback(); }",
@@ -257,13 +257,13 @@ ruleTester.run("callback-return", rule, {
         },
         {
             code: "var a = (err) => { callback (err); callback(); }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingReturn",
                 line: 1,
                 column: 20,
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function a(err) { if (err) { callback (err); } else if (x) { callback(err); return; } }",
@@ -286,13 +286,13 @@ ruleTester.run("callback-return", rule, {
         },
         {
             code: "class x { horse() { if (err) { callback(); } callback(); } } ",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingReturn",
                 line: 1,
                 column: 32,
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
 
 
@@ -324,7 +324,6 @@ ruleTester.run("callback-return", rule, {
         },
         {
             code: "() => { if (x) { callback(); } }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingReturn",
@@ -332,7 +331,8 @@ ruleTester.run("callback-return", rule, {
                     column: 18,
                     type: "CallExpression"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function b() { switch(x) { case 'horse': callback(); } }",

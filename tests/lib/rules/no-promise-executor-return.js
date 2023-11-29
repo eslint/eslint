@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-promise-executor-return");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 }, env: { es6: true } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2015 } });
 
 ruleTester.run("no-promise-executor-return", rule, {
     valid: [
@@ -67,11 +67,9 @@ ruleTester.run("no-promise-executor-return", rule, {
         "/* globals Promise:off */ new Promise(function (resolve, reject) { return 1; });",
         {
             code: "new Promise((resolve, reject) => { return 1; });",
-            globals: { Promise: "off" }
-        },
-        {
-            code: "new Promise((resolve, reject) => 1);",
-            env: { es6: false }
+            languageOptions: {
+                globals: { Promise: "off" }
+            }
         },
 
         // global Promise is shadowed
@@ -109,23 +107,23 @@ ruleTester.run("no-promise-executor-return", rule, {
         // does not report global return
         {
             code: "return 1;",
-            env: { node: true }
+            languageOptions: { sourceType: "commonjs" }
         },
         {
             code: "return 1;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { sourceType: "script", parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: "return 1; function foo(){ return 1; } return 1;",
-            env: { node: true }
+            languageOptions: { sourceType: "commonjs" }
         },
         {
             code: "function foo(){} return 1; var bar = function*(){ return 1; }; return 1; var baz = () => {}; return 1;",
-            env: { node: true }
+            languageOptions: { sourceType: "commonjs" }
         },
         {
             code: "new Promise(function (resolve, reject) {}); return 1;",
-            env: { node: true }
+            languageOptions: { sourceType: "commonjs" }
         },
 
         /*
@@ -875,9 +873,6 @@ ruleTester.run("no-promise-executor-return", rule, {
         },
         {
             code: "() => new Promise(() => async () => 1);",
-            parserOptions: { ecmaVersion: 2017 },
-
-            // for async
             errors: [{
                 messageId: "returnsValue",
                 type: "ArrowFunctionExpression",
@@ -888,7 +883,10 @@ ruleTester.run("no-promise-executor-return", rule, {
                         output: "() => new Promise(() => {async () => 1});"
                     }
                 ]
-            }]
+            }],
+
+            // for async
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "() => new Promise(() => function () {});",

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-control-regex"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -27,7 +27,7 @@ ruleTester.run("no-control-regex", rule, {
         "new RegExp('[')",
         "RegExp('[')",
         "new (function foo(){})('\\x1f')",
-        { code: String.raw`/\u{20}/u`, parserOptions: { ecmaVersion: 2015 } },
+        { code: String.raw`/\u{20}/u`, languageOptions: { ecmaVersion: 2015 } },
         String.raw`/\u{1F}/`,
         String.raw`/\u{1F}/g`,
         String.raw`new RegExp("\\u{20}", "u")`,
@@ -35,7 +35,7 @@ ruleTester.run("no-control-regex", rule, {
         String.raw`new RegExp("\\u{1F}", "g")`,
         String.raw`new RegExp("\\u{1F}", flags)`, // when flags are unknown, this rule assumes there's no `u` flag
         String.raw`new RegExp("[\\q{\\u{20}}]", "v")`,
-        { code: String.raw`/[\u{20}--B]/v`, parserOptions: { ecmaVersion: 2024 } }
+        { code: String.raw`/[\u{20}--B]/v`, languageOptions: { ecmaVersion: 2024 } }
 
     ],
     invalid: [
@@ -49,13 +49,13 @@ ruleTester.run("no-control-regex", rule, {
         { code: "var regex = RegExp('\\x1f')", errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] },
         {
             code: "var regex = /(?<a>\\x1f)/",
-            parserOptions: { ecmaVersion: 2018 },
-            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }],
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: String.raw`var regex = /(?<\u{1d49c}>.)\x1f/`,
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: String.raw`new RegExp("\\u001F", flags)`,
@@ -63,23 +63,23 @@ ruleTester.run("no-control-regex", rule, {
         },
         {
             code: String.raw`/\u{1111}*\x1F/u`,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: String.raw`new RegExp("\\u{1111}*\\x1F", "u")`,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: String.raw`/\u{1F}/u`,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: String.raw`/\u{1F}/gui`,
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: String.raw`new RegExp("\\u{1F}", "u")`,
@@ -95,13 +95,13 @@ ruleTester.run("no-control-regex", rule, {
         },
         {
             code: String.raw`/[\u{1F}--B]/v`,
-            parserOptions: { ecmaVersion: 2024 },
-            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }],
+            languageOptions: { ecmaVersion: 2024 }
         },
         {
             code: String.raw`/\x11/; RegExp("foo", "uv");`,
-            parserOptions: { ecmaVersion: 2024 },
-            errors: [{ messageId: "unexpected", data: { controlChars: "\\x11" }, type: "Literal", column: 1 }]
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x11" }, type: "Literal", column: 1 }],
+            languageOptions: { ecmaVersion: 2024 }
         }
     ]
 });

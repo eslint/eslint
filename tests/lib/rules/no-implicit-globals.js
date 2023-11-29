@@ -10,13 +10,19 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-implicit-globals"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester"),
+    globals = require("globals");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 const varMessage = "Unexpected 'var' declaration in the global scope, wrap in an IIFE for a local variable, assign as global property for a global variable.";
 const functionMessage = "Unexpected function declaration in the global scope, wrap in an IIFE for a local variable, assign as global property for a global variable.";
@@ -37,72 +43,90 @@ ruleTester.run("no-implicit-globals", rule, {
         // Recommended way to create a global variable in the browser
         {
             code: "window.foo = 1;",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "window.foo = function() {};",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "window.foo = function foo() {};",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "window.foo = function bar() {};",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "window.foo = function*() {};",
-            parserOptions: { ecmaVersion: 2015 },
-            env: { browser: true }
+            languageOptions: {
+                ecmaVersion: 2015,
+                globals: globals.browser
+            }
         },
         {
             code: "window.foo = function *foo() {};",
-            parserOptions: { ecmaVersion: 2015 },
-            env: { browser: true }
+            languageOptions: {
+                ecmaVersion: 2015,
+                globals: globals.browser
+            }
         },
         {
             code: "window.foo = async function() {};",
-            parserOptions: { ecmaVersion: 2017 },
-            env: { browser: true }
+            languageOptions: {
+                ecmaVersion: 2017,
+                globals: globals.browser
+            }
         },
         {
             code: "window.foo = async function foo() {};",
-            parserOptions: { ecmaVersion: 2017 },
-            env: { browser: true }
+            languageOptions: {
+                ecmaVersion: 2017,
+                globals: globals.browser
+            }
         },
         {
             code: "window.foo = async function*() {};",
-            parserOptions: { ecmaVersion: 2018 },
-            env: { browser: true }
+            languageOptions: {
+                ecmaVersion: 2018,
+                globals: globals.browser
+            }
         },
         {
             code: "window.foo = async function *foo() {};",
-            parserOptions: { ecmaVersion: 2018 },
-            env: { browser: true }
+            languageOptions: {
+                ecmaVersion: 2018,
+                globals: globals.browser
+            }
         },
         {
             code: "window.foo = class {};",
-            parserOptions: { ecmaVersion: 2015 },
-            env: { browser: true }
+            languageOptions: {
+                ecmaVersion: 2015,
+                globals: globals.browser
+            }
         },
         {
             code: "window.foo = class foo {};",
-            parserOptions: { ecmaVersion: 2015 },
-            env: { browser: true }
+            languageOptions: {
+                ecmaVersion: 2015,
+                globals: globals.browser
+            }
         },
         {
             code: "window.foo = class bar {};",
-            parserOptions: { ecmaVersion: 2015 },
-            env: { browser: true }
+            languageOptions: {
+                ecmaVersion: 2015,
+                globals: globals.browser
+            }
         },
         {
             code: "self.foo = 1;",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "self.foo = function() {};",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
 
         // Another way to create a global variable. Not the best practice, but that isn't the responsibility of this rule.
@@ -117,19 +141,19 @@ ruleTester.run("no-implicit-globals", rule, {
         "/*global Array:writable*/",
         {
             code: "/*global foo:readonly*/",
-            globals: { foo: "readonly" }
+            languageOptions: { globals: { foo: "readonly" } }
         },
         {
             code: "/*global foo:writable*/",
-            globals: { foo: "readonly" }
+            languageOptions: { globals: { foo: "readonly" } }
         },
         {
             code: "/*global foo:readonly*/",
-            globals: { foo: "writable" }
+            languageOptions: { globals: { foo: "writable" } }
         },
         {
             code: "/*global foo:writable*/",
-            globals: { foo: "writable" }
+            languageOptions: { globals: { foo: "writable" } }
         },
 
         //------------------------------------------------------------------------------
@@ -142,15 +166,15 @@ ruleTester.run("no-implicit-globals", rule, {
         "(function() {}) + (function foo() {})",
         {
             code: "typeof function *foo() {}",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "typeof async function foo() {}",
-            parserOptions: { ecmaVersion: 2017 }
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "typeof async function *foo() {}",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
 
         // Recommended way to create local variables
@@ -158,49 +182,49 @@ ruleTester.run("no-implicit-globals", rule, {
         "(function() { function foo() {} })();",
         {
             code: "(function() { function *foo() {} })();",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "(function() { async function foo() {} })();",
-            parserOptions: { ecmaVersion: 2017 }
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "(function() { async function *foo() {} })();",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "window.foo = (function() { var bar; function foo () {}; return function bar() {} })();",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
 
         // Different scoping
         {
             code: "var foo = 1;",
-            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
         },
         {
             code: "function foo() {}",
-            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
         },
         {
             code: "function *foo() {}",
-            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
         },
         {
             code: "var foo = 1;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: "function foo() {}",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: "var foo = 1;",
-            env: { node: true }
+            languageOptions: { sourceType: "commonjs" }
         },
         {
             code: "function foo() {}",
-            env: { node: true }
+            languageOptions: { sourceType: "commonjs" }
         },
 
         //------------------------------------------------------------------------------
@@ -210,112 +234,114 @@ ruleTester.run("no-implicit-globals", rule, {
         // Test default option
         {
             code: "const foo = 1; let bar; class Baz {}",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "const foo = 1; let bar; class Baz {}",
             options: [{ lexicalBindings: false }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         // If the option is not set to true, even the redeclarations of read-only global variables are allowed.
         {
             code: "const Array = 1; let Object; class Math {}",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:readonly, bar:readonly, Baz:readonly*/ const foo = 1; let bar; class Baz {}",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         // Doesn't report class expressions
         {
             code: "typeof class {}",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "typeof class foo {}",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         // Recommended ways to create local variables
         {
             code: "{ const foo = 1; let bar; class Baz {} }",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "(function() { const foo = 1; let bar; class Baz {} })();",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "window.foo = (function() { const bar = 1; let baz; class Quux {} return function () {} })();",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         // different scoping
         {
             code: "const foo = 1; let bar; class Baz {}",
-            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
         },
         {
             code: "const foo = 1; let bar; class Baz {}",
-            parserOptions: { ecmaVersion: 2015 },
-            env: { node: true }
+            languageOptions: {
+                ecmaVersion: 2015,
+                sourceType: "commonjs"
+            }
         },
         {
             code: "const foo = 1; let bar; class Baz {}",
-            parserOptions: { ecmaVersion: 2015, ecmaFeatures: { globalReturn: true } }
+            languageOptions: { ecmaVersion: 2015, parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
 
         // Regression tests
         {
             code: "const foo = 1;",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "let foo = 1;",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "let foo = function() {};",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "const foo = function() {};",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "class Foo {}",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "(function() { let foo = 1; })();",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "(function() { const foo = 1; })();",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "let foo = 1;",
-            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
         },
         {
             code: "const foo = 1;",
-            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
         },
         {
             code: "let foo = 1;",
-            parserOptions: { ecmaVersion: 2015, ecmaFeatures: { globalReturn: true } }
+            languageOptions: { ecmaVersion: 2015, parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: "const foo = 1;",
-            parserOptions: { ecmaVersion: 2015, ecmaFeatures: { globalReturn: true } }
+            languageOptions: { ecmaVersion: 2015, parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
 
         //------------------------------------------------------------------------------
@@ -332,11 +358,11 @@ ruleTester.run("no-implicit-globals", rule, {
         "(function() {'use strict'; foo = 1; })();",
         {
             code: "{ class Foo { constructor() { bar = 1; } baz() { bar = 1; } } }",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "foo = 1;",
-            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
         },
 
         // This rule doesn't check the existence of the objects in property assignments. These are reference errors, not leaks. Note that the env is not set.
@@ -356,19 +382,19 @@ ruleTester.run("no-implicit-globals", rule, {
         // Not a leak
         {
             code: "foo = 1;",
-            globals: { foo: "writable" }
+            languageOptions: { globals: { foo: "writable" } }
         },
         {
             code: "window.foo = function bar() { bar = 1; };",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "window.foo = function bar(baz) { baz = 1; };",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "window.foo = function bar() { var baz; function quux() { quux = 1; } };",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
 
         //------------------------------------------------------------------------------
@@ -379,33 +405,33 @@ ruleTester.run("no-implicit-globals", rule, {
         "/*global foo:writable*/ var foo = 1;",
         {
             code: "function foo() {}",
-            globals: { foo: "writable" }
+            languageOptions: { globals: { foo: "writable" } }
         },
         {
             code: "/*global foo:writable*/ function *foo() {}",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:writable*/ const foo = 1;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:writable*/ let foo;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global Foo:writable*/ class Foo {}",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         // Assignments to writable global variables are allowed
         "/*global foo:writable*/ foo = 1;",
         {
             code: "foo = 1",
-            globals: { foo: "writable" }
+            languageOptions: { globals: { foo: "writable" } }
         },
 
 
@@ -424,25 +450,25 @@ ruleTester.run("no-implicit-globals", rule, {
         "/* exported foo */ function foo() {}",
         {
             code: "/* exported foo */ function *foo() {}",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported foo */ async function foo() {}",
-            parserOptions: { ecmaVersion: 2017 }
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "/* exported foo */ async function *foo() {}",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         "/* exported foo */ var foo = function() {};",
         "/* exported foo */ var foo = function foo() {};",
         {
             code: "/* exported foo */ var foo = function*() {};",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported foo */ var foo = function *foo() {};",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         "/* exported foo, bar */ var foo = 1, bar = 2;",
 
@@ -451,52 +477,52 @@ ruleTester.run("no-implicit-globals", rule, {
         {
             code: "/* exported a */ const a = 1;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a */ let a;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a */ let a = 1;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported A */ class A {}",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a, b */ const a = 1; const b = 2;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a, b */ const a = 1, b = 2;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a, b */ let a, b = 1;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a, b, C */ const a = 1; let b; class C {}",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a, b, c */ const [a, b, ...c] = [];",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a, b, c */ let { a, foo: b, bar: { c } } = {};",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         }
     ],
 
@@ -526,33 +552,33 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "function *foo() {}",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: functionMessage,
                     type: "FunctionDeclaration"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "async function foo() {}",
-            parserOptions: { ecmaVersion: 2017 },
             errors: [
                 {
                     message: functionMessage,
                     type: "FunctionDeclaration"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "async function *foo() {}",
-            parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     message: functionMessage,
                     type: "FunctionDeclaration"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var foo = function() {};",
@@ -574,23 +600,23 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "var foo = function*() {};",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: varMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "var foo = function *foo() {};",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: varMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "var foo = 1, bar = 2;",
@@ -615,93 +641,93 @@ ruleTester.run("no-implicit-globals", rule, {
         {
             code: "const a = 1;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 message: constMessage
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "let a;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 message: letMessage
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "let a = 1;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 message: letMessage
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "class A {}",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 message: classMessage
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         // Multiple and mixed tests
         {
             code: "const a = 1; const b = 2;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 { message: constMessage },
                 { message: constMessage }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "const a = 1, b = 2;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 { message: constMessage },
                 { message: constMessage }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "let a, b = 1;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 { message: letMessage },
                 { message: letMessage }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "const a = 1; let b; class C {}",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 { message: constMessage },
                 { message: letMessage },
                 { message: classMessage }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "const [a, b, ...c] = [];",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 { message: constMessage },
                 { message: constMessage },
                 { message: constMessage }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "let { a, foo: b, bar: { c } } = {};",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 { message: letMessage },
                 { message: letMessage },
                 { message: letMessage }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         //------------------------------------------------------------------------------
@@ -729,13 +755,13 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "foo = function*() {};",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: leakMessage,
                     type: "AssignmentExpression"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "window.foo = function() { bar = 1; }",
@@ -766,45 +792,45 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "for (foo of []);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: leakMessage,
                     type: "ForOfStatement"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         // Not implicit strict
         {
             code: "window.foo = { bar() { foo = 1 } }",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: leakMessage,
                     type: "AssignmentExpression"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "foo = 1",
-            env: { node: true },
             errors: [
                 {
                     message: leakMessage,
                     type: "AssignmentExpression"
                 }
-            ]
+            ],
+            languageOptions: { sourceType: "commonjs" }
         },
         {
             code: "foo = 1;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 {
                     message: leakMessage,
                     type: "AssignmentExpression"
                 }
-            ]
+            ],
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
 
         // Multiple and mixed
@@ -898,7 +924,6 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "[foo, bar] = [];",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: leakMessage,
@@ -908,27 +933,28 @@ ruleTester.run("no-implicit-globals", rule, {
                     message: leakMessage,
                     type: "AssignmentExpression"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:writable*/ [foo, bar] = [];",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: leakMessage,
                     type: "AssignmentExpression"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global bar:writable*/ [foo, bar] = [];",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: leakMessage,
                     type: "AssignmentExpression"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         //------------------------------------------------------------------------------
@@ -947,13 +973,13 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "window = 1;",
-            env: { browser: true },
             errors: [
                 {
                     message: readonlyAssignmentMessage,
                     type: "AssignmentExpression"
                 }
-            ]
+            ],
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "/*global foo:readonly*/ foo = 1",
@@ -966,13 +992,13 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "foo = 1;",
-            globals: { foo: "readonly" },
             errors: [
                 {
                     message: readonlyAssignmentMessage,
                     type: "AssignmentExpression"
                 }
-            ]
+            ],
+            languageOptions: { globals: { foo: "readonly" } }
         },
         {
             code: "/*global foo:readonly*/ for (foo in {});",
@@ -985,13 +1011,13 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "/*global foo:readonly*/ for (foo of []);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyAssignmentMessage,
                     type: "ForOfStatement"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         // Basic redeclaration tests
@@ -1034,46 +1060,46 @@ ruleTester.run("no-implicit-globals", rule, {
         {
             code: "/*global foo:readonly*/ const foo = 1",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyRedeclarationMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:readonly*/ let foo",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyRedeclarationMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:readonly*/ let foo = 1",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyRedeclarationMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global Foo:readonly*/ class Foo {}",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyRedeclarationMessage,
                     type: "ClassDeclaration"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         // Multiple and mixed assignments
@@ -1196,7 +1222,6 @@ ruleTester.run("no-implicit-globals", rule, {
         {
             code: "/*global foo:readonly, bar: readonly*/ const foo = 1, bar = 2;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyRedeclarationMessage,
@@ -1206,34 +1231,34 @@ ruleTester.run("no-implicit-globals", rule, {
                     message: readonlyRedeclarationMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:writable, bar: readonly*/ const foo = 1, bar = 2;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyRedeclarationMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:readonly, bar: writable*/ const foo = 1, bar = 2;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyRedeclarationMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:readonly*/ const foo = 1, bar = 2;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyRedeclarationMessage,
@@ -1243,12 +1268,12 @@ ruleTester.run("no-implicit-globals", rule, {
                     message: constMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global bar: readonly*/ const foo = 1, bar = 2;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: constMessage,
@@ -1258,12 +1283,12 @@ ruleTester.run("no-implicit-globals", rule, {
                     message: readonlyRedeclarationMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:readonly, bar: readonly*/ let foo, bar;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyRedeclarationMessage,
@@ -1273,34 +1298,34 @@ ruleTester.run("no-implicit-globals", rule, {
                     message: readonlyRedeclarationMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:writable, bar: readonly*/ let foo, bar;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyRedeclarationMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:readonly, bar: writable*/ let foo, bar;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyRedeclarationMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global foo:readonly*/ let foo, bar;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: readonlyRedeclarationMessage,
@@ -1310,12 +1335,12 @@ ruleTester.run("no-implicit-globals", rule, {
                     message: letMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/*global bar: readonly*/ let foo, bar;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: letMessage,
@@ -1325,7 +1350,8 @@ ruleTester.run("no-implicit-globals", rule, {
                     message: readonlyRedeclarationMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         //------------------------------------------------------------------------------
@@ -1353,33 +1379,33 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "/* exported bar */ function *foo() {}",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: functionMessage,
                     type: "FunctionDeclaration"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported bar */ async function foo() {}",
-            parserOptions: { ecmaVersion: 2017 },
             errors: [
                 {
                     message: functionMessage,
                     type: "FunctionDeclaration"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "/* exported bar */ async function *foo() {}",
-            parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     message: functionMessage,
                     type: "FunctionDeclaration"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "/* exported bar */ var foo = function() {};",
@@ -1401,23 +1427,23 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "/* exported bar */ var foo = function*() {};",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: varMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported bar */ var foo = function *foo() {};",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: varMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported bar */ var foo = 1, bar = 2;",
@@ -1433,84 +1459,83 @@ ruleTester.run("no-implicit-globals", rule, {
         {
             code: "/* exported b */ const a = 1;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: constMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported b */ let a;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: letMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported b */ let a = 1;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: letMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported B */ class A {}",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: classMessage,
                     type: "ClassDeclaration"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a */ const a = 1; const b = 2;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: constMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a */ const a = 1, b = 2;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: constMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a */ let a, b = 1;",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: letMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a */ const a = 1; let b; class C {}",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: letMessage,
@@ -1520,12 +1545,12 @@ ruleTester.run("no-implicit-globals", rule, {
                     message: classMessage,
                     type: "ClassDeclaration"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a */ const [a, b, ...c] = [];",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: constMessage,
@@ -1535,12 +1560,12 @@ ruleTester.run("no-implicit-globals", rule, {
                     message: constMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported a */ let { a, foo: b, bar: { c } } = {};",
             options: [{ lexicalBindings: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: letMessage,
@@ -1550,7 +1575,8 @@ ruleTester.run("no-implicit-globals", rule, {
                     message: letMessage,
                     type: "VariableDeclarator"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         // Global variable leaks
@@ -1574,13 +1600,13 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "/* exported foo */ foo = function*() {};",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: leakMessage,
                     type: "AssignmentExpression"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "/* exported foo */ window.foo = function() { bar = 1; }",
@@ -1611,13 +1637,13 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "/* exported foo */ for (foo of []);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     message: leakMessage,
                     type: "ForOfStatement"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2015 }
         }
     ]
 });

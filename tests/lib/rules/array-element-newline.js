@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/array-element-newline");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 
 //------------------------------------------------------------------------------
@@ -135,29 +135,29 @@ ruleTester.run("array-element-newline", rule, {
          * ArrayPattern
          * "always"
          */
-        { code: "var [] = foo;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a] = foo;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a,\nb] = foo;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a, // any comment\nb] = foo;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [// any comment \na,\nb] = foo;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a,\nb // any comment\n] = foo;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a,\nb,\nb] = foo;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [\na,\n[\nb,\nc]] = foo;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var [] = foo;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a] = foo;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a,\nb] = foo;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a, // any comment\nb] = foo;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [// any comment \na,\nb] = foo;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a,\nb // any comment\n] = foo;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a,\nb,\nb] = foo;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [\na,\n[\nb,\nc]] = foo;", languageOptions: { ecmaVersion: 6 } },
 
         // "never"
-        { code: "var [a,[b,c]] = foo;", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [a,[b,c]] = foo;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
 
         // { minItems: 3 }
-        { code: "var [] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a, b] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a,\nb,\nc] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [] = foo;", options: [{ minItems: 3 }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a] = foo;", options: [{ minItems: 3 }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a, b] = foo;", options: [{ minItems: 3 }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a,\nb,\nc] = foo;", options: [{ minItems: 3 }], languageOptions: { ecmaVersion: 6 } },
 
         /*
          * ArrayExpression & ArrayPattern
          * { ArrayExpression: "always", ArrayPattern: "never" }
          */
-        { code: "var [a, b] = [1,\n2]", options: [{ ArrayExpression: "always", ArrayPattern: "never" }], parserOptions: { ecmaVersion: 6 } }],
+        { code: "var [a, b] = [1,\n2]", options: [{ ArrayExpression: "always", ArrayPattern: "never" }], languageOptions: { ecmaVersion: 6 } }],
 
     invalid: [
         {
@@ -859,20 +859,19 @@ ruleTester.run("array-element-newline", rule, {
             code: "var [a, b] = foo;",
             output: "var [a,\nb] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingLineBreak",
                     line: 1,
                     column: 8
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [a, b, c] = foo;",
             output: "var [a,\nb,\nc] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingLineBreak",
@@ -884,7 +883,8 @@ ruleTester.run("array-element-newline", rule, {
                     line: 1,
                     column: 11
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // { minItems: 3 }
@@ -892,20 +892,19 @@ ruleTester.run("array-element-newline", rule, {
             code: "var [a,\nb] = foo;",
             output: "var [a, b] = foo;",
             options: [{ minItems: 3 }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
                     line: 1,
                     column: 8
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [a, b, c] = foo;",
             output: "var [a,\nb,\nc] = foo;",
             options: [{ minItems: 3 }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingLineBreak",
@@ -917,7 +916,8 @@ ruleTester.run("array-element-newline", rule, {
                     line: 1,
                     column: 11
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         /*
@@ -928,7 +928,6 @@ ruleTester.run("array-element-newline", rule, {
             code: "var [a,\nb] = [1, 2]",
             output: "var [a, b] = [1,\n2]",
             options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
@@ -940,33 +939,34 @@ ruleTester.run("array-element-newline", rule, {
                     line: 2,
                     column: 9
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [a, b] = [1, 2]",
             output: "var [a, b] = [1,\n2]",
             options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingLineBreak",
                     line: 1,
                     column: 17
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [a,\nb] = [1,\n2]",
             output: "var [a, b] = [1,\n2]",
             options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
                     line: 1,
                     column: 8
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         }
     ]
 

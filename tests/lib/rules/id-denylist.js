@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/id-denylist"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 const error = { messageId: "restricted", type: "Identifier" };
 
 ruleTester.run("id-denylist", rule, {
@@ -44,12 +49,12 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "import { foo as bar } from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export { foo as bar } from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "foo.bar()",
@@ -78,42 +83,42 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "const {foo: bar} = baz",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const {foo: {bar: baz}} = qux",
             options: ["foo", "bar"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({ bar: baz }) {}",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({ bar: {baz: qux} }) {}",
             options: ["bar", "baz"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({baz} = obj.qux) {}",
             options: ["qux"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({ foo: {baz} = obj.qux }) {}",
             options: ["qux"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({a: bar = obj.baz});",
             options: ["baz"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({foo: {a: bar = obj.baz}} = qux);",
             options: ["baz"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var arr = [foo.bar];",
@@ -150,12 +155,12 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "({foo: obj.bar.bar.bar.baz} = {});",
             options: ["foo", "bar"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({[obj.bar]: a = baz} = qux);",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // references to global variables
@@ -182,14 +187,18 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "foo = { [myGlobal]: 1 };",
             options: ["myGlobal"],
-            parserOptions: { ecmaVersion: 6 },
-            globals: { myGlobal: "readonly" }
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: { myGlobal: "readonly" }
+            }
         },
         {
             code: "({ myGlobal } = foo);", // writability doesn't affect the logic, it's always assumed that user doesn't have control over the names of globals.
             options: ["myGlobal"],
-            parserOptions: { ecmaVersion: 6 },
-            globals: { myGlobal: "writable" }
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: { myGlobal: "writable" }
+            }
         },
         {
             code: "/* global myGlobal: readonly */ myGlobal = 5;",
@@ -198,24 +207,30 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "var foo = [Map];",
             options: ["Map"],
-            env: { es6: true }
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "var foo = { bar: window.baz };",
             options: ["window"],
-            env: { browser: true }
+            languageOptions: {
+                globals: {
+                    window: "readonly"
+                }
+            }
         },
 
         // Class fields
         {
             code: "class C { camelCase; #camelCase; #camelCase2() {} }",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { snake_case; #snake_case; #snake_case2() {} }",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -250,116 +265,115 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "import foo from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 error
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import * as foo from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 error
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export * as foo from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: [
                 error
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020, sourceType: "module" }
         },
         {
             code: "import { foo } from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 error
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import { foo as bar } from 'mod'",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 17
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import { foo as bar } from 'mod'",
             options: ["foo", "bar"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 17
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import { foo as foo } from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 17
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import { foo, foo as bar } from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 10
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import { foo as bar, foo } from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 22
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import foo, { foo as bar } from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 8
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "var foo; export { foo as bar };",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 26
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "var foo; export { foo };",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "restricted",
@@ -373,12 +387,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 19
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "var foo; export { foo as bar };",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "restricted",
@@ -394,12 +408,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 19
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "var foo; export { foo as foo };",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "restricted",
@@ -419,12 +433,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 26
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "var foo; export { foo as bar };",
             options: ["foo", "bar"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "restricted",
@@ -444,70 +458,71 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 26
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export { foo } from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 error
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export { foo as bar } from 'mod'",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 17
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export { foo as bar } from 'mod'",
             options: ["foo", "bar"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 17
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export { foo as foo } from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 17
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export { foo, foo as bar } from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 10
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export { foo as bar, foo } from 'mod'",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 22
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "foo.bar()",
@@ -642,7 +657,6 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "const {foo} = baz",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -650,12 +664,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 8
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const {foo: bar} = baz",
             options: ["foo", "bar"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -663,12 +677,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 13
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const {[foo]: bar} = baz",
             options: ["foo", "bar"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -682,12 +696,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 15
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const {foo: {bar: baz}} = qux",
             options: ["foo", "bar", "baz"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -695,12 +709,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 19
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const {foo: {[bar]: baz}} = qux",
             options: ["foo", "bar", "baz"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -714,12 +728,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 21
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const {[foo]: {[bar]: baz}} = qux",
             options: ["foo", "bar", "baz"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -739,12 +753,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 23
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({ bar: baz }) {}",
             options: ["bar", "baz"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -752,12 +766,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 21
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({ bar: {baz: qux} }) {}",
             options: ["bar", "baz", "qux"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -765,12 +779,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 27
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({foo: obj.bar} = baz);",
             options: ["foo", "bar"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -778,12 +792,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 12
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({foo: obj.bar.bar.bar.baz} = {});",
             options: ["foo", "bar", "baz"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -791,12 +805,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 24
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({[foo]: obj.bar} = baz);",
             options: ["foo", "bar"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -810,12 +824,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 14
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({foo: { a: obj.bar }} = baz);",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -823,12 +837,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 17
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({a: obj.bar = baz} = qux);",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -836,12 +850,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 10
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({a: obj.bar.bar.baz = obj.qux} = obj.qux);",
             options: ["a", "bar", "baz", "qux"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -849,12 +863,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 18
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({a: obj[bar] = obj.qux} = obj.qux);",
             options: ["a", "bar", "baz", "qux"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -862,12 +876,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 10
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({a: [obj.bar] = baz} = qux);",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -875,12 +889,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 11
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({foo: { a: obj.bar = baz}} = qux);",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -888,12 +902,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 17
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({foo: { [a]: obj.bar }} = baz);",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -901,12 +915,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 19
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({...obj.bar} = baz);",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 9 },
             errors: [
                 {
                     messageId: "restricted",
@@ -914,12 +928,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 10
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 9 }
         },
         {
             code: "([obj.bar] = baz);",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -927,12 +941,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 7
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const [bar] = baz;",
             options: ["bar"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -940,7 +954,8 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 8
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // not a reference to a global variable, because it isn't a reference to a variable
@@ -981,31 +996,30 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "var foo = { Number() {} };",
             options: ["Number"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { Number() {} }",
             options: ["Number"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "myGlobal: while(foo) { break myGlobal; } ",
             options: ["myGlobal"],
-            globals: { myGlobal: "readonly" },
             errors: [
                 {
                     messageId: "restricted",
@@ -1019,14 +1033,16 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 30
                 }
-            ]
+            ],
+            languageOptions: {
+                globals: { myGlobal: "readonly" }
+            }
         },
 
         // globals declared in the given source code are not excluded from consideration
         {
             code: "const foo = 1; bar = foo;",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1040,12 +1056,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 22
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "let foo; foo = bar;",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1059,7 +1075,8 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 10
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "bar = foo; var foo;",
@@ -1100,7 +1117,6 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "class Foo {} var bar = Foo;",
             options: ["Foo"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1114,14 +1130,14 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 24
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // redeclared globals are not excluded from consideration
         {
             code: "let undefined; undefined = 1;",
             options: ["undefined"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1135,7 +1151,8 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 16
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo = undefined; var undefined;",
@@ -1176,7 +1193,6 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "class Number {} x = Number.NaN;",
             options: ["Number"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1190,7 +1206,8 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 21
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         /*
@@ -1200,7 +1217,6 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "/* globals myGlobal */ window.myGlobal = 5; foo = myGlobal;",
             options: ["myGlobal"],
-            env: { browser: true },
             errors: [
                 {
                     messageId: "restricted",
@@ -1208,21 +1224,28 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 31
                 }
-            ]
+            ],
+            languageOptions: {
+                globals: {
+                    window: "readonly"
+                }
+            }
         },
 
         // disabled global variables
         {
             code: "var foo = undefined;",
             options: ["undefined"],
-            globals: { undefined: "off" },
             errors: [
                 {
                     messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: {
+                globals: { undefined: "off" }
+            }
         },
         {
             code: "/* globals Number: off */ Number.parseInt()",
@@ -1251,7 +1274,6 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "if (foo) { let undefined; bar = undefined; }",
             options: ["undefined"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1265,7 +1287,8 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 33
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo(Number) { var x = Number.NaN; }",
@@ -1288,7 +1311,6 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "function foo() { var myGlobal; x = myGlobal; }",
             options: ["myGlobal"],
-            globals: { myGlobal: "readonly" },
             errors: [
                 {
                     messageId: "restricted",
@@ -1302,12 +1324,14 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 36
                 }
-            ]
+            ],
+            languageOptions: {
+                globals: { myGlobal: "readonly" }
+            }
         },
         {
             code: "function foo(bar) { return Number.parseInt(bar); } const Number = 1;",
             options: ["Number"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "restricted",
@@ -1321,12 +1345,12 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 58
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import Number from 'myNumber'; const foo = Number.parseInt(bar);",
             options: ["Number"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "restricted",
@@ -1340,7 +1364,8 @@ ruleTester.run("id-denylist", rule, {
                     type: "Identifier",
                     column: 44
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "var foo = function undefined() {};",
@@ -1358,21 +1383,20 @@ ruleTester.run("id-denylist", rule, {
         {
             code: "var foo = { undefined }",
             options: ["undefined"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Class fields
         {
             code: "class C { camelCase; #camelCase; #camelCase2() {} }",
             options: ["camelCase"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1384,13 +1408,13 @@ ruleTester.run("id-denylist", rule, {
                     data: { name: "camelCase" },
                     type: "PrivateIdentifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
 
         },
         {
             code: "class C { snake_case; #snake_case() {}; #snake_case2() {} }",
             options: ["snake_case"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1402,7 +1426,8 @@ ruleTester.run("id-denylist", rule, {
                     data: { name: "snake_case" },
                     type: "PrivateIdentifier"
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
 
         }
     ]

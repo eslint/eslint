@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-computed-key"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("no-useless-computed-key", rule, {
     valid: [
@@ -52,7 +52,7 @@ ruleTester.run("no-useless-computed-key", rule, {
          */
         {
             code: "({ [99999999999999999n]: 0 })",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -131,12 +131,12 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "({ async ['x']() {} })",
             output: "({ async 'x'() {} })",
-            parserOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'x'" },
                 type: "Property"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 8 }
         }, {
             code: "({ get[.2]() {} })",
             output: "({ get.2() {} })",
@@ -156,12 +156,12 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "({ async[.2]() {} })",
             output: "({ async.2() {} })",
-            parserOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: ".2" },
                 type: "Property"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 8 }
         }, {
             code: "({ [2]() {} })",
             output: "({ 2() {} })",
@@ -189,12 +189,12 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "({ async [2]() {} })",
             output: "({ async 2() {} })",
-            parserOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "2" },
                 type: "Property"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 8 }
         }, {
             code: "({ get[2]() {} })",
             output: "({ get 2() {} })",
@@ -214,12 +214,12 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "({ async[2]() {} })",
             output: "({ async 2() {} })",
-            parserOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "2" },
                 type: "Property"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 8 }
         }, {
             code: "({ get['foo']() {} })",
             output: "({ get'foo'() {} })",
@@ -327,12 +327,12 @@ ruleTester.run("no-useless-computed-key", rule, {
             code: "class Foo { async ['x']() {} }",
             output: "class Foo { async 'x'() {} }",
             options: [{ enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'x'" },
                 type: "MethodDefinition"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 8 }
         }, {
             code: "class Foo { get[.2]() {} }",
             output: "class Foo { get.2() {} }",
@@ -355,12 +355,12 @@ ruleTester.run("no-useless-computed-key", rule, {
             code: "class Foo { async[.2]() {} }",
             output: "class Foo { async.2() {} }",
             options: [{ enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: ".2" },
                 type: "MethodDefinition"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 8 }
         }, {
             code: "class Foo { [2]() {} }",
             output: "class Foo { 2() {} }",
@@ -392,12 +392,12 @@ ruleTester.run("no-useless-computed-key", rule, {
             code: "class Foo { async [2]() {} }",
             output: "class Foo { async 2() {} }",
             options: [{ enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "2" },
                 type: "MethodDefinition"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 8 }
         }, {
             code: "class Foo { get[2]() {} }",
             output: "class Foo { get 2() {} }",
@@ -420,12 +420,12 @@ ruleTester.run("no-useless-computed-key", rule, {
             code: "class Foo { async[2]() {} }",
             output: "class Foo { async 2() {} }",
             options: [{ enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "2" },
                 type: "MethodDefinition"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 8 }
         }, {
             code: "class Foo { get['foo']() {} }",
             output: "class Foo { get'foo'() {} }",

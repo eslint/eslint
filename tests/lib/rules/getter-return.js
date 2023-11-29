@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/getter-return");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 const expectedError = { messageId: "expected", data: { name: "getter 'bar'" } };
 const expectedAlwaysError = { messageId: "expectedAlways", data: { name: "getter 'bar'" } };
 const options = [{ allowImplicit: true }];
@@ -304,31 +304,31 @@ ruleTester.run("getter-return", rule, {
         // Optional chaining
         {
             code: "Object?.defineProperty(foo, 'bar', { get: function (){} });",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
+            errors: [{ messageId: "expected", data: { name: "method 'get'" } }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Object?.defineProperty)(foo, 'bar', { get: function (){} });",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
+            errors: [{ messageId: "expected", data: { name: "method 'get'" } }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "Object?.defineProperty(foo, 'bar', { get: function (){} });",
             options,
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
+            errors: [{ messageId: "expected", data: { name: "method 'get'" } }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Object?.defineProperty)(foo, 'bar', { get: function (){} });",
             options,
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
+            errors: [{ messageId: "expected", data: { name: "method 'get'" } }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Object?.create)(foo, { bar: { get: function (){} } });",
             options,
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
+            errors: [{ messageId: "expected", data: { name: "method 'get'" } }],
+            languageOptions: { ecmaVersion: 2020 }
         }
     ]
 });

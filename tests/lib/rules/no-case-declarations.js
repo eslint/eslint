@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-case-declarations"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -22,94 +22,94 @@ ruleTester.run("no-case-declarations", rule, {
     valid: [
         {
             code: "switch (a) { case 1: { let x = 1; break; } default: { let x = 2; break; } }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: { const x = 1; break; } default: { const x = 2; break; } }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: { function f() {} break; } default: { function f() {} break; } }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: { class C {} break; } default: { class C {} break; } }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         `
-                switch (a) { 
-                    case 1: 
-                    case 2: {} 
+                switch (a) {
+                    case 1:
+                    case 2: {}
                 }
             `,
         `
                 switch (a) {
-                    case 1: var x; 
+                    case 1: var x;
                 }
             `
     ],
     invalid: [
         {
             code: `
-                switch (a) { 
-                    case 1: 
-                        {} 
-                        function f() {} 
-                        break; 
+                switch (a) {
+                    case 1:
+                        {}
+                        function f() {}
+                        break;
                 }
             `,
             errors: [{ messageId: "unexpected", type: "FunctionDeclaration" }]
         },
         {
             code: `
-                switch (a) { 
-                    case 1: 
-                    case 2: 
-                        let x; 
+                switch (a) {
+                    case 1:
+                    case 2:
+                        let x;
                 }
             `,
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }]
+            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: let x = 1; break; }",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }]
+            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { default: let x = 2; break; }",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }]
+            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: const x = 1; break; }",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }]
+            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { default: const x = 2; break; }",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }]
+            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: function f() {} break; }",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpected", type: "FunctionDeclaration" }]
+            errors: [{ messageId: "unexpected", type: "FunctionDeclaration" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { default: function f() {} break; }",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpected", type: "FunctionDeclaration" }]
+            errors: [{ messageId: "unexpected", type: "FunctionDeclaration" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: class C {} break; }",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpected", type: "ClassDeclaration" }]
+            errors: [{ messageId: "unexpected", type: "ClassDeclaration" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { default: class C {} break; }",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpected", type: "ClassDeclaration" }]
+            errors: [{ messageId: "unexpected", type: "ClassDeclaration" }],
+            languageOptions: { ecmaVersion: 6 }
         }
     ]
 });

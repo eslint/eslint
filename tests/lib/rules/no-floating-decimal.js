@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-floating-decimal"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -54,8 +54,8 @@ ruleTester.run("no-floating-decimal", rule, {
         {
             code: "for(foo of.2);",
             output: "for(foo of 0.2);",
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [leadingError]
+            errors: [leadingError],
+            languageOptions: { ecmaVersion: 2015 }
         }
     ]
 });

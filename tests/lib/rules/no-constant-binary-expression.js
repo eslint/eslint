@@ -10,13 +10,21 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-constant-binary-expression");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021, ecmaFeatures: { jsx: true } } });
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 2021,
+        sourceType: "script",
+        parserOptions: {
+            ecmaFeatures: { jsx: true }
+        }
+    }
+});
 
 ruleTester.run("no-constant-binary-expression", rule, {
     valid: [
@@ -59,7 +67,7 @@ ruleTester.run("no-constant-binary-expression", rule, {
         "function foo(undefined) { undefined === true;}",
         "[...arr, 1] == true",
         "[,,,] == true",
-        { code: "new Foo() === bar;", globals: { Foo: "writable" } },
+        { code: "new Foo() === bar;", languageOptions: { globals: { Foo: "writable" } } },
         "(foo && true) ?? bar",
         "foo ?? null ?? bar",
         "a ?? (doSomething(), undefined) ?? b",
@@ -304,8 +312,8 @@ ruleTester.run("no-constant-binary-expression", rule, {
         { code: "x === (function() {})", errors: [{ messageId: "alwaysNew" }] },
         { code: "x === (class {})", errors: [{ messageId: "alwaysNew" }] },
         { code: "x === new Boolean()", errors: [{ messageId: "alwaysNew" }] },
-        { code: "x === new Promise()", env: { es6: true }, errors: [{ messageId: "alwaysNew" }] },
-        { code: "x === new WeakSet()", env: { es6: true }, errors: [{ messageId: "alwaysNew" }] },
+        { code: "x === new Promise()", errors: [{ messageId: "alwaysNew" }], languageOptions: { ecmaVersion: 6 } },
+        { code: "x === new WeakSet()", errors: [{ messageId: "alwaysNew" }], languageOptions: { ecmaVersion: 6 } },
         { code: "x === (foo, {})", errors: [{ messageId: "alwaysNew" }] },
         { code: "x === (y = {})", errors: [{ messageId: "alwaysNew" }] },
         { code: "x === (y ? {} : [])", errors: [{ messageId: "alwaysNew" }] },

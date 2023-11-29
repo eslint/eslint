@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-new-wrappers"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -32,7 +32,7 @@ ruleTester.run("no-new-wrappers", rule, {
             import String from "./string";
             const str = new String(42);
             `,
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         `
         if (foo) {
@@ -43,8 +43,10 @@ ruleTester.run("no-new-wrappers", rule, {
         `,
         {
             code: "new String()",
-            globals: {
-                String: "off"
+            languageOptions: {
+                globals: {
+                    String: "off"
+                }
             }
         },
         `
@@ -91,7 +93,6 @@ ruleTester.run("no-new-wrappers", rule, {
                 const b = new String('foo');
             }
             `,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noConstructor",
                 data: {
@@ -99,7 +100,8 @@ ruleTester.run("no-new-wrappers", rule, {
                 },
                 type: "NewExpression",
                 line: 2
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }
     ]
 });

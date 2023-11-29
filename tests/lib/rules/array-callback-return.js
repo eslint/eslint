@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/array-callback-return"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -43,14 +43,14 @@ ruleTester.run("array-callback-return", rule, {
         "foo.forEach(function(x) { if (a === b) { return x;} var a=0; })",
         "foo.bar().forEach(function(x) { return; })",
         "[\"foo\",\"bar\",\"baz\"].forEach(function(x) { return x; })",
-        { code: "foo.forEach(x => { var a=0; })", parserOptions: { ecmaVersion: 6 } },
-        { code: "foo.forEach(x => { if (a === b) { return;} var a=0; })", parserOptions: { ecmaVersion: 6 } },
-        { code: "foo.forEach(x => x)", parserOptions: { ecmaVersion: 6 } },
-        { code: "foo.forEach(val => y += val)", parserOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach(x => { var a=0; })", languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach(x => { if (a === b) { return;} var a=0; })", languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach(x => x)", languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach(val => y += val)", languageOptions: { ecmaVersion: 6 } },
 
-        { code: "foo.map(async function(){})", parserOptions: { ecmaVersion: 8 } },
-        { code: "foo.map(async () => {})", parserOptions: { ecmaVersion: 8 } },
-        { code: "foo.map(function* () {})", parserOptions: { ecmaVersion: 6 } },
+        { code: "foo.map(async function(){})", languageOptions: { ecmaVersion: 8 } },
+        { code: "foo.map(async () => {})", languageOptions: { ecmaVersion: 8 } },
+        { code: "foo.map(function* () {})", languageOptions: { ecmaVersion: 6 } },
 
         // options: { allowImplicit: false }
         { code: "Array.from(x, function() { return true; })", options: [{ allowImplicit: false }] },
@@ -69,7 +69,7 @@ ruleTester.run("array-callback-return", rule, {
         "foo.some(function() { return true; })",
         "foo.sort(function() { return 0; })",
         "foo.toSorted(function() { return 0; })",
-        { code: "foo.every(() => { return true; })", parserOptions: { ecmaVersion: 6 } },
+        { code: "foo.every(() => { return true; })", languageOptions: { ecmaVersion: 6 } },
         "foo.every(function() { if (a) return true; else return false; })",
         "foo.every(function() { switch (a) { case 0: bar(); default: return true; } })",
         "foo.every(function() { try { bar(); return true; } catch (err) { return false; } })",
@@ -92,7 +92,7 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.some(function() { return; })", options: allowImplicitOptions },
         { code: "foo.sort(function() { return; })", options: allowImplicitOptions },
         { code: "foo.toSorted(function() { return; })", options: allowImplicitOptions },
-        { code: "foo.every(() => { return; })", options: allowImplicitOptions, parserOptions: { ecmaVersion: 6 } },
+        { code: "foo.every(() => { return; })", options: allowImplicitOptions, languageOptions: { ecmaVersion: 6 } },
         { code: "foo.every(function() { if (a) return; else return a; })", options: allowImplicitOptions },
         { code: "foo.every(function() { switch (a) { case 0: bar(); default: return; } })", options: allowImplicitOptions },
         { code: "foo.every(function() { try { bar(); return; } catch (err) { return; } })", options: allowImplicitOptions },
@@ -103,13 +103,13 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.forEach(function(x) { var a=0; })", options: checkForEachOptions },
         { code: "foo.forEach(function(x) { if (a === b) { return;} var a=0; })", options: checkForEachOptions },
         { code: "foo.forEach(function() {return function() { if (a == b) { return; }}}())", options: checkForEachOptions },
-        { code: "foo.forEach(x => { var a=0; })", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 } },
-        { code: "foo.forEach(x => { if (a === b) { return;} var a=0; })", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 } },
-        { code: "foo.forEach(x => { x })", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach(x => { var a=0; })", options: checkForEachOptions, languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach(x => { if (a === b) { return;} var a=0; })", options: checkForEachOptions, languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach(x => { x })", options: checkForEachOptions, languageOptions: { ecmaVersion: 6 } },
         { code: "foo.forEach(bar || function(x) { return; })", options: checkForEachOptions },
         { code: "Array.from(x, function() { return true; })", options: checkForEachOptions },
         { code: "Int32Array.from(x, function() { return true; })", options: checkForEachOptions },
-        { code: "foo.every(() => { return true; })", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 } },
+        { code: "foo.every(() => { return true; })", options: checkForEachOptions, languageOptions: { ecmaVersion: 6 } },
         { code: "foo.every(function() { if (a) return 1; else return a; })", options: checkForEachOptions },
         { code: "foo.every(function() { switch (a) { case 0: return bar(); default: return a; } })", options: checkForEachOptions },
         { code: "foo.every(function() { try { bar(); return 1; } catch (err) { return err; } })", options: checkForEachOptions },
@@ -117,19 +117,19 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.every(function() { return; })", options: allowImplicitCheckForEach },
 
         // options: { checkForEach: true, allowVoid: true }
-        { code: "foo.forEach((x) => void x)", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 } },
-        { code: "foo.forEach((x) => void bar(x))", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 } },
-        { code: "foo.forEach(function (x) { return void bar(x); })", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 } },
-        { code: "foo.forEach((x) => { return void bar(x); })", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 } },
-        { code: "foo.forEach((x) => { if (a === b) { return void a; } bar(x) })", options: checkForEachAllowVoid, parserOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach((x) => void x)", options: checkForEachAllowVoid, languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach((x) => void bar(x))", options: checkForEachAllowVoid, languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach(function (x) { return void bar(x); })", options: checkForEachAllowVoid, languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach((x) => { return void bar(x); })", options: checkForEachAllowVoid, languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach((x) => { if (a === b) { return void a; } bar(x) })", options: checkForEachAllowVoid, languageOptions: { ecmaVersion: 6 } },
 
         "Arrow.from(x, function() {})",
         "foo.abc(function() {})",
         "every(function() {})",
         "foo[every](function() {})",
         "var every = function() {}",
-        { code: "foo[`${every}`](function() {})", parserOptions: { ecmaVersion: 6 } },
-        { code: "foo.every(() => true)", parserOptions: { ecmaVersion: 6 } }
+        { code: "foo[`${every}`](function() {})", languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.every(() => true)", languageOptions: { ecmaVersion: 6 } }
 
     ],
     invalid: [
@@ -168,9 +168,9 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.bar.baz.every(function foo() {})", errors: [{ messageId: "expectedInside", data: { name: "function 'foo'", arrayMethodName: "Array.prototype.every" } }] },
         { code: "foo[\"every\"](function() {})", errors: [{ messageId: "expectedInside", data: { name: "function", arrayMethodName: "Array.prototype.every" } }] },
         { code: "foo[\"every\"](function foo() {})", errors: [{ messageId: "expectedInside", data: { name: "function 'foo'", arrayMethodName: "Array.prototype.every" } }] },
-        { code: "foo[`every`](function() {})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedInside", data: { name: "function", arrayMethodName: "Array.prototype.every" } }] },
-        { code: "foo[`every`](function foo() {})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedInside", data: { name: "function 'foo'", arrayMethodName: "Array.prototype.every" } }] },
-        { code: "foo.every(() => {})", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Array.prototype.every() expects a return value from arrow function.", column: 14 }] },
+        { code: "foo[`every`](function() {})", errors: [{ messageId: "expectedInside", data: { name: "function", arrayMethodName: "Array.prototype.every" } }], languageOptions: { ecmaVersion: 6 } },
+        { code: "foo[`every`](function foo() {})", errors: [{ messageId: "expectedInside", data: { name: "function 'foo'", arrayMethodName: "Array.prototype.every" } }], languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.every(() => {})", errors: [{ message: "Array.prototype.every() expects a return value from arrow function.", column: 14 }], languageOptions: { ecmaVersion: 6 } },
         { code: "foo.every(function() { if (a) return true; })", errors: [{ message: "Array.prototype.every() expects a value to be returned at the end of function.", column: 11 }] },
         { code: "foo.every(function cb() { if (a) return true; })", errors: [{ message: "Array.prototype.every() expects a value to be returned at the end of function 'cb'.", column: 11 }] },
         { code: "foo.every(function() { switch (a) { case 0: break; default: return true; } })", errors: [{ messageId: "expectedAtEnd", data: { name: "function", arrayMethodName: "Array.prototype.every" } }] },
@@ -189,8 +189,8 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.every(a ? function foo() {} : function bar() {})", errors: ["Array.prototype.every() expects a return value from function 'foo'.", "Array.prototype.every() expects a return value from function 'bar'."] },
         { code: "foo.every(function(){ return function() {}; }())", errors: [{ message: "Array.prototype.every() expects a return value from function.", column: 30 }] },
         { code: "foo.every(function(){ return function foo() {}; }())", errors: [{ message: "Array.prototype.every() expects a return value from function 'foo'.", column: 30 }] },
-        { code: "foo.every(() => {})", options: [{ allowImplicit: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Array.prototype.every() expects a return value from arrow function." }] },
-        { code: "foo.every(() => {})", options: [{ allowImplicit: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Array.prototype.every() expects a return value from arrow function." }] },
+        { code: "foo.every(() => {})", options: [{ allowImplicit: false }], errors: [{ message: "Array.prototype.every() expects a return value from arrow function." }], languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.every(() => {})", options: [{ allowImplicit: true }], errors: [{ message: "Array.prototype.every() expects a return value from arrow function." }], languageOptions: { ecmaVersion: 6 } },
 
         // options: { allowImplicit: true }
         { code: "Array.from(x, function() {})", options: allowImplicitOptions, errors: [{ messageId: "expectedInside", data: { name: "function", arrayMethodName: "Array.from" } }] },
@@ -204,7 +204,7 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.every(cb || function() {})", options: allowImplicitOptions, errors: ["Array.prototype.every() expects a return value from function."] },
         { code: "[\"foo\",\"bar\"].sort(function foo() {})", options: allowImplicitOptions, errors: [{ messageId: "expectedInside", data: { name: "function 'foo'", arrayMethodName: "Array.prototype.sort" } }] },
         { code: "[\"foo\",\"bar\"].toSorted(function foo() {})", options: allowImplicitOptions, errors: [{ messageId: "expectedInside", data: { name: "function 'foo'", arrayMethodName: "Array.prototype.toSorted" } }] },
-        { code: "foo.forEach(x => x)", options: allowImplicitCheckForEach, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue", data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" } }] },
+        { code: "foo.forEach(x => x)", options: allowImplicitCheckForEach, errors: [{ messageId: "expectedNoReturnValue", data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" } }], languageOptions: { ecmaVersion: 6 } },
         { code: "foo.forEach(function(x) { if (a == b) {return x;}})", options: allowImplicitCheckForEach, errors: [{ messageId: "expectedNoReturnValue", data: { name: "function", arrayMethodName: "Array.prototype.forEach" } }] },
         { code: "foo.forEach(function bar(x) { return x;})", options: allowImplicitCheckForEach, errors: [{ messageId: "expectedNoReturnValue", data: { name: "function 'bar'", arrayMethodName: "Array.prototype.forEach" } }] },
 
@@ -212,62 +212,62 @@ ruleTester.run("array-callback-return", rule, {
         {
             code: "foo.forEach(x => x)",
             options: checkForEachOptions,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
                 suggestions: [
                     { output: "foo.forEach(x => {x})", messageId: "wrapBraces" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach(x => (x))",
             options: checkForEachOptions,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
                 suggestions: [
                     { output: "foo.forEach(x => {(x)})", messageId: "wrapBraces" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach(val => y += val)",
             options: checkForEachOptions,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
                 suggestions: [
                     { output: "foo.forEach(val => {y += val})", messageId: "wrapBraces" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "[\"foo\",\"bar\"].forEach(x => ++x)",
             options: checkForEachOptions,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
                 suggestions: [
                     { output: "[\"foo\",\"bar\"].forEach(x => {++x})", messageId: "wrapBraces" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.bar().forEach(x => x === y)",
             options: checkForEachOptions,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
                 suggestions: [
                     { output: "foo.bar().forEach(x => {x === y})", messageId: "wrapBraces" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         { code: "foo.forEach(function() {return function() { if (a == b) { return a; }}}())", options: checkForEachOptions, errors: [{ messageId: "expectedNoReturnValue", data: { name: "function", arrayMethodName: "Array.prototype.forEach" } }] },
         { code: "foo.forEach(function(x) { if (a == b) {return x;}})", options: checkForEachOptions, errors: [{ messageId: "expectedNoReturnValue", data: { name: "function", arrayMethodName: "Array.prototype.forEach" } }] },
@@ -276,23 +276,22 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.forEach(function bar(x) { return x;})", options: checkForEachOptions, errors: ["Array.prototype.forEach() expects no useless return value from function 'bar'."] },
         { code: "foo.bar().forEach(function bar(x) { return x;})", options: checkForEachOptions, errors: [{ messageId: "expectedNoReturnValue", data: { name: "function 'bar'", arrayMethodName: "Array.prototype.forEach" } }] },
         { code: "[\"foo\",\"bar\"].forEach(function bar(x) { return x;})", options: checkForEachOptions, errors: [{ messageId: "expectedNoReturnValue", data: { name: "function 'bar'", arrayMethodName: "Array.prototype.forEach" } }] },
-        { code: "foo.forEach((x) => { return x;})", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue", data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" } }] },
+        { code: "foo.forEach((x) => { return x;})", options: checkForEachOptions, errors: [{ messageId: "expectedNoReturnValue", data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" } }], languageOptions: { ecmaVersion: 6 } },
         { code: "Array.from(x, function() {})", options: checkForEachOptions, errors: [{ messageId: "expectedInside", data: { name: "function", arrayMethodName: "Array.from" } }] },
         { code: "foo.every(function() {})", options: checkForEachOptions, errors: [{ messageId: "expectedInside", data: { name: "function", arrayMethodName: "Array.prototype.every" } }] },
         { code: "foo.filter(function foo() {})", options: checkForEachOptions, errors: [{ messageId: "expectedInside", data: { name: "function 'foo'", arrayMethodName: "Array.prototype.filter" } }] },
         { code: "foo.filter(function foo() { return; })", options: checkForEachOptions, errors: [{ messageId: "expectedReturnValue", data: { name: "function 'foo'", arrayMethodName: "Array.prototype.filter" } }] },
         { code: "foo.every(cb || function() {})", options: checkForEachOptions, errors: ["Array.prototype.every() expects a return value from function."] },
-        { code: "foo.forEach((x) => void x)", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue", data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" } }] },
-        { code: "foo.forEach((x) => void bar(x))", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue", data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" } }] },
-        { code: "foo.forEach((x) => { return void bar(x); })", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue", data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" } }] },
-        { code: "foo.forEach((x) => { if (a === b) { return void a; } bar(x) })", options: checkForEachOptions, parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expectedNoReturnValue", data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" } }] },
+        { code: "foo.forEach((x) => void x)", options: checkForEachOptions, errors: [{ messageId: "expectedNoReturnValue", data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" } }], languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach((x) => void bar(x))", options: checkForEachOptions, errors: [{ messageId: "expectedNoReturnValue", data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" } }], languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach((x) => { return void bar(x); })", options: checkForEachOptions, errors: [{ messageId: "expectedNoReturnValue", data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" } }], languageOptions: { ecmaVersion: 6 } },
+        { code: "foo.forEach((x) => { if (a === b) { return void a; } bar(x) })", options: checkForEachOptions, errors: [{ messageId: "expectedNoReturnValue", data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" } }], languageOptions: { ecmaVersion: 6 } },
 
         // options: { checkForEach: true, allowVoid: true }
 
         {
             code: "foo.forEach(x => x)",
             options: checkForEachAllowVoid,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
@@ -300,12 +299,12 @@ ruleTester.run("array-callback-return", rule, {
                     { output: "foo.forEach(x => {x})", messageId: "wrapBraces" },
                     { output: "foo.forEach(x => void x)", messageId: "prependVoid" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach(x => !x)",
             options: checkForEachAllowVoid,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
@@ -313,12 +312,12 @@ ruleTester.run("array-callback-return", rule, {
                     { output: "foo.forEach(x => {!x})", messageId: "wrapBraces" },
                     { output: "foo.forEach(x => void !x)", messageId: "prependVoid" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach(x => (x))",
             options: checkForEachAllowVoid,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
@@ -326,97 +325,97 @@ ruleTester.run("array-callback-return", rule, {
                     { output: "foo.forEach(x => {(x)})", messageId: "wrapBraces" },
                     { output: "foo.forEach(x => void (x))", messageId: "prependVoid" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach((x) => { return x; })",
             options: checkForEachAllowVoid,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
                 suggestions: [
                     { output: "foo.forEach((x) => { return void x; })", messageId: "prependVoid" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach((x) => { return !x; })",
             options: checkForEachAllowVoid,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
                 suggestions: [
                     { output: "foo.forEach((x) => { return void !x; })", messageId: "prependVoid" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach((x) => { return(x); })",
             options: checkForEachAllowVoid,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
                 suggestions: [
                     { output: "foo.forEach((x) => { return void (x); })", messageId: "prependVoid" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach((x) => { return (x + 1); })",
             options: checkForEachAllowVoid,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
                 suggestions: [
                     { output: "foo.forEach((x) => { return void (x + 1); })", messageId: "prependVoid" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach((x) => { if (a === b) { return x; } })",
             options: checkForEachAllowVoid,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
                 suggestions: [
                     { output: "foo.forEach((x) => { if (a === b) { return void x; } })", messageId: "prependVoid" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach((x) => { if (a === b) { return !x; } })",
             options: checkForEachAllowVoid,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
                 suggestions: [
                     { output: "foo.forEach((x) => { if (a === b) { return void !x; } })", messageId: "prependVoid" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach((x) => { if (a === b) { return (x + a); } })",
             options: checkForEachAllowVoid,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
                 suggestions: [
                     { output: "foo.forEach((x) => { if (a === b) { return void (x + a); } })", messageId: "prependVoid" }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // full location tests
         {
             code: "foo.filter(bar => { baz(); } )",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedInside",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" },
@@ -425,11 +424,11 @@ ruleTester.run("array-callback-return", rule, {
                 column: 16,
                 endLine: 1,
                 endColumn: 18
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.filter(\n() => {} )",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedInside",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" },
@@ -438,11 +437,11 @@ ruleTester.run("array-callback-return", rule, {
                 column: 4,
                 endLine: 2,
                 endColumn: 6
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.filter(bar || ((baz) => {}) )",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedInside",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" },
@@ -451,11 +450,11 @@ ruleTester.run("array-callback-return", rule, {
                 column: 26,
                 endLine: 1,
                 endColumn: 28
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.filter(bar => { return; })",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" },
@@ -464,11 +463,11 @@ ruleTester.run("array-callback-return", rule, {
                 column: 21,
                 endLine: 1,
                 endColumn: 28
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "Array.from(foo, bar => { bar })",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedInside",
                 data: { name: "arrow function", arrayMethodName: "Array.from" },
@@ -477,12 +476,12 @@ ruleTester.run("array-callback-return", rule, {
                 column: 21,
                 endLine: 1,
                 endColumn: 23
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach(bar => bar)",
             options: checkForEachOptions,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
@@ -491,12 +490,12 @@ ruleTester.run("array-callback-return", rule, {
                 column: 17,
                 endLine: 1,
                 endColumn: 19
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach((function () { return (bar) => bar; })())",
             options: checkForEachOptions,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
@@ -505,12 +504,12 @@ ruleTester.run("array-callback-return", rule, {
                 column: 41,
                 endLine: 1,
                 endColumn: 43
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach((() => {\n return bar => bar; })())",
             options: checkForEachOptions,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
@@ -519,12 +518,12 @@ ruleTester.run("array-callback-return", rule, {
                 column: 13,
                 endLine: 2,
                 endColumn: 15
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.forEach((bar) => { if (bar) { return; } else { return bar ; } })",
             options: checkForEachOptions,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expectedNoReturnValue",
                 data: { name: "arrow function", arrayMethodName: "Array.prototype.forEach" },
@@ -533,7 +532,8 @@ ruleTester.run("array-callback-return", rule, {
                 column: 52,
                 endLine: 1,
                 endColumn: 64
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.filter(function(){})",
@@ -660,28 +660,28 @@ ruleTester.run("array-callback-return", rule, {
         // Optional chaining
         {
             code: "foo?.filter(() => { console.log('hello') })",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" } }]
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" } }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(foo?.filter)(() => { console.log('hello') })",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" } }]
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" } }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "Array?.from([], () => { console.log('hello') })",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.from" } }]
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.from" } }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Array?.from)([], () => { console.log('hello') })",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.from" } }]
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.from" } }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "foo?.filter((function() { return () => { console.log('hello') } })?.())",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" } }]
+            errors: [{ messageId: "expectedInside", data: { name: "arrow function", arrayMethodName: "Array.prototype.filter" } }],
+            languageOptions: { ecmaVersion: 2020 }
         }
     ]
 });

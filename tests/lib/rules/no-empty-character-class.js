@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-empty-character-class"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -33,18 +33,18 @@ ruleTester.run("no-empty-character-class", rule, {
         "var foo = /\\s*:\\s*/gim;",
         "var foo = /[^]/;", // this rule allows negated empty character classes
         "var foo = /\\[][^]/;",
-        { code: "var foo = /[\\]]/uy;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = /[\\]]/s;", parserOptions: { ecmaVersion: 2018 } },
-        { code: "var foo = /[\\]]/d;", parserOptions: { ecmaVersion: 2022 } },
+        { code: "var foo = /[\\]]/uy;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = /[\\]]/s;", languageOptions: { ecmaVersion: 2018 } },
+        { code: "var foo = /[\\]]/d;", languageOptions: { ecmaVersion: 2022 } },
         "var foo = /\\[]/",
-        { code: "var foo = /[[^]]/v;", parserOptions: { ecmaVersion: 2024 } },
-        { code: "var foo = /[[\\]]]/v;", parserOptions: { ecmaVersion: 2024 } },
-        { code: "var foo = /[[\\[]]/v;", parserOptions: { ecmaVersion: 2024 } },
-        { code: "var foo = /[a--b]/v;", parserOptions: { ecmaVersion: 2024 } },
-        { code: "var foo = /[a&&b]/v;", parserOptions: { ecmaVersion: 2024 } },
-        { code: "var foo = /[[a][b]]/v;", parserOptions: { ecmaVersion: 2024 } },
-        { code: "var foo = /[\\q{}]/v;", parserOptions: { ecmaVersion: 2024 } },
-        { code: "var foo = /[[^]--\\p{ASCII}]/v;", parserOptions: { ecmaVersion: 2024 } }
+        { code: "var foo = /[[^]]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[[\\]]]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[[\\[]]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[a--b]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[a&&b]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[[a][b]]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[\\q{}]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[[^]--\\p{ASCII}]/v;", languageOptions: { ecmaVersion: 2024 } }
     ],
     invalid: [
         { code: "var foo = /^abc[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
@@ -54,15 +54,15 @@ ruleTester.run("no-empty-character-class", rule, {
         { code: "var foo = /[]]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "var foo = /\\[[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "var foo = /\\[\\[\\]a-z[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "var foo = /[]]/d;", parserOptions: { ecmaVersion: 2022 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "var foo = /[(]\\u{0}*[]/u;", parserOptions: { ecmaVersion: 2015 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "var foo = /[]/v;", parserOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "var foo = /[[]]/v;", parserOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "var foo = /[[a][]]/v;", parserOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "var foo = /[a[[b[]c]]d]/v;", parserOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "var foo = /[a--[]]/v;", parserOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "var foo = /[[]--b]/v;", parserOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "var foo = /[a&&[]]/v;", parserOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "var foo = /[[]&&b]/v;", parserOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] }
+        { code: "var foo = /[]]/d;", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 2022 } },
+        { code: "var foo = /[(]\\u{0}*[]/u;", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 2015 } },
+        { code: "var foo = /[]/v;", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[[]]/v;", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[[a][]]/v;", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[a[[b[]c]]d]/v;", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[a--[]]/v;", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[[]--b]/v;", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[a&&[]]/v;", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[[]&&b]/v;", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 2024 } }
     ]
 });

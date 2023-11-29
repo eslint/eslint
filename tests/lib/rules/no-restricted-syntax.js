@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-restricted-syntax"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -25,7 +25,7 @@ ruleTester.run("no-restricted-syntax", rule, {
         { code: "var foo = 42;", options: ["ConditionalExpression"] },
         { code: "foo += 42;", options: ["VariableDeclaration", "FunctionExpression"] },
         { code: "foo;", options: ["Identifier[name=\"bar\"]"] },
-        { code: "() => 5", options: ["ArrowFunctionExpression > BlockStatement"], parserOptions: { ecmaVersion: 6 } },
+        { code: "() => 5", options: ["ArrowFunctionExpression > BlockStatement"], languageOptions: { ecmaVersion: 6 } },
         { code: "({ foo: 1, bar: 2 })", options: ["Property > Literal.key"] },
         { code: "A: for (;;) break;", options: ["BreakStatement[label]"] },
         { code: "function foo(bar, baz) {}", options: ["FunctionDeclaration[params.length>2]"] },
@@ -80,8 +80,8 @@ ruleTester.run("no-restricted-syntax", rule, {
         {
             code: "() => {}",
             options: ["ArrowFunctionExpression > BlockStatement"],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "restrictedSyntax", data: { message: "Using 'ArrowFunctionExpression > BlockStatement' is not allowed." }, type: "BlockStatement" }]
+            errors: [{ messageId: "restrictedSyntax", data: { message: "Using 'ArrowFunctionExpression > BlockStatement' is not allowed." }, type: "BlockStatement" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({ foo: 1, 'bar': 2 })",
@@ -134,37 +134,37 @@ ruleTester.run("no-restricted-syntax", rule, {
         {
             code: "var foo = foo?.bar?.();",
             options: ["ChainExpression"],
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "restrictedSyntax", data: { message: "Using 'ChainExpression' is not allowed." }, type: "ChainExpression" }]
+            errors: [{ messageId: "restrictedSyntax", data: { message: "Using 'ChainExpression' is not allowed." }, type: "ChainExpression" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "var foo = foo?.bar?.();",
             options: ["[optional=true]"],
-            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "restrictedSyntax", data: { message: "Using '[optional=true]' is not allowed." }, type: "CallExpression" },
                 { messageId: "restrictedSyntax", data: { message: "Using '[optional=true]' is not allowed." }, type: "MemberExpression" }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // fix https://github.com/estools/esquery/issues/110
         {
             code: "a?.b",
             options: [":nth-child(1)"],
-            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "restrictedSyntax", data: { message: "Using ':nth-child(1)' is not allowed." }, type: "ExpressionStatement" }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // https://github.com/eslint/eslint/issues/13639#issuecomment-683976062
         {
             code: "const foo = [<div/>, <div/>]",
             options: ["* ~ *"],
-            parserOptions: { ecmaVersion: 2020, ecmaFeatures: { jsx: true } },
             errors: [
                 { messageId: "restrictedSyntax", data: { message: "Using '* ~ *' is not allowed." }, type: "JSXElement" }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020, parserOptions: { ecmaFeatures: { jsx: true } } }
         }
     ]
 });

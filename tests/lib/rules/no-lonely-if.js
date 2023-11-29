@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-lonely-if"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -177,8 +177,8 @@ ruleTester.run("no-lonely-if", rule, {
             "}\n" +
             "`template literal`;",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
-            errors
+            errors,
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code:

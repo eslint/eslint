@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-concat"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 
 //------------------------------------------------------------------------------
@@ -32,9 +32,9 @@ ruleTester.run("no-useless-concat", rule, {
         "var string = (number + 1) + 'px';",
         "'a' + 1",
         "1 + '1'",
-        { code: "1 + `1`", parserOptions: { ecmaVersion: 6 } },
-        { code: "`1` + 1", parserOptions: { ecmaVersion: 6 } },
-        { code: "(1 + +2) + `b`", parserOptions: { ecmaVersion: 6 } }
+        { code: "1 + `1`", languageOptions: { ecmaVersion: 6 } },
+        { code: "`1` + 1", languageOptions: { ecmaVersion: 6 } },
+        { code: "(1 + +2) + `b`", languageOptions: { ecmaVersion: 6 } }
     ],
 
     invalid: [
@@ -96,24 +96,24 @@ ruleTester.run("no-useless-concat", rule, {
         },
         {
             code: "`a` + 'b'",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpectedConcat" }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "`a` + `b`",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpectedConcat" }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo + `a` + `b`",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpectedConcat" }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         }
     ]
 });

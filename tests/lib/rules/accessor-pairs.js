@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/accessor-pairs"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -29,12 +29,12 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "var { get: foo } = bar; ({ set: foo } = bar);",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var { set } = foo; ({ get } = foo);",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         //------------------------------------------------------------------------------
@@ -60,7 +60,7 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "var o = { a };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { a: get };",
@@ -81,32 +81,32 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "var o = { get };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { set };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { [get]: function() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { [set]: function(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { set(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Disabled options
@@ -161,69 +161,69 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "var o = { get ['abc']() {}, set ['abc'](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [1e2]() {}, set 100(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get abc() {}, set [`abc`](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get ['123']() {}, set 123(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Valid pairs with expressions
         {
             code: "var o = { get [a]() {}, set [a](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [a]() {}, set [(a)](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [(a)]() {}, set [a](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [a]() {}, set [ a ](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [/*comment*/a/*comment*/]() {}, set [a](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [f()]() {}, set [f()](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [f(a)]() {}, set [f(a)](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [a + b]() {}, set [a + b](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [`${a}`]() {}, set [`${a}`](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Multiple valid pairs in the same literal
@@ -244,59 +244,59 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "var o = { get a() {}, b, set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get a() {}, ...b, set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var o = { get a() {}, set a(foo) {}, ...a };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
 
         // Duplicate keys. This is the responsibility of no-dupe-keys, but this rule still checks is there the other accessor kind.
         {
             code: "var o = { get a() {}, get a() {}, set a(foo) {}, };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get a() {}, set a(foo) {}, get a() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get a() {}, set a(foo) {}, set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { set a(bar) {}, get a() {}, set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get a() {}, get a() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { set a(foo) {}, set a(foo) {} };",
             options: [{ setWithoutGet: false, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get a() {}, set a(foo) {}, a };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { a, get a() {}, set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         /*
@@ -308,7 +308,7 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "var o = { get a() {}, a:1, set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         //------------------------------------------------------------------------------
@@ -322,8 +322,8 @@ ruleTester.run("accessor-pairs", rule, {
         "Object.defineProperties(obj, {set: {value: function() {}}});",
         "Object.create(null, {set: {value: function() {}}});",
         { code: "var o = {get: function() {}}", options: [{ getWithoutSet: true }] },
-        { code: "var o = {[set]: function() {}}", parserOptions: { ecmaVersion: 6 } },
-        { code: "var set = 'value'; Object.defineProperty(obj, 'foo', {[set]: function(value) {}});", parserOptions: { ecmaVersion: 6 } },
+        { code: "var o = {[set]: function() {}}", languageOptions: { ecmaVersion: 6 } },
+        { code: "var set = 'value'; Object.defineProperty(obj, 'foo', {[set]: function(value) {}});", languageOptions: { ecmaVersion: 6 } },
 
         //------------------------------------------------------------------------------
         // Classes
@@ -333,255 +333,255 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "class A { get a() {} }",
             options: [{ enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get #a() {} }",
             options: [{ enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 13 }
+            languageOptions: { ecmaVersion: 13 }
         },
 
         // Explicitly disabled option
         {
             code: "class A { set a(foo) {} }",
             options: [{ enforceForClassMembers: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get a() {} set b(foo) {} static get c() {} static set d(bar) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "(class A { get a() {} set b(foo) {} static get c() {} static set d(bar) {} });",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Disabled accessor kind options
         {
             code: "class A { get a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: false, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { set a(foo) {} }",
             options: [{ setWithoutGet: false, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static get a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: false, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static set a(foo) {} }",
             options: [{ setWithoutGet: false, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { set a(foo) {} };",
             options: [{ setWithoutGet: false, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get a() {} set b(foo) {} static get c() {} static set d(bar) {} }",
             options: [{ setWithoutGet: false, getWithoutSet: false, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // No accessors
         {
             code: "class A {}",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "(class {})",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { constructor () {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static a() {} 'b'() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { [a]() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { a() {} static a() {} b() {} static c() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Valid pairs with identifiers
         {
             code: "class A { get a() {} set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { set a(foo) {} get a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static get a() {} static set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static set a(foo) {} static get a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "(class { set a(foo) {} get a() {} });",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Valid pairs with statically computed names
         {
             code: "class A { get 'a'() {} set ['a'](foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { set [`a`](foo) {} get a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get 'a'() {} set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { static get 1e2() {} static set [100](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Valid pairs with expressions
         {
             code: "class A { get [a]() {} set [a](foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { set [(f())](foo) {} get [(f())]() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static set [f(a)](foo) {} static get [f(a)]() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Multiple valid pairs in the same class
         {
             code: "class A { get a() {} set b(foo) {} set a(bar) {} get b() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get a() {} set a(bar) {} b() {} set c(foo) {} get c() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "(class { get a() {} static set a(foo) {} set a(bar) {} static get a() {} });",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Valid pairs with other elements
         {
             code: "class A { get a() {} b() {} set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { set a(foo) {} get a() {} b() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { a() {} get b() {} c() {} set b(foo) {} d() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get a() {} set a(foo) {} static a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { static get a() {} static b() {} static set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { static set a(foo) {} static get a() {} a() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Duplicate keys. This is the responsibility of no-dupe-class-members, but this rule still checks if there is the other accessor kind.
         {
             code: "class A { get a() {} get a() {} set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get [a]() {} set [a](foo) {} set [a](foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get a() {} set 'a'(foo) {} get [`a`]() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { get a() {} set a(foo) {} a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { a() {} get a() {} set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static set a(foo) {} static set a(foo) {} static get a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static get a() {} static set a(foo) {} static get a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static set a(foo) {} static get a() {} static a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         /*
@@ -591,12 +591,12 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "class A { get a() {} a() {} set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static set a(foo) {} static a() {} static get a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -668,38 +668,38 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "var o = { get ['abc']() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for getter 'abc'.", type: "Property" }]
+            errors: [{ message: "Setter is not present for getter 'abc'.", type: "Property" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [`abc`]() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for getter 'abc'.", type: "Property" }]
+            errors: [{ message: "Setter is not present for getter 'abc'.", type: "Property" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [123]() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for getter '123'.", type: "Property" }]
+            errors: [{ message: "Setter is not present for getter '123'.", type: "Property" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [abc]() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for getter.", type: "Property" }]
+            errors: [{ message: "Setter is not present for getter.", type: "Property" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [f(abc)]() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for getter.", type: "Property" }]
+            errors: [{ message: "Setter is not present for getter.", type: "Property" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [a + b]() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for getter.", type: "Property" }]
+            errors: [{ message: "Setter is not present for getter.", type: "Property" }],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Various kinds of the setter's key
@@ -726,38 +726,38 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "var o = { set ['abc'](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for setter 'abc'.", type: "Property" }]
+            errors: [{ message: "Getter is not present for setter 'abc'.", type: "Property" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { set [`abc`](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for setter 'abc'.", type: "Property" }]
+            errors: [{ message: "Getter is not present for setter 'abc'.", type: "Property" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { set [123](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for setter '123'.", type: "Property" }]
+            errors: [{ message: "Getter is not present for setter '123'.", type: "Property" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { set [abc](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for setter.", type: "Property" }]
+            errors: [{ message: "Getter is not present for setter.", type: "Property" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { set [f(abc)](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for setter.", type: "Property" }]
+            errors: [{ message: "Getter is not present for setter.", type: "Property" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { set [a + b](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for setter.", type: "Property" }]
+            errors: [{ message: "Getter is not present for setter.", type: "Property" }],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Different keys
@@ -828,56 +828,56 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "var o = { get [`a`]() {}, set b(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for getter 'a'.", type: "Property", column: 11 },
                 { message: "Getter is not present for setter 'b'.", type: "Property", column: 27 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [a]() {}, set [b](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for getter.", type: "Property", column: 11 },
                 { message: "Getter is not present for setter.", type: "Property", column: 25 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [a]() {}, set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for getter.", type: "Property", column: 11 },
                 { message: "Getter is not present for setter 'a'.", type: "Property", column: 25 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get a() {}, set [a](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for getter 'a'.", type: "Property", column: 11 },
                 { message: "Getter is not present for setter.", type: "Property", column: 23 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [a + b]() {}, set [a - b](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for getter.", type: "Property", column: 11 },
                 { message: "Getter is not present for setter.", type: "Property", column: 29 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get [`${0} `]() {}, set [`${0}`](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for getter.", type: "Property", column: 11 },
                 { message: "Getter is not present for setter.", type: "Property", column: 31 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Multiple invalid of same and different kinds
@@ -970,79 +970,79 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "var o = { get a() {}, get a() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for getter 'a'.", type: "Property", column: 11 },
                 { message: "Setter is not present for getter 'a'.", type: "Property", column: 23 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { set a(foo) {}, set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for setter 'a'.", type: "Property", column: 11 },
                 { message: "Getter is not present for setter 'a'.", type: "Property", column: 26 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Other elements or even value property duplicates in the same literal do not affect this rule
         {
             code: "var o = { a, get b() {}, c };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for getter 'b'.", type: "Property", column: 14 }]
+            errors: [{ message: "Setter is not present for getter 'b'.", type: "Property", column: 14 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { a, get b() {}, c, set d(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for getter 'b'.", type: "Property", column: 14 },
                 { message: "Getter is not present for setter 'd'.", type: "Property", column: 29 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get a() {}, a:1 };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for getter 'a'.", type: "Property", column: 11 }]
+            errors: [{ message: "Setter is not present for getter 'a'.", type: "Property", column: 11 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { a, get a() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for getter 'a'.", type: "Property", column: 14 }]
+            errors: [{ message: "Setter is not present for getter 'a'.", type: "Property", column: 14 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { set a(foo) {}, a:1 };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for setter 'a'.", type: "Property", column: 11 }]
+            errors: [{ message: "Getter is not present for setter 'a'.", type: "Property", column: 11 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { a, set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for setter 'a'.", type: "Property", column: 14 }]
+            errors: [{ message: "Getter is not present for setter 'a'.", type: "Property", column: 14 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = { get a() {}, ...b };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 2018 },
-            errors: [{ message: "Setter is not present for getter 'a'.", type: "Property", column: 11 }]
+            errors: [{ message: "Setter is not present for getter 'a'.", type: "Property", column: 11 }],
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var o = { get a() {}, ...a };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 2018 },
-            errors: [{ message: "Setter is not present for getter 'a'.", type: "Property", column: 11 }]
+            errors: [{ message: "Setter is not present for getter 'a'.", type: "Property", column: 11 }],
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var o = { set a(foo) {}, ...a };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 2018 },
-            errors: [{ message: "Getter is not present for setter 'a'.", type: "Property", column: 11 }]
+            errors: [{ message: "Getter is not present for setter 'a'.", type: "Property", column: 11 }],
+            languageOptions: { ecmaVersion: 2018 }
         },
 
         // Full location tests
@@ -1061,7 +1061,6 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "var o = {\n  set [\n a](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 message: "Getter is not present for setter.",
                 type: "Property",
@@ -1069,7 +1068,8 @@ ruleTester.run("accessor-pairs", rule, {
                 column: 3,
                 endLine: 3,
                 endColumn: 4
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         //------------------------------------------------------------------------------
@@ -1094,43 +1094,43 @@ ruleTester.run("accessor-pairs", rule, {
         },
         {
             code: "var o = {d: 1};\n Object?.defineProperty(o, 'c', \n{set: function(value) {\n val = value; \n} \n});",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "Reflect?.defineProperty(obj, 'foo', {set: function(value) {}});",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "Object?.defineProperties(obj, {foo: {set: function(value) {}}});",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "Object?.create(null, {foo: {set: function(value) {}}});",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "var o = {d: 1};\n (Object?.defineProperty)(o, 'c', \n{set: function(value) {\n val = value; \n} \n});",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Reflect?.defineProperty)(obj, 'foo', {set: function(value) {}});",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Object?.defineProperties)(obj, {foo: {set: function(value) {}}});",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Object?.create)(null, {foo: {set: function(value) {}}});",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }]
+            errors: [{ message: "Getter is not present in property descriptor.", type: "ObjectExpression" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         //------------------------------------------------------------------------------
@@ -1140,674 +1140,673 @@ ruleTester.run("accessor-pairs", rule, {
         // Test default settings
         {
             code: "class A { set a(foo) {} }",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get a() {} set b(foo) {} }",
             options: [{}],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class setter 'b'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class setter 'b'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class getter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class getter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static get a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { get a() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class getter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class getter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { get a() {} set b(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition" },
                 { message: "Getter is not present for class setter 'b'.", type: "MethodDefinition" }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { set a(value) {} }",
             options: [{ enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static set a(value) {} }",
             options: [{ enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { set a(value) {} };",
             options: [{ enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "(class A { static set a(value) {} });",
             options: [{ enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { set '#a'(foo) {} }",
-            parserOptions: { ecmaVersion: 13 },
-            errors: [{ message: "Getter is not present for class setter '#a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class setter '#a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 13 }
         },
         {
             code: "class A { set #a(foo) {} }",
-            parserOptions: { ecmaVersion: 13 },
-            errors: [{ message: "Getter is not present for class private setter #a.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class private setter #a.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 13 }
         },
         {
             code: "class A { static set '#a'(foo) {} }",
-            parserOptions: { ecmaVersion: 13 },
-            errors: [{ message: "Getter is not present for class static setter '#a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class static setter '#a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 13 }
         },
         {
             code: "class A { static set #a(foo) {} }",
-            parserOptions: { ecmaVersion: 13 },
-            errors: [{ message: "Getter is not present for class static private setter #a.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class static private setter #a.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 13 }
         },
 
         // Test that the accessor kind options do not affect each other
         {
             code: "class A { set a(value) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: false, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { static set a(value) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "let foo = class A { get a() {} };",
             options: [{ setWithoutGet: false, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class getter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class getter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static get a() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "(class { get a() {} });",
             options: [{ getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class getter 'a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class getter 'a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get '#a'() {} };",
             options: [{ setWithoutGet: false, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 13 },
-            errors: [{ message: "Setter is not present for class getter '#a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class getter '#a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 13 }
         },
         {
             code: "class A { get #a() {} };",
             options: [{ setWithoutGet: false, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 13 },
-            errors: [{ message: "Setter is not present for class private getter #a.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class private getter #a.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 13 }
         },
         {
             code: "class A { static get '#a'() {} };",
             options: [{ setWithoutGet: false, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 13 },
-            errors: [{ message: "Setter is not present for class static getter '#a'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class static getter '#a'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 13 }
         },
         {
             code: "class A { static get #a() {} };",
             options: [{ setWithoutGet: false, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 13 },
-            errors: [{ message: "Setter is not present for class static private getter #a.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class static private getter #a.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 13 }
         },
 
         // Various kinds of keys
         {
             code: "class A { get abc() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class getter 'abc'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class getter 'abc'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { static set 'abc'(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class static setter 'abc'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class static setter 'abc'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "(class { get 123() {} });",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class getter '123'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class getter '123'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static get 1e2() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class static getter '100'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class static getter '100'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { get ['abc']() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class getter 'abc'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class getter 'abc'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { set [`abc`](foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class setter 'abc'.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class setter 'abc'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static get [123]() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class static getter '123'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class static getter '123'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get [abc]() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class getter.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class getter.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static get [f(abc)]() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class static getter.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class static getter.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { set [a + b](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class setter.", type: "MethodDefinition" }]
+            errors: [{ message: "Getter is not present for class setter.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get ['constructor']() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class getter 'constructor'.", type: "MethodDefinition" }]
+            errors: [{ message: "Setter is not present for class getter 'constructor'.", type: "MethodDefinition" }],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Different keys
         {
             code: "class A { get a() {} set b(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter 'b'.", type: "MethodDefinition", column: 22 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { set a(foo) {} get b() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 13 },
                 { message: "Setter is not present for class getter 'b'.", type: "MethodDefinition", column: 27 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { static get a() {} static set b(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition", column: 13 },
                 { message: "Getter is not present for class static setter 'b'.", type: "MethodDefinition", column: 31 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get a() {} set b(foo) {} }",
             options: [{ setWithoutGet: false, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 11 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get a() {} set b(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: false, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class setter 'b'.", type: "MethodDefinition", column: 22 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get 'a '() {} set 'a'(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a '.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 25 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get 'a'() {} set 1(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter '1'.", type: "MethodDefinition", column: 24 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get 1() {} set 2(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter '1'.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter '2'.", type: "MethodDefinition", column: 22 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get ''() {} set null(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter ''.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter 'null'.", type: "MethodDefinition", column: 23 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get a() {} set [a](foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter.", type: "MethodDefinition", column: 22 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get [a]() {} set [b](foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter.", type: "MethodDefinition", column: 24 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get [a]() {} set [a++](foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter.", type: "MethodDefinition", column: 24 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get [a + b]() {} set [a - b](foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter.", type: "MethodDefinition", column: 28 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get #a() {} set '#a'(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 13 },
             errors: [
                 { message: "Setter is not present for class private getter #a.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter '#a'.", type: "MethodDefinition", column: 23 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 13 }
         },
         {
             code: "class A { get '#a'() {} set #a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 13 },
             errors: [
                 { message: "Setter is not present for class getter '#a'.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class private setter #a.", type: "MethodDefinition", column: 25 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 13 }
         },
 
         // Prototype and static accessors with same keys
         {
             code: "class A { get a() {} static set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition", column: 22 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { static get a() {} set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition", column: 13 },
                 { message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 31 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { set [a](foo) {} static get [a]() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class setter.", type: "MethodDefinition", column: 11 },
                 { message: "Setter is not present for class static getter.", type: "MethodDefinition", column: 27 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static set [a](foo) {} get [a]() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class static setter.", type: "MethodDefinition", column: 11 },
                 { message: "Setter is not present for class getter.", type: "MethodDefinition", column: 34 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Multiple invalid of same and different kinds
         {
             code: "class A { get a() {} get b() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 11 },
                 { message: "Setter is not present for class getter 'b'.", type: "MethodDefinition", column: 22 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { get a() {} get [b]() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 13 },
                 { message: "Setter is not present for class getter.", type: "MethodDefinition", column: 24 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get [a]() {} get [b]() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter.", type: "MethodDefinition", column: 11 },
                 { message: "Setter is not present for class getter.", type: "MethodDefinition", column: 24 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { set a(foo) {} set b(bar) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 13 },
                 { message: "Getter is not present for class setter 'b'.", type: "MethodDefinition", column: 27 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static get a() {} static get b() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition", column: 11 },
                 { message: "Setter is not present for class static getter 'b'.", type: "MethodDefinition", column: 29 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { static set a(foo) {} static set b(bar) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition", column: 13 },
                 { message: "Getter is not present for class static setter 'b'.", type: "MethodDefinition", column: 34 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static get a() {} set b(foo) {} static set c(bar) {} get d() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter 'b'.", type: "MethodDefinition", column: 29 },
                 { message: "Getter is not present for class static setter 'c'.", type: "MethodDefinition", column: 43 },
                 { message: "Setter is not present for class getter 'd'.", type: "MethodDefinition", column: 64 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Checks per class
         {
             code: "class A { get a() {} } class B { set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 34 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { set a(foo) {} }, class { get a() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 13 },
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 38 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { get a() {} }, { set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 13 },
                 { message: "Getter is not present for setter 'a'.", type: "Property", column: 29 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = { get a() {} }, class { set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for getter 'a'.", type: "Property", column: 7 },
                 { message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 29 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Combinations or valid and invalid
         {
             code: "class A { get a() {} get b() {} set b(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 11 }]
+            errors: [{ message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 11 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { get b() {} get a() {} set b(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 24 }]
+            errors: [{ message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 24 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { set b(foo) {} get b() {} set a(bar) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 36 }]
+            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 36 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { static get b() {} set a(foo) {} static set b(bar) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 31 }]
+            errors: [{ message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 31 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static set a(foo) {} get b() {} set b(bar) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition", column: 11 }]
+            errors: [{ message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition", column: 11 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get b() {} static get a() {} set b(bar) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition", column: 22 }]
+            errors: [{ message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition", column: 22 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static set b(foo) {} static get a() {} static get b() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition", column: 32 }]
+            errors: [{ message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition", column: 32 }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { get [v1](){} static set i1(foo){} static set v2(bar){} get [i2](){} static get i3(){} set [v1](baz){} static get v2(){} set i4(quux){} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class static setter 'i1'.", type: "MethodDefinition", column: 24 },
                 { message: "Setter is not present for class getter.", type: "MethodDefinition", column: 66 },
                 { message: "Setter is not present for class static getter 'i3'.", type: "MethodDefinition", column: 79 },
                 { message: "Getter is not present for class setter 'i4'.", type: "MethodDefinition", column: 131 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // In the case of duplicates which don't have the other kind, all nodes are reported
         {
             code: "class A { get a() {} get a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 11 },
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 22 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { set a(foo) {} set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 13 },
                 { message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 27 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { static get a() {} static get a() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition", column: 13 },
                 { message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition", column: 31 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { set a(foo) {} set a(foo) {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 11 },
                 { message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 25 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Other elements or even method duplicates in the same class do not affect this rule
         {
             code: "class A { a() {} get b() {} c() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'b'.", type: "MethodDefinition", column: 18 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { a() {} get b() {} c() {} set d(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'b'.", type: "MethodDefinition", column: 20 },
                 { message: "Getter is not present for class setter 'd'.", type: "MethodDefinition", column: 38 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static a() {} get b() {} static c() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'b'.", type: "MethodDefinition", column: 25 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { a() {} get a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class getter 'a'.", type: "MethodDefinition", column: 18 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { static a() {} set a(foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class setter 'a'.", type: "MethodDefinition", column: 27 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { a() {} static get b() {} c() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class static getter 'b'.", type: "MethodDefinition", column: 18 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class { static a() {} static set b(foo) {} static c() {} d() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class static setter 'b'.", type: "MethodDefinition", column: 27 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { a() {} static get a() {} a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Setter is not present for class static getter 'a'.", type: "MethodDefinition", column: 18 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static set a(foo) {} static a() {} }",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Getter is not present for class static setter 'a'.", type: "MethodDefinition", column: 11 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Full location tests
         {
             code: "class A { get a() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Setter is not present for class getter 'a'.",
                 type: "MethodDefinition",
@@ -1815,12 +1814,12 @@ ruleTester.run("accessor-pairs", rule, {
                 column: 11,
                 endLine: 1,
                 endColumn: 16
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "A = class {\n  set [\n a](foo) {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Getter is not present for class setter.",
                 type: "MethodDefinition",
@@ -1828,12 +1827,12 @@ ruleTester.run("accessor-pairs", rule, {
                 column: 3,
                 endLine: 3,
                 endColumn: 4
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { static get a() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Setter is not present for class static getter 'a'.",
                 type: "MethodDefinition",
@@ -1841,7 +1840,8 @@ ruleTester.run("accessor-pairs", rule, {
                 column: 11,
                 endLine: 1,
                 endColumn: 23
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }
     ]
 });

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-implicit-coercion");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -64,7 +64,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         "0 + foo",
         "~foo.bar()",
         "foo + 'bar'",
-        { code: "foo + `${bar}`", parserOptions: { ecmaVersion: 6 } },
+        { code: "foo + `${bar}`", languageOptions: { ecmaVersion: 6 } },
 
         { code: "!!foo", options: [{ boolean: false }] },
         { code: "~foo.indexOf(1)", options: [{ boolean: false }] },
@@ -81,30 +81,30 @@ ruleTester.run("no-implicit-coercion", rule, {
 
         // https://github.com/eslint/eslint/issues/7057
         "'' + 'foo'",
-        { code: "`` + 'foo'", parserOptions: { ecmaVersion: 6 } },
-        { code: "'' + `${foo}`", parserOptions: { ecmaVersion: 6 } },
+        { code: "`` + 'foo'", languageOptions: { ecmaVersion: 6 } },
+        { code: "'' + `${foo}`", languageOptions: { ecmaVersion: 6 } },
         "'foo' + ''",
-        { code: "'foo' + ``", parserOptions: { ecmaVersion: 6 } },
-        { code: "`${foo}` + ''", parserOptions: { ecmaVersion: 6 } },
+        { code: "'foo' + ``", languageOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}` + ''", languageOptions: { ecmaVersion: 6 } },
         "foo += 'bar'",
-        { code: "foo += `${bar}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "`a${foo}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`${foo}b`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`${foo}${bar}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "tag`${foo}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`${foo}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "`${foo}`", options: [{ }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`${foo}`", options: [{ disallowTemplateShorthand: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "foo += `${bar}`", languageOptions: { ecmaVersion: 6 } },
+        { code: "`a${foo}`", options: [{ disallowTemplateShorthand: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}b`", options: [{ disallowTemplateShorthand: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}${bar}`", options: [{ disallowTemplateShorthand: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "tag`${foo}`", options: [{ disallowTemplateShorthand: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}`", languageOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}`", options: [{ }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`${foo}`", options: [{ disallowTemplateShorthand: false }], languageOptions: { ecmaVersion: 6 } },
         "+42",
 
         // https://github.com/eslint/eslint/issues/14623
         "'' + String(foo)",
         "String(foo) + ''",
-        { code: "`` + String(foo)", parserOptions: { ecmaVersion: 6 } },
-        { code: "String(foo) + ``", parserOptions: { ecmaVersion: 6 } },
-        { code: "`${'foo'}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`${`foo`}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`${String(foo)}`", options: [{ disallowTemplateShorthand: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`` + String(foo)", languageOptions: { ecmaVersion: 6 } },
+        { code: "String(foo) + ``", languageOptions: { ecmaVersion: 6 } },
+        { code: "`${'foo'}`", options: [{ disallowTemplateShorthand: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`${`foo`}`", options: [{ disallowTemplateShorthand: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`${String(foo)}`", options: [{ disallowTemplateShorthand: true }], languageOptions: { ecmaVersion: 6 } },
 
         // https://github.com/eslint/eslint/issues/16373
         "console.log(Math.PI * 1/4)",
@@ -205,12 +205,12 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "``+foo",
             output: "String(foo)",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
                 type: "BinaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo+\"\"",
@@ -224,12 +224,12 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "foo+``",
             output: "String(foo)",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
                 type: "BinaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "\"\"+foo.bar",
@@ -243,12 +243,12 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "``+foo.bar",
             output: "String(foo.bar)",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo.bar)" },
                 type: "BinaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo.bar+\"\"",
@@ -262,45 +262,45 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "foo.bar+``",
             output: "String(foo.bar)",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo.bar)" },
                 type: "BinaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "`${foo}`",
             output: "String(foo)",
             options: [{ disallowTemplateShorthand: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
                 type: "TemplateLiteral"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "`\\\n${foo}`",
             output: "String(foo)",
             options: [{ disallowTemplateShorthand: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
                 type: "TemplateLiteral"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "`${foo}\\\n`",
             output: "String(foo)",
             options: [{ disallowTemplateShorthand: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
                 type: "TemplateLiteral"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "foo += \"\"",
@@ -314,12 +314,12 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "foo += ``",
             output: "foo = String(foo)",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "foo = String(foo)" },
                 type: "AssignmentExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var a = !!foo",
@@ -375,12 +375,12 @@ ruleTester.run("no-implicit-coercion", rule, {
             code: "var a = `` + foo",
             output: "var a = String(foo)",
             options: [{ boolean: true, allow: ["*"] }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
                 type: "BinaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "typeof+foo",
@@ -403,34 +403,34 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "let x ='' + 1n;",
             output: "let x =String(1n);",
-            parserOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(1n)" },
                 type: "BinaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // Optional chaining
         {
             code: "~foo?.indexOf(1)",
             output: null,
-            parserOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "foo?.indexOf(1) >= 0" },
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "~(foo?.indexOf)(1)",
             output: null,
-            parserOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "(foo?.indexOf)(1) !== -1" },
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // https://github.com/eslint/eslint/issues/16373 regression tests

@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/valid-jsdoc"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -88,12 +88,12 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = (p) => {};",
             options: [{ requireReturn: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = function({p}){};",
             options: [{ requireReturn: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = function(p){};",
@@ -136,24 +136,24 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/**\n * Description for A.\n */\n class A {\n /**\n * Description for constructor.\n * @param {object[]} xs - xs\n */\n constructor(xs) {\n /**\n * Description for this.xs;\n * @type {object[]}\n */\n this.xs = xs.filter(x => x != null);\n }\n}",
             options: [{ requireReturn: false }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "/** @returns {object} foo */ var foo = () => bar();",
             options: [{ requireReturn: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "/** @returns {object} foo */ var foo = () => { return bar(); };",
             options: [{ requireReturn: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "/** foo */ var foo = () => { bar(); };",
             options: [{ requireReturn: false }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n* Start with caps and end with period.\n* @return {void} */\nfunction foo(){}",
@@ -199,7 +199,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    }\n" +
                 "}",
             options: [{ requireReturn: true }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
@@ -218,7 +218,7 @@ ruleTester.run("valid-jsdoc", rule, {
             "    }\n" +
             "}",
             options: [{ requireReturn: false }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
@@ -246,7 +246,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    }\n" +
                 "}",
             options: [],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
@@ -280,7 +280,7 @@ ruleTester.run("valid-jsdoc", rule, {
               " */\n" +
               "async function a() {}",
             options: [{ requireReturn: true }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2017
             }
         },
@@ -292,7 +292,7 @@ ruleTester.run("valid-jsdoc", rule, {
               " */\n" +
               "async function a() {}",
             options: [{ requireReturn: false }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2017
             }
         },
@@ -303,7 +303,7 @@ ruleTester.run("valid-jsdoc", rule, {
               " */\n" +
               "async function a() {}",
             options: [{ requireReturn: false }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2017
             }
         },
@@ -518,13 +518,13 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/**\n* Description\n* @param {string} a bar\n* @returns {string} desc */\nfunction foo(a = 1){}",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "/**\n* Description\n* @param {string} b bar\n* @param {string} a bar\n* @returns {string} desc */\nfunction foo(b, a = 1){}",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
@@ -1011,7 +1011,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    // empty",
                 "}"
             ].join("\n"),
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: [
@@ -1024,7 +1024,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    // empty",
                 "}"
             ].join("\n"),
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // https://github.com/eslint/eslint/issues/7184
@@ -1188,7 +1188,6 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/** Foo \n@return {void} Foo\n */\nfoo.bar = () => {}",
             output: "/** Foo \n@returns {void} Foo\n */\nfoo.bar = () => {}",
             options: [{ prefer: { return: "returns" } }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "use",
                 data: { name: "returns" },
@@ -1197,7 +1196,8 @@ ruleTester.run("valid-jsdoc", rule, {
                 column: 1,
                 endLine: 2,
                 endColumn: 8
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "/** Foo \n@param {void Foo\n */\nfunction foo(){}",
@@ -1311,9 +1311,6 @@ ruleTester.run("valid-jsdoc", rule, {
                 requireReturn: true,
                 matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 {
                     messageId: "unsatisfiedDesc",
@@ -1324,7 +1321,10 @@ ruleTester.run("valid-jsdoc", rule, {
                     data: { returns: "returns" },
                     type: "Block"
                 }
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code: "/**\n* Foo\n* @returns {string} \n*/\nfunction foo(){}",
@@ -1346,17 +1346,16 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/**\n* Foo\n* @returns {string} something \n*/\nvar foo = \nfunction foo(a = 1){}",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingParam",
                 data: { name: "a" },
                 type: "Block"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n* Foo\n* @param {string} a Description \n* @param {string} b Description \n* @returns {string} something \n*/\nvar foo = \nfunction foo(b, a = 1){}",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "expected",
                 data: { name: "b", jsdocName: "a" },
@@ -1374,7 +1373,8 @@ ruleTester.run("valid-jsdoc", rule, {
                 column: 3,
                 endLine: 4,
                 endColumn: 32
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n* Foo\n* @param {string} p desc\n* @param {string} p desc \n*/\nfunction foo(){}",
@@ -1470,7 +1470,6 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
             output: "/**\n * Does something. \n* @param {string} a - this is a \n* @returns {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
             options: [{ prefer: { return: "returns" } }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "use",
                 data: { name: "returns" },
@@ -1479,13 +1478,13 @@ ruleTester.run("valid-jsdoc", rule, {
                 column: 3,
                 endLine: 4,
                 endColumn: 10
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
             output: "/**\n * Does something. \n* @param {string} a - this is a \n* @returns {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
             options: [{ prefer: { return: "returns" } }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "use",
                 data: { name: "returns" },
@@ -1494,35 +1493,35 @@ ruleTester.run("valid-jsdoc", rule, {
                 column: 3,
                 endLine: 4,
                 endColumn: 10
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "/** foo */ var foo = () => bar();",
             output: null,
             options: [{ requireReturn: false }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingReturn",
                 data: { returns: "returns" },
                 type: "Block"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "/** foo */ var foo = () => { return bar(); };",
             output: null,
             options: [{ requireReturn: false }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingReturn",
                 data: { returns: "returns" },
                 type: "Block"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "/** @returns {object} foo */ var foo = () => { bar(); };",
             output: null,
             options: [{ requireReturn: false }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpectedTag",
                 data: { title: "returns" },
@@ -1531,7 +1530,8 @@ ruleTester.run("valid-jsdoc", rule, {
                 column: 5,
                 endLine: 1,
                 endColumn: 26
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n* @param fields [Array]\n */\n function foo(){}",
@@ -1611,9 +1611,6 @@ ruleTester.run("valid-jsdoc", rule, {
                 requireReturn: false,
                 matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 {
                     messageId: "unsatisfiedDesc",
@@ -1623,7 +1620,10 @@ ruleTester.run("valid-jsdoc", rule, {
                     messageId: "unsatisfiedDesc",
                     type: "Block"
                 }
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code:
@@ -1644,9 +1644,6 @@ ruleTester.run("valid-jsdoc", rule, {
                 requireReturn: true,
                 matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 {
                     messageId: "unsatisfiedDesc",
@@ -1657,7 +1654,10 @@ ruleTester.run("valid-jsdoc", rule, {
                     data: { returns: "returns" },
                     type: "Block"
                 }
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code:
@@ -1682,9 +1682,6 @@ ruleTester.run("valid-jsdoc", rule, {
                 "}",
             output: null,
             options: [],
-            parserOptions: {
-                ecmaVersion: 6
-            },
             errors: [
                 {
                     messageId: "missingReturn",
@@ -1696,7 +1693,10 @@ ruleTester.run("valid-jsdoc", rule, {
                     data: { name: "xs" },
                     type: "Block"
                 }
-            ]
+            ],
+            languageOptions: {
+                ecmaVersion: 6
+            }
         },
         {
             code:
@@ -1736,14 +1736,14 @@ ruleTester.run("valid-jsdoc", rule, {
               "async function a() {}",
             output: null,
             options: [{ requireReturn: true }],
-            parserOptions: {
-                ecmaVersion: 2017
-            },
             errors: [{
                 messageId: "missingReturn",
                 data: { returns: "returns" },
                 type: "Block"
-            }]
+            }],
+            languageOptions: {
+                ecmaVersion: 2017
+            }
         },
 
         // type validations

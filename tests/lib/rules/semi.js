@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/semi"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -45,43 +45,43 @@ ruleTester.run("semi", rule, {
         { code: ";-foo()", options: ["never"] },
         { code: "a++\nb++", options: ["never"] },
         { code: "a++; b++", options: ["never"] },
-        { code: "for (let thing of {}) {\n  console.log(thing);\n}", parserOptions: { ecmaVersion: 6 } },
+        { code: "for (let thing of {}) {\n  console.log(thing);\n}", languageOptions: { ecmaVersion: 6 } },
         { code: "do{}while(true)", options: ["never"] },
         { code: "do{}while(true);", options: ["always"] },
-        { code: "class C { static {} }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static {} }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo(); } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo(); } }", options: ["always"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo(); bar(); } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo(); bar(); baz();} }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo() } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo()\nbar() } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo()\nbar()\nbaz() } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo(); bar() } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo();\n (a) } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo()\n ;(a) } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo();\n [a] } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo()\n ;[a] } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo();\n +a } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo()\n ;+a } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo();\n -a } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo()\n ;-a } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo();\n /a/ } }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo()\n ;/a/} }", options: ["never"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static {} }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static {} }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo(); } }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo(); } }", options: ["always"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo(); bar(); } }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo(); bar(); baz();} }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo() } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo()\nbar() } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo()\nbar()\nbaz() } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo(); bar() } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo();\n (a) } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo()\n ;(a) } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo();\n [a] } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo()\n ;[a] } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo();\n +a } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo()\n ;+a } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo();\n -a } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo()\n ;-a } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo();\n /a/ } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo()\n ;/a/} }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
         {
             code: "class C { static { foo();\n (a) } }",
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { do ; while (foo)\n (a)} }",
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { do ; while (foo)\n ;(a)} }",
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // omitLastInOneLineBlock: true
@@ -94,22 +94,22 @@ ruleTester.run("semi", rule, {
         { code: "function foo()\n{ bar(); baz() }", options: ["always", { omitLastInOneLineBlock: true }] },
         { code: "function foo(){\n bar(); baz(); }", options: ["always", { omitLastInOneLineBlock: true }] },
         { code: "function foo(){ bar(); baz(); \n}", options: ["always", { omitLastInOneLineBlock: true }] },
-        { code: "() => { bar(); baz() };", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "() =>\n { bar(); baz() };", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "() => {\n bar(); baz(); };", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "() => { bar(); baz(); \n};", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "const obj = { method() { bar(); baz() } };", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "const obj = { method()\n { bar(); baz() } };", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "const obj = { method() {\n bar(); baz(); } };", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "const obj = { method() { bar(); baz(); \n} };", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "class C {\n method() { bar(); baz() } \n}", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "class C {\n method()\n { bar(); baz() } \n}", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "class C {\n method() {\n bar(); baz(); } \n}", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "class C {\n method() { bar(); baz(); \n} \n}", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "class C {\n static { bar(); baz() } \n}", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C {\n static\n { bar(); baz() } \n}", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C {\n static {\n bar(); baz(); } \n}", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C {\n static { bar(); baz(); \n} \n}", options: ["always", { omitLastInOneLineBlock: true }], parserOptions: { ecmaVersion: 2022 } },
+        { code: "() => { bar(); baz() };", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "() =>\n { bar(); baz() };", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "() => {\n bar(); baz(); };", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "() => { bar(); baz(); \n};", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "const obj = { method() { bar(); baz() } };", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "const obj = { method()\n { bar(); baz() } };", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "const obj = { method() {\n bar(); baz(); } };", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "const obj = { method() { bar(); baz(); \n} };", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "class C {\n method() { bar(); baz() } \n}", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "class C {\n method()\n { bar(); baz() } \n}", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "class C {\n method() {\n bar(); baz(); } \n}", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "class C {\n method() { bar(); baz(); \n} \n}", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "class C {\n static { bar(); baz() } \n}", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C {\n static\n { bar(); baz() } \n}", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C {\n static {\n bar(); baz(); } \n}", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C {\n static { bar(); baz(); \n} \n}", options: ["always", { omitLastInOneLineBlock: true }], languageOptions: { ecmaVersion: 2022 } },
 
         // omitLastInOneLineClassBody: true
         {
@@ -127,7 +127,7 @@ ruleTester.run("semi", rule, {
                 export class Variant5 extends SomeClass{type=5}
             `,
             options: ["always", { omitLastInOneLineClassBody: true }],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" }
         },
         {
             code: `
@@ -141,7 +141,7 @@ ruleTester.run("semi", rule, {
                 export class Variant1 extends SomeClass{type=1; anotherType=2}
             `,
             options: ["always", { omitLastInOneLineClassBody: true }],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" }
         },
         {
             code: `
@@ -158,83 +158,83 @@ ruleTester.run("semi", rule, {
                 export class Variant5 extends SomeClass{type=5;}
             `,
             options: ["always", { omitLastInOneLineClassBody: false }],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" }
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" }
         },
         {
             code: "class C {\nfoo;}",
             options: ["always", { omitLastInOneLineClassBody: true }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C {foo;\n}",
             options: ["always", { omitLastInOneLineClassBody: true }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C {foo;\nbar;}",
             options: ["always", { omitLastInOneLineClassBody: true }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "{ foo; }",
             options: ["always", { omitLastInOneLineClassBody: true }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C\n{ foo }",
             options: ["always", { omitLastInOneLineClassBody: true }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // method definitions and static blocks don't have a semicolon.
-        { code: "class A { a() {} b() {} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "var A = class { a() {} b() {} };", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { static {} }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a() {} b() {} }", languageOptions: { ecmaVersion: 6 } },
+        { code: "var A = class { a() {} b() {} };", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { static {} }", languageOptions: { ecmaVersion: 2022 } },
 
-        { code: "import theDefault, { named1, named2 } from 'src/mylib';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import theDefault, { named1, named2 } from 'src/mylib';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // exports, "always"
-        { code: "export * from 'foo';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export { foo } from 'foo';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var foo = 0;export { foo };", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export var foo;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export function foo () { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export function* foo () { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export class Foo { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export let foo;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export const FOO = 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default function() { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default function* () { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default class { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default foo || bar;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default (foo) => foo.bar();", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default foo = 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default foo += 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export * from 'foo';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export { foo } from 'foo';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var foo = 0;export { foo };", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export var foo;", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function foo () { }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function* foo () { }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export class Foo { }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export let foo;", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export const FOO = 42;", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default function() { }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default function* () { }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default class { }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo || bar;", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default (foo) => foo.bar();", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo = 42;", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo += 42;", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // exports, "never"
-        { code: "export * from 'foo'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export { foo } from 'foo'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var foo = 0; export { foo }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export var foo", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export function foo () { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export function* foo () { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export class Foo { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export let foo", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export const FOO = 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default function() { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default function* () { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default class { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default foo || bar", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default (foo) => foo.bar()", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default foo = 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default foo += 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export * from 'foo'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export { foo } from 'foo'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var foo = 0; export { foo }", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export var foo", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function foo () { }", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function* foo () { }", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export class Foo { }", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export let foo", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export const FOO = 42", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default function() { }", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default function* () { }", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default class { }", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo || bar", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default (foo) => foo.bar()", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo = 42", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo += 42", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "++\nfoo;", options: ["always"] },
         { code: "var a = b;\n+ c", options: ["never"] },
 
         // https://github.com/eslint/eslint/issues/7782
         { code: "var a = b;\n/foo/.test(c)", options: ["never"] },
-        { code: "var a = b;\n`foo`", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var a = b;\n`foo`", options: ["never"], languageOptions: { ecmaVersion: 6 } },
 
         // https://github.com/eslint/eslint/issues/9521
         {
@@ -257,7 +257,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -265,7 +265,7 @@ ruleTester.run("semi", rule, {
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -275,7 +275,7 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: `
@@ -308,7 +308,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: `
@@ -316,7 +316,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -324,7 +324,7 @@ ruleTester.run("semi", rule, {
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -334,7 +334,7 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: `
@@ -367,118 +367,118 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         // Class fields
         {
             code: "class C { foo; }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo = obj\n;[bar] }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo;\n[bar]; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo\n;[bar] }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo\n[bar] }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo\n;[bar] }",
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo\n[bar] }",
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo = () => {}\n;[bar] }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo = () => {}\n[bar] }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo = () => {}\n;[bar] }",
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo = () => {}\n[bar] }",
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo() {} }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo() {}; }", // no-extra-semi reports it
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static {}; }", // no-extra-semi reports it
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { a=b;\n*foo() {} }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { get;\nfoo() {} }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { set;\nfoo() {} }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static;\nfoo() {} }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { a=b;\nin }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { a=b;\ninstanceof }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -494,7 +494,7 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -510,79 +510,78 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo\n[bar] }",
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo = () => {}\n[bar] }",
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo\n;[bar] }",
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo = () => {}\n;[bar] }",
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [foo] = bar;\nin }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #foo = bar;\nin }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static static = bar;\nin }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [foo];\nin }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [get];\nin }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [get] = 5;\nin }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #get;\nin }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #set = 5;\nin }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static static;\nin }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
         {
             code: "import * as utils from './utils'",
             output: "import * as utils from './utils';",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "ImportDeclaration",
@@ -590,12 +589,12 @@ ruleTester.run("semi", rule, {
                 column: 33,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import { square, diag } from 'lib'",
             output: "import { square, diag } from 'lib';",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "ImportDeclaration",
@@ -603,12 +602,12 @@ ruleTester.run("semi", rule, {
                 column: 35,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import { default as foo } from 'lib'",
             output: "import { default as foo } from 'lib';",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "ImportDeclaration",
@@ -616,12 +615,12 @@ ruleTester.run("semi", rule, {
                 column: 37,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import 'src/mylib'",
             output: "import 'src/mylib';",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "ImportDeclaration",
@@ -629,12 +628,12 @@ ruleTester.run("semi", rule, {
                 column: 19,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import theDefault, { named1, named2 } from 'src/mylib'",
             output: "import theDefault, { named1, named2 } from 'src/mylib';",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "ImportDeclaration",
@@ -642,7 +641,8 @@ ruleTester.run("semi", rule, {
                 column: 55,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "function foo() { return [] }",
@@ -683,7 +683,6 @@ ruleTester.run("semi", rule, {
         {
             code: "let x = 5",
             output: "let x = 5;",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSemi",
                 type: "VariableDeclaration",
@@ -691,7 +690,8 @@ ruleTester.run("semi", rule, {
                 column: 10,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var x = 5",
@@ -975,7 +975,6 @@ ruleTester.run("semi", rule, {
             code: "let x = 5;",
             output: "let x = 5",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "extraSemi",
                 type: "VariableDeclaration",
@@ -983,7 +982,8 @@ ruleTester.run("semi", rule, {
                 column: 10,
                 endLine: 1,
                 endColumn: 11
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var x = 5;",
@@ -1106,7 +1106,6 @@ ruleTester.run("semi", rule, {
             code: "import theDefault, { named1, named2 } from 'src/mylib';",
             output: "import theDefault, { named1, named2 } from 'src/mylib'",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 type: "ImportDeclaration",
@@ -1114,7 +1113,8 @@ ruleTester.run("semi", rule, {
                 column: 55,
                 endLine: 1,
                 endColumn: 56
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "do{}while(true);",
@@ -1132,7 +1132,6 @@ ruleTester.run("semi", rule, {
         {
             code: "class C { static { foo() } }",
             output: "class C { static { foo(); } }",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSemi",
                 type: "ExpressionStatement",
@@ -1140,13 +1139,13 @@ ruleTester.run("semi", rule, {
                 column: 25,
                 endLine: 1,
                 endColumn: 26
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { foo() } }",
             output: "class C { static { foo(); } }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSemi",
                 type: "ExpressionStatement",
@@ -1154,12 +1153,12 @@ ruleTester.run("semi", rule, {
                 column: 25,
                 endLine: 1,
                 endColumn: 26
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { foo(); bar() } }",
             output: "class C { static { foo(); bar(); } }",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSemi",
                 type: "ExpressionStatement",
@@ -1167,12 +1166,12 @@ ruleTester.run("semi", rule, {
                 column: 32,
                 endLine: 1,
                 endColumn: 33
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { foo()\nbar(); } }",
             output: "class C { static { foo();\nbar(); } }",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSemi",
                 type: "ExpressionStatement",
@@ -1180,12 +1179,12 @@ ruleTester.run("semi", rule, {
                 column: 25,
                 endLine: 2,
                 endColumn: 1
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { foo(); bar()\nbaz(); } }",
             output: "class C { static { foo(); bar();\nbaz(); } }",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSemi",
                 type: "ExpressionStatement",
@@ -1193,13 +1192,13 @@ ruleTester.run("semi", rule, {
                 column: 32,
                 endLine: 2,
                 endColumn: 1
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { foo(); } }",
             output: "class C { static { foo() } }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 type: "ExpressionStatement",
@@ -1207,13 +1206,13 @@ ruleTester.run("semi", rule, {
                 column: 25,
                 endLine: 1,
                 endColumn: 26
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { foo();\nbar() } }",
             output: "class C { static { foo()\nbar() } }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 type: "ExpressionStatement",
@@ -1221,13 +1220,13 @@ ruleTester.run("semi", rule, {
                 column: 25,
                 endLine: 1,
                 endColumn: 26
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { foo()\nbar(); } }",
             output: "class C { static { foo()\nbar() } }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 type: "ExpressionStatement",
@@ -1235,13 +1234,13 @@ ruleTester.run("semi", rule, {
                 column: 6,
                 endLine: 2,
                 endColumn: 7
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { foo()\nbar();\nbaz() } }",
             output: "class C { static { foo()\nbar()\nbaz() } }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 type: "ExpressionStatement",
@@ -1249,13 +1248,13 @@ ruleTester.run("semi", rule, {
                 column: 6,
                 endLine: 2,
                 endColumn: 7
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { do ; while (foo)\n (a)} }",
             output: "class C { static { do ; while (foo);\n (a)} }",
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSemi",
                 type: "DoWhileStatement",
@@ -1263,13 +1262,13 @@ ruleTester.run("semi", rule, {
                 column: 36,
                 endLine: 2,
                 endColumn: 1
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static { do ; while (foo)\n ;(a)} }",
             output: "class C { static { do ; while (foo)\n (a)} }",
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 type: "DoWhileStatement",
@@ -1277,7 +1276,8 @@ ruleTester.run("semi", rule, {
                 column: 2,
                 endLine: 2,
                 endColumn: 3
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // omitLastInOneLineBlock: true
@@ -1381,105 +1381,105 @@ ruleTester.run("semi", rule, {
             code: "class C {\nfoo() { bar(); baz(); }\n}",
             output: "class C {\nfoo() { bar(); baz() }\n}",
             options: ["always", { omitLastInOneLineBlock: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "extraSemi",
                 line: 2,
                 column: 21,
                 endLine: 2,
                 endColumn: 22
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class C {\nfoo() \n{ bar(); baz(); }\n}",
             output: "class C {\nfoo() \n{ bar(); baz() }\n}",
             options: ["always", { omitLastInOneLineBlock: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "extraSemi",
                 line: 3,
                 column: 15,
                 endLine: 3,
                 endColumn: 16
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class C {\nfoo() {\n bar(); baz() }\n}",
             output: "class C {\nfoo() {\n bar(); baz(); }\n}",
             options: ["always", { omitLastInOneLineBlock: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSemi",
                 line: 3,
                 column: 14,
                 endLine: 3,
                 endColumn: 15
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class C {\nfoo() { bar(); baz() \n}\n}",
             output: "class C {\nfoo() { bar(); baz(); \n}\n}",
             options: ["always", { omitLastInOneLineBlock: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSemi",
                 line: 2,
                 column: 21,
                 endLine: 2,
                 endColumn: 22
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class C {\nstatic { bar(); baz(); }\n}",
             output: "class C {\nstatic { bar(); baz() }\n}",
             options: ["always", { omitLastInOneLineBlock: true }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 line: 2,
                 column: 22,
                 endLine: 2,
                 endColumn: 23
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C {\nstatic \n{ bar(); baz(); }\n}",
             output: "class C {\nstatic \n{ bar(); baz() }\n}",
             options: ["always", { omitLastInOneLineBlock: true }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 line: 3,
                 column: 15,
                 endLine: 3,
                 endColumn: 16
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C {\nstatic {\n bar(); baz() }\n}",
             output: "class C {\nstatic {\n bar(); baz(); }\n}",
             options: ["always", { omitLastInOneLineBlock: true }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSemi",
                 line: 3,
                 column: 14,
                 endLine: 3,
                 endColumn: 15
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C {\nfoo() { bar(); baz() \n}\n}",
             output: "class C {\nfoo() { bar(); baz(); \n}\n}",
             options: ["always", { omitLastInOneLineBlock: true }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSemi",
                 line: 2,
                 column: 21,
                 endLine: 2,
                 endColumn: 22
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
 
 
@@ -1487,7 +1487,6 @@ ruleTester.run("semi", rule, {
         {
             code: "export * from 'foo'",
             output: "export * from 'foo';",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "ExportAllDeclaration",
@@ -1495,12 +1494,12 @@ ruleTester.run("semi", rule, {
                 column: 20,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export { foo } from 'foo'",
             output: "export { foo } from 'foo';",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "ExportNamedDeclaration",
@@ -1508,12 +1507,12 @@ ruleTester.run("semi", rule, {
                 column: 26,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "var foo = 0;export { foo }",
             output: "var foo = 0;export { foo };",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "ExportNamedDeclaration",
@@ -1521,12 +1520,12 @@ ruleTester.run("semi", rule, {
                 column: 27,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export var foo",
             output: "export var foo;",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "VariableDeclaration",
@@ -1534,12 +1533,12 @@ ruleTester.run("semi", rule, {
                 column: 15,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export let foo",
             output: "export let foo;",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "VariableDeclaration",
@@ -1547,12 +1546,12 @@ ruleTester.run("semi", rule, {
                 column: 15,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export const FOO = 42",
             output: "export const FOO = 42;",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "VariableDeclaration",
@@ -1560,12 +1559,12 @@ ruleTester.run("semi", rule, {
                 column: 22,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default foo || bar",
             output: "export default foo || bar;",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "ExportDefaultDeclaration",
@@ -1573,12 +1572,12 @@ ruleTester.run("semi", rule, {
                 column: 26,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default (foo) => foo.bar()",
             output: "export default (foo) => foo.bar();",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "ExportDefaultDeclaration",
@@ -1586,12 +1585,12 @@ ruleTester.run("semi", rule, {
                 column: 34,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default foo = 42",
             output: "export default foo = 42;",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "ExportDefaultDeclaration",
@@ -1599,12 +1598,12 @@ ruleTester.run("semi", rule, {
                 column: 24,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default foo += 42",
             output: "export default foo += 42;",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 type: "ExportDefaultDeclaration",
@@ -1612,7 +1611,8 @@ ruleTester.run("semi", rule, {
                 column: 25,
                 endLine: void 0,
                 endColumn: void 0
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
 
         // exports, "never"
@@ -1620,7 +1620,6 @@ ruleTester.run("semi", rule, {
             code: "export * from 'foo';",
             output: "export * from 'foo'",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 type: "ExportAllDeclaration",
@@ -1628,13 +1627,13 @@ ruleTester.run("semi", rule, {
                 column: 20,
                 endLine: 1,
                 endColumn: 21
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export { foo } from 'foo';",
             output: "export { foo } from 'foo'",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 type: "ExportNamedDeclaration",
@@ -1642,13 +1641,13 @@ ruleTester.run("semi", rule, {
                 column: 26,
                 endLine: 1,
                 endColumn: 27
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "var foo = 0;export { foo };",
             output: "var foo = 0;export { foo }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 type: "ExportNamedDeclaration",
@@ -1656,13 +1655,13 @@ ruleTester.run("semi", rule, {
                 column: 27,
                 endLine: 1,
                 endColumn: 28
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export var foo;",
             output: "export var foo",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 type: "VariableDeclaration",
@@ -1670,13 +1669,13 @@ ruleTester.run("semi", rule, {
                 column: 15,
                 endLine: 1,
                 endColumn: 16
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export let foo;",
             output: "export let foo",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 type: "VariableDeclaration",
@@ -1684,13 +1683,13 @@ ruleTester.run("semi", rule, {
                 column: 15,
                 endLine: 1,
                 endColumn: 16
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export const FOO = 42;",
             output: "export const FOO = 42",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 type: "VariableDeclaration",
@@ -1698,13 +1697,13 @@ ruleTester.run("semi", rule, {
                 column: 22,
                 endLine: 1,
                 endColumn: 23
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default foo || bar;",
             output: "export default foo || bar",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 type: "ExportDefaultDeclaration",
@@ -1712,13 +1711,13 @@ ruleTester.run("semi", rule, {
                 column: 26,
                 endLine: 1,
                 endColumn: 27
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default (foo) => foo.bar();",
             output: "export default (foo) => foo.bar()",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 type: "ExportDefaultDeclaration",
@@ -1726,13 +1725,13 @@ ruleTester.run("semi", rule, {
                 column: 34,
                 endLine: 1,
                 endColumn: 35
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default foo = 42;",
             output: "export default foo = 42",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 type: "ExportDefaultDeclaration",
@@ -1740,13 +1739,13 @@ ruleTester.run("semi", rule, {
                 column: 24,
                 endLine: 1,
                 endColumn: 25
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default foo += 42;",
             output: "export default foo += 42",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 type: "ExportDefaultDeclaration",
@@ -1754,7 +1753,8 @@ ruleTester.run("semi", rule, {
                 column: 25,
                 endLine: 1,
                 endColumn: 26
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "a;\n++b",
@@ -1811,14 +1811,14 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 line: 2,
                 column: 34,
                 endLine: 3,
                 endColumn: 1
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -1830,14 +1830,14 @@ ruleTester.run("semi", rule, {
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingSemi",
                 line: 2,
                 column: 38,
                 endLine: 3,
                 endColumn: 1
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -1853,14 +1853,14 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "missingSemi",
                 line: 3,
                 column: 27,
                 endLine: 4,
                 endColumn: 1
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: `
@@ -1934,14 +1934,14 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "missingSemi",
                 line: 2,
                 column: 35,
                 endLine: 3,
                 endColumn: 1
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: `
@@ -1953,14 +1953,14 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 line: 2,
                 column: 34,
                 endLine: 2,
                 endColumn: 35
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -1972,14 +1972,14 @@ ruleTester.run("semi", rule, {
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 line: 2,
                 column: 38,
                 endLine: 2,
                 endColumn: 39
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -1995,14 +1995,14 @@ ruleTester.run("semi", rule, {
                 }
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "extraSemi",
                 line: 3,
                 column: 27,
                 endLine: 3,
                 endColumn: 28
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: `
@@ -2076,14 +2076,14 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "extraSemi",
                 line: 2,
                 column: 35,
                 endLine: 2,
                 endColumn: 36
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: `
@@ -2095,14 +2095,14 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 line: 3,
                 column: 17,
                 endLine: 3,
                 endColumn: 18
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -2114,14 +2114,14 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "extraSemi",
                 line: 3,
                 column: 17,
                 endLine: 3,
                 endColumn: 18
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -2217,67 +2217,67 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "extraSemi",
                 line: 3,
                 column: 17,
                 endLine: 3,
                 endColumn: 18
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         // Class fields
         {
             code: "class C { foo }",
             output: "class C { foo; }",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSemi",
                 line: 1,
                 column: 14,
                 endLine: 1,
                 endColumn: 15
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo }",
             output: "class C { foo; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSemi",
                 line: 1,
                 column: 14,
                 endLine: 1,
                 endColumn: 15
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo; }",
             output: "class C { foo }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 line: 1,
                 column: 14,
                 endLine: 1,
                 endColumn: 15
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo\n[bar]; }",
             output: "class C { foo;\n[bar]; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSemi",
                 line: 1,
                 column: 14,
                 endLine: 2,
                 endColumn: 1
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // class fields
@@ -2285,105 +2285,105 @@ ruleTester.run("semi", rule, {
             code: "class C { [get];\nfoo\n}",
             output: "class C { [get]\nfoo\n}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 line: 1,
                 column: 16,
                 endLine: 1,
                 endColumn: 17
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [set];\nfoo\n}",
             output: "class C { [set]\nfoo\n}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 line: 1,
                 column: 16,
                 endLine: 1,
                 endColumn: 17
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #get;\nfoo\n}",
             output: "class C { #get\nfoo\n}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 line: 1,
                 column: 15,
                 endLine: 1,
                 endColumn: 16
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #set;\nfoo\n}",
             output: "class C { #set\nfoo\n}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 line: 1,
                 column: 15,
                 endLine: 1,
                 endColumn: 16
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #static;\nfoo\n}",
             output: "class C { #static\nfoo\n}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 line: 1,
                 column: 18,
                 endLine: 1,
                 endColumn: 19
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { get=1;\nfoo\n}",
             output: "class C { get=1\nfoo\n}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 line: 1,
                 column: 16,
                 endLine: 1,
                 endColumn: 17
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static static;\nfoo\n}",
             output: "class C { static static\nfoo\n}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 line: 1,
                 column: 24,
                 endLine: 1,
                 endColumn: 25
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { static;\n}",
             output: "class C { static\n}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "extraSemi",
                 line: 1,
                 column: 17,
                 endLine: 1,
                 endColumn: 18
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // omitLastInOneLineClassBody
@@ -2407,7 +2407,6 @@ ruleTester.run("semi", rule, {
                 export class Variant1 extends SomeClass{type=1;}
             `,
             options: ["always", { omitLastInOneLineClassBody: false }],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: [
                 {
                     messageId: "missingSemi",
@@ -2416,7 +2415,8 @@ ruleTester.run("semi", rule, {
                     endLine: 8,
                     endColumn: 64
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" }
         },
         {
             code: `
@@ -2438,7 +2438,6 @@ ruleTester.run("semi", rule, {
                 export class Variant1 extends SomeClass{type=1;}
             `,
             options: ["always", { omitLastInOneLineClassBody: false, omitLastInOneLineBlock: true }],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: [
                 {
                     messageId: "missingSemi",
@@ -2447,7 +2446,8 @@ ruleTester.run("semi", rule, {
                     endLine: 8,
                     endColumn: 64
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" }
         },
         {
             code: `
@@ -2469,7 +2469,6 @@ ruleTester.run("semi", rule, {
                 export class Variant1 extends SomeClass{type=1}
             `,
             options: ["always", { omitLastInOneLineClassBody: true, omitLastInOneLineBlock: false }],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: [
                 {
                     messageId: "extraSemi",
@@ -2478,7 +2477,8 @@ ruleTester.run("semi", rule, {
                     endLine: 8,
                     endColumn: 64
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" }
         },
         {
             code: `
@@ -2502,7 +2502,6 @@ ruleTester.run("semi", rule, {
                 export class Variant1 extends SomeClass{type=1; anotherType=2;}
             `,
             options: ["always", { omitLastInOneLineClassBody: false, omitLastInOneLineBlock: true }],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: [
                 {
                     messageId: "missingSemi",
@@ -2511,7 +2510,8 @@ ruleTester.run("semi", rule, {
                     endLine: 9,
                     endColumn: 79
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" }
         }
     ]
 });

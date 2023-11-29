@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/newline-before-return"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 const error = { messageId: "expected" };
 
 ruleTester.run("newline-before-return", rule, {
@@ -61,19 +66,19 @@ ruleTester.run("newline-before-return", rule, {
         "function a() {\nfor (b in c) {\nd();\n\nreturn;\n}\n}",
         {
             code: "function a() {\nfor (b of c) return;\n}",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function a() {\nfor (b of c)\nreturn;\n}",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function a() {\nfor (b of c) {\nreturn;\n}\n}",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function a() {\nfor (b of c) {\nd();\n\nreturn;\n}\n}",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         "function a() {\nswitch (b) {\ncase 'b': return;\n}\n}",
         "function a() {\nswitch (b) {\ncase 'b':\nreturn;\n}\n}",
@@ -91,23 +96,23 @@ ruleTester.run("newline-before-return", rule, {
         "function a() {\nif (b) { return; }\n\n/*multi-line\ncomment*/ return c;\n}",
         {
             code: "return;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: "var a;\n\nreturn;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: "// comment\nreturn;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: "/* comment */\nreturn;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: "/* multi-line\ncomment */\nreturn;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         }
     ],
 
@@ -155,8 +160,8 @@ ruleTester.run("newline-before-return", rule, {
         {
             code: "function a() {\nfor (b of c) {\nd();\nreturn;\n}\n}",
             output: "function a() {\nfor (b of c) {\nd();\n\nreturn;\n}\n}",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [error]
+            errors: [error],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function a() {\nif (b) {\nc();\n}\n//comment\nreturn b;\n}",
@@ -191,14 +196,14 @@ ruleTester.run("newline-before-return", rule, {
         {
             code: "var a;\nreturn;",
             output: "var a;\n\nreturn;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: [error]
+            errors: [error],
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: "var a; return;",
             output: "var a; \n\nreturn;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: [error]
+            errors: [error],
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: "function a() {\n{\n//comment\n}\nreturn\n}",

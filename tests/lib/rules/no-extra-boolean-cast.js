@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extra-boolean-cast"),
-    { RuleTester } = require("../../../lib/rule-tester"),
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester"),
     parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!foo ?? bar) {}",
             options: [{ enforceForLogicalOperands: true }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         }
     ],
 
@@ -279,11 +279,11 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(...foo);",
             output: null,
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "!Boolean(foo, bar());",
@@ -379,56 +379,56 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "function *foo() { yield!!a ? b : c }",
             output: "function *foo() { yield a ? b : c }",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "function *foo() { yield!! a ? b : c }",
             output: "function *foo() { yield a ? b : c }",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "function *foo() { yield! !a ? b : c }",
             output: "function *foo() { yield a ? b : c }",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "function *foo() { yield !!a ? b : c }",
             output: "function *foo() { yield a ? b : c }",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "function *foo() { yield(!!a) ? b : c }",
             output: "function *foo() { yield(a) ? b : c }",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "function *foo() { yield/**/!!a ? b : c }",
             output: "function *foo() { yield/**/a ? b : c }",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "x=!!a ? b : c ",
@@ -934,11 +934,11 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             code: "!Boolean(...foo) || bar;",
             output: null,
             options: [{ enforceForLogicalOperands: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "!Boolean(foo, bar()) || bar;",
@@ -1028,51 +1028,51 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             code: "function *foo() { yield(!!a || d) ? b : c }",
             output: "function *foo() { yield(a || d) ? b : c }",
             options: [{ enforceForLogicalOperands: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "function *foo() { yield(!! a || d) ? b : c }",
             output: "function *foo() { yield(a || d) ? b : c }",
             options: [{ enforceForLogicalOperands: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "function *foo() { yield(! !a || d) ? b : c }",
             output: "function *foo() { yield(a || d) ? b : c }",
             options: [{ enforceForLogicalOperands: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "function *foo() { yield (!!a || d) ? b : c }",
             output: "function *foo() { yield (a || d) ? b : c }",
             options: [{ enforceForLogicalOperands: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "function *foo() { yield/**/(!!a || d) ? b : c }",
             output: "function *foo() { yield/**/(a || d) ? b : c }",
             options: [{ enforceForLogicalOperands: true }],
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "x=!!a || d ? b : c ",
@@ -1371,13 +1371,13 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             code: "function *foo() { yield!!a || d ? b : c }",
             output: "function *foo() { yield a || d ? b : c }",
             options: [{ enforceForLogicalOperands: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
                 column: 24,
                 endColumn: 27
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // test parentheses in autofix
@@ -2005,26 +2005,26 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!!!(a ** b)",
             output: "!(a ** b)",
-            parserOptions: { ecmaVersion: 2016 },
-            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }],
+            languageOptions: { ecmaVersion: 2016 }
         },
         {
             code: "!Boolean(a ** b)",
             output: "!(a ** b)",
-            parserOptions: { ecmaVersion: 2016 },
-            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+            languageOptions: { ecmaVersion: 2016 }
         },
         {
             code: "async function f() { !!!(await a) }",
             output: "async function f() { !await a }",
-            parserOptions: { ecmaVersion: 2017 },
-            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }]
+            errors: [{ messageId: "unexpectedNegation", type: "UnaryExpression" }],
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "async function f() { !Boolean(await a) }",
             output: "async function f() { !await a }",
-            parserOptions: { ecmaVersion: 2017 },
-            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "!!!!a",
@@ -2207,11 +2207,11 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             code: "if (Boolean(a **= b) && Boolean(c **= d)) {}",
             output: "if ((a **= b) && (c **= d)) {}",
             options: [{ enforceForLogicalOperands: true }],
-            parserOptions: { ecmaVersion: 2016 },
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2016 }
         },
         {
             code: "if (!!(a ? b : c) || !!(d ? e : f)) {}",
@@ -2407,32 +2407,34 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             code: "if (Boolean(a ?? b) || c) {}",
             output: "if ((a ?? b) || c) {}",
             options: [{ enforceForLogicalOperands: true }],
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // Optional chaining
         {
             code: "if (Boolean?.(foo)) ;",
             output: "if (foo) ;",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall" }]
+            errors: [{ messageId: "unexpectedCall" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "if (Boolean?.(a ?? b) || c) {}",
             output: "if ((a ?? b) || c) {}",
             options: [{ enforceForLogicalOperands: true }],
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall" }]
+            errors: [{ messageId: "unexpectedCall" }],
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // https://github.com/eslint/eslint/issues/17173
         {
             code: "if (!Boolean(a as any)) { }",
             output: "if (!(a as any)) { }",
-            parser: parser("typescript-parsers/boolean-cast-with-assertion"),
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall" }]
+            errors: [{ messageId: "unexpectedCall" }],
+            languageOptions: {
+                parser: require(parser("typescript-parsers/boolean-cast-with-assertion")),
+                ecmaVersion: 2020
+            }
         }
     ]
 });

@@ -12,7 +12,7 @@
 const merge = require("lodash.merge");
 
 const rule = require("../../../lib/rules/no-invalid-this");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -45,8 +45,10 @@ function USE_STRICT(pattern) {
  */
 function IMPLIED_STRICT(pattern) {
     pattern.code = `/* implied strict mode */ ${pattern.code}`;
-    pattern.parserOptions.ecmaFeatures = pattern.parserOptions.ecmaFeatures || {};
-    pattern.parserOptions.ecmaFeatures.impliedStrict = true;
+    pattern.languageOptions = pattern.languageOptions || {};
+    pattern.languageOptions.parserOptions = pattern.languageOptions.parserOptions || {};
+    pattern.languageOptions.parserOptions.ecmaFeatures = pattern.languageOptions.parserOptions.ecmaFeatures || {};
+    pattern.languageOptions.parserOptions.ecmaFeatures.impliedStrict = true;
 }
 
 /**
@@ -57,7 +59,7 @@ function IMPLIED_STRICT(pattern) {
  */
 function MODULES(pattern) {
     pattern.code = `/* modules */ ${pattern.code}`;
-    pattern.parserOptions.sourceType = "module";
+    pattern.languageOptions.sourceType = "module";
 }
 
 /**
@@ -103,16 +105,18 @@ const patterns = [
     // Global.
     {
         code: "console.log(this); z(x => console.log(x, this));",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT],
         invalid: [MODULES]
     },
     {
         code: "console.log(this); z(x => console.log(x, this));",
-        parserOptions: {
+        languageOptions: {
             ecmaVersion: 6,
-            ecmaFeatures: { globalReturn: true }
+            parserOptions: {
+                ecmaFeatures: { globalReturn: true }
+            }
         },
         errors,
         valid: [NORMAL],
@@ -120,7 +124,7 @@ const patterns = [
     },
     {
         code: "() => { this }; this;",
-        parserOptions: {
+        languageOptions: {
             ecmaVersion: 6
         },
         errors,
@@ -129,7 +133,7 @@ const patterns = [
     },
     {
         code: "this.eval('foo');",
-        parserOptions: {
+        languageOptions: {
             ecmaVersion: 6
         },
         errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
@@ -140,7 +144,7 @@ const patterns = [
     // IIFE.
     {
         code: "(function() { console.log(this); z(x => console.log(x, this)); })();",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
@@ -149,14 +153,14 @@ const patterns = [
     // Just functions.
     {
         code: "function foo() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "function foo() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         options: [{ capIsConstructor: false }], // test that the option doesn't reverse the logic and mistakenly allows lowercase functions
         errors,
         valid: [NORMAL],
@@ -164,7 +168,7 @@ const patterns = [
     },
     {
         code: "function Foo() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         options: [{ capIsConstructor: false }],
         errors,
         valid: [NORMAL],
@@ -172,14 +176,14 @@ const patterns = [
     },
     {
         code: "function foo() { \"use strict\"; console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [],
         invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "function Foo() { \"use strict\"; console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         options: [{ capIsConstructor: false }],
         errors,
         valid: [],
@@ -187,9 +191,11 @@ const patterns = [
     },
     {
         code: "return function() { console.log(this); z(x => console.log(x, this)); };",
-        parserOptions: {
+        languageOptions: {
             ecmaVersion: 6,
-            ecmaFeatures: { globalReturn: true }
+            parserOptions: {
+                ecmaFeatures: { globalReturn: true }
+            }
         },
         errors,
         valid: [NORMAL],
@@ -197,7 +203,7 @@ const patterns = [
     },
     {
         code: "var foo = (function() { console.log(this); z(x => console.log(x, this)); }).bar(obj);",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
@@ -206,49 +212,49 @@ const patterns = [
     // Functions in methods.
     {
         code: "var obj = {foo: function() { function foo() { console.log(this); z(x => console.log(x, this)); } foo(); }};",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "var obj = {foo() { function foo() { console.log(this); z(x => console.log(x, this)); } foo(); }};",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "var obj = {foo: function() { return function() { console.log(this); z(x => console.log(x, this)); }; }};",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "var obj = {foo: function() { \"use strict\"; return function() { console.log(this); z(x => console.log(x, this)); }; }};",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [],
         invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "obj.foo = function() { return function() { console.log(this); z(x => console.log(x, this)); }; };",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "obj.foo = function() { \"use strict\"; return function() { console.log(this); z(x => console.log(x, this)); }; };",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [],
         invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "class A { foo() { return function() { console.log(this); z(x => console.log(x, this)); }; } }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [],
         invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES]
@@ -257,7 +263,7 @@ const patterns = [
     // Class Static methods.
     {
         code: "class A {static foo() { console.log(this); z(x => console.log(x, this)); }};",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
@@ -266,33 +272,33 @@ const patterns = [
     // Constructors.
     {
         code: "function Foo() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "function Foo() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         options: [{}], // test the default value in schema
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "function Foo() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         options: [{ capIsConstructor: true }], // test explicitly set option to the default value
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "var Foo = function Foo() { console.log(this); z(x => console.log(x, this)); };",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "class A {constructor() { console.log(this); z(x => console.log(x, this)); }};",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
@@ -300,43 +306,43 @@ const patterns = [
     // On a property.
     {
         code: "var obj = {foo: function() { console.log(this); z(x => console.log(x, this)); }};",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "var obj = {foo() { console.log(this); z(x => console.log(x, this)); }};",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "var obj = {foo: foo || function() { console.log(this); z(x => console.log(x, this)); }};",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "var obj = {foo: hasNative ? foo : function() { console.log(this); z(x => console.log(x, this)); }};",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "var obj = {foo: (function() { return function() { console.log(this); z(x => console.log(x, this)); }; })()};",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "Object.defineProperty(obj, \"foo\", {value: function() { console.log(this); z(x => console.log(x, this)); }})",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "Object.defineProperties(obj, {foo: {value: function() { console.log(this); z(x => console.log(x, this)); }}})",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
@@ -344,51 +350,51 @@ const patterns = [
     // Assigns to a property.
     {
         code: "obj.foo = function() { console.log(this); z(x => console.log(x, this)); };",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "obj.foo = foo || function() { console.log(this); z(x => console.log(x, this)); };",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "obj.foo = foo ? bar : function() { console.log(this); z(x => console.log(x, this)); };",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "obj.foo = (function() { return function() { console.log(this); z(x => console.log(x, this)); }; })();",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "obj.foo = (() => function() { console.log(this); z(x => console.log(x, this)); })();",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "obj.foo = (function() { return () => { console.log(this); z(x => console.log(x, this)); }; })();",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
         errors
     },
     {
         code: "obj.foo = (() => () => { console.log(this); z(x => console.log(x, this)); })();",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT],
         invalid: [MODULES],
         errors
     },
     {
         code: "obj.foo = (function() { return function() { console.log(this); z(x => console.log(x, this)); }; })?.();",
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
@@ -396,7 +402,7 @@ const patterns = [
     // Class Instance Methods.
     {
         code: "class A {foo() { console.log(this); z(x => console.log(x, this)); }};",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
@@ -404,64 +410,64 @@ const patterns = [
     // Bind/Call/Apply
     {
         code: "var foo = function() { console.log(this); z(x => console.log(x, this)); }.bind(obj);",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "var foo = function() { console.log(this); z(x => console.log(x, this)); }.bind(null);",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "(function() { console.log(this); z(x => console.log(x, this)); }).call(obj);",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "(function() { console.log(this); z(x => console.log(x, this)); }).call(undefined);",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "(function() { console.log(this); z(x => console.log(x, this)); }).apply(obj);",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "(function() { console.log(this); z(x => console.log(x, this)); }).apply(void 0);",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "Reflect.apply(function() { console.log(this); z(x => console.log(x, this)); }, obj, []);",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "var foo = function() { console.log(this); z(x => console.log(x, this)); }?.bind(obj);",
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "var foo = (function() { console.log(this); z(x => console.log(x, this)); }?.bind)(obj);",
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "var foo = function() { console.log(this); z(x => console.log(x, this)); }.bind?.(obj);",
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
@@ -469,7 +475,7 @@ const patterns = [
     // Array methods.
     {
         code: "Array.from([], function() { console.log(this); z(x => console.log(x, this)); });",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
@@ -487,14 +493,14 @@ const patterns = [
         "some"
     ].map(methodName => ({
         code: `foo.${methodName}(function() { console.log(this); z(x => console.log(x, this)); });`,
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     })),
     {
         code: "Array.from([], function() { console.log(this); z(x => console.log(x, this)); }, obj);",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
@@ -511,38 +517,38 @@ const patterns = [
         "some"
     ].map(methodName => ({
         code: `foo.${methodName}(function() { console.log(this); z(x => console.log(x, this)); }, obj);`,
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     })),
     {
         code: "foo.forEach(function() { console.log(this); z(x => console.log(x, this)); }, null);",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "Array?.from([], function() { console.log(this); z(x => console.log(x, this)); }, obj);",
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "foo?.every(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "(Array?.from)([], function() { console.log(this); z(x => console.log(x, this)); }, obj);",
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "(foo?.every)(function() { console.log(this); z(x => console.log(x, this)); }, obj);",
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
@@ -550,33 +556,33 @@ const patterns = [
     // @this tag.
     {
         code: "/** @this Obj */ function foo() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "/**\n * @returns {void}\n * @this Obj\n */\nfunction foo() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "/** @returns {void} */ function foo() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "/** @this Obj */ foo(function() { console.log(this); z(x => console.log(x, this)); });",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "foo(/* @this Obj */ function() { console.log(this); z(x => console.log(x, this)); });",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
@@ -585,7 +591,7 @@ const patterns = [
     // https://github.com/eslint/eslint/issues/3254
     {
         code: "function foo() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
@@ -594,7 +600,7 @@ const patterns = [
     // https://github.com/eslint/eslint/issues/3287
     {
         code: "function foo() { /** @this Obj*/ return function bar() { console.log(this); z(x => console.log(x, this)); }; }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
@@ -602,13 +608,13 @@ const patterns = [
     // https://github.com/eslint/eslint/issues/6824
     {
         code: "var Ctor = function() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "var Ctor = function() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         options: [{ capIsConstructor: false }],
         errors,
         valid: [NORMAL],
@@ -616,14 +622,14 @@ const patterns = [
     },
     {
         code: "var func = function() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "var func = function() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         options: [{ capIsConstructor: false }],
         errors,
         valid: [NORMAL],
@@ -631,13 +637,13 @@ const patterns = [
     },
     {
         code: "Ctor = function() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "Ctor = function() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         options: [{ capIsConstructor: false }],
         errors,
         valid: [NORMAL],
@@ -645,14 +651,14 @@ const patterns = [
     },
     {
         code: "func = function() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "func = function() { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         options: [{ capIsConstructor: false }],
         errors,
         valid: [NORMAL],
@@ -660,26 +666,26 @@ const patterns = [
     },
     {
         code: "function foo(Ctor = function() { console.log(this); z(x => console.log(x, this)); }) {}",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "function foo(func = function() { console.log(this); z(x => console.log(x, this)); }) {}",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
         code: "[obj.method = function() { console.log(this); z(x => console.log(x, this)); }] = a",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "[func = function() { console.log(this); z(x => console.log(x, this)); }] = a",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
@@ -688,19 +694,19 @@ const patterns = [
     // Logical assignments
     {
         code: "obj.method &&= function () { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 2021 },
+        languageOptions: { ecmaVersion: 2021 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "obj.method ||= function () { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 2021 },
+        languageOptions: { ecmaVersion: 2021 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "obj.method ??= function () { console.log(this); z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 2021 },
+        languageOptions: { ecmaVersion: 2021 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
@@ -708,57 +714,57 @@ const patterns = [
     // Class fields.
     {
         code: "class C { field = this }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "class C { static field = this }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "class C { field = console.log(this); }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "class C { field = z(x => console.log(x, this)); }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "class C { field = function () { console.log(this); z(x => console.log(x, this)); }; }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "class C { #field = function () { console.log(this); z(x => console.log(x, this)); }; }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "class C { [this.foo]; }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT], // `this` is the top-level `this`
         invalid: [MODULES],
         errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
     },
     {
         code: "class C { foo = () => this; }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: [],
         errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
     },
     {
         code: "class C { foo = () => { this }; }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: [],
         errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
@@ -767,53 +773,53 @@ const patterns = [
     // Class static blocks
     {
         code: "class C { static { this.x; } }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "class C { static { () => { this.x; } } }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "class C { static { class D { [this.x]; } } }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
     {
         code: "class C { static { function foo() { this.x; } } }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [],
         invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
     },
     {
         code: "class C { static { (function() { this.x; }); } }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [],
         invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
     },
     {
         code: "class C { static { (function() { this.x; })(); } }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [],
         invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
     },
     {
         code: "class C { static {} [this]; }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT],
         invalid: [MODULES],
         errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
     },
     {
         code: "class C { static {} [this.x]; }",
-        parserOptions: { ecmaVersion: 2022 },
+        languageOptions: { ecmaVersion: 2022 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT],
         invalid: [MODULES],
         errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }]
@@ -822,13 +828,18 @@ const patterns = [
     // in es3, "use strict" directives do not apply
     {
         code: "function foo() { 'use strict'; this.eval(); }",
-        parserOptions: { ecmaVersion: 3 },
+        languageOptions: { ecmaVersion: 3 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT],
         invalid: []
     }
 ];
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-invalid-this", rule, {
     valid: extractPatterns(patterns, "valid"),

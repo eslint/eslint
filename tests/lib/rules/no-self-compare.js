@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-self-compare"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -26,11 +26,11 @@ ruleTester.run("no-self-compare", rule, {
         "foo.bar.baz === foo.bar.qux",
         {
             code: "class C { #field; foo() { this.#field === this['#field']; } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #field; foo() { this['#field'] === this.#field; } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -50,8 +50,8 @@ ruleTester.run("no-self-compare", rule, {
         { code: "foo.bar().baz.qux >= foo.bar ().baz .qux", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
         {
             code: "class C { #field; foo() { this.#field === this.#field; } }",
-            parserOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }]
+            errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }],
+            languageOptions: { ecmaVersion: 2022 }
         }
     ]
 });

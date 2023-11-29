@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-restricted-globals"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester"),
+    globals = require("globals");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -33,12 +34,12 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "event",
             options: ["bar"],
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "import foo from 'bar';",
             options: ["foo"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "function foo() {}",
@@ -79,32 +80,36 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "function fn() { foo; }",
             options: ["foo"],
-            globals: { foo: false },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "foo" },
                 type: "Identifier"
-            }]
+            }],
+            languageOptions: {
+                globals: { foo: false }
+            }
         },
         {
             code: "event",
             options: ["foo", "event"],
-            env: { browser: true },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "event" },
                 type: "Identifier"
-            }]
+            }],
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "foo",
             options: ["foo"],
-            globals: { foo: false },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "foo" },
                 type: "Identifier"
-            }]
+            }],
+            languageOptions: {
+                globals: { foo: false }
+            }
         },
         {
             code: "foo()",
@@ -145,32 +150,36 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "function fn() { foo; }",
             options: [{ name: "foo" }],
-            globals: { foo: false },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "foo" },
                 type: "Identifier"
-            }]
+            }],
+            languageOptions: {
+                globals: { foo: false }
+            }
         },
         {
             code: "event",
             options: ["foo", { name: "event" }],
-            env: { browser: true },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "event" },
                 type: "Identifier"
-            }]
+            }],
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "foo",
             options: [{ name: "foo" }],
-            globals: { foo: false },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "foo" },
                 type: "Identifier"
-            }]
+            }],
+            languageOptions: {
+                globals: { foo: false }
+            }
         },
         {
             code: "foo()",
@@ -211,32 +220,36 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "function fn() { foo; }",
             options: [{ name: "foo", message: customMessage }],
-            globals: { foo: false },
             errors: [{
                 messageId: "customMessage",
                 data: { name: "foo", customMessage },
                 type: "Identifier"
-            }]
+            }],
+            languageOptions: {
+                globals: { foo: false }
+            }
         },
         {
             code: "event",
             options: ["foo", { name: "event", message: "Use local event parameter." }],
-            env: { browser: true },
             errors: [{
                 messageId: "customMessage",
                 data: { name: "event", customMessage: "Use local event parameter." },
                 type: "Identifier"
-            }]
+            }],
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "foo",
             options: [{ name: "foo", message: customMessage }],
-            globals: { foo: false },
             errors: [{
                 messageId: "customMessage",
                 data: { name: "foo", customMessage },
                 type: "Identifier"
-            }]
+            }],
+            languageOptions: {
+                globals: { foo: false }
+            }
         },
         {
             code: "foo()",
@@ -259,12 +272,12 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "var foo = obj => hasOwnProperty(obj, 'name');",
             options: ["hasOwnProperty"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "hasOwnProperty" },
                 type: "Identifier"
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }
     ]
 });

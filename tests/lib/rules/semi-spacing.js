@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/semi-spacing"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -62,18 +62,18 @@ ruleTester.run("semi-spacing", rule, {
         // Class fields
         {
             code: "class C { foo; bar; method() {} }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // Empty are ignored (`no-extra-semi` rule will remove those)
         "foo; ;;;;;;;;;",
         {
             code: "class C { foo; ;;;;;;;;;; }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -280,52 +280,51 @@ ruleTester.run("semi-spacing", rule, {
             code: "import Foo from 'bar' ;",
             output: "import Foo from 'bar';",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "unexpectedWhitespaceBefore", type: "ImportDeclaration", line: 1, column: 22 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import * as foo from 'bar' ;",
             output: "import * as foo from 'bar';",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "unexpectedWhitespaceBefore", type: "ImportDeclaration", line: 1, column: 27 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "var foo = 0; export {foo} ;",
             output: "var foo = 0; export {foo};",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "unexpectedWhitespaceBefore", type: "ExportNamedDeclaration", line: 1, column: 26 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export * from 'foo' ;",
             output: "export * from 'foo';",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "unexpectedWhitespaceBefore", type: "ExportAllDeclaration", line: 1, column: 20 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default foo ;",
             output: "export default foo;",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "unexpectedWhitespaceBefore", type: "ExportDefaultDeclaration", line: 1, column: 19 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "while(foo) {continue   ;}",
             output: "while(foo) {continue;}",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedWhitespaceBefore",
@@ -335,13 +334,13 @@ ruleTester.run("semi-spacing", rule, {
                     endLine: 1,
                     endColumn: 24
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "if(foo) {throw new Error()   ;  }",
             output: "if(foo) {throw new Error();  }",
             options: [{ before: false, after: false }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedWhitespaceBefore",
@@ -351,13 +350,13 @@ ruleTester.run("semi-spacing", rule, {
                     endLine: 1,
                     endColumn: 30
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "for(a ; ; );",
             output: "for(a;; );",
             options: [{ before: false, after: false }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 type: "ForStatement",
                 messageId: "unexpectedWhitespaceBefore",
@@ -373,13 +372,13 @@ ruleTester.run("semi-spacing", rule, {
                 column: 8,
                 endLine: 1,
                 endColumn: 9
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "for(a ; \n ; );",
             output: "for(a; \n ; );",
             options: [{ before: false, after: false }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 type: "ForStatement",
                 messageId: "unexpectedWhitespaceBefore",
@@ -388,7 +387,8 @@ ruleTester.run("semi-spacing", rule, {
                 endLine: 1,
                 endColumn: 7
             }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "do {} while (true) ;",
@@ -440,7 +440,6 @@ ruleTester.run("semi-spacing", rule, {
         {
             code: "class C { foo ;bar;}",
             output: "class C { foo; bar;}",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "unexpectedWhitespaceBefore",
@@ -458,13 +457,13 @@ ruleTester.run("semi-spacing", rule, {
                     endLine: 1,
                     endColumn: 16
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo; bar ; }",
             output: "class C { foo ;bar ; }",
             options: [{ before: true, after: false }],
-            parserOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "missingWhitespaceBefore",
@@ -482,12 +481,12 @@ ruleTester.run("semi-spacing", rule, {
                     endLine: 1,
                     endColumn: 16
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo;static {}}",
             output: "class C { foo; static {}}",
-            parserOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingWhitespaceAfter",
                 type: "PropertyDefinition",
@@ -495,7 +494,8 @@ ruleTester.run("semi-spacing", rule, {
                 column: 14,
                 endLine: 1,
                 endColumn: 15
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2022 }
         }
     ]
 });

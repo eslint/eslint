@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-backreference");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2018, sourceType: "script" } });
 
 ruleTester.run("no-useless-backreference", rule, {
     valid: [
@@ -42,7 +42,9 @@ ruleTester.run("no-useless-backreference", rule, {
         String.raw`/* globals RegExp:off */ new RegExp('\\1(a)');`,
         {
             code: String.raw`RegExp('\\1(a)');`,
-            globals: { RegExp: "off" }
+            languageOptions: {
+                globals: { RegExp: "off" }
+            }
         },
 
         // no capturing groups

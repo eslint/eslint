@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-irregular-whitespace"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -142,56 +142,56 @@ ruleTester.run("no-irregular-whitespace", rule, {
         { code: "/\u202F/", options: [{ skipRegExps: true }] },
         { code: "/\u205f/", options: [{ skipRegExps: true }] },
         { code: "/\u3000/", options: [{ skipRegExps: true }] },
-        { code: "`\u000B`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u000C`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u0085`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u00A0`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u180E`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\ufeff`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u2000`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u2001`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u2002`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u2003`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u2004`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u2005`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u2006`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u2007`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u2008`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u2009`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u200A`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u200B`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u202F`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u205f`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "`\u3000`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`\u000B`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u000C`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u0085`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u00A0`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u180E`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\ufeff`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u2000`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u2001`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u2002`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u2003`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u2004`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u2005`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u2006`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u2007`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u2008`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u2009`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u200A`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u200B`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u202F`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u205f`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "`\u3000`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
 
-        { code: "`\u3000${foo}\u3000`", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "const error = ` \u3000 `;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "const error = `\n\u3000`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "const error = `\u3000\n`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "const error = `\n\u3000\n`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "const error = `foo\u3000bar\nfoo\u3000bar`;", options: [{ skipTemplates: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "`\u3000${foo}\u3000`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "const error = ` \u3000 `;", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "const error = `\n\u3000`;", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "const error = `\u3000\n`;", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "const error = `\n\u3000\n`;", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "const error = `foo\u3000bar\nfoo\u3000bar`;", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
 
-        { code: "<div>\u000B</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u000C</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u0085</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u00A0</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u180E</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\ufeff</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u2000</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u2001</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u2002</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u2003</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u2004</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u2005</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u2006</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u2007</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u2008</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u2009</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u200A</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u200B</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u202F</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u205f</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div>\u3000</div>;", options: [{ skipJSXText: true }], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div>\u000B</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u000C</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u0085</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u00A0</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u180E</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\ufeff</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u2000</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u2001</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u2002</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u2003</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u2004</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u2005</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u2006</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u2007</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u2008</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u2009</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u200A</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u200B</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u202F</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u205f</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div>\u3000</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         // Unicode BOM.
         "\uFEFFconsole.log('hello BOM');"
@@ -541,7 +541,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
         {
             code: "var any = `\u3000`, other = `\u000B`;",
             options: [{ skipTemplates: false }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -555,12 +554,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 25
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "`something ${\u3000 10} another thing`",
             options: [{ skipTemplates: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -568,12 +567,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 14
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "`something ${10\u3000} another thing`",
             options: [{ skipTemplates: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -581,12 +580,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 16
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "\u3000\n`\u3000template`",
             options: [{ skipTemplates: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -594,12 +593,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 1
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "\u3000\n`\u3000multiline\ntemplate`",
             options: [{ skipTemplates: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -607,12 +606,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 1
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "\u3000`\u3000template`",
             options: [{ skipTemplates: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -620,12 +619,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 1
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "\u3000`\u3000multiline\ntemplate`",
             options: [{ skipTemplates: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -633,12 +632,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 1
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "`\u3000template`\u3000",
             options: [{ skipTemplates: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -646,12 +645,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 12
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "`\u3000multiline\ntemplate`\u3000",
             options: [{ skipTemplates: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -659,12 +658,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 2,
                     column: 10
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "`\u3000template`\n\u3000",
             options: [{ skipTemplates: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -672,12 +671,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 2,
                     column: 1
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "`\u3000multiline\ntemplate`\n\u3000",
             options: [{ skipTemplates: true }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -685,7 +684,8 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 3,
                     column: 1
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // full location tests
@@ -1018,11 +1018,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
         },
         {
             code: "<div>\u000B</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1030,15 +1025,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u000C</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1046,15 +1043,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u0085</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1062,15 +1061,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u00A0</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1078,15 +1079,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u180E</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1094,15 +1097,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\ufeff</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1110,15 +1115,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u2000</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1126,15 +1133,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u2001</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1142,15 +1151,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u2002</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1158,15 +1169,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u2003</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1174,15 +1187,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u2004</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1190,15 +1205,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u2005</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1206,15 +1223,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u2006</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1222,15 +1241,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u2007</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1238,15 +1259,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u2008</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1254,15 +1277,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u2009</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1270,15 +1295,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u200A</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1286,15 +1313,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u200B</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1302,15 +1331,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u202F</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1318,15 +1349,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u205f</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1334,15 +1367,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         },
         {
             code: "<div>\u3000</div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1350,7 +1385,14 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ]
+            ],
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
         }
     ]
 });

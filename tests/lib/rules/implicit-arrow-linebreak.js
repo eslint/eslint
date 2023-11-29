@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/implicit-arrow-linebreak");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 const { unIndent } = require("../../_utils");
 
 const EXPECTED_LINEBREAK = { messageId: "expected" };
@@ -19,7 +19,7 @@ const UNEXPECTED_LINEBREAK = { messageId: "unexpected" };
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("implicit-arrow-linebreak", rule, {
 
@@ -100,14 +100,14 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
             code: `
             async foo => () => bar;
             `,
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: `
             // comment
             async foo => 'string'
             `,
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
 
         // 'below' option
@@ -399,8 +399,8 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     'string'
             `,
             output: null,
-            parserOptions: { ecmaVersion: 8 },
-            errors: [UNEXPECTED_LINEBREAK]
+            errors: [UNEXPECTED_LINEBREAK],
+            languageOptions: { ecmaVersion: 8 }
         }, {
             code: unIndent`
                 async foo =>
@@ -409,8 +409,8 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     bar;
             `,
             output: null,
-            parserOptions: { ecmaVersion: 8 },
-            errors: [UNEXPECTED_LINEBREAK]
+            errors: [UNEXPECTED_LINEBREAK],
+            languageOptions: { ecmaVersion: 8 }
         }, {
             code: unIndent`
                 async (foo) =>
@@ -418,8 +418,8 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     'string'
             `,
             output: null,
-            parserOptions: { ecmaVersion: 8 },
-            errors: [UNEXPECTED_LINEBREAK]
+            errors: [UNEXPECTED_LINEBREAK],
+            languageOptions: { ecmaVersion: 8 }
         }, {
             code: unIndent`
                 const foo = 1,

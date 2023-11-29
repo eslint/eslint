@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-mixed-operators"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -383,7 +383,6 @@ ruleTester.run("no-mixed-operators", rule, {
         {
             code: "a + b ?? c",
             options: [{ groups: [["+", "??"]] }],
-            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     column: 3,
@@ -403,7 +402,8 @@ ruleTester.run("no-mixed-operators", rule, {
                         rightOperator: "??"
                     }
                 }
-            ]
+            ],
+            languageOptions: { ecmaVersion: 2020 }
         }
     ]
 });

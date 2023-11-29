@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/prefer-named-capture-group"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2018 } });
 
 ruleTester.run("prefer-named-capture-group", rule, {
     valid: [
@@ -37,30 +37,30 @@ ruleTester.run("prefer-named-capture-group", rule, {
         "new globalThis.RegExp('([0-9]{4})')",
         {
             code: "new globalThis.RegExp('([0-9]{4})')",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "new globalThis.RegExp('([0-9]{4})')",
-            env: { es2017: true }
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "new globalThis.RegExp()",
-            env: { es2020: true }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "new globalThis.RegExp(foo)",
-            env: { es2020: true }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "globalThis.RegExp(foo)",
-            env: { es2020: true }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: `
                 var globalThis = bar;
                 globalThis.RegExp(foo);
                 `,
-            env: { es2020: true }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: `
@@ -69,7 +69,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
                     new globalThis.RegExp(baz);
                 }
                 `,
-            env: { es2020: true }
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // ES2024
@@ -529,7 +529,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
         },
         {
             code: "new globalThis.RegExp('([0-9]{4})')",
-            env: { es2020: true },
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
@@ -547,11 +546,11 @@ ruleTester.run("prefer-named-capture-group", rule, {
                         output: "new globalThis.RegExp('(?:[0-9]{4})')"
                     }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "globalThis.RegExp('([0-9]{4})')",
-            env: { es2020: true },
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
@@ -569,14 +568,14 @@ ruleTester.run("prefer-named-capture-group", rule, {
                         output: "globalThis.RegExp('(?:[0-9]{4})')"
                     }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: `
                 function foo() { var globalThis = bar; }
                 new globalThis.RegExp('([0-9]{4})');
             `,
-            env: { es2020: true },
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
@@ -600,7 +599,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
             `
                     }
                 ]
-            }]
+            }],
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // ES2024

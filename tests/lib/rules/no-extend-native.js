@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extend-native"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-extend-native", rule, {
     valid: [
@@ -47,7 +52,7 @@ ruleTester.run("no-extend-native", rule, {
         "function foo() { var Object = function() {}; Object.prototype.p = 0 }",
         {
             code: "{ let Object = function() {}; Object.prototype.p = 0 }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [{
@@ -59,36 +64,36 @@ ruleTester.run("no-extend-native", rule, {
         }]
     }, {
         code: "BigInt.prototype.p = 0",
-        env: { es2020: true },
         errors: [{
             messageId: "unexpected",
             data: { builtin: "BigInt" },
             type: "AssignmentExpression"
-        }]
+        }],
+        languageOptions: { ecmaVersion: 2020 }
     }, {
         code: "WeakRef.prototype.p = 0",
-        env: { es2021: true },
         errors: [{
             messageId: "unexpected",
             data: { builtin: "WeakRef" },
             type: "AssignmentExpression"
-        }]
+        }],
+        languageOptions: { ecmaVersion: 2021 }
     }, {
         code: "FinalizationRegistry.prototype.p = 0",
-        env: { es2021: true },
         errors: [{
             messageId: "unexpected",
             data: { builtin: "FinalizationRegistry" },
             type: "AssignmentExpression"
-        }]
+        }],
+        languageOptions: { ecmaVersion: 2021 }
     }, {
         code: "AggregateError.prototype.p = 0",
-        env: { es2021: true },
         errors: [{
             messageId: "unexpected",
             data: { builtin: "AggregateError" },
             type: "AssignmentExpression"
-        }]
+        }],
+        languageOptions: { ecmaVersion: 2021 }
     }, {
         code: "Function.prototype['p'] = 0",
         errors: [{
@@ -167,40 +172,40 @@ ruleTester.run("no-extend-native", rule, {
     // Optional chaining
     {
         code: "(Object?.prototype).p = 0",
-        parserOptions: { ecmaVersion: 2020 },
-        errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
+        errors: [{ messageId: "unexpected", data: { builtin: "Object" } }],
+        languageOptions: { ecmaVersion: 2020 }
     },
     {
         code: "Object.defineProperty(Object?.prototype, 'p', { value: 0 })",
-        parserOptions: { ecmaVersion: 2020 },
-        errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
+        errors: [{ messageId: "unexpected", data: { builtin: "Object" } }],
+        languageOptions: { ecmaVersion: 2020 }
     },
     {
         code: "Object?.defineProperty(Object.prototype, 'p', { value: 0 })",
-        parserOptions: { ecmaVersion: 2020 },
-        errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
+        errors: [{ messageId: "unexpected", data: { builtin: "Object" } }],
+        languageOptions: { ecmaVersion: 2020 }
     },
     {
         code: "(Object?.defineProperty)(Object.prototype, 'p', { value: 0 })",
-        parserOptions: { ecmaVersion: 2020 },
-        errors: [{ messageId: "unexpected", data: { builtin: "Object" } }]
+        errors: [{ messageId: "unexpected", data: { builtin: "Object" } }],
+        languageOptions: { ecmaVersion: 2020 }
     },
 
     // Logical assignments
     {
         code: "Array.prototype.p &&= 0",
-        parserOptions: { ecmaVersion: 2021 },
-        errors: [{ messageId: "unexpected", data: { builtin: "Array" } }]
+        errors: [{ messageId: "unexpected", data: { builtin: "Array" } }],
+        languageOptions: { ecmaVersion: 2021 }
     },
     {
         code: "Array.prototype.p ||= 0",
-        parserOptions: { ecmaVersion: 2021 },
-        errors: [{ messageId: "unexpected", data: { builtin: "Array" } }]
+        errors: [{ messageId: "unexpected", data: { builtin: "Array" } }],
+        languageOptions: { ecmaVersion: 2021 }
     },
     {
         code: "Array.prototype.p ??= 0",
-        parserOptions: { ecmaVersion: 2021 },
-        errors: [{ messageId: "unexpected", data: { builtin: "Array" } }]
+        errors: [{ messageId: "unexpected", data: { builtin: "Array" } }],
+        languageOptions: { ecmaVersion: 2021 }
     }
 
     ]
