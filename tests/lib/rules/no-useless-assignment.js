@@ -571,34 +571,6 @@ ruleTester.run("no-useless-assignment", rule, {
                 }
             ]
         },
-        {
-            code: `
-            var x = 1; // used
-            x = x + 1; // unused
-            x = 5; // used
-            f(x);`,
-            errors: [
-                {
-                    messageId: "unnecessaryAssignment",
-                    line: 3,
-                    column: 13
-                }
-            ]
-        },
-        {
-            code: `
-            var x = 1; // used
-            x = // used
-                x++; // unused
-            f(x);`,
-            errors: [
-                {
-                    messageId: "unnecessaryAssignment",
-                    line: 4,
-                    column: 17
-                }
-            ]
-        },
 
         // Update
         {
@@ -913,6 +885,36 @@ ruleTester.run("no-useless-assignment", rule, {
                     messageId: "unnecessaryAssignment",
                     line: 1,
                     column: 5
+                }
+            ]
+        },
+
+        // An assignment within an assignment.
+        {
+            code: `
+            var x = 1; // used
+            x = x + 1; // unused
+            x = 5; // used
+            f(x);`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 3,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: `
+            var x = 1; // used
+            x = // used
+                x++; // unused
+            f(x);`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 17
                 }
             ]
         }
