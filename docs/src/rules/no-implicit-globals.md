@@ -264,6 +264,7 @@ Examples of **correct** code for `/* exported variableName */` operation:
 ::: correct { "sourceType": "script" }
 
 ```js
+/* eslint no-implicit-globals: error */
 /* exported global_var */
 
 var global_var = 42;
