@@ -24,6 +24,14 @@ For example,
 * you should have used a stored value but forgot to do so.
 * you made a mistake in the name of the variable to be stored.
 
+```js
+let id = "x1234";    // this is a "dead store" - this value ("x1234") is never read
+
+id = generateId();
+
+doSomethingWith(id);
+```
+
 ## Rule Details
 
 This rule aims to report variable assignments when the value is not used.
