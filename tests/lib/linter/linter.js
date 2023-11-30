@@ -9595,6 +9595,22 @@ describe("Linter with FlatConfigArray", () => {
                     assert.strictEqual(messages.length, 1);
                 });
 
+                it("should run rules that are not filtered out but not run rules that are filtered out", () => {
+                    const code = [
+                        "alert(\"test\");",
+                        "fakeVar.run();"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, "no-undef": 1 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ ruleId }) => ruleId === "no-alert"
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+
                 it("should filter rules by severity", () => {
                     const code = [
                         "alert(\"test\")"
