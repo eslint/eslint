@@ -63,7 +63,7 @@ describe("cli", () => {
 
         const localCLI = proxyquire("../../lib/cli", {
             "./eslint": { ESLint: fakeESLint },
-            "./flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+            "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(configType === "flat") },
             "./shared/logging": log
         });
 
@@ -989,7 +989,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1008,7 +1008,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1039,7 +1039,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1075,7 +1075,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1112,7 +1112,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1130,12 +1130,12 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
 
-                const exitCode = await localCLI.execute("--fix .", "foo = bar;", null, useFlatConfig);
+                const exitCode = await localCLI.execute("--fix .", "foo = bar;", useFlatConfig);
 
                 assert.strictEqual(exitCode, 2);
             });
@@ -1161,7 +1161,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1189,7 +1189,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1224,7 +1224,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1261,7 +1261,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1297,7 +1297,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1314,7 +1314,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });

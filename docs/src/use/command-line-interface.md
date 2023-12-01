@@ -279,7 +279,7 @@ This option specifies the rules to be used.
 
 These rules are merged with any rules specified with configuration files. If the rule is defined in a plugin, you have to prefix the rule ID with the plugin name and a `/`.
 
-To ignore rules in `.eslintrc` configuration files and only run rules specified in the command line, use the `--rules` flag in combination with the [`--no-eslintrc`](#--no-eslintrc) flag.
+To ignore rules in `.eslintrc` configuration files and only run rules specified in the command line, use the `--rule` flag in combination with the [`--no-eslintrc`](#--no-eslintrc) flag.
 
 ##### `--rule` example
 

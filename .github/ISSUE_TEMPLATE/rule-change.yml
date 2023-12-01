@@ -15,7 +15,7 @@ body:
     required: true
 - type: dropdown
   attributes:
-    label: What change to do you want to make?
+    label: What change do you want to make?
     options:
       - Generate more warnings
       - Generate fewer warnings
