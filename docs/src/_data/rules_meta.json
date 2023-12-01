@@ -758,7 +758,8 @@
             "description": "Disallow `Array` constructors",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-array-constructor"
-        }
+        },
+        "hasSuggestions": true
     },
     "no-async-promise-executor": {
         "type": "problem",
@@ -865,7 +866,8 @@
             "description": "Disallow the use of `console`",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-console"
-        }
+        },
+        "hasSuggestions": true
     },
     "no-const-assign": {
         "type": "problem",

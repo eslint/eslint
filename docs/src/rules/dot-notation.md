@@ -84,22 +84,27 @@ class C {
 
 For example, when preparing data to be sent to an external API, it is often required to use property names that include underscores.  If the `camelcase` rule is in effect, these [snake case](https://en.wikipedia.org/wiki/Snake_case) properties would not be allowed.  By providing an `allowPattern` to the `dot-notation` rule, these snake case properties can be accessed with bracket notation.
 
-Examples of **correct** code for the sample `{ "allowPattern": "^[a-z]+(_[a-z]+)+$" }` option:
+Examples of **incorrect** code for the sample `{ "allowPattern": "^[a-z]+(_[a-z]+)+$" }` (pattern to find snake case named properties) option:
+
+:::incorrect
+
+```js
+/*eslint dot-notation: ["error", { "allowPattern": "^[a-z]+(_[a-z]+)+$" }]*/
+
+var data = {};
+data["fooBar"] = 42;
+```
+
+:::
+Examples of **correct** code for the sample `{ "allowPattern": "^[a-z]+(_[a-z]+)+$" }` (pattern to find snake case named properties) option:
 
 :::correct
 
 ```js
-/*eslint camelcase: "error"*/
 /*eslint dot-notation: ["error", { "allowPattern": "^[a-z]+(_[a-z]+)+$" }]*/
 
 var data = {};
-data.foo_bar = 42;
-
-var data = {};
-data["fooBar"] = 42;
-
-var data = {};
-data["foo_bar"] = 42; // no warning
+data["foo_bar"] = 42;
 ```
 
 :::
