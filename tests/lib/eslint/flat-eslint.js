@@ -3875,7 +3875,7 @@ describe("FlatESLint", () => {
 
                     eslint = new FlatESLint({
                         cwd: teardown.getPath(),
-                        configOptions: {
+                        overrideConfig: {
                             reportUnusedDisableDirectives: "off"
                         }
                     });
@@ -3900,7 +3900,7 @@ describe("FlatESLint", () => {
 
                     eslint = new FlatESLint({
                         cwd: teardown.getPath(),
-                        configOptions: {
+                        overrideConfig: {
                             reportUnusedDisableDirectives: "error"
                         }
                     });

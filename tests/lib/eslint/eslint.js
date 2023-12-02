@@ -211,7 +211,6 @@ describe("ESLint", () => {
                     overrideConfig: "",
                     overrideConfigFile: "",
                     plugins: "",
-                    reportUnusedDisableDirectives: "",
                     resolvePluginsRelativeTo: "",
                     rulePaths: "",
                     useEslintrc: ""
@@ -233,7 +232,6 @@ describe("ESLint", () => {
                     "- 'overrideConfig' must be an object or null.",
                     "- 'overrideConfigFile' must be a non-empty string or null.",
                     "- 'plugins' must be an object or null.",
-                    "- 'reportUnusedDisableDirectives' must be any of \"error\", \"warn\", \"off\", 2, 1, 0, and null.",
                     "- 'resolvePluginsRelativeTo' must be a non-empty string or null.",
                     "- 'rulePaths' must be an array of non-empty strings.",
                     "- 'useEslintrc' must be a boolean."
