@@ -1382,7 +1382,7 @@ describe("cli", () => {
 
     describe("--report-unused-disable-directives", () => {
         it("errors when --report-unused-disable-directives", async () => {
-            const exitCode = await cli.execute("--no-config-lookup --report-unused-disable-directives-severity error --rule \"'no-console': 'error'\"",
+            const exitCode = await cli.execute("--no-config-lookup --report-unused-disable-directives --rule \"'no-console': 'error'\"",
                 "foo(); // eslint-disable-line no-console",
                 true);
 
@@ -1429,8 +1429,30 @@ describe("cli", () => {
             assert.strictEqual(exitCode, 0, "exit code should be 0");
         });
 
+        it("warns when --report-unused-disable-directives-severity 1", async () => {
+            const exitCode = await cli.execute("--no-config-lookup --report-unused-disable-directives-severity 1 --rule \"'no-console': 'error'\"",
+                "foo(); // eslint-disable-line no-console",
+                true);
+
+            assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+            assert.strictEqual(log.info.callCount, 1, "log.info is called once");
+            assert.ok(log.info.firstCall.args[0].includes("Unused eslint-disable directive (no problems were reported from 'no-console')"), "has correct message about unused directives");
+            assert.ok(log.info.firstCall.args[0].includes("0 errors and 1 warning"), "has correct error and warning count");
+            assert.strictEqual(exitCode, 0, "exit code should be 0");
+        });
+
         it("does not report when --report-unused-disable-directives-severity off", async () => {
             const exitCode = await cli.execute("--no-config-lookup --report-unused-disable-directives-severity off --rule \"'no-console': 'error'\"",
+                "foo(); // eslint-disable-line no-console",
+                true);
+
+            assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+            assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+            assert.strictEqual(exitCode, 0, "exit code should be 0");
+        });
+
+        it("does not report when --report-unused-disable-directives-severity 0", async () => {
+            const exitCode = await cli.execute("--no-config-lookup --report-unused-disable-directives-severity 0 --rule \"'no-console': 'error'\"",
                 "foo(); // eslint-disable-line no-console",
                 true);
 
