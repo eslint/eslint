@@ -118,6 +118,17 @@ Pattern matches can restrict specific import names only, similar to the `paths` 
 }]
 ```
 
+Regex patterns can also be used to restrict specific import Name:
+
+```json
+"no-restricted-imports": ["error", {
+    "patterns": [{
+      "group": ["import-foo/*"],
+      "importNamePattern": "^foo",
+    }]
+}]
+```
+
 To restrict the use of all Node.js core imports (via <https://github.com/nodejs/node/tree/master/lib>):
 
 ```json
@@ -130,7 +141,7 @@ To restrict the use of all Node.js core imports (via <https://github.com/nodejs/
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -140,7 +151,7 @@ import fs from 'fs';
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -150,7 +161,7 @@ export { fs } from 'fs';
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -160,7 +171,7 @@ export * from 'fs';
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["cluster"] }]*/
@@ -170,7 +181,7 @@ import cluster from 'cluster';
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { "patterns": ["lodash/*"] }]*/
@@ -180,7 +191,7 @@ import pick from 'lodash/pick';
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -194,7 +205,7 @@ import DisallowedObject from "foo";
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -207,12 +218,12 @@ import { DisallowedObject } from "foo";
 
 import { DisallowedObject as AllowedObject } from "foo";
 
-import { "DisallowedObject" as AllowedObject } from "foo";
+import { "DisallowedObject" as SomeObject } from "foo";
 ```
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -226,7 +237,7 @@ import * as Foo from "foo";
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -239,7 +250,7 @@ import pick from 'lodash/pick';
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -252,7 +263,7 @@ import pick from 'fooBar';
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -266,9 +277,51 @@ import { isEmpty } from 'utils/collection-utils';
 
 :::
 
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNamePattern: '^is',
+    message: "Use 'is*' functions from lodash instead."
+}]}]*/
+
+import { isEmpty } from 'utils/collection-utils';
+```
+
+:::
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["foo/*"],
+    importNamePattern: '^(is|has)',
+    message: "Use 'is*' and 'has*' functions from baz/bar instead"
+}]}]*/
+
+import { isSomething, hasSomething } from 'foo/bar';
+```
+
+:::
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["foo/*"],
+    importNames: ["bar"],
+    importNamePattern: '^baz',
+}]}]*/
+
+import { bar, bazQux } from 'foo/quux';
+```
+
+:::
+
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -279,7 +332,7 @@ export { foo } from "bar";
 
 :::
 
-::: correct
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["fs"], "patterns": ["eslint/*"] }]*/
@@ -291,7 +344,7 @@ export * from "path";
 
 :::
 
-::: correct
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]*/
@@ -301,7 +354,7 @@ import DisallowedObject from "foo"
 
 :::
 
-::: correct
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -315,7 +368,7 @@ import { AllowedObject as DisallowedObject } from "foo";
 
 :::
 
-::: correct
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -328,7 +381,7 @@ import lodash from 'lodash';
 
 :::
 
-::: correct
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -341,7 +394,7 @@ import pick from 'food';
 
 :::
 
-::: correct
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -351,6 +404,20 @@ import pick from 'food';
 }]}]*/
 
 import { hasValues } from 'utils/collection-utils';
+```
+
+:::
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNamePattern: '^is',
+    message: "Use 'is*' functions from lodash instead."
+}]}]*/
+
+import isEmpty, { hasValue } from 'utils/collection-utils';
 ```
 
 :::

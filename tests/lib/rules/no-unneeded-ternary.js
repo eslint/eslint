@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-unneeded-ternary"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester"),
+    parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -426,6 +427,29 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 column: 9,
                 endLine: 1,
                 endColumn: 27
+            }]
+        },
+
+        // https://github.com/eslint/eslint/issues/17173
+        {
+            code: "foo as any ? false : true",
+            output: "!(foo as any)",
+            parser: parser("typescript-parsers/unneeded-ternary-1"),
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnecessaryConditionalExpression",
+                type: "ConditionalExpression"
+            }]
+        },
+        {
+            code: "foo ? foo : bar as any",
+            output: "foo || (bar as any)",
+            options: [{ defaultAssignment: false }],
+            parser: parser("typescript-parsers/unneeded-ternary-2"),
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnecessaryConditionalAssignment",
+                type: "ConditionalExpression"
             }]
         }
     ]

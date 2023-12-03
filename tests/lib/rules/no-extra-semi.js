@@ -190,6 +190,43 @@ ruleTester.run("no-extra-semi", rule, {
             output: "class A { static { a; } foo(){} }",
             parserOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected", type: "Punctuator", column: 24 }]
+        },
+
+        // https://github.com/eslint/eslint/issues/16988
+        {
+            code: "; 'use strict'",
+            output: null,
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
+        },
+        {
+            code: "; ; 'use strict'",
+            output: " ; 'use strict'",
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }, { messageId: "unexpected", type: "EmptyStatement" }]
+        },
+        {
+            code: "debugger;\n;\n'use strict'",
+            output: null,
+            errors: [{ messageId: "unexpected", type: "EmptyStatement", line: 2 }]
+        },
+        {
+            code: "function foo() { ; 'bar'; }",
+            output: null,
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
+        },
+        {
+            code: "{ ; 'foo'; }",
+            output: "{  'foo'; }",
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
+        },
+        {
+            code: "; ('use strict');",
+            output: " ('use strict');",
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
+        },
+        {
+            code: "; 1;",
+            output: " 1;",
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
         }
     ]
 });

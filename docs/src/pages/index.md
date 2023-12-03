@@ -12,7 +12,11 @@ as well as guides for migrating from earlier versions of ESLint.
 
 ## [Extend ESLint](extend/)
 
-Intended for people who wish to extend ESLint. Contains information about creating custom rules, configurations, plugins, and formatters; and information about our Node.js API.
+Intended for people who wish to extend ESLint. Contains information about creating custom rules, configurations, plugins, and formatters.
+
+## [Integrate ESLint](integrate/)
+
+Intended for people who wish to create integrations with ESLint. Contains information about creating integrations and using the Node.js API.
 
 ## [Contribute to ESLint](contribute/)
 

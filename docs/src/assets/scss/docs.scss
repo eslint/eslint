@@ -112,6 +112,11 @@ div.incorrect {
         offset-inline-end: -22px;
         offset-block-start: -22px;
     }
+
+    // Add space to the bottom if there is a Playground button.
+    .c-btn.c-btn--playground ~ pre.line-numbers-mode {
+        padding-bottom: 4.5rem;
+    }
 }
 
 div.correct {
@@ -142,13 +147,12 @@ pre[class*="language-"] {
 .c-btn.c-btn--playground {
     position: absolute;
     font-size: var(--step--1);
-    bottom: 0.5rem;
-    right: 0.5rem;
-    offset-block-end: 0.5rem;
-    offset-inline-end: 0.5rem;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 1;
 
-    @media all and (max-width: 768px) {
-        display: none;
+    @media all and (min-width: 768px) {
+        bottom: 1.5rem;
     }
 }
 
@@ -163,8 +167,9 @@ pre[class*="language-"] {
     height: 50px;
     display: none;
     position: fixed;
-    right: 50px;
+    right: 19.8vw;
     bottom: 35px;
+    z-index: 1;
     font-size: 1.5rem;
     border-radius: 50%;
     color: var(--body-background-color);
@@ -173,7 +178,35 @@ pre[class*="language-"] {
     align-items: center;
     background-color: var(--link-color);
 
-    @media (max-width: 800px) {
+    @media (max-width: 1299px) {
+        right: 18.99vw;
+    }
+
+    @media (max-width: 1100px) {
+        right: 19.4vw;
+    }
+
+    @media (max-width: 1060px) {
+        right: 19.9vw;
+    }
+
+    @media (max-width: 1024px) {
+        right: 22vw;
+    }
+
+    @media (max-width: 860px) {
+        right: 22.2vw;
+    }
+
+    @media (max-width: 850px) {
+        right: 22.6vw;
+    }
+
+    @media (max-width: 820px) {
+        right: 23.4vw;
+    }
+
+    @media (max-width: 799px) {
         right: 35px;
     }
 

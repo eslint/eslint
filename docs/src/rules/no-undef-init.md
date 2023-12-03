@@ -87,6 +87,8 @@ Example of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
+/*eslint no-undef-init: "error"*/
+
 for (i = 0; i < 10; i++) {
     var x = undefined;
     console.log(x);

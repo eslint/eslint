@@ -33,7 +33,10 @@ ruleTester.run("no-control-regex", rule, {
         String.raw`new RegExp("\\u{20}", "u")`,
         String.raw`new RegExp("\\u{1F}")`,
         String.raw`new RegExp("\\u{1F}", "g")`,
-        String.raw`new RegExp("\\u{1F}", flags)` // when flags are unknown, this rule assumes there's no `u` flag
+        String.raw`new RegExp("\\u{1F}", flags)`, // when flags are unknown, this rule assumes there's no `u` flag
+        String.raw`new RegExp("[\\q{\\u{20}}]", "v")`,
+        { code: String.raw`/[\u{20}--B]/v`, parserOptions: { ecmaVersion: 2024 } }
+
     ],
     invalid: [
         { code: String.raw`var regex = /\x1f/`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] },
@@ -85,6 +88,20 @@ ruleTester.run("no-control-regex", rule, {
         {
             code: String.raw`new RegExp("\\u{1F}", "gui")`,
             errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        },
+        {
+            code: String.raw`new RegExp("[\\q{\\u{1F}}]", "v")`,
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        },
+        {
+            code: String.raw`/[\u{1F}--B]/v`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        },
+        {
+            code: String.raw`/\x11/; RegExp("foo", "uv");`,
+            parserOptions: { ecmaVersion: 2024 },
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x11" }, type: "Literal", column: 1 }]
         }
     ]
 });

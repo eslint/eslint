@@ -111,7 +111,53 @@ ruleTester.run("no-loop-func", rule, {
                 "let a;"
             ].join("\n"),
             parserOptions: { ecmaVersion: 6 }
+        },
+
+        /*
+         * These loops _look_ like they might be unsafe, but because i is undeclared, they're fine
+         * at least as far as this rule is concerned - the loop doesn't declare/generate the variable.
+         */
+        "while(i) { (function() { i; }) }",
+        "do { (function() { i; }) } while (i)",
+
+        /**
+         * These loops _look_ like they might be unsafe, but because i is declared outside the loop
+         * and is not updated in or after the loop, they're fine as far as this rule is concerned.
+         * The variable that's captured is just the one variable shared by all the loops, but that's
+         * explicitly expected in these cases.
+         */
+        "var i; while(i) { (function() { i; }) }",
+        "var i; do { (function() { i; }) } while (i)",
+
+        /**
+         * These loops use an undeclared variable, and so shouldn't be flagged by this rule,
+         * they'll be picked up by no-undef.
+         */
+        {
+            code: "for (var i=0; i<l; i++) { (function() { undeclared; }) }",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "for (let i=0; i<l; i++) { (function() { undeclared; }) }",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "for (var i in {}) { i = 7; (function() { undeclared; }) }",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "for (let i in {}) { i = 7; (function() { undeclared; }) }",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "for (const i of {}) { (function() { undeclared; }) }",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "for (let i = 0; i < 10; ++i) { for (let x in xs.filter(x => x != undeclared)) {  } }",
+            parserOptions: { ecmaVersion: 6 }
         }
+
     ],
     invalid: [
         {
@@ -150,14 +196,6 @@ ruleTester.run("no-loop-func", rule, {
         },
         {
             code: "for (var i=0; i<l; (function() { i; })(), i++) { }",
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
-        },
-        {
-            code: "while(i) { (function() { i; }) }",
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
-        },
-        {
-            code: "do { (function() { i; }) } while (i)",
             errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
         },
 

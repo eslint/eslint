@@ -5,21 +5,21 @@ related_rules:
 - quotes
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/jsx-quotes) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 JSX attribute values can contain string literals, which are delimited with single or double quotes.
 
-```xml
-<a b='c' />
-<a b="c" />
+```jsx
+<a b='c' />;
+<a b="c" />;
 ```
 
 Unlike string literals in JavaScript, string literals within JSX attributes can’t contain escaped quotes.
 If you want to have e.g. a double quote within a JSX attribute value, you have to use single quotes as string delimiter.
 
-```xml
-<a b="'" />
-<a b='"' />
+```jsx
+<a b="'" />;
+<a b='"' />;
 ```
 
 ## Rule Details
@@ -37,25 +37,25 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"prefer-double"` option:
 
-:::incorrect
+:::incorrect { "ecmaFeatures": { "jsx": true } }
 
-```xml
+```jsx
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
 
-<a b='c' />
+<a b='c' />;
 ```
 
 :::
 
 Examples of **correct** code for this rule with the default `"prefer-double"` option:
 
-:::correct
+:::correct { "ecmaFeatures": { "jsx": true } }
 
-```xml
+```jsx
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
 
-<a b="c" />
-<a b='"' />
+<a b="c" />;
+<a b='"' />;
 ```
 
 :::
@@ -64,25 +64,25 @@ Examples of **correct** code for this rule with the default `"prefer-double"` op
 
 Examples of **incorrect** code for this rule with the `"prefer-single"` option:
 
-:::incorrect
+:::incorrect { "ecmaFeatures": { "jsx": true } }
 
-```xml
+```jsx
 /*eslint jsx-quotes: ["error", "prefer-single"]*/
 
-<a b="c" />
+<a b="c" />;
 ```
 
 :::
 
 Examples of **correct** code for this rule with the `"prefer-single"` option:
 
-:::correct
+:::correct { "ecmaFeatures": { "jsx": true } }
 
-```xml
+```jsx
 /*eslint jsx-quotes: ["error", "prefer-single"]*/
 
-<a b='c' />
-<a b="'" />
+<a b='c' />;
+<a b="'" />;
 ```
 
 :::

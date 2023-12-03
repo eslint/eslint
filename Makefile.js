@@ -16,7 +16,6 @@ const checker = require("npm-license"),
     glob = require("glob"),
     marked = require("marked"),
     matter = require("gray-matter"),
-    markdownlint = require("markdownlint"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
@@ -214,9 +213,11 @@ function generateRuleIndexPage() {
             };
 
             if (rule.meta.deprecated) {
-                ruleTypesData.deprecated.rules.push({
+                ruleTypesData.deprecated.push({
                     name: basename,
-                    replacedBy: rule.meta.replacedBy || []
+                    replacedBy: rule.meta.replacedBy || [],
+                    fixable: !!rule.meta.fixable,
+                    hasSuggestions: !!rule.meta.hasSuggestions
                 });
             } else {
                 const output = {
@@ -226,22 +227,18 @@ function generateRuleIndexPage() {
                         fixable: !!rule.meta.fixable,
                         hasSuggestions: !!rule.meta.hasSuggestions
                     },
-                    ruleType = ruleTypesData.types.find(c => c.name === rule.meta.type);
+                    ruleType = ruleTypesData.types[rule.meta.type];
 
-                if (!ruleType.rules) {
-                    ruleType.rules = [];
-                }
-
-                ruleType.rules.push(output);
+                ruleType.push(output);
             }
         });
 
-    // `.rules` will be `undefined` if all rules in category are deprecated.
-    ruleTypesData.types = ruleTypesData.types.filter(ruleType => !!ruleType.rules);
+    ruleTypesData.types = Object.fromEntries(
+        Object.entries(ruleTypesData.types).filter(([, value]) => value && value.length > 0)
+    );
 
     JSON.stringify(ruleTypesData, null, 4).to(docsSiteOutputFile);
     JSON.stringify(meta, null, 4).to(docsSiteMetaOutputFile);
-
 }
 
 /**
@@ -435,6 +432,7 @@ function getFirstVersionOfDeletion(filePath) {
  * @private
  */
 function lintMarkdown(files) {
+    const markdownlint = require("markdownlint");
     const config = yaml.load(fs.readFileSync(path.join(__dirname, "./.markdownlint.yml"), "utf8")),
         result = markdownlint.sync({
             files,
@@ -628,12 +626,10 @@ target.mocha = () => {
     }
 };
 
-target.karma = () => {
+target.wdio = () => {
     echo("Running unit tests on browsers");
-
     target.webpack("production");
-
-    const lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
+    const lastReturn = exec(`${getBinFile("wdio")} run wdio.conf.js`);
 
     if (lastReturn.code !== 0) {
         exit(1);
@@ -643,7 +639,9 @@ target.karma = () => {
 target.test = function() {
     target.checkRuleFiles();
     target.mocha();
-    target.karma();
+
+    // target.wdio(); // Temporarily disabled due to problems on Jenkins
+
     target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
     target.checkLicenses();
 };
@@ -830,7 +828,7 @@ target.checkRuleFiles = function() {
 
             // check deprecated
             if (ruleDef.meta.deprecated && !hasDeprecatedInfo()) {
-                console.error(`Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code or 「This rule was deprecated in ESLint ...」 in README.md.`);
+                console.error(`Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code and「This rule was deprecated in ESLint ...」 in README.md.`);
                 errors++;
             }
 
@@ -867,6 +865,17 @@ target.checkRuleFiles = function() {
         exit(1);
     }
 
+};
+
+target.checkRuleExamples = function() {
+    const { execFileSync } = require("child_process");
+
+    // We don't need the stack trace of execFileSync if the command fails.
+    try {
+        execFileSync(process.execPath, ["tools/check-rule-examples.js", "docs/src/rules/*.md"], { stdio: "inherit" });
+    } catch {
+        exit(1);
+    }
 };
 
 target.checkLicenses = function() {

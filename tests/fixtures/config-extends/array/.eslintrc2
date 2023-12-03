@@ -1,9 +1,0 @@
-{
-    "rules": {
-        "comma-dangle": 2
-    },
-
-    "env": {
-        "es6": true
-    }
-}

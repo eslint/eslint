@@ -1,7 +1,8 @@
 /*expected
 initial->s1_1->s1_2->s1_3->s1_4;
-s1_1->s1_4;
-s1_2->s1_4->final;
+s1_1->s1_3;
+s1_2->s1_4;
+s1_1->s1_4->final;
 */
 (a &&= b) ?? c;
 
@@ -15,7 +16,8 @@ digraph {
     s1_3[label="Identifier (c)"];
     s1_4[label="LogicalExpression:exit\nExpressionStatement:exit\nProgram:exit"];
     initial->s1_1->s1_2->s1_3->s1_4;
-    s1_1->s1_4;
-    s1_2->s1_4->final;
+    s1_1->s1_3;
+    s1_2->s1_4;
+    s1_1->s1_4->final;
 }
 */
