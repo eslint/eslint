@@ -185,11 +185,12 @@ describe("FlatESLint", () => {
                     parser: "",
                     parserOptions: {},
                     rules: {},
-                    plugins: []
+                    plugins: [],
+                    reportUnusedDisableDirectives: true
                 }),
                 new RegExp(escapeStringRegExp([
                     "Invalid Options:",
-                    "- Unknown options: cacheFile, configFile, envs, globals, ignorePath, ignorePattern, parser, parserOptions, rules"
+                    "- Unknown options: cacheFile, configFile, envs, globals, ignorePath, ignorePattern, parser, parserOptions, rules, reportUnusedDisableDirectives"
                 ].join("\n")), "u")
             );
         });
