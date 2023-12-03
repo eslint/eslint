@@ -3876,7 +3876,7 @@ describe("FlatESLint", () => {
                     eslint = new FlatESLint({
                         cwd: teardown.getPath(),
                         overrideConfig: {
-                            reportUnusedDisableDirectives: "off"
+                            linterOptions: { reportUnusedDisableDirectives: "off" }
                         }
                     });
 
@@ -3901,7 +3901,7 @@ describe("FlatESLint", () => {
                     eslint = new FlatESLint({
                         cwd: teardown.getPath(),
                         overrideConfig: {
-                            reportUnusedDisableDirectives: "error"
+                            linterOptions: { reportUnusedDisableDirectives: "error" }
                         }
                     });
 
@@ -4736,7 +4736,9 @@ describe("FlatESLint", () => {
                     rules: {
                         "no-var": "warn"
                     },
-                    reportUnusedDisableDirectives: "warn"
+                    linterOptions: {
+                        reportUnusedDisableDirectives: "warn"
+                    }
                 }
             });
 
@@ -4763,7 +4765,7 @@ describe("FlatESLint", () => {
         it("should return a non-empty value if some of the messages are related to a rule", async () => {
             const engine = new FlatESLint({
                 overrideConfigFile: true,
-                overrideConfig: { rules: { "no-var": "warn" }, reportUnusedDisableDirectives: "warn" }
+                overrideConfig: { rules: { "no-var": "warn" }, linterOptions: { reportUnusedDisableDirectives: "warn" } }
             });
 
             const results = await engine.lintText("// eslint-disable-line no-var\nvar foo;");
@@ -4938,7 +4940,7 @@ describe("FlatESLint", () => {
 
     describe("when evaluating code when reportUnusedDisableDirectives is enabled", () => {
         it("should report problems for unused eslint-disable directives", async () => {
-            const eslint = new FlatESLint({ overrideConfigFile: true, overrideConfig: { reportUnusedDisableDirectives: "error" } });
+            const eslint = new FlatESLint({ overrideConfigFile: true, overrideConfig: { linterOptions: { reportUnusedDisableDirectives: "error" } } });
 
             assert.deepStrictEqual(
                 await eslint.lintText("/* eslint-disable */"),
