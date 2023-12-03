@@ -596,6 +596,13 @@ npx eslint --report-unused-disable-directives file.js
 
 Same as [`--report-unused-disable-directives`](#--report-unused-disable-directives), but allows you to specify the severity level (`error`, `warn`, `off`) of the reported errors. Only one of these two options can be used at a time.
 
+* **Argument Type**: String. One of the following values:
+  1. `off`
+  1. `warn`
+  1. `error`
+* **Multiple Arguments**: No
+* **Default Value**: `off`
+
 ##### `--report-unused-disable-directives-severity` example
 
 ```shell
