@@ -15589,10 +15589,10 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages.length, 0);
                 });
 
-                it("reports problems for unused eslint-disable comments (in config) (boolean value)", () => {
+                it("reports problems for unused eslint-disable comments (in config) (boolean value, true)", () => {
                     const messages = linter.verify("/* eslint-disable */", {
                         linterOptions: {
-                            reportUnusedDisableDirectives: "warn"
+                            reportUnusedDisableDirectives: true
                         }
                     });
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -15614,6 +15614,32 @@ var a = "test2";
                             }
                         ]
                     );
+
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("does not report problems for unused eslint-disable comments (in config) (boolean value, false)", () => {
+                    const messages = linter.verify("/* eslint-disable */", {
+                        linterOptions: {
+                            reportUnusedDisableDirectives: false
+                        }
+                    });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.deepStrictEqual(messages, []);
+
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("does not report problems for unused eslint-disable comments (in config) (string value, off)", () => {
+                    const messages = linter.verify("/* eslint-disable */", {
+                        linterOptions: {
+                            reportUnusedDisableDirectives: "off"
+                        }
+                    });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.deepStrictEqual(messages, []);
 
                     assert.strictEqual(suppressedMessages.length, 0);
                 });
