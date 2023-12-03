@@ -15652,7 +15652,7 @@ var a = "test2";
                         linterOptions: {
                             reportUnusedDisableDirectives: "foo"
                         }
-                    }), 'Key "linterOptions": Key "reportUnusedDisableDirectives": Expected a severity string/number or boolean.');
+                    }), 'Key "linterOptions": Key "reportUnusedDisableDirectives": Expected a severity string or boolean.');
                 });
 
                 it("throws with invalid type for reportUnusedDisableDirectives in config", () => {
@@ -15660,7 +15660,7 @@ var a = "test2";
                         linterOptions: {
                             reportUnusedDisableDirectives: {}
                         }
-                    }), 'Key "linterOptions": Key "reportUnusedDisableDirectives": Expected a severity string/number or boolean.');
+                    }), 'Key "linterOptions": Key "reportUnusedDisableDirectives": Expected a severity string or boolean.');
                 });
 
                 it("reports problems for partially unused eslint-disable comments (in config)", () => {
