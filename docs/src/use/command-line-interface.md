@@ -574,7 +574,7 @@ npx eslint --no-inline-config file.js
 
 #### `--report-unused-disable-directives`
 
-This option causes ESLint to report disable directive comments like `// eslint-disable-line` as errors when there are no violations present.
+This option causes ESLint to report directive comments like `// eslint-disable-line` when no errors would have been reported on that line anyway.
 
 * **Argument Type**: No argument.
 
