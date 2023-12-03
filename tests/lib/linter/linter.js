@@ -15592,7 +15592,7 @@ var a = "test2";
                 it("reports problems for unused eslint-disable comments (in config) (boolean value)", () => {
                     const messages = linter.verify("/* eslint-disable */", {
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         }
                     });
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -15667,7 +15667,7 @@ var a = "test2";
                     const code = "alert('test'); // eslint-disable-line no-alert, no-redeclare";
                     const config = {
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         },
                         rules: {
                             "no-alert": 1,
@@ -15707,7 +15707,7 @@ var a = "test2";
                     assert.deepStrictEqual(
                         linter.verify("// eslint-disable-next-line", {
                             linterOptions: {
-                                reportUnusedDisableDirectives: true
+                                reportUnusedDisableDirectives: "warn"
                             }
                         }),
                         [
@@ -15731,7 +15731,7 @@ var a = "test2";
                     assert.deepStrictEqual(
                         linter.verify("/* \neslint-disable-next-line\n */", {
                             linterOptions: {
-                                reportUnusedDisableDirectives: true
+                                reportUnusedDisableDirectives: "warn"
                             }
                         }),
                         [
@@ -15755,7 +15755,7 @@ var a = "test2";
                     const code = "// eslint-disable-next-line no-alert, no-redeclare \nalert('test');";
                     const config = {
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         },
                         rules: {
                             "no-alert": 1,
@@ -15797,7 +15797,7 @@ var a = "test2";
                     `;
                     const config = {
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         },
                         rules: {
                             "no-alert": 1,
@@ -16154,7 +16154,7 @@ var a = "test2";
                             }
                         },
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         },
                         rules: {
                             ...Object.fromEntries(usedRules.map(name => [`test/${name}`, "error"])),

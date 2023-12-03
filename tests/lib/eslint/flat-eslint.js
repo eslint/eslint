@@ -186,7 +186,7 @@ describe("FlatESLint", () => {
                     parserOptions: {},
                     rules: {},
                     plugins: [],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 new RegExp(escapeStringRegExp([
                     "Invalid Options:",
@@ -3843,7 +3843,7 @@ describe("FlatESLint", () => {
                     cwd: root,
                     files: {
                         "test.js": "/* eslint-disable eqeqeq */",
-                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: true } }"
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: 'warn' } }"
                     }
                 });
 
