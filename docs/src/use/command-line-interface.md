@@ -98,7 +98,7 @@ Output:
 Inline configuration comments:
   --no-inline-config              Prevent comments from changing config or rules
   --report-unused-disable-directives  Adds reported errors for unused eslint-disable and eslint-enable directives
-  --report-unused-disable-directives-severity String  Choose what severity level that eslint-disable directives should be reported as
+  --report-unused-disable-directives-severity String  Chooses severity level for reporting unused eslint-disable and eslint-enable directives - either: off, warn, or error
 
 Caching:
   --cache                         Only check changed files - default: false
