@@ -378,7 +378,7 @@ const eslintCommentsConfigs = [eslintComments.configs.recommended, {
 }];
 
 module.exports = [
-    { linterOptions: { reportUnusedDisableDirectives: "warn" } },
+    { linterOptions: { reportUnusedDisableDirectives: "error" } },
     ...jsConfigs,
     ...unicornConfigs,
     ...jsdocConfigs,
