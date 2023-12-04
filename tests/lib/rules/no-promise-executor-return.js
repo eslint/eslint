@@ -891,17 +891,14 @@ ruleTester.run("no-promise-executor-return", rule, {
             }]
         },
         {
+
+            // No suggestion since an unnamed FunctionExpression inside braces is invalid syntax.
             code: "() => new Promise(() => function () {});",
             errors: [{
                 messageId: "returnsValue",
                 type: "FunctionExpression",
                 column: 25,
-                suggestions: [
-                    {
-                        messageId: "wrapBraces",
-                        output: "() => new Promise(() => {function () {}});"
-                    }
-                ]
+                suggestions: []
             }]
         },
         {
