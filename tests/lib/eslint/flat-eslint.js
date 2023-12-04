@@ -3953,7 +3953,7 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
 
-            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = false'.", async () => {
+            it("should not warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = false'.", async () => {
                 const teardown = createCustomTeardown({
                     cwd: root,
                     files: {
