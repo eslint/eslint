@@ -1039,7 +1039,7 @@ describe("FlatConfigArray", () => {
                                 reportUnusedDisableDirectives: {}
                             }
                         }
-                    ], /Expected a severity string or boolean/u);
+                    ], /Expected a severity string\/number or boolean/u);
                 });
 
                 it("should merge two objects when second object has overrides", () => assertMergedResult([

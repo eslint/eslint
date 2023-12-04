@@ -3838,7 +3838,53 @@ describe("FlatESLint", () => {
 
             afterEach(() => cleanup());
 
-            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives' was given.", async () => {
+            it("should error unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = error'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: 'error' } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 2);
+                assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should error unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = 2'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: 2 } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 2);
+                assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = warn'.", async () => {
                 const teardown = createCustomTeardown({
                     cwd: root,
                     files: {
@@ -3859,6 +3905,112 @@ describe("FlatESLint", () => {
                 assert.strictEqual(messages[0].severity, 1);
                 assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = 1'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: 1 } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 1);
+                assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = true'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: true } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 1);
+                assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = false'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: false } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 0);
+            });
+
+            it("should not warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = off'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: 'off' } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 0);
+            });
+
+            it("should not warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = 0'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: root,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: 0 } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 0);
             });
 
             describe("the runtime option overrides config files.", () => {

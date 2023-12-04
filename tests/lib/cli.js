@@ -1405,6 +1405,18 @@ describe("cli", () => {
             assert.strictEqual(exitCode, 1, "exit code should be 1");
         });
 
+        it("errors when --report-unused-disable-directives-severity 2", async () => {
+            const exitCode = await cli.execute("--no-config-lookup --report-unused-disable-directives-severity 2 --rule \"'no-console': 'error'\"",
+                "foo(); // eslint-disable-line no-console",
+                true);
+
+            assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+            assert.strictEqual(log.info.callCount, 1, "log.info is called once");
+            assert.ok(log.info.firstCall.args[0].includes("Unused eslint-disable directive (no problems were reported from 'no-console')"), "has correct message about unused directives");
+            assert.ok(log.info.firstCall.args[0].includes("1 error and 0 warning"), "has correct error and warning count");
+            assert.strictEqual(exitCode, 1, "exit code should be 1");
+        });
+
         it("warns when --report-unused-disable-directives-severity warn", async () => {
             const exitCode = await cli.execute("--no-config-lookup --report-unused-disable-directives-severity warn --rule \"'no-console': 'error'\"",
                 "foo(); // eslint-disable-line no-console",
@@ -1432,7 +1444,7 @@ describe("cli", () => {
 
             assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
             assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
-            assert.deepStrictEqual(log.error.firstCall.args, ["Option report-unused-disable-directives-severity: 'foo' not one of off, warn, or error.\nYou're using eslint.config.js, some command line flags are no longer available. Please see https://eslint.org/docs/latest/use/command-line-interface for details."], "has the right text to log.error");
+            assert.deepStrictEqual(log.error.firstCall.args, ["Option report-unused-disable-directives-severity: 'foo' not one of off, warn, error, 0, 1, or 2.\nYou're using eslint.config.js, some command line flags are no longer available. Please see https://eslint.org/docs/latest/use/command-line-interface for details."], "has the right text to log.error");
             assert.strictEqual(exitCode, 2, "exit code should be 2");
         });
 
