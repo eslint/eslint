@@ -2078,7 +2078,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 0 : Test should not specify both 'desc' and 'messageId'.");
+            }, "Error Suggestion at index 0: Test should not specify both 'desc' and 'messageId'.");
         });
 
         it("should pass with valid suggestions (tested using only desc on a rule that utilizes meta.messages)", () => {
@@ -2134,7 +2134,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 0 : Test must specify either 'messageId' or 'desc'");
+            }, "Error Suggestion at index 0: Test must specify either 'messageId' or 'desc'");
         });
 
         it("should fail when tested using non-empty suggestion test objects without an output property", () => {
@@ -2149,7 +2149,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, 'Error Suggestion at index 0 : The "output" property is required.');
+            }, 'Error Suggestion at index 0: The "output" property is required.');
         });
 
         it("should support explicitly expecting no suggestions", () => {
@@ -2278,7 +2278,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 0 : desc should be \"not right\" but got \"Rename identifier 'foo' to 'bar'\" instead.");
+            }, "Error Suggestion at index 0: desc should be \"not right\" but got \"Rename identifier 'foo' to 'bar'\" instead.");
         });
 
 
@@ -2319,7 +2319,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 0 : messageId should be 'unused' but got 'renameFoo' instead.");
+            }, "Error Suggestion at index 0: messageId should be 'unused' but got 'renameFoo' instead.");
         });
 
         it("should throw if test specifies messageId for a rule that doesn't have meta.messages", () => {
@@ -2337,7 +2337,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 0 : Test can not use 'messageId' if rule under test doesn't define 'meta.messages'.");
+            }, "Error Suggestion at index 0: Test can not use 'messageId' if rule under test doesn't define 'meta.messages'.");
         });
 
         it("should throw if test specifies messageId that doesn't exist in the rule's meta.messages", () => {
@@ -2358,7 +2358,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 1 : Test has invalid messageId 'removeFoo', the rule under test allows only one of ['avoidFoo', 'unused', 'renameFoo'].");
+            }, "Error Suggestion at index 1: Test has invalid messageId 'removeFoo', the rule under test allows only one of ['avoidFoo', 'unused', 'renameFoo'].");
         });
 
         it("should throw if hydrated desc doesn't match (wrong data value)", () => {
@@ -2381,7 +2381,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 0 : Hydrated test desc \"Rename identifier 'foo' to 'car'\" does not match received desc \"Rename identifier 'foo' to 'bar'\".");
+            }, "Error Suggestion at index 0: Hydrated test desc \"Rename identifier 'foo' to 'car'\" does not match received desc \"Rename identifier 'foo' to 'bar'\".");
         });
 
         it("should throw if hydrated desc doesn't match (wrong data key)", () => {
@@ -2404,7 +2404,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 1 : Hydrated test desc \"Rename identifier 'foo' to '{{ newName }}'\" does not match received desc \"Rename identifier 'foo' to 'baz'\".");
+            }, "Error Suggestion at index 1: Hydrated test desc \"Rename identifier 'foo' to '{{ newName }}'\" does not match received desc \"Rename identifier 'foo' to 'baz'\".");
         });
 
         it("should throw if test specifies both desc and data", () => {
@@ -2428,7 +2428,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 0 : Test should not specify both 'desc' and 'data'.");
+            }, "Error Suggestion at index 0: Test should not specify both 'desc' and 'data'.");
         });
 
         it("should throw if test uses data but doesn't specify messageId", () => {
@@ -2450,7 +2450,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 1 : Test must specify 'messageId' if 'data' is used.");
+            }, "Error Suggestion at index 1: Test must specify 'messageId' if 'data' is used.");
         });
 
         it("should throw if the resulting suggestion output doesn't match", () => {
