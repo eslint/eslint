@@ -41,7 +41,6 @@ ruleTester.run("no-object-constructor", rule, {
                 messageId: "preferLiteral",
                 type: "NewExpression",
                 suggestions: [{
-                    desc: "Replace with '({})'.",
                     messageId: "useLiteral",
                     output: "({})"
                 }]
@@ -53,7 +52,6 @@ ruleTester.run("no-object-constructor", rule, {
                 messageId: "preferLiteral",
                 type: "CallExpression",
                 suggestions: [{
-                    desc: "Replace with '({})'.",
                     messageId: "useLiteral",
                     output: "({})"
                 }]
@@ -65,7 +63,6 @@ ruleTester.run("no-object-constructor", rule, {
                 messageId: "preferLiteral",
                 type: "CallExpression",
                 suggestions: [{
-                    desc: "Replace with '({})'.",
                     messageId: "useLiteral",
                     output: "const fn = () => ({});"
                 }]
@@ -77,7 +74,6 @@ ruleTester.run("no-object-constructor", rule, {
                 messageId: "preferLiteral",
                 type: "CallExpression",
                 suggestions: [{
-                    desc: "Replace with '({})'.",
                     messageId: "useLiteral",
                     output: "({}) instanceof Object;"
                 }]
@@ -89,7 +85,6 @@ ruleTester.run("no-object-constructor", rule, {
                 messageId: "preferLiteral",
                 type: "CallExpression",
                 suggestions: [{
-                    desc: "Replace with '{}'.",
                     messageId: "useLiteral",
                     output: "const obj = {};"
                 }]
@@ -101,7 +96,6 @@ ruleTester.run("no-object-constructor", rule, {
                 messageId: "preferLiteral",
                 type: "NewExpression",
                 suggestions: [{
-                    desc: "Replace with '{}'.",
                     messageId: "useLiteral",
                     output: "({} instanceof Object);"
                 }]
