@@ -785,6 +785,17 @@ describe("RuleTester", () => {
         }, /Expected no autofixes to be suggested/u);
     });
 
+    it("should throw an error when the expected output is not null and the output does not differ from the code", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [],
+                invalid: [
+                    { code: "eval('')", output: "eval('')", errors: 1 }
+                ]
+            });
+        }, /Use 'output: null' if the rule does not fix this case instead of copying the code\./u);
+    });
+
     it("should throw an error when the expected output isn't specified and problems produce output", () => {
         assert.throws(() => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
