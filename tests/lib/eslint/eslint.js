@@ -214,8 +214,7 @@ describe("ESLint", () => {
                     reportUnusedDisableDirectives: "",
                     resolvePluginsRelativeTo: "",
                     rulePaths: "",
-                    useEslintrc: "",
-                    ruleFilter: ""
+                    useEslintrc: ""
                 }),
                 new RegExp(escapeStringRegExp([
                     "Invalid Options:",
@@ -237,8 +236,7 @@ describe("ESLint", () => {
                     "- 'reportUnusedDisableDirectives' must be any of \"error\", \"warn\", \"off\", and null.",
                     "- 'resolvePluginsRelativeTo' must be a non-empty string or null.",
                     "- 'rulePaths' must be an array of non-empty strings.",
-                    "- 'useEslintrc' must be a boolean.",
-                    "- 'ruleFilter' must be a function."
+                    "- 'useEslintrc' must be a boolean."
                 ].join("\n")), "u")
             );
         });
