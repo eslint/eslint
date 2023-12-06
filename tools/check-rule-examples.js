@@ -14,7 +14,6 @@ const { promisify } = require("util");
 const meta = require("../docs/src/_data/rules_meta.json");
 const markdownItRuleExample = require("../docs/tools/markdown-it-rule-example");
 const ConfigCommentParser = require("../lib/linter/config-comment-parser");
-const { SourceCode } = require("../lib/source-code");
 
 //------------------------------------------------------------------------------
 // Typedefs
@@ -89,7 +88,7 @@ async function findProblems(filename) {
                         if (comment.type !== "Block" || !/^\s*eslint(?!\S)/u.test(comment.value)) {
                             return false;
                         }
-                        const { directiveValue } = SourceCode.parseDirective(comment.value);
+                        const { directiveValue } = commentParser.parseDirective(comment);
                         const parseResult = commentParser.parseJsonConfig(directiveValue, comment.loc);
 
                         return parseResult.success && Object.prototype.hasOwnProperty.call(parseResult.config, title);

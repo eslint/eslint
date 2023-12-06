@@ -248,4 +248,28 @@ describe("ConfigCommentParser", () => {
         });
     });
 
+    describe("parseDirective", () => {
+
+        it("should parse a directive comment with a justification", () => {
+            const comment = { value: " eslint no-unused-vars: error -- test " };
+            const result = commentParser.parseDirective(comment);
+
+            assert.deepStrictEqual(result, {
+                directiveText: "eslint",
+                directiveValue: " no-unused-vars: error"
+            });
+        });
+
+        it("should parse a directive comment without a justification", () => {
+            const comment = { value: "global foo" };
+            const result = commentParser.parseDirective(comment);
+
+            assert.deepStrictEqual(result, {
+                directiveText: "global",
+                directiveValue: " foo"
+            });
+        });
+
+    });
+
 });
