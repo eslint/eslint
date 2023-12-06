@@ -169,6 +169,10 @@ ruleTester.run("no-restricted-properties", rule, {
             code: "class C { #foo; foo() { this.#foo; } }",
             options: [{ property: "#foo" }],
             parserOptions: { ecmaVersion: 2022 }
+        }, {
+            code: "var { foo: { prop } } = obj;",
+            options: [{ object: "obj", property: "prop" }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
