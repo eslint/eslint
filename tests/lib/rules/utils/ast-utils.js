@@ -145,7 +145,7 @@ describe("ast-utils", () => {
                 }))
             });
 
-            linter.verify("const a = 1; a = 2;", { rules: { checker: "error" }, languageOptions: { ecmaVersion: 6 } });
+            linter.verify("const a = 1; a = 2;", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
         });
 
         it("should return false if reference is not assigned for const", () => {
@@ -159,7 +159,7 @@ describe("ast-utils", () => {
                 }))
             });
 
-            linter.verify("const a = 1; c = 2;", { rules: { checker: "error" }, languageOptions: { ecmaVersion: 6 } });
+            linter.verify("const a = 1; c = 2;", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
         });
 
         // class
@@ -175,7 +175,7 @@ describe("ast-utils", () => {
                 }))
             });
 
-            linter.verify("class A { }\n A = 1;", { rules: { checker: "error" }, languageOptions: { ecmaVersion: 6 } });
+            linter.verify("class A { }\n A = 1;", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
         });
 
         it("should return false if reference is not assigned for class", () => {
@@ -189,7 +189,7 @@ describe("ast-utils", () => {
                 }))
             });
 
-            linter.verify("class A { } foo(A);", { rules: { checker: "error" }, languageOptions: { ecmaVersion: 6 } });
+            linter.verify("class A { } foo(A);", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
         });
     });
 
@@ -393,7 +393,7 @@ describe("ast-utils", () => {
                     })
                 }))
             });
-            linter.verify(code, { rules: { checker: "error" }, languageOptions: { ecmaVersion: 6 } });
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
 
             assert.lengthOf(results, 1);
             assert.strictEqual(results[0], expectedInLoop);
@@ -924,7 +924,7 @@ describe("ast-utils", () => {
                     }))
                 });
 
-                linter.verify(key, { rules: { checker: "error" }, languageOptions: { ecmaVersion: 13 } });
+                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 13 } });
             });
         });
     });
@@ -1004,7 +1004,7 @@ describe("ast-utils", () => {
                     }))
                 });
 
-                linter.verify(key, { rules: { checker: "error" }, languageOptions: { ecmaVersion: 13 } }, "test.js", true);
+                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 13 } }, "test.js", true);
             });
         });
     });
@@ -1819,7 +1819,7 @@ describe("ast-utils", () => {
                 }))
             });
 
-            linter.verify("var foo = () => \"use strict\";", { rules: { checker: "error" }, languageOptions: { ecmaVersion: 2022 } });
+            linter.verify("var foo = () => \"use strict\";", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 2022 } });
         });
 
         const expectedResults = [
@@ -1853,7 +1853,7 @@ describe("ast-utils", () => {
                     })
                 });
 
-                linter.verify(code, { rules: { checker: "error" }, languageOptions: { ecmaVersion: 2022 } });
+                linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 2022 } });
             });
         });
     });
@@ -1916,7 +1916,7 @@ describe("ast-utils", () => {
                     })
                 });
 
-                linter.verify(code, { rules: { checker: "error" }, languageOptions: { ecmaVersion: 2022 } });
+                linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 2022 } });
             });
         });
     });
