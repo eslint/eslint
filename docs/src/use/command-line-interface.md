@@ -601,7 +601,7 @@ Same as [`--report-unused-disable-directives`](#--report-unused-disable-directiv
   1. `warn`
   1. `error`
 * **Multiple Arguments**: No
-* **Default Value**: `off`
+* **Default Value**: By default, `linterOptions.reportUnusedDisableDirectives` configuration setting is used.
 
 ##### `--report-unused-disable-directives-severity` example
 
