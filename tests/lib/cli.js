@@ -634,6 +634,28 @@ describe("cli", () => {
 
                     sinon.assert.notCalled(log.info);
                 });
+
+                if (useFlatConfig) {
+                    it(`should not run rules set to 'warn' with configType:${configType}`, async () => {
+                        const filePath = getFixturePath("single-quoted.js");
+                        const configPath = getFixturePath("eslint.config_rule_throws.js");
+                        const cliArgs = `--quiet --config ${configPath}' ${filePath}`;
+
+                        const exit = await cli.execute(cliArgs, null, useFlatConfig);
+
+                        assert.strictEqual(exit, 0);
+                    });
+
+                    it(`should run rules set to 'warn' while maxWarnings is set with configType:${configType}`, async () => {
+                        const filePath = getFixturePath("single-quoted.js");
+                        const configPath = getFixturePath("eslint.config_rule_throws.js");
+                        const cliArgs = `--quiet --max-warnings=1 --config ${configPath}' ${filePath}`;
+
+                        await stdAssert.rejects(async () => {
+                            await cli.execute(cliArgs, null, useFlatConfig);
+                        });
+                    });
+                }
             });
 
 
