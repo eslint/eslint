@@ -1057,7 +1057,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
 
                     linterOptions: {
-                        reportUnusedDisableDirectives: "warn"
+                        reportUnusedDisableDirectives: 1
                     }
                 }));
 
@@ -1072,7 +1072,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
 
                     linterOptions: {
-                        reportUnusedDisableDirectives: "warn"
+                        reportUnusedDisableDirectives: 1
                     }
                 }));
 
