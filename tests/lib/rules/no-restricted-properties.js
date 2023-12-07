@@ -114,6 +114,10 @@ ruleTester.run("no-restricted-properties", rule, {
             options: [{ object: "foo", property: "bar" }],
             parserOptions: { ecmaVersion: 6 }
         }, {
+            code: "let {baz: {bar: qux}} = foo;",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
             code: "let {bar} = foo.baz;",
             options: [{ object: "foo", property: "bar" }],
             parserOptions: { ecmaVersion: 6 }
@@ -169,10 +173,6 @@ ruleTester.run("no-restricted-properties", rule, {
             code: "class C { #foo; foo() { this.#foo; } }",
             options: [{ property: "#foo" }],
             parserOptions: { ecmaVersion: 2022 }
-        }, {
-            code: "var { foo: { prop } } = obj;",
-            options: [{ object: "obj", property: "prop" }],
-            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
