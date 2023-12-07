@@ -11,9 +11,9 @@ const matter = require("gray-matter");
 const markdownIt = require("markdown-it");
 const markdownItContainer = require("markdown-it-container");
 const { promisify } = require("util");
-const meta = require("../docs/src/_data/rules_meta.json");
 const markdownItRuleExample = require("../docs/tools/markdown-it-rule-example");
 const ConfigCommentParser = require("../lib/linter/config-comment-parser");
+const rules = require("../lib/rules");
 
 //------------------------------------------------------------------------------
 // Typedefs
@@ -55,7 +55,7 @@ function tryParseForPlayground(code, parserOptions) {
 async function findProblems(filename) {
     const text = await readFile(filename, "UTF-8");
     const { title } = matter(text).data;
-    const isRuleRemoved = !Object.prototype.hasOwnProperty.call(meta, title);
+    const isRuleRemoved = !rules.has(title);
     const problems = [];
     const ruleExampleOptions = markdownItRuleExample({
         open({ code, parserOptions, codeBlockToken }) {
@@ -96,7 +96,7 @@ async function findProblems(filename) {
                 );
 
                 if (!hasRuleConfigComment) {
-                    const message = `Example code should contain a configuration comment like /* eslint ${title}: error */`;
+                    const message = `Example code should contain a configuration comment like /* eslint ${title}: "error" */`;
 
                     problems.push({
                         fatal: false,
