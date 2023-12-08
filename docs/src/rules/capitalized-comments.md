@@ -33,6 +33,7 @@ Examples of **correct** code for this rule:
 :::correct
 
 ```js
+/* eslint capitalized-comments: error */
 
 // Capitalized comment
 
