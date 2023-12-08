@@ -96,6 +96,10 @@ disallowedObjectName.disallowedPropertyName(); /*error Disallowed object propert
 }] */
 
 foo.__defineGetter__(bar, baz);
+
+const { __defineGetter__ } = qux();
+
+({ __defineGetter__ }) => {};
 ```
 
 :::
