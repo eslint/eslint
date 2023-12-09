@@ -158,6 +158,15 @@ ruleTester.run("no-implicit-coercion", rule, {
             }]
         },
         {
+            code: "-(-foo)",
+            output: "Number(foo)",
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo)" },
+                type: "UnaryExpression"
+            }]
+        },
+        {
             code: "+foo.bar",
             output: "Number(foo.bar)",
             errors: [{
@@ -186,6 +195,15 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "1*foo.bar",
+            output: "Number(foo.bar)",
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo.bar)" },
+                type: "BinaryExpression"
+            }]
+        },
+        {
+            code: "foo.bar-0",
             output: "Number(foo.bar)",
             errors: [{
                 messageId: "useRecommendation",
