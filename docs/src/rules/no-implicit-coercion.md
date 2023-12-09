@@ -14,6 +14,8 @@ Such as:
 var b = !!foo;
 var b = ~foo.indexOf(".");
 var n = +foo;
+var n = -(-foo);
+var n = foo - 0;
 var n = 1 * foo;
 var s = "" + foo;
 foo += ``;
@@ -24,6 +26,8 @@ Those can be replaced with the following code:
 ```js
 var b = Boolean(foo);
 var b = foo.indexOf(".") !== -1;
+var n = Number(foo);
+var n = Number(foo);
 var n = Number(foo);
 var n = Number(foo);
 var s = String(foo);
