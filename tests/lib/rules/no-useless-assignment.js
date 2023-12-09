@@ -287,7 +287,23 @@ ruleTester.run("no-useless-assignment", rule, {
         } catch (e) {
             // ignore
         }
-        console.log(v)`
+        console.log(v)`,
+
+        // An expression within an assignment.
+        `const obj = { a: 5 };
+        const { a, b = a } = obj;
+        console.log(b); // 5`,
+        `const arr = [6];
+        const [c, d = c] = arr;
+        console.log(d); // 6`,
+        `const obj = { a: 1 };
+        let {
+            a,
+            b = (a = 2)
+        } = obj;
+        console.log(a, b);`,
+        `let { a, b: {c = a} = {} } = obj;
+        console.log(c);`
     ],
     invalid: [
         {
@@ -889,7 +905,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
 
-        // An assignment within an assignment.
+        // An expression within an assignment.
         {
             code: `
             var x = 1; // used
@@ -915,6 +931,27 @@ ruleTester.run("no-useless-assignment", rule, {
                     messageId: "unnecessaryAssignment",
                     line: 4,
                     column: 17
+                }
+            ]
+        },
+        {
+            code: `const obj = { a: 1 };
+            let {
+                a,
+                b = (a = 2)
+            } = obj;
+            a = 3
+            console.log(a, b);`,
+            errors: [
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 3,
+                    column: 17
+                },
+                {
+                    messageId: "unnecessaryAssignment",
+                    line: 4,
+                    column: 22
                 }
             ]
         }
