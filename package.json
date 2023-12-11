@@ -119,7 +119,7 @@
     "eslint": "file:.",
     "eslint-config-eslint": "file:packages/eslint-config-eslint",
     "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-eslint-plugin": "^5.1.0",
+    "eslint-plugin-eslint-plugin": "^5.2.1",
     "eslint-plugin-internal-rules": "file:tools/internal-rules",
     "eslint-plugin-jsdoc": "^46.2.5",
     "eslint-plugin-n": "^16.0.0",
