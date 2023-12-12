@@ -93,23 +93,23 @@ ruleTester.run("no-undefined", rule, {
         },
         {
             code: "import undefined from 'foo'",
-            errors,
-            languageOptions: ES6_MODULE
+            languageOptions: ES6_MODULE,
+            errors
         },
         {
             code: "import * as undefined from 'foo'",
-            errors,
-            languageOptions: ES6_MODULE
+            languageOptions: ES6_MODULE,
+            errors
         },
         {
             code: "import { undefined } from 'foo'",
-            errors,
-            languageOptions: ES6_MODULE
+            languageOptions: ES6_MODULE,
+            errors
         },
         {
             code: "import { a as undefined } from 'foo'",
-            errors,
-            languageOptions: ES6_MODULE
+            languageOptions: ES6_MODULE,
+            errors
         },
 
         /*

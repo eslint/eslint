@@ -50,8 +50,8 @@ ruleTester.run("no-self-compare", rule, {
         { code: "foo.bar().baz.qux >= foo.bar ().baz .qux", errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }] },
         {
             code: "class C { #field; foo() { this.#field === this.#field; } }",
-            errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "comparingToSelf", type: "BinaryExpression" }]
         }
     ]
 });

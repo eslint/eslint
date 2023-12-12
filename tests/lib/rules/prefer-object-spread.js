@@ -347,6 +347,9 @@ ruleTester.run("prefer-object-spread", rule, {
                 baz: "cats"
                 --> weird
             }`,
+            languageOptions: {
+                sourceType: "script"
+            },
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -354,10 +357,7 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 1,
                     column: 14
                 }
-            ],
-            languageOptions: {
-                sourceType: "script"
-            }
+            ]
         },
 
         {
@@ -899,6 +899,7 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code: "globalThis.Object.assign({ });",
             output: "({});",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -906,12 +907,12 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 1,
                     column: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: "globalThis.Object.assign({\n});",
             output: "({});",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -919,8 +920,7 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 1,
                     column: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: `
@@ -931,6 +931,7 @@ ruleTester.run("prefer-object-spread", rule, {
                 function foo () { var globalThis = bar; }
                 ({});
             `,
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -938,8 +939,7 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 3,
                     column: 17
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: `
@@ -950,6 +950,7 @@ ruleTester.run("prefer-object-spread", rule, {
                 const Foo = require('foo');
                 ({foo: Foo});
             `,
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -957,8 +958,7 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 3,
                     column: 17
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
 
         // report Object.assign() with getters/setters if the function call has only 1 argument
@@ -979,6 +979,9 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code: "const obj = Object.assign<{}, Record<string, string[]>>({}, getObject());",
             output: "const obj = { ...getObject()};",
+            languageOptions: {
+                parser: require("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-1")
+            },
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -986,14 +989,14 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 1,
                     column: 13
                 }
-            ],
-            languageOptions: {
-                parser: require("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-1")
-            }
+            ]
         },
         {
             code: "Object.assign<{}, A>({}, foo);",
             output: "({ ...foo});",
+            languageOptions: {
+                parser: require("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-2")
+            },
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -1001,10 +1004,7 @@ ruleTester.run("prefer-object-spread", rule, {
                     line: 1,
                     column: 1
                 }
-            ],
-            languageOptions: {
-                parser: require("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-2")
-            }
+            ]
         }
     ]
 });

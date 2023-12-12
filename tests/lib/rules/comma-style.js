@@ -375,13 +375,13 @@ ruleTester.run("comma-style", rule, {
                     ArrayPattern: false
                 }
             }],
+            languageOptions: {
+                ecmaVersion: 6
+            },
             errors: [{
                 messageId: "expectedCommaLast",
                 type: "Identifier"
-            }],
-            languageOptions: {
-                ecmaVersion: 6
-            }
+            }]
         },
         {
             code: "f(1\n, 2);",
@@ -417,14 +417,14 @@ ruleTester.run("comma-style", rule, {
                     FunctionExpression: false
                 }
             }],
-            errors: [{
-                messageId: "expectedCommaLast",
-                type: "Identifier"
-            }],
             languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
-            }
+            },
+            errors: [{
+                messageId: "expectedCommaLast",
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo([a\n, b]) { return a + b; }",
@@ -434,13 +434,13 @@ ruleTester.run("comma-style", rule, {
                     ArrayPattern: false
                 }
             }],
+            languageOptions: {
+                ecmaVersion: 6
+            },
             errors: [{
                 messageId: "expectedCommaLast",
                 type: "Identifier"
-            }],
-            languageOptions: {
-                ecmaVersion: 6
-            }
+            }]
         },
         {
             code: "const foo = (a\n, b) => { return a + b; }",
@@ -450,13 +450,13 @@ ruleTester.run("comma-style", rule, {
                     ArrowFunctionExpression: false
                 }
             }],
+            languageOptions: {
+                ecmaVersion: 6
+            },
             errors: [{
                 messageId: "expectedCommaLast",
                 type: "Identifier"
-            }],
-            languageOptions: {
-                ecmaVersion: 6
-            }
+            }]
         },
         {
             code: "const foo = ([a\n, b]) => { return a + b; }",
@@ -466,13 +466,13 @@ ruleTester.run("comma-style", rule, {
                     ArrayPattern: false
                 }
             }],
+            languageOptions: {
+                ecmaVersion: 6
+            },
             errors: [{
                 messageId: "expectedCommaLast",
                 type: "Identifier"
-            }],
-            languageOptions: {
-                ecmaVersion: 6
-            }
+            }]
         },
         {
             code: "import { a\n, b } from './source';",
@@ -482,14 +482,14 @@ ruleTester.run("comma-style", rule, {
                     ImportDeclaration: false
                 }
             }],
-            errors: [{
-                messageId: "expectedCommaLast",
-                type: "ImportSpecifier"
-            }],
             languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
-            }
+            },
+            errors: [{
+                messageId: "expectedCommaLast",
+                type: "ImportSpecifier"
+            }]
         },
         {
             code: "var {foo\n, bar} = {foo:'apples', bar:'oranges'};",
@@ -499,13 +499,13 @@ ruleTester.run("comma-style", rule, {
                     ObjectPattern: false
                 }
             }],
+            languageOptions: {
+                ecmaVersion: 6
+            },
             errors: [{
                 messageId: "expectedCommaLast",
                 type: "Property"
-            }],
-            languageOptions: {
-                ecmaVersion: 6
-            }
+            }]
         },
         {
             code: "var foo = 1,\nbar = 2;",

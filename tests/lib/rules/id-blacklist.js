@@ -251,115 +251,116 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "import foo from 'mod'",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 error
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import * as foo from 'mod'",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 error
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "export * as foo from 'mod'",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: [
                 error
-            ],
-            languageOptions: { ecmaVersion: 2020, sourceType: "module" }
+            ]
         },
         {
             code: "import { foo } from 'mod'",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 error
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import { foo as bar } from 'mod'",
             options: ["bar"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 17
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "import { foo as bar } from 'mod'",
             options: ["foo", "bar"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 17
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "import { foo as foo } from 'mod'",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 17
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "import { foo, foo as bar } from 'mod'",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 10
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "import { foo as bar, foo } from 'mod'",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 22
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "import foo, { foo as bar } from 'mod'",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 8
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "var foo; export { foo as bar };",
             options: ["bar"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 26
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "var foo; export { foo };",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "restricted",
@@ -373,12 +374,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 19
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "var foo; export { foo as bar };",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "restricted",
@@ -394,12 +395,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 19
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "var foo; export { foo as foo };",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "restricted",
@@ -419,12 +420,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 26
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "var foo; export { foo as bar };",
             options: ["foo", "bar"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "restricted",
@@ -444,71 +445,70 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 26
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "export { foo } from 'mod'",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 error
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "export { foo as bar } from 'mod'",
             options: ["bar"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 17
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "export { foo as bar } from 'mod'",
             options: ["foo", "bar"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "bar" },
                 type: "Identifier",
                 column: 17
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "export { foo as foo } from 'mod'",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 17
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "export { foo, foo as bar } from 'mod'",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 10
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "export { foo as bar, foo } from 'mod'",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "restricted",
                 data: { name: "foo" },
                 type: "Identifier",
                 column: 22
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "foo.bar()",
@@ -643,6 +643,7 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "const {foo} = baz",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -650,12 +651,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 8
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const {foo: bar} = baz",
             options: ["foo", "bar"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -663,12 +664,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 13
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const {[foo]: bar} = baz",
             options: ["foo", "bar"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -682,12 +683,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 15
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const {foo: {bar: baz}} = qux",
             options: ["foo", "bar", "baz"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -695,12 +696,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 19
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const {foo: {[bar]: baz}} = qux",
             options: ["foo", "bar", "baz"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -714,12 +715,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 21
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const {[foo]: {[bar]: baz}} = qux",
             options: ["foo", "bar", "baz"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -739,12 +740,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 23
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "function foo({ bar: baz }) {}",
             options: ["bar", "baz"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -752,12 +753,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 21
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "function foo({ bar: {baz: qux} }) {}",
             options: ["bar", "baz", "qux"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -765,12 +766,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 27
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({foo: obj.bar} = baz);",
             options: ["foo", "bar"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -778,12 +779,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 12
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({foo: obj.bar.bar.bar.baz} = {});",
             options: ["foo", "bar", "baz"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -791,12 +792,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 24
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({[foo]: obj.bar} = baz);",
             options: ["foo", "bar"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -810,12 +811,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 14
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({foo: { a: obj.bar }} = baz);",
             options: ["bar"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -823,12 +824,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 17
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({a: obj.bar = baz} = qux);",
             options: ["bar"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -836,12 +837,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 10
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({a: obj.bar.bar.baz = obj.qux} = obj.qux);",
             options: ["a", "bar", "baz", "qux"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -849,12 +850,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 18
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({a: obj[bar] = obj.qux} = obj.qux);",
             options: ["a", "bar", "baz", "qux"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -862,12 +863,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 10
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({a: [obj.bar] = baz} = qux);",
             options: ["bar"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -875,12 +876,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 11
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({foo: { a: obj.bar = baz}} = qux);",
             options: ["bar"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -888,12 +889,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 17
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({foo: { [a]: obj.bar }} = baz);",
             options: ["bar"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -901,12 +902,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 19
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({...obj.bar} = baz);",
             options: ["bar"],
+            languageOptions: { ecmaVersion: 9 },
             errors: [
                 {
                     messageId: "restricted",
@@ -914,12 +915,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 10
                 }
-            ],
-            languageOptions: { ecmaVersion: 9 }
+            ]
         },
         {
             code: "([obj.bar] = baz);",
             options: ["bar"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -927,12 +928,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 7
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const [bar] = baz;",
             options: ["bar"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -940,8 +941,7 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 8
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // not a reference to a global variable, because it isn't a reference to a variable
@@ -982,30 +982,33 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "var foo = { Number() {} };",
             options: ["Number"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class Foo { Number() {} }",
             options: ["Number"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
                     data: { name: "Number" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "myGlobal: while(foo) { break myGlobal; } ",
             options: ["myGlobal"],
+            languageOptions: {
+                globals: { myGlobal: "readonly" }
+            },
             errors: [
                 {
                     messageId: "restricted",
@@ -1019,16 +1022,14 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 30
                 }
-            ],
-            languageOptions: {
-                globals: { myGlobal: "readonly" }
-            }
+            ]
         },
 
         // globals declared in the given source code are not excluded from consideration
         {
             code: "const foo = 1; bar = foo;",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1042,12 +1043,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 22
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "let foo; foo = bar;",
             options: ["foo"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1061,8 +1062,7 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 10
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "bar = foo; var foo;",
@@ -1103,6 +1103,7 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "class Foo {} var bar = Foo;",
             options: ["Foo"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1116,14 +1117,14 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 24
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // redeclared globals are not excluded from consideration
         {
             code: "let undefined; undefined = 1;",
             options: ["undefined"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1137,8 +1138,7 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "foo = undefined; var undefined;",
@@ -1179,6 +1179,7 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "class Number {} x = Number.NaN;",
             options: ["Number"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1192,8 +1193,7 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 21
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         /*
@@ -1203,6 +1203,11 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "/* globals myGlobal */ window.myGlobal = 5; foo = myGlobal;",
             options: ["myGlobal"],
+            languageOptions: {
+                globals: {
+                    window: "readonly"
+                }
+            },
             errors: [
                 {
                     messageId: "restricted",
@@ -1210,28 +1215,23 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 31
                 }
-            ],
-            languageOptions: {
-                globals: {
-                    window: "readonly"
-                }
-            }
+            ]
         },
 
         // disabled global variables
         {
             code: "var foo = undefined;",
             options: ["undefined"],
+            languageOptions: {
+                globals: { undefined: "off" }
+            },
             errors: [
                 {
                     messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: {
-                globals: { undefined: "off" }
-            }
+            ]
         },
         {
             code: "/* globals Number: off */ Number.parseInt()",
@@ -1260,6 +1260,7 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "if (foo) { let undefined; bar = undefined; }",
             options: ["undefined"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
@@ -1273,8 +1274,7 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 33
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "function foo(Number) { var x = Number.NaN; }",
@@ -1297,6 +1297,9 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "function foo() { var myGlobal; x = myGlobal; }",
             options: ["myGlobal"],
+            languageOptions: {
+                globals: { myGlobal: "readonly" }
+            },
             errors: [
                 {
                     messageId: "restricted",
@@ -1310,14 +1313,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 36
                 }
-            ],
-            languageOptions: {
-                globals: { myGlobal: "readonly" }
-            }
+            ]
         },
         {
             code: "function foo(bar) { return Number.parseInt(bar); } const Number = 1;",
             options: ["Number"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "restricted",
@@ -1331,12 +1332,12 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 58
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import Number from 'myNumber'; const foo = Number.parseInt(bar);",
             options: ["Number"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "restricted",
@@ -1350,8 +1351,7 @@ ruleTester.run("id-blacklist", rule, {
                     type: "Identifier",
                     column: 44
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "var foo = function undefined() {};",
@@ -1369,14 +1369,14 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "var foo = { undefined }",
             options: ["undefined"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "restricted",
                     data: { name: "undefined" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         }
     ]
 });

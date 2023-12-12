@@ -386,15 +386,15 @@ ruleTester.run("no-constant-condition", rule, {
         },
 
         // #13238
-        { code: "if(/foo/ui);", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 11 } },
-        { code: "if(0n);", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 11 } },
-        { code: "if(0b0n);", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 11 } },
-        { code: "if(0o0n);", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 11 } },
-        { code: "if(0x0n);", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 11 } },
-        { code: "if(0b1n);", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 11 } },
-        { code: "if(0o1n);", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 11 } },
-        { code: "if(0x1n);", errors: [{ messageId: "unexpected", type: "Literal" }], languageOptions: { ecmaVersion: 11 } },
-        { code: "if(0x1n || foo);", errors: [{ messageId: "unexpected", type: "LogicalExpression" }], languageOptions: { ecmaVersion: 11 } },
+        { code: "if(/foo/ui);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0b0n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0o0n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0x0n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0b1n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0o1n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0x1n);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if(0x1n || foo);", languageOptions: { ecmaVersion: 11 }, errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
 
         // Classes and instances are always truthy
         { code: "if(class {}) {}", errors: [{ messageId: "unexpected" }] },

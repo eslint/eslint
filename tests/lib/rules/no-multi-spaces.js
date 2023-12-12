@@ -121,14 +121,14 @@ ruleTester.run("no-multi-spaces", rule, {
         {
             code: "var foo = (a,  b) => {}",
             output: "var foo = (a, b) => {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "multipleSpaces",
                 data: { displayValue: "b" },
                 type: "Identifier",
                 column: 14,
                 endColumn: 16
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var a =  1",

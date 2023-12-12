@@ -274,11 +274,11 @@ ruleTester.run("newline-after-var", rule, {
         { code: MULTI_VAR_NO_BLANK, output: MULTI_VAR_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: MULTI_DEC_NO_BLANK, output: MULTI_DEC_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: MULTI_LINE_NO_BLANK, output: MULTI_LINE_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: LET_NO_BLANK, output: LET_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR], languageOptions: { ecmaVersion: 6 } },
-        { code: CONST_NO_BLANK, output: CONST_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR], languageOptions: { ecmaVersion: 6 } },
+        { code: LET_NO_BLANK, output: LET_ONE_BLANK, options: ["always"], languageOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
+        { code: CONST_NO_BLANK, output: CONST_ONE_BLANK, options: ["always"], languageOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
         { code: NOT_END_OF_FUNCTION, output: NOT_END_OF_FUNCTION_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: NOT_END_OF_FUNCTION_EXPRESSION, output: NOT_END_OF_FUNCTION_EXPRESSION_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: NOT_END_OF_ARROW_FUNCTION, output: NOT_END_OF_ARROW_FUNCTION_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR], languageOptions: { ecmaVersion: 6 } },
+        { code: NOT_END_OF_ARROW_FUNCTION, output: NOT_END_OF_ARROW_FUNCTION_ONE_BLANK, options: ["always"], languageOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
         { code: NO_BLANK_BEFORE_CASE, output: ONE_BLANK_BEFORE_CASE, options: ["always"], errors: [ALWAYS_ERROR] },
 
         // should disallow blank lines in "never" mode
@@ -291,8 +291,8 @@ ruleTester.run("newline-after-var", rule, {
         { code: MULTI_DEC_ONE_BLANK, output: MULTI_DEC_NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
         { code: MULTI_LINE_ONE_BLANK, output: MULTI_LINE_NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
         { code: MULTI_LINE_ONE_BLANK_WITH_COMMENTS, output: MULTI_LINE_NO_BLANK_WITH_COMMENTS, options: ["never"], errors: [NEVER_ERROR] },
-        { code: LET_ONE_BLANK, output: LET_NO_BLANK, options: ["never"], errors: [NEVER_ERROR], languageOptions: { ecmaVersion: 6 } },
-        { code: CONST_ONE_BLANK, output: CONST_NO_BLANK, options: ["never"], errors: [NEVER_ERROR], languageOptions: { ecmaVersion: 6 } },
+        { code: LET_ONE_BLANK, output: LET_NO_BLANK, options: ["never"], languageOptions: { ecmaVersion: 6 }, errors: [NEVER_ERROR] },
+        { code: CONST_ONE_BLANK, output: CONST_NO_BLANK, options: ["never"], languageOptions: { ecmaVersion: 6 }, errors: [NEVER_ERROR] },
         { code: ONE_BLANK_BEFORE_CASE, output: NO_BLANK_BEFORE_CASE, options: ["never"], errors: [NEVER_ERROR] },
 
         // should disallow a comment on the next line that's not in turn followed by a blank in "always" mode

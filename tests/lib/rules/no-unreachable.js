@@ -115,6 +115,7 @@ ruleTester.run("no-unreachable", rule, {
         { code: "function foo() { var x = 1; while (true) { } x = 2; }", errors: [{ messageId: "unreachableCode", type: "ExpressionStatement" }] },
         {
             code: "const arrow_direction = arrow => {  switch (arrow) { default: throw new Error();  }; g() }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unreachableCode",
@@ -124,8 +125,7 @@ ruleTester.run("no-unreachable", rule, {
                     endLine: 1,
                     endColumn: 89
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // Merge the warnings of continuous unreachable nodes.
@@ -259,6 +259,9 @@ ruleTester.run("no-unreachable", rule, {
                         return err;
                     }
                 }`,
+            languageOptions: {
+                ecmaVersion: 6
+            },
             errors: [
                 {
                     messageId: "unreachableCode",
@@ -268,10 +271,7 @@ ruleTester.run("no-unreachable", rule, {
                     endLine: 7,
                     endColumn: 22
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 6
-            }
+            ]
         },
         {
             code: `
@@ -282,6 +282,9 @@ ruleTester.run("no-unreachable", rule, {
                         return err;
                     }
                 }`,
+            languageOptions: {
+                ecmaVersion: 6
+            },
             errors: [
                 {
                     messageId: "unreachableCode",
@@ -291,10 +294,7 @@ ruleTester.run("no-unreachable", rule, {
                     endLine: 7,
                     endColumn: 22
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 6
-            }
+            ]
         },
         {
             code: `
@@ -306,6 +306,9 @@ ruleTester.run("no-unreachable", rule, {
                         return err;
                     }
                 }`,
+            languageOptions: {
+                ecmaVersion: 6
+            },
             errors: [
                 {
                     messageId: "unreachableCode",
@@ -323,10 +326,7 @@ ruleTester.run("no-unreachable", rule, {
                     endLine: 8,
                     endColumn: 22
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 6
-            }
+            ]
         },
 
         /*
@@ -338,56 +338,56 @@ ruleTester.run("no-unreachable", rule, {
          */
         {
             code: "class C extends B { foo; constructor() {} }",
-            errors: [{ messageId: "unreachableCode", column: 21, endColumn: 25 }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unreachableCode", column: 21, endColumn: 25 }]
         },
         {
             code: "class C extends B { foo = unreachable + code; constructor() {} }",
-            errors: [{ messageId: "unreachableCode", column: 21, endColumn: 46 }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unreachableCode", column: 21, endColumn: 46 }]
         },
         {
             code: "class C extends B { foo; bar; constructor() {} }",
-            errors: [{ messageId: "unreachableCode", column: 21, endColumn: 30 }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unreachableCode", column: 21, endColumn: 30 }]
         },
         {
             code: "class C extends B { foo; constructor() {} bar; }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "unreachableCode", column: 21, endColumn: 25 },
                 { messageId: "unreachableCode", column: 43, endColumn: 47 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "(class extends B { foo; constructor() {} bar; })",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "unreachableCode", column: 20, endColumn: 24 },
                 { messageId: "unreachableCode", column: 42, endColumn: 46 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class B extends A { x; constructor() { class C extends D { [super().x]; constructor() {} } } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "unreachableCode", column: 60, endColumn: 72 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class B extends A { x; constructor() { class C extends super().x { y; constructor() {} } } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "unreachableCode", column: 68, endColumn: 70 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class B extends A { x; static y; z; static q; constructor() {} }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "unreachableCode", column: 21, endColumn: 23 },
                 { messageId: "unreachableCode", column: 34, endColumn: 36 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         }
     ]
 });

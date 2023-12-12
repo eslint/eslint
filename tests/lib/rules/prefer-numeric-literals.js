@@ -178,38 +178,38 @@ ruleTester.run("prefer-numeric-literals", rule, {
         {
             code: "function *f(){ yield(Number).parseInt('11', 2) }",
             output: "function *f(){ yield 0b11 }",
-            errors: [{ message: "Use binary literals instead of (Number).parseInt()." }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use binary literals instead of (Number).parseInt()." }]
         },
         {
             code: "function *f(){ yield(Number.parseInt)('67', 8) }",
             output: "function *f(){ yield 0o67 }",
-            errors: [{ message: "Use octal literals instead of Number.parseInt()." }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use octal literals instead of Number.parseInt()." }]
         },
         {
             code: "function *f(){ yield(parseInt)('A', 16) }",
             output: "function *f(){ yield 0xA }",
-            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
         },
         {
             code: "function *f(){ yield Number.parseInt('11', 2) }",
             output: "function *f(){ yield 0b11 }",
-            errors: [{ message: "Use binary literals instead of Number.parseInt()." }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use binary literals instead of Number.parseInt()." }]
         },
         {
             code: "function *f(){ yield/**/Number.parseInt('67', 8) }",
             output: "function *f(){ yield/**/0o67 }",
-            errors: [{ message: "Use octal literals instead of Number.parseInt()." }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use octal literals instead of Number.parseInt()." }]
         },
         {
             code: "function *f(){ yield(parseInt('A', 16)) }",
             output: "function *f(){ yield(0xA) }",
-            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
         },
         {
             code: "parseInt('11', 2)+5",

@@ -365,6 +365,7 @@ ruleTester.run("require-atomic-updates", rule, {
                     }
               };
             `,
+            languageOptions: { sourceType: "commonjs", globals: { process: "readonly" } },
             errors: [
                 {
                     messageId: "nonAtomicObjectUpdate",
@@ -378,8 +379,7 @@ ruleTester.run("require-atomic-updates", rule, {
                     type: "AssignmentExpression",
                     line: 8
                 }
-            ],
-            languageOptions: { sourceType: "commonjs", globals: { process: "readonly" } }
+            ]
         },
 
         // allowProperties

@@ -39,184 +39,184 @@ ruleTester.run("no-empty-pattern", rule, {
     invalid: [
         {
             code: "var {} = foo",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var [] = foo",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "array" },
                 type: "ArrayPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var {a: {}} = foo",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var {a, b: {}} = foo",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var {a: []} = foo",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "array" },
                 type: "ArrayPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo({}) {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo([]) {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "array" },
                 type: "ArrayPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo({a: {}}) {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo({a: []}) {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "array" },
                 type: "ArrayPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo({}) {}",
             options: [{}],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = function({}) {}",
             options: [{}],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = ({}) => {}",
             options: [{}],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo({} = {}) {}",
             options: [{}],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = function({} = {}) {}",
             options: [{}],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = ({} = {}) => {}",
             options: [{}],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = ({a: {}}) => {}",
             options: [{ allowObjectPatternsAsParameters: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = ({} = bar) => {}",
             options: [{ allowObjectPatternsAsParameters: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = ({} = { bar: 1 }) => {}",
             options: [{ allowObjectPatternsAsParameters: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "object" },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = ([]) => {}",
             options: [{ allowObjectPatternsAsParameters: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { type: "array" },
                 type: "ArrayPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }
     ]
 });

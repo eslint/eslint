@@ -94,8 +94,8 @@ ruleTester.run("no-unused-labels", rule, {
         {
             code: "A: `use strict`", // `use strict` may be changed to "use strict" by another rule.
             output: null,
-            errors: [{ messageId: "unused" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unused" }]
         },
         {
             code: "if (foo) { bar: 'baz' }",

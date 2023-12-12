@@ -541,6 +541,7 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new globalThis.RegExp('a');",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -552,11 +553,11 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: "globalThis.RegExp('a');",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -568,8 +569,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: "new RegExp(/a/);",
@@ -910,6 +910,9 @@ ruleTester.run("prefer-regex-literals", rule, {
                     disallowRedundantWrapping: true
                 }
             ],
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRedundantRegExpWithFlags",
@@ -918,10 +921,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                     column: 1,
                     suggestions: null
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "(a)\nnew RegExp(/b/);",
@@ -1081,31 +1081,34 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('abc', 'u');",
-            errors: [
-                {
-                    messageId: "unexpectedRegExp",
-                    suggestions: null
-                }
-            ],
             languageOptions: {
                 ecmaVersion: 3,
                 sourceType: "script"
-            }
-        },
-        {
-            code: "new RegExp('abc', 'd');",
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
                     suggestions: null
                 }
-            ],
+            ]
+        },
+        {
+            code: "new RegExp('abc', 'd');",
             languageOptions: {
                 ecmaVersion: 2021
-            }
+            },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "RegExp('abc', 'd');",
+            languageOptions: {
+                ecmaVersion: 2022
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1116,10 +1119,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2022
-            }
+            ]
         },
         {
             code: "RegExp('\\\\\\\\', '');",
@@ -1137,6 +1137,9 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\n', '');",
+            languageOptions: {
+                ecmaVersion: 2022
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1147,10 +1150,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2022
-            }
+            ]
         },
         {
             code: "RegExp('\\n\\n', '');",
@@ -1349,6 +1349,11 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new globalThis.RegExp('\\\\W', '');",
+            languageOptions: {
+                globals: {
+                    globalThis: "readonly"
+                }
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1359,12 +1364,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                globals: {
-                    globalThis: "readonly"
-                }
-            }
+            ]
         },
         {
             code: "RegExp('\\\\s', '');",
@@ -1396,6 +1396,11 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "globalThis.RegExp('\\\\d', '');",
+            languageOptions: {
+                globals: {
+                    globalThis: "readonly"
+                }
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1406,15 +1411,15 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
+            ]
+        },
+        {
+            code: "globalThis.RegExp('\\\\D', '')",
             languageOptions: {
                 globals: {
                     globalThis: "readonly"
                 }
-            }
-        },
-        {
-            code: "globalThis.RegExp('\\\\D', '')",
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1425,15 +1430,15 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
+            ]
+        },
+        {
+            code: "globalThis.RegExp('\\\\\\\\\\\\D', '')",
             languageOptions: {
                 globals: {
                     globalThis: "readonly"
                 }
-            }
-        },
-        {
-            code: "globalThis.RegExp('\\\\\\\\\\\\D', '')",
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1444,12 +1449,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                globals: {
-                    globalThis: "readonly"
-                }
-            }
+            ]
         },
         {
             code: "new RegExp('\\\\D\\\\D', '')",
@@ -1467,6 +1467,11 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new globalThis.RegExp('\\\\0\\\\0', '');",
+            languageOptions: {
+                globals: {
+                    globalThis: "writable"
+                }
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1477,12 +1482,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                globals: {
-                    globalThis: "writable"
-                }
-            }
+            ]
         },
         {
             code: "new RegExp('\\\\0\\\\0', '');",
@@ -1523,6 +1523,9 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "RegExp('\\\\78\\\\126\\\\5934', '')",
+            languageOptions: {
+                ecmaVersion: 2022
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1533,13 +1536,15 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2022
-            }
+            ]
         },
         {
             code: "new window['RegExp']('\\\\x56\\\\x78\\\\x45', '');",
+            languageOptions: {
+                globals: {
+                    window: "readonly"
+                }
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1550,12 +1555,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                globals: {
-                    window: "readonly"
-                }
-            }
+            ]
         },
         {
             code: "a in(RegExp('abc'))",
@@ -1765,16 +1765,16 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "async function abc(){await new RegExp(\"foo\")}",
+            languageOptions: {
+                ecmaVersion: 8,
+                sourceType: "module"
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
                     suggestions: null
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 8,
-                sourceType: "module"
-            }
+            ]
         },
         {
             code: "function* abc(){yield new RegExp(\"foo\")}",
@@ -1903,6 +1903,9 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "\n            /abc/ == new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1913,13 +1916,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ === new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1930,13 +1933,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ != new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1947,13 +1950,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ !== new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1964,13 +1967,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ > new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1981,13 +1984,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ < new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -1998,13 +2001,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ >= new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2015,13 +2018,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ <= new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2032,13 +2035,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ << new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2049,13 +2052,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ >> new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2066,13 +2069,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ >>> new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2083,13 +2086,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ ^ new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2100,13 +2103,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ & new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2117,13 +2120,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            /abc/ | new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2134,13 +2137,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            null ?? new RegExp('blah')\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2151,13 +2154,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc *= new RegExp('blah')\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2168,13 +2171,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            console.log({a: new RegExp('sup')})\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2185,13 +2188,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            console.log(() => {new RegExp('sup')})\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2202,13 +2205,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            function abc() {new RegExp('sup')}\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2219,13 +2222,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            function abc() {return new RegExp('sup')}\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2236,13 +2239,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc <<= new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2253,13 +2256,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc >>= new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2270,13 +2273,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc >>>= new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2287,13 +2290,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc ^= new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2304,13 +2307,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc &= new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2321,13 +2324,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc |= new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2338,13 +2341,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc ??= new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2355,13 +2358,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc &&= new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2372,13 +2375,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc ||= new RegExp('cba');\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2389,13 +2392,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc **= new RegExp('blah')\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2406,13 +2409,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc /= new RegExp('blah')\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2423,13 +2426,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc += new RegExp('blah')\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2440,13 +2443,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc -= new RegExp('blah')\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2457,13 +2460,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            abc %= new RegExp('blah')\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2474,13 +2477,13 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "\n            () => new RegExp('blah')\n            ",
+            languageOptions: {
+                ecmaVersion: 2021
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2491,10 +2494,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2021
-            }
+            ]
         },
         {
             code: "a/RegExp(\"foo\")in b",
@@ -2605,15 +2605,15 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "(async function(){for await (value of new RegExp('something being searched')) { console.log(value) }})()",
+            languageOptions: {
+                ecmaVersion: 2018
+            },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
                     suggestions: null
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2018
-            }
+            ]
         },
         {
             code: "for (value in new RegExp('something being searched')) { console.log(value) }",
@@ -2833,6 +2833,7 @@ ruleTester.run("prefer-regex-literals", rule, {
         // ES2024
         {
             code: "new RegExp('[[A--B]]', 'v')",
+            languageOptions: { ecmaVersion: 2024 },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
@@ -2843,42 +2844,42 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: { ecmaVersion: 2024 }
+            ]
         },
         {
             code: "new RegExp('[[A--B]]', 'v')",
+            languageOptions: { ecmaVersion: 2023 },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
                     suggestions: null
                 }
-            ],
-            languageOptions: { ecmaVersion: 2023 }
+            ]
         },
         {
             code: "new RegExp('[[A&&&]]', 'v')",
+            languageOptions: { ecmaVersion: 2024 },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
                     suggestions: null
                 }
-            ],
-            languageOptions: { ecmaVersion: 2024 }
+            ]
         },
         {
             code: "new RegExp('a', 'uv')",
+            languageOptions: { ecmaVersion: 2024 },
             errors: [
                 {
                     messageId: "unexpectedRegExp",
                     suggestions: null
                 }
-            ],
-            languageOptions: { ecmaVersion: 2024 }
+            ]
         },
         {
             code: "new RegExp(/a/, 'v')",
             options: [{ disallowRedundantWrapping: true }],
+            languageOptions: { ecmaVersion: 2024 },
             errors: [
                 {
                     messageId: "unexpectedRedundantRegExpWithFlags",
@@ -2892,23 +2893,23 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: { ecmaVersion: 2024 }
+            ]
         },
         {
             code: "new RegExp(/a/, 'v')",
             options: [{ disallowRedundantWrapping: true }],
+            languageOptions: { ecmaVersion: 2023 },
             errors: [
                 {
                     messageId: "unexpectedRedundantRegExpWithFlags",
                     suggestions: null
                 }
-            ],
-            languageOptions: { ecmaVersion: 2023 }
+            ]
         },
         {
             code: "new RegExp(/a/g, 'v')",
             options: [{ disallowRedundantWrapping: true }],
+            languageOptions: { ecmaVersion: 2024 },
             errors: [
                 {
                     messageId: "unexpectedRedundantRegExpWithFlags",
@@ -2929,12 +2930,12 @@ ruleTester.run("prefer-regex-literals", rule, {
                         }
                     ]
                 }
-            ],
-            languageOptions: { ecmaVersion: 2024 }
+            ]
         },
         {
             code: "new RegExp(/[[A--B]]/v, 'g')",
             options: [{ disallowRedundantWrapping: true }],
+            languageOptions: { ecmaVersion: 2024 },
             errors: [
                 {
                     messageId: "unexpectedRedundantRegExpWithFlags",
@@ -2950,12 +2951,12 @@ ruleTester.run("prefer-regex-literals", rule, {
                         // suggestion with flags `g` would be invalid
                     ]
                 }
-            ],
-            languageOptions: { ecmaVersion: 2024 }
+            ]
         },
         {
             code: "new RegExp(/a/u, 'v')",
             options: [{ disallowRedundantWrapping: true }],
+            languageOptions: { ecmaVersion: 2024 },
             errors: [
                 {
                     messageId: "unexpectedRedundantRegExpWithFlags",
@@ -2971,12 +2972,12 @@ ruleTester.run("prefer-regex-literals", rule, {
                         // suggestion with merged flags `uv` would be invalid
                     ]
                 }
-            ],
-            languageOptions: { ecmaVersion: 2024 }
+            ]
         },
         {
             code: "new RegExp(/a/v, 'u')",
             options: [{ disallowRedundantWrapping: true }],
+            languageOptions: { ecmaVersion: 2024 },
             errors: [
                 {
                     messageId: "unexpectedRedundantRegExpWithFlags",
@@ -2992,22 +2993,24 @@ ruleTester.run("prefer-regex-literals", rule, {
                         // suggestion with merged flags `vu` would be invalid
                     ]
                 }
-            ],
-            languageOptions: { ecmaVersion: 2024 }
+            ]
         },
         {
             code: "new RegExp(/[[A--B]]/v, 'u')",
             options: [{ disallowRedundantWrapping: true }],
+            languageOptions: { ecmaVersion: 2024 },
             errors: [
                 {
                     messageId: "unexpectedRedundantRegExpWithFlags",
                     suggestions: null
                 }
-            ],
-            languageOptions: { ecmaVersion: 2024 }
+            ]
         },
         {
             code: "var regex = new RegExp('foo', 'u');",
+            languageOptions: {
+                ecmaVersion: 2015
+            },
             errors: [{
                 messageId: "unexpectedRegExp",
                 suggestions: [
@@ -3016,10 +3019,7 @@ ruleTester.run("prefer-regex-literals", rule, {
                         output: "var regex = /foo/u;"
                     }
                 ]
-            }],
-            languageOptions: {
-                ecmaVersion: 2015
-            }
+            }]
         }
 
     ]

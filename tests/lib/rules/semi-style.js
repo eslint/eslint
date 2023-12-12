@@ -591,25 +591,25 @@ ruleTester.run("semi-style", rule, {
             code: "class C { foo\n;bar }",
             output: "class C { foo;\nbar }",
             options: ["last"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {
                     pos: "the end of the previous line"
                 }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { foo;\nbar }",
             output: "class C { foo\n;bar }",
             options: ["first"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {
                     pos: "the beginning of the next line"
                 }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
 
         // Class static blocks
@@ -617,49 +617,49 @@ ruleTester.run("semi-style", rule, {
             code: "class C { static { foo\n; } }",
             output: "class C { static { foo;\n} }",
             options: ["last"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {
                     pos: "the end of the previous line"
                 }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { foo\n ;bar } }",
             output: "class C { static { foo;\nbar } }",
             options: ["last"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {
                     pos: "the end of the previous line"
                 }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { foo;\nbar\n ; } }",
             output: "class C { static { foo;\nbar;\n} }",
             options: ["last"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {
                     pos: "the end of the previous line"
                 }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { foo;\nbar } }",
             output: "class C { static { foo\n;bar } }",
             options: ["first"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {
                     pos: "the beginning of the next line"
                 }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         }
     ]
 });

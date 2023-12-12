@@ -266,6 +266,7 @@ ruleTester.run("require-unicode-regexp", rule, {
         },
         {
             code: "new window.RegExp('foo')",
+            languageOptions: { globals: globals.browser },
             errors: [{
                 messageId: "requireUFlag",
                 suggestions: [
@@ -274,11 +275,11 @@ ruleTester.run("require-unicode-regexp", rule, {
                         output: "new window.RegExp('foo', \"u\")"
                     }
                 ]
-            }],
-            languageOptions: { globals: globals.browser }
+            }]
         },
         {
             code: "new global.RegExp('foo')",
+            languageOptions: { sourceType: "commonjs" },
             errors: [{
                 messageId: "requireUFlag",
                 suggestions: [
@@ -287,11 +288,11 @@ ruleTester.run("require-unicode-regexp", rule, {
                         output: "new global.RegExp('foo', \"u\")"
                     }
                 ]
-            }],
-            languageOptions: { sourceType: "commonjs" }
+            }]
         },
         {
             code: "new globalThis.RegExp('foo')",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "requireUFlag",
                 suggestions: [
@@ -300,8 +301,7 @@ ruleTester.run("require-unicode-regexp", rule, {
                         output: "new globalThis.RegExp('foo', \"u\")"
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         }
     ]
 });

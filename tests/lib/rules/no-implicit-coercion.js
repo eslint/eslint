@@ -205,12 +205,12 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "``+foo",
             output: "String(foo)",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
                 type: "BinaryExpression"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "foo+\"\"",
@@ -224,12 +224,12 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "foo+``",
             output: "String(foo)",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
                 type: "BinaryExpression"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "\"\"+foo.bar",
@@ -243,12 +243,12 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "``+foo.bar",
             output: "String(foo.bar)",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo.bar)" },
                 type: "BinaryExpression"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "foo.bar+\"\"",
@@ -262,45 +262,45 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "foo.bar+``",
             output: "String(foo.bar)",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo.bar)" },
                 type: "BinaryExpression"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "`${foo}`",
             output: "String(foo)",
             options: [{ disallowTemplateShorthand: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "`\\\n${foo}`",
             output: "String(foo)",
             options: [{ disallowTemplateShorthand: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "`${foo}\\\n`",
             output: "String(foo)",
             options: [{ disallowTemplateShorthand: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "foo += \"\"",
@@ -314,12 +314,12 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "foo += ``",
             output: "foo = String(foo)",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "foo = String(foo)" },
                 type: "AssignmentExpression"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var a = !!foo",
@@ -375,12 +375,12 @@ ruleTester.run("no-implicit-coercion", rule, {
             code: "var a = `` + foo",
             output: "var a = String(foo)",
             options: [{ boolean: true, allow: ["*"] }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
                 type: "BinaryExpression"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "typeof+foo",
@@ -403,34 +403,34 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "let x ='' + 1n;",
             output: "let x =String(1n);",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(1n)" },
                 type: "BinaryExpression"
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
 
         // Optional chaining
         {
             code: "~foo?.indexOf(1)",
             output: null,
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "foo?.indexOf(1) >= 0" },
                 type: "UnaryExpression"
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
         {
             code: "~(foo?.indexOf)(1)",
             output: null,
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "(foo?.indexOf)(1) !== -1" },
                 type: "UnaryExpression"
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
 
         // https://github.com/eslint/eslint/issues/16373 regression tests

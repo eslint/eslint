@@ -472,6 +472,7 @@ ruleTester.run("array-bracket-spacing", rule, {
             code: "var [x,y] = y",
             output: "var [ x,y ] = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSpaceAfter",
                 data: {
@@ -493,13 +494,13 @@ ruleTester.run("array-bracket-spacing", rule, {
                 column: 9,
                 endLine: 1,
                 endColumn: 10
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var [x,y ] = y",
             output: "var [ x,y ] = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSpaceAfter",
                 data: {
@@ -510,13 +511,13 @@ ruleTester.run("array-bracket-spacing", rule, {
                 column: 5,
                 endLine: 1,
                 endColumn: 6
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var [,,,x,,] = y",
             output: "var [ ,,,x,, ] = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSpaceAfter",
                 data: {
@@ -538,13 +539,13 @@ ruleTester.run("array-bracket-spacing", rule, {
                 column: 12,
                 endLine: 1,
                 endColumn: 13
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var [ ,,,x,,] = y",
             output: "var [ ,,,x,, ] = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSpaceBefore",
                 data: {
@@ -555,13 +556,13 @@ ruleTester.run("array-bracket-spacing", rule, {
                 column: 13,
                 endLine: 1,
                 endColumn: 14
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var [...horse] = y",
             output: "var [ ...horse ] = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSpaceAfter",
                 data: {
@@ -583,13 +584,13 @@ ruleTester.run("array-bracket-spacing", rule, {
                 column: 14,
                 endLine: 1,
                 endColumn: 15
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var [...horse ] = y",
             output: "var [ ...horse ] = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSpaceAfter",
                 data: {
@@ -600,13 +601,13 @@ ruleTester.run("array-bracket-spacing", rule, {
                 column: 5,
                 endLine: 1,
                 endColumn: 6
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var [ [ x, y ], z ] = arr;",
             output: "var [[ x, y ], z ] = arr;",
             options: ["always", { arraysInArrays: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpectedSpaceAfter",
                 data: {
@@ -617,13 +618,13 @@ ruleTester.run("array-bracket-spacing", rule, {
                 column: 6,
                 endLine: 1,
                 endColumn: 7
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "[ { x, y }, z ] = arr;",
             output: "[{ x, y }, z ] = arr;",
             options: ["always", { objectsInArrays: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpectedSpaceAfter",
                 data: {
@@ -634,13 +635,13 @@ ruleTester.run("array-bracket-spacing", rule, {
                 column: 2,
                 endLine: 1,
                 endColumn: 3
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "[ x, { y, z } ] = arr;",
             output: "[ x, { y, z }] = arr;",
             options: ["always", { objectsInArrays: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpectedSpaceBefore",
                 data: {
@@ -651,8 +652,7 @@ ruleTester.run("array-bracket-spacing", rule, {
                 column: 14,
                 endLine: 1,
                 endColumn: 15
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // never -  arraysInArrays
@@ -921,6 +921,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             code: "([ a, b ]: Array<any>) => {}",
             output: "([a, b]: Array<any>) => {}",
             options: ["never"],
+            languageOptions: {
+                ecmaVersion: 6,
+                parser: parser("flow-destructuring-1")
+            },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -944,16 +948,16 @@ ruleTester.run("array-bracket-spacing", rule, {
                     endLine: 1,
                     endColumn: 9
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 6,
-                parser: parser("flow-destructuring-1")
-            }
+            ]
         },
         {
             code: "([a, b]: Array< any >) => {}",
             output: "([ a, b ]: Array< any >) => {}",
             options: ["always"],
+            languageOptions: {
+                parser: parser("flow-destructuring-2"),
+                ecmaVersion: 6
+            },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -977,11 +981,7 @@ ruleTester.run("array-bracket-spacing", rule, {
                     endLine: 1,
                     endColumn: 8
                 }
-            ],
-            languageOptions: {
-                parser: parser("flow-destructuring-2"),
-                ecmaVersion: 6
-            }
+            ]
         },
 
         // multiple spaces
@@ -1018,6 +1018,9 @@ ruleTester.run("array-bracket-spacing", rule, {
             code: "function f( [   a, b  ] ) {}",
             output: "function f( [a, b] ) {}",
             options: ["never"],
+            languageOptions: {
+                ecmaVersion: 6
+            },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -1041,10 +1044,7 @@ ruleTester.run("array-bracket-spacing", rule, {
                     endLine: 1,
                     endColumn: 23
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 6
-            }
+            ]
         },
         {
             code: "var arr = [ 1,\n   2   ];",

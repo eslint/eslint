@@ -135,41 +135,42 @@ ruleTester.run("no-lone-blocks", rule, {
         // Non-block-level bindings, even in ES6
         {
             code: "{ function bar() {} }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "redundantBlock",
                 type: "BlockStatement"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{var x = 1;}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "redundantBlock",
                 type: "BlockStatement"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         {
             code: "{ \n{var x = 1;}\n let y = 2; } {let z = 1;}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 2
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{ \n{let x = 1;}\n var y = 2; } {let z = 1;}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "redundantBlock",
                 type: "BlockStatement",
                 line: 1
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{ \n{var x = 1;}\n var y = 2; }\n {var z = 1;}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "redundantBlock",
@@ -186,8 +187,7 @@ ruleTester.run("no-lone-blocks", rule, {
                     type: "BlockStatement",
                     line: 4
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: `
@@ -229,12 +229,12 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 3
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: `
@@ -262,12 +262,12 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 5
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: `
@@ -282,12 +282,12 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 5
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: `
@@ -299,12 +299,12 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 4
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: `
@@ -316,12 +316,12 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 4
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: `
@@ -333,12 +333,12 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 4
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: `
@@ -350,12 +350,12 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 4
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: `
@@ -367,12 +367,12 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 4
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: `
@@ -385,12 +385,12 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 4
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: `
@@ -403,12 +403,12 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 5
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: `
@@ -421,12 +421,12 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 4
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: `
@@ -439,12 +439,12 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
                 line: 5
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         }
     ]
 });

@@ -173,11 +173,11 @@ ruleTester.run("no-trailing-spaces", rule, {
             "  short,\n" +
             "  short2\n" +
             "}\n",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "trailingSpace",
                 type: "Program"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code:
@@ -366,6 +366,7 @@ ruleTester.run("no-trailing-spaces", rule, {
         {
             code: "let str = `${a}\n  \n${b}`;  \n",
             output: "let str = `${a}\n  \n${b}`;\n",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "trailingSpace",
                 type: "Program",
@@ -373,12 +374,12 @@ ruleTester.run("no-trailing-spaces", rule, {
                 column: 7,
                 endLine: 3,
                 endColumn: 9
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let str = `\n${a}\n  \n${b}`;  \n\t",
             output: "let str = `\n${a}\n  \n${b}`;\n",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "trailingSpace",
@@ -396,12 +397,12 @@ ruleTester.run("no-trailing-spaces", rule, {
                     endLine: 5,
                     endColumn: 2
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "let str = `  \n  ${a}\n  \n${b}`;  \n",
             output: "let str = `  \n  ${a}\n  \n${b}`;\n",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "trailingSpace",
@@ -411,8 +412,7 @@ ruleTester.run("no-trailing-spaces", rule, {
                     endLine: 4,
                     endColumn: 9
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "let str = `${a}\n  \n${b}`;  \n  \n",
@@ -420,6 +420,7 @@ ruleTester.run("no-trailing-spaces", rule, {
             options: [{
                 skipBlankLines: true
             }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "trailingSpace",
@@ -429,8 +430,7 @@ ruleTester.run("no-trailing-spaces", rule, {
                     endLine: 3,
                     endColumn: 9
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/6933

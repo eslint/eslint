@@ -286,6 +286,7 @@ ruleTester.run("no-inner-declarations", rule, {
         }, {
             code: "const doSomething = () => { if (test) { var foo = 42; } }",
             options: ["both"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "moveDeclToRoot",
                 data: {
@@ -293,11 +294,11 @@ ruleTester.run("no-inner-declarations", rule, {
                     body: "function body"
                 },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "class C { method() { if(test) { var foo; } } }",
             options: ["both"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "moveDeclToRoot",
                 data: {
@@ -305,11 +306,11 @@ ruleTester.run("no-inner-declarations", rule, {
                     body: "function body"
                 },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "class C { static { if (test) { function foo() {} } } }",
             options: ["both"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "moveDeclToRoot",
                 data: {
@@ -317,11 +318,11 @@ ruleTester.run("no-inner-declarations", rule, {
                     body: "class static block body"
                 },
                 type: "FunctionDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         }, {
             code: "class C { static { if (test) { var foo; } } }",
             options: ["both"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "moveDeclToRoot",
                 data: {
@@ -329,11 +330,11 @@ ruleTester.run("no-inner-declarations", rule, {
                     body: "class static block body"
                 },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         }, {
             code: "class C { static { if (test) { if (anotherTest) { var foo; } } } }",
             options: ["both"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "moveDeclToRoot",
                 data: {
@@ -341,8 +342,7 @@ ruleTester.run("no-inner-declarations", rule, {
                     body: "class static block body"
                 },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         }
     ]
 });

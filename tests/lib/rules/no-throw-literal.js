@@ -129,11 +129,11 @@ ruleTester.run("no-throw-literal", rule, {
         },
         {
             code: "throw foo &&= 'literal'", // evaluates either to a falsy value of `foo` (which, then, cannot be an Error object), or to 'literal'
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "object",
                 type: "ThrowStatement"
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
 
         // SequenceExpression
@@ -173,12 +173,12 @@ ruleTester.run("no-throw-literal", rule, {
         // TemplateLiteral
         {
             code: "throw `${err}`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "object",
                 type: "ThrowStatement"
 
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }
     ]
 });

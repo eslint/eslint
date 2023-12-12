@@ -90,12 +90,12 @@ ruleTester.run("radix", rule, {
         },
         {
             code: "parseInt(\"10\",);", // Function parameter with trailing comma
+            languageOptions: { ecmaVersion: 2017 },
             errors: [{
                 messageId: "missingRadix",
                 type: "CallExpression",
                 suggestions: [{ messageId: "addRadixParameter10", output: "parseInt(\"10\", 10,);" }]
-            }],
-            languageOptions: { ecmaVersion: 2017 }
+            }]
         },
         {
             code: "parseInt((0, \"10\"));", // Sequence expression (no trailing comma).
@@ -107,12 +107,12 @@ ruleTester.run("radix", rule, {
         },
         {
             code: "parseInt((0, \"10\"),);", // Sequence expression (with trailing comma).
+            languageOptions: { ecmaVersion: 2017 },
             errors: [{
                 messageId: "missingRadix",
                 type: "CallExpression",
                 suggestions: [{ messageId: "addRadixParameter10", output: "parseInt((0, \"10\"), 10,);" }]
-            }],
-            languageOptions: { ecmaVersion: 2017 }
+            }]
         },
         {
             code: "parseInt(\"10\", null);",
@@ -226,47 +226,47 @@ ruleTester.run("radix", rule, {
         // Optional chaining
         {
             code: "parseInt?.(\"10\");",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "missingRadix",
                     type: "CallExpression",
                     suggestions: [{ messageId: "addRadixParameter10", output: "parseInt?.(\"10\", 10);" }]
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: "Number.parseInt?.(\"10\");",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "missingRadix",
                     type: "CallExpression",
                     suggestions: [{ messageId: "addRadixParameter10", output: "Number.parseInt?.(\"10\", 10);" }]
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: "Number?.parseInt(\"10\");",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "missingRadix",
                     type: "CallExpression",
                     suggestions: [{ messageId: "addRadixParameter10", output: "Number?.parseInt(\"10\", 10);" }]
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: "(Number?.parseInt)(\"10\");",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "missingRadix",
                     type: "CallExpression",
                     suggestions: [{ messageId: "addRadixParameter10", output: "(Number?.parseInt)(\"10\", 10);" }]
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         }
     ]
 });

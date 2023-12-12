@@ -339,6 +339,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "foo[/(?<zero>0)/]",
             options: [{ property: "/(?<zero>0)/" }],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
@@ -347,8 +348,7 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "MemberExpression"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         }, {
             code: "require.call({}, 'foo')",
             options: [{
@@ -381,6 +381,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "let {bar} = foo;",
             options: [{ object: "foo", property: "bar" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -389,11 +390,11 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "let {bar: baz} = foo;",
             options: [{ object: "foo", property: "bar" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -402,11 +403,11 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "let {'bar': baz} = foo;",
             options: [{ object: "foo", property: "bar" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -415,11 +416,11 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "let {bar: {baz: qux}} = foo;",
             options: [{ object: "foo", property: "bar" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -428,11 +429,11 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "let {bar} = foo;",
             options: [{ object: "foo" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -441,11 +442,11 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "let {bar: baz} = foo;",
             options: [{ object: "foo" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -454,11 +455,11 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "let {bar} = foo;",
             options: [{ property: "bar" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
@@ -467,11 +468,11 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "let bar; ({bar} = foo);",
             options: [{ object: "foo", property: "bar" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -480,11 +481,11 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "let bar; ({bar: baz = 1} = foo);",
             options: [{ object: "foo", property: "bar" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -493,11 +494,11 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "function qux({bar} = foo) {}",
             options: [{ object: "foo", property: "bar" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -506,11 +507,11 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "function qux({bar: baz} = foo) {}",
             options: [{ object: "foo", property: "bar" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -519,11 +520,11 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "var {['foo']: qux, bar} = baz",
             options: [{ object: "baz", property: "foo" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -532,8 +533,7 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "ObjectPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }, {
             code: "obj['#foo']",
             options: [{ property: "#foo" }],

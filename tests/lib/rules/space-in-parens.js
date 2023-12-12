@@ -552,18 +552,18 @@ ruleTester.run("space-in-parens", rule, {
             code: "var foo = `(bar ${( 1 + 2 )})`;",
             output: "var foo = `(bar ${(1 + 2)})`;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "rejectedOpeningSpace", line: 1, column: 20 },
                 { messageId: "rejectedClosingSpace", line: 1, column: 26 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = `(bar ${(1 + 2 )})`;",
             output: "var foo = `(bar ${( 1 + 2 )})`;",
             options: ["always"],
-            errors: [{ messageId: "missingOpeningSpace", line: 1, column: 19 }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "missingOpeningSpace", line: 1, column: 19 }]
         }
     ]
 });

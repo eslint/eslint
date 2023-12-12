@@ -154,35 +154,35 @@ ruleTester.run("no-param-reassign", rule, {
         },
         {
             code: "function foo({bar}) { bar = 13; }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParam",
                 data: { name: "bar" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo([, {bar}]) { bar = 13; }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParam",
                 data: { name: "bar" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(bar) { ({bar} = {}); }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParam",
                 data: { name: "bar" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(bar) { ({x: [, bar = 0]} = {}); }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParam",
                 data: { name: "bar" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(bar) { for (bar in baz); }",
@@ -193,11 +193,11 @@ ruleTester.run("no-param-reassign", rule, {
         },
         {
             code: "function foo(bar) { for (bar of baz); }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParam",
                 data: { name: "bar" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         {
@@ -243,11 +243,11 @@ ruleTester.run("no-param-reassign", rule, {
         {
             code: "function foo(bar) { for (bar.a of []); }",
             options: [{ props: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "bar" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(bar) { (bar ? bar : [])[0] = 1; }",
@@ -260,165 +260,165 @@ ruleTester.run("no-param-reassign", rule, {
         {
             code: "function foo(bar) { [bar.a] = []; }",
             options: [{ props: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "bar" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(bar) { [bar.a] = []; }",
             options: [{ props: true, ignorePropertyModificationsFor: ["a"] }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "bar" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(bar) { [bar.a] = []; }",
             options: [{ props: true, ignorePropertyModificationsForRegex: ["^a.*$"] }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "bar" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(bar) { [bar.a] = []; }",
             options: [{ props: true, ignorePropertyModificationsForRegex: ["^B.*$"] }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "bar" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(bar) { ({foo: bar.a} = {}); }",
             options: [{ props: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "bar" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(a) { ({a} = obj); }",
             options: [{ props: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParam",
                 data: {
                     name: "a"
                 }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(a) { ([...a] = obj); }",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "assignmentToFunctionParam",
                 data: {
                     name: "a"
                 }
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "function foo(a) { ({...a} = obj); }",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 messageId: "assignmentToFunctionParam",
                 data: {
                     name: "a"
                 }
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "function foo(a) { ([...a.b] = obj); }",
             options: [{ props: true }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "function foo(a) { ({...a.b} = obj); }",
             options: [{ props: true }],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "function foo(a) { for ({bar: a.b} in {}); }",
             options: [{ props: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(a) { for ([a.b] of []); }",
             options: [{ props: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(a) { a &&= b; }",
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "assignmentToFunctionParam",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "function foo(a) { a ||= b; }",
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "assignmentToFunctionParam",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "function foo(a) { a ??= b; }",
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "assignmentToFunctionParam",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "function foo(a) { a.b &&= c; }",
             options: [{ props: true }],
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "function foo(a) { a.b.c ||= d; }",
             options: [{ props: true }],
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "function foo(a) { a[b] ??= c; }",
             options: [{ props: true }],
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "assignmentToFunctionParamProp",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         }
     ]
 });

@@ -564,6 +564,7 @@ ruleTester.run("curly", rule, {
         {
             code: "for (var foo of bar) console.log(foo)",
             output: "for (var foo of bar) {console.log(foo)}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingCurlyAfter",
@@ -574,12 +575,12 @@ ruleTester.run("curly", rule, {
                     endLine: 1,
                     endColumn: 38
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "for (var foo of bar) \n console.log(foo)",
             output: "for (var foo of bar) \n {console.log(foo)}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingCurlyAfter",
@@ -590,12 +591,12 @@ ruleTester.run("curly", rule, {
                     endLine: 2,
                     endColumn: 18
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "for (a;;) console.log(foo)",
             output: "for (a;;) {console.log(foo)}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingCurlyAfterCondition",
@@ -606,12 +607,12 @@ ruleTester.run("curly", rule, {
                     endLine: 1,
                     endColumn: 27
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "for (a;;) \n console.log(foo)",
             output: "for (a;;) \n {console.log(foo)}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingCurlyAfterCondition",
@@ -622,13 +623,13 @@ ruleTester.run("curly", rule, {
                     endLine: 2,
                     endColumn: 18
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "for (var foo of bar) {console.log(foo)}",
             output: "for (var foo of bar) console.log(foo)",
             options: ["multi"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedCurlyAfter",
@@ -639,13 +640,13 @@ ruleTester.run("curly", rule, {
                     endLine: 1,
                     endColumn: 40
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "do{foo();} while(bar);",
             output: "do foo(); while(bar);",
             options: ["multi"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedCurlyAfter",
@@ -656,8 +657,7 @@ ruleTester.run("curly", rule, {
                     endLine: 1,
                     endColumn: 11
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "for (;foo;) { bar() }",
@@ -854,14 +854,14 @@ ruleTester.run("curly", rule, {
             code: "for (var foo of bar) { console.log(foo) }",
             output: "for (var foo of bar)  console.log(foo) ",
             options: ["multi"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedCurlyAfter",
                     data: { name: "for-of" },
                     type: "ForOfStatement"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "if (foo) \n baz()",
@@ -1018,6 +1018,7 @@ ruleTester.run("curly", rule, {
             code: "for (var foo of bar) \n console.log(foo)",
             output: "for (var foo of bar) \n {console.log(foo)}",
             options: ["multi-line"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingCurlyAfter",
@@ -1028,21 +1029,20 @@ ruleTester.run("curly", rule, {
                     endLine: 2,
                     endColumn: 18
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "for (var foo of bar) \n console.log(1); \n console.log(2)",
             output: "for (var foo of bar) \n {console.log(1);} \n console.log(2)",
             options: ["multi-line"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingCurlyAfter",
                     data: { name: "for-of" },
                     type: "ForOfStatement"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "if (foo) \n quz = { \n bar: baz, \n qux: foo \n };",
@@ -1096,27 +1096,27 @@ ruleTester.run("curly", rule, {
             code: "if (foo) { let bar; } else baz();",
             output: "if (foo) { let bar; } else {baz();}",
             options: ["multi", "consistent"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingCurlyAfter",
                     data: { name: "else" },
                     type: "IfStatement"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "if (foo) bar(); else { const baz = 'quux' }",
             output: "if (foo) {bar();} else { const baz = 'quux' }",
             options: ["multi", "consistent"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingCurlyAfterCondition",
                     data: { name: "if" },
                     type: "IfStatement"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "if (foo) { \n var bar = 'baz'; \n }",
@@ -1224,27 +1224,27 @@ ruleTester.run("curly", rule, {
             code: "for (var foo of bar) \n if (foo) console.log(1); \n else console.log(2);",
             output: "for (var foo of bar) \n {if (foo) console.log(1); \n else console.log(2);}",
             options: ["multi-or-nest"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingCurlyAfter",
                     data: { name: "for-of" },
                     type: "ForOfStatement"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "for (var foo of bar) { if (foo) console.log(1) }",
             output: "for (var foo of bar)  if (foo) console.log(1) ",
             options: ["multi-or-nest"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedCurlyAfter",
                     data: { name: "for-of" },
                     type: "ForOfStatement"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "if (true) foo(); \n else { \n bar(); \n baz(); \n }",
@@ -1463,8 +1463,8 @@ ruleTester.run("curly", rule, {
             code: "if (foo) { bar }\n/regex/.test('foo');",
             output: null,
             options: ["multi"],
-            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
         },
         {
             code: "if (foo) { bar }\nBaz();",
@@ -1500,8 +1500,8 @@ ruleTester.run("curly", rule, {
             code: "if (foo) { var foo = () => {} } else {}",
             output: null,
             options: ["multi"],
-            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
         },
         {
             code: "if (foo) { var foo = function() {} } else {}",
@@ -1513,8 +1513,8 @@ ruleTester.run("curly", rule, {
             code: "if (foo) { var foo = function*() {} } else {}",
             output: null,
             options: ["multi"],
-            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
         },
         {
             code: "if (true)\nfoo()\n;[1, 2, 3].bar()",
@@ -1558,8 +1558,8 @@ ruleTester.run("curly", rule, {
             code: "for (var foo of bar) {\ndoSomething()\n;\n}",
             output: "for (var foo of bar) \ndoSomething()\n;\n",
             options: ["multi-or-nest"],
-            errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "for-of" }, type: "ForOfStatement" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "for-of" }, type: "ForOfStatement" }]
         },
         {
             code: "while (foo) {\ndoSomething()\n;\n}",
@@ -1835,6 +1835,7 @@ ruleTester.run("curly", rule, {
         {
             code: "for(var i of \n z)\nfoo()\n",
             output: "for(var i of \n z)\n{foo()}\n",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 data: { name: "for-of" },
                 type: "ForOfStatement",
@@ -1843,8 +1844,7 @@ ruleTester.run("curly", rule, {
                 column: 1,
                 endLine: 3,
                 endColumn: 6
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }
     ]
 });

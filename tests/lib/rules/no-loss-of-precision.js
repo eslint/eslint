@@ -121,33 +121,33 @@ ruleTester.run("no-loss-of-precision", rule, {
         },
         {
             code: "var x = 900719925474099_3",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 90_0719925_4740.9_93e3",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 9.0_0719925_474099_3e15",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = -9_00719_9254_740993",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 900_719.92_54740_994",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = -900_719.92_5474_0994",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 5123000000000000000000000000001",
@@ -179,23 +179,23 @@ ruleTester.run("no-loss-of-precision", rule, {
         },
         {
             code: "var x = 0b100000000000000000000000000000000000000000000000000001",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 0B100000000000000000000000000000000000000000000000000001",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 0o400000000000000001",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 0O400000000000000001",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 0400000000000000001",
@@ -211,68 +211,68 @@ ruleTester.run("no-loss-of-precision", rule, {
         },
         {
             code: "var x = 5123_00000000000000000000000000_1",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = -5_12300000000000000000000_0000001",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 123_00000000000000000000_00.0_0",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 1.0_00000000000000000_0000123",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 174_980057982_640953949800178169_409709228253554471456994_914061648512796239935950073857881054_1618443059_2",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 2e9_99",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = .1_23000000000000_00000_0000_0",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 0b1_0000000000000000000000000000000000000000000000000000_1",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 0B10000000000_0000000000000000000000000000_000000000000001",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 0o4_00000000000000_001",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 0O4_0000000000000000_1",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 0x2_0000000000001",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
             code: "var x = 0X200000_0000000_1",
-            errors: [{ messageId: "noLossOfPrecision" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noLossOfPrecision" }]
         }
     ]
 });

@@ -189,22 +189,22 @@ ruleTester.run("sort-vars", rule, {
             code: "var d, a, [b, c] = {};",
             output: "var a, d, [b, c] = {};",
             options: ignoreCaseArgs,
-            errors: [expectedError],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [expectedError]
         },
         {
             code: "var d, a, [b, {x: {c, e}}] = {};",
             output: "var a, d, [b, {x: {c, e}}] = {};",
             options: ignoreCaseArgs,
-            errors: [expectedError],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [expectedError]
         },
         {
             code: "var {} = 1, b, a",
             output: "var {} = 1, a, b",
             options: ignoreCaseArgs,
-            errors: [expectedError],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [expectedError]
         },
         {
             code: "var b=10, a=f();",
@@ -219,14 +219,14 @@ ruleTester.run("sort-vars", rule, {
         {
             code: "var b = 0, a = `${b}`;",
             output: null,
-            errors: [expectedError],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [expectedError]
         },
         {
             code: "var b = 0, a = `${f()}`",
             output: null,
-            errors: [expectedError],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [expectedError]
         },
         {
             code: "var b = 0, c = b, a;",
@@ -246,8 +246,8 @@ ruleTester.run("sort-vars", rule, {
         {
             code: "var b = `${f()}`, c, d, a;",
             output: null,
-            errors: [expectedError],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [expectedError]
         },
         {
             code: "var c, a = b = 0",

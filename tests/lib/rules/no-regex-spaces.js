@@ -148,14 +148,14 @@ ruleTester.run("no-regex-spaces", rule, {
             // `RegExp` is not shadowed in the scope where it's called
             code: "{ let RegExp = function() {}; } var foo = RegExp('bar    baz');",
             output: "{ let RegExp = function() {}; } var foo = RegExp('bar {4}baz');",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "multipleSpaces",
                     data: { length: "4" },
                     type: "CallExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = /bar   {3}baz/;",
@@ -386,16 +386,16 @@ ruleTester.run("no-regex-spaces", rule, {
         {
             code: "var foo = /[[    ]    ]    /v;",
             output: "var foo = /[[    ]    ] {4}/v;",
+            languageOptions: {
+                ecmaVersion: 2024
+            },
             errors: [
                 {
                     messageId: "multipleSpaces",
                     data: { length: "4" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: {
-                ecmaVersion: 2024
-            }
+            ]
         },
         {
             code: "var foo = new RegExp('[[    ]    ]    ', 'v');",

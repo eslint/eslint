@@ -251,21 +251,21 @@ ruleTester.run("no-use-before-define", rule, {
     invalid: [
         {
             code: "a++; var a=19;",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "a++; var a=19;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "a++; var a=19;",
@@ -317,21 +317,21 @@ ruleTester.run("no-use-before-define", rule, {
         },
         {
             code: "(() => { alert(a); var a = 42; })();",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(() => a())(); function a() { }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "\"use strict\"; a(); { function a() {} }",
@@ -351,95 +351,95 @@ ruleTester.run("no-use-before-define", rule, {
         },
         {
             code: "var f = () => a; var a;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "new A(); class A {};",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "A" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { new A(); } class A {};",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "A" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "new A(); var A = class {};",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "A" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { new A(); } var A = class {};",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "A" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // Block-level bindings
         {
             code: "a++; { var a; }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "\"use strict\"; { a(); function a() {} }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{a; let a = 1}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "switch (foo) { case 1: a();\n default: \n let a;}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "if (true) { function foo() { a; } let a;}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // object style options
@@ -455,32 +455,32 @@ ruleTester.run("no-use-before-define", rule, {
         {
             code: "new A(); class A {};",
             options: [{ functions: false, classes: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "A" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "new A(); var A = class {};",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "A" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { new A(); } var A = class {};",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "A" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // invalid initializers
@@ -494,84 +494,84 @@ ruleTester.run("no-use-before-define", rule, {
         },
         {
             code: "let a = a + b;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = foo(a);",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(a = a) {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var {a = a} = [];",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var [a = a] = [];",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var {b = a, a} = {};",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var [b = a, a] = {};",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var {a = 0} = a;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var [a = 0] = a;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "for (var a in a) {}",
@@ -583,12 +583,12 @@ ruleTester.run("no-use-before-define", rule, {
         },
         {
             code: "for (var a of a) {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // "variables" option
@@ -614,520 +614,520 @@ ruleTester.run("no-use-before-define", rule, {
         // https://github.com/eslint/eslint/issues/10227
         {
             code: "for (let x = x;;); let x = 0",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "x" }
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "for (let x in xs); let xs = []",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "xs" }
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "for (let x of xs); let xs = []",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "xs" }
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "try {} catch ({message = x}) {} let x = ''",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "x" }
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "with (obj) x; let x = {}",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "x" }
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
 
         // WithStatements.
         {
             code: "with (x); let x = {}",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "x" }
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "with (obj) { x } let x = {}",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "x" }
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "with (obj) { if (a) { x } } let x = {}",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "x" }
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "with (obj) { (() => { if (a) { x } })() } let x = {}",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "x" }
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
 
         // Tests related to class definition evaluation. These are TDZ errors.
         {
             code: "class C extends C {}",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const C = class extends C {};",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "class C extends (class { [C](){} }) {}",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const C = class extends (class { [C](){} }) {};",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "class C extends (class { static field = C; }) {}",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "const C = class extends (class { static field = C; }) {};",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { [C](){} }",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(class C { [C](){} });",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const C = class { [C](){} };",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "class C { static [C](){} }",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(class C { static [C](){} });",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const C = class { static [C](){} };",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "class C { [C]; }",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "(class C { [C]; });",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "const C = class { [C]; };",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { [C] = foo; }",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "(class C { [C] = foo; });",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "const C = class { [C] = foo; };",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static [C]; }",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "(class C { static [C]; });",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "const C = class { static [C]; };",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static [C] = foo; }",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "(class C { static [C] = foo; });",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "const C = class { static [C] = foo; };",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "const C = class { static field = C; };",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "const C = class { static field = class extends C {}; };",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "const C = class { static field = class { [C]; } };",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "const C = class { static field = class { static field = C; }; };",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C extends D {} class D {}",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "D" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "class C extends (class { [a](){} }) {} let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "class C extends (class { static field = a; }) {} let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { [a]() {} } let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "class C { static [a]() {} } let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "class C { [a]; } let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static [a]; } let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { [a] = foo; } let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static [a] = foo; } let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static field = a; } let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static field = D; } class D {}",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "D" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static field = class extends D {}; } class D {}",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "D" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static field = class { [a](){} } } let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static field = class { static field = a; }; } let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "const C = class { static { C; } };",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "const C = class { static { (class extends C {}); } };",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { a; } } let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { D; } } class D {}",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "D" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { (class extends D {}); } } class D {}",
             options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "D" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { (class { [a](){} }); } } let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { (class { static field = a; }); } } let a;",
             options: [{ variables: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
 
         /*
@@ -1164,49 +1164,50 @@ ruleTester.run("no-use-before-define", rule, {
         // "allowNamedExports" option
         {
             code: "export { a }; const a = 1;",
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            }]
         },
         {
             code: "export { a }; const a = 1;",
             options: [{}],
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            }]
         },
         {
             code: "export { a }; const a = 1;",
             options: [{ allowNamedExports: false }],
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            }]
         },
         {
             code: "export { a }; const a = 1;",
             options: ["nofunc"],
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            }]
         },
         {
             code: "export { a as b }; const a = 1;",
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            }]
         },
         {
             code: "export { a, b }; let a, b;",
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [
                 {
                     messageId: "usedBeforeDefined",
@@ -1216,68 +1217,67 @@ ruleTester.run("no-use-before-define", rule, {
                     messageId: "usedBeforeDefined",
                     data: { name: "b" }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            ]
         },
         {
             code: "export { a }; var a;",
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            }]
         },
         {
             code: "export { f }; function f() {}",
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "f" }
-            }],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            }]
         },
         {
             code: "export { C }; class C {}",
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "C" }
-            }],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            }]
         },
         {
             code: "export const foo = a; const a = 1;",
             options: [{ allowNamedExports: true }],
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            }]
         },
         {
             code: "export default a; const a = 1;",
             options: [{ allowNamedExports: true }],
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            }]
         },
         {
             code: "export function foo() { return a; }; const a = 1;",
             options: [{ allowNamedExports: true }],
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            }]
         },
         {
             code: "export class C { foo() { return a; } }; const a = 1;",
             options: [{ allowNamedExports: true }],
+            languageOptions: { ecmaVersion: 2015, sourceType: "module" },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" }
-            }],
-            languageOptions: { ecmaVersion: 2015, sourceType: "module" }
+            }]
         }
     ]
 });

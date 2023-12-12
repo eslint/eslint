@@ -399,8 +399,8 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     'string'
             `,
             output: null,
-            errors: [UNEXPECTED_LINEBREAK],
-            languageOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 },
+            errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
                 async foo =>
@@ -409,8 +409,8 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     bar;
             `,
             output: null,
-            errors: [UNEXPECTED_LINEBREAK],
-            languageOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 },
+            errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
                 async (foo) =>
@@ -418,8 +418,8 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     'string'
             `,
             output: null,
-            errors: [UNEXPECTED_LINEBREAK],
-            languageOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 },
+            errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
                 const foo = 1,

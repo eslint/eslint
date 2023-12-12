@@ -404,8 +404,8 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "return; ({ set a(val) { return 1; } }); return 2;",
-            errors: [error(25)],
-            languageOptions: { sourceType: "commonjs" }
+            languageOptions: { sourceType: "commonjs" },
+            errors: [error(25)]
         },
 
         //------------------------------------------------------------------------------
@@ -419,8 +419,8 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { set(val) { return 1; } })",
-            errors: [error()],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [error()]
         },
         {
             code: "Object.defineProperties(foo, { baz: { set(val) { return 1; } } })",
@@ -438,8 +438,8 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { set: val => f(val) })",
-            errors: [error(50, "CallExpression")],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [error(50, "CallExpression")]
         },
         {
             code: "Object.defineProperties(foo, { baz: { set: val => a + b } })",
@@ -457,8 +457,8 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { set(val) { try { return f(val) } catch (e) { return e }; } })",
-            errors: [error(55), error(83)],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [error(55), error(83)]
         },
         {
             code: "Object.defineProperties(foo, { bar: { get(){ return null; }, set(val) { return null; } } })",
@@ -489,8 +489,8 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { 'set'(val) { return 1; } })",
-            errors: [error()],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [error()]
         },
         {
             code: "Object[`defineProperties`](foo, { baz: { ['set'](val) { return 1; } } })",
@@ -514,13 +514,13 @@ ruleTester.run("no-setter-return", rule, {
         // Optional chaining
         {
             code: "Object?.defineProperty(foo, 'bar', { set(val) { return 1; } })",
-            errors: [error()],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [error()]
         },
         {
             code: "(Object?.defineProperty)(foo, 'bar', { set(val) { return 1; } })",
-            errors: [error()],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [error()]
         }
     ]
 });

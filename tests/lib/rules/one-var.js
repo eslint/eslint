@@ -986,14 +986,14 @@ ruleTester.run("one-var", rule, {
         {
             code: "var foo = () => { var bar = true; var baz = false; }",
             output: "var foo = () => { var bar = true,  baz = false; }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 35
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = function() { var bar = true; if (qux) { var baz = false; } }",
@@ -1093,27 +1093,27 @@ ruleTester.run("one-var", rule, {
             code: "var {foo} = 1, [bar] = 2;",
             output: "var {foo} = 1; var [bar] = 2;",
             options: [{ initialized: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "splitInitialized",
                 data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const foo = 1,\n    bar = 2;",
             output: "const foo = 1;\n    const bar = 2;",
             options: [{ initialized: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "splitInitialized",
                 data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 1
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = 1,\n    bar = 2;",
@@ -1273,53 +1273,53 @@ ruleTester.run("one-var", rule, {
             code: "let a = 1, b; let c;",
             output: "let a = 1, b,  c;",
             options: ["consecutive"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 15
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a = 0, b = 1; let c = 2;",
             output: "let a = 0, b = 1,  c = 2;",
             options: ["consecutive"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 19
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = 0, b = 1; const c = 2;",
             output: "const a = 0, b = 1,  c = 2;",
             options: ["consecutive"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 21
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = 0; var b = 1; var c = 2; const d = 3;",
             output: "const a = 0; var b = 1,  c = 2; const d = 3;",
             options: ["consecutive"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "var" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 25
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var a = true; var b = false;",
@@ -1337,27 +1337,27 @@ ruleTester.run("one-var", rule, {
             code: "const a = 0; let b = 1; let c = 2; const d = 3;",
             output: "const a = 0; let b = 1,  c = 2; const d = 3;",
             options: ["consecutive"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 25
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a = 0; const b = 1; const c = 1; var d = 2;",
             output: "let a = 0; const b = 1,  c = 1; var d = 2;",
             options: ["consecutive"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 25
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var a = 0; var b; var c; var d = 1",
@@ -1394,19 +1394,20 @@ ruleTester.run("one-var", rule, {
             code: "let a = 0; let b; let c; let d = 1;",
             output: "let a = 0; let b,  c; let d = 1;",
             options: [{ initialized: "consecutive", uninitialized: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combineUninitialized",
                 data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 19
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a = 0; let b = 1; let c; let d;",
             output: "let a = 0,  b = 1; let c,  d;",
             options: [{ initialized: "consecutive", uninitialized: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combineInitialized",
                 data: { type: "let" },
@@ -1420,26 +1421,26 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 30
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = 0; let b; let c; const d = 1;",
             output: "const a = 0; let b,  c; const d = 1;",
             options: [{ initialized: "consecutive", uninitialized: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combineUninitialized",
                 data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 21
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = 0; const b = 1; let c; let d;",
             output: "const a = 0,  b = 1; let c,  d;",
             options: [{ initialized: "consecutive", uninitialized: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combineInitialized",
                 type: "VariableDeclaration",
@@ -1452,8 +1453,7 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 34
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var a = 0; var b = 1; var c, d;",
@@ -1490,6 +1490,7 @@ ruleTester.run("one-var", rule, {
             code: "let a = 0; let b = 1; let c, d;",
             output: "let a = 0,  b = 1; let c; let d;",
             options: [{ initialized: "consecutive", uninitialized: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combineInitialized",
                 data: { type: "let" },
@@ -1503,26 +1504,26 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 23
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a = 0; let b, c; let d = 1;",
             output: "let a = 0; let b; let c; let d = 1;",
             options: [{ initialized: "consecutive", uninitialized: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "splitUninitialized",
                 data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 12
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = 0; const b = 1; let c, d;",
             output: "const a = 0,  b = 1; let c; let d;",
             options: [{ initialized: "consecutive", uninitialized: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combineInitialized",
                 data: { type: "const" },
@@ -1536,21 +1537,20 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 27
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = 0; let b, c; const d = 1;",
             output: "const a = 0; let b; let c; const d = 1;",
             options: [{ initialized: "consecutive", uninitialized: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "splitUninitialized",
                 data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 14
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var a; var b; var c = 0; var d = 1;",
@@ -1587,6 +1587,7 @@ ruleTester.run("one-var", rule, {
             code: "let a; let b; let c = 0; let d = 1;",
             output: "let a,  b; let c = 0,  d = 1;",
             options: [{ uninitialized: "consecutive", initialized: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combineUninitialized",
                 data: { type: "let" },
@@ -1600,26 +1601,26 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 26
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a; let b = 0; let c = 1; let d;",
             output: "let a; let b = 0,  c = 1; let d;",
             options: [{ uninitialized: "consecutive", initialized: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combineInitialized",
                 data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 19
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a; let b; const c = 0; const d = 1;",
             output: "let a,  b; const c = 0,  d = 1;",
             options: [{ uninitialized: "consecutive", initialized: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combineUninitialized",
                 data: { type: "let" },
@@ -1633,21 +1634,20 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 28
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a; const b = 0; const c = 1; let d;",
             output: "let a; const b = 0,  c = 1; let d;",
             options: [{ uninitialized: "consecutive", initialized: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combineInitialized",
                 data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 21
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var a; var b; var c = 0, d = 1;",
@@ -1684,6 +1684,7 @@ ruleTester.run("one-var", rule, {
             code: "let a; let b; let c = 0, d = 1;",
             output: "let a,  b; let c = 0; let d = 1;",
             options: [{ uninitialized: "consecutive", initialized: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combineUninitialized",
                 data: { type: "let" },
@@ -1697,26 +1698,26 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 15
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a; let b = 0, c = 1; let d;",
             output: "let a; let b = 0; let c = 1; let d;",
             options: [{ uninitialized: "consecutive", initialized: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "splitInitialized",
                 data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a; let b; const c = 0, d = 1;",
             output: "let a,  b; const c = 0; const d = 1;",
             options: [{ uninitialized: "consecutive", initialized: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combineUninitialized",
                 data: { type: "let" },
@@ -1730,21 +1731,20 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 15
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a; const b = 0, c = 1; let d;",
             output: "let a; const b = 0; const c = 1; let d;",
             options: [{ uninitialized: "consecutive", initialized: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "splitInitialized",
                 data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var a = 0; var b = 1;",
@@ -1762,32 +1762,33 @@ ruleTester.run("one-var", rule, {
             code: "let a = 0; let b = 1;",
             output: "let a = 0,  b = 1;",
             options: [{ let: "consecutive" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 12
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = 0; const b = 1;",
             output: "const a = 0,  b = 1;",
             options: [{ const: "consecutive" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 14
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a; let b; const c = 0; const d = 1;",
             output: "let a,  b; const c = 0,  d = 1;",
             options: [{ let: "consecutive", const: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "let" },
@@ -1801,26 +1802,26 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 28
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a; const b = 0; const c = 1; let d;",
             output: "let a; const b = 0,  c = 1; let d;",
             options: [{ let: "consecutive", const: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 21
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a; let b; const c = 0, d = 1;",
             output: "let a,  b; const c = 0; const d = 1;",
             options: [{ let: "consecutive", const: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "let" },
@@ -1834,26 +1835,26 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 15
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let a; const b = 0, c = 1; let d;",
             output: "let a; const b = 0; const c = 1; let d;",
             options: [{ let: "consecutive", const: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "split",
                 data: { type: "const" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 8
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = 0; const b = 1; let c; let d;",
             output: "const a = 0,  b = 1; let c,  d;",
             options: [{ const: "consecutive", let: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "const" },
@@ -1867,26 +1868,26 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 34
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = 0; let b; let c; const d = 1;",
             output: "const a = 0; let b,  c; const d = 1;",
             options: [{ const: "consecutive", let: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 21
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = 0; const b = 1; let c, d;",
             output: "const a = 0,  b = 1; let c; let d;",
             options: [{ const: "consecutive", let: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "const" },
@@ -1900,21 +1901,20 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 27
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = 0; let b, c; const d = 1;",
             output: "const a = 0; let b; let c; const d = 1;",
             options: [{ const: "consecutive", let: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "split",
                 data: { type: "let" },
                 type: "VariableDeclaration",
                 line: 1,
                 column: 14
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var bar; var baz;",
@@ -1951,6 +1951,7 @@ ruleTester.run("one-var", rule, {
             code: "let a, b; let c; var d, e;",
             output: "let a, b,  c; var d; var e;",
             options: [{ var: "never", let: "consecutive", const: "consecutive" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "combine",
                 data: { type: "let" },
@@ -1964,8 +1965,7 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 18
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var a; var b;",
@@ -2040,89 +2040,89 @@ ruleTester.run("one-var", rule, {
             code: "export const foo=1, bar=2;",
             output: "export const foo=1; export const bar=2;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2021, sourceType: "module" },
             errors: [{
                 messageId: "split",
                 data: { type: "const" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2021, sourceType: "module" }
+            }]
         },
         {
             code: "const foo=1,\n bar=2;",
             output: "const foo=1;\n const bar=2;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2021, sourceType: "module" },
             errors: [{
                 messageId: "split",
                 data: { type: "const" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2021, sourceType: "module" }
+            }]
         },
         {
             code: "export const foo=1,\n bar=2;",
             output: "export const foo=1;\n export const bar=2;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2021, sourceType: "module" },
             errors: [{
                 messageId: "split",
                 data: { type: "const" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2021, sourceType: "module" }
+            }]
         },
         {
             code: "export const foo=1\n, bar=2;",
             output: "export const foo=1\n; export const bar=2;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2021, sourceType: "module" },
             errors: [{
                 messageId: "split",
                 data: { type: "const" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2021, sourceType: "module" }
+            }]
         },
         {
             code: "export const foo= a, bar=2;",
             output: "export const foo= a; export const bar=2;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2021, sourceType: "module" },
             errors: [{
                 messageId: "split",
                 data: { type: "const" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2021, sourceType: "module" }
+            }]
         },
         {
             code: "export const foo=() => a, bar=2;",
             output: "export const foo=() => a; export const bar=2;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2021, sourceType: "module" },
             errors: [{
                 messageId: "split",
                 data: { type: "const" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2021, sourceType: "module" }
+            }]
         },
         {
             code: "export const foo= a, bar=2, bar2=2;",
             output: "export const foo= a; export const bar=2; export const bar2=2;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2021, sourceType: "module" },
             errors: [{
                 messageId: "split",
                 data: { type: "const" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2021, sourceType: "module" }
+            }]
         },
         {
             code: "export const foo = 1,bar = 2;",
             output: "export const foo = 1; export const bar = 2;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2021, sourceType: "module" },
             errors: [{
                 messageId: "split",
                 data: { type: "const" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2021, sourceType: "module" }
+            }]
         },
 
         // "never" should not autofix declarations in a block position
@@ -2262,122 +2262,122 @@ ruleTester.run("one-var", rule, {
             code: "class C { static { let x, y; } }",
             output: "class C { static { let x; let y; } }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "split",
                 data: { type: "let" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { var x, y; } }",
             output: "class C { static { var x; var y; } }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "split",
                 data: { type: "var" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { let x; let y; } }",
             output: "class C { static { let x,  y; } }",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "combine",
                 data: { type: "let" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { var x; var y; } }",
             output: "class C { static { var x,  y; } }",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "combine",
                 data: { type: "var" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { let x; foo; let y; } }",
             output: null,
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "combine",
                 data: { type: "let" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { var x; foo; var y; } }",
             output: null,
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "combine",
                 data: { type: "var" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { var x; if (foo) { var y; } } }",
             output: null,
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "combine",
                 data: { type: "var" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { let x; let y; } }",
             output: "class C { static { let x,  y; } }",
             options: ["consecutive"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "combine",
                 data: { type: "let" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { var x; var y; } }",
             output: "class C { static { var x,  y; } }",
             options: ["consecutive"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "combine",
                 data: { type: "var" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { let a = 0; let b = 1; } }",
             output: "class C { static { let a = 0,  b = 1; } }",
             options: [{ initialized: "consecutive" }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "combineInitialized",
                 data: { type: "let" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { var a = 0; var b = 1; } }",
             output: "class C { static { var a = 0,  b = 1; } }",
             options: [{ initialized: "consecutive" }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "combineInitialized",
                 data: { type: "var" },
                 type: "VariableDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         }
     ]
 });

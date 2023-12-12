@@ -482,13 +482,13 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "(function z(foo) { var bar = 33; })();", options: [{ vars: "all", args: "all" }], errors: [definedError("foo"), assignedError("bar")] },
         { code: "(function z(foo) { z(); })();", options: [{}], errors: [definedError("foo")] },
         { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [definedError("f"), assignedError("a")] },
-        { code: "import x from \"y\";", errors: [definedError("x")], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", errors: [definedError("y")], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export function fn2( x, y ) {\n console.log(x); \n};", errors: [definedError("y")], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import x from \"y\";", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("x")] },
+        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y")] },
+        { code: "export function fn2( x, y ) {\n console.log(x); \n};", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y")] },
 
         // exported
         { code: "/*exported max*/ var max = 1, min = {min: 1}", errors: [assignedError("min")] },
-        { code: "/*exported x*/ var { x, y } = z", errors: [assignedError("y")], languageOptions: { ecmaVersion: 6 } },
+        { code: "/*exported x*/ var { x, y } = z", languageOptions: { ecmaVersion: 6 }, errors: [assignedError("y")] },
 
         // ignore pattern
         {
@@ -564,6 +564,7 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "var [ firstItemIgnored, secondItem ] = items;",
             options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 25,
@@ -573,8 +574,7 @@ ruleTester.run("no-unused-vars", rule, {
                     action: "assigned a value",
                     additional: ". Allowed unused vars must match /[iI]gnored/u"
                 }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // https://github.com/eslint/eslint/issues/15611
@@ -585,12 +585,12 @@ ruleTester.run("no-unused-vars", rule, {
             const newArray = [a, c];
             `,
             options: [{ destructuredArrayIgnorePattern: "^_" }],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
 
                 // should report only `newArray`
                 { ...assignedError("newArray"), line: 4, column: 19 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: `
@@ -598,6 +598,7 @@ ruleTester.run("no-unused-vars", rule, {
             const [a, _b, c] = array;
             `,
             options: [{ destructuredArrayIgnorePattern: "^_" }],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     ...assignedError("a", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
@@ -609,8 +610,7 @@ ruleTester.run("no-unused-vars", rule, {
                     line: 3,
                     column: 27
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: `
@@ -621,6 +621,7 @@ ruleTester.run("no-unused-vars", rule, {
             const ignoreArray = ['ignore'];
             `,
             options: [{ destructuredArrayIgnorePattern: "^_", varsIgnorePattern: "ignore" }],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     ...assignedError("a", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
@@ -642,8 +643,7 @@ ruleTester.run("no-unused-vars", rule, {
                     line: 5,
                     column: 19
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: `
@@ -652,14 +652,14 @@ ruleTester.run("no-unused-vars", rule, {
             console.log(foo);
             `,
             options: [{ destructuredArrayIgnorePattern: "^_" }],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     ...assignedError("_a"),
                     line: 3,
                     column: 21
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: `
@@ -669,14 +669,14 @@ ruleTester.run("no-unused-vars", rule, {
             foo();
             `,
             options: [{ destructuredArrayIgnorePattern: "^_" }],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     ...definedError("_a"),
                     line: 2,
                     column: 28
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: `
@@ -687,6 +687,7 @@ ruleTester.run("no-unused-vars", rule, {
             });
             `,
             options: [{ destructuredArrayIgnorePattern: "^_" }],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     ...definedError("_a"),
@@ -698,8 +699,7 @@ ruleTester.run("no-unused-vars", rule, {
                     line: 2,
                     column: 21
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
 
         // for-in loops (see #2342)
@@ -746,6 +746,7 @@ ruleTester.run("no-unused-vars", rule, {
         // For-of loops
         {
             code: "(function(iter) { var name; for ( name of iter ) { i(); return; } })({});",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 35,
@@ -755,11 +756,11 @@ ruleTester.run("no-unused-vars", rule, {
                     action: "assigned a value",
                     additional: ""
                 }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function(iter) { var name; for ( name of iter ) { } })({});",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 35,
@@ -769,11 +770,11 @@ ruleTester.run("no-unused-vars", rule, {
                     action: "assigned a value",
                     additional: ""
                 }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function(iter) { for ( var name of iter ) { } })({});",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 29,
@@ -783,8 +784,7 @@ ruleTester.run("no-unused-vars", rule, {
                     action: "assigned a value",
                     additional: ""
                 }
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // https://github.com/eslint/eslint/issues/3617
@@ -850,6 +850,7 @@ ruleTester.run("no-unused-vars", rule, {
         // Rest property sibling without ignoreRestSiblings
         {
             code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(coords);",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     line: 2,
@@ -861,14 +862,14 @@ ruleTester.run("no-unused-vars", rule, {
                         additional: ""
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
 
         // Unused rest property with ignoreRestSiblings
         {
             code: "const data = { type: 'coords', x: 2, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
             options: [{ ignoreRestSiblings: true }],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     line: 2,
@@ -880,12 +881,12 @@ ruleTester.run("no-unused-vars", rule, {
                         additional: ""
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "let type, coords;\n({ type, ...coords } = data);\n console.log(type)",
             options: [{ ignoreRestSiblings: true }],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     line: 2,
@@ -897,13 +898,13 @@ ruleTester.run("no-unused-vars", rule, {
                         additional: ""
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
 
         // Unused rest property without ignoreRestSiblings
         {
             code: "const data = { type: 'coords', x: 3, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     line: 2,
@@ -915,13 +916,13 @@ ruleTester.run("no-unused-vars", rule, {
                         additional: ""
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
 
         // Nested array destructuring with rest property
         {
             code: "const data = { vars: ['x','y'], x: 1, y: 2 };\nconst { vars: [x], ...coords } = data;\n console.log(coords)",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     line: 2,
@@ -933,13 +934,13 @@ ruleTester.run("no-unused-vars", rule, {
                         additional: ""
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
 
         // Nested object destructuring with rest property
         {
             code: "const data = { defaults: { x: 0 }, x: 1, y: 2 };\nconst { defaults: { x }, ...coords } = data;\n console.log(coords)",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     line: 2,
@@ -951,16 +952,15 @@ ruleTester.run("no-unused-vars", rule, {
                         additional: ""
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/8119
         {
             code: "(({a, ...rest}) => {})",
             options: [{ args: "all", ignoreRestSiblings: true }],
-            errors: [definedError("rest")],
-            languageOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 },
+            errors: [definedError("rest")]
         },
 
         // https://github.com/eslint/eslint/issues/3714
@@ -1072,6 +1072,7 @@ ruleTester.run("no-unused-vars", rule, {
         // surrogate pair.
         {
             code: "/*global 𠮷𩸽, 𠮷*/\n\\u{20BB7}\\u{29E3D};",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     line: 1,
@@ -1085,40 +1086,39 @@ ruleTester.run("no-unused-vars", rule, {
                         additional: ""
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/4047
         {
             code: "export default function(a) {}",
-            errors: [definedError("a")],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("a")]
         },
         {
             code: "export default function(a, b) { console.log(a); }",
-            errors: [definedError("b")],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("b")]
         },
         {
             code: "export default (function(a) {});",
-            errors: [definedError("a")],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("a")]
         },
         {
             code: "export default (function(a, b) { console.log(a); });",
-            errors: [definedError("b")],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("b")]
         },
         {
             code: "export default (a) => {};",
-            errors: [definedError("a")],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("a")]
         },
         {
             code: "export default (a, b) => { console.log(a); };",
-            errors: [definedError("b")],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("b")]
         },
 
         // caughtErrors
@@ -1225,31 +1225,31 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "(function(a, b, {c, d}) {})",
             options: [{ argsIgnorePattern: "[cd]" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 definedError("a", ". Allowed unused args must match /[cd]/u"),
                 definedError("b", ". Allowed unused args must match /[cd]/u")
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "(function(a, b, {c, d}) {})",
             options: [{ argsIgnorePattern: "c" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 definedError("a", ". Allowed unused args must match /c/u"),
                 definedError("b", ". Allowed unused args must match /c/u"),
                 definedError("d", ". Allowed unused args must match /c/u")
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "(function(a, b, {c, d}) {})",
             options: [{ argsIgnorePattern: "d" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 definedError("a", ". Allowed unused args must match /d/u"),
                 definedError("b", ". Allowed unused args must match /d/u"),
                 definedError("c", ". Allowed unused args must match /d/u")
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "/*global\rfoo*/",
@@ -1270,83 +1270,83 @@ ruleTester.run("no-unused-vars", rule, {
         // https://github.com/eslint/eslint/issues/8442
         {
             code: "(function ({ a }, b ) { return b; })();",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 definedError("a")
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "(function ({ a }, { b, c } ) { return b; })();",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 definedError("a"),
                 definedError("c")
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/14325
         {
             code: `let x = 0;
             x++, x = 0;`,
-            errors: [{ ...assignedError("x"), line: 2, column: 18 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 2, column: 18 }]
         },
         {
             code: `let x = 0;
             x++, x = 0;
             x=3;`,
-            errors: [{ ...assignedError("x"), line: 3, column: 13 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 3, column: 13 }]
         },
         {
             code: "let x = 0; x++, 0;",
-            errors: [{ ...assignedError("x"), line: 1, column: 12 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 12 }]
         },
         {
             code: "let x = 0; 0, x++;",
-            errors: [{ ...assignedError("x"), line: 1, column: 15 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 15 }]
         },
         {
             code: "let x = 0; 0, (1, x++);",
-            errors: [{ ...assignedError("x"), line: 1, column: 19 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 19 }]
         },
         {
             code: "let x = 0; foo = (x++, 0);",
-            errors: [{ ...assignedError("x"), line: 1, column: 19 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 19 }]
         },
         {
             code: "let x = 0; foo = ((0, x++), 0);",
-            errors: [{ ...assignedError("x"), line: 1, column: 23 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 23 }]
         },
         {
             code: "let x = 0; x += 1, 0;",
-            errors: [{ ...assignedError("x"), line: 1, column: 12 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 12 }]
         },
         {
             code: "let x = 0; 0, x += 1;",
-            errors: [{ ...assignedError("x"), line: 1, column: 15 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 15 }]
         },
         {
             code: "let x = 0; 0, (1, x += 1);",
-            errors: [{ ...assignedError("x"), line: 1, column: 19 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 19 }]
         },
         {
             code: "let x = 0; foo = (x += 1, 0);",
-            errors: [{ ...assignedError("x"), line: 1, column: 19 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 19 }]
         },
         {
             code: "let x = 0; foo = ((0, x += 1), 0);",
-            errors: [{ ...assignedError("x"), line: 1, column: 23 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 1, column: 23 }]
         },
 
         // https://github.com/eslint/eslint/issues/14866
@@ -1354,79 +1354,79 @@ ruleTester.run("no-unused-vars", rule, {
             code: `let z = 0;
             z = z + 1, z = 2;
             `,
-            errors: [{ ...assignedError("z"), line: 2, column: 24 }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("z"), line: 2, column: 24 }]
         },
         {
             code: `let z = 0;
             z = z+1, z = 2;
             z = 3;`,
-            errors: [{ ...assignedError("z"), line: 3, column: 13 }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("z"), line: 3, column: 13 }]
         },
         {
             code: `let z = 0;
             z = z+1, z = 2;
             z = z+3;
             `,
-            errors: [{ ...assignedError("z"), line: 3, column: 13 }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("z"), line: 3, column: 13 }]
         },
         {
             code: "let x = 0; 0, x = x+1;",
-            errors: [{ ...assignedError("x"), line: 1, column: 15 }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("x"), line: 1, column: 15 }]
         },
         {
             code: "let x = 0; x = x+1, 0;",
-            errors: [{ ...assignedError("x"), line: 1, column: 12 }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("x"), line: 1, column: 12 }]
         },
         {
             code: "let x = 0; foo = ((0, x = x + 1), 0);",
-            errors: [{ ...assignedError("x"), line: 1, column: 23 }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("x"), line: 1, column: 23 }]
         },
         {
             code: "let x = 0; foo = (x = x+1, 0);",
-            errors: [{ ...assignedError("x"), line: 1, column: 19 }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("x"), line: 1, column: 19 }]
         },
         {
             code: "let x = 0; 0, (1, x=x+1);",
-            errors: [{ ...assignedError("x"), line: 1, column: 19 }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("x"), line: 1, column: 19 }]
         },
         {
             code: "(function ({ a, b }, { c } ) { return b; })();",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 definedError("a"),
                 definedError("c")
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "(function ([ a ], b ) { return b; })();",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 definedError("a")
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "(function ([ a ], [ b, c ] ) { return b; })();",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 definedError("a"),
                 definedError("c")
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "(function ([ a, b ], [ c ] ) { return b; })();",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 definedError("a"),
                 definedError("c")
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/9774
@@ -1452,24 +1452,24 @@ ruleTester.run("no-unused-vars", rule, {
         },
         {
             code: "const a = () => { a(); };",
-            errors: [assignedError("a")],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [assignedError("a")]
         },
         {
             code: "const a = () => () => { a(); };",
-            errors: [assignedError("a")],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [assignedError("a")]
         },
         {
             code: `let myArray = [1,2,3,4].filter((x) => x == 0);
     myArray = myArray.filter((x) => x == 1);`,
-            errors: [{ ...assignedError("myArray"), line: 2, column: 5 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("myArray"), line: 2, column: 5 }]
         },
         {
             code: "const a = 1; a += 1;",
-            errors: [{ ...assignedError("a"), line: 1, column: 14 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("a"), line: 1, column: 14 }]
         },
         {
             code: "var a = function() { a(); };",
@@ -1481,20 +1481,20 @@ ruleTester.run("no-unused-vars", rule, {
         },
         {
             code: "const a = () => { a(); };",
-            errors: [{ ...assignedError("a"), line: 1, column: 7 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("a"), line: 1, column: 7 }]
         },
         {
             code: "const a = () => () => { a(); };",
-            errors: [{ ...assignedError("a"), line: 1, column: 7 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("a"), line: 1, column: 7 }]
         },
 
         // https://github.com/eslint/eslint/issues/14324
         {
             code: "let x = [];\nx = x.concat(x);",
-            errors: [{ ...assignedError("x"), line: 2, column: 1 }],
-            languageOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [{ ...assignedError("x"), line: 2, column: 1 }]
         },
         {
 
@@ -1506,8 +1506,8 @@ ruleTester.run("no-unused-vars", rule, {
                     a = 13
                 }
             }`,
-            errors: [{ ...assignedError("a"), line: 2, column: 13 }, { ...definedError("foo"), line: 3, column: 22 }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("a"), line: 2, column: 13 }, { ...definedError("foo"), line: 3, column: 22 }]
         },
         {
             code: `let foo;
@@ -1516,16 +1516,16 @@ ruleTester.run("no-unused-vars", rule, {
             function init() {
                 foo = 1;
             }`,
-            errors: [{ ...assignedError("foo"), line: 3, column: 13 }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("foo"), line: 3, column: 13 }]
         },
         {
             code: `function foo(n) {
                 if (n < 2) return 1;
                 return n * foo(n - 1);
             }`,
-            errors: [{ ...definedError("foo"), line: 1, column: 10 }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ ...definedError("foo"), line: 1, column: 10 }]
         },
         {
             code: `let c = 'c'
@@ -1538,8 +1538,8 @@ function foo1() {
 }
 
 c = foo1`,
-            errors: [{ ...assignedError("c"), line: 10, column: 1 }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ ...assignedError("c"), line: 10, column: 1 }]
         }
     ]
 });

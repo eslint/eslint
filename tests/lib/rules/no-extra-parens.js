@@ -3194,68 +3194,68 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "var v = ((a ?? b)) || c",
             output: "var v = (a ?? b) || c",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a ?? ((b || c))",
             output: "var v = a ?? (b || c)",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = ((a ?? b)) && c",
             output: "var v = (a ?? b) && c",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a ?? ((b && c))",
             output: "var v = a ?? (b && c)",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = ((a || b)) ?? c",
             output: "var v = (a || b) ?? c",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a || ((b ?? c))",
             output: "var v = a || (b ?? c)",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = ((a && b)) ?? c",
             output: "var v = (a && b) ?? c",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a && ((b ?? c))",
             output: "var v = a && (b ?? c)",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = (a ?? b) ? b : c",
             output: "var v = a ?? b ? b : c",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = (a | b) ?? c | d",
             output: "var v = a | b ?? c | d",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a | b ?? (c | d)",
             output: "var v = a | b ?? c | d",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
 
         // "allowParensAfterCommentPattern" option (off by default)
@@ -3416,35 +3416,35 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "var v = (obj?.aaa)?.aaa",
             output: "var v = obj?.aaa?.aaa",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = (obj.aaa)?.aaa",
             output: "var v = obj.aaa?.aaa",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var foo = (function(){})?.call()",
             output: "var foo = function(){}?.call()",
             options: ["all", { enforceForFunctionPrototypeMethods: true }],
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var foo = (function(){}?.call())",
             output: "var foo = function(){}?.call()",
             options: ["all", { enforceForFunctionPrototypeMethods: true }],
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "(Object.prototype.toString.call())",
             output: "Object.prototype.toString.call()",
             options: ["all"],
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
         },
 
         // https://github.com/eslint/eslint/issues/16850

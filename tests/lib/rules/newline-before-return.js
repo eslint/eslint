@@ -160,8 +160,8 @@ ruleTester.run("newline-before-return", rule, {
         {
             code: "function a() {\nfor (b of c) {\nd();\nreturn;\n}\n}",
             output: "function a() {\nfor (b of c) {\nd();\n\nreturn;\n}\n}",
-            errors: [error],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [error]
         },
         {
             code: "function a() {\nif (b) {\nc();\n}\n//comment\nreturn b;\n}",
@@ -196,14 +196,14 @@ ruleTester.run("newline-before-return", rule, {
         {
             code: "var a;\nreturn;",
             output: "var a;\n\nreturn;",
-            errors: [error],
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            errors: [error]
         },
         {
             code: "var a; return;",
             output: "var a; \n\nreturn;",
-            errors: [error],
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            errors: [error]
         },
         {
             code: "function a() {\n{\n//comment\n}\nreturn\n}",

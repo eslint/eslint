@@ -195,6 +195,7 @@ ruleTester.run("block-scoped-var", rule, {
         },
         {
             code: "function a() { for(var b of {}) { var c = b; } c; }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "outOfScope",
                 data: {
@@ -205,8 +206,7 @@ ruleTester.run("block-scoped-var", rule, {
                 line: 1,
                 column: 48,
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function f(){ switch(2) { case 1: var b = 2; b; break; default: b; break;} b; }",
@@ -252,6 +252,7 @@ ruleTester.run("block-scoped-var", rule, {
         },
         {
             code: "for (var a of []) {} a;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "outOfScope",
                 data: {
@@ -262,11 +263,11 @@ ruleTester.run("block-scoped-var", rule, {
                 line: 1,
                 column: 22,
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{ var a = 0; } a;",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "outOfScope",
                 data: {
@@ -277,8 +278,7 @@ ruleTester.run("block-scoped-var", rule, {
                 line: 1,
                 column: 16,
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "if (true) { var a; } a;",
@@ -350,6 +350,7 @@ ruleTester.run("block-scoped-var", rule, {
         },
         {
             code: "class C { static { if (bar) { var foo; } foo; } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "outOfScope",
                 data: {
@@ -360,8 +361,7 @@ ruleTester.run("block-scoped-var", rule, {
                 line: 1,
                 column: 42,
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "{ var foo,\n  bar; } bar;",
@@ -379,6 +379,7 @@ ruleTester.run("block-scoped-var", rule, {
         },
         {
             code: "{ var { foo,\n  bar } = baz; } bar;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "outOfScope",
                 data: {
@@ -389,8 +390,7 @@ ruleTester.run("block-scoped-var", rule, {
                 line: 2,
                 column: 18,
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "if (foo) { var a = 1; } else if (bar) { var a = 2; } else { var a = 3; }",

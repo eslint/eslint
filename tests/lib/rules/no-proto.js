@@ -29,7 +29,7 @@ ruleTester.run("no-proto", rule, {
     invalid: [
         { code: "var a = test.__proto__;", errors: [{ messageId: "unexpectedProto", type: "MemberExpression" }] },
         { code: "var a = test['__proto__'];", errors: [{ messageId: "unexpectedProto", type: "MemberExpression" }] },
-        { code: "var a = test[`__proto__`];", errors: [{ messageId: "unexpectedProto", type: "MemberExpression" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "test[`__proto__`] = function () {};", errors: [{ messageId: "unexpectedProto", type: "MemberExpression" }], languageOptions: { ecmaVersion: 6 } }
+        { code: "var a = test[`__proto__`];", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedProto", type: "MemberExpression" }] },
+        { code: "test[`__proto__`] = function () {};", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedProto", type: "MemberExpression" }] }
     ]
 });

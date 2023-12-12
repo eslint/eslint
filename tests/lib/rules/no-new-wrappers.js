@@ -93,6 +93,7 @@ ruleTester.run("no-new-wrappers", rule, {
                 const b = new String('foo');
             }
             `,
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noConstructor",
                 data: {
@@ -100,8 +101,7 @@ ruleTester.run("no-new-wrappers", rule, {
                 },
                 type: "NewExpression",
                 line: 2
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }
     ]
 });

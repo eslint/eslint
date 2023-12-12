@@ -186,6 +186,7 @@ ruleTester.run("object-curly-spacing", rule, {
             code: "import {bar} from 'foo.js';",
             output: "import { bar } from 'foo.js';",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -205,13 +206,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 13
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import { bar as y} from 'foo.js';",
             output: "import { bar as y } from 'foo.js';",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceBefore",
@@ -222,13 +223,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 19
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import {bar as y} from 'foo.js';",
             output: "import { bar as y } from 'foo.js';",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -248,13 +249,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 18
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import { bar} from 'foo.js';",
             output: "import { bar } from 'foo.js';",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceBefore",
@@ -265,13 +266,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 14
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import x, { bar} from 'foo';",
             output: "import x, { bar } from 'foo';",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceBefore",
@@ -283,13 +284,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 17
                 }
 
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import x, { bar/* */} from 'foo';",
             output: "import x, { bar/* */ } from 'foo';",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceBefore",
@@ -300,13 +301,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 22
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import x, {/* */bar } from 'foo';",
             output: "import x, { /* */bar } from 'foo';",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -317,13 +318,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 12
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import x, {//\n bar } from 'foo';",
             output: "import x, { //\n bar } from 'foo';",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -334,13 +335,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 12
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import x, { bar, baz} from 'foo';",
             output: "import x, { bar, baz } from 'foo';",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceBefore",
@@ -352,13 +353,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 22
                 }
 
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import x, {bar} from 'foo';",
             output: "import x, { bar } from 'foo';",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -379,13 +380,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 16
                 }
 
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import x, {bar, baz} from 'foo';",
             output: "import x, { bar, baz } from 'foo';",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -405,13 +406,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 21
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import {bar,} from 'foo';",
             output: "import { bar, } from 'foo';",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -432,13 +433,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 14
                 }
 
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import { bar, } from 'foo';",
             output: "import {bar,} from 'foo';",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -458,13 +459,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 15
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import { /* */ bar, /* */ } from 'foo';",
             output: "import {/* */ bar, /* */} from 'foo';",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -484,13 +485,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 27
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "var bar = 0;\nexport {bar};",
             output: "var bar = 0;\nexport { bar };",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -508,13 +509,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     line: 2,
                     column: 12
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "var bar = 0;\nexport {/* */ bar /* */};",
             output: "var bar = 0;\nexport { /* */ bar /* */ };",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -534,13 +535,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 2,
                     endColumn: 25
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "var bar = 0;\nexport {//\n bar };",
             output: "var bar = 0;\nexport { //\n bar };",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -551,13 +552,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 2,
                     endColumn: 9
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "var bar = 0;\nexport { /* */ bar /* */ };",
             output: "var bar = 0;\nexport {/* */ bar /* */};",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -577,8 +578,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 2,
                     endColumn: 26
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
 
         // always - arraysInObjects
@@ -654,6 +654,7 @@ ruleTester.run("object-curly-spacing", rule, {
             code: "var { a,} = x;",
             output: "var { a, } = x;",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "requireSpaceBefore",
@@ -664,13 +665,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 10
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var {a, } = x;",
             output: "var {a,} = x;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -681,13 +682,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 9
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var {a:b } = x;",
             output: "var {a:b} = x;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -698,13 +699,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 10
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { a:b } = x;",
             output: "var {a:b} = x;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -724,13 +725,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 11
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var {  a:b  } = x;",
             output: "var {a:b} = x;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -750,13 +751,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 13
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var {   a:b    } = x;",
             output: "var {a:b} = x;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -776,8 +777,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // never-objectsInObjects
@@ -1136,6 +1136,7 @@ ruleTester.run("object-curly-spacing", rule, {
             code: "export const thing = {value: 1 };",
             output: "export const thing = { value: 1 };",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -1146,8 +1147,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 23
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
 
         // destructuring
@@ -1155,6 +1155,7 @@ ruleTester.run("object-curly-spacing", rule, {
             code: "var {x, y} = y",
             output: "var { x, y } = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -1174,13 +1175,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 11
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { x, y} = y",
             output: "var { x, y } = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "requireSpaceBefore",
@@ -1191,13 +1192,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 12
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { x, y/* */} = y",
             output: "var { x, y/* */ } = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "requireSpaceBefore",
@@ -1208,13 +1209,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 17
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var {/* */x, y } = y",
             output: "var { /* */x, y } = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -1225,13 +1226,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 6
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var {//\n x } = y",
             output: "var { //\n x } = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -1242,13 +1243,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 6
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { x, y } = y",
             output: "var {x, y} = y",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -1268,13 +1269,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 12
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var {x, y } = y",
             output: "var {x, y} = y",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -1285,13 +1286,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 11
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var {x, y/* */ } = y",
             output: "var {x, y/* */} = y",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -1302,13 +1303,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { /* */x, y} = y",
             output: "var {/* */x, y} = y",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -1319,13 +1320,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 7
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { x=10} = y",
             output: "var { x=10 } = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "requireSpaceBefore",
@@ -1336,13 +1337,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 12
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var {x=10 } = y",
             output: "var { x=10 } = y",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "requireSpaceAfter",
@@ -1353,8 +1354,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 6
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // never - arraysInObjects
@@ -1396,6 +1396,9 @@ ruleTester.run("object-curly-spacing", rule, {
             code: "function foo ({a, b }: Props) {\n}",
             output: "function foo ({a, b}: Props) {\n}",
             options: ["never"],
+            languageOptions: {
+                parser: require(resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid"))
+            },
             errors: [
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -1406,10 +1409,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 21
                 }
-            ],
-            languageOptions: {
-                parser: require(resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid"))
-            }
+            ]
         }
     ]
 });

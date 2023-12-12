@@ -231,6 +231,7 @@ ruleTester.run("object-property-newline", rule, {
         {
             code: "var obj = { k1: 'val1', [\nk2]: 'val2' };",
             output: "var obj = { k1: 'val1',\n[\nk2]: 'val2' };",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "propertiesOnNewline",
@@ -240,12 +241,12 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 1,
                     endColumn: 26
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var obj = { k1: 'val1', ...{} };",
             output: "var obj = { k1: 'val1',\n...{} };",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "propertiesOnNewline",
@@ -255,12 +256,12 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 1,
                     endColumn: 28
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "var obj = {\nk1: 'val1', ...{}\n};",
             output: "var obj = {\nk1: 'val1',\n...{}\n};",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "propertiesOnNewline",
@@ -270,8 +271,7 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 2,
                     endColumn: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "foo({ k1: 'val1', k2: 'val2' });",
@@ -304,6 +304,7 @@ ruleTester.run("object-property-newline", rule, {
         {
             code: "foo({ a, b });",
             output: "foo({ a,\nb });",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "propertiesOnNewline",
@@ -313,12 +314,12 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 1,
                     endColumn: 11
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "foo({\na, b\n});",
             output: "foo({\na,\nb\n});",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "propertiesOnNewline",
@@ -328,12 +329,12 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 2,
                     endColumn: 5
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "foo({\nbar() {}, baz\n});",
             output: "foo({\nbar() {},\nbaz\n});",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "propertiesOnNewline",
@@ -343,12 +344,12 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 2,
                     endColumn: 14
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "foo({\n[bar]: 'baz', baz\n})",
             output: "foo({\n[bar]: 'baz',\nbaz\n})",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "propertiesOnNewline",
@@ -358,12 +359,12 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 2,
                     endColumn: 18
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "foo({ k1: 'val1', [\nk2]: 'val2' })",
             output: "foo({ k1: 'val1',\n[\nk2]: 'val2' })",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "propertiesOnNewline",
@@ -373,12 +374,12 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 1,
                     endColumn: 20
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "foo({ k1: 'val1', ...{} })",
             output: "foo({ k1: 'val1',\n...{} })",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "propertiesOnNewline",
@@ -388,12 +389,12 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 1,
                     endColumn: 22
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "foo({\nk1: 'val1', ...{}\n})",
             output: "foo({\nk1: 'val1',\n...{}\n})",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "propertiesOnNewline",
@@ -403,8 +404,7 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 2,
                     endColumn: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "var obj = {\na: {\nb: 1,\nc: 2\n}, d: 2\n};",
@@ -560,6 +560,7 @@ ruleTester.run("object-property-newline", rule, {
             code: "var obj = { [\nk1]: 'val1', k2: 'val2' };",
             output: "var obj = { [\nk1]: 'val1',\nk2: 'val2' };",
             options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "propertiesOnNewlineAll",
@@ -569,13 +570,13 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 2,
                     endColumn: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var obj = {\nk1: 'val1',\nk2: 'val2', ...{}\n};",
             output: "var obj = {\nk1: 'val1',\nk2: 'val2',\n...{}\n};",
             options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "propertiesOnNewlineAll",
@@ -585,13 +586,13 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 3,
                     endColumn: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "var obj = {\n...{},\nk1: 'val1', k2: 'val2'\n};",
             output: "var obj = {\n...{},\nk1: 'val1',\nk2: 'val2'\n};",
             options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "propertiesOnNewlineAll",
@@ -601,13 +602,13 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 3,
                     endColumn: 15
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "foo({ [\nk1]: 'val1', k2: 'val2' })",
             output: "foo({ [\nk1]: 'val1',\nk2: 'val2' })",
             options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "propertiesOnNewlineAll",
@@ -617,13 +618,13 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 2,
                     endColumn: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "foo({\nk1: 'val1',\nk2: 'val2', ...{}\n})",
             output: "foo({\nk1: 'val1',\nk2: 'val2',\n...{}\n})",
             options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "propertiesOnNewlineAll",
@@ -633,13 +634,13 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 3,
                     endColumn: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "foo({\n...{},\nk1: 'val1', k2: 'val2'\n})",
             output: "foo({\n...{},\nk1: 'val1',\nk2: 'val2'\n})",
             options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "propertiesOnNewlineAll",
@@ -649,8 +650,7 @@ ruleTester.run("object-property-newline", rule, {
                     endLine: 3,
                     endColumn: 15
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
 
         // allowMultiplePropertiesPerLine: true (deprecated)

@@ -242,6 +242,7 @@ ruleTester.run("no-unneeded-ternary", rule, {
             code: "function* fn() { foo ? foo : yield bar }",
             output: "function* fn() { foo || (yield bar) }",
             options: [{ defaultAssignment: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
@@ -249,8 +250,7 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 column: 18,
                 endLine: 1,
                 endColumn: 39
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var a = foo ? foo : 'No';",
@@ -282,6 +282,7 @@ ruleTester.run("no-unneeded-ternary", rule, {
             code: "var a = b ? b : c => c;",
             output: "var a = b || (c => c);",
             options: [{ defaultAssignment: false }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
@@ -289,13 +290,13 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 column: 9,
                 endLine: 1,
                 endColumn: 23
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "var a = b ? b : c = 0;",
             output: "var a = b || (c = 0);",
             options: [{ defaultAssignment: false }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
@@ -303,13 +304,13 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 column: 9,
                 endLine: 1,
                 endColumn: 22
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "var a = b ? b : (c => c);",
             output: "var a = b || (c => c);",
             options: [{ defaultAssignment: false }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
@@ -317,13 +318,13 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 column: 9,
                 endLine: 1,
                 endColumn: 25
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "var a = b ? b : (c = 0);",
             output: "var a = b || (c = 0);",
             options: [{ defaultAssignment: false }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
@@ -331,13 +332,13 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 column: 9,
                 endLine: 1,
                 endColumn: 24
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "var a = b ? b : (c) => (c);",
             output: "var a = b || ((c) => (c));",
             options: [{ defaultAssignment: false }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
@@ -345,13 +346,13 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 column: 9,
                 endLine: 1,
                 endColumn: 27
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "var a = b ? b : c, d; // this is ((b ? b : c), (d))",
             output: "var a = b || c, d; // this is ((b ? b : c), (d))",
             options: [{ defaultAssignment: false }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
@@ -359,13 +360,13 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 column: 9,
                 endLine: 1,
                 endColumn: 18
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "var a = b ? b : (c, d);",
             output: "var a = b || (c, d);",
             options: [{ defaultAssignment: false }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
@@ -373,8 +374,7 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 column: 9,
                 endLine: 1,
                 endColumn: 23
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "f(x ? x : 1);",
@@ -419,6 +419,7 @@ ruleTester.run("no-unneeded-ternary", rule, {
             code: "var a = foo ? foo : a ?? b;",
             output: "var a = foo || (a ?? b);",
             options: [{ defaultAssignment: false }],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryConditionalAssignment",
                 type: "ConditionalExpression",
@@ -426,35 +427,34 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 column: 9,
                 endLine: 1,
                 endColumn: 27
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
 
         // https://github.com/eslint/eslint/issues/17173
         {
             code: "foo as any ? false : true",
             output: "!(foo as any)",
-            errors: [{
-                messageId: "unnecessaryConditionalExpression",
-                type: "ConditionalExpression"
-            }],
             languageOptions: {
                 parser: require(parser("typescript-parsers/unneeded-ternary-1")),
                 ecmaVersion: 6
-            }
+            },
+            errors: [{
+                messageId: "unnecessaryConditionalExpression",
+                type: "ConditionalExpression"
+            }]
         },
         {
             code: "foo ? foo : bar as any",
             output: "foo || (bar as any)",
             options: [{ defaultAssignment: false }],
-            errors: [{
-                messageId: "unnecessaryConditionalAssignment",
-                type: "ConditionalExpression"
-            }],
             languageOptions: {
                 parser: require(parser("typescript-parsers/unneeded-ternary-2")),
                 ecmaVersion: 6
-            }
+            },
+            errors: [{
+                messageId: "unnecessaryConditionalAssignment",
+                type: "ConditionalExpression"
+            }]
         }
     ]
 });

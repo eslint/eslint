@@ -96,24 +96,24 @@ ruleTester.run("no-useless-concat", rule, {
         },
         {
             code: "`a` + 'b'",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpectedConcat" }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "`a` + `b`",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpectedConcat" }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "foo + `a` + `b`",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpectedConcat" }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         }
     ]
 });

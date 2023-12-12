@@ -187,10 +187,10 @@ ruleTester.run("no-dupe-class-members", rule, {
         },
         {
             code: "class A { [123n]() {} 123() {} }",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { type: "MethodDefinition", line: 1, column: 23, messageId: "unexpected", data: { name: "123" } }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: "class A { [null]() {} 'null'() {} }",

@@ -90,8 +90,8 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "a[`time`];",
             output: "a.time;",
-            errors: [{ messageId: "useDot", data: { key: "`time`" } }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "useDot", data: { key: "`time`" } }]
         },
         {
             code: "a[null];",
@@ -272,54 +272,54 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "5_000['prop']",
             output: "5_000 .prop",
-            errors: [{ messageId: "useDot", data: { key: q("prop") } }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
         {
             code: "5_000_00['prop']",
             output: "5_000_00 .prop",
-            errors: [{ messageId: "useDot", data: { key: q("prop") } }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
         {
             code: "5.000_000['prop']",
             output: "5.000_000.prop",
-            errors: [{ messageId: "useDot", data: { key: q("prop") } }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
         {
             code: "0b1010_1010['prop']",
             output: "0b1010_1010.prop",
-            errors: [{ messageId: "useDot", data: { key: q("prop") } }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
 
         // Optional chaining
         {
             code: "obj?.['prop']",
             output: "obj?.prop",
-            errors: [{ messageId: "useDot", data: { key: q("prop") } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
         {
             code: "0?.['prop']",
             output: "0?.prop",
-            errors: [{ messageId: "useDot", data: { key: q("prop") } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
         {
             code: "obj?.true",
             output: "obj?.[\"true\"]",
             options: [{ allowKeywords: false }],
-            errors: [{ messageId: "useBrackets", data: { key: "true" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useBrackets", data: { key: "true" } }]
         },
         {
             code: "let?.true",
             output: "let?.[\"true\"]",
             options: [{ allowKeywords: false }],
-            errors: [{ messageId: "useBrackets", data: { key: "true" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "useBrackets", data: { key: "true" } }]
         }
     ]
 });

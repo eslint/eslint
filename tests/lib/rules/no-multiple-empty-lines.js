@@ -301,15 +301,15 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             "`bar`;\n" +
             "`baz`;",
             options: [{ max: 1 }],
-            errors: [getExpectedError(1)],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [getExpectedError(1)]
         },
         {
             code: "`template ${foo\n\n\n} literal`;",
             output: "`template ${foo\n\n} literal`;",
             options: [{ max: 1 }],
-            errors: [getExpectedError(1)],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [getExpectedError(1)]
         },
         {
 

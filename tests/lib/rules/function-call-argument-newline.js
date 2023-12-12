@@ -192,6 +192,7 @@ ruleTester.run("function-call-argument-newline", rule, {
             code: "fn(a, b, x => {\n\tx()\n})",
             output: "fn(a,\nb,\nx => {\n\tx()\n})",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingLineBreak",
@@ -207,8 +208,7 @@ ruleTester.run("function-call-argument-newline", rule, {
                     endLine: 1,
                     endColumn: 10
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "fn({\n\ta: 1\n}, b)",
@@ -228,6 +228,7 @@ ruleTester.run("function-call-argument-newline", rule, {
             code: "fn(`\n`, b)",
             output: "fn(`\n`,\nb)",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingLineBreak",
@@ -236,8 +237,7 @@ ruleTester.run("function-call-argument-newline", rule, {
                     endLine: 2,
                     endColumn: 4
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         /* "never" */
@@ -343,6 +343,7 @@ ruleTester.run("function-call-argument-newline", rule, {
             code: "fn(a,\n\tb,\n\tx => {\n\t\tx()\n})",
             output: "fn(a, b, x => {\n\t\tx()\n})",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
@@ -358,8 +359,7 @@ ruleTester.run("function-call-argument-newline", rule, {
                     endLine: 3,
                     endColumn: 2
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "fn({\n\ta: 1\n},\nb)",
@@ -379,6 +379,7 @@ ruleTester.run("function-call-argument-newline", rule, {
             code: "fn(`\n`,\nb)",
             output: "fn(`\n`, b)",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
@@ -387,13 +388,13 @@ ruleTester.run("function-call-argument-newline", rule, {
                     endLine: 3,
                     endColumn: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "fn(a,/* comment */\nb)",
             output: "fn(a,/* comment */ b)",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
@@ -402,8 +403,7 @@ ruleTester.run("function-call-argument-newline", rule, {
                     endLine: 2,
                     endColumn: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         /* "consistent" */
@@ -495,6 +495,7 @@ ruleTester.run("function-call-argument-newline", rule, {
             code: "fn(`\n`,\nb, c)",
             output: "fn(`\n`,\nb,\nc)",
             options: ["consistent"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingLineBreak",
@@ -503,13 +504,13 @@ ruleTester.run("function-call-argument-newline", rule, {
                     endLine: 3,
                     endColumn: 4
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "fn(`\n`, b,\nc)",
             output: "fn(`\n`, b, c)",
             options: ["consistent"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
@@ -518,13 +519,13 @@ ruleTester.run("function-call-argument-newline", rule, {
                     endLine: 3,
                     endColumn: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "fn(a,// comment\n{b, c})",
             output: null,
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
@@ -533,8 +534,7 @@ ruleTester.run("function-call-argument-newline", rule, {
                     endLine: 2,
                     endColumn: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "fn(a, // comment\nb)",
@@ -554,6 +554,7 @@ ruleTester.run("function-call-argument-newline", rule, {
             code: "fn(`\n`, b, // comment\nc)",
             output: null,
             options: ["consistent"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
@@ -562,8 +563,7 @@ ruleTester.run("function-call-argument-newline", rule, {
                     endLine: 3,
                     endColumn: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         }
     ]
 });

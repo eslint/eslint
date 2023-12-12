@@ -120,13 +120,13 @@ ruleTester.run("no-unused-expressions", rule, {
         { code: "a ? b() || (c = d) : e", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
         {
             code: "`untagged template literal`",
-            errors: [{ messageId: "unusedExpression" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedExpression" }]
         },
         {
             code: "tag`tagged template literal`",
-            errors: [{ messageId: "unusedExpression" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedExpression" }]
         },
         { code: "a && b()", options: [{ allowTernary: true }], errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
         { code: "a ? b() : c()", options: [{ allowShortCircuit: true }], errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
@@ -141,65 +141,66 @@ ruleTester.run("no-unused-expressions", rule, {
         { code: "function foo() {\"directive one\"; f(); \"directive two\"; }", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
         { code: "if (0) { \"not a directive\"; f(); }", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
         { code: "function foo() { var foo = true; \"use strict\"; }", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
-        { code: "var foo = () => { var foo = true; \"use strict\"; }", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => { var foo = true; \"use strict\"; }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
         {
             code: "`untagged template literal`",
             options: [{ allowTaggedTemplates: true }],
-            errors: [{ messageId: "unusedExpression" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedExpression" }]
         },
         {
             code: "`untagged template literal`",
             options: [{ allowTaggedTemplates: false }],
-            errors: [{ messageId: "unusedExpression" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedExpression" }]
         },
         {
             code: "tag`tagged template literal`",
             options: [{ allowTaggedTemplates: false }],
-            errors: [{ messageId: "unusedExpression" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedExpression" }]
         },
 
         // Optional chaining
         {
             code: "obj?.foo",
-            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
         },
         {
             code: "obj?.foo.bar",
-            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
         },
         {
             code: "obj?.foo().bar",
-            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
         },
 
         // JSX
         {
             code: "<div />",
             options: [{ enforceForJSX: true }],
-            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }],
-            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
         },
         {
             code: "<></>",
             options: [{ enforceForJSX: true }],
-            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }],
-            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
         },
 
         // class static blocks do not have directive prologues
         {
             code: "class C { static { 'use strict'; } }",
-            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }]
         },
         {
             code: "class C { static { \n'foo'\n'bar'\n } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "unusedExpression",
@@ -211,8 +212,7 @@ ruleTester.run("no-unused-expressions", rule, {
                     type: "ExpressionStatement",
                     line: 3
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         }
     ]
 });

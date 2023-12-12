@@ -57,7 +57,7 @@ ruleTester.run("handle-callback-err", rule, {
         { code: "function test(err) {errorLookingWord();}", errors: [expectedFunctionDeclarationError] },
         { code: "function test(err) {try{} catch(err) {}}", errors: [expectedFunctionDeclarationError] },
         { code: "function test(err, callback) { foo(function(err, callback) {}); }", errors: [expectedFunctionDeclarationError, expectedFunctionExpressionError] },
-        { code: "var test = (err) => {};", errors: [{ messageId: "expected" }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var test = (err) => {};", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expected" }] },
         { code: "var test = function(err) {};", errors: [expectedFunctionExpressionError] },
         { code: "var test = function test(err, data) {};", errors: [expectedFunctionExpressionError] },
         { code: "var test = function test(err) {/* if(err){} */};", errors: [expectedFunctionExpressionError] },

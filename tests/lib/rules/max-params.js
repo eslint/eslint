@@ -58,12 +58,12 @@ ruleTester.run("max-params", rule, {
         {
             code: "var test = (a, b, c, d) => {};",
             options: [3],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "exceed",
                 data: { name: "Arrow function", count: 4, max: 3.0 },
                 type: "ArrowFunctionExpression"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function(a, b, c, d) {});",

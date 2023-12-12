@@ -122,14 +122,14 @@ ruleTester.run("quotes", rule, {
             code: "var foo = `bar`;",
             output: "var foo = 'bar';",
             options: ["single"],
+            languageOptions: {
+                ecmaVersion: 6
+            },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "singlequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: {
-                ecmaVersion: 6
-            }
+            }]
         },
         {
             code: "var foo = 'don\\'t';",
@@ -173,14 +173,14 @@ ruleTester.run("quotes", rule, {
             code: "var foo = `bar`;",
             output: "var foo = \"bar\";",
             options: ["double"],
+            languageOptions: {
+                ecmaVersion: 6
+            },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: {
-                ecmaVersion: 6
-            }
+            }]
         },
         {
             code: "var foo = \"bar\";",
@@ -236,56 +236,56 @@ ruleTester.run("quotes", rule, {
             code: "var foo = 'bar';",
             output: "var foo = `bar`;",
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
                 type: "Literal"
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "var foo = 'b${x}a$r';",
             output: "var foo = `b\\${x}a$r`;",
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
                 type: "Literal"
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "var foo = \"bar\";",
             output: "var foo = `bar`;",
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
                 type: "Literal"
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "var foo = \"bar\";",
             output: "var foo = `bar`;",
             options: ["backtick", { avoidEscape: true }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
                 type: "Literal"
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: "var foo = 'bar';",
             output: "var foo = `bar`;",
             options: ["backtick", { avoidEscape: true }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
                 type: "Literal"
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
 
         // "use strict" is *not* a directive prologue in these statements so is subject to the rule
@@ -293,34 +293,34 @@ ruleTester.run("quotes", rule, {
             code: "var foo = `backtick`; \"use strict\";",
             output: "var foo = `backtick`; `use strict`;",
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
                 type: "Literal"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{ \"use strict\"; var foo = `backtick`; }",
             output: "{ `use strict`; var foo = `backtick`; }",
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
                 type: "Literal"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "if (1) { \"use strict\"; var foo = `backtick`; }",
             output: "if (1) { `use strict`; var foo = `backtick`; }",
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
                 type: "Literal"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // `backtick` should warn computed property names.
@@ -328,6 +328,7 @@ ruleTester.run("quotes", rule, {
             code: "var obj = {[\"key0\"]: 0, ['key1']: 1};",
             output: "var obj = {[`key0`]: 0, [`key1`]: 1};",
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -339,13 +340,13 @@ ruleTester.run("quotes", rule, {
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class Foo { ['a'](){} static ['b'](){} }",
             output: "class Foo { [`a`](){} static [`b`](){} }",
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -357,8 +358,7 @@ ruleTester.run("quotes", rule, {
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/7084
@@ -366,146 +366,146 @@ ruleTester.run("quotes", rule, {
             code: "<div blah={\"blah\"} />",
             output: "<div blah={'blah'} />",
             options: ["single"],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "singlequote" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+            ]
         },
         {
             code: "<div blah={'blah'} />",
             output: "<div blah={\"blah\"} />",
             options: ["double"],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "doublequote" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+            ]
         },
         {
             code: "<div blah={'blah'} />",
             output: "<div blah={`blah`} />",
             options: ["backtick"],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } }, ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } }, ecmaVersion: 2015 }
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/7610
         {
             code: "`use strict`;",
             output: null,
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { `use strict`; foo(); }",
             output: null,
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "foo = function() { `use strict`; foo(); }",
             output: null,
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "() => { `use strict`; foo(); }",
             output: null,
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "() => { foo(); `use strict`; }",
             output: null, // no autofix
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "foo(); `use strict`;",
             output: null, // no autofix
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // https://github.com/eslint/eslint/issues/7646
         {
             code: "var foo = `foo\\nbar`;",
             output: "var foo = \"foo\\nbar\";",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = `foo\\\nbar`;", // 1 backslash followed by a newline
             output: "var foo = \"foo\\\nbar\";",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = `foo\\\\\\\nbar`;", // 3 backslashes followed by a newline
             output: "var foo = \"foo\\\\\\\nbar\";",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "````",
             output: "\"\"``",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral",
                 line: 1,
                 column: 1
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // Strings containing octal escape sequences. Don't autofix to backticks.
@@ -537,118 +537,118 @@ ruleTester.run("quotes", rule, {
             code: "var notoctal = '\\0'",
             output: "var notoctal = `\\0`",
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = '\\1'",
             output: null,
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = \"\\1\"",
             output: null,
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = '\\01'",
             output: null,
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = '\\0\\1'",
             output: null,
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = '\\08'",
             output: null,
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = 'prefix \\33'",
             output: null,
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = 'prefix \\75 suffix'",
             output: null,
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var nonOctalDecimalEscape = '\\8'",
             output: null,
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
 
@@ -657,96 +657,97 @@ ruleTester.run("quotes", rule, {
             code: "class C { 'foo'; }",
             output: "class C { \"foo\"; }",
             options: ["double"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "doublequote" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { 'foo'() {} }",
             output: "class C { \"foo\"() {} }",
             options: ["double"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "doublequote" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { \"foo\"; }",
             output: "class C { 'foo'; }",
             options: ["single"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "singlequote" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { \"foo\"() {} }",
             output: "class C { 'foo'() {} }",
             options: ["single"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "singlequote" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { [\"foo\"]; }",
             output: "class C { [`foo`]; }",
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { foo = \"foo\"; }",
             output: "class C { foo = `foo`; }",
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
                     data: { description: "backtick" },
                     type: "Literal"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
 
         // https://github.com/eslint/eslint/pull/17022
         {
             code: "() => { foo(); (`use strict`); }",
             output: "() => { foo(); (\"use strict\"); }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "('foo'); \"bar\";",
             output: "(`foo`); `bar`;",
             options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
@@ -755,8 +756,7 @@ ruleTester.run("quotes", rule, {
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
                 type: "Literal"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "; 'use asm';",
@@ -770,22 +770,22 @@ ruleTester.run("quotes", rule, {
         {
             code: "{ `foobar`; }",
             output: "{ \"foobar\"; }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "foo(() => `bar`);",
             output: "foo(() => \"bar\");",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "TemplateLiteral"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }
     ]
 });

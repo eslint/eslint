@@ -181,11 +181,11 @@ ruleTester.run("block-spacing", rule, {
         {
             code: "for (var a of b) {foo();}",
             output: "for (var a of b) { foo(); }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "BlockStatement", line: 1, column: 18, messageId: "missing", data: { location: "after", token: "{" } },
                 { type: "BlockStatement", line: 1, column: 25, messageId: "missing", data: { location: "before", token: "}" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "try {foo();} catch (e) {foo();} finally {foo();}",
@@ -266,24 +266,25 @@ ruleTester.run("block-spacing", rule, {
         {
             code: "(() => {bar();});",
             output: "(() => { bar(); });",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "BlockStatement", line: 1, column: 8, messageId: "missing", data: { location: "after", token: "{" } },
                 { type: "BlockStatement", line: 1, column: 15, messageId: "missing", data: { location: "before", token: "}" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "if (a) {/* comment */ foo(); /* comment */}",
             output: "if (a) { /* comment */ foo(); /* comment */ }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "BlockStatement", line: 1, column: 8, messageId: "missing", data: { location: "after", token: "{" } },
                 { type: "BlockStatement", line: 1, column: 43, messageId: "missing", data: { location: "before", token: "}" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "if (a) {//comment\n foo(); }",
             output: "if (a) { //comment\n foo(); }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "BlockStatement",
@@ -297,14 +298,14 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 9
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // class static blocks
         {
             code: "class C { static {foo; } }",
             output: "class C { static { foo; } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     type: "StaticBlock",
@@ -318,12 +319,12 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 19
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { static { foo;} }",
             output: "class C { static { foo; } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     type: "StaticBlock",
@@ -337,12 +338,12 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 25
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { static {foo;} }",
             output: "class C { static { foo; } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     type: "StaticBlock",
@@ -368,12 +369,12 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 24
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { static {/* comment */} }",
             output: "class C { static { /* comment */ } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     type: "StaticBlock",
@@ -399,12 +400,12 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 33
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { static {/* comment 1 */ foo; /* comment 2 */} }",
             output: "class C { static { /* comment 1 */ foo; /* comment 2 */ } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     type: "StaticBlock",
@@ -430,12 +431,12 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 56
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C {\n static {foo()\nbar()} }",
             output: "class C {\n static { foo()\nbar() } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     type: "StaticBlock",
@@ -461,8 +462,7 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 3,
                     endColumn: 7
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
 
         //----------------------------------------------------------------------
@@ -747,6 +747,7 @@ ruleTester.run("block-spacing", rule, {
             code: "for (var a of b) { foo(); }",
             output: "for (var a of b) {foo();}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "BlockStatement",
@@ -766,8 +767,7 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 27
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "try { foo(); } catch (e) { foo(); } finally { foo(); }",
@@ -884,6 +884,7 @@ ruleTester.run("block-spacing", rule, {
             code: "(() => { bar(); });",
             output: "(() => {bar();});",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "BlockStatement",
@@ -903,8 +904,7 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 17
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "if (a) { /* comment */ foo(); /* comment */ }",
@@ -935,6 +935,7 @@ ruleTester.run("block-spacing", rule, {
             code: "(() => {   bar();});",
             output: "(() => {bar();});",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "BlockStatement",
@@ -945,13 +946,13 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 12
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "(() => {bar();   });",
             output: "(() => {bar();});",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "BlockStatement",
@@ -962,13 +963,13 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 18
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "(() => {   bar();   });",
             output: "(() => {bar();});",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "BlockStatement",
@@ -988,8 +989,7 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 21
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // class static blocks
@@ -997,6 +997,7 @@ ruleTester.run("block-spacing", rule, {
             code: "class C { static { foo;} }",
             output: "class C { static {foo;} }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     type: "StaticBlock",
@@ -1010,13 +1011,13 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 20
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { static {foo; } }",
             output: "class C { static {foo;} }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     type: "StaticBlock",
@@ -1030,13 +1031,13 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 24
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { static { foo; } }",
             output: "class C { static {foo;} }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     type: "StaticBlock",
@@ -1062,13 +1063,13 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 25
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { static { /* comment */ } }",
             output: "class C { static {/* comment */} }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     type: "StaticBlock",
@@ -1094,13 +1095,13 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 34
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { static { /* comment 1 */ foo; /* comment 2 */ } }",
             output: "class C { static {/* comment 1 */ foo; /* comment 2 */} }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     type: "StaticBlock",
@@ -1126,13 +1127,13 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 1,
                     endColumn: 57
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { static\n{   foo()\nbar()  } }",
             output: "class C { static\n{foo()\nbar()} }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     type: "StaticBlock",
@@ -1158,8 +1159,7 @@ ruleTester.run("block-spacing", rule, {
                     endLine: 3,
                     endColumn: 8
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         }
     ]
 });

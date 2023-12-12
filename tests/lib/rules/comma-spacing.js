@@ -441,6 +441,7 @@ ruleTester.run("comma-spacing", rule, {
             code: "var foo = (a,b) => {}",
             output: "var foo = (a , b) => {}",
             options: [{ before: true, after: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missing",
@@ -452,13 +453,13 @@ ruleTester.run("comma-spacing", rule, {
                     data: { loc: "after" },
                     type: "Punctuator"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = (a = 1,b) => {}",
             output: "var foo = (a = 1 , b) => {}",
             options: [{ before: true, after: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missing",
@@ -470,13 +471,13 @@ ruleTester.run("comma-spacing", rule, {
                     data: { loc: "after" },
                     type: "Punctuator"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "function foo(a = 1 ,b = 2) {}",
             output: "function foo(a = 1, b = 2) {}",
             options: [{ before: false, after: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "There should be no space before ','.",
@@ -487,12 +488,12 @@ ruleTester.run("comma-spacing", rule, {
                     data: { loc: "after" },
                     type: "Punctuator"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "<a>{foo(1 ,2)}</a>",
             output: "<a>{foo(1, 2)}</a>",
+            languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } },
             errors: [
                 {
                     message: "There should be no space before ','.",
@@ -503,8 +504,7 @@ ruleTester.run("comma-spacing", rule, {
                     data: { loc: "after" },
                     type: "Punctuator"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } }
+            ]
         },
         {
             code: "myfunc(404, true/* bla bla bla */ , 'hello');",

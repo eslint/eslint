@@ -391,23 +391,23 @@ ruleTester.run("no-useless-rename", rule, {
         {
             code: "const {foo: foo, ...stuff} = myObject;",
             output: "const {foo, ...stuff} = myObject;",
-            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }],
-            languageOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "const {foo: foo, bar: baz, ...stuff} = myObject;",
             output: "const {foo, bar: baz, ...stuff} = myObject;",
-            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }],
-            languageOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "const {foo: foo, bar: bar, ...stuff} = myObject;",
             output: "const {foo, bar, ...stuff} = myObject;",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } },
                 { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "import {foo as foo} from 'foo';",
@@ -417,8 +417,8 @@ ruleTester.run("no-useless-rename", rule, {
         {
             code: "import {'foo' as foo} from 'foo';",
             output: "import {foo} from 'foo';",
-            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }]
         },
         {
             code: "import {\\u0061 as a} from 'foo';",
@@ -461,38 +461,38 @@ ruleTester.run("no-useless-rename", rule, {
         {
             code: "var foo = 0; export {foo as 'foo'};",
             output: "var foo = 0; export {foo};",
-            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "export {foo as 'foo'} from 'bar';",
             output: "export {foo} from 'bar';",
-            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "export {'foo' as foo} from 'bar';",
             output: "export {'foo'} from 'bar';",
-            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "export {'foo' as 'foo'} from 'bar';",
             output: "export {'foo'} from 'bar';",
-            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "export {' 👍 ' as ' 👍 '} from 'bar';",
             output: "export {' 👍 '} from 'bar';",
-            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: " 👍 " } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: " 👍 " } }]
         },
         {
             code: "export {'' as ''} from 'bar';",
             output: "export {''} from 'bar';",
-            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "" } }]
         },
         {
             code: "var a = 0; export {a as \\u0061};",

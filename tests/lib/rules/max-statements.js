@@ -70,8 +70,8 @@ ruleTester.run("max-statements", rule, {
         {
             code: "var foo = () => { var bar = 1; var baz = 2; var qux = 3; };",
             options: [2],
-            errors: [{ messageId: "exceed", data: { name: "Arrow function", count: "3", max: 2 } }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "exceed", data: { name: "Arrow function", count: "3", max: 2 } }]
         },
         {
             code: "var foo = function() { var bar = 1; var baz = 2; var qux = 3; };",
@@ -135,8 +135,8 @@ ruleTester.run("max-statements", rule, {
         {
             code: "var foo = { thing() { var bar = 1; var baz = 2; var baz2; } }",
             options: [2],
-            errors: [{ messageId: "exceed", data: { name: "Method 'thing'", count: "3", max: 2 } }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "exceed", data: { name: "Method 'thing'", count: "3", max: 2 } }]
         },
 
         /*
@@ -152,8 +152,8 @@ ruleTester.run("max-statements", rule, {
         {
             code: "var foo = { thing: () => { var bar = 1; var baz = 2; var baz2; } }",
             options: [2],
-            errors: [{ messageId: "exceed", data: { name: "Method 'thing'", count: "3", max: 2 } }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "exceed", data: { name: "Method 'thing'", count: "3", max: 2 } }]
         },
         {
             code: "var foo = { thing: function() { var bar = 1; var baz = 2; var baz2; } }",
@@ -173,26 +173,26 @@ ruleTester.run("max-statements", rule, {
         {
             code: "function foo() { foo_1; /* foo_ 2 */ class C { static { one; two; three; four; { five; six; seven; eight; } } } foo_3 }",
             options: [2],
-            errors: [{ messageId: "exceed", data: { name: "Function 'foo'", count: 3, max: 2 } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "exceed", data: { name: "Function 'foo'", count: 3, max: 2 } }]
         },
         {
             code: "class C { static { one; two; three; four; function not_top_level() { 1; 2; 3; } five; six; seven; eight; } }",
             options: [2, { ignoreTopLevelFunctions: true }],
-            errors: [{ messageId: "exceed", data: { name: "Function 'not_top_level'", count: 3, max: 2 } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "exceed", data: { name: "Function 'not_top_level'", count: 3, max: 2 } }]
         },
         {
             code: "class C { static { { one; two; three; four; function not_top_level() { 1; 2; 3; } five; six; seven; eight; } } }",
             options: [2, { ignoreTopLevelFunctions: true }],
-            errors: [{ messageId: "exceed", data: { name: "Function 'not_top_level'", count: 3, max: 2 } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "exceed", data: { name: "Function 'not_top_level'", count: 3, max: 2 } }]
         },
         {
             code: "class C { static { { one; two; three; four; } function not_top_level() { 1; 2; 3; } { five; six; seven; eight; } } }",
             options: [2, { ignoreTopLevelFunctions: true }],
-            errors: [{ messageId: "exceed", data: { name: "Function 'not_top_level'", count: 3, max: 2 } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "exceed", data: { name: "Function 'not_top_level'", count: 3, max: 2 } }]
         }
     ]
 });

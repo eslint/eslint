@@ -554,6 +554,7 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "var x = {[a]: b}",
             output: "var x = {[ a ]: b}",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -573,13 +574,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 13
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var x = {[a ]: b}",
             output: "var x = {[ a ]: b}",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -590,13 +591,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 11
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var x = {[ a]: b}",
             output: "var x = {[ a ]: b}",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceBefore",
@@ -607,8 +608,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 14
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // never - objectLiteralComputedProperties
@@ -616,6 +616,7 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "var x = {[ a ]: b}",
             output: "var x = {[a]: b}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -635,13 +636,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 14
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var x = {[a ]: b}",
             output: "var x = {[a]: b}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -652,13 +653,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 13
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var x = {[ a]: b}",
             output: "var x = {[a]: b}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -669,13 +670,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 12
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var x = {[ a\n]: b}",
             output: "var x = {[a\n]: b}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -686,14 +687,14 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 12
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // test default settings for classes
         {
             code: "class A { [ a ](){} }",
             output: "class A { [a](){} }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -713,13 +714,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 15
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
             output: "class A { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -829,13 +830,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 105
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "A = class { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
             output: "A = class { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
             options: ["never", {}],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -945,13 +946,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 107
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "A = class { [a](){} }",
             output: "A = class { [ a ](){} }",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -971,13 +972,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "A = class { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
             output: "A = class { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -1087,13 +1088,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 96
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
             output: "class A { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
             options: ["always", {}],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -1203,8 +1204,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 94
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // never - classes
@@ -1212,6 +1212,7 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "class A { [ a](){} }",
             output: "class A { [a](){} }",
             options: ["never", { enforceForClassMembers: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -1222,13 +1223,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 13
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "A = class { [a](){} b(){} static [c ](){} static [d](){}}",
             output: "A = class { [a](){} b(){} static [c](){} static [d](){}}",
             options: ["never", { enforceForClassMembers: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -1239,13 +1240,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 37
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { get [a ](){} set [ a](foo){} get b(){} static set b(bar){} static get [ a](){} static set [a ](baz){} }",
             output: "class A { get [a](){} set [a](foo){} get b(){} static set b(bar){} static get [a](){} static set [a](baz){} }",
             options: ["never", { enforceForClassMembers: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceBefore",
@@ -1283,13 +1284,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 104
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "A = class { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
             output: "A = class { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
             options: ["never", { enforceForClassMembers: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -1399,13 +1400,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 107
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { [ a]; [b ]; [ c ]; [ a] = 0; [b ] = 0; [ c ] = 0; }",
             output: "class A { [a]; [b]; [c]; [a] = 0; [b] = 0; [c] = 0; }",
             options: ["never", { enforceForClassMembers: true }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -1455,8 +1456,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     column: 53,
                     endColumn: 54
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
 
         // always - classes
@@ -1464,6 +1464,7 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "class A { [ a](){} }",
             output: "class A { [ a ](){} }",
             options: ["always", { enforceForClassMembers: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceBefore",
@@ -1474,13 +1475,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 15
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "A = class { [ a ](){} b(){} static [c ](){} static [ d ](){}}",
             output: "A = class { [ a ](){} b(){} static [ c ](){} static [ d ](){}}",
             options: ["always", { enforceForClassMembers: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -1491,13 +1492,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 37
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { get [a ](){} set [ a](foo){} get b(){} static set b(bar){} static get [ a](){} static set [a ](baz){} }",
             output: "class A { get [ a ](){} set [ a ](foo){} get b(){} static set b(bar){} static get [ a ](){} static set [ a ](baz){} }",
             options: ["always", { enforceForClassMembers: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -1535,13 +1536,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 102
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "A = class { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
             output: "A = class { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
             options: ["always", { enforceForClassMembers: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -1651,13 +1652,13 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 1,
                     endColumn: 96
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { [ a]; [b ]; [c]; [ a] = 0; [b ] = 0; [c] = 0; }",
             output: "class A { [ a ]; [ b ]; [ c ]; [ a ] = 0; [ b ] = 0; [ c ] = 0; }",
             options: ["always", { enforceForClassMembers: true }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "missingSpaceBefore",
@@ -1699,8 +1700,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     column: 50,
                     endColumn: 51
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
 
         // handling of parens and comments
@@ -1716,6 +1716,7 @@ ruleTester.run("computed-property-spacing", rule, {
                 "}"
             ].join("\n"),
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -1735,8 +1736,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 2,
                     endColumn: 8
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: [
@@ -1750,6 +1750,7 @@ ruleTester.run("computed-property-spacing", rule, {
                 "}"
             ].join("\n"),
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -1769,8 +1770,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 2,
                     endColumn: 10
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: [
@@ -1784,6 +1784,7 @@ ruleTester.run("computed-property-spacing", rule, {
                 "}"
             ].join("\n"),
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -1803,8 +1804,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 2,
                     endColumn: 11
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: [
@@ -1818,6 +1818,7 @@ ruleTester.run("computed-property-spacing", rule, {
                 "}"
             ].join("\n"),
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -1837,8 +1838,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 2,
                     endColumn: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: [
@@ -1852,6 +1852,7 @@ ruleTester.run("computed-property-spacing", rule, {
                 "}"
             ].join("\n"),
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -1871,8 +1872,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 2,
                     endColumn: 17
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: [
@@ -1886,6 +1886,7 @@ ruleTester.run("computed-property-spacing", rule, {
                 "}"
             ].join("\n"),
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -1923,8 +1924,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 2,
                     endColumn: 9
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: [
@@ -1938,6 +1938,7 @@ ruleTester.run("computed-property-spacing", rule, {
                 "}"
             ].join("\n"),
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -1975,8 +1976,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 2,
                     endColumn: 12
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: [
@@ -1990,6 +1990,7 @@ ruleTester.run("computed-property-spacing", rule, {
                 "}"
             ].join("\n"),
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingSpaceAfter",
@@ -2018,8 +2019,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 2,
                     endColumn: 19
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: [
@@ -2033,6 +2033,7 @@ ruleTester.run("computed-property-spacing", rule, {
                 "}"
             ].join("\n"),
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedSpaceAfter",
@@ -2061,8 +2062,7 @@ ruleTester.run("computed-property-spacing", rule, {
                     endLine: 2,
                     endColumn: 19
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // Optional chaining
@@ -2070,21 +2070,21 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "obj?.[1];",
             output: "obj?.[ 1 ];",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "missingSpaceAfter", data: { tokenValue: "[" } },
                 { messageId: "missingSpaceBefore", data: { tokenValue: "]" } }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: "obj?.[ 1 ];",
             output: "obj?.[1];",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "unexpectedSpaceAfter", data: { tokenValue: "[" } },
                 { messageId: "unexpectedSpaceBefore", data: { tokenValue: "]" } }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
 
         // Destructuring Assignment
@@ -2092,59 +2092,59 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "const { [ a]: someProp } = obj;",
             output: "const { [a]: someProp } = obj;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "unexpectedSpaceAfter", data: { tokenValue: "[" } }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "const { [a ]: someProp } = obj;",
             output: "const { [a]: someProp } = obj;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "unexpectedSpaceBefore", data: { tokenValue: "]" } }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "const { [ a ]: someProp } = obj;",
             output: "const { [a]: someProp } = obj;",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "unexpectedSpaceAfter", data: { tokenValue: "[" } },
                 { messageId: "unexpectedSpaceBefore", data: { tokenValue: "]" } }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "({ [ a ]: someProp } = obj);",
             output: "({ [a]: someProp } = obj);",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "unexpectedSpaceAfter", data: { tokenValue: "[" } },
                 { messageId: "unexpectedSpaceBefore", data: { tokenValue: "]" } }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "const { [a]: someProp } = obj;",
             output: "const { [ a ]: someProp } = obj;",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingSpaceAfter", data: { tokenValue: "[" } },
                 { messageId: "missingSpaceBefore", data: { tokenValue: "]" } }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "({ [a]: someProp } = obj);",
             output: "({ [ a ]: someProp } = obj);",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingSpaceAfter", data: { tokenValue: "[" } },
                 { messageId: "missingSpaceBefore", data: { tokenValue: "]" } }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         }
     ]
 });

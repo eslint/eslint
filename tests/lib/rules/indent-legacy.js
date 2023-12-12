@@ -2281,10 +2281,10 @@ ruleTester.run("indent-legacy", rule, {
             "            .bar\n" +
             "}",
             options: [4, { MemberExpression: 2 }],
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedErrors(
                 [3, 12, 13, "Punctuator"]
-            ),
-            languageOptions: { ecmaVersion: 6 }
+            )
         },
         {
             code:
@@ -2302,12 +2302,12 @@ ruleTester.run("indent-legacy", rule, {
             "      });\n" +
             "};",
             options: [2, { MemberExpression: 1 }],
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedErrors(
                 [
                     [3, 4, 6, "Punctuator"]
                 ]
-            ),
-            languageOptions: { ecmaVersion: 6 }
+            )
         },
         {
             code:
@@ -2437,11 +2437,11 @@ ruleTester.run("indent-legacy", rule, {
             "    index;\n" +
             "});\n",
             options: [4],
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 0, "Identifier"],
                 [3, 4, 2, "ExpressionStatement"]
-            ]),
-            languageOptions: { ecmaVersion: 6 }
+            ])
         },
         {
             code:
@@ -2454,11 +2454,11 @@ ruleTester.run("indent-legacy", rule, {
             "    return index;\n" +
             "});\n",
             options: [4],
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 0, "Identifier"],
                 [3, 4, 2, "ReturnStatement"]
-            ]),
-            languageOptions: { ecmaVersion: 6 }
+            ])
         },
         {
             code:
@@ -2471,8 +2471,8 @@ ruleTester.run("indent-legacy", rule, {
             "    return index;\n" +
             "});\n",
             options: [4],
-            errors: expectedErrors([[2, 4, 0, "Identifier"]]),
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: expectedErrors([[2, 4, 0, "Identifier"]])
         },
         {
             code:
@@ -2484,10 +2484,10 @@ ruleTester.run("indent-legacy", rule, {
             "    index;\n" +
             "});\n",
             options: [4],
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 2, "ExpressionStatement"]
-            ]),
-            languageOptions: { ecmaVersion: 6 }
+            ])
         },
         {
             code:
@@ -2499,10 +2499,10 @@ ruleTester.run("indent-legacy", rule, {
             "    return index;\n" +
             "});\n",
             options: [4],
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 2, "ReturnStatement"]
-            ]),
-            languageOptions: { ecmaVersion: 6 }
+            ])
         },
         {
             code:
@@ -2576,13 +2576,13 @@ ruleTester.run("indent-legacy", rule, {
             "    'c'\n" +
             "];",
             options: [4],
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 9, "Literal"],
                 [3, 4, 9, "Literal"],
                 [4, 4, 9, "Literal"],
                 [5, 0, 2, "ArrayExpression"]
-            ]),
-            languageOptions: { ecmaVersion: 6 }
+            ])
         },
         {
             code: "while (1 < 2)\nconsole.log('foo')\n  console.log('bar')",
@@ -2698,10 +2698,10 @@ ruleTester.run("indent-legacy", rule, {
             "let geometry,\n" +
             "    rotate;",
             options: [2, { VariableDeclarator: 2 }],
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 2, "VariableDeclarator"]
-            ]),
-            languageOptions: { ecmaVersion: 6 }
+            ])
         },
         {
             code:
@@ -2765,11 +2765,11 @@ ruleTester.run("indent-legacy", rule, {
             "  b\n" +
             "]",
             options: [2, { VariableDeclarator: { let: 2 }, SwitchCase: 1 }],
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 2, 4, "Identifier"],
                 [3, 2, 4, "Identifier"]
-            ]),
-            languageOptions: { ecmaVersion: 6 }
+            ])
         },
         {
             code:
@@ -2808,12 +2808,12 @@ ruleTester.run("indent-legacy", rule, {
             "  }),\n" +
             "  d = 4;\n",
             options: [2, { VariableDeclarator: { var: 2 } }],
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [6, 4, 6, "Property"],
                 [7, 2, 4, "ObjectExpression"],
                 [8, 2, 4, "VariableDeclarator"]
-            ]),
-            languageOptions: { ecmaVersion: 6 }
+            ])
         },
         {
             code:
@@ -2902,8 +2902,8 @@ ruleTester.run("indent-legacy", rule, {
             "    get b(){}\n" +
             "}",
             options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
-            errors: expectedErrors([[2, 4, 2, "MethodDefinition"]]),
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: expectedErrors([[2, 4, 2, "MethodDefinition"]])
         },
         {
             code:
@@ -2919,8 +2919,8 @@ ruleTester.run("indent-legacy", rule, {
             "    get b(){}\n" +
             "};",
             options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
-            errors: expectedErrors([[2, 4, 2, "MethodDefinition"], [4, 4, 2, "MethodDefinition"]]),
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: expectedErrors([[2, 4, 2, "MethodDefinition"], [4, 4, 2, "MethodDefinition"]])
         },
         {
             code:
@@ -2938,8 +2938,8 @@ ruleTester.run("indent-legacy", rule, {
             "      get b(){}\n" +
             "    };",
             options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
-            errors: expectedErrors([[3, 6, 4, "MethodDefinition"]]),
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: expectedErrors([[3, 6, 4, "MethodDefinition"]])
         },
         {
             code:
@@ -3686,8 +3686,8 @@ ruleTester.run("indent-legacy", rule, {
             "return (\n" +
             "    foo\n" +
             ");",
-            errors: expectedErrors([3, 0, 4, "ReturnStatement"]),
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            errors: expectedErrors([3, 0, 4, "ReturnStatement"])
         },
         {
             code:
@@ -3698,8 +3698,8 @@ ruleTester.run("indent-legacy", rule, {
             "return (\n" +
             "    foo\n" +
             ")",
-            errors: expectedErrors([3, 0, 4, "ReturnStatement"]),
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            errors: expectedErrors([3, 0, 4, "ReturnStatement"])
         },
 
         // https://github.com/eslint/eslint/issues/7604

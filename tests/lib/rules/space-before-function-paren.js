@@ -201,6 +201,7 @@ ruleTester.run("space-before-function-paren", rule, {
         {
             code: "var obj = { foo() {} };",
             output: "var obj = { foo () {} };",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionExpression",
@@ -208,12 +209,12 @@ ruleTester.run("space-before-function-paren", rule, {
                     line: 1,
                     column: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "function* foo() {}",
             output: "function* foo () {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionDeclaration",
@@ -221,8 +222,7 @@ ruleTester.run("space-before-function-paren", rule, {
                     line: 1,
                     column: 14
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         {
@@ -383,6 +383,7 @@ ruleTester.run("space-before-function-paren", rule, {
             code: "var obj = { foo () {} };",
             output: "var obj = { foo() {} };",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionExpression",
@@ -390,13 +391,13 @@ ruleTester.run("space-before-function-paren", rule, {
                     line: 1,
                     column: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "function* foo () {}",
             output: "function* foo() {}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionDeclaration",
@@ -404,8 +405,7 @@ ruleTester.run("space-before-function-paren", rule, {
                     line: 1,
                     column: 14
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         {
@@ -420,6 +420,7 @@ ruleTester.run("space-before-function-paren", rule, {
                 "var obj = { get foo() {}, set foo(val) {}, bar() {} };"
             ].join("\n"),
             options: [{ named: "never", anonymous: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionDeclaration",
@@ -451,13 +452,13 @@ ruleTester.run("space-before-function-paren", rule, {
                     line: 3,
                     column: 49
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class Foo { constructor () {} *method () {} }",
             output: "class Foo { constructor() {} *method() {} }",
             options: [{ named: "never", anonymous: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionExpression",
@@ -471,13 +472,13 @@ ruleTester.run("space-before-function-paren", rule, {
                     line: 1,
                     column: 38
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = { bar () {} }",
             output: "var foo = { bar() {} }",
             options: [{ named: "never", anonymous: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionExpression",
@@ -485,8 +486,7 @@ ruleTester.run("space-before-function-paren", rule, {
                     line: 1,
                     column: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: [
@@ -500,6 +500,7 @@ ruleTester.run("space-before-function-paren", rule, {
                 "var obj = { get foo () {}, set foo (val) {}, bar () {} };"
             ].join("\n"),
             options: [{ named: "always", anonymous: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionDeclaration",
@@ -531,8 +532,7 @@ ruleTester.run("space-before-function-paren", rule, {
                     line: 3,
                     column: 47
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = function() {}",
@@ -592,35 +592,35 @@ ruleTester.run("space-before-function-paren", rule, {
             code: "async() => 1",
             output: "async () => 1",
             options: [{ asyncArrow: "always" }],
-            errors: ["Missing space before function parentheses."],
-            languageOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 },
+            errors: ["Missing space before function parentheses."]
         },
         {
             code: "async () => 1",
             output: "async() => 1",
             options: [{ asyncArrow: "never" }],
-            errors: ["Unexpected space before function parentheses."],
-            languageOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 },
+            errors: ["Unexpected space before function parentheses."]
         },
         {
             code: "async() => 1",
             output: "async () => 1",
-            errors: [{ messageId: "missingSpace", type: "ArrowFunctionExpression" }],
-            languageOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 },
+            errors: [{ messageId: "missingSpace", type: "ArrowFunctionExpression" }]
         },
         {
             code: "async() => 1",
             output: "async () => 1",
             options: ["always"],
-            errors: [{ messageId: "missingSpace", type: "ArrowFunctionExpression" }],
-            languageOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 },
+            errors: [{ messageId: "missingSpace", type: "ArrowFunctionExpression" }]
         },
         {
             code: "async () => 1",
             output: "async() => 1",
             options: ["never"],
-            errors: [{ messageId: "unexpectedSpace", type: "ArrowFunctionExpression" }],
-            languageOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 },
+            errors: [{ messageId: "unexpectedSpace", type: "ArrowFunctionExpression" }]
         }
     ]
 });

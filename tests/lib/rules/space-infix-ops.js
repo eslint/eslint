@@ -403,18 +403,19 @@ ruleTester.run("space-infix-ops", rule, {
         {
             code: "const my_object={key: 'value'}",
             output: "const my_object = {key: 'value'}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSpace",
                 data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
                 column: 16
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var {a=0}=bar;",
             output: "var {a = 0} = bar;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSpace",
                 data: { operator: "=" },
@@ -427,32 +428,31 @@ ruleTester.run("space-infix-ops", rule, {
                 line: 1,
                 column: 10,
                 type: "VariableDeclarator"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(a=0) { }",
             output: "function foo(a = 0) { }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingSpace",
                 data: { operator: "=" },
                 line: 1,
                 column: 15,
                 type: "AssignmentPattern"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "a**b",
             output: "a ** b",
+            languageOptions: { ecmaVersion: 7 },
             errors: [{
                 messageId: "missingSpace",
                 data: { operator: "**" },
                 line: 1,
                 column: 2,
                 type: "BinaryExpression"
-            }],
-            languageOptions: { ecmaVersion: 7 }
+            }]
         },
         {
             code: "'foo'in{}",
@@ -481,37 +481,38 @@ ruleTester.run("space-infix-ops", rule, {
         {
             code: "var a: Foo= b;",
             output: "var a: Foo = b;",
+            languageOptions: {
+                parser: require(parser("type-annotations/variable-declaration-init-type-annotation-no-space"))
+            },
             errors: [{
                 messageId: "missingSpace",
                 data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
                 column: 11
-            }],
-            languageOptions: {
-                parser: require(parser("type-annotations/variable-declaration-init-type-annotation-no-space"))
-            }
+            }]
         },
         {
             code: "function foo(a: number=0): Foo { }",
             output: "function foo(a: number = 0): Foo { }",
+            languageOptions: {
+                ecmaVersion: 6,
+                parser: require(parser("type-annotations/function-declaration-type-annotation-no-space"))
+            },
             errors: [{
                 messageId: "missingSpace",
                 data: { operator: "=" },
                 line: 1,
                 column: 23,
                 type: "AssignmentPattern"
-            }],
-            languageOptions: {
-                ecmaVersion: 6,
-                parser: require(parser("type-annotations/function-declaration-type-annotation-no-space"))
-            }
+            }]
         },
 
         // Logical Assignments
         {
             code: "a&&=b",
             output: "a &&= b",
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "missingSpace",
                 data: { operator: "&&=" },
@@ -520,12 +521,12 @@ ruleTester.run("space-infix-ops", rule, {
                 endLine: 1,
                 endColumn: 5,
                 type: "AssignmentExpression"
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "a ||=b",
             output: "a ||= b",
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "missingSpace",
                 data: { operator: "||=" },
@@ -534,12 +535,12 @@ ruleTester.run("space-infix-ops", rule, {
                 endLine: 1,
                 endColumn: 6,
                 type: "AssignmentExpression"
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "a??= b",
             output: "a ??= b",
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "missingSpace",
                 data: { operator: "??=" },
@@ -548,14 +549,14 @@ ruleTester.run("space-infix-ops", rule, {
                 endLine: 1,
                 endColumn: 5,
                 type: "AssignmentExpression"
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
 
         // Class Fields
         {
             code: "class C { a=b; }",
             output: "class C { a = b; }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSpace",
                 data: { operator: "=" },
@@ -564,12 +565,12 @@ ruleTester.run("space-infix-ops", rule, {
                 endLine: 1,
                 endColumn: 13,
                 type: "PropertyDefinition"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { [a ]= b; }",
             output: "class C { [a ] = b; }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingSpace",
                 data: { operator: "=" },
@@ -578,8 +579,7 @@ ruleTester.run("space-infix-ops", rule, {
                 endLine: 1,
                 endColumn: 16,
                 type: "PropertyDefinition"
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         }
     ]
 });

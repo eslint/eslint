@@ -182,18 +182,18 @@ ruleTester.run("quote-props", rule, {
         code: "({ 'a': 0, [x]: 0 })",
         output: "({ a: 0, [x]: 0 })",
         options: ["consistent-as-needed"],
+        languageOptions: { ecmaVersion: 6 },
         errors: [
             { messageId: "redundantQuoting", type: "Property" }
-        ],
-        languageOptions: { ecmaVersion: 6 }
+        ]
     }, {
         code: "({ 'a': 0, x })",
         output: "({ a: 0, x })",
         options: ["consistent-as-needed"],
+        languageOptions: { ecmaVersion: 6 },
         errors: [{
             messageId: "redundantQuoting", type: "Property"
-        }],
-        languageOptions: { ecmaVersion: 6 }
+        }]
     }, {
         code: "({ 'true': 0, 'null': 0 })",
         output: "({ true: 0, null: 0 })",
@@ -375,56 +375,56 @@ ruleTester.run("quote-props", rule, {
         code: "({ 1n: 1 })",
         output: "({ \"1\": 1 })",
         options: ["always"],
+        languageOptions: { ecmaVersion: 2020 },
         errors: [{
             messageId: "unquotedPropertyFound",
             data: { property: "1" }
         }
-        ],
-        languageOptions: { ecmaVersion: 2020 }
+        ]
     }, {
         code: "({ 1n: 1 })",
         output: "({ \"1\": 1 })",
         options: ["as-needed", { numbers: true }],
+        languageOptions: { ecmaVersion: 2020 },
         errors: [{
             messageId: "unquotedNumericProperty",
             data: { property: "1" }
-        }],
-        languageOptions: { ecmaVersion: 2020 }
+        }]
     }, {
         code: "({ 1_0: 1 })",
         output: "({ \"10\": 1 })",
         options: ["as-needed", { numbers: true }],
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{
             messageId: "unquotedNumericProperty",
             data: { property: "10" }
-        }],
-        languageOptions: { ecmaVersion: 2021 }
+        }]
     }, {
         code: "({ 1_2.3_4e0_2: 1 })",
         output: "({ \"1234\": 1 })",
         options: ["always"],
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{
             messageId: "unquotedPropertyFound",
             data: { property: "1234" }
-        }],
-        languageOptions: { ecmaVersion: 2021 }
+        }]
     }, {
         code: "({ 0b1_000: 1 })",
         output: "({ \"8\": 1 })",
         options: ["always"],
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{
             messageId: "unquotedPropertyFound",
             data: { property: "8" }
-        }],
-        languageOptions: { ecmaVersion: 2021 }
+        }]
     }, {
         code: "({ 1_000: a, '1_000': b })",
         output: "({ \"1000\": a, '1_000': b })",
         options: ["consistent-as-needed"],
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{
             messageId: "inconsistentlyQuotedProperty",
             data: { key: "1000" }
-        }],
-        languageOptions: { ecmaVersion: 2021 }
+        }]
     }]
 });

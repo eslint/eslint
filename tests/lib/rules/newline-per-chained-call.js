@@ -351,61 +351,61 @@ ruleTester.run("newline-per-chained-call", rule, {
         code: "obj?.foo1()?.foo2()?.foo3()",
         output: "obj?.foo1()\n?.foo2()\n?.foo3()",
         options: [{ ignoreChainWithDepth: 1 }],
+        languageOptions: { ecmaVersion: 2020 },
         errors: [
             { messageId: "expected", data: { callee: "?.foo2" } },
             { messageId: "expected", data: { callee: "?.foo3" } }
-        ],
-        languageOptions: { ecmaVersion: 2020 }
+        ]
     },
     {
         code: "(obj?.foo1()?.foo2)()?.foo3()",
         output: "(obj?.foo1()\n?.foo2)()\n?.foo3()",
         options: [{ ignoreChainWithDepth: 1 }],
+        languageOptions: { ecmaVersion: 2020 },
         errors: [
             { messageId: "expected", data: { callee: "?.foo2" } },
             { messageId: "expected", data: { callee: "?.foo3" } }
-        ],
-        languageOptions: { ecmaVersion: 2020 }
+        ]
     },
     {
         code: "(obj?.foo1())?.foo2()?.foo3()",
         output: "(obj?.foo1())\n?.foo2()\n?.foo3()",
         options: [{ ignoreChainWithDepth: 1 }],
+        languageOptions: { ecmaVersion: 2020 },
         errors: [
             { messageId: "expected", data: { callee: "?.foo2" } },
             { messageId: "expected", data: { callee: "?.foo3" } }
-        ],
-        languageOptions: { ecmaVersion: 2020 }
+        ]
     },
     {
         code: "obj?.[foo1]()?.[foo2]()?.[foo3]()",
         output: "obj?.[foo1]()\n?.[foo2]()\n?.[foo3]()",
         options: [{ ignoreChainWithDepth: 1 }],
+        languageOptions: { ecmaVersion: 2020 },
         errors: [
             { messageId: "expected", data: { callee: "?.[foo2]" } },
             { messageId: "expected", data: { callee: "?.[foo3]" } }
-        ],
-        languageOptions: { ecmaVersion: 2020 }
+        ]
     },
     {
         code: "(obj?.[foo1]()?.[foo2])()?.[foo3]()",
         output: "(obj?.[foo1]()\n?.[foo2])()\n?.[foo3]()",
         options: [{ ignoreChainWithDepth: 1 }],
+        languageOptions: { ecmaVersion: 2020 },
         errors: [
             { messageId: "expected", data: { callee: "?.[foo2]" } },
             { messageId: "expected", data: { callee: "?.[foo3]" } }
-        ],
-        languageOptions: { ecmaVersion: 2020 }
+        ]
     },
     {
         code: "(obj?.[foo1]())?.[foo2]()?.[foo3]()",
         output: "(obj?.[foo1]())\n?.[foo2]()\n?.[foo3]()",
         options: [{ ignoreChainWithDepth: 1 }],
+        languageOptions: { ecmaVersion: 2020 },
         errors: [
             { messageId: "expected", data: { callee: "?.[foo2]" } },
             { messageId: "expected", data: { callee: "?.[foo3]" } }
-        ],
-        languageOptions: { ecmaVersion: 2020 }
+        ]
     }
 
     ]

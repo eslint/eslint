@@ -116,6 +116,7 @@ ruleTester.run("no-shadow", rule, {
         },
         {
             code: "var a = (x) => { var b = () => { var x = 'foo'; }; }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -126,8 +127,7 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 38
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function a(x) { var b = function () { var x = 'foo'; }; }",
@@ -205,6 +205,7 @@ ruleTester.run("no-shadow", rule, {
         },
         {
             code: "var x = 1; { let x = 2; }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -213,11 +214,11 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 5
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let x = 1; { const x = 2; }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -226,11 +227,11 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 5
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{ let a; } function a() {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -239,11 +240,11 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 21
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{ const a = 0; } function a() {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -252,11 +253,11 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 27
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { let a; } function a() {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -265,11 +266,11 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 36
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { var a; } function a() {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -278,11 +279,11 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 36
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(a) { } function a() {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -291,12 +292,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 30
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{ let a; } let a;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -305,12 +306,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 16
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{ let a; } var a;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -319,12 +320,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 16
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{ let a; } function a() {}",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -333,12 +334,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 21
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{ const a = 0; } const a = 1;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -347,12 +348,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 24
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{ const a = 0; } var a;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -361,12 +362,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 22
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "{ const a = 0; } function a() {}",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -375,12 +376,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 27
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { let a; } let a;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -389,12 +390,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 31
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { let a; } var a;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -403,12 +404,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 31
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { let a; } function a() {}",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -417,12 +418,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 36
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { var a; } let a;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -431,12 +432,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 31
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { var a; } var a;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -445,12 +446,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 31
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { var a; } function a() {}",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -459,12 +460,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 36
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(a) { } let a;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -473,12 +474,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 25
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(a) { } var a;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -487,12 +488,12 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 25
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo(a) { } function a() {}",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -501,8 +502,7 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 30
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function a() { function a(){} })()",
@@ -518,6 +518,7 @@ ruleTester.run("no-shadow", rule, {
         },
         {
             code: "(function a() { class a{} })()",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -526,8 +527,7 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 11
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function a() { (function a(){}); })()",
@@ -543,6 +543,7 @@ ruleTester.run("no-shadow", rule, {
         },
         {
             code: "(function a() { (class a{}); })()",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -551,8 +552,7 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 11
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function() { var a = function(a) {}; })()",
@@ -580,6 +580,7 @@ ruleTester.run("no-shadow", rule, {
         },
         {
             code: "(function() { var a = function() { class a{} }; })()",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -588,8 +589,7 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 19
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function() { var a = function() { (function a() {}); }; })()",
@@ -605,6 +605,7 @@ ruleTester.run("no-shadow", rule, {
         },
         {
             code: "(function() { var a = function() { (class a{}); }; })()",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -613,11 +614,11 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 19
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function() { var a = class { constructor() { class a {} } }; })()",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -626,11 +627,11 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 19
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "class A { constructor() { var A; } }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -639,8 +640,7 @@ ruleTester.run("no-shadow", rule, {
                     shadowedColumn: 7
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function a() { function a(){ function a(){} } })()",
@@ -683,69 +683,69 @@ ruleTester.run("no-shadow", rule, {
         {
             code: "function foo() { var top = 0; }",
             options: [{ builtinGlobals: true }],
+            languageOptions: { globals: globals.browser },
             errors: [{
                 messageId: "noShadowGlobal",
                 data: {
                     name: "top"
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { globals: globals.browser }
+            }]
         },
         {
             code: "var Object = 0;",
             options: [{ builtinGlobals: true }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "noShadowGlobal",
                 data: {
                     name: "Object"
                 },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
-            errors: [{
-                messageId: "noShadowGlobal",
-                data: {
-                    name: "top"
-                },
-                type: "Identifier"
-            }],
             languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module",
                 globals: globals.browser
-            }
-        },
-        {
-            code: "var Object = 0;",
-            options: [{ builtinGlobals: true }],
-            errors: [{
-                messageId: "noShadowGlobal",
-                data: {
-                    name: "Object"
-                },
-                type: "Identifier"
-            }],
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
-        },
-        {
-            code: "var top = 0;",
-            options: [{ builtinGlobals: true }],
+            },
             errors: [{
                 messageId: "noShadowGlobal",
                 data: {
                     name: "top"
                 },
                 type: "Identifier"
-            }],
+            }]
+        },
+        {
+            code: "var Object = 0;",
+            options: [{ builtinGlobals: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            errors: [{
+                messageId: "noShadowGlobal",
+                data: {
+                    name: "Object"
+                },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "var top = 0;",
+            options: [{ builtinGlobals: true }],
             languageOptions: {
                 parserOptions: { ecmaFeatures: { globalReturn: true } },
                 globals: globals.browser
-            }
+            },
+            errors: [{
+                messageId: "noShadowGlobal",
+                data: {
+                    name: "top"
+                },
+                type: "Identifier"
+            }]
         },
         {
             code: "function foo(cb) { (function (cb) { cb(42); })(cb); }",
@@ -763,6 +763,7 @@ ruleTester.run("no-shadow", rule, {
         },
         {
             code: "class C { static { let a; { let a; } } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -773,11 +774,11 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 33
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { var C; } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -788,11 +789,11 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 24
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { let C; } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -803,11 +804,11 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 24
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "var a; class C { static { var a; } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -818,12 +819,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 31
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { var a; } } var a;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -834,12 +835,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 24
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { let a; } } let a;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -850,12 +851,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 24
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { var a; } } let a;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -866,11 +867,11 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 24
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { var a; class D { static { var a; } } } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -881,11 +882,11 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 50
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { static { let a; class D { static { let a; } } } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -896,12 +897,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 50
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "let x = foo((x,y) => {});\nlet y;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noShadow",
@@ -921,12 +922,12 @@ ruleTester.run("no-shadow", rule, {
                     },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const a = fn(()=>{ class C { fn () { const a = 42; return a } } return new C() })",
             options: [{ ignoreOnInitialization: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -937,12 +938,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 44
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function a() {}\nfoo(a => {});",
             options: [{ ignoreOnInitialization: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -953,12 +954,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 2,
                 column: 5
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const a = fn(()=>{ function C() { this.fn=function() { const a = 42; return a } } return new C() });",
             options: [{ ignoreOnInitialization: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -969,12 +970,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 62
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const x = foo(() => { const bar = () => { return x => {}; }; return bar; });",
             options: [{ ignoreOnInitialization: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -985,12 +986,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 50
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const x = foo(() => { return { bar(x) {} }; });",
             options: [{ ignoreOnInitialization: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -1001,12 +1002,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 36
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const x = () => { foo(x => x); }",
             options: [{ ignoreOnInitialization: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -1017,12 +1018,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 23
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const foo = () => { let x; bar(x => x); }",
             options: [{ ignoreOnInitialization: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -1033,12 +1034,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 32
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "foo(() => { const x = x => x; });",
             options: [{ ignoreOnInitialization: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -1049,12 +1050,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 23
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const foo = (x) => { bar(x => {}) }",
             options: [{ ignoreOnInitialization: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -1065,12 +1066,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 26
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let x = ((x,y) => {})();\nlet y;",
             options: [{ hoist: "all" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noShadow",
@@ -1090,12 +1091,12 @@ ruleTester.run("no-shadow", rule, {
                     },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const a = (()=>{ class C { fn () { const a = 42; return a } } return new C() })()",
             options: [{ ignoreOnInitialization: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -1106,12 +1107,12 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 42
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "const x = () => { (x => x)(); }",
             options: [{ ignoreOnInitialization: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noShadow",
                 data: {
@@ -1122,8 +1123,7 @@ ruleTester.run("no-shadow", rule, {
                 type: "Identifier",
                 line: 1,
                 column: 20
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }
     ]
 });

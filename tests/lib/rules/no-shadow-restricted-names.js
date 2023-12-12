@@ -99,6 +99,7 @@ ruleTester.run("no-shadow-restricted-names", rule, {
         },
         {
             code: "var eval = (eval) => { var eval; !function eval(eval) { try {} catch(eval) {} }; }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "shadowingRestrictedName", data: { name: "eval" }, type: "Identifier" },
                 { messageId: "shadowingRestrictedName", data: { name: "eval" }, type: "Identifier" },
@@ -106,25 +107,24 @@ ruleTester.run("no-shadow-restricted-names", rule, {
                 { messageId: "shadowingRestrictedName", data: { name: "eval" }, type: "Identifier" },
                 { messageId: "shadowingRestrictedName", data: { name: "eval" }, type: "Identifier" },
                 { messageId: "shadowingRestrictedName", data: { name: "eval" }, type: "Identifier" }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var [undefined] = [1]",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "shadowingRestrictedName", data: { name: "undefined" }, type: "Identifier" }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var {undefined} = obj; var {a: undefined} = obj; var {a: {b: {undefined}}} = obj; var {a, ...undefined} = obj;",
+            languageOptions: { ecmaVersion: 9 },
             errors: [
                 { messageId: "shadowingRestrictedName", data: { name: "undefined" }, type: "Identifier" },
                 { messageId: "shadowingRestrictedName", data: { name: "undefined" }, type: "Identifier" },
                 { messageId: "shadowingRestrictedName", data: { name: "undefined" }, type: "Identifier" },
                 { messageId: "shadowingRestrictedName", data: { name: "undefined" }, type: "Identifier" }
-            ],
-            languageOptions: { ecmaVersion: 9 }
+            ]
         },
         {
             code: "var undefined; undefined = 5;",

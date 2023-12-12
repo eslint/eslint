@@ -187,81 +187,81 @@ ruleTester.run("no-useless-call", rule, {
         // Optional chaining
         {
             code: "foo.call?.(undefined, 1, 2);",
-            errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }]
         },
         {
             code: "foo?.call(undefined, 1, 2);",
-            errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }]
         },
         {
             code: "(foo?.call)(undefined, 1, 2);",
-            errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }]
         },
         {
             code: "obj.foo.call?.(obj, 1, 2);",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
         {
             code: "obj?.foo.call(obj, 1, 2);",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
         {
             code: "(obj?.foo).call(obj, 1, 2);",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
         {
             code: "(obj?.foo.call)(obj, 1, 2);",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
         {
             code: "obj?.foo.bar.call(obj?.foo, 1, 2);",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
         {
             code: "(obj?.foo).bar.call(obj?.foo, 1, 2);",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
         {
             code: "obj.foo?.bar.call(obj.foo, 1, 2);",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
                 type: "CallExpression"
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         }
     ]
 });

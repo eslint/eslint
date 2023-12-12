@@ -75,11 +75,11 @@ ruleTester.run("no-multi-assign", rule, {
         },
         {
             code: "let foo = bar = cee = 100;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 errorAt(1, 11, "AssignmentExpression"),
                 errorAt(1, 17, "AssignmentExpression")
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "a=b=c=d=e",
@@ -146,50 +146,50 @@ ruleTester.run("no-multi-assign", rule, {
         {
             code: "const x = {};\nconst y = x.one = 1;",
             options: [{ ignoreNonDeclaration: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 errorAt(2, 11, "AssignmentExpression")
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
 
         },
         {
             code: "let a, b;a = b = 1",
             options: [{}],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 errorAt(1, 14, "AssignmentExpression")
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "let x, y;x = y = 'baz'",
             options: [{ ignoreNonDeclaration: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 errorAt(1, 14, "AssignmentExpression")
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const a = b = 1",
             options: [{ ignoreNonDeclaration: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 errorAt(1, 11, "AssignmentExpression")
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class C { field = foo = 0 }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 errorAt(1, 19, "AssignmentExpression")
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { field = foo = 0 }",
             options: [{ ignoreNonDeclaration: true }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 errorAt(1, 19, "AssignmentExpression")
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         }
     ]
 });

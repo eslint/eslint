@@ -256,11 +256,11 @@ ruleTester.run("require-jsdoc", rule, {
                     ClassDeclaration: true
                 }
             }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingJSDocComment",
                 type: "FunctionExpression"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code:
@@ -279,11 +279,11 @@ ruleTester.run("require-jsdoc", rule, {
                     ClassDeclaration: true
                 }
             }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingJSDocComment",
                 type: "ClassDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code:
@@ -302,11 +302,11 @@ ruleTester.run("require-jsdoc", rule, {
                     ClassDeclaration: true
                 }
             }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingJSDocComment",
                 type: "ClassDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code:
@@ -325,11 +325,11 @@ ruleTester.run("require-jsdoc", rule, {
                     ClassDeclaration: true
                 }
             }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingJSDocComment",
                 type: "ClassDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code:
@@ -348,11 +348,11 @@ ruleTester.run("require-jsdoc", rule, {
                     ClassDeclaration: true
                 }
             }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "missingJSDocComment",
                 type: "ClassDeclaration"
-            }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            }]
         },
         {
             code: "var myFunction = () => {}",
@@ -361,11 +361,11 @@ ruleTester.run("require-jsdoc", rule, {
                     ArrowFunctionExpression: true
                 }
             }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingJSDocComment",
                 type: "ArrowFunctionExpression"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var myFunction = () => () => {}",
@@ -374,11 +374,11 @@ ruleTester.run("require-jsdoc", rule, {
                     ArrowFunctionExpression: true
                 }
             }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingJSDocComment",
                 type: "ArrowFunctionExpression"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = function() {}",
@@ -399,11 +399,11 @@ ruleTester.run("require-jsdoc", rule, {
                     FunctionExpression: true
                 }
             }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "missingJSDocComment",
                 type: "FunctionExpression"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = {bar: function() {}}",

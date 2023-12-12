@@ -62,8 +62,8 @@ ruleTester.run("no-new-object", rule, {
         },
         {
             code: "const a = new Object()",
-            errors: [{ messageId: "preferLiteral", type: "NewExpression" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "preferLiteral", type: "NewExpression" }]
         }
     ]
 });

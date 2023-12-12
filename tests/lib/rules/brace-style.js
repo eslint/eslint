@@ -335,8 +335,8 @@ ruleTester.run("brace-style", rule, {
         {
             code: "var foo = () => { return; }",
             output: "var foo = () => {\n return; \n}",
-            errors: [{ messageId: "blockSameLine", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "blockSameLine", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
         },
         {
             code: "function foo() { return; }",
@@ -411,8 +411,8 @@ ruleTester.run("brace-style", rule, {
         {
             code: "for (foo of bar) \n { \n baz(); \n }",
             output: "for (foo of bar) { \n baz(); \n }",
-            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }]
         },
         {
             code: "try { \n bar(); \n }\ncatch (e) {\n}",
@@ -809,10 +809,10 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -829,10 +829,10 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "blockSameLine", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -849,10 +849,10 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "singleLineClose", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -869,12 +869,12 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" },
                 { messageId: "blockSameLine", type: "Punctuator" },
                 { messageId: "singleLineClose", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -889,10 +889,10 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -911,10 +911,10 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -931,10 +931,10 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "blockSameLine", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -951,10 +951,10 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "singleLineClose", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -971,12 +971,12 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" },
                 { messageId: "blockSameLine", type: "Punctuator" },
                 { messageId: "singleLineClose", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -991,10 +991,10 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -1015,10 +1015,10 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "sameLineOpen", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -1039,10 +1039,10 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "blockSameLine", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -1063,10 +1063,10 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "singleLineClose", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -1085,12 +1085,12 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "sameLineOpen", type: "Punctuator" },
                 { messageId: "blockSameLine", type: "Punctuator" },
                 { messageId: "singleLineClose", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: unIndent`
@@ -1107,10 +1107,10 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "sameLineOpen", type: "Punctuator" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         }
     ]
 });

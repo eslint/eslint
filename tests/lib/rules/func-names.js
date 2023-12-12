@@ -400,62 +400,62 @@ ruleTester.run("func-names", rule, {
         {
             code: "var {foo} = function(){};",
             options: ["as-needed"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 13,
                 endColumn: 21
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "({ a: obj.prop = function(){} } = foo);",
             options: ["as-needed"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 18,
                 endColumn: 26
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "[obj.prop = function(){}] = foo;",
             options: ["as-needed"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 13,
                 endColumn: 21
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var { a: [b] = function(){} } = foo;",
             options: ["as-needed"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 16,
                 endColumn: 24
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo({ a } = function(){}) {};",
             options: ["as-needed"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 22,
                 endColumn: 30
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var x = function foo() {};",
@@ -498,282 +498,283 @@ ruleTester.run("func-names", rule, {
         {
             code: "export default function() {}",
             options: ["always"],
+            languageOptions: { sourceType: "module", ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionDeclaration",
                 column: 16,
                 endColumn: 24
-            }],
-            languageOptions: { sourceType: "module", ecmaVersion: 6 }
+            }]
         },
         {
             code: "export default function() {}",
             options: ["as-needed"],
+            languageOptions: { sourceType: "module", ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionDeclaration",
                 column: 16,
                 endColumn: 24
-            }],
-            languageOptions: { sourceType: "module", ecmaVersion: 6 }
+            }]
         },
         {
             code: "export default (function(){});",
             options: ["as-needed"],
+            languageOptions: { sourceType: "module", ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 column: 17,
                 endColumn: 25
-            }],
-            languageOptions: { sourceType: "module", ecmaVersion: 6 }
+            }]
         },
 
         // generators
         {
             code: "var foo = bar(function *() {});",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 15,
                 endColumn: 25
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = function*() {};",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 11,
                 endColumn: 20
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function*() {}())",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 2,
                 endColumn: 11
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["always", { generators: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 15,
                 endColumn: 25
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = function*() {};",
             options: ["always", { generators: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 11,
                 endColumn: 20
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function*() {}())",
             options: ["always", { generators: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 2,
                 endColumn: 11
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["always", { generators: "as-needed" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 15,
                 endColumn: 25
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function*() {}())",
             options: ["always", { generators: "as-needed" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 2,
                 endColumn: 11
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["as-needed"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 15,
                 endColumn: 25
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function*() {}())",
             options: ["as-needed"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 2,
                 endColumn: 11
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["as-needed", { generators: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 15,
                 endColumn: 25
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = function*() {};",
             options: ["as-needed", { generators: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 11,
                 endColumn: 20
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function*() {}())",
             options: ["as-needed", { generators: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 2,
                 endColumn: 11
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["as-needed", { generators: "as-needed" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 15,
                 endColumn: 25
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function*() {}())",
             options: ["as-needed", { generators: "as-needed" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 2,
                 endColumn: 11
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["never", { generators: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 15,
                 endColumn: 25
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = function*() {};",
             options: ["never", { generators: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 11,
                 endColumn: 20
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function*() {}())",
             options: ["never", { generators: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 2,
                 endColumn: 11
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["never", { generators: "as-needed" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 15,
                 endColumn: 25
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function*() {}())",
             options: ["never", { generators: "as-needed" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
                 line: 1,
                 column: 2,
                 endColumn: 11
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         {
             code: "var foo = bar(function *baz() {});",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "named",
                 data: { name: "generator function 'baz'" },
@@ -781,12 +782,12 @@ ruleTester.run("func-names", rule, {
                 line: 1,
                 column: 15,
                 endColumn: 28
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["never", { generators: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "named",
                 data: { name: "generator function 'baz'" },
@@ -794,12 +795,12 @@ ruleTester.run("func-names", rule, {
                 line: 1,
                 column: 15,
                 endColumn: 28
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["always", { generators: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "named",
                 data: { name: "generator function 'baz'" },
@@ -807,12 +808,12 @@ ruleTester.run("func-names", rule, {
                 line: 1,
                 column: 15,
                 endColumn: 28
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["as-needed", { generators: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "named",
                 data: { name: "generator function 'baz'" },
@@ -820,65 +821,64 @@ ruleTester.run("func-names", rule, {
                 line: 1,
                 column: 15,
                 endColumn: 28
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // class fields
         {
             code: "class C { foo = function() {} }",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "unnamed",
                 data: { name: "method 'foo'" },
                 column: 11,
                 endColumn: 25
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { [foo] = function() {} }",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "unnamed",
                 data: { name: "method" },
                 column: 11,
                 endColumn: 27
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { #foo = function() {} }",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "unnamed",
                 data: { name: "private method #foo" },
                 column: 11,
                 endColumn: 26
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { foo = bar(function() {}) }",
             options: ["as-needed"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "unnamed",
                 data: { name: "function" },
                 column: 21,
                 endColumn: 29
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { foo = function bar() {} }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "named",
                 data: { name: "method 'foo'" },
                 column: 11,
                 endColumn: 29
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         }
     ]
 });

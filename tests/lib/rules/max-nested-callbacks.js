@@ -61,14 +61,14 @@ ruleTester.run("max-nested-callbacks", rule, {
         {
             code: "foo(function() { bar(thing, (data) => { baz(function() {}); }); });",
             options: [2],
-            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "FunctionExpression" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "FunctionExpression" }]
         },
         {
             code: "foo(() => { bar(thing, (data) => { baz( () => {}); }); });",
             options: [2],
-            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "ArrowFunctionExpression" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "ArrowFunctionExpression" }]
         },
         {
             code: "foo(function() { if (isTrue) { bar(function(data) { baz(function() {}); }); } });",

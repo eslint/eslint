@@ -541,6 +541,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
         {
             code: "var any = `\u3000`, other = `\u000B`;",
             options: [{ skipTemplates: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -554,12 +555,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 25
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "`something ${\u3000 10} another thing`",
             options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -567,12 +568,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 14
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "`something ${10\u3000} another thing`",
             options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -580,12 +581,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 16
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "\u3000\n`\u3000template`",
             options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -593,12 +594,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "\u3000\n`\u3000multiline\ntemplate`",
             options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -606,12 +607,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "\u3000`\u3000template`",
             options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -619,12 +620,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "\u3000`\u3000multiline\ntemplate`",
             options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -632,12 +633,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "`\u3000template`\u3000",
             options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -645,12 +646,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 12
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "`\u3000multiline\ntemplate`\u3000",
             options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -658,12 +659,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 2,
                     column: 10
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "`\u3000template`\n\u3000",
             options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -671,12 +672,12 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 2,
                     column: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "`\u3000multiline\ntemplate`\n\u3000",
             options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -684,8 +685,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 3,
                     column: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // full location tests
@@ -1018,6 +1018,13 @@ ruleTester.run("no-irregular-whitespace", rule, {
         },
         {
             code: "<div>\u000B</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1025,17 +1032,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u000C</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1043,17 +1050,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u0085</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1061,17 +1068,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u00A0</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1079,17 +1086,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u180E</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1097,17 +1104,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\ufeff</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1115,17 +1122,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u2000</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1133,17 +1140,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u2001</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1151,17 +1158,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u2002</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1169,17 +1176,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u2003</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1187,17 +1194,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u2004</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1205,17 +1212,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u2005</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1223,17 +1230,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u2006</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1241,17 +1248,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u2007</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1259,17 +1266,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u2008</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1277,17 +1284,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u2009</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1295,17 +1302,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u200A</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1313,17 +1320,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u200B</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1331,17 +1338,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u202F</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1349,17 +1356,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u205f</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1367,17 +1374,17 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         },
         {
             code: "<div>\u3000</div>;",
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            },
             errors: [
                 {
                     messageId: "noIrregularWhitespace",
@@ -1385,14 +1392,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
                     line: 1,
                     column: 6
                 }
-            ],
-            languageOptions: {
-                parserOptions: {
-                    ecmaFeatures: {
-                        jsx: true
-                    }
-                }
-            }
+            ]
         }
     ]
 });

@@ -721,17 +721,18 @@ ruleTester.run("operator-linebreak", rule, {
             code: "foo ??\n bar",
             output: "foo\n ?? bar",
             options: ["after", { overrides: { "??": "before" } }],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "operatorAtBeginning",
                 data: { operator: "??" }
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
 
         {
             code: "a \n  &&= b",
             output: "a &&= \n  b",
             options: ["after"],
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "operatorAtEnd",
                 data: { operator: "&&=" },
@@ -740,13 +741,13 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 3,
                 endLine: 2,
                 endColumn: 6
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "a ||=\n b",
             output: "a\n ||= b",
             options: ["before"],
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "operatorAtBeginning",
                 data: { operator: "||=" },
@@ -755,13 +756,13 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 3,
                 endLine: 1,
                 endColumn: 6
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "a  ??=\n b",
             output: "a  ??= b",
             options: ["none"],
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "noLinebreak",
                 data: { operator: "??=" },
@@ -770,13 +771,13 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 4,
                 endLine: 1,
                 endColumn: 7
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "a \n  &&= b",
             output: "a   &&= b",
             options: ["before", { overrides: { "&&=": "none" } }],
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "noLinebreak",
                 data: { operator: "&&=" },
@@ -785,13 +786,13 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 3,
                 endLine: 2,
                 endColumn: 6
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "a ||=\nb",
             output: "a\n||= b",
             options: ["after", { overrides: { "||=": "before" } }],
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "operatorAtBeginning",
                 data: { operator: "||=" },
@@ -800,13 +801,13 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 3,
                 endLine: 1,
                 endColumn: 6
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "a\n??=b",
             output: "a??=\nb",
             options: ["none", { overrides: { "??=": "after" } }],
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "operatorAtEnd",
                 data: { operator: "??=" },
@@ -815,8 +816,7 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 1,
                 endLine: 2,
                 endColumn: 4
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
 
         // class fields
@@ -824,6 +824,7 @@ ruleTester.run("operator-linebreak", rule, {
             code: "class C { a\n= 0; }",
             output: "class C { a =\n0; }",
             options: ["after"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "operatorAtEnd",
                 data: { operator: "=" },
@@ -832,13 +833,13 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 1,
                 endLine: 2,
                 endColumn: 2
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { a =\n0; }",
             output: "class C { a\n= 0; }",
             options: ["before"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "operatorAtBeginning",
                 data: { operator: "=" },
@@ -847,13 +848,13 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 13,
                 endLine: 1,
                 endColumn: 14
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { a =\n0; }",
             output: "class C { a =0; }",
             options: ["none"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "noLinebreak",
                 data: { operator: "=" },
@@ -862,13 +863,13 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 13,
                 endLine: 1,
                 endColumn: 14
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { [a]\n= 0; }",
             output: "class C { [a] =\n0; }",
             options: ["after"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "operatorAtEnd",
                 data: { operator: "=" },
@@ -877,13 +878,13 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 1,
                 endLine: 2,
                 endColumn: 2
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { [a] =\n0; }",
             output: "class C { [a]\n= 0; }",
             options: ["before"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "operatorAtBeginning",
                 data: { operator: "=" },
@@ -892,13 +893,13 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 15,
                 endLine: 1,
                 endColumn: 16
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         },
         {
             code: "class C { [a]\n =0; }",
             output: "class C { [a] =0; }",
             options: ["none"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "noLinebreak",
                 data: { operator: "=" },
@@ -907,8 +908,7 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 2,
                 endLine: 2,
                 endColumn: 3
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         }
     ]
 });

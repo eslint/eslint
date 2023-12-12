@@ -185,11 +185,11 @@ ruleTester.run("no-useless-catch", rule, {
                     }
                 }
             `,
+            languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessaryCatch",
                 type: "TryStatement"
-            }],
-            languageOptions: { ecmaVersion: 8 }
+            }]
         }
     ]
 });

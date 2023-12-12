@@ -859,19 +859,20 @@ ruleTester.run("array-element-newline", rule, {
             code: "var [a, b] = foo;",
             output: "var [a,\nb] = foo;",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingLineBreak",
                     line: 1,
                     column: 8
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var [a, b, c] = foo;",
             output: "var [a,\nb,\nc] = foo;",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingLineBreak",
@@ -883,8 +884,7 @@ ruleTester.run("array-element-newline", rule, {
                     line: 1,
                     column: 11
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // { minItems: 3 }
@@ -892,19 +892,20 @@ ruleTester.run("array-element-newline", rule, {
             code: "var [a,\nb] = foo;",
             output: "var [a, b] = foo;",
             options: [{ minItems: 3 }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
                     line: 1,
                     column: 8
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var [a, b, c] = foo;",
             output: "var [a,\nb,\nc] = foo;",
             options: [{ minItems: 3 }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingLineBreak",
@@ -916,8 +917,7 @@ ruleTester.run("array-element-newline", rule, {
                     line: 1,
                     column: 11
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         /*
@@ -928,6 +928,7 @@ ruleTester.run("array-element-newline", rule, {
             code: "var [a,\nb] = [1, 2]",
             output: "var [a, b] = [1,\n2]",
             options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
@@ -939,34 +940,33 @@ ruleTester.run("array-element-newline", rule, {
                     line: 2,
                     column: 9
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var [a, b] = [1, 2]",
             output: "var [a, b] = [1,\n2]",
             options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingLineBreak",
                     line: 1,
                     column: 17
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var [a,\nb] = [1,\n2]",
             output: "var [a, b] = [1,\n2]",
             options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
                     line: 1,
                     column: 8
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         }
     ]
 

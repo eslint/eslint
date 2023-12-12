@@ -80,8 +80,8 @@ ruleTester.run("no-restricted-syntax", rule, {
         {
             code: "() => {}",
             options: ["ArrowFunctionExpression > BlockStatement"],
-            errors: [{ messageId: "restrictedSyntax", data: { message: "Using 'ArrowFunctionExpression > BlockStatement' is not allowed." }, type: "BlockStatement" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "restrictedSyntax", data: { message: "Using 'ArrowFunctionExpression > BlockStatement' is not allowed." }, type: "BlockStatement" }]
         },
         {
             code: "({ foo: 1, 'bar': 2 })",
@@ -134,37 +134,37 @@ ruleTester.run("no-restricted-syntax", rule, {
         {
             code: "var foo = foo?.bar?.();",
             options: ["ChainExpression"],
-            errors: [{ messageId: "restrictedSyntax", data: { message: "Using 'ChainExpression' is not allowed." }, type: "ChainExpression" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "restrictedSyntax", data: { message: "Using 'ChainExpression' is not allowed." }, type: "ChainExpression" }]
         },
         {
             code: "var foo = foo?.bar?.();",
             options: ["[optional=true]"],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "restrictedSyntax", data: { message: "Using '[optional=true]' is not allowed." }, type: "CallExpression" },
                 { messageId: "restrictedSyntax", data: { message: "Using '[optional=true]' is not allowed." }, type: "MemberExpression" }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
 
         // fix https://github.com/estools/esquery/issues/110
         {
             code: "a?.b",
             options: [":nth-child(1)"],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "restrictedSyntax", data: { message: "Using ':nth-child(1)' is not allowed." }, type: "ExpressionStatement" }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/13639#issuecomment-683976062
         {
             code: "const foo = [<div/>, <div/>]",
             options: ["* ~ *"],
+            languageOptions: { ecmaVersion: 2020, parserOptions: { ecmaFeatures: { jsx: true } } },
             errors: [
                 { messageId: "restrictedSyntax", data: { message: "Using '* ~ *' is not allowed." }, type: "JSXElement" }
-            ],
-            languageOptions: { ecmaVersion: 2020, parserOptions: { ecmaFeatures: { jsx: true } } }
+            ]
         }
     ]
 });

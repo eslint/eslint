@@ -131,47 +131,47 @@ ruleTester.run("no-implied-eval", rule, {
         { code: "setInterval(\"x = 1;\");", errors: [expectedError] },
         { code: "execScript(\"x = 1;\");", errors: [expectedError] },
 
-        { code: "const s = 'x=1'; setTimeout(s, 100);", errors: [expectedError], languageOptions: { ecmaVersion: 6 } },
-        { code: "setTimeout(String('x=1'), 100);", errors: [expectedError], languageOptions: { ecmaVersion: 6 } },
+        { code: "const s = 'x=1'; setTimeout(s, 100);", languageOptions: { ecmaVersion: 6 }, errors: [expectedError] },
+        { code: "setTimeout(String('x=1'), 100);", languageOptions: { ecmaVersion: 6 }, errors: [expectedError] },
 
         // member expressions
-        { code: "window.setTimeout('foo')", errors: [expectedError], languageOptions: { globals: globals.browser } },
-        { code: "window.setInterval('foo')", errors: [expectedError], languageOptions: { globals: globals.browser } },
-        { code: "window['setTimeout']('foo')", errors: [expectedError], languageOptions: { globals: globals.browser } },
-        { code: "window['setInterval']('foo')", errors: [expectedError], languageOptions: { globals: globals.browser } },
-        { code: "window[`setInterval`]('foo')", errors: [expectedError], languageOptions: { ecmaVersion: 6, globals: globals.browser } },
-        { code: "window.window['setInterval']('foo')", errors: [expectedError], languageOptions: { globals: globals.browser } },
-        { code: "global.setTimeout('foo')", errors: [expectedError], languageOptions: { sourceType: "commonjs" } },
-        { code: "global.setInterval('foo')", errors: [expectedError], languageOptions: { sourceType: "commonjs" } },
-        { code: "global['setTimeout']('foo')", errors: [expectedError], languageOptions: { sourceType: "commonjs" } },
-        { code: "global['setInterval']('foo')", errors: [expectedError], languageOptions: { sourceType: "commonjs" } },
-        { code: "global[`setInterval`]('foo')", errors: [expectedError], languageOptions: { ecmaVersion: 6, sourceType: "commonjs" } },
-        { code: "global.global['setInterval']('foo')", errors: [expectedError], languageOptions: { sourceType: "commonjs" } },
-        { code: "globalThis.setTimeout('foo')", errors: [expectedError], languageOptions: { ecmaVersion: 2020 } },
-        { code: "globalThis.setInterval('foo')", errors: [expectedError], languageOptions: { ecmaVersion: 2020 } },
+        { code: "window.setTimeout('foo')", languageOptions: { globals: globals.browser }, errors: [expectedError] },
+        { code: "window.setInterval('foo')", languageOptions: { globals: globals.browser }, errors: [expectedError] },
+        { code: "window['setTimeout']('foo')", languageOptions: { globals: globals.browser }, errors: [expectedError] },
+        { code: "window['setInterval']('foo')", languageOptions: { globals: globals.browser }, errors: [expectedError] },
+        { code: "window[`setInterval`]('foo')", languageOptions: { ecmaVersion: 6, globals: globals.browser }, errors: [expectedError] },
+        { code: "window.window['setInterval']('foo')", languageOptions: { globals: globals.browser }, errors: [expectedError] },
+        { code: "global.setTimeout('foo')", languageOptions: { sourceType: "commonjs" }, errors: [expectedError] },
+        { code: "global.setInterval('foo')", languageOptions: { sourceType: "commonjs" }, errors: [expectedError] },
+        { code: "global['setTimeout']('foo')", languageOptions: { sourceType: "commonjs" }, errors: [expectedError] },
+        { code: "global['setInterval']('foo')", languageOptions: { sourceType: "commonjs" }, errors: [expectedError] },
+        { code: "global[`setInterval`]('foo')", languageOptions: { ecmaVersion: 6, sourceType: "commonjs" }, errors: [expectedError] },
+        { code: "global.global['setInterval']('foo')", languageOptions: { sourceType: "commonjs" }, errors: [expectedError] },
+        { code: "globalThis.setTimeout('foo')", languageOptions: { ecmaVersion: 2020 }, errors: [expectedError] },
+        { code: "globalThis.setInterval('foo')", languageOptions: { ecmaVersion: 2020 }, errors: [expectedError] },
 
         // template literals
-        { code: "setTimeout(`foo${bar}`)", errors: [expectedError], languageOptions: { ecmaVersion: 6 } },
-        { code: "window.setTimeout(`foo${bar}`)", errors: [expectedError], languageOptions: { ecmaVersion: 6, globals: globals.browser } },
-        { code: "window.window.setTimeout(`foo${bar}`)", errors: [expectedError], languageOptions: { ecmaVersion: 6, globals: globals.browser } },
-        { code: "global.global.setTimeout(`foo${bar}`)", errors: [expectedError], languageOptions: { ecmaVersion: 6, globals: globals.node } },
+        { code: "setTimeout(`foo${bar}`)", languageOptions: { ecmaVersion: 6 }, errors: [expectedError] },
+        { code: "window.setTimeout(`foo${bar}`)", languageOptions: { ecmaVersion: 6, globals: globals.browser }, errors: [expectedError] },
+        { code: "window.window.setTimeout(`foo${bar}`)", languageOptions: { ecmaVersion: 6, globals: globals.browser }, errors: [expectedError] },
+        { code: "global.global.setTimeout(`foo${bar}`)", languageOptions: { ecmaVersion: 6, globals: globals.node }, errors: [expectedError] },
 
         // string concatenation
         { code: "setTimeout('foo' + bar)", errors: [expectedError] },
         { code: "setTimeout(foo + 'bar')", errors: [expectedError] },
-        { code: "setTimeout(`foo` + bar)", errors: [expectedError], languageOptions: { ecmaVersion: 6 } },
+        { code: "setTimeout(`foo` + bar)", languageOptions: { ecmaVersion: 6 }, errors: [expectedError] },
         { code: "setTimeout(1 + ';' + 1)", errors: [expectedError] },
-        { code: "window.setTimeout('foo' + bar)", errors: [expectedError], languageOptions: { globals: globals.browser } },
-        { code: "window.setTimeout(foo + 'bar')", errors: [expectedError], languageOptions: { globals: globals.browser } },
-        { code: "window.setTimeout(`foo` + bar)", errors: [expectedError], languageOptions: { ecmaVersion: 6, globals: globals.browser } },
-        { code: "window.setTimeout(1 + ';' + 1)", errors: [expectedError], languageOptions: { globals: globals.browser } },
-        { code: "window.window.setTimeout(1 + ';' + 1)", errors: [expectedError], languageOptions: { globals: globals.browser } },
-        { code: "global.setTimeout('foo' + bar)", errors: [expectedError], languageOptions: { sourceType: "commonjs" } },
-        { code: "global.setTimeout(foo + 'bar')", errors: [expectedError], languageOptions: { sourceType: "commonjs" } },
-        { code: "global.setTimeout(`foo` + bar)", errors: [expectedError], languageOptions: { ecmaVersion: 6, sourceType: "commonjs" } },
-        { code: "global.setTimeout(1 + ';' + 1)", errors: [expectedError], languageOptions: { sourceType: "commonjs" } },
-        { code: "global.global.setTimeout(1 + ';' + 1)", errors: [expectedError], languageOptions: { sourceType: "commonjs" } },
-        { code: "globalThis.setTimeout('foo' + bar)", errors: [expectedError], languageOptions: { ecmaVersion: 2020 } },
+        { code: "window.setTimeout('foo' + bar)", languageOptions: { globals: globals.browser }, errors: [expectedError] },
+        { code: "window.setTimeout(foo + 'bar')", languageOptions: { globals: globals.browser }, errors: [expectedError] },
+        { code: "window.setTimeout(`foo` + bar)", languageOptions: { ecmaVersion: 6, globals: globals.browser }, errors: [expectedError] },
+        { code: "window.setTimeout(1 + ';' + 1)", languageOptions: { globals: globals.browser }, errors: [expectedError] },
+        { code: "window.window.setTimeout(1 + ';' + 1)", languageOptions: { globals: globals.browser }, errors: [expectedError] },
+        { code: "global.setTimeout('foo' + bar)", languageOptions: { sourceType: "commonjs" }, errors: [expectedError] },
+        { code: "global.setTimeout(foo + 'bar')", languageOptions: { sourceType: "commonjs" }, errors: [expectedError] },
+        { code: "global.setTimeout(`foo` + bar)", languageOptions: { ecmaVersion: 6, sourceType: "commonjs" }, errors: [expectedError] },
+        { code: "global.setTimeout(1 + ';' + 1)", languageOptions: { sourceType: "commonjs" }, errors: [expectedError] },
+        { code: "global.global.setTimeout(1 + ';' + 1)", languageOptions: { sourceType: "commonjs" }, errors: [expectedError] },
+        { code: "globalThis.setTimeout('foo' + bar)", languageOptions: { ecmaVersion: 2020 }, errors: [expectedError] },
 
         // gives the correct node when dealing with nesting
         {
@@ -203,6 +203,7 @@ ruleTester.run("no-implied-eval", rule, {
                 "   window.execScript('str');\n" +
                 "   return 'bar';\n" +
                 "})())",
+            languageOptions: { globals: globals.browser },
             errors: [
                 {
                     messageId: "impliedEval",
@@ -216,8 +217,7 @@ ruleTester.run("no-implied-eval", rule, {
                     type: "CallExpression",
                     line: 3
                 }
-            ],
-            languageOptions: { globals: globals.browser }
+            ]
         },
         {
             code:
@@ -226,6 +226,7 @@ ruleTester.run("no-implied-eval", rule, {
                 "   global.execScript('str');\n" +
                 "   return 'bar';\n" +
                 "})())",
+            languageOptions: { sourceType: "commonjs" },
             errors: [
                 {
                     messageId: "impliedEval",
@@ -239,26 +240,25 @@ ruleTester.run("no-implied-eval", rule, {
                     type: "CallExpression",
                     line: 3
                 }
-            ],
-            languageOptions: { sourceType: "commonjs" }
+            ]
         },
 
         // Optional chaining
         {
             code: "window?.setTimeout('code', 0)",
-            errors: [{ messageId: "impliedEval" }],
             languageOptions: {
                 ecmaVersion: 2020,
                 globals: { window: "readonly" }
-            }
+            },
+            errors: [{ messageId: "impliedEval" }]
         },
         {
             code: "(window?.setTimeout)('code', 0)",
-            errors: [{ messageId: "impliedEval" }],
             languageOptions: {
                 ecmaVersion: 2020,
                 globals: { window: "readonly" }
-            }
+            },
+            errors: [{ messageId: "impliedEval" }]
         }
     ]
 });

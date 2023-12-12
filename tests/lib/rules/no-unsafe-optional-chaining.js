@@ -296,6 +296,9 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         },
         {
             code: "with (obj?.foo) {};",
+            languageOptions: {
+                sourceType: "script"
+            },
             errors: [
                 {
                     messageId: "unsafeOptionalChain",
@@ -303,13 +306,13 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
                     line: 1,
                     column: 7
                 }
-            ],
-            languageOptions: {
-                sourceType: "script"
-            }
+            ]
         },
         {
             code: "async function foo() { with ( await obj?.foo) {}; }",
+            languageOptions: {
+                sourceType: "script"
+            },
             errors: [
                 {
                     messageId: "unsafeOptionalChain",
@@ -317,10 +320,7 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
                     line: 1,
                     column: 37
                 }
-            ],
-            languageOptions: {
-                sourceType: "script"
-            }
+            ]
         },
         {
             code: "(foo ? obj?.foo : obj?.bar).bar",

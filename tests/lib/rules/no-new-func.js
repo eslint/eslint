@@ -96,21 +96,21 @@ ruleTester.run("no-new-func", rule, {
         },
         {
             code: "var a = (Function?.call)(null, \"b\", \"c\", \"return b+c\");",
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "noFunctionConstructor",
                 type: "CallExpression"
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "const fn = () => { class Function {} }; new Function('', '')",
+            languageOptions: {
+                ecmaVersion: 2015
+            },
             errors: [{
                 messageId: "noFunctionConstructor",
                 type: "NewExpression"
-            }],
-            languageOptions: {
-                ecmaVersion: 2015
-            }
+            }]
         },
         {
             code: "var fn = function () { function Function() {} }; Function('', '')",

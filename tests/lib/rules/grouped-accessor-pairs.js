@@ -438,8 +438,8 @@ ruleTester.run("grouped-accessor-pairs", rule, {
         },
         {
             code: "class A { get a(){} a; set a(foo){} }",
-            errors: [{ messageId: "notGrouped", data: { formerName: "getter 'a'", latterName: "setter 'a'" }, type: "MethodDefinition", column: 24 }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "notGrouped", data: { formerName: "getter 'a'", latterName: "setter 'a'" }, type: "MethodDefinition", column: 24 }]
         },
 
         // full location tests

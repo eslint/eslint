@@ -628,39 +628,39 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "function *foo() { yield(0) }",
             output: "function *foo() { yield (0) }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wordOperator",
                 data: { word: "yield" },
                 type: "YieldExpression",
                 line: 1,
                 column: 19
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function *foo() { yield (0) }",
             output: "function *foo() { yield(0) }",
             options: [{ words: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpectedAfterWord",
                 data: { word: "yield" },
                 type: "YieldExpression",
                 line: 1,
                 column: 19
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function *foo() { yield+0 }",
             output: "function *foo() { yield +0 }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wordOperator",
                 data: { word: "yield" },
                 type: "YieldExpression",
                 line: 1,
                 column: 19
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "foo++",
@@ -738,91 +738,91 @@ ruleTester.run("space-unary-ops", rule, {
             code: "function *foo() { yield(0) }",
             output: "function *foo() { yield (0) }",
             options: [{ words: true, overrides: { yield: true } }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wordOperator",
                 data: { word: "yield" },
                 type: "YieldExpression",
                 line: 1,
                 column: 19
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function *foo() { yield(0) }",
             output: "function *foo() { yield (0) }",
             options: [{ words: false, overrides: { yield: true } }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wordOperator",
                 data: { word: "yield" },
                 type: "YieldExpression",
                 line: 1,
                 column: 19
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "async function foo() { await{foo: 'bar'} }",
             output: "async function foo() { await {foo: 'bar'} }",
+            languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "wordOperator",
                 data: { word: "await" },
                 type: "AwaitExpression",
                 line: 1,
                 column: 24
-            }],
-            languageOptions: { ecmaVersion: 8 }
+            }]
         },
         {
             code: "async function foo() { await{baz: 'qux'} }",
             output: "async function foo() { await {baz: 'qux'} }",
             options: [{ words: false, overrides: { await: true } }],
+            languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "wordOperator",
                 data: { word: "await" },
                 type: "AwaitExpression",
                 line: 1,
                 column: 24
-            }],
-            languageOptions: { ecmaVersion: 8 }
+            }]
         },
         {
             code: "async function foo() { await {foo: 1} }",
             output: "async function foo() { await{foo: 1} }",
             options: [{ words: false }],
+            languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unexpectedAfterWord",
                 data: { word: "await" },
                 type: "AwaitExpression",
                 line: 1,
                 column: 24
-            }],
-            languageOptions: { ecmaVersion: 8 }
+            }]
         },
         {
             code: "async function foo() { await {bar: 2} }",
             output: "async function foo() { await{bar: 2} }",
             options: [{ words: true, overrides: { await: false } }],
+            languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unexpectedAfterWord",
                 data: { word: "await" },
                 type: "AwaitExpression",
                 line: 1,
                 column: 24
-            }],
-            languageOptions: { ecmaVersion: 8 }
+            }]
         },
         {
             code: "class C { #x; *foo(bar) { yield #x in bar; } }",
             output: "class C { #x; *foo(bar) { yield#x in bar; } }",
             options: [{ words: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "unexpectedAfterWord",
                 data: { word: "yield" },
                 type: "YieldExpression",
                 line: 1,
                 column: 27
-            }],
-            languageOptions: { ecmaVersion: 2022 }
+            }]
         }
     ]
 });

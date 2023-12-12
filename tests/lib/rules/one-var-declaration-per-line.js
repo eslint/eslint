@@ -70,12 +70,12 @@ ruleTester.run("one-var-declaration-per-line", rule, {
     invalid: [
         { code: "var foo, bar;", output: "var foo, \nbar;", options: ["always"], errors: [{ line: 1, column: 10, endLine: 1, endColumn: 13 }] },
         { code: "var a, b;", output: "var a, \nb;", options: ["always"], errors: [errorAt(1, 8)] },
-        { code: "let a, b;", output: "let a, \nb;", options: ["always"], errors: [errorAt(1, 8)], languageOptions: { ecmaVersion: 6 } },
+        { code: "let a, b;", output: "let a, \nb;", options: ["always"], languageOptions: { ecmaVersion: 6 }, errors: [errorAt(1, 8)] },
         { code: "var a, b = 0;", output: "var a, \nb = 0;", options: ["always"], errors: [errorAt(1, 8)] },
         { code: "var a = {\n foo: bar\n}, b;", output: "var a = {\n foo: bar\n}, \nb;", options: ["always"], errors: [errorAt(3, 4)] },
         { code: "var a\n=0, b;", output: "var a\n=0, \nb;", options: ["always"], errors: [errorAt(2, 5)] },
-        { code: "let a, b = 0;", output: "let a, \nb = 0;", options: ["always"], errors: [errorAt(1, 8)], languageOptions: { ecmaVersion: 6 } },
-        { code: "const a = 0, b = 0;", output: "const a = 0, \nb = 0;", options: ["always"], errors: [errorAt(1, 14)], languageOptions: { ecmaVersion: 6 } },
+        { code: "let a, b = 0;", output: "let a, \nb = 0;", options: ["always"], languageOptions: { ecmaVersion: 6 }, errors: [errorAt(1, 8)] },
+        { code: "const a = 0, b = 0;", output: "const a = 0, \nb = 0;", options: ["always"], languageOptions: { ecmaVersion: 6 }, errors: [errorAt(1, 14)] },
 
         { code: "var foo, bar, baz = 0;", output: "var foo, bar, \nbaz = 0;", options: ["initializations"], errors: [{ line: 1, column: 15, endLine: 1, endColumn: 22 }] },
         { code: "var a, b, c = 0;", output: "var a, b, \nc = 0;", options: ["initializations"], errors: [errorAt(1, 11)] },
@@ -85,7 +85,7 @@ ruleTester.run("one-var-declaration-per-line", rule, {
         { code: "var a = {\n foo: bar\n}, b;", output: "var a = {\n foo: bar\n}, \nb;", options: ["initializations"], errors: [errorAt(3, 4)] },
 
         { code: "for(var a = 0, b = 0;;){\nvar c,d;}", output: "for(var a = 0, b = 0;;){\nvar c,\nd;}", options: ["always"], errors: [errorAt(2, 7)] },
-        { code: "export let a, b;", output: "export let a, \nb;", options: ["always"], errors: [errorAt(1, 15)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export let a, b = 0;", output: "export let a, \nb = 0;", options: ["initializations"], errors: [errorAt(1, 15)], languageOptions: { ecmaVersion: 6, sourceType: "module" } }
+        { code: "export let a, b;", output: "export let a, \nb;", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [errorAt(1, 15)] },
+        { code: "export let a, b = 0;", output: "export let a, \nb = 0;", options: ["initializations"], languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [errorAt(1, 15)] }
     ]
 });

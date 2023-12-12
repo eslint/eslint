@@ -129,8 +129,8 @@ ruleTester.run("valid-typeof", rule, {
         },
         {
             code: "if (typeof bar === `umdefined`) {}",
-            errors: [{ messageId: "invalidValue", type: "TemplateLiteral" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "invalidValue", type: "TemplateLiteral" }]
         },
         {
             code: "typeof foo == 'invalid string'",
@@ -208,14 +208,14 @@ ruleTester.run("valid-typeof", rule, {
         {
             code: "typeof foo === `undefined${foo}`",
             options: [{ requireStringLiterals: true }],
-            errors: [{ messageId: "notString", type: "TemplateLiteral" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "notString", type: "TemplateLiteral" }]
         },
         {
             code: "typeof foo === `${string}`",
             options: [{ requireStringLiterals: true }],
-            errors: [{ messageId: "notString", type: "TemplateLiteral" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "notString", type: "TemplateLiteral" }]
         }
     ]
 });

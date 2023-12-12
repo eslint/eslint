@@ -371,14 +371,14 @@ ruleTester.run("yoda", rule, {
             code: "if (5n != value) {}",
             output: "if (value != 5n) {}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "!=" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: "if (null !== value) {}",
@@ -408,40 +408,40 @@ ruleTester.run("yoda", rule, {
             code: "if (`red` <= value) {}",
             output: "if (value >= `red`) {}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "if (`red` <= `${foo}`) {}",
             output: "if (`${foo}` >= `red`) {}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: 'if (`red` <= `${"red"}`) {}',
             output: 'if (`${"red"}` >= `red`) {}',
             options: ["never"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "if (true >= value) {}",
@@ -507,14 +507,14 @@ ruleTester.run("yoda", rule, {
             code: "if (value == `red`) {}",
             output: "if (`red` == value) {}",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "==" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "if (value === true) {}",
@@ -532,27 +532,27 @@ ruleTester.run("yoda", rule, {
             code: "if (value === 5n) {}",
             output: "if (5n === value) {}",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "===" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: 'if (`${"red"}` <= `red`) {}',
             output: 'if (`red` >= `${"red"}`) {}',
             options: ["always"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "<=" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "if (a < 0 && 0 <= b && b < 1) {}",
@@ -642,27 +642,27 @@ ruleTester.run("yoda", rule, {
             code: "var a = (b < `0` && `0` <= b);",
             output: "var a = (`0` > b && `0` <= b);",
             options: ["always", { exceptRange: true }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "if (`green` < x.y && x.y < `blue`) {}",
             output: "if (x.y > `green` && x.y < `blue`) {}",
             options: ["never", { exceptRange: true }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "if (0 <= a[b] && a['b'] < 1) {}",
@@ -680,27 +680,27 @@ ruleTester.run("yoda", rule, {
             code: "if (0 <= a[b] && a[`b`] < 1) {}",
             output: "if (a[b] >= 0 && a[`b`] < 1) {}",
             options: ["never", { exceptRange: true }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "if (`0` <= a[b] && a[`b`] < `1`) {}",
             output: "if (a[b] >= `0` && a[`b`] < `1`) {}",
             options: ["never", { exceptRange: true }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "if (0 <= a[b] && a.b < 1) {}",
@@ -754,14 +754,14 @@ ruleTester.run("yoda", rule, {
             code: "if (0 <= a[``] && a[null] < 1) {}",
             output: "if (a[``] >= 0 && a[null] < 1) {}",
             options: ["never", { exceptRange: true }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "if (0 <= a[''] && a[b] < 1) {}",
@@ -791,14 +791,14 @@ ruleTester.run("yoda", rule, {
             code: "if (0 <= a[``] && a[b()] < 1) {}",
             output: "if (a[``] >= 0 && a[b()] < 1) {}",
             options: ["never", { exceptRange: true }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "if (0 <= a[b()] && a[b()] < 1) {}",
@@ -816,14 +816,14 @@ ruleTester.run("yoda", rule, {
             code: "if (0 <= a.null && a[/(?<zero>0)/] <= 1) {}",
             output: "if (a.null >= 0 && a[/(?<zero>0)/] <= 1) {}",
             options: ["never", { exceptRange: true }],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "if (3 == a) {}",
@@ -865,14 +865,14 @@ ruleTester.run("yoda", rule, {
             code: "foo(a === `3`);",
             output: "foo(`3` === a);",
             options: ["always", { onlyEquality: true }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "===" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "if (0 <= x && x < 1) {}",
@@ -1001,79 +1001,79 @@ ruleTester.run("yoda", rule, {
             code: "function *foo() { yield(1) < a }",
             output: "function *foo() { yield a > (1) }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "function *foo() { yield((1)) < a }",
             output: "function *foo() { yield a > ((1)) }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "function *foo() { yield 1 < a }",
             output: "function *foo() { yield a > 1 }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "function *foo() { yield/**/1 < a }",
             output: "function *foo() { yield/**/a > 1 }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "function *foo() { yield(1) < ++a }",
             output: "function *foo() { yield++a > (1) }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "function *foo() { yield(1) < (a) }",
             output: "function *foo() { yield(a) > (1) }",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "x=1 < a",
@@ -1091,66 +1091,66 @@ ruleTester.run("yoda", rule, {
             code: "function *foo() { yield++a < 1 }",
             output: "function *foo() { yield 1 > ++a }",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "function *foo() { yield(a) < 1 }",
             output: "function *foo() { yield 1 > (a) }",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "function *foo() { yield a < 1 }",
             output: "function *foo() { yield 1 > a }",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "function *foo() { yield/**/a < 1 }",
             output: "function *foo() { yield/**/1 > a }",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "function *foo() { yield++a < (1) }",
             output: "function *foo() { yield(1) > ++a }",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "x=a < 1",
@@ -1312,14 +1312,14 @@ ruleTester.run("yoda", rule, {
             code: "if (`green` < x.y && x.y < `blue`) {}",
             output: "if (`green` < x.y && `blue` > x.y) {}",
             options: ["always", { exceptRange: true }],
+            languageOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "<" },
                     type: "BinaryExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2015 }
+            ]
         },
         {
             code: "if('a' <= x && x < 'b') {}",

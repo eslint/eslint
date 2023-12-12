@@ -270,29 +270,29 @@ ruleTester.run("dot-location", rule, {
             code: "5_000\n.toExponential()",
             output: "5_000 .\ntoExponential()",
             options: ["object"],
-            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
         },
         {
             code: "5_000_00\n.toExponential()",
             output: "5_000_00 .\ntoExponential()",
             options: ["object"],
-            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
         },
         {
             code: "5.000_000\n.toExponential()",
             output: "5.000_000.\ntoExponential()",
             options: ["object"],
-            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
         },
         {
             code: "0b1010_1010\n.toExponential()",
             output: "0b1010_1010.\ntoExponential()",
             options: ["object"],
-            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
         },
         {
             code: "foo /* a */ . /* b */ \n /* c */ bar",
@@ -316,8 +316,8 @@ ruleTester.run("dot-location", rule, {
             code: "`\n`\n.prop",
             output: "`\n`.\nprop",
             options: ["object"],
-            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 3, column: 1 }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 3, column: 1 }]
         },
 
         // https://github.com/eslint/eslint/issues/11868 (also in valid)
@@ -387,22 +387,22 @@ ruleTester.run("dot-location", rule, {
             code: "obj\n?.prop",
             output: "obj?.\nprop",
             options: ["object"],
-            errors: [{ messageId: "expectedDotAfterObject" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedDotAfterObject" }]
         },
         {
             code: "10\n?.prop",
             output: "10?.\nprop",
             options: ["object"],
-            errors: [{ messageId: "expectedDotAfterObject" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedDotAfterObject" }]
         },
         {
             code: "obj?.\nprop",
             output: "obj\n?.prop",
             options: ["property"],
-            errors: [{ messageId: "expectedDotBeforeProperty" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedDotBeforeProperty" }]
         },
 
         // Private properties
@@ -410,15 +410,15 @@ ruleTester.run("dot-location", rule, {
             code: "class C { #a; foo() { this\n.#a; } }",
             output: "class C { #a; foo() { this.\n#a; } }",
             options: ["object"],
-            errors: [{ messageId: "expectedDotAfterObject" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedDotAfterObject" }]
         },
         {
             code: "class C { #a; foo() { this.\n#a; } }",
             output: "class C { #a; foo() { this\n.#a; } }",
             options: ["property"],
-            errors: [{ messageId: "expectedDotBeforeProperty" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedDotBeforeProperty" }]
         }
     ]
 });

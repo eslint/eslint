@@ -101,79 +101,79 @@ ruleTester.run("no-eval", rule, {
 
         // Indirect eval
         { code: "(0, eval)('foo')", errors: [{ messageId: "unexpected", type: "Identifier", column: 5, endColumn: 9 }] },
-        { code: "(0, window.eval)('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression", column: 12, endColumn: 16 }], languageOptions: { globals: { window: "readonly" } } },
-        { code: "(0, window['eval'])('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression", column: 12, endColumn: 18 }], languageOptions: { globals: { window: "readonly" } } },
+        { code: "(0, window.eval)('foo')", languageOptions: { globals: { window: "readonly" } }, errors: [{ messageId: "unexpected", type: "MemberExpression", column: 12, endColumn: 16 }] },
+        { code: "(0, window['eval'])('foo')", languageOptions: { globals: { window: "readonly" } }, errors: [{ messageId: "unexpected", type: "MemberExpression", column: 12, endColumn: 18 }] },
         { code: "var EVAL = eval; EVAL('foo')", errors: [{ messageId: "unexpected", type: "Identifier", column: 12, endColumn: 16 }] },
         { code: "var EVAL = this.eval; EVAL('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression", column: 17, endColumn: 21 }] },
         { code: "'use strict'; var EVAL = this.eval; EVAL('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression", column: 31, endColumn: 35 }] },
-        { code: "() => { this.eval('foo'); }", errors: [{ messageId: "unexpected", type: "CallExpression", column: 14, endColumn: 18 }], languageOptions: { ecmaVersion: 6 } },
-        { code: "() => { 'use strict'; this.eval('foo'); }", errors: [{ messageId: "unexpected", type: "CallExpression", column: 28, endColumn: 32 }], languageOptions: { ecmaVersion: 6 } },
-        { code: "'use strict'; () => { this.eval('foo'); }", errors: [{ messageId: "unexpected", type: "CallExpression", column: 28, endColumn: 32 }], languageOptions: { ecmaVersion: 6 } },
-        { code: "() => { 'use strict'; () => { this.eval('foo'); } }", errors: [{ messageId: "unexpected", type: "CallExpression", column: 36, endColumn: 40 }], languageOptions: { ecmaVersion: 6 } },
+        { code: "() => { this.eval('foo'); }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 14, endColumn: 18 }] },
+        { code: "() => { 'use strict'; this.eval('foo'); }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 28, endColumn: 32 }] },
+        { code: "'use strict'; () => { this.eval('foo'); }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 28, endColumn: 32 }] },
+        { code: "() => { 'use strict'; () => { this.eval('foo'); } }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 36, endColumn: 40 }] },
         { code: "(function(exe){ exe('foo') })(eval);", errors: [{ messageId: "unexpected", type: "Identifier", column: 31, endColumn: 35 }] },
-        { code: "window.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 8, endColumn: 12 }], languageOptions: { globals: { window: "readonly" } } },
-        { code: "window.window.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 19 }], languageOptions: { globals: { window: "readonly" } } },
-        { code: "window.window['eval']('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 21 }], languageOptions: { globals: { window: "readonly" } } },
-        { code: "global.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 8, endColumn: 12 }], languageOptions: { sourceType: "commonjs" } },
-        { code: "global.global.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 19 }], languageOptions: { sourceType: "commonjs" } },
-        { code: "global.global[`eval`]('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 21 }], languageOptions: { ecmaVersion: 6, sourceType: "commonjs" } },
+        { code: "window.eval('foo')", languageOptions: { globals: { window: "readonly" } }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 8, endColumn: 12 }] },
+        { code: "window.window.eval('foo')", languageOptions: { globals: { window: "readonly" } }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 19 }] },
+        { code: "window.window['eval']('foo')", languageOptions: { globals: { window: "readonly" } }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 21 }] },
+        { code: "global.eval('foo')", languageOptions: { sourceType: "commonjs" }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 8, endColumn: 12 }] },
+        { code: "global.global.eval('foo')", languageOptions: { sourceType: "commonjs" }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 19 }] },
+        { code: "global.global[`eval`]('foo')", languageOptions: { ecmaVersion: 6, sourceType: "commonjs" }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 15, endColumn: 21 }] },
         { code: "this.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 6, endColumn: 10 }] },
         { code: "'use strict'; this.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 20, endColumn: 24 }] },
         { code: "function foo() { this.eval('foo') }", errors: [{ messageId: "unexpected", type: "CallExpression", column: 23, endColumn: 27 }] },
-        { code: "var EVAL = globalThis.eval; EVAL('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression", column: 23, endColumn: 27 }], languageOptions: { ecmaVersion: 2020 } },
-        { code: "globalThis.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 12, endColumn: 16 }], languageOptions: { ecmaVersion: 2020 } },
-        { code: "globalThis.globalThis.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 23, endColumn: 27 }], languageOptions: { ecmaVersion: 2020 } },
-        { code: "globalThis.globalThis['eval']('foo')", errors: [{ messageId: "unexpected", type: "CallExpression", column: 23, endColumn: 29 }], languageOptions: { ecmaVersion: 2020 } },
-        { code: "(0, globalThis.eval)('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression", column: 16, endColumn: 20 }], languageOptions: { ecmaVersion: 2020 } },
-        { code: "(0, globalThis['eval'])('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression", column: 16, endColumn: 22 }], languageOptions: { ecmaVersion: 2020 } },
+        { code: "var EVAL = globalThis.eval; EVAL('foo')", languageOptions: { ecmaVersion: 2020 }, errors: [{ messageId: "unexpected", type: "MemberExpression", column: 23, endColumn: 27 }] },
+        { code: "globalThis.eval('foo')", languageOptions: { ecmaVersion: 2020 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 12, endColumn: 16 }] },
+        { code: "globalThis.globalThis.eval('foo')", languageOptions: { ecmaVersion: 2020 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 23, endColumn: 27 }] },
+        { code: "globalThis.globalThis['eval']('foo')", languageOptions: { ecmaVersion: 2020 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 23, endColumn: 29 }] },
+        { code: "(0, globalThis.eval)('foo')", languageOptions: { ecmaVersion: 2020 }, errors: [{ messageId: "unexpected", type: "MemberExpression", column: 16, endColumn: 20 }] },
+        { code: "(0, globalThis['eval'])('foo')", languageOptions: { ecmaVersion: 2020 }, errors: [{ messageId: "unexpected", type: "MemberExpression", column: 16, endColumn: 22 }] },
 
         // Optional chaining
         {
             code: "window?.eval('foo')",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020, globals: { window: "readonly" } }
+            languageOptions: { ecmaVersion: 2020, globals: { window: "readonly" } },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "(window?.eval)('foo')",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020, globals: { window: "readonly" } }
+            languageOptions: { ecmaVersion: 2020, globals: { window: "readonly" } },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "(window?.window).eval('foo')",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2020, globals: { window: "readonly" } }
+            languageOptions: { ecmaVersion: 2020, globals: { window: "readonly" } },
+            errors: [{ messageId: "unexpected" }]
         },
 
         // Class fields
         {
             code: "class C { [this.eval('foo')] }",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "'use strict'; class C { [this.eval('foo')] }",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpected" }]
         },
 
         {
             code: "class A { static {} [this.eval()]; }",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpected" }]
         },
 
         // in es3, "use strict" directives do not apply
         {
             code: "function foo() { 'use strict'; this.eval(); }",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 3 }
+            languageOptions: { ecmaVersion: 3 },
+            errors: [{ messageId: "unexpected" }]
         },
 
         // this.eval in callbacks (not user-defined)
         {
             code: "array.findLast(x => this.eval.includes(x), { eval: 'abc' });",
-            errors: [{ messageId: "unexpected" }],
-            languageOptions: { ecmaVersion: 2023 }
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "callbacks.findLastIndex(function (cb) { return cb(eval); }, this);",

@@ -447,6 +447,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "<foo attr={\"\\d\"}/>",
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
             errors: [{
                 line: 1,
                 column: 13,
@@ -460,8 +461,7 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "<foo attr={\"\\\\d\"}/>"
                 }]
-            }],
-            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+            }]
         },
         {
             code: "var foo = '\\`';",
@@ -482,6 +482,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "var foo = `\\\"`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 12,
@@ -495,11 +496,11 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "var foo = `\\\\\"`;"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = `\\'`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 12,
@@ -513,11 +514,11 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "var foo = `\\\\'`;"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = `\\#`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 12,
@@ -531,8 +532,7 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "var foo = `\\\\#`;"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = '\\`foo\\`';",
@@ -569,6 +569,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "var foo = `\\\"${foo}\\\"`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     line: 1,
@@ -598,11 +599,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: "var foo = `\\\"${foo}\\\\\"`;"
                     }]
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = `\\'${foo}\\'`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     line: 1,
@@ -632,11 +633,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: "var foo = `\\'${foo}\\\\'`;"
                     }]
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = `\\#${foo}`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 12,
@@ -650,11 +651,11 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "var foo = `\\\\#${foo}`;"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let foo = '\\ ';",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 12,
@@ -668,11 +669,11 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "let foo = '\\\\ ';"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let foo = /\\ /;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 12,
@@ -686,11 +687,11 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "let foo = /\\\\ /;"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var foo = `\\$\\{{${foo}`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     line: 1,
@@ -706,11 +707,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: "var foo = `\\\\$\\{{${foo}`;"
                     }]
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = `\\$a${foo}`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     line: 1,
@@ -726,11 +727,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: "var foo = `\\\\$a${foo}`;"
                     }]
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = `a\\{{${foo}`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     line: 1,
@@ -746,8 +747,7 @@ ruleTester.run("no-useless-escape", rule, {
                         output: "var foo = `a\\\\{{${foo}`;"
                     }]
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: String.raw`var foo = /[ab\-]/`,
@@ -1006,6 +1006,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "`multiline template\nliteral with useless \\escape`",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 2,
                 column: 22,
@@ -1019,11 +1020,11 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "`multiline template\nliteral with useless \\\\escape`"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "`multiline template\r\nliteral with useless \\escape`",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 2,
                 column: 22,
@@ -1037,11 +1038,11 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "`multiline template\r\nliteral with useless \\\\escape`"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "`template literal with line continuation \\\nand useless \\escape`",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 2,
                 column: 13,
@@ -1055,11 +1056,11 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "`template literal with line continuation \\\nand useless \\\\escape`"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "`template literal with line continuation \\\r\nand useless \\escape`",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 2,
                 column: 13,
@@ -1073,11 +1074,11 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "`template literal with line continuation \\\r\nand useless \\\\escape`"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "`template literal with mixed linebreaks \r\r\n\n\\and useless escape`",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 4,
                 column: 1,
@@ -1091,11 +1092,11 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "`template literal with mixed linebreaks \r\r\n\n\\\\and useless escape`"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "`template literal with mixed linebreaks in line continuations \\\n\\\r\\\r\n\\and useless escape`",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 4,
                 column: 1,
@@ -1109,11 +1110,11 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "`template literal with mixed linebreaks in line continuations \\\n\\\r\\\r\n\\\\and useless escape`"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "`\\a```",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 2,
@@ -1127,8 +1128,7 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: "`\\\\a```"
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // https://github.com/eslint/eslint/issues/16988
@@ -1151,6 +1151,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`({ foo() { "foo"; "bar"; "ba\z" } })`,
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 29,
@@ -1164,8 +1165,7 @@ ruleTester.run("no-useless-escape", rule, {
                     messageId: "escapeBackslash",
                     output: String.raw`({ foo() { "foo"; "bar"; "ba\\z" } })`
                 }]
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
 
         // Carets
@@ -1190,6 +1190,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[^\^]/u`,
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 line: 1,
                 column: 4,
@@ -1205,13 +1206,13 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[^\\^]/u`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
 
         // ES2024
         {
             code: String.raw`/[\$]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1228,11 +1229,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\$]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\&\&]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1248,11 +1249,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\&\&]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\!\!]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1268,11 +1269,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\!\!]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\#\#]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1288,11 +1289,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\#\#]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\%\%]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1308,11 +1309,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\%\%]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\*\*]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1328,11 +1329,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\*\*]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\+\+]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1348,11 +1349,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\+\+]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\,\,]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1368,11 +1369,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\,\,]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\.\.]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1388,11 +1389,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\.\.]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\:\:]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1408,11 +1409,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\:\:]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\;\;]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1428,11 +1429,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\;\;]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\<\<]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1448,11 +1449,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\<\<]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\=\=]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1468,11 +1469,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\=\=]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\>\>]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1488,11 +1489,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\>\>]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\?\?]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1508,11 +1509,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\?\?]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\@\@]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1528,11 +1529,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\@\@]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: "/[\\`\\`]/v",
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1548,11 +1549,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: "/[\\\\`\\`]/v"
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\~\~]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1568,11 +1569,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\~\~]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[^\^\^]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 4,
@@ -1588,11 +1589,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[^\\^\^]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[_\^\^]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 4,
@@ -1608,11 +1609,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[_\\^\^]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\&\&&\&]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1628,11 +1629,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\\&\&&\&]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\p{ASCII}--\.]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 14,
@@ -1644,11 +1645,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\p{ASCII}--.]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\p{ASCII}&&\.]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 14,
@@ -1660,11 +1661,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\p{ASCII}&&.]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\.--[.&]]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1676,11 +1677,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[.--[.&]]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\.&&[.&]]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1692,11 +1693,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[.&&[.&]]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\.--\.--\.]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1730,11 +1731,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\.--\.--.]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[\.&&\.&&\.]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1768,11 +1769,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[\.&&\.&&.]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[[\.&]--[\.&]]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 4,
@@ -1803,11 +1804,11 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[[\.&]--[\\.&]]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         },
         {
             code: String.raw`/[[\.&]&&[\.&]]/v`,
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 4,
@@ -1838,8 +1839,7 @@ ruleTester.run("no-useless-escape", rule, {
                         output: String.raw`/[[\.&]&&[\\.&]]/v`
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2024 }
+            }]
         }
     ]
 });

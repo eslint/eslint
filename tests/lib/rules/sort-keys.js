@@ -380,6 +380,7 @@ ruleTester.run("sort-keys", rule, {
         },
         {
             code: "var obj = {a:1, [``]:2} // default",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -391,8 +392,7 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "a"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var obj = {a:1, _:2, b:3} // default",
@@ -501,6 +501,7 @@ ruleTester.run("sort-keys", rule, {
         },
         {
             code: "var obj = { null: 1, [/(?<zero>0)/]: 2 }",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -512,14 +513,14 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "null"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
 
         // not ignore properties not separated by spread properties
         {
             code: "var obj = {...z, c:1, b:1}",
             options: [],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -531,12 +532,12 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "c"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "var obj = {...z, ...c, d:4, b:1, ...y, ...f, e:2, a:1}",
             options: [],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -558,12 +559,12 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "e"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "var obj = {c:1, b:1, ...a}",
             options: [],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -575,12 +576,12 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "c"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "var obj = {...z, ...a, c:1, b:1}",
             options: [],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -592,12 +593,12 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "c"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "var obj = {...z, b:1, a:1, ...d, ...c}",
             options: [],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -609,12 +610,12 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "b"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "var obj = {...z, a:2, b:0, ...x, ...c}",
             options: ["desc"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -626,12 +627,12 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "a"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "var obj = {...z, a:2, b:0, ...x}",
             options: ["desc"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -643,12 +644,12 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "a"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "var obj = {...z, '':1, a:2}",
             options: ["desc"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -660,13 +661,13 @@ ruleTester.run("sort-keys", rule, {
                         prevName: ""
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
 
         // ignore non-simple computed properties, but their position shouldn't affect other comparisons.
         {
             code: "var obj = {a:1, [b+c]:2, '':3}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -678,12 +679,12 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "a"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var obj = {'':1, [b+c]:2, a:3}",
             options: ["desc"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -695,12 +696,12 @@ ruleTester.run("sort-keys", rule, {
                         prevName: ""
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var obj = {b:1, [f()]:2, '':3, a:4}",
             options: ["desc"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -712,13 +713,13 @@ ruleTester.run("sort-keys", rule, {
                         prevName: ""
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // not ignore simple computed properties.
         {
             code: "var obj = {a:1, b:3, [a]: -1, c:2}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -730,8 +731,7 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "b"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // nested
@@ -1277,6 +1277,7 @@ ruleTester.run("sort-keys", rule, {
         {
             code: "var obj = {[``]:1, a:'2'} // desc",
             options: ["desc"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -1288,8 +1289,7 @@ ruleTester.run("sort-keys", rule, {
                         prevName: ""
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var obj = {a:1, _:2, b:3} // desc",
@@ -1990,6 +1990,7 @@ ruleTester.run("sort-keys", rule, {
                 }
             `,
             options: ["asc", { allowLineSeparatedGroups: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -2001,8 +2002,7 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "b"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
 
         // When allowLineSeparatedGroups option is true
@@ -2017,6 +2017,7 @@ ruleTester.run("sort-keys", rule, {
                   }
              `,
             options: ["asc", { allowLineSeparatedGroups: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -2028,8 +2029,7 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "c"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: `
@@ -2044,6 +2044,7 @@ ruleTester.run("sort-keys", rule, {
                   }
              `,
             options: ["asc", { allowLineSeparatedGroups: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -2055,8 +2056,7 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "z"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: `
@@ -2069,6 +2069,7 @@ ruleTester.run("sort-keys", rule, {
                   }
              `,
             options: ["asc", { allowLineSeparatedGroups: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -2080,8 +2081,7 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "c"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: `
@@ -2092,6 +2092,7 @@ ruleTester.run("sort-keys", rule, {
                 }
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -2103,8 +2104,7 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "b"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: `
@@ -2119,6 +2119,7 @@ ruleTester.run("sort-keys", rule, {
                 }
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -2130,8 +2131,7 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "d"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: `
@@ -2153,6 +2153,7 @@ ruleTester.run("sort-keys", rule, {
                 }
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -2174,8 +2175,7 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "f"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: `
@@ -2207,6 +2207,7 @@ ruleTester.run("sort-keys", rule, {
                 };
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -2218,8 +2219,7 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "b"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: `
@@ -2233,6 +2233,7 @@ ruleTester.run("sort-keys", rule, {
                 }
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "sortKeys",
@@ -2244,8 +2245,7 @@ ruleTester.run("sort-keys", rule, {
                         prevName: "b"
                     }
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         }
     ]
 });

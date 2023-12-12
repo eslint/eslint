@@ -95,129 +95,129 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "var __proto__ = 1;", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "__proto__" }, type: "VariableDeclarator" }] },
         { code: "foo._bar;", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "MemberExpression" }] },
         { code: "this._prop;", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_prop" }, type: "MemberExpression" }] },
-        { code: "class foo { constructor() { super._prop; } }", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_prop" }, type: "MemberExpression" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "class foo { constructor() { this._prop; } }", options: [{ allowAfterSuper: true }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_prop" }, type: "MemberExpression" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "class foo { _onClick() { } }", options: [{ enforceInMethodNames: true }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_onClick" }, type: "MethodDefinition" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "class foo { onClick_() { } }", options: [{ enforceInMethodNames: true }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "onClick_" }, type: "MethodDefinition" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "const o = { _onClick() { } }", options: [{ enforceInMethodNames: true }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_onClick" }, type: "Property" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "const o = { onClick_() { } }", options: [{ enforceInMethodNames: true }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "onClick_" }, type: "Property" }], languageOptions: { ecmaVersion: 6 } },
+        { code: "class foo { constructor() { super._prop; } }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_prop" }, type: "MemberExpression" }] },
+        { code: "class foo { constructor() { this._prop; } }", options: [{ allowAfterSuper: true }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_prop" }, type: "MemberExpression" }] },
+        { code: "class foo { _onClick() { } }", options: [{ enforceInMethodNames: true }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_onClick" }, type: "MethodDefinition" }] },
+        { code: "class foo { onClick_() { } }", options: [{ enforceInMethodNames: true }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "onClick_" }, type: "MethodDefinition" }] },
+        { code: "const o = { _onClick() { } }", options: [{ enforceInMethodNames: true }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_onClick" }, type: "Property" }] },
+        { code: "const o = { onClick_() { } }", options: [{ enforceInMethodNames: true }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "onClick_" }, type: "Property" }] },
         { code: "this.constructor._bar", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "MemberExpression" }] },
         { code: "function foo(_bar) {}", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "Identifier" }] },
         { code: "(function foo(_bar) {})", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "Identifier" }] },
         { code: "function foo(bar, _foo) {}", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" }, type: "Identifier" }] },
-        { code: "const foo = { onClick(_bar) { } }", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "Identifier" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "const foo = (_bar) => {}", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "Identifier" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "function foo(_bar = 0) {}", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "AssignmentPattern" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "const foo = { onClick(_bar = 0) { } }", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "AssignmentPattern" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "const foo = (_bar = 0) => {}", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "AssignmentPattern" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "function foo(..._bar) {}", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "const foo = { onClick(..._bar) { } }", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "const foo = (..._bar) => {}", options: [{ allowFunctionParams: false }], errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }], languageOptions: { ecmaVersion: 6 } },
+        { code: "const foo = { onClick(_bar) { } }", options: [{ allowFunctionParams: false }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "Identifier" }] },
+        { code: "const foo = (_bar) => {}", options: [{ allowFunctionParams: false }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "Identifier" }] },
+        { code: "function foo(_bar = 0) {}", options: [{ allowFunctionParams: false }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "AssignmentPattern" }] },
+        { code: "const foo = { onClick(_bar = 0) { } }", options: [{ allowFunctionParams: false }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "AssignmentPattern" }] },
+        { code: "const foo = (_bar = 0) => {}", options: [{ allowFunctionParams: false }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "AssignmentPattern" }] },
+        { code: "function foo(..._bar) {}", options: [{ allowFunctionParams: false }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] },
+        { code: "const foo = { onClick(..._bar) { } }", options: [{ allowFunctionParams: false }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] },
+        { code: "const foo = (..._bar) => {}", options: [{ allowFunctionParams: false }], languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" }, type: "RestElement" }] },
         {
             code: "const [foo, _bar] = [1, 2]",
             options: [{ allowInArrayDestructuring: false }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_bar" } }]
         }, {
             code: "const [_foo = 1] = arr",
             options: [{ allowInArrayDestructuring: false }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" } }]
         }, {
             code: "const [foo, ..._rest] = [1, 2, 3]",
             options: [{ allowInArrayDestructuring: false }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_rest" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_rest" } }]
         }, {
             code: "const [foo, [bar_, baz]] = [1, [2, 3]]",
             options: [{ allowInArrayDestructuring: false }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "bar_" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "bar_" } }]
         }, {
             code: "const { _foo, bar } = { _foo: 1, bar: 2 }",
             options: [{ allowInObjectDestructuring: false }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" } }]
         }, {
             code: "const { _foo = 1 } = obj",
             options: [{ allowInObjectDestructuring: false }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" } }]
         }, {
             code: "const { bar: _foo = 1 } = obj",
             options: [{ allowInObjectDestructuring: false }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" } }]
         }, {
             code: "const { foo: _foo, bar } = { foo: 1, bar: 2 }",
             options: [{ allowInObjectDestructuring: false }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" } }]
         }, {
             code: "const { foo, ..._rest} = { foo: 1, bar: 2, baz: 3 }",
             options: [{ allowInObjectDestructuring: false }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_rest" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_rest" } }]
         }, {
             code: "const { foo: [_bar, { a: _a, b } ] } = { foo: [1, { a: 'a', b: 'b' }] }",
             options: [{ allowInArrayDestructuring: false, allowInObjectDestructuring: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "unexpectedUnderscore", data: { identifier: "_bar" } },
                 { messageId: "unexpectedUnderscore", data: { identifier: "_a" } }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         }, {
             code: "const { foo: [_bar, { a: _a, b } ] } = { foo: [1, { a: 'a', b: 'b' }] }",
             options: [{ allowInArrayDestructuring: true, allowInObjectDestructuring: false }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_a" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_a" } }]
         }, {
             code: "const [{ foo: [_bar, _, { bar: _baz }] }] = [{ foo: [1, 2, { bar: 'a' }] }]",
             options: [{ allowInArrayDestructuring: false, allowInObjectDestructuring: false }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "unexpectedUnderscore", data: { identifier: "_bar" } },
                 { messageId: "unexpectedUnderscore", data: { identifier: "_baz" } }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         }, {
             code: "const { foo, bar: { baz, _qux } } = { foo: 1, bar: { baz: 3, _qux: 4 } }",
             options: [{ allowInObjectDestructuring: false }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_qux" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_qux" } }]
         }, {
             code: "class foo { #_bar() {} }",
             options: [{ enforceInMethodNames: true }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "#_bar" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "#_bar" } }]
         }, {
             code: "class foo { #bar_() {} }",
             options: [{ enforceInMethodNames: true }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "#bar_" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "#bar_" } }]
         },
         {
             code: "class foo { _field; }",
             options: [{ enforceInClassFields: true }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_field" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_field" } }]
         },
         {
             code: "class foo { #_field; }",
             options: [{ enforceInClassFields: true }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "#_field" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "#_field" } }]
         },
         {
             code: "class foo { field_; }",
             options: [{ enforceInClassFields: true }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "field_" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "field_" } }]
         },
         {
             code: "class foo { #field_; }",
             options: [{ enforceInClassFields: true }],
-            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "#field_" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "#field_" } }]
         }
     ]
 });

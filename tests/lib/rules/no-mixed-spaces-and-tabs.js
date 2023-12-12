@@ -278,6 +278,7 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
         {
             code: "`foo${\n \t  5 }bar`;",
             options: ["smart-tabs"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "mixedSpacesAndTabs",
@@ -287,11 +288,11 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                     endLine: 2,
                     endColumn: 3
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "`foo${\n\t  5 }bar`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "mixedSpacesAndTabs",
@@ -301,8 +302,7 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                     endLine: 2,
                     endColumn: 3
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "  \t'';",

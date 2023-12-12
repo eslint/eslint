@@ -93,28 +93,28 @@ ruleTester.run("no-self-assign", rule, {
     ],
     invalid: [
         { code: "a = a", errors: [{ messageId: "selfAssignment", data: { name: "a" } }] },
-        { code: "[a] = [a]", errors: [{ messageId: "selfAssignment", data: { name: "a" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "[a, b] = [a, b]", errors: [{ messageId: "selfAssignment", data: { name: "a" } }, { messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "[a, b] = [a, c]", errors: [{ messageId: "selfAssignment", data: { name: "a" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "[a, b] = [, b]", errors: [{ messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "[a, ...b] = [a, ...b]", errors: [{ messageId: "selfAssignment", data: { name: "a" } }, { messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "[[a], {b}] = [[a], {b}]", errors: [{ messageId: "selfAssignment", data: { name: "a" } }, { messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({a} = {a})", errors: [{ messageId: "selfAssignment", data: { name: "a" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({a: b} = {a: b})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({'a': b} = {'a': b})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({a: b} = {'a': b})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({'a': b} = {a: b})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({1: b} = {1: b})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({1: b} = {'1': b})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({'1': b} = {1: b})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({['a']: b} = {a: b})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({'a': b} = {[`a`]: b})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({1: b} = {[1]: b})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({a, b} = {a, b})", errors: [{ messageId: "selfAssignment", data: { name: "a" } }, { messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({a, b} = {b, a})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }, { messageId: "selfAssignment", data: { name: "a" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({a, b} = {c, a})", errors: [{ messageId: "selfAssignment", data: { name: "a" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({a: {b}, c: [d]} = {a: {b}, c: [d]})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }, { messageId: "selfAssignment", data: { name: "d" } }], languageOptions: { ecmaVersion: 6 } },
-        { code: "({a, b} = {a, ...x, b})", errors: [{ messageId: "selfAssignment", data: { name: "b" } }], languageOptions: { ecmaVersion: 2018 } },
+        { code: "[a] = [a]", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }] },
+        { code: "[a, b] = [a, b]", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }, { messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "[a, b] = [a, c]", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }] },
+        { code: "[a, b] = [, b]", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "[a, ...b] = [a, ...b]", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }, { messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "[[a], {b}] = [[a], {b}]", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }, { messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({a} = {a})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }] },
+        { code: "({a: b} = {a: b})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({'a': b} = {'a': b})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({a: b} = {'a': b})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({'a': b} = {a: b})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({1: b} = {1: b})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({1: b} = {'1': b})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({'1': b} = {1: b})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({['a']: b} = {a: b})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({'a': b} = {[`a`]: b})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({1: b} = {[1]: b})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({a, b} = {a, b})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }, { messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({a, b} = {b, a})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }, { messageId: "selfAssignment", data: { name: "a" } }] },
+        { code: "({a, b} = {c, a})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }] },
+        { code: "({a: {b}, c: [d]} = {a: {b}, c: [d]})", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }, { messageId: "selfAssignment", data: { name: "d" } }] },
+        { code: "({a, b} = {a, ...x, b})", languageOptions: { ecmaVersion: 2018 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
         {
             code: "a.b = a.b",
             errors: [{ messageId: "selfAssignment", data: { name: "a.b" } }]
@@ -145,47 +145,47 @@ ruleTester.run("no-self-assign", rule, {
             options: [{ props: true }],
             errors: [{ messageId: "selfAssignment", data: { name: "this.x" } }]
         },
-        { code: "a['/(?<zero>0)/'] = a[/(?<zero>0)/]", options: [{ props: true }], errors: [{ messageId: "selfAssignment", data: { name: "a[/(?<zero>0)/]" } }], languageOptions: { ecmaVersion: 2018 } },
+        { code: "a['/(?<zero>0)/'] = a[/(?<zero>0)/]", options: [{ props: true }], languageOptions: { ecmaVersion: 2018 }, errors: [{ messageId: "selfAssignment", data: { name: "a[/(?<zero>0)/]" } }] },
 
         // Optional chaining
         {
             code: "(a?.b).c = (a?.b).c",
-            errors: [{ messageId: "selfAssignment", data: { name: "(a?.b).c" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "selfAssignment", data: { name: "(a?.b).c" } }]
         },
         {
             code: "a.b = a?.b",
-            errors: [{ messageId: "selfAssignment", data: { name: "a?.b" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "selfAssignment", data: { name: "a?.b" } }]
         },
 
         // Private members
         {
             code: "class C { #field; foo() { this.#field = this.#field; } }",
-            errors: [{ messageId: "selfAssignment", data: { name: "this.#field" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "selfAssignment", data: { name: "this.#field" } }]
         },
         {
             code: "class C { #field; foo() { [this.#field] = [this.#field]; } }",
-            errors: [{ messageId: "selfAssignment", data: { name: "this.#field" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "selfAssignment", data: { name: "this.#field" } }]
         },
 
         // logical assignment
         {
             code: "a &&= a",
-            errors: [{ messageId: "selfAssignment", data: { name: "a" } }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "selfAssignment", data: { name: "a" } }]
         },
         {
             code: "a ||= a",
-            errors: [{ messageId: "selfAssignment", data: { name: "a" } }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "selfAssignment", data: { name: "a" } }]
         },
         {
             code: "a ??= a",
-            errors: [{ messageId: "selfAssignment", data: { name: "a" } }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "selfAssignment", data: { name: "a" } }]
         }
     ]
 });

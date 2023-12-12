@@ -845,38 +845,38 @@ ruleTester.run("no-whitespace-before-property", rule, {
         {
             code: "08      .toExponential()",
             output: null, // Not fixed
+            languageOptions: { sourceType: "script" },
             errors: [{
                 messageId: "unexpectedWhitespace",
                 data: { propName: "toExponential" }
-            }],
-            languageOptions: { sourceType: "script" }
+            }]
         },
         {
             code: "0192    .toExponential()",
             output: null, // Not fixed
+            languageOptions: { sourceType: "script" },
             errors: [{
                 messageId: "unexpectedWhitespace",
                 data: { propName: "toExponential" }
-            }],
-            languageOptions: { sourceType: "script" }
+            }]
         },
         {
             code: "5_000       .toExponential()",
             output: null, // Not fixed,
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "unexpectedWhitespace",
                 data: { propName: "toExponential" }
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "5_000_00       .toExponential()",
             output: null, // Not fixed,
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "unexpectedWhitespace",
                 data: { propName: "toExponential" }
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "5. .toExponential()",
@@ -897,11 +897,11 @@ ruleTester.run("no-whitespace-before-property", rule, {
         {
             code: "5.0_0 .toExponential()",
             output: "5.0_0.toExponential()",
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "unexpectedWhitespace",
                 data: { propName: "toExponential" }
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "0x5 .toExponential()",
@@ -914,11 +914,11 @@ ruleTester.run("no-whitespace-before-property", rule, {
         {
             code: "0x56_78 .toExponential()",
             output: "0x56_78.toExponential()",
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "unexpectedWhitespace",
                 data: { propName: "toExponential" }
-            }],
-            languageOptions: { ecmaVersion: 2021 }
+            }]
         },
         {
             code: "5e0 .toExponential()",
@@ -947,61 +947,61 @@ ruleTester.run("no-whitespace-before-property", rule, {
         {
             code: "05 .toExponential()",
             output: "05.toExponential()",
+            languageOptions: { sourceType: "script" },
             errors: [{
                 messageId: "unexpectedWhitespace",
                 data: { propName: "toExponential" }
-            }],
-            languageOptions: { sourceType: "script" }
+            }]
         },
 
         // Optional chaining
         {
             code: "obj?. prop",
             output: "obj?.prop",
-            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "prop" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "prop" } }]
         },
         {
             code: "obj ?.prop",
             output: "obj?.prop",
-            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "prop" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "prop" } }]
         },
         {
             code: "obj?. [key]",
             output: "obj?.[key]",
-            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "key" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "key" } }]
         },
         {
             code: "obj ?.[key]",
             output: "obj?.[key]",
-            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "key" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "key" } }]
         },
         {
             code: "5 ?. prop",
             output: "5?.prop",
-            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "prop" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "prop" } }]
         },
         {
             code: "5 ?. [key]",
             output: "5?.[key]",
-            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "key" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "key" } }]
         },
         {
             code: "obj/* comment */?. prop",
             output: null,
-            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "prop" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "prop" } }]
         },
         {
             code: "obj ?./* comment */prop",
             output: null,
-            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "prop" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpectedWhitespace", data: { propName: "prop" } }]
         }
     ]
 });

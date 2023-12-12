@@ -571,351 +571,352 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "var { category_id: category_alias } = query;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "category_alias" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { category_id: category_alias } = query;",
             options: [{ ignoreDestructuring: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "category_alias" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { [category_id]: categoryId } = query;",
             options: [{ ignoreDestructuring: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "category_id" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { [category_id]: categoryId } = query;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "category_id" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { category_id: categoryId, ...other_props } = query;",
             options: [{ ignoreDestructuring: true }],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "other_props" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2018 }
+            ]
         },
         {
             code: "var { category_id } = query;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "category_id" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { category_id: category_id } = query;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "category_id" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { category_id = 1 } = query;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "category_id" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "import no_camelcased from \"external-module\";",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import * as no_camelcased from \"external-module\";",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import { no_camelcased } from \"external-module\";",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import { no_camelcased as no_camel_cased } from \"external module\";",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camel_cased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import { camelCased as no_camel_cased } from \"external module\";",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camel_cased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import { 'snake_cased' as snake_cased } from 'mod'",
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "snake_cased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022, sourceType: "module" }
+            ]
         },
         {
             code: "import { 'snake_cased' as another_snake_cased } from 'mod'",
             options: [{ ignoreImports: true }],
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "another_snake_cased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022, sourceType: "module" }
+            ]
         },
         {
             code: "import { camelCased, no_camelcased } from \"external-module\";",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import { no_camelcased as camelCased, another_no_camelcased } from \"external-module\";",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "another_no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import camelCased, { no_camelcased } from \"external-module\";",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import no_camelcased, { another_no_camelcased as camelCased } from \"external-module\";",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import snake_cased from 'mod'",
             options: [{ ignoreImports: true }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "snake_cased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import * as snake_cased from 'mod'",
             options: [{ ignoreImports: true }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "snake_cased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import snake_cased from 'mod'",
             options: [{ ignoreImports: false }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "snake_cased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "import * as snake_cased from 'mod'",
             options: [{ ignoreImports: false }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "snake_cased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "var camelCased = snake_cased",
             options: [{ ignoreGlobals: false }],
+            languageOptions: { globals: { snake_cased: "readonly" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "snake_cased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { globals: { snake_cased: "readonly" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "a_global_variable.foo()",
             options: [{ ignoreGlobals: false }],
+            languageOptions: { globals: { snake_cased: "readonly" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { globals: { snake_cased: "readonly" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "a_global_variable[undefined]",
             options: [{ ignoreGlobals: false }],
+            languageOptions: { globals: { snake_cased: "readonly" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { globals: { snake_cased: "readonly" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "var camelCased = snake_cased",
+            languageOptions: { globals: { snake_cased: "readonly" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "snake_cased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { globals: { snake_cased: "readonly" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "var camelCased = snake_cased",
             options: [{}],
+            languageOptions: { globals: { snake_cased: "readonly" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "snake_cased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { globals: { snake_cased: "readonly" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "foo.a_global_variable = bar",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "var foo = { a_global_variable: bar }",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "var foo = { a_global_variable: a_global_variable }",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -923,48 +924,48 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier",
                     column: 13
                 }
-            ],
-            languageOptions: { globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "var foo = { a_global_variable() {} }",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "class Foo { a_global_variable() {} }",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "a_global_variable: for (;;);",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "if (foo) { let a_global_variable; a_global_variable = bar; }",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -978,12 +979,12 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier",
                     column: 35
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "function foo(a_global_variable) { foo = a_global_variable; }",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -997,36 +998,36 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier",
                     column: 41
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "var a_global_variable",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "function a_global_variable () {}",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const a_global_variable = foo; bar = a_global_variable",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1040,12 +1041,12 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier",
                     column: 38
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "bar = a_global_variable; var a_global_variable;",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1059,20 +1060,19 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier",
                     column: 30
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "var foo = { a_global_variable }",
             options: [{ ignoreGlobals: true }],
+            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "readonly" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "a_global_variable" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "readonly" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            ]
         },
         {
             code: "undefined_variable;",
@@ -1098,39 +1098,40 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "export * as snake_cased from 'mod'",
+            languageOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "snake_cased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2020, sourceType: "module" }
+            ]
         },
         {
             code: "function foo({ no_camelcased }) {};",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "function foo({ no_camelcased = 'default value' }) {};",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const no_camelcased = 0; function foo({ camelcased_value = no_camelcased}) {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1142,74 +1143,73 @@ ruleTester.run("camelcase", rule, {
                     data: { name: "camelcased_value" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const { bar: no_camelcased } = foo;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "function foo({ value_1: my_default }) {}",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "my_default" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "function foo({ isCamelcased: no_camelcased }) {};",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var { foo: bar_baz = 1 } = quz;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "bar_baz" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const { no_camelcased = false } = bar;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "const { no_camelcased = foo_bar } = bar;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "not_ignored_foo = 0;",
@@ -1236,205 +1236,205 @@ ruleTester.run("camelcase", rule, {
         {
             code: "foo = { [computed_bar]: 0 };",
             options: [{ ignoreDestructuring: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "computed_bar" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({ a: obj.fo_o } = bar);",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "fo_o" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({ a: obj.fo_o } = bar);",
             options: [{ ignoreDestructuring: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "fo_o" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({ a: obj.fo_o.b_ar } = baz);",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "b_ar" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({ a: { b: { c: obj.fo_o } } } = bar);",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "fo_o" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({ a: { b: { c: obj.fo_o.b_ar } } } = baz);",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "b_ar" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "([obj.fo_o] = bar);",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "fo_o" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "([obj.fo_o] = bar);",
             options: [{ ignoreDestructuring: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "fo_o" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "([obj.fo_o = 1] = bar);",
             options: [{ properties: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "fo_o" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({ a: [obj.fo_o] } = bar);",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "fo_o" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({ a: { b: [obj.fo_o] } } = bar);",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "fo_o" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "([obj.fo_o.ba_r] = baz);",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "ba_r" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "({...obj.fo_o} = baz);",
+            languageOptions: { ecmaVersion: 9 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "fo_o" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 9 }
+            ]
         },
         {
             code: "({...obj.fo_o.ba_r} = baz);",
+            languageOptions: { ecmaVersion: 9 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "ba_r" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 9 }
+            ]
         },
         {
             code: "({c: {...obj.fo_o }} = baz);",
+            languageOptions: { ecmaVersion: 9 },
             errors: [
                 {
                     messageId: "notCamelCase",
                     data: { name: "fo_o" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 9 }
+            ]
         },
 
         // Optional chaining.
         {
             code: "obj.o_k.non_camelcase = 0",
             options: [{ properties: "always" }],
-            errors: [{ messageId: "notCamelCase", data: { name: "non_camelcase" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "notCamelCase", data: { name: "non_camelcase" } }]
         },
         {
             code: "(obj?.o_k).non_camelcase = 0",
             options: [{ properties: "always" }],
-            errors: [{ messageId: "notCamelCase", data: { name: "non_camelcase" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "notCamelCase", data: { name: "non_camelcase" } }]
         },
 
         // class public/private fields, private methods.
         {
             code: "class C { snake_case; }",
             options: [{ properties: "always" }],
-            errors: [{ messageId: "notCamelCase", data: { name: "snake_case" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "notCamelCase", data: { name: "snake_case" } }]
         },
         {
             code: "class C { #snake_case; foo() { this.#snake_case; } }",
             options: [{ properties: "always" }],
-            errors: [{ messageId: "notCamelCasePrivate", data: { name: "snake_case" }, column: 11 }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "notCamelCasePrivate", data: { name: "snake_case" }, column: 11 }]
         },
         {
             code: "class C { #snake_case() {} }",
             options: [{ properties: "always" }],
-            errors: [{ messageId: "notCamelCasePrivate", data: { name: "snake_case" } }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "notCamelCasePrivate", data: { name: "snake_case" } }]
         },
 
         // Combinations of `properties` and `ignoreDestructuring`
@@ -1444,6 +1444,7 @@ ruleTester.run("camelcase", rule, {
             doSomething({ some_property });
             `,
             options: [{ properties: "always", ignoreDestructuring: true }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1451,8 +1452,7 @@ ruleTester.run("camelcase", rule, {
                     line: 3,
                     column: 27
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: `
@@ -1461,6 +1461,7 @@ ruleTester.run("camelcase", rule, {
             doSomething({ [some_property]: "bar" });
             `,
             options: [{ properties: "never", ignoreDestructuring: true }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1468,8 +1469,7 @@ ruleTester.run("camelcase", rule, {
                     line: 4,
                     column: 28
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: `
@@ -1486,6 +1486,7 @@ ruleTester.run("camelcase", rule, {
             };
             `,
             options: [{ properties: "always", ignoreDestructuring: true }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1505,8 +1506,7 @@ ruleTester.run("camelcase", rule, {
                     line: 8,
                     column: 27
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         }
     ]
 });

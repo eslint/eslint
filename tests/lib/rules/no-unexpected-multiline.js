@@ -237,36 +237,36 @@ ruleTester.run("no-unexpected-multiline", rule, {
         },
         {
             code: "let x = function() {}\n `hello`",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 2,
                 column: 2,
                 endLine: 2,
                 endColumn: 3,
                 messageId: "taggedTemplate"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "let x = function() {}\nx\n`hello`",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 3,
                 column: 1,
                 endLine: 3,
                 endColumn: 2,
                 messageId: "taggedTemplate"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "x\n.y\nz\n`Invalid Test Case`",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 4,
                 column: 1,
                 endLine: 4,
                 endColumn: 2,
                 messageId: "taggedTemplate"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: `
@@ -343,6 +343,9 @@ ruleTester.run("no-unexpected-multiline", rule, {
                 "test",
                 "*/`foo`"
             ].join("\n"),
+            languageOptions: {
+                parser: require("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-and-comment")
+            },
             errors: [
                 {
                     line: 5,
@@ -351,15 +354,13 @@ ruleTester.run("no-unexpected-multiline", rule, {
                     endColumn: 4,
                     messageId: "taggedTemplate"
                 }
-            ],
-            languageOptions: {
-                parser: require("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-and-comment")
-            }
+            ]
         },
 
         // Class fields
         {
             code: "class C { field1 = obj\n[field2]; }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     line: 2,
@@ -368,11 +369,11 @@ ruleTester.run("no-unexpected-multiline", rule, {
                     endColumn: 2,
                     messageId: "property"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C { field1 = function() {}\n[field2]; }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     line: 2,
@@ -381,8 +382,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
                     endColumn: 2,
                     messageId: "property"
                 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         }
 
         // "class C { field1 = obj\n*gen() {} }" is syntax error: Unexpected token '{'

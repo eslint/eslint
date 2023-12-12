@@ -55,39 +55,39 @@ ruleTester.run("no-func-assign", rule, {
         },
         {
             code: "[foo] = bar; function foo() { };",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "isAFunction",
                 data: { name: "foo" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "({x: foo = 0} = bar); function foo() { };",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "isAFunction",
                 data: { name: "foo" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "function foo() { [foo] = bar; }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "isAFunction",
                 data: { name: "foo" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "(function() { ({x: foo = 0} = bar); function foo() { }; })();",
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "isAFunction",
                 data: { name: "foo" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         },
         {
             code: "var a = function foo() { foo = 123; };",

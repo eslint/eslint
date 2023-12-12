@@ -47,88 +47,89 @@ ruleTester.run("class-methods-use-this", rule, {
     invalid: [
         {
             code: "class A { foo() {} }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 11, messageId: "missingThis", data: { name: "method 'foo'" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { foo() {/**this**/} }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 11, messageId: "missingThis", data: { name: "method 'foo'" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { foo() {var a = function () {this};} }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 11, messageId: "missingThis", data: { name: "method 'foo'" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { foo() {var a = function () {var b = function(){this}};} }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 11, messageId: "missingThis", data: { name: "method 'foo'" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { foo() {window.this} }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 11, messageId: "missingThis", data: { name: "method 'foo'" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { foo() {that.this = 'this';} }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 11, messageId: "missingThis", data: { name: "method 'foo'" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { foo() { () => undefined; } }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 11, messageId: "missingThis", data: { name: "method 'foo'" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { foo() {} bar() {} }",
             options: [{ exceptMethods: ["bar"] }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 11, messageId: "missingThis", data: { name: "method 'foo'" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { foo() {} hasOwnProperty() {} }",
             options: [{ exceptMethods: ["foo"] }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 20, messageId: "missingThis", data: { name: "method 'hasOwnProperty'" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { [foo]() {} }",
             options: [{ exceptMethods: ["foo"] }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 11, messageId: "missingThis", data: { name: "method" } }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { #foo() { } foo() {} #bar() {} }",
             options: [{ exceptMethods: ["#foo"] }],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 22, messageId: "missingThis", data: { name: "method 'foo'" } },
                 { type: "FunctionExpression", line: 1, column: 31, messageId: "missingThis", data: { name: "private method #bar" } }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class A { foo(){} 'bar'(){} 123(){} [`baz`](){} [a](){} [f(a)](){} get quux(){} set[a](b){} *quuux(){} }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "missingThis", data: { name: "method 'foo'" }, type: "FunctionExpression", column: 11 },
                 { messageId: "missingThis", data: { name: "method 'bar'" }, type: "FunctionExpression", column: 19 },
@@ -139,78 +140,77 @@ ruleTester.run("class-methods-use-this", rule, {
                 { messageId: "missingThis", data: { name: "getter 'quux'" }, type: "FunctionExpression", column: 68 },
                 { messageId: "missingThis", data: { name: "setter" }, type: "FunctionExpression", column: 81 },
                 { messageId: "missingThis", data: { name: "generator method 'quuux'" }, type: "FunctionExpression", column: 93 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { foo = function() {} }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingThis", data: { name: "method 'foo'" }, column: 11, endColumn: 25 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class A { foo = () => {} }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingThis", data: { name: "method 'foo'" }, column: 11, endColumn: 17 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class A { #foo = function() {} }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingThis", data: { name: "private method #foo" }, column: 11, endColumn: 26 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class A { #foo = () => {} }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingThis", data: { name: "private method #foo" }, column: 11, endColumn: 18 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class A { #foo() {} }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingThis", data: { name: "private method #foo" }, column: 11, endColumn: 15 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class A { get #foo() {} }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingThis", data: { name: "private getter #foo" }, column: 11, endColumn: 19 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class A { set #foo(x) {} }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingThis", data: { name: "private setter #foo" }, column: 11, endColumn: 19 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class A { foo () { return class { foo = this }; } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingThis", data: { name: "method 'foo'" }, column: 11, endColumn: 15 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class A { foo () { return function () { foo = this }; } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingThis", data: { name: "method 'foo'" }, column: 11, endColumn: 15 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class A { foo () { return class { static { this; } } } }",
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "missingThis", data: { name: "method 'foo'" }, column: 11, endColumn: 15 }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         }
     ]
 });

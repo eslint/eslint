@@ -91,7 +91,7 @@ ruleTester.run("no-sequences", rule, {
         { code: "switch (doSomething(), val) {}", errors: errors(22) },
         { code: "while (doSomething(), !!test);", errors: errors(21) },
         { code: "with (doSomething(), val) {}", errors: errors(20) },
-        { code: "a => (doSomething(), a)", errors: errors(20), languageOptions: { ecmaVersion: 6 } },
+        { code: "a => (doSomething(), a)", languageOptions: { ecmaVersion: 6 }, errors: errors(20) },
         { code: "(1), 2", errors: errors(4) },
         { code: "((1)) , (2)", errors: errors(7) },
         { code: "while((1) , 2);", errors: errors(11) },
@@ -106,6 +106,6 @@ ruleTester.run("no-sequences", rule, {
         { code: "switch ((doSomething(), val)) {}", options: [{ allowInParentheses: false }], errors: errors(23) },
         { code: "while ((doSomething(), !!test));", options: [{ allowInParentheses: false }], errors: errors(22) },
         { code: "with ((doSomething(), val)) {}", options: [{ allowInParentheses: false }], errors: errors(21) },
-        { code: "a => ((doSomething(), a))", options: [{ allowInParentheses: false }], errors: errors(21), languageOptions: { ecmaVersion: 6 } }
+        { code: "a => ((doSomething(), a))", options: [{ allowInParentheses: false }], languageOptions: { ecmaVersion: 6 }, errors: errors(21) }
     ]
 });

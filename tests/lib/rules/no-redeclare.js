@@ -147,7 +147,7 @@ ruleTester.run("no-redeclare", rule, {
         }
     ],
     invalid: [
-        { code: "var a = 3; var a = 10;", errors: [{ message: "'a' is already defined.", type: "Identifier" }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var a = 3; var a = 10;", languageOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
         { code: "switch(foo) { case a: var b = 3;\ncase b: var b = 4}", errors: [{ message: "'b' is already defined.", type: "Identifier" }] },
         { code: "var a = 3; var a = 10;", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
         { code: "var a = {}; var a = [];", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
@@ -156,37 +156,37 @@ ruleTester.run("no-redeclare", rule, {
         { code: "var a = function() { }; var a = function() { }", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
         { code: "var a = function() { }; var a = new Date();", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
         { code: "var a = 3; var a = 10; var a = 15;", errors: [{ message: "'a' is already defined.", type: "Identifier" }, { message: "'a' is already defined.", type: "Identifier" }] },
-        { code: "var a; var a;", errors: [{ message: "'a' is already defined.", type: "Identifier" }], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export var a; var a;", errors: [{ message: "'a' is already defined.", type: "Identifier" }], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var a; var a;", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
+        { code: "export var a; var a;", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
 
         // `var` redeclaration in class static blocks. Redeclaration of functions is not allowed in class static blocks.
         {
             code: "class C { static { var a; var a; } }",
-            errors: [{ message: "'a' is already defined.", type: "Identifier" }],
             languageOptions: {
                 ecmaVersion: 2022
-            }
+            },
+            errors: [{ message: "'a' is already defined.", type: "Identifier" }]
         },
         {
             code: "class C { static { var a; { var a; } } }",
-            errors: [{ message: "'a' is already defined.", type: "Identifier" }],
             languageOptions: {
                 ecmaVersion: 2022
-            }
+            },
+            errors: [{ message: "'a' is already defined.", type: "Identifier" }]
         },
         {
             code: "class C { static { { var a; } var a; } }",
-            errors: [{ message: "'a' is already defined.", type: "Identifier" }],
             languageOptions: {
                 ecmaVersion: 2022
-            }
+            },
+            errors: [{ message: "'a' is already defined.", type: "Identifier" }]
         },
         {
             code: "class C { static { { var a; } { var a; } } }",
-            errors: [{ message: "'a' is already defined.", type: "Identifier" }],
             languageOptions: {
                 ecmaVersion: 2022
-            }
+            },
+            errors: [{ message: "'a' is already defined.", type: "Identifier" }]
         },
 
         {
@@ -197,56 +197,56 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
-            errors: [{ message: "'top' is already defined as a built-in global variable.", type: "Identifier" }],
-            languageOptions: { globals: globals.browser }
+            languageOptions: { globals: globals.browser },
+            errors: [{ message: "'top' is already defined as a built-in global variable.", type: "Identifier" }]
         },
         {
             code: "var a; var {a = 0, b: Object = 0} = {};",
             options: [{ builtinGlobals: true }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" },
                 { message: "'Object' is already defined as a built-in global variable.", type: "Identifier" }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var a; var {a = 0, b: Object = 0} = {};",
             options: [{ builtinGlobals: true }],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" }
-            ],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            ]
         },
         {
             code: "var a; var {a = 0, b: Object = 0} = {};",
             options: [{ builtinGlobals: true }],
+            languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { globalReturn: true } } },
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" }
-            ],
-            languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            ]
         },
         {
             code: "var a; var {a = 0, b: Object = 0} = {};",
             options: [{ builtinGlobals: false }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var globalThis = 0;",
             options: [{ builtinGlobals: true }],
-            errors: [{ message: "'globalThis' is already defined as a built-in global variable.", type: "Identifier" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ message: "'globalThis' is already defined as a built-in global variable.", type: "Identifier" }]
         },
         {
             code: "var a; var {a = 0, b: globalThis = 0} = {};",
             options: [{ builtinGlobals: true }],
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" },
                 { message: "'globalThis' is already defined as a built-in global variable.", type: "Identifier" }
-            ],
-            languageOptions: { ecmaVersion: 2020 }
+            ]
         },
         {
             code: "/*global b:false*/ var b = 1;",
@@ -305,10 +305,10 @@ ruleTester.run("no-redeclare", rule, {
         },
         {
             code: "var top = 0;",
+            languageOptions: { globals: globals.browser },
             errors: [
                 { message: "'top' is already defined as a built-in global variable.", type: "Identifier" }
-            ],
-            languageOptions: { globals: globals.browser }
+            ]
         },
 
         // Comments and built-ins.
@@ -459,6 +459,7 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "/*globals a */",
             options: [{ builtinGlobals: true }],
+            languageOptions: { globals: { a: "readonly" } },
             errors: [{
                 message: "'a' is already defined as a built-in global variable.",
                 type: "Block",
@@ -466,12 +467,12 @@ ruleTester.run("no-redeclare", rule, {
                 column: 11,
                 endLine: 1,
                 endColumn: 12
-            }],
-            languageOptions: { globals: { a: "readonly" } }
+            }]
         },
         {
             code: "/*globals a */",
             options: [{ builtinGlobals: true }],
+            languageOptions: { globals: { a: "writable" } },
             errors: [{
                 message: "'a' is already defined as a built-in global variable.",
                 type: "Block",
@@ -479,8 +480,7 @@ ruleTester.run("no-redeclare", rule, {
                 column: 11,
                 endLine: 1,
                 endColumn: 12
-            }],
-            languageOptions: { globals: { a: "writable" } }
+            }]
         },
         {
             code: "/*globals a */ /*globals a */",
@@ -496,6 +496,7 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "/*globals a */ /*globals a */ var a = 0",
             options: [{ builtinGlobals: true }],
+            languageOptions: { globals: { a: "writable" } },
             errors: [
                 {
                     message: "'a' is already defined as a built-in global variable.",
@@ -521,8 +522,7 @@ ruleTester.run("no-redeclare", rule, {
                     endLine: 1,
                     endColumn: 36
                 }
-            ],
-            languageOptions: { globals: { a: "writable" } }
+            ]
         }
     ]
 });

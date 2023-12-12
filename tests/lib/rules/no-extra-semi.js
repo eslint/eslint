@@ -85,8 +85,8 @@ ruleTester.run("no-extra-semi", rule, {
         {
             code: "for(a of b);;",
             output: "for(a of b);",
-            errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "if(true);;",
@@ -121,80 +121,80 @@ ruleTester.run("no-extra-semi", rule, {
         {
             code: "class A { static { ; } }",
             output: "class A { static {  } }",
-            errors: [{ messageId: "unexpected", type: "EmptyStatement", column: 20 }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpected", type: "EmptyStatement", column: 20 }]
         },
         {
             code: "class A { static { a;; } }",
             output: "class A { static { a; } }",
-            errors: [{ messageId: "unexpected", type: "EmptyStatement", column: 22 }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpected", type: "EmptyStatement", column: 22 }]
         },
 
         // Class body.
         {
             code: "class A { ; }",
             output: "class A {  }",
-            errors: [{ messageId: "unexpected", type: "Punctuator", column: 11 }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "Punctuator", column: 11 }]
         },
         {
             code: "class A { /*a*/; }",
             output: "class A { /*a*/ }",
-            errors: [{ messageId: "unexpected", type: "Punctuator", column: 16 }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "Punctuator", column: 16 }]
         },
         {
             code: "class A { ; a() {} }",
             output: "class A {  a() {} }",
-            errors: [{ messageId: "unexpected", type: "Punctuator", column: 11 }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "Punctuator", column: 11 }]
         },
         {
             code: "class A { a() {}; }",
             output: "class A { a() {} }",
-            errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }]
         },
         {
             code: "class A { a() {}; b() {} }",
             output: "class A { a() {} b() {} }",
-            errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }]
         },
         {
             code: "class A {; a() {}; b() {}; }",
             output: "class A { a() {} b() {} }",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpected", type: "Punctuator", column: 10 },
                 { messageId: "unexpected", type: "Punctuator", column: 18 },
                 { messageId: "unexpected", type: "Punctuator", column: 26 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A { a() {}; get b() {} }",
             output: "class A { a() {} get b() {} }",
-            errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }]
         },
         {
             code: "class A { field;; }",
             output: "class A { field; }",
-            errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }]
         },
         {
             code: "class A { static {}; }",
             output: "class A { static {} }",
-            errors: [{ messageId: "unexpected", type: "Punctuator", column: 20 }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpected", type: "Punctuator", column: 20 }]
         },
         {
             code: "class A { static { a; }; foo(){} }",
             output: "class A { static { a; } foo(){} }",
-            errors: [{ messageId: "unexpected", type: "Punctuator", column: 24 }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpected", type: "Punctuator", column: 24 }]
         },
 
         // https://github.com/eslint/eslint/issues/16988

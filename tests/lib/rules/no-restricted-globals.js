@@ -80,36 +80,36 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "function fn() { foo; }",
             options: ["foo"],
+            languageOptions: {
+                globals: { foo: false }
+            },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "foo" },
                 type: "Identifier"
-            }],
-            languageOptions: {
-                globals: { foo: false }
-            }
+            }]
         },
         {
             code: "event",
             options: ["foo", "event"],
+            languageOptions: { globals: globals.browser },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "event" },
                 type: "Identifier"
-            }],
-            languageOptions: { globals: globals.browser }
+            }]
         },
         {
             code: "foo",
             options: ["foo"],
+            languageOptions: {
+                globals: { foo: false }
+            },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "foo" },
                 type: "Identifier"
-            }],
-            languageOptions: {
-                globals: { foo: false }
-            }
+            }]
         },
         {
             code: "foo()",
@@ -150,36 +150,36 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "function fn() { foo; }",
             options: [{ name: "foo" }],
+            languageOptions: {
+                globals: { foo: false }
+            },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "foo" },
                 type: "Identifier"
-            }],
-            languageOptions: {
-                globals: { foo: false }
-            }
+            }]
         },
         {
             code: "event",
             options: ["foo", { name: "event" }],
+            languageOptions: { globals: globals.browser },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "event" },
                 type: "Identifier"
-            }],
-            languageOptions: { globals: globals.browser }
+            }]
         },
         {
             code: "foo",
             options: [{ name: "foo" }],
+            languageOptions: {
+                globals: { foo: false }
+            },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "foo" },
                 type: "Identifier"
-            }],
-            languageOptions: {
-                globals: { foo: false }
-            }
+            }]
         },
         {
             code: "foo()",
@@ -220,36 +220,36 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "function fn() { foo; }",
             options: [{ name: "foo", message: customMessage }],
+            languageOptions: {
+                globals: { foo: false }
+            },
             errors: [{
                 messageId: "customMessage",
                 data: { name: "foo", customMessage },
                 type: "Identifier"
-            }],
-            languageOptions: {
-                globals: { foo: false }
-            }
+            }]
         },
         {
             code: "event",
             options: ["foo", { name: "event", message: "Use local event parameter." }],
+            languageOptions: { globals: globals.browser },
             errors: [{
                 messageId: "customMessage",
                 data: { name: "event", customMessage: "Use local event parameter." },
                 type: "Identifier"
-            }],
-            languageOptions: { globals: globals.browser }
+            }]
         },
         {
             code: "foo",
             options: [{ name: "foo", message: customMessage }],
+            languageOptions: {
+                globals: { foo: false }
+            },
             errors: [{
                 messageId: "customMessage",
                 data: { name: "foo", customMessage },
                 type: "Identifier"
-            }],
-            languageOptions: {
-                globals: { foo: false }
-            }
+            }]
         },
         {
             code: "foo()",
@@ -272,12 +272,12 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "var foo = obj => hasOwnProperty(obj, 'name');",
             options: ["hasOwnProperty"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "defaultMessage",
                 data: { name: "hasOwnProperty" },
                 type: "Identifier"
-            }],
-            languageOptions: { ecmaVersion: 6 }
+            }]
         }
     ]
 });

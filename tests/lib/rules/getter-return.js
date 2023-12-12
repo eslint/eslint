@@ -304,31 +304,31 @@ ruleTester.run("getter-return", rule, {
         // Optional chaining
         {
             code: "Object?.defineProperty(foo, 'bar', { get: function (){} });",
-            errors: [{ messageId: "expected", data: { name: "method 'get'" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
         },
         {
             code: "(Object?.defineProperty)(foo, 'bar', { get: function (){} });",
-            errors: [{ messageId: "expected", data: { name: "method 'get'" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
         },
         {
             code: "Object?.defineProperty(foo, 'bar', { get: function (){} });",
             options,
-            errors: [{ messageId: "expected", data: { name: "method 'get'" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
         },
         {
             code: "(Object?.defineProperty)(foo, 'bar', { get: function (){} });",
             options,
-            errors: [{ messageId: "expected", data: { name: "method 'get'" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
         },
         {
             code: "(Object?.create)(foo, { bar: { get: function (){} } });",
             options,
-            errors: [{ messageId: "expected", data: { name: "method 'get'" } }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expected", data: { name: "method 'get'" } }]
         }
     ]
 });

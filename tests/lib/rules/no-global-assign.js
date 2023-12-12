@@ -54,6 +54,7 @@ ruleTester.run("no-global-assign", rule, {
         },
         {
             code: "({Object = 0, String = 0} = {});",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "globalShouldNotBeModified",
@@ -65,26 +66,25 @@ ruleTester.run("no-global-assign", rule, {
                     data: { name: "String" },
                     type: "Identifier"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "top = 0;",
+            languageOptions: { globals: globals.browser },
             errors: [{
                 messageId: "globalShouldNotBeModified",
                 data: { name: "top" },
                 type: "Identifier"
-            }],
-            languageOptions: { globals: globals.browser }
+            }]
         },
         {
             code: "require = 0;",
+            languageOptions: { sourceType: "commonjs" },
             errors: [{
                 messageId: "globalShouldNotBeModified",
                 data: { name: "require" },
                 type: "Identifier"
-            }],
-            languageOptions: { sourceType: "commonjs" }
+            }]
         },
 
         // Notifications of readonly are moved from no-undef: https://github.com/eslint/eslint/issues/4504
@@ -98,12 +98,12 @@ ruleTester.run("no-global-assign", rule, {
         },
         {
             code: "function f() { b = 1; }",
+            languageOptions: { globals: { b: false } },
             errors: [{
                 messageId: "globalShouldNotBeModified",
                 data: { name: "b" },
                 type: "Identifier"
-            }],
-            languageOptions: { globals: { b: false } }
+            }]
         },
         {
             code: "/*global b:false*/ function f() { b++; }",

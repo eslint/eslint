@@ -174,18 +174,18 @@ ruleTester.run("no-this-before-super", rule, {
         },
         {
             code: "class A extends B { constructor() { foo &&= super().a; this.c(); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
         },
         {
             code: "class A extends B { constructor() { foo ||= super().a; this.c(); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
         },
         {
             code: "class A extends B { constructor() { foo ??= super().a; this.c(); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }],
-            languageOptions: { ecmaVersion: 2021 }
+            languageOptions: { ecmaVersion: 2021 },
+            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
         }
     ]
 });

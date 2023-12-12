@@ -51,17 +51,17 @@ ruleTester.run("no-script-url", rule, {
         },
         {
             code: "var a = `javascript:`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpectedScriptURL", type: "TemplateLiteral" }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var a = `JavaScript:`;",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpectedScriptURL", type: "TemplateLiteral" }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         }
     ]
 });

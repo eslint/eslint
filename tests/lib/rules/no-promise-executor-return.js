@@ -873,6 +873,9 @@ ruleTester.run("no-promise-executor-return", rule, {
         },
         {
             code: "() => new Promise(() => async () => 1);",
+            languageOptions: { ecmaVersion: 2017 },
+
+            // for async
             errors: [{
                 messageId: "returnsValue",
                 type: "ArrowFunctionExpression",
@@ -883,10 +886,7 @@ ruleTester.run("no-promise-executor-return", rule, {
                         output: "() => new Promise(() => {async () => 1});"
                     }
                 ]
-            }],
-
-            // for async
-            languageOptions: { ecmaVersion: 2017 }
+            }]
         },
         {
             code: "() => new Promise(() => function () {});",

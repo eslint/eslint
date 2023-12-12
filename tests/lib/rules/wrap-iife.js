@@ -483,8 +483,8 @@ ruleTester.run("wrap-iife", rule, {
             code: "import(function (){}())",
             output: "import((function (){})())", // wrap function expression, but don't remove mandatory parens
             options: ["inside"],
-            errors: [wrapExpressionError],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [wrapExpressionError]
         },
         {
 
@@ -606,8 +606,8 @@ ruleTester.run("wrap-iife", rule, {
             code: "import(function (){}.call())",
             output: "import((function (){}).call())", // wrap function expression, but don't remove mandatory parens
             options: ["inside", { functionPrototypeMethods: true }],
-            errors: [wrapExpressionError],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [wrapExpressionError]
         },
 
         // Optional chaining
@@ -615,29 +615,29 @@ ruleTester.run("wrap-iife", rule, {
             code: "window.bar = function() { return 3; }.call?.(this, arg1);",
             output: "window.bar = (function() { return 3; }).call?.(this, arg1);",
             options: ["inside", { functionPrototypeMethods: true }],
-            errors: [wrapInvocationError],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [wrapInvocationError]
         },
         {
             code: "window.bar = function() { return 3; }?.call(this, arg1);",
             output: "window.bar = (function() { return 3; })?.call(this, arg1);",
             options: ["inside", { functionPrototypeMethods: true }],
-            errors: [wrapInvocationError],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [wrapInvocationError]
         },
         {
             code: "window.bar = (function() { return 3; }?.call)(this, arg1);",
             output: "window.bar = ((function() { return 3; })?.call)(this, arg1);",
             options: ["inside", { functionPrototypeMethods: true }],
-            errors: [wrapInvocationError],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [wrapInvocationError]
         },
         {
             code: "new (function () {} ?.());",
             output: "new ((function () {}) ?.());",
             options: ["inside"],
-            errors: [wrapExpressionError],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [wrapExpressionError]
         }
     ]
 });

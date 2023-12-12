@@ -430,8 +430,8 @@ ruleTester.run("vars-on-top", rule, {
                 "   }",
                 "}"
             ].join("\n"),
-            errors: [error],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [error]
         },
         {
             code: "'use strict'; 0; var x; f();",
@@ -454,11 +454,11 @@ ruleTester.run("vars-on-top", rule, {
                 "export function f() {}",
                 "var x;"
             ].join("\n"),
-            errors: [error],
             languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
-            }
+            },
+            errors: [error]
         },
         {
             code: [
@@ -466,11 +466,11 @@ ruleTester.run("vars-on-top", rule, {
                 "export function f() {}",
                 "var y;"
             ].join("\n"),
-            errors: [error],
             languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
-            }
+            },
+            errors: [error]
         },
         {
             code: [
@@ -478,33 +478,33 @@ ruleTester.run("vars-on-top", rule, {
                 "export {foo};",
                 "var test = 1;"
             ].join("\n"),
-            errors: [error],
             languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
-            }
+            },
+            errors: [error]
         },
         {
             code: [
                 "export {foo} from 'foo';",
                 "var test = 1;"
             ].join("\n"),
-            errors: [error],
             languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
-            }
+            },
+            errors: [error]
         },
         {
             code: [
                 "export * from 'foo';",
                 "var test = 1;"
             ].join("\n"),
-            errors: [error],
             languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
-            }
+            },
+            errors: [error]
         },
         {
             code: [
@@ -515,10 +515,10 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            errors: [error],
             languageOptions: {
                 ecmaVersion: 2022
-            }
+            },
+            errors: [error]
         },
         {
             code: [
@@ -529,10 +529,10 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            errors: [error],
             languageOptions: {
                 ecmaVersion: 2022
-            }
+            },
+            errors: [error]
         },
         {
             code: [
@@ -544,10 +544,10 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            errors: [{ ...error, line: 5 }],
             languageOptions: {
                 ecmaVersion: 2022
-            }
+            },
+            errors: [{ ...error, line: 5 }]
         },
         {
             code: [
@@ -559,10 +559,10 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            errors: [error],
             languageOptions: {
                 ecmaVersion: 2022
-            }
+            },
+            errors: [error]
         },
         {
             code: [
@@ -573,10 +573,10 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            errors: [error],
             languageOptions: {
                 ecmaVersion: 2022
-            }
+            },
+            errors: [error]
         }
     ]
 });

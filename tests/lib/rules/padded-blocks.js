@@ -440,6 +440,7 @@ ruleTester.run("padded-blocks", rule, {
             code: "class A {\nconstructor(){}\n}",
             output: "class A {\n\nconstructor(){}\n\n}",
             options: ["always"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "alwaysPadBlock",
@@ -455,13 +456,13 @@ ruleTester.run("padded-blocks", rule, {
                     endLine: 3,
                     endColumn: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A {\nconstructor(){}\n}",
             output: "class A {\n\nconstructor(){}\n\n}",
             options: [{ classes: "always" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "alwaysPadBlock",
@@ -477,8 +478,7 @@ ruleTester.run("padded-blocks", rule, {
                     endLine: 3,
                     endColumn: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "{a();}",
@@ -728,6 +728,7 @@ ruleTester.run("padded-blocks", rule, {
             code: "class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}",
             output: "class A {\nconstructor(){\nfoo();\n}\n}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "neverPadBlock",
@@ -757,13 +758,13 @@ ruleTester.run("padded-blocks", rule, {
                     endLine: 9,
                     endColumn: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}",
             output: "class A {\nconstructor(){\n\nfoo();\n\n}\n}",
             options: [{ classes: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "neverPadBlock",
@@ -779,13 +780,13 @@ ruleTester.run("padded-blocks", rule, {
                     endLine: 9,
                     endColumn: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}",
             output: "class A {\nconstructor(){\nfoo();\n}\n}",
             options: [{ blocks: "never", classes: "never" }],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "neverPadBlock",
@@ -815,8 +816,7 @@ ruleTester.run("padded-blocks", rule, {
                     endLine: 9,
                     endColumn: 1
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "function foo() { // a\n\n  b;\n}",
@@ -857,15 +857,15 @@ ruleTester.run("padded-blocks", rule, {
         {
             code: "class A{\nfoo;\n}",
             output: "class A{\n\nfoo;\n\n}",
-            errors: [{ messageId: "alwaysPadBlock" }, { messageId: "alwaysPadBlock" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "alwaysPadBlock" }, { messageId: "alwaysPadBlock" }]
         },
         {
             code: "class A{\n\nfoo;\n\n}",
             output: "class A{\nfoo;\n}",
             options: ["never"],
-            errors: [{ messageId: "neverPadBlock" }, { messageId: "neverPadBlock" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "neverPadBlock" }, { messageId: "neverPadBlock" }]
         },
 
         // class static blocks
@@ -873,157 +873,157 @@ ruleTester.run("padded-blocks", rule, {
             code: "class C {\n\n static {\nfoo;\n\n} \n\n}",
             output: "class C {\n\n static {\n\nfoo;\n\n} \n\n}",
             options: ["always"],
-            errors: [{ messageId: "alwaysPadBlock" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "alwaysPadBlock" }]
         },
         {
             code: "class C {\n\n static\n {\nfoo;\n\n} \n\n}",
             output: "class C {\n\n static\n {\n\nfoo;\n\n} \n\n}",
             options: ["always"],
-            errors: [{ messageId: "alwaysPadBlock" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "alwaysPadBlock" }]
         },
         {
             code: "class C {\n\n static\n\n {\nfoo;\n\n} \n\n}",
             output: "class C {\n\n static\n\n {\n\nfoo;\n\n} \n\n}",
             options: ["always"],
-            errors: [{ messageId: "alwaysPadBlock" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "alwaysPadBlock" }]
         },
         {
             code: "class C {\n\n static {\n\nfoo;\n} \n\n}",
             output: "class C {\n\n static {\n\nfoo;\n\n} \n\n}",
             options: ["always"],
-            errors: [{ messageId: "alwaysPadBlock" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "alwaysPadBlock" }]
         },
         {
             code: "class C {\n\n static {foo;} \n\n}",
             output: "class C {\n\n static {\nfoo;\n} \n\n}", // this is still not padded, the subsequent fix below will add another pair of `\n`.
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "alwaysPadBlock" },
                 { messageId: "alwaysPadBlock" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C {\n\n static {\nfoo;\n} \n\n}",
             output: "class C {\n\n static {\n\nfoo;\n\n} \n\n}",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "alwaysPadBlock" },
                 { messageId: "alwaysPadBlock" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C {\n\n static {// comment\nfoo;\n/* comment */} \n\n}",
             output: "class C {\n\n static {// comment\n\nfoo;\n\n/* comment */} \n\n}",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "alwaysPadBlock" },
                 { messageId: "alwaysPadBlock" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C {\n\n static {\n// comment\nfoo;\n// comment\n} \n\n}",
             output: "class C {\n\n static {\n\n// comment\nfoo;\n// comment\n\n} \n\n}",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "alwaysPadBlock" },
                 { messageId: "alwaysPadBlock" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C {\n\n static {\n// comment\n\nfoo;\n\n// comment\n} \n\n}",
             output: "class C {\n\n static {\n\n// comment\n\nfoo;\n\n// comment\n\n} \n\n}",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "alwaysPadBlock" },
                 { messageId: "alwaysPadBlock" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C {\n static {\nfoo;\n} \n}",
             output: "class C {\n static {\n\nfoo;\n\n} \n}",
             options: [{ blocks: "always", classes: "never" }], // "blocks" applies to static blocks
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "alwaysPadBlock" },
                 { messageId: "alwaysPadBlock" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C {\n static {\n\nfoo;\n} \n}",
             output: "class C {\n static {\nfoo;\n} \n}",
             options: ["never"],
-            errors: [{ messageId: "neverPadBlock" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "neverPadBlock" }]
         },
         {
             code: "class C {\n static\n {\n\nfoo;\n} \n}",
             output: "class C {\n static\n {\nfoo;\n} \n}",
             options: ["never"],
-            errors: [{ messageId: "neverPadBlock" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "neverPadBlock" }]
         },
         {
             code: "class C {\n static\n\n {\n\nfoo;\n} \n}",
             output: "class C {\n static\n\n {\nfoo;\n} \n}",
             options: ["never"],
-            errors: [{ messageId: "neverPadBlock" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "neverPadBlock" }]
         },
         {
             code: "class C {\n static {\nfoo;\n\n} \n}",
             output: "class C {\n static {\nfoo;\n} \n}",
             options: ["never"],
-            errors: [{ messageId: "neverPadBlock" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "neverPadBlock" }]
         },
         {
             code: "class C {\n static {\n\nfoo;\n\n} \n}",
             output: "class C {\n static {\nfoo;\n} \n}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "neverPadBlock" },
                 { messageId: "neverPadBlock" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C {\n static {// comment\n\nfoo;\n\n/* comment */} \n}",
             output: "class C {\n static {// comment\nfoo;\n/* comment */} \n}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "neverPadBlock" },
                 { messageId: "neverPadBlock" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C {\n static {\n\n// comment\nfoo;\n// comment\n\n} \n}",
             output: "class C {\n static {\n// comment\nfoo;\n// comment\n} \n}",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "neverPadBlock" },
                 { messageId: "neverPadBlock" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         },
         {
             code: "class C {\n\n static {\n\nfoo;\n\n} \n\n}",
             output: "class C {\n\n static {\nfoo;\n} \n\n}",
             options: [{ blocks: "never", classes: "always" }], // "blocks" applies to static blocks
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "neverPadBlock" },
                 { messageId: "neverPadBlock" }
-            ],
-            languageOptions: { ecmaVersion: 2022 }
+            ]
         }
     ]
 });

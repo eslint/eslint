@@ -503,6 +503,7 @@ ruleTester.run("rest-spread-spacing", rule, {
         {
             code: "let n = { x, y, ... z };",
             output: "let n = { x, y, ...z };",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
@@ -511,12 +512,12 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let n = { x, y, ...\tz };",
             output: "let n = { x, y, ...z };",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
@@ -525,12 +526,12 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let n = { x, y, ...\nz };",
             output: "let n = { x, y, ...z };",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
@@ -539,13 +540,13 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let n = { x, y, ... z };",
             output: "let n = { x, y, ...z };",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
@@ -554,13 +555,13 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let n = { x, y, ...\tz };",
             output: "let n = { x, y, ...z };",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
@@ -569,13 +570,13 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let n = { x, y, ...\nz };",
             output: "let n = { x, y, ...z };",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
@@ -584,13 +585,13 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let n = { x, y, ...z };",
             output: "let n = { x, y, ... z };",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 17,
@@ -599,13 +600,13 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "expectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let n = { x, y, ... (z) };",
             output: "let n = { x, y, ...(z) };",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
@@ -614,13 +615,13 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let n = { x, y, ... ( z ) };",
             output: "let n = { x, y, ...( z ) };",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
@@ -629,13 +630,13 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let n = { x, y, ...(z) };",
             output: "let n = { x, y, ... (z) };",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 17,
@@ -644,13 +645,13 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "expectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let n = { x, y, ...( z ) };",
             output: "let n = { x, y, ... ( z ) };",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 17,
@@ -659,12 +660,12 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "expectedWhitespace",
                 data: { type: "spread property" },
                 type: "SpreadElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
@@ -673,12 +674,12 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let { x, y, ...\tz } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
@@ -687,12 +688,12 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let { x, y, ...\nz } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
@@ -701,13 +702,13 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
@@ -716,13 +717,13 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let { x, y, ...\tz } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
@@ -731,13 +732,13 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let { x, y, ...\nz } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
             options: ["never"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
@@ -746,13 +747,13 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "unexpectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         },
         {
             code: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };",
             options: ["always"],
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 13,
@@ -761,8 +762,7 @@ ruleTester.run("rest-spread-spacing", rule, {
                 messageId: "expectedWhitespace",
                 data: { type: "rest property" },
                 type: "RestElement"
-            }],
-            languageOptions: { ecmaVersion: 2018 }
+            }]
         }
     ]
 });

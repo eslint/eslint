@@ -98,24 +98,24 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => {};",
             options: ["declaration"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "declaration",
                     type: "VariableDeclarator"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "var foo = () => { function foo() { this; } };",
             options: ["declaration"],
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "declaration",
                     type: "VariableDeclarator"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "function foo(){}",

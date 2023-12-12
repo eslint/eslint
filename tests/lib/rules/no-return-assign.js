@@ -138,25 +138,25 @@ ruleTester.run("no-return-assign", rule, {
             code: `function doSomething() {
                 return foo = () => a
             }`,
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "returnAssignment",
                     type: "ReturnStatement"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: `function doSomething() {
                 return () => a = () => b
             }`,
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "arrowAssignment",
                     type: "ArrowFunctionExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: `function foo(a){
@@ -168,13 +168,13 @@ ruleTester.run("no-return-assign", rule, {
         },
         {
             code: "const foo = (a) => (b) => a = b",
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "arrowAssignment",
                     type: "ArrowFunctionExpression"
                 }
-            ],
-            languageOptions: { ecmaVersion: 6 }
+            ]
         }
     ]
 });

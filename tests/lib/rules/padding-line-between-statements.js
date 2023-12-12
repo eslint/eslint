@@ -3534,8 +3534,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "export", next: "*" }
             ],
-            errors: [{ messageId: "unexpectedBlankLine" }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "export let a=1\n\nfoo()",
@@ -3543,8 +3543,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "export", next: "*" }
             ],
-            errors: [{ messageId: "unexpectedBlankLine" }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var a = 0;export {a}\n\nfoo()",
@@ -3552,8 +3552,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "export", next: "*" }
             ],
-            errors: [{ messageId: "unexpectedBlankLine" }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "export default 1\nfoo()",
@@ -3561,8 +3561,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "export", next: "*" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "export let a=1\nfoo()",
@@ -3570,8 +3570,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "export", next: "*" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var a = 0;export {a}\nfoo()",
@@ -3579,8 +3579,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "export", next: "*" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3745,15 +3745,15 @@ ruleTester.run("padding-line-between-statements", rule, {
             code: "(function(){\n})?.()\nvar a = 2;",
             output: "(function(){\n})?.()\n\nvar a = 2;",
             options: [{ blankLine: "always", prev: "iife", next: "*" }],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "void (function(){\n})?.()\nvar a = 2;",
             output: "void (function(){\n})?.()\n\nvar a = 2;",
             options: [{ blankLine: "always", prev: "iife", next: "*" }],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3766,8 +3766,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "import", next: "*" }
             ],
-            errors: [{ messageId: "unexpectedBlankLine" }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "import * as a from 'a'\n\nfoo()",
@@ -3775,8 +3775,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "import", next: "*" }
             ],
-            errors: [{ messageId: "unexpectedBlankLine" }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "import {a} from 'a'\n\nfoo()",
@@ -3784,8 +3784,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "import", next: "*" }
             ],
-            errors: [{ messageId: "unexpectedBlankLine" }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "import a from 'a'\nfoo()",
@@ -3793,8 +3793,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "import", next: "*" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "import * as a from 'a'\nfoo()",
@@ -3802,8 +3802,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "import", next: "*" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "import {a} from 'a'\nfoo()",
@@ -3811,8 +3811,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "import", next: "*" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -4692,8 +4692,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var a; return;",
@@ -4701,8 +4701,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\n{\n//comment\n}\nreturn\n}",
@@ -5093,8 +5093,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "let", next: "expression" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "class C {\n static {\n let x;\n\n foo();\n }\n }",
@@ -5102,8 +5102,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "let", next: "expression" }
             ],
-            errors: [{ messageId: "unexpectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "class C {\n static {\n let x;\n foo();\n const y = 1;\n }\n }",
@@ -5111,8 +5111,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "expression", next: "const" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "class C {\n static {\n let x;\n foo();\n\n const y = 1;\n }\n }",
@@ -5120,8 +5120,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "expression", next: "const" }
             ],
-            errors: [{ messageId: "unexpectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "class C {\n static {\n let x;\n foo();\n const y = 1;\n const z = 1;\n }\n }",
@@ -5129,8 +5129,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "expression", next: "const" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "class C {\n static {\n let x;\n foo();\n\n const y = 1;\n const z = 1;\n }\n }",
@@ -5138,8 +5138,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "expression", next: "const" }
             ],
-            errors: [{ messageId: "unexpectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "class C {\n static {\n let a = 0;\n bar();\n }\n }",
@@ -5148,8 +5148,8 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "class C { static { let x; { let y; let z; } let q; } }",
@@ -5157,8 +5157,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "let", next: "let" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "class C { static { { let x; } let y; let z; } }",
@@ -5166,8 +5166,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "let", next: "let" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "class C { static { foo(); if (bar) {} } }",
@@ -5175,8 +5175,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "expression", next: "block-like" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "class C { static { let x; } } let y;",
@@ -5184,8 +5184,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "class", next: "let" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "class C { static { 'use strict'; let x; } }", // 'use strict'; is "expression", because class static blocks don't have directives
@@ -5193,8 +5193,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "expression", next: "let" }
             ],
-            errors: [{ messageId: "expectedBlankLine" }],
-            languageOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "expectedBlankLine" }]
         }
     ]
 });

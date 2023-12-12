@@ -161,6 +161,7 @@ ruleTester.run("no-prototype-builtins", rule, {
         },
         {
             code: "foo[`isPrototypeOf`]('bar').baz",
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 line: 1,
                 column: 5,
@@ -175,8 +176,7 @@ ruleTester.run("no-prototype-builtins", rule, {
                     }
                 ],
                 type: "CallExpression"
-            }],
-            languageOptions: { ecmaVersion: 2015 }
+            }]
         },
         {
             code: String.raw`foo.bar["propertyIsEnumerable"]('baz')`,
@@ -203,31 +203,31 @@ ruleTester.run("no-prototype-builtins", rule, {
             errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
+            name: "Can't suggest Object.prototype when there is no Object global variable",
             code: "foo.hasOwnProperty('bar')",
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }],
             languageOptions: {
                 globals: {
                     Object: "off"
                 }
             },
-            name: "Can't suggest Object.prototype when there is no Object global variable"
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
 
         // Optional chaining
         {
             code: "foo?.hasOwnProperty('bar')",
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
             code: "foo?.bar.hasOwnProperty('baz')",
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
             code: "foo.hasOwnProperty?.('bar')",
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
 
@@ -236,8 +236,8 @@ ruleTester.run("no-prototype-builtins", rule, {
              * and the optional part is before it, then don't suggest the fix
              */
             code: "foo?.hasOwnProperty('bar').baz",
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
 
@@ -246,6 +246,7 @@ ruleTester.run("no-prototype-builtins", rule, {
              * but the optional part is after it, then the fix is safe
              */
             code: "foo.hasOwnProperty('bar')?.baz",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "prototypeBuildIn",
                 data: { prop: "hasOwnProperty" },
@@ -255,12 +256,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                         output: "Object.prototype.hasOwnProperty.call(foo, 'bar')?.baz"
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
         {
 
             code: "(a,b).hasOwnProperty('bar')",
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "prototypeBuildIn",
                 data: { prop: "hasOwnProperty" },
@@ -272,33 +273,32 @@ ruleTester.run("no-prototype-builtins", rule, {
                         output: "Object.prototype.hasOwnProperty.call((a,b), 'bar')"
                     }
                 ]
-            }],
-            languageOptions: { ecmaVersion: 2020 }
+            }]
         },
         {
 
             // No suggestion where no-unsafe-optional-chaining is reported on the call
             code: "(foo?.hasOwnProperty)('bar')",
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
 
         },
         {
             code: "(foo?.hasOwnProperty)?.('bar')",
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
             code: "foo?.['hasOwnProperty']('bar')",
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
 
             // No suggestion where no-unsafe-optional-chaining is reported on the call
             code: "(foo?.[`hasOwnProperty`])('bar')",
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }],
-            languageOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         }
     ]
 });

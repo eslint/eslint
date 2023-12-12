@@ -70,8 +70,8 @@ ruleTester.run("no-extra-label", rule, {
         {
             code: "A: for (a of ary) { break A; }",
             output: "A: for (a of ary) { break; }",
-            errors: [{ messageId: "unexpected", data: { name: "A" } }],
-            languageOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", data: { name: "A" } }]
         },
         {
             code: "A: switch (a) { case 0: break A; }",

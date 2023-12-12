@@ -117,13 +117,13 @@ ruleTester.run("no-restricted-modules", rule, {
     }, {
         code: "require(`fs`)",
         options: ["fs"],
-        errors: [{ messageId: "defaultMessage", data: { name: "fs" }, type: "CallExpression" }],
-        languageOptions: { ecmaVersion: 6 }
+        languageOptions: { ecmaVersion: 6 },
+        errors: [{ messageId: "defaultMessage", data: { name: "fs" }, type: "CallExpression" }]
     }, {
         code: "require(`crypt\\o`);",
         options: ["crypto"],
-        errors: [{ messageId: "defaultMessage", data: { name: "crypto" }, type: "CallExpression" }],
-        languageOptions: { ecmaVersion: 6 }
+        languageOptions: { ecmaVersion: 6 },
+        errors: [{ messageId: "defaultMessage", data: { name: "crypto" }, type: "CallExpression" }]
     },
     {
         code: "var relative = require('../foo');",
