@@ -16,7 +16,6 @@ const checker = require("npm-license"),
     glob = require("glob"),
     marked = require("marked"),
     matter = require("gray-matter"),
-    markdownlint = require("markdownlint"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
@@ -216,7 +215,9 @@ function generateRuleIndexPage() {
             if (rule.meta.deprecated) {
                 ruleTypesData.deprecated.push({
                     name: basename,
-                    replacedBy: rule.meta.replacedBy || []
+                    replacedBy: rule.meta.replacedBy || [],
+                    fixable: !!rule.meta.fixable,
+                    hasSuggestions: !!rule.meta.hasSuggestions
                 });
             } else {
                 const output = {
@@ -431,6 +432,7 @@ function getFirstVersionOfDeletion(filePath) {
  * @private
  */
 function lintMarkdown(files) {
+    const markdownlint = require("markdownlint");
     const config = yaml.load(fs.readFileSync(path.join(__dirname, "./.markdownlint.yml"), "utf8")),
         result = markdownlint.sync({
             files,
@@ -863,6 +865,17 @@ target.checkRuleFiles = function() {
         exit(1);
     }
 
+};
+
+target.checkRuleExamples = function() {
+    const { execFileSync } = require("child_process");
+
+    // We don't need the stack trace of execFileSync if the command fails.
+    try {
+        execFileSync(process.execPath, ["tools/check-rule-examples.js", "docs/src/rules/*.md"], { stdio: "inherit" });
+    } catch {
+        exit(1);
+    }
 };
 
 target.checkLicenses = function() {

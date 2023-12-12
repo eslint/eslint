@@ -199,7 +199,7 @@ export default [
 ];
 ```
 
-You should update our documentation so your plugin users know how to reference the exported configs.
+You should update your documentation so your plugin users know how to reference the exported configs.
 
 ## Migrating Environments for Flat Config
 
