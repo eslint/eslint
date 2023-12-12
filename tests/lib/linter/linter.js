@@ -887,7 +887,7 @@ describe("Linter", () => {
             linter.defineRule("checker", {
                 create(context) {
                     spy = sinon.spy(node => {
-                        const scope = context.sourceCode.getScope(node)
+                        const scope = context.sourceCode.getScope(node);
 
                         assert.strictEqual(getVariable(scope, "a"), null);
                     });
@@ -960,8 +960,8 @@ describe("Linter", () => {
             linter.defineRule("checker", {
                 create(context) {
                     spy = sinon.spy(node => {
-                        const scope = context.sourceCode.getScope(node)
-;
+                        const scope = context.sourceCode.getScope(node);
+
                         assert.strictEqual(getVariable(scope, "Promise"), null);
                         assert.strictEqual(getVariable(scope, "Symbol"), null);
                         assert.strictEqual(getVariable(scope, "WeakMap"), null);
