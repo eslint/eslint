@@ -10,17 +10,15 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-assignment");
-const { RuleTester } = require("../../../lib/rule-tester");
+const FlatRuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-    parserOptions: { ecmaVersion: 2022, sourceType: "module" }
-});
+const flatRuleTester = new FlatRuleTester();
 
-ruleTester.run("no-useless-assignment", rule, {
+flatRuleTester.run("no-useless-assignment", rule, {
     valid: [
 
         // Basic tests
@@ -129,7 +127,7 @@ ruleTester.run("no-useless-assignment", rule, {
             let foo = 'used';
             console.log(foo);
             foo = 'unused like but exported with directive';`,
-            parserOptions: { sourceType: "script" }
+            languageOptions: { sourceType: "script" }
         },
 
         // Unknown variable
@@ -246,7 +244,9 @@ ruleTester.run("no-useless-assignment", rule, {
             } finally {
                 console = bk;
             }`,
-            env: { browser: true }
+            languageOptions: {
+                globals: { console: false }
+            }
         },
 
         // Try catch
