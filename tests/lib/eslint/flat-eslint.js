@@ -4046,7 +4046,7 @@ describe("FlatESLint", () => {
                         cwd: `${root}${i}`,
                         files: {
                             "test.js": "/* eslint-disable eqeqeq */",
-                            ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                            "eslint.config.js": "module.exports = [{ linterOptions: { reportUnusedDisableDirectives: true } }]"
                         }
                     });
 
