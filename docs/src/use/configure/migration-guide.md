@@ -13,8 +13,8 @@ To learn more about the flat config format, refer to [this blog post](https://es
 
 For reference information on these configuration formats, refer to the following documentation:
 
-* [eslintrc configuration files](configuration-files)
-* [flat configuration files](configuration-files-new)
+* [eslintrc configuration files](configuration-files-deprecated)
+* [flat configuration files](configuration-files)
 
 ## Start Using Flat Config Files
 

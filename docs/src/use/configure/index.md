@@ -26,10 +26,9 @@ All of these options give you fine-grained control over how ESLint treats your c
 [**Configuration Files**](configuration-files)
 
 * [Configuration File Format](./configuration-files#configuration-file)
-* [Using Configuration Files](./configuration-files#using-configuration-files)
+* [Configuration Objects](./configuration-files#configuration-objects)
 * [Configuring Shared Settings](./configuration-files#configuring-shared-settings)
-* [Cascading and Hierarchy](./configuration-files#cascading-and-hierarchy)
-* [Extending Configuration Files](./configuration-files#extending-configuration-files)
+* [Configuration File Resolution](./configuration-files#configuration-file-resolution)
 * [Configuration Based on Glob Patterns](./configuration-files#configuration-based-on-glob-patterns)
 
 [**Configure Language Options**](language-options)
@@ -53,8 +52,6 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 [**Ignore Files**](ignore)
 
-* [`ignorePatterns` in Config Files](./ignore#ignorepatterns-in-config-files)
-* [The `.eslintignore` File](./ignore#the-eslintignore-file)
-* [Using an Alternate File](./ignore#using-an-alternate-file)
-* [Using eslintIgnore in package.json](./ignore#using-eslintignore-in-packagejson)
+* [Ignoring Files](./ignore#ignoring-files)
+* [Unignoring Files](./ignore#ignoring-files)
 * [Ignored File Warnings](./ignore#ignored-file-warnings)

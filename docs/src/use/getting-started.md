@@ -64,18 +64,21 @@ yarn run eslint yourfile.js
 
 **Note:** If you are coming from a version before 1.0.0 please see the [migration guide](migrating-to-1.0.0).
 
-After running `npm init @eslint/config`, you'll have an `.eslintrc.{js,yml,json}` file in your directory. In it, you'll see some rules configured like this:
+After running `npm init @eslint/config`, you'll have an `eslint.config.js` file in your directory. In it, you'll see some rules configured like this:
 
-```json
-{
-    "rules": {
-        "semi": ["error", "always"],
-        "quotes": ["error", "double"]
+```js
+// eslint.config.js
+export default [
+    {
+        rules: {
+            "no-unused-vars": "error",
+            "no-undef": "error"
+        }
     }
-}
+];
 ```
 
-The names `"semi"` and `"quotes"` are the names of [rules](../rules) in ESLint. The first value is the error level of the rule and can be one of these values:
+The names `"no-unused-vars"` and `"no-undef"` are the names of [rules](../rules) in ESLint. The first value is the error level of the rule and can be one of these values:
 
 * `"off"` or `0` - turn the rule off
 * `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
@@ -83,15 +86,23 @@ The names `"semi"` and `"quotes"` are the names of [rules](../rules) in ESLint. 
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](configure/)).
 
-Your `.eslintrc.{js,yml,json}` configuration file will also include the line:
+Your `eslint.config.js` configuration file will also include a recommended configuration, like this:
 
-```json
-{
-    "extends": "eslint:recommended"
-}
+```js
+// eslint.config.js
+import js from "@eslint/js";
+
+export default [
+    js.configs.recommended,
+
+    rules: {
+        "no-unused-vars": "warn",
+        "no-undef": "warn"
+    }
+];
 ```
 
-Because of this line, all of the rules marked "(recommended)" on the [rules page](../rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
+The `js.configs.recommended` object contains configuration to ensure that all of the rules marked as recommended on the [rules page](../rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
 
 ## Global Install
 
@@ -103,34 +114,32 @@ You can also manually set up ESLint in your project.
 
 Before you begin, you must already have a `package.json` file. If you don't, make sure to run `npm init` or `yarn init` to create the file beforehand.
 
-1. Install the ESLint package in your project:
+1. Install the ESLint packages in your project:
 
    ```shell
-   npm install --save-dev eslint
+   npm install --save-dev eslint @eslint/js
    ```
 
-1. Add an `.eslintrc` file in one of the [supported configuration file formats](./configure/configuration-files#configuration-file-formats).
+1. Add an `eslint.config.js` file:
 
    ```shell
    # Create JavaScript configuration file
-   touch .eslintrc.js
+   touch eslint.config.js
    ```
 
-1. Add configuration to the `.eslintrc` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, environments, custom configurations, plugins, and more.
+1. Add configuration to the `eslint.config.js` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, custom configurations, plugins, and more.
 
    ```js
-   // .eslintrc.js example
-   module.exports = {
-     "env": {
-         "browser": true,
-         "es2021": true
-     },
-     "extends": "eslint:recommended",
-     "parserOptions": {
-         "ecmaVersion": "latest",
-         "sourceType": "module"
-     },
-   }
+   import js from "@eslint/js";
+
+   export default [
+       js.configs.recommended,
+
+       rules: {
+           "no-unused-vars": "warn",
+           "no-undef": "warn"
+       }
+   ];
    ```
 
 1. Lint code using the ESLint CLI:

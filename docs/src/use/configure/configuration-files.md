@@ -317,13 +317,13 @@ export default [
     js.configs.recommended,
     {
         rules: {
-            semi: ["warn", "always"]
+            "no-unused-vars": "warn"
         }
     }
 ];
 ```
 
-Here, the `js.configs.recommended` predefined configuration is applied first and then another configuration object adds the desired configuration for `semi`.
+Here, the `js.configs.recommended` predefined configuration is applied first and then another configuration object adds the desired configuration for `no-unused-vars`.
 
 You can apply these predefined configs to just a subset of files by specifying a config object with a `files` key, like this:
 

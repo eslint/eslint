@@ -49,7 +49,7 @@ The source file for a rule exports an object with the following properties. Both
 * `docs`: (`object`) Required for core rules and optional for custom rules. Core rules have specific entries inside of `docs` while custom rules can include any properties that you need. The following properties are only relevant when working on core rules.
 
     * `description`: (`string`) Provides the short description of the rule in the [rules index](../rules/).
-    * `recommended`: (`boolean`) Specifies whether the `"extends": "eslint:recommended"` property in a [configuration file](../use/configure/configuration-files#extending-configuration-files) enables the rule.
+    * `recommended`: (`boolean`) Specifies whether the rule is enabled by the `recommended` config from `@eslint/js`.
     * `url`: (`string`) Specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations).
 
 * `fixable`: (`string`) Either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
