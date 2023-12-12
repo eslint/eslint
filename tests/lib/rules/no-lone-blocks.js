@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-lone-blocks"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-lone-blocks", rule, {
     valid: [
@@ -25,13 +30,13 @@ ruleTester.run("no-lone-blocks", rule, {
         "function foo() { while (bar) { baz() } }",
 
         // Block-level bindings
-        { code: "{ let x = 1; }", parserOptions: { ecmaVersion: 6 } },
-        { code: "{ const x = 1; }", parserOptions: { ecmaVersion: 6 } },
-        { code: "'use strict'; { function bar() {} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "{ function bar() {} }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { impliedStrict: true } } },
-        { code: "{ class Bar {} }", parserOptions: { ecmaVersion: 6 } },
+        { code: "{ let x = 1; }", languageOptions: { ecmaVersion: 6 } },
+        { code: "{ const x = 1; }", languageOptions: { ecmaVersion: 6 } },
+        { code: "'use strict'; { function bar() {} }", languageOptions: { ecmaVersion: 6 } },
+        { code: "{ function bar() {} }", languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { impliedStrict: true } } } },
+        { code: "{ class Bar {} }", languageOptions: { ecmaVersion: 6 } },
 
-        { code: "{ {let y = 1;} let x = 1; }", parserOptions: { ecmaVersion: 6 } },
+        { code: "{ {let y = 1;} let x = 1; }", languageOptions: { ecmaVersion: 6 } },
         `
           switch (foo) {
             case bar: {
@@ -57,16 +62,16 @@ ruleTester.run("no-lone-blocks", rule, {
             }
           }
         `,
-        { code: "function foo() { { const x = 4 } const x = 3 }", parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo() { { const x = 4 } const x = 3 }", languageOptions: { ecmaVersion: 6 } },
 
-        { code: "class C { static {} }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo; } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { if (foo) { block; } } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { lbl: { block; } } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { { let block; } something; } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { something; { const block = 1; } } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { { function block(){} } something; } }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { something; { class block {}  } } }", parserOptions: { ecmaVersion: 2022 } }
+        { code: "class C { static {} }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { foo; } }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { if (foo) { block; } } }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { lbl: { block; } } }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { { let block; } something; } }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { something; { const block = 1; } } }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { { function block(){} } something; } }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { static { something; { class block {}  } } }", languageOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         {
@@ -130,7 +135,7 @@ ruleTester.run("no-lone-blocks", rule, {
         // Non-block-level bindings, even in ES6
         {
             code: "{ function bar() {} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "redundantBlock",
                 type: "BlockStatement"
@@ -138,7 +143,7 @@ ruleTester.run("no-lone-blocks", rule, {
         },
         {
             code: "{var x = 1;}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "redundantBlock",
                 type: "BlockStatement"
@@ -147,7 +152,7 @@ ruleTester.run("no-lone-blocks", rule, {
 
         {
             code: "{ \n{var x = 1;}\n let y = 2; } {let z = 1;}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
@@ -156,7 +161,7 @@ ruleTester.run("no-lone-blocks", rule, {
         },
         {
             code: "{ \n{let x = 1;}\n var y = 2; } {let z = 1;}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "redundantBlock",
                 type: "BlockStatement",
@@ -165,7 +170,7 @@ ruleTester.run("no-lone-blocks", rule, {
         },
         {
             code: "{ \n{var x = 1;}\n var y = 2; }\n {var z = 1;}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "redundantBlock",
@@ -224,7 +229,7 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
@@ -257,7 +262,7 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
@@ -277,7 +282,7 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
@@ -294,7 +299,7 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
@@ -311,7 +316,7 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
@@ -328,7 +333,7 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
@@ -345,7 +350,7 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
@@ -362,7 +367,7 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
@@ -380,7 +385,7 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
@@ -398,7 +403,7 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
@@ -416,7 +421,7 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
@@ -434,7 +439,7 @@ ruleTester.run("no-lone-blocks", rule, {
                 }
               }
             `,
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "redundantNestedBlock",
                 type: "BlockStatement",
