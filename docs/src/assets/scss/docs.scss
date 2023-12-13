@@ -112,11 +112,6 @@ div.incorrect {
         offset-inline-end: -22px;
         offset-block-start: -22px;
     }
-
-    // Add space to the bottom if there is a Playground button.
-    .c-btn.c-btn--playground ~ pre.line-numbers-mode {
-        padding-bottom: 4.5rem;
-    }
 }
 
 div.correct {
@@ -147,13 +142,9 @@ pre[class*="language-"] {
 .c-btn.c-btn--playground {
     position: absolute;
     font-size: var(--step--1);
-    bottom: 1rem;
-    right: 1rem;
+    bottom: -1.5rem;
+    right: -1.25rem;
     z-index: 1;
-
-    @media all and (min-width: 768px) {
-        bottom: 1.5rem;
-    }
 }
 
 @media (hover: none) {
