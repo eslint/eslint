@@ -59,7 +59,7 @@ describe("Linter", () => {
     let linter;
 
     beforeEach(() => {
-        linter = new Linter();
+        linter = new Linter({ configType: "eslintrc" });
     });
 
     afterEach(() => {
@@ -3419,7 +3419,7 @@ var a = "test2";
 
         it("should get cwd correctly in the context", () => {
             const cwd = "cwd";
-            const linterWithOption = new Linter({ cwd });
+            const linterWithOption = new Linter({ cwd, configType: "eslintrc" });
             let spy;
 
             linterWithOption.defineRule("checker", {
@@ -3438,7 +3438,7 @@ var a = "test2";
 
         it("should assign process.cwd() to it if cwd is undefined", () => {
             let spy;
-            const linterWithOption = new Linter({ });
+            const linterWithOption = new Linter({ configType: "eslintrc" });
 
             linterWithOption.defineRule("checker", {
                 create(context) {
@@ -6483,8 +6483,8 @@ var a = "test2";
         let linter2 = null;
 
         beforeEach(() => {
-            linter1 = new Linter();
-            linter2 = new Linter();
+            linter1 = new Linter({ configType: "eslintrc" });
+            linter2 = new Linter({ configType: "eslintrc" });
         });
 
         describe("rules", () => {
@@ -14637,32 +14637,6 @@ var a = "test2";
             }, /Fixable rules must set the `meta\.fixable` property/u);
         });
     });
-
-    describe("Mutability", () => {
-        let linter1 = null;
-        let linter2 = null;
-
-        beforeEach(() => {
-            linter1 = new Linter();
-            linter2 = new Linter();
-        });
-
-        describe("rules", () => {
-            it("with no changes, same rules are loaded", () => {
-                assert.sameDeepMembers(Array.from(linter1.getRules().keys()), Array.from(linter2.getRules().keys()));
-            });
-
-            it("loading rule in one doesn't change the other", () => {
-                linter1.defineRule("mock-rule", {
-                    create: () => ({})
-                });
-
-                assert.isTrue(linter1.getRules().has("mock-rule"), "mock rule is present");
-                assert.isFalse(linter2.getRules().has("mock-rule"), "mock rule is not present");
-            });
-        });
-    });
-
 
     describe("processors", () => {
         let receivedFilenames = [];
