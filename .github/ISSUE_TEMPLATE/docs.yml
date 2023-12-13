@@ -1,38 +1,37 @@
-name: "\U0001F680 Request a change (not rule-related)"
-description: "Request a change that is not a bug fix, rule change, or new rule"
-title: "Change Request: (fill in)"
+name: "\U0001F4DD Docs"
+description: "Request an improvement to documentation"
+title: "Docs: (fill in)"
 labels:
-  - enhancement
-  - core
+  - documentation
 body:
 - type: markdown
   attributes:
     value: By opening an issue, you agree to abide by the [Open JS Foundation Code of Conduct](https://eslint.org/conduct).
-- type: input
+- type: textarea
   attributes:
-    label: ESLint version
+    label: Docs page(s)
     description: |
-      What version of ESLint are you currently using? (Run `npx eslint --version`.)
+      What page(s) are you suggesting be changed or created?
     placeholder: |
-      e.g. v8.0.0
+      e.g. https://eslint.org/docs/latest/use/getting-started
   validations:
     required: true
 - type: textarea
   attributes:
-    label: What problem do you want to solve?
+    label: What documentation issue do you want to solve?
     description: |
-      Please explain your use case in as much detail as possible.
+      Please explain your issue in as much detail as possible.
     placeholder: |
-      ESLint currently...
+      The ESLint docs currently...
   validations:
     required: true
 - type: textarea
   attributes:
     label: What do you think is the correct solution?
     description: |
-      Please explain how you'd like to change ESLint to address the problem.
+      Please explain how you'd like to change the ESLint docs to address the problem.
     placeholder: |
-      I'd like ESLint to...
+      I'd like the ESLint docs to...
   validations:
     required: true
 - type: checkboxes
