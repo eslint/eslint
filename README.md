@@ -209,12 +209,12 @@ The people who manage releases, review feature requests, and meet regularly to e
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
 <a href="https://github.com/nzakas">
-<img src="https://github.com/nzakas.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/nzakas.png?s=75" width="75" height="75" alt="Nicholas C. Zakas's Avatar"><br />
 Nicholas C. Zakas
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/mdjermanovic">
-<img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75" alt="Milos Djermanovic's Avatar"><br />
 Milos Djermanovic
 </a>
 </td></tr></tbody></table>
@@ -225,12 +225,12 @@ The people who review and implement new features.
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
 <a href="https://github.com/aladdin-add">
-<img src="https://github.com/aladdin-add.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/aladdin-add.png?s=75" width="75" height="75" alt="唯然's Avatar"><br />
 唯然
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/snitin315">
-<img src="https://github.com/snitin315.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/snitin315.png?s=75" width="75" height="75" alt="Nitin Kumar's Avatar"><br />
 Nitin Kumar
 </a>
 </td></tr></tbody></table>
@@ -241,22 +241,22 @@ The people who review and fix bugs and help triage issues.
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
 <a href="https://github.com/bmish">
-<img src="https://github.com/bmish.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/bmish.png?s=75" width="75" height="75" alt="Bryan Mishkin's Avatar"><br />
 Bryan Mishkin
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/fasttime">
-<img src="https://github.com/fasttime.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/fasttime.png?s=75" width="75" height="75" alt="Francesco Trotta's Avatar"><br />
 Francesco Trotta
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/ota-meshi">
-<img src="https://github.com/ota-meshi.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/ota-meshi.png?s=75" width="75" height="75" alt="Yosuke Ota's Avatar"><br />
 Yosuke Ota
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/Tanujkanti4441">
-<img src="https://github.com/Tanujkanti4441.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/Tanujkanti4441.png?s=75" width="75" height="75" alt="Tanuj Kanti's Avatar"><br />
 Tanuj Kanti
 </a>
 </td></tr></tbody></table>
@@ -267,17 +267,17 @@ Team members who focus specifically on eslint.org
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
 <a href="https://github.com/amareshsm">
-<img src="https://github.com/amareshsm.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/amareshsm.png?s=75" width="75" height="75" alt="Amaresh  S M's Avatar"><br />
 Amaresh  S M
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/harish-sethuraman">
-<img src="https://github.com/harish-sethuraman.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/harish-sethuraman.png?s=75" width="75" height="75" alt="Strek's Avatar"><br />
 Strek
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/kecrily">
-<img src="https://github.com/kecrily.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/kecrily.png?s=75" width="75" height="75" alt="Percy Ma's Avatar"><br />
 Percy Ma
 </a>
 </td></tr></tbody></table>
