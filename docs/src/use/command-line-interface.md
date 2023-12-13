@@ -166,7 +166,7 @@ If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.
 * **Argument Type**: String. One of the available environments.
 * **Multiple Arguments**: Yes
 
-Details about the global variables defined by each environment are available in the [Specifying Environments](configure/language-options#specifying-environments) documentation. This option only enables environments. It does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
+Details about the global variables defined by each environment are available in the [Specifying Environments](configure/language-options-deprecated#specifying-environments) documentation. This option only enables environments. It does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
 
 ##### `--env` example
 
@@ -391,7 +391,7 @@ npx eslint --fix --fix-type suggestion,layout .
 * **Multiple Arguments**: No
 * **Default Value**:  By default, ESLint looks for `.eslintignore` in the current working directory.
 
-**Note:** `--ignore-path` is not supported when using [flat configuration](./configure/configuration-files-new) (`eslint.config.js`).
+**Note:** `--ignore-path` is only supported when using [deprecated configuration](./configure/configuration-files-deprecated).
 
 ##### `--ignore-path` example
 

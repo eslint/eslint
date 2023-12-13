@@ -215,11 +215,11 @@ export default [
 
 Using this configuration, all JavaScript files define a custom global object defined called `MY_CUSTOM_GLOBAL` while those JavaScript files in the `tests` directory have `it` and `describe` defined as global objects in addition to `MY_CUSTOM_GLOBAL`. For any JavaScript file in the tests directory, both configuration objects are applied, so `languageOptions.globals` are merged to create a final result.
 
-### Configuring linter options
+### Configuring Linter Options
 
 Options specific to the linting process can be configured using the `linterOptions` object. These effect how linting proceeds and does not affect how the source code of the file is interpreted.
 
-#### Disabling inline configuration
+#### Disabling Inline Configuration
 
 Inline configuration is implemented using an `/*eslint*/` comment, such as `/*eslint semi: error*/`. You can disallow inline configuration by setting `noInlineConfig` to `true`. When enabled, all inline configuration is ignored. Here's an example:
 
@@ -235,7 +235,7 @@ export default [
 ];
 ```
 
-#### Reporting unused disable directives
+#### Reporting Unused Disable Directives
 
 Disable and enable directives such as `/*eslint-disable*/`, `/*eslint-enable*/` and `/*eslint-disable-next-line*/` are used to disable ESLint rules around certain portions of code. As code changes, it's possible for these directives to no longer be needed because the code has changed in such a way that the rule is no longer triggered. You can enable reporting of these unused disable directives by setting the `reportUnusedDisableDirectives` option to `true`, as in this example:
 
@@ -338,6 +338,48 @@ export default [
     }
 ];
 ```
+
+## Using a Shareable Configuration Package
+
+A sharable configuration is an npm package that exports a configuration object or array. This package should be installed as a dependency in your project and then reference from inside of your `eslint.config.js` file. For example, to use a shareable configuration named `eslint-config-example`, your configuration file would look like this:
+
+```js
+// eslint.config.js
+import exampleConfig from "eslint-config-example";
+
+export default [
+    exampleConfig,
+
+    // your modifications
+    {
+        rules: {
+            "no-unused-vars": "warn"
+        }
+    }
+];
+```
+
+In this example, `exampleConfig` is an object, so you insert it directly into the configuration array.
+
+Some shareable configurations will export an array instead, in which case you'll need to use the spread operator to insert those items into the configuration array. For example:
+
+```js
+// eslint.config.js
+import exampleConfigs from "eslint-config-example";
+
+export default [
+    ...exampleConfigs,
+
+    // your modifications
+    {
+        rules: {
+            "no-unused-vars": "warn"
+        }
+    }
+];
+```
+
+Please refer to the documentation for the shareable configuration package you're using to determine whether it is exporting an object or an array.
 
 ## Configuration File Resolution
 

@@ -29,7 +29,6 @@ All of these options give you fine-grained control over how ESLint treats your c
 * [Configuration Objects](./configuration-files#configuration-objects)
 * [Configuring Shared Settings](./configuration-files#configuring-shared-settings)
 * [Configuration File Resolution](./configuration-files#configuration-file-resolution)
-* [Configuration Based on Glob Patterns](./configuration-files#configuration-based-on-glob-patterns)
 
 [**Configure Language Options**](language-options)
 
