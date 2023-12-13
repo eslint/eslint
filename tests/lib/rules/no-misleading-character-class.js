@@ -1089,24 +1089,12 @@ ruleTester.run("no-misleading-character-class", rule, {
                     endColumn: 80,
                     messageId: "zwj",
                     suggestions: null
-                },
-                {
-                    column: 20,
-                    endColumn: 80,
-                    messageId: "zwj",
-                    suggestions: null
                 }
             ]
         },
         {
             code: String.raw`var r = new RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
             errors: [
-                {
-                    column: 20,
-                    endColumn: 72,
-                    messageId: "zwj",
-                    suggestions: null
-                },
                 {
                     column: 20,
                     endColumn: 72,
@@ -1157,12 +1145,6 @@ ruleTester.run("no-misleading-character-class", rule, {
             code: String.raw`var r = new globalThis.RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
             env: { es2020: true },
             errors: [
-                {
-                    column: 31,
-                    endColumn: 83,
-                    messageId: "zwj",
-                    suggestions: null
-                },
                 {
                     column: 31,
                     endColumn: 83,
