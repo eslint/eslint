@@ -28,7 +28,7 @@ This rule has an object option:
 * `allowElseIf: true` (default) allows `else if` blocks after a return
 * `allowElseIf: false` disallows `else if` blocks after a return
 
-### `allowElseIf: true`
+###  allowElseIf: true
 
 Examples of **incorrect** code for this rule:
 
@@ -137,7 +137,7 @@ function foo4() {
 
 :::
 
-### `allowElseIf: false`
+### allowElseIf: false
 
 Examples of **incorrect** code for this rule:
 

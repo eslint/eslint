@@ -10,13 +10,19 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-obj-calls"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester"),
+    globals = require("globals");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-obj-calls", rule, {
     valid: [
@@ -31,54 +37,60 @@ ruleTester.run("no-obj-calls", rule, {
         "new JSON.parse",
         {
             code: "Reflect.get(foo, 'x')",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "new Reflect.foo(a, b)",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "Atomics.load(foo, 0)",
-            env: { es2017: true }
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "new Atomics.foo()",
-            env: { es2017: true }
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "new Intl.Segmenter()",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "Intl.foo()",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
 
-        { code: "globalThis.Math();", env: { es6: true } },
-        { code: "var x = globalThis.Math();", env: { es6: true } },
-        { code: "f(globalThis.Math());", env: { es6: true } },
-        { code: "globalThis.Math().foo;", env: { es6: true } },
-        { code: "var x = globalThis.JSON();", env: { es6: true } },
-        { code: "x = globalThis.JSON(str);", env: { es6: true } },
-        { code: "globalThis.Math( globalThis.JSON() );", env: { es6: true } },
-        { code: "var x = globalThis.Reflect();", env: { es6: true } },
-        { code: "var x = globalThis.Reflect();", env: { es2017: true } },
-        { code: "/*globals Reflect: true*/ globalThis.Reflect();", env: { es2017: true } },
-        { code: "var x = globalThis.Atomics();", env: { es2017: true } },
-        { code: "var x = globalThis.Atomics();", globals: { Atomics: false }, env: { es2017: true } },
-        { code: "var x = globalThis.Intl();", env: { browser: true } },
-        { code: "var x = globalThis.Intl();", globals: { Intl: false }, env: { browser: true } },
+        { code: "globalThis.Math();", languageOptions: { ecmaVersion: 6 } },
+        { code: "var x = globalThis.Math();", languageOptions: { ecmaVersion: 6 } },
+        { code: "f(globalThis.Math());", languageOptions: { ecmaVersion: 6 } },
+        { code: "globalThis.Math().foo;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var x = globalThis.JSON();", languageOptions: { ecmaVersion: 6 } },
+        { code: "x = globalThis.JSON(str);", languageOptions: { ecmaVersion: 6 } },
+        { code: "globalThis.Math( globalThis.JSON() );", languageOptions: { ecmaVersion: 6 } },
+        { code: "var x = globalThis.Reflect();", languageOptions: { ecmaVersion: 6 } },
+        { code: "var x = globalThis.Reflect();", languageOptions: { ecmaVersion: 2017 } },
+        { code: "/*globals Reflect: true*/ globalThis.Reflect();", languageOptions: { ecmaVersion: 2017 } },
+        { code: "var x = globalThis.Atomics();", languageOptions: { ecmaVersion: 2017 } },
+        { code: "var x = globalThis.Atomics();", languageOptions: { ecmaVersion: 2017, globals: { Atomics: false } } },
+        { code: "var x = globalThis.Intl();", languageOptions: { globals: globals.browser } },
+        {
+            code: "var x = globalThis.Intl();", languageOptions: { globals: { ...globals.browser, Intl: false } }
+        },
 
         // non-existing variables
         "/*globals Math: off*/ Math();",
         "/*globals Math: off*/ new Math();",
         {
             code: "JSON();",
-            globals: { JSON: "off" }
+            languageOptions: {
+                globals: { JSON: "off" }
+            }
         },
         {
             code: "new JSON();",
-            globals: { JSON: "off" }
+            languageOptions: {
+                globals: { JSON: "off" }
+            }
         },
         "Reflect();",
         "Atomics();",
@@ -86,7 +98,7 @@ ruleTester.run("no-obj-calls", rule, {
         "new Atomics();",
         {
             code: "Atomics();",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "Intl()",
         "new Intl()",
@@ -96,55 +108,50 @@ ruleTester.run("no-obj-calls", rule, {
         "var Math; new Math();",
         {
             code: "let JSON; JSON();",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "let JSON; new JSON();",
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "if (foo) { const Reflect = 1; Reflect(); }",
-            parserOptions: { ecmaVersion: 2015 },
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "if (foo) { const Reflect = 1; new Reflect(); }",
-            parserOptions: { ecmaVersion: 2015 },
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "function foo(Math) { Math(); }",
         "function foo(JSON) { new JSON(); }",
         {
             code: "function foo(Atomics) { Atomics(); }",
-            env: { es2017: true }
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "function foo() { if (bar) { let Atomics; if (baz) { new Atomics(); } } }",
-            parserOptions: { ecmaVersion: 2015 },
-            env: { es2017: true }
+            languageOptions: { ecmaVersion: 2017 }
         },
         "function foo() { var JSON; JSON(); }",
         {
             code: "function foo() { var Atomics = bar(); var baz = Atomics(5); }",
-            globals: { Atomics: false }
+            languageOptions: { globals: { Atomics: false } }
         },
         {
             code: "var construct = typeof Reflect !== \"undefined\" ? Reflect.construct : undefined; construct();",
-            globals: { Reflect: false }
+            languageOptions: { globals: { Reflect: false } }
         },
         {
             code: "function foo(Intl) { Intl(); }",
-            env: { browser: true }
+            languageOptions: { globals: globals.browser }
         },
         {
             code: "if (foo) { const Intl = 1; Intl(); }",
-            parserOptions: { ecmaVersion: 2015 },
-            env: { browser: true }
+            languageOptions: { ecmaVersion: 2015, globals: globals.browser }
         },
         {
             code: "if (foo) { const Intl = 1; new Intl(); }",
-            parserOptions: { ecmaVersion: 2015 },
-            env: { browser: true }
+            languageOptions: { ecmaVersion: 2015, globals: globals.browser }
         }
     ],
     invalid: [
@@ -205,17 +212,17 @@ ruleTester.run("no-obj-calls", rule, {
         },
         {
             code: "var x = Reflect();",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
         },
         {
             code: "var x = new Reflect();",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "NewExpression" }]
         },
         {
             code: "var x = Reflect();",
-            env: { es2017: true },
+            languageOptions: { ecmaVersion: 2017 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
         },
         {
@@ -228,37 +235,37 @@ ruleTester.run("no-obj-calls", rule, {
         },
         {
             code: "var x = Atomics();",
-            env: { es2017: true },
+            languageOptions: { ecmaVersion: 2017 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "CallExpression" }]
         },
         {
             code: "var x = new Atomics();",
-            env: { es2017: true },
+            languageOptions: { ecmaVersion: 2017 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "NewExpression" }]
         },
         {
             code: "var x = Atomics();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "CallExpression" }]
         },
         {
             code: "var x = Atomics();",
-            globals: { Atomics: false },
+            languageOptions: { globals: { Atomics: false } },
             errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "CallExpression" }]
         },
         {
             code: "var x = new Atomics();",
-            globals: { Atomics: "writable" },
+            languageOptions: { globals: { Atomics: "writable" } },
             errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "NewExpression" }]
         },
         {
             code: "var x = Intl();",
-            env: { browser: true },
+            languageOptions: { globals: globals.browser },
             errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
         },
         {
             code: "var x = new Intl();",
-            env: { browser: true },
+            languageOptions: { globals: globals.browser },
             errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "NewExpression" }]
         },
         {
@@ -271,42 +278,42 @@ ruleTester.run("no-obj-calls", rule, {
         },
         {
             code: "var x = globalThis.Math();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression" }]
         },
         {
             code: "var x = new globalThis.Math();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "NewExpression" }]
         },
         {
             code: "f(globalThis.Math());",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 3, endColumn: 20 }]
         },
         {
             code: "globalThis.Math().foo;",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 1, endColumn: 18 }]
         },
         {
             code: "new globalThis.Math().foo;",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "NewExpression", column: 1, endColumn: 22 }]
         },
         {
             code: "var x = globalThis.JSON();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "JSON" }, type: "CallExpression" }]
         },
         {
             code: "x = globalThis.JSON(str);",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "JSON" }, type: "CallExpression" }]
         },
         {
             code: "globalThis.Math( globalThis.JSON() );",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 1, endColumn: 37 },
                 { messageId: "unexpectedCall", data: { name: "JSON" }, type: "CallExpression", column: 18, endColumn: 35 }
@@ -314,37 +321,37 @@ ruleTester.run("no-obj-calls", rule, {
         },
         {
             code: "var x = globalThis.Reflect();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
         },
         {
             code: "var x = new globalThis.Reflect;",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "NewExpression" }]
         },
         {
             code: "/*globals Reflect: true*/ Reflect();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
         },
         {
             code: "var x = globalThis.Atomics();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "CallExpression" }]
         },
         {
             code: "var x = globalThis.Intl();",
-            env: { browser: true, es2020: true },
+            languageOptions: { globals: globals.browser, ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
         },
         {
             code: "var x = new globalThis.Intl;",
-            env: { browser: true, es2020: true },
+            languageOptions: { globals: globals.browser, ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "NewExpression" }]
         },
         {
             code: "/*globals Intl: true*/ Intl();",
-            env: { browser: true, es2020: true },
+            languageOptions: { globals: globals.browser, ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
         },
         {
@@ -357,44 +364,44 @@ ruleTester.run("no-obj-calls", rule, {
         },
         {
             code: "var foo = bar ? baz: globalThis.JSON; foo();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "JSON" }, type: "CallExpression" }]
         },
         {
             code: "var foo = bar ? baz: globalThis.JSON; new foo();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "JSON" }, type: "NewExpression" }]
         },
         {
             code: "var foo = window.Atomics; foo();",
-            env: { es2020: true, browser: true },
+            languageOptions: { ecmaVersion: 2020, globals: globals.browser },
             errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Atomics" }, type: "CallExpression" }]
         },
         {
             code: "var foo = window.Atomics; new foo;",
-            env: { es2020: true, browser: true },
+            languageOptions: { ecmaVersion: 2020, globals: globals.browser },
             errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Atomics" }, type: "NewExpression" }]
         },
         {
             code: "var foo = window.Intl; foo();",
-            env: { es2020: true, browser: true },
+            languageOptions: { ecmaVersion: 2020, globals: globals.browser },
             errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Intl" }, type: "CallExpression" }]
         },
         {
             code: "var foo = window.Intl; new foo;",
-            env: { es2020: true, browser: true },
+            languageOptions: { ecmaVersion: 2020, globals: globals.browser },
             errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Intl" }, type: "NewExpression" }]
         },
 
         // Optional chaining
         {
             code: "var x = globalThis?.Reflect();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
         },
         {
             code: "var x = (globalThis?.Reflect)();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
         }
     ]

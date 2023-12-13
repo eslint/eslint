@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extra-parens"),
-    { RuleTester } = require("../../../lib/rule-tester"),
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester"),
     parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ function invalid(code, output, type, line, config) {
     const result = {
         code,
         output,
-        parserOptions: config && config.parserOptions || {},
+        languageOptions: config && config.languageOptions || {},
         errors: [
             {
                 messageId: "unexpected",
@@ -52,10 +52,12 @@ function invalid(code, output, type, line, config) {
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-    parserOptions: {
-        ecmaVersion: 2022,
-        ecmaFeatures: {
-            jsx: true
+    languageOptions: {
+        sourceType: "script",
+        parserOptions: {
+            ecmaFeatures: {
+                jsx: true
+            }
         }
     }
 });
@@ -590,13 +592,13 @@ ruleTester.run("no-extra-parens", rule, {
         "let a = { ...b }",
         {
             code: "let a = { ...b }",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         "let a = [ ...(b, c) ]",
         "let a = { ...(b, c) }",
         {
             code: "let a = { ...(b, c) }",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         "var [x = (1, foo)] = bar",
         "class A extends B {}",
@@ -610,15 +612,15 @@ ruleTester.run("no-extra-parens", rule, {
         "() => ({ foo: 1 }.foo().bar + baz)",
         {
             code: "export default (a, b)",
-            parserOptions: { sourceType: "module" }
+            languageOptions: { sourceType: "module" }
         },
         {
             code: "export default (function(){}).foo",
-            parserOptions: { sourceType: "module" }
+            languageOptions: { sourceType: "module" }
         },
         {
             code: "export default (class{}).foo",
-            parserOptions: { sourceType: "module" }
+            languageOptions: { sourceType: "module" }
         },
         "({}).hasOwnProperty.call(foo, bar)",
         "({}) ? foo() : bar()",
@@ -712,38 +714,38 @@ ruleTester.run("no-extra-parens", rule, {
         "new (a.b()).c",
 
         // Nullish coalescing
-        { code: "var v = (a ?? b) || c", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = a ?? (b || c)", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (a ?? b) && c", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = a ?? (b && c)", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (a || b) ?? c", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = a || (b ?? c)", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (a && b) ?? c", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = a && (b ?? c)", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a ?? b) || c", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a ?? (b || c)", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a ?? b) && c", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a ?? (b && c)", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a || b) ?? c", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a || (b ?? c)", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a && b) ?? c", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a && (b ?? c)", languageOptions: { ecmaVersion: 2020 } },
 
         // Optional chaining
-        { code: "var v = (obj?.aaa).bbb", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (obj?.aaa)()", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = new (obj?.aaa)()", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = new (obj?.aaa)", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (obj?.aaa)`template`", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (obj?.()).bbb", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (obj?.())()", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = new (obj?.())()", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = new (obj?.())", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (obj?.())`template`", parserOptions: { ecmaVersion: 2020 } },
-        { code: "(obj?.aaa).bbb = 0", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var foo = (function(){})?.()", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var foo = (function(){}?.())", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.aaa).bbb", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.aaa)()", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = new (obj?.aaa)()", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = new (obj?.aaa)", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.aaa)`template`", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.()).bbb", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.())()", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = new (obj?.())()", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = new (obj?.())", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.())`template`", languageOptions: { ecmaVersion: 2020 } },
+        { code: "(obj?.aaa).bbb = 0", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var foo = (function(){})?.()", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var foo = (function(){}?.())", languageOptions: { ecmaVersion: 2020 } },
         {
             code: "var foo = (function(){})?.call()",
             options: ["all", { enforceForFunctionPrototypeMethods: false }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "var foo = (function(){}?.call())",
             options: ["all", { enforceForFunctionPrototypeMethods: false }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Object.prototype.toString.call())",
@@ -797,7 +799,9 @@ ruleTester.run("no-extra-parens", rule, {
         // https://github.com/eslint/eslint/issues/17173
         {
             code: "const x = (1 satisfies number).toFixed();",
-            parser: parser("typescript-parsers/member-call-expr-with-assertion")
+            languageOptions: {
+                parser: require(parser("typescript-parsers/member-call-expr-with-assertion"))
+            }
         }
     ],
 
@@ -1886,7 +1890,7 @@ ruleTester.run("no-extra-parens", rule, {
             "let a = {...b}",
             "Identifier",
             1,
-            { parserOptions: { ecmaVersion: 2018 } }
+            { languageOptions: { ecmaVersion: 2018 } }
         ),
         invalid(
             "let a = [...((b, c))]",
@@ -1905,7 +1909,7 @@ ruleTester.run("no-extra-parens", rule, {
             "let a = {...(b, c)}",
             "SequenceExpression",
             1,
-            { parserOptions: { ecmaVersion: 2018 } }
+            { languageOptions: { ecmaVersion: 2018 } }
         ),
         invalid(
             "class A extends (B) {}",
@@ -1942,49 +1946,49 @@ ruleTester.run("no-extra-parens", rule, {
             "export default (a, b)",
             "SequenceExpression",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "export default (() => {})",
             "export default () => {}",
             "ArrowFunctionExpression",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "export default ((a, b) => a + b)",
             "export default (a, b) => a + b",
             "ArrowFunctionExpression",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "export default (a => a)",
             "export default a => a",
             "ArrowFunctionExpression",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "export default (a = b)",
             "export default a = b",
             "AssignmentExpression",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "export default (a ? b : c)",
             "export default a ? b : c",
             "ConditionalExpression",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "export default (a)",
             "export default a",
             "Identifier",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "for (foo of(bar));",
@@ -3062,21 +3066,21 @@ ruleTester.run("no-extra-parens", rule, {
             "import(source)",
             "Identifier",
             1,
-            { parserOptions: { ecmaVersion: 2020 } }
+            { languageOptions: { ecmaVersion: 2020 } }
         ),
         invalid(
             "import((source = 'foo.js'))",
             "import(source = 'foo.js')",
             "AssignmentExpression",
             1,
-            { parserOptions: { ecmaVersion: 2020 } }
+            { languageOptions: { ecmaVersion: 2020 } }
         ),
         invalid(
             "import(((s,t)))",
             "import((s,t))",
             "SequenceExpression",
             1,
-            { parserOptions: { ecmaVersion: 2020 } }
+            { languageOptions: { ecmaVersion: 2020 } }
         ),
 
         // https://github.com/eslint/eslint/issues/12127
@@ -3190,67 +3194,67 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "var v = ((a ?? b)) || c",
             output: "var v = (a ?? b) || c",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a ?? ((b || c))",
             output: "var v = a ?? (b || c)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = ((a ?? b)) && c",
             output: "var v = (a ?? b) && c",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a ?? ((b && c))",
             output: "var v = a ?? (b && c)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = ((a || b)) ?? c",
             output: "var v = (a || b) ?? c",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a || ((b ?? c))",
             output: "var v = a || (b ?? c)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = ((a && b)) ?? c",
             output: "var v = (a && b) ?? c",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a && ((b ?? c))",
             output: "var v = a && (b ?? c)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = (a ?? b) ? b : c",
             output: "var v = a ?? b ? b : c",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = (a | b) ?? c | d",
             output: "var v = a | b ?? c | d",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a | b ?? (c | d)",
             output: "var v = a | b ?? c | d",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
 
@@ -3412,34 +3416,34 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "var v = (obj?.aaa)?.aaa",
             output: "var v = obj?.aaa?.aaa",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = (obj.aaa)?.aaa",
             output: "var v = obj.aaa?.aaa",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var foo = (function(){})?.call()",
             output: "var foo = function(){}?.call()",
             options: ["all", { enforceForFunctionPrototypeMethods: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var foo = (function(){}?.call())",
             output: "var foo = function(){}?.call()",
             options: ["all", { enforceForFunctionPrototypeMethods: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "(Object.prototype.toString.call())",
             output: "Object.prototype.toString.call()",
             options: ["all"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
 

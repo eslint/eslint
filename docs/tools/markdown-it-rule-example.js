@@ -5,10 +5,12 @@
 /**
  * A callback function to handle the opening of container blocks.
  * @callback OpenHandler
- * @param {"correct" | "incorrect"} type The type of the example.
- * @param {string} code The example code.
- * @param {ParserOptions} parserOptions The parser options to be passed to the Playground.
- * @param {Object} codeBlockToken The `markdown-it` token for the code block inside the container.
+ * @param {Object} data Callback data.
+ * @param {"correct" | "incorrect"} data.type The type of the example.
+ * @param {string} data.code The example code.
+ * @param {ParserOptions} data.parserOptions The parser options to be passed to the Playground.
+ * @param {Object} data.codeBlockToken The `markdown-it` token for the code block inside the container.
+ * @param {Object} data.env Additional Eleventy metadata, if available.
  * @returns {string | undefined} If a text is returned, it will be appended to the rendered output
  * of `markdown-it`.
  */
@@ -43,7 +45,7 @@
  *
  * markdownIt()
  *     .use(markdownItContainer, "rule-example", markdownItRuleExample({
- *         open(type, code, parserOptions, codeBlockToken) {
+ *         open({ type, code, parserOptions, codeBlockToken, env }) {
  *             // do something
  *         }
  *         close() {
@@ -58,7 +60,7 @@ function markdownItRuleExample({ open, close }) {
         validate(info) {
             return /^\s*(?:in)?correct(?!\S)/u.test(info);
         },
-        render(tokens, index) {
+        render(tokens, index, options, env) {
             const tagToken = tokens[index];
 
             if (tagToken.nesting < 0) {
@@ -77,7 +79,7 @@ function markdownItRuleExample({ open, close }) {
                 .replace(/\n$/u, "")
                 .replace(/⏎(?=\n)/gu, "");
 
-            const text = open(type, code, parserOptions, codeBlockToken);
+            const text = open({ type, code, parserOptions, codeBlockToken, env });
 
             // Return an empty string to avoid appending unexpected text to the output.
             return typeof text === "string" ? text : "";

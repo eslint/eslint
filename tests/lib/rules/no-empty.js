@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-empty"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -26,7 +26,7 @@ ruleTester.run("no-empty", rule, {
         "try { foo() } catch (ex) { foo() }",
         "switch(foo) {case 'foo': break;}",
         "(function() { }())",
-        { code: "var foo = () => {};", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => {};", languageOptions: { ecmaVersion: 6 } },
         "function foo() { }",
         "if (foo) {/* empty */}",
         "while (foo) {/* empty */}",

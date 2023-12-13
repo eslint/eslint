@@ -1,3 +1,20 @@
+v8.55.0 - December 1, 2023
+
+* [`eb8950c`](https://github.com/eslint/eslint/commit/eb8950c3b811c9163b9aae23af8b6266ad98b295) chore: upgrade @eslint/js@8.55.0 (#17811) (Milos Djermanovic)
+* [`93df384`](https://github.com/eslint/eslint/commit/93df3849a7a25ebe0502000bf0bfb80a6613a5ae) chore: package.json update for @eslint/js release (Jenkins)
+* [`fe4b954`](https://github.com/eslint/eslint/commit/fe4b9545a83e9aca7ba4bb77bc9c868d57de777f) chore: upgrade @eslint/eslintrc@2.1.4 (#17799) (Milos Djermanovic)
+* [`8c9e6c1`](https://github.com/eslint/eslint/commit/8c9e6c100a6eb69da292463293b3b48cff911a01) feat: importNamePattern option in no-restricted-imports (#17721) (Tanuj Kanti)
+* [`83ece2a`](https://github.com/eslint/eslint/commit/83ece2afc2dc6c49efe82678663fe4cba590c0e5) docs: fix typo `--rules` -> `--rule` (#17806) (OKURA Masafumi)
+* [`bd8911d`](https://github.com/eslint/eslint/commit/bd8911db85c7a1127543c9212c8cea47a5cb687d) ci: pin Node.js 21.2.0 (#17809) (Milos Djermanovic)
+* [`b29a16b`](https://github.com/eslint/eslint/commit/b29a16b22f234f6134475efb6c7be5ac946556ee) chore: fix several `cli` tests to run in the intended flat config mode (#17797) (Milos Djermanovic)
+* [`fffca5c`](https://github.com/eslint/eslint/commit/fffca5c362bcd205dbf79d1bb52834f8a98fc6bd) docs: remove "Open in Playground" buttons for removed rules (#17791) (Francesco Trotta)
+* [`a6d9442`](https://github.com/eslint/eslint/commit/a6d9442a9ab34d5d19f78d8c8fd0767a1237bfe3) docs: fix correct/incorrect examples of rules (#17789) (Tanuj Kanti)
+* [`383e999`](https://github.com/eslint/eslint/commit/383e99928d7ce649ec9030c9856b03fbac0c3501) docs: update and fix examples for `no-unused-vars` (#17788) (Tanuj Kanti)
+* [`5a8efd5`](https://github.com/eslint/eslint/commit/5a8efd5b7ad13eb320a1f468d1d4ab3c8ab99214) docs: add specific stylistic rule for each deprecated rule (#17778) (Etienne)
+* [`de165c1`](https://github.com/eslint/eslint/commit/de165c108203c6703516ac651f5b4cac5b241804) chore: remove unused config-extends fixtures (#17781) (Milos Djermanovic)
+* [`d4304b8`](https://github.com/eslint/eslint/commit/d4304b8b66eac870ffbf4840d84add8a123b25fc) chore: remove formatting/stylistic rules from new rule templates (#17780) (Francesco Trotta)
+* [`21024fe`](https://github.com/eslint/eslint/commit/21024fe2029420b413bed11d23761c87e9a02a1a) chore: check rule examples for syntax errors (#17718) (Francesco Trotta)
+
 v8.54.0 - November 17, 2023
 
 * [`d644de9`](https://github.com/eslint/eslint/commit/d644de9a4b593b565617303a095bc9aa69e7b768) chore: upgrade @eslint/js@8.54.0 (#17773) (Milos Djermanovic)
