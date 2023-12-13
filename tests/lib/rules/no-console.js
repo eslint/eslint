@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-console"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -142,7 +142,7 @@ ruleTester.run("no-console", rule, {
         },
         {
             code: "class A { static { console.info(foo) } }",
-            parserOptions: { ecmaVersion: "latest" },
+            languageOptions: { ecmaVersion: "latest" },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
@@ -155,7 +155,7 @@ ruleTester.run("no-console", rule, {
         },
         {
             code: "a()\nconsole.log(foo);\n[1, 2, 3].forEach(a => doSomething(a))",
-            parserOptions: { ecmaVersion: "latest" },
+            languageOptions: { ecmaVersion: "latest" },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
@@ -164,7 +164,7 @@ ruleTester.run("no-console", rule, {
         },
         {
             code: "a++\nconsole.log();\n/b/",
-            parserOptions: { ecmaVersion: "latest" },
+            languageOptions: { ecmaVersion: "latest" },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
@@ -173,7 +173,7 @@ ruleTester.run("no-console", rule, {
         },
         {
             code: "a();\nconsole.log(foo);\n[1, 2, 3].forEach(a => doSomething(a));",
-            parserOptions: { ecmaVersion: "latest" },
+            languageOptions: { ecmaVersion: "latest" },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
@@ -285,7 +285,7 @@ ruleTester.run("no-console", rule, {
         {
             code: "class A { static { console.error(foo) } }",
             options: [{ allow: ["log"] }],
-            parserOptions: { ecmaVersion: "latest" },
+            languageOptions: { ecmaVersion: "latest" },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
@@ -397,7 +397,7 @@ ruleTester.run("no-console", rule, {
         {
             code: "class A { static { console.info(foo) } }",
             options: [{ allow: ["log", "error", "warn"] }],
-            parserOptions: { ecmaVersion: "latest" },
+            languageOptions: { ecmaVersion: "latest" },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
@@ -412,7 +412,11 @@ ruleTester.run("no-console", rule, {
         // In case that implicit global variable of 'console' exists
         {
             code: "console.log(foo)",
-            env: { node: true },
+            languageOptions: {
+                globals: {
+                    console: "readonly"
+                }
+            },
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",

@@ -7,10 +7,13 @@
 const { parse } = require("espree");
 const { readFile } = require("fs").promises;
 const glob = require("glob");
+const matter = require("gray-matter");
 const markdownIt = require("markdown-it");
 const markdownItContainer = require("markdown-it-container");
 const { promisify } = require("util");
 const markdownItRuleExample = require("../docs/tools/markdown-it-rule-example");
+const ConfigCommentParser = require("../lib/linter/config-comment-parser");
+const rules = require("../lib/rules");
 
 //------------------------------------------------------------------------------
 // Typedefs
@@ -26,19 +29,22 @@ const markdownItRuleExample = require("../docs/tools/markdown-it-rule-example");
 
 const STANDARD_LANGUAGE_TAGS = new Set(["javascript", "js", "jsx"]);
 
+const commentParser = new ConfigCommentParser();
+
 /**
  * Tries to parse a specified JavaScript code with Playground presets.
  * @param {string} code The JavaScript code to parse.
  * @param {ParserOptions} parserOptions Explicitly specified parser options.
- * @returns {SyntaxError | null} A `SyntaxError` object if the code cannot be parsed, or `null`.
+ * @returns {{ ast: ASTNode } | { error: SyntaxError }} An AST with comments, or a `SyntaxError` object if the code cannot be parsed.
  */
 function tryParseForPlayground(code, parserOptions) {
     try {
-        parse(code, { ecmaVersion: "latest", ...parserOptions });
+        const ast = parse(code, { ecmaVersion: "latest", ...parserOptions, comment: true });
+
+        return { ast };
     } catch (error) {
-        return error;
+        return { error };
     }
-    return null;
 }
 
 /**
@@ -48,6 +54,8 @@ function tryParseForPlayground(code, parserOptions) {
  */
 async function findProblems(filename) {
     const text = await readFile(filename, "UTF-8");
+    const { title } = matter(text).data;
+    const isRuleRemoved = !rules.has(title);
     const problems = [];
     const ruleExampleOptions = markdownItRuleExample({
         open({ code, parserOptions, codeBlockToken }) {
@@ -72,7 +80,33 @@ async function findProblems(filename) {
                 });
             }
 
-            const error = tryParseForPlayground(code, parserOptions);
+            const { ast, error } = tryParseForPlayground(code, parserOptions);
+
+            if (ast && !isRuleRemoved) {
+                const hasRuleConfigComment = ast.comments.some(
+                    comment => {
+                        if (comment.type !== "Block" || !/^\s*eslint(?!\S)/u.test(comment.value)) {
+                            return false;
+                        }
+                        const { directiveValue } = commentParser.parseDirective(comment);
+                        const parseResult = commentParser.parseJsonConfig(directiveValue, comment.loc);
+
+                        return parseResult.success && Object.prototype.hasOwnProperty.call(parseResult.config, title);
+                    }
+                );
+
+                if (!hasRuleConfigComment) {
+                    const message = `Example code should contain a configuration comment like /* eslint ${title}: "error" */`;
+
+                    problems.push({
+                        fatal: false,
+                        severity: 2,
+                        message,
+                        line: codeBlockToken.map[0] + 2,
+                        column: 1
+                    });
+                }
+            }
 
             if (error) {
                 const message = `Syntax error: ${error.message}`;

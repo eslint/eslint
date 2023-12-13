@@ -10,13 +10,17 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-array-constructor"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: "latest" } });
+const ruleTester = new RuleTester({
+    languageOptions: {
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-array-constructor", rule, {
     valid: [
@@ -33,8 +37,10 @@ ruleTester.run("no-array-constructor", rule, {
         "var Array; new Array;",
         {
             code: "new Array()",
-            globals: {
-                Array: "off"
+            languageOptions: {
+                globals: {
+                    Array: "off"
+                }
             }
         }
     ],
@@ -218,14 +224,14 @@ ruleTester.run("no-array-constructor", rule, {
                 <foo />
                 Array()
                 `,
-                parserOptions: { ecmaFeatures: { jsx: true } }
+                languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
             },
             {
                 code: `
                 <foo></foo>
                 Array()
                 `,
-                parserOptions: { ecmaFeatures: { jsx: true } }
+                languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
             }
         ].map(props => ({
             ...props,
@@ -276,7 +282,7 @@ ruleTester.run("no-array-constructor", rule, {
             { code: "for (let i = 0; i < 10; i++) Array();" },
             { code: "for (const prop in obj) Array();" },
             { code: "for (const element of iterable) Array();" },
-            { code: "with (obj) Array();" },
+            { code: "with (obj) Array();", languageOptions: { sourceType: "script" } },
 
             // No semicolon required before array literal because ASI still occurs
             {
@@ -360,28 +366,28 @@ ruleTester.run("no-array-constructor", rule, {
                 export { foo }
                 Array()
                 `,
-                parserOptions: { sourceType: "module" }
+                languageOptions: { sourceType: "module" }
             },
             {
                 code: `
                 export { foo } from 'bar'
                 Array()
                 `,
-                parserOptions: { sourceType: "module" }
+                languageOptions: { sourceType: "module" }
             },
             {
                 code: `
                 export * as foo from 'bar'
                 Array()
                 `,
-                parserOptions: { sourceType: "module" }
+                languageOptions: { sourceType: "module" }
             },
             {
                 code: `
                 import foo from 'bar'
                 Array()
                 `,
-                parserOptions: { sourceType: "module" }
+                languageOptions: { sourceType: "module" }
             },
             {
                 code: `

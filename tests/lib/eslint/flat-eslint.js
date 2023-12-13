@@ -2600,6 +2600,40 @@ describe("FlatESLint", () => {
                 assert(!shell.test("-f", cacheFilePath), "the cache for eslint should have been deleted since last run did not use the cache");
             });
 
+            it("should not throw an error if the cache file to be deleted does not exist on a read-only file system", async () => {
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
+
+                // Simulate a read-only file system.
+                sinon.stub(fsp, "unlink").rejects(
+                    Object.assign(new Error("read-only file system"), { code: "EROFS" })
+                );
+
+                const eslintOptions = {
+                    overrideConfigFile: true,
+
+                    // specifying cache false the cache will be deleted
+                    cache: false,
+                    cacheLocation: cacheFilePath,
+                    overrideConfig: {
+                        rules: {
+                            "no-console": 0,
+                            "no-unused-vars": 2
+                        }
+                    },
+                    cwd: path.join(fixtureDir, "..")
+                };
+
+                eslint = new FlatESLint(eslintOptions);
+
+                const file = getFixturePath("cache/src", "test-file.js");
+
+                await eslint.lintFiles([file]);
+
+                assert(fsp.unlink.calledWithExactly(cacheFilePath), "Expected attempt to delete the cache was not made.");
+            });
+
             it("should store in the cache a file that has lint messages and a file that doesn't have lint messages", async () => {
                 cacheFilePath = getFixturePath(".eslintcache");
                 doDelete(cacheFilePath);

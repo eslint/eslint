@@ -135,7 +135,18 @@ module.exports = [
         files: ["tests/lib/rules/*", "tests/tools/internal-rules/*"],
         ...merge({}, eslintPluginTestsRecommendedConfig, {
             rules: {
-                "eslint-plugin/test-case-property-ordering": "error",
+                "eslint-plugin/test-case-property-ordering": [
+                    "error",
+                    [
+                        "name",
+                        "filename",
+                        "code",
+                        "output",
+                        "options",
+                        "languageOptions",
+                        "errors"
+                    ]
+                ],
                 "eslint-plugin/test-case-shorthand-strings": "error"
             }
         })

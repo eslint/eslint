@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/prefer-exponentiation-operator");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 const parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ function invalid(code, output) {
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("prefer-exponentiation-operator", rule, {
     valid: [
@@ -59,8 +59,8 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         "foo.Math.pow(a, b)",
         "new Math.pow(a, b)",
         "Math[pow](a, b)",
-        { code: "globalThis.Object.pow(a, b)", env: { es2020: true } },
-        { code: "globalThis.Math.max(a, b)", env: { es2020: true } },
+        { code: "globalThis.Object.pow(a, b)", languageOptions: { ecmaVersion: 2020 } },
+        { code: "globalThis.Math.max(a, b)", languageOptions: { ecmaVersion: 2020 } },
 
         // not the global Math
         "/* globals Math:off*/ Math.pow(a, b)",
@@ -70,15 +70,15 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         "function foo(Math) { Math.pow(a, b); }",
         "function foo() { Math.pow(a, b); var Math; }",
 
-        "globalThis.Math.pow(a, b)",
-        { code: "globalThis.Math.pow(a, b)", env: { es6: true } },
-        { code: "globalThis.Math.pow(a, b)", env: { es2017: true } },
+        { code: "globalThis.Math.pow(a, b)", languageOptions: { ecmaVersion: 2019 } },
+        { code: "globalThis.Math.pow(a, b)", languageOptions: { ecmaVersion: 6 } },
+        { code: "globalThis.Math.pow(a, b)", languageOptions: { ecmaVersion: 2017 } },
         {
             code: `
                 var globalThis = bar;
                 globalThis.Math.pow(a, b)
             `,
-            env: { es2020: true }
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         "class C { #pow; foo() { Math.#pow(a, b); } }"
@@ -94,7 +94,7 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         {
             code: "globalThis.Math.pow(a, b)",
             output: "a**b",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useExponentiation",
@@ -109,7 +109,7 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         {
             code: "globalThis.Math['pow'](a, b)",
             output: "a**b",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useExponentiation",
@@ -364,7 +364,9 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         {
             code: "Math.pow(a, b as any)",
             output: "a**(b as any)",
-            parser: parser("typescript-parsers/exponentiation-with-assertion-1"),
+            languageOptions: {
+                parser: require(parser("typescript-parsers/exponentiation-with-assertion-1"))
+            },
             errors: [
                 {
                     messageId: "useExponentiation",
@@ -375,7 +377,9 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         {
             code: "Math.pow(a as any, b)",
             output: "(a as any)**b",
-            parser: parser("typescript-parsers/exponentiation-with-assertion-2"),
+            languageOptions: {
+                parser: require(parser("typescript-parsers/exponentiation-with-assertion-2"))
+            },
             errors: [
                 {
                     messageId: "useExponentiation",
@@ -386,7 +390,9 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         {
             code: "Math.pow(a, b) as any",
             output: "(a**b) as any",
-            parser: parser("typescript-parsers/exponentiation-with-assertion-3"),
+            languageOptions: {
+                parser: require(parser("typescript-parsers/exponentiation-with-assertion-3"))
+            },
             errors: [
                 {
                     messageId: "useExponentiation",

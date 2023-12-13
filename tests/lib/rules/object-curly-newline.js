@@ -11,13 +11,13 @@
 
 const resolvePath = require("path").resolve,
     rule = require("../../../lib/rules/object-curly-newline"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType: "module" } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6, sourceType: "module" } });
 
 ruleTester.run("object-curly-newline", rule, {
     valid: [
@@ -87,7 +87,9 @@ ruleTester.run("object-curly-newline", rule, {
                 "} : MyType) {}"
             ].join("\n"),
             options: ["always"],
-            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-multiline")
+            languageOptions: {
+                parser: require(resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-multiline"))
+            }
         },
         {
             code: [
@@ -97,7 +99,9 @@ ruleTester.run("object-curly-newline", rule, {
                 "} : { a : string, b : string }) {}"
             ].join("\n"),
             options: ["always"],
-            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-multiline-type-literal")
+            languageOptions: {
+                parser: require(resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-multiline-type-literal"))
+            }
         },
 
         // "never" -------------------------------------------------------------
@@ -137,12 +141,16 @@ ruleTester.run("object-curly-newline", rule, {
         {
             code: "function foo({ a, b } : MyType) {}",
             options: ["never"],
-            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-singleline")
+            languageOptions: {
+                parser: require(resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-singleline"))
+            }
         },
         {
             code: "function foo({ a, b } : { a : string, b : string }) {}",
             options: ["never"],
-            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-singleline-type-literal")
+            languageOptions: {
+                parser: require(resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-singleline-type-literal"))
+            }
         },
 
         // "multiline" ---------------------------------------------------------
@@ -325,14 +333,14 @@ ruleTester.run("object-curly-newline", rule, {
                 "let {} = {a: 1};"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: [
                 "let {a} = {a: 1};"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: [
@@ -340,7 +348,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "} = {a: 1};"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: [
@@ -349,14 +357,14 @@ ruleTester.run("object-curly-newline", rule, {
                 "} = {a: 1};"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: [
                 "let {a, b} = {a: 1, b: 1};"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: [
@@ -365,14 +373,14 @@ ruleTester.run("object-curly-newline", rule, {
                 "} = {a: 1, b: 1};"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: [
                 "let {k = function() {dosomething();}} = obj;"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: [
@@ -383,7 +391,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "} = obj;"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: [
@@ -398,7 +406,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "b} = {a: 1, b: 1};"
             ].join("\n"),
             options: [{ multiline: false, consistent: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // "consistent" and "minProperties" ------------------------------------------
@@ -423,7 +431,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "};"
             ].join("\n"),
             options: [{ multiline: true, consistent: true, minProperties: 2 }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: [
@@ -434,7 +442,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "};"
             ].join("\n"),
             options: [{ multiline: true, consistent: true, minProperties: 2 }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // "ObjectExpression" and "ObjectPattern" ---------------------------------------------
@@ -445,7 +453,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "};"
             ].join("\n"),
             options: [{ ObjectExpression: "always", ObjectPattern: "never" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // "ImportDeclaration" ---------------------------------------------
@@ -682,7 +690,9 @@ ruleTester.run("object-curly-newline", rule, {
                 "} : MyType) {}"
             ].join("\n"),
             options: ["always"],
-            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-singleline"),
+            languageOptions: {
+                parser: require(resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-singleline"))
+            },
             errors: [
                 { line: 1, column: 14, messageId: "expectedLinebreakAfterOpeningBrace" },
                 { line: 1, column: 21, messageId: "expectedLinebreakBeforeClosingBrace" }
@@ -696,7 +706,9 @@ ruleTester.run("object-curly-newline", rule, {
                 "} : { a : string, b : string }) {}"
             ].join("\n"),
             options: ["always"],
-            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-singleline-type-literal"),
+            languageOptions: {
+                parser: require(resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-singleline-type-literal"))
+            },
             errors: [
                 { line: 1, column: 14, messageId: "expectedLinebreakAfterOpeningBrace" },
                 { line: 1, column: 21, messageId: "expectedLinebreakBeforeClosingBrace" }
@@ -808,7 +820,9 @@ ruleTester.run("object-curly-newline", rule, {
                 " b} : MyType) {}"
             ].join("\n"),
             options: ["never"],
-            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-multiline"),
+            languageOptions: {
+                parser: require(resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-multiline"))
+            },
             errors: [
                 { line: 1, column: 14, messageId: "unexpectedLinebreakAfterOpeningBrace" },
                 { line: 4, column: 1, messageId: "unexpectedLinebreakBeforeClosingBrace" }
@@ -826,7 +840,9 @@ ruleTester.run("object-curly-newline", rule, {
                 " b} : { a : string, b : string }) {}"
             ].join("\n"),
             options: ["never"],
-            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-multiline-type-literal"),
+            languageOptions: {
+                parser: require(resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-multiline-type-literal"))
+            },
             errors: [
                 { line: 1, column: 14, messageId: "unexpectedLinebreakAfterOpeningBrace" },
                 { line: 4, column: 1, messageId: "unexpectedLinebreakBeforeClosingBrace" }
@@ -1316,7 +1332,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "let {a} = {a: 1}"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 2, column: 1, messageId: "unexpectedLinebreakBeforeClosingBrace" }
             ]
@@ -1330,7 +1346,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "let {a} = {a: 1}"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 1, column: 5, messageId: "unexpectedLinebreakAfterOpeningBrace" }
             ]
@@ -1344,7 +1360,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "let {a, b} = {a: 1, b: 2}"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 2, column: 1, messageId: "unexpectedLinebreakBeforeClosingBrace" }
             ]
@@ -1358,7 +1374,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "let {a, b} = {a: 1, b: 2}"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 1, column: 5, messageId: "unexpectedLinebreakAfterOpeningBrace" }
             ]
@@ -1375,7 +1391,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "} = {a: 1, b: 2}"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 1, column: 5, messageId: "expectedLinebreakAfterOpeningBrace" },
                 { line: 2, column: 2, messageId: "expectedLinebreakBeforeClosingBrace" }
@@ -1395,7 +1411,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "} = a;"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 1, column: 5, messageId: "expectedLinebreakAfterOpeningBrace" },
                 { line: 3, column: 2, messageId: "expectedLinebreakBeforeClosingBrace" }
@@ -1442,7 +1458,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "b} = {a: 1, b: 2};"
             ].join("\n"),
             options: [{ multiline: false, consistent: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 1, column: 5, messageId: "unexpectedLinebreakAfterOpeningBrace" }
             ]
@@ -1458,7 +1474,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "b} = {a: 1, b: 2};"
             ].join("\n"),
             options: [{ multiline: false, consistent: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 3, column: 1, messageId: "unexpectedLinebreakBeforeClosingBrace" }
             ]
@@ -1494,7 +1510,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "};"
             ].join("\n"),
             options: [{ multiline: true, consistent: true, minProperties: 2 }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 1, column: 5, messageId: "expectedLinebreakAfterOpeningBrace" },
                 { line: 1, column: 10, messageId: "expectedLinebreakBeforeClosingBrace" }
@@ -1514,7 +1530,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "};"
             ].join("\n"),
             options: [{ ObjectExpression: "always", ObjectPattern: "never" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 1, column: 5, messageId: "unexpectedLinebreakAfterOpeningBrace" },
                 { line: 3, column: 1, messageId: "unexpectedLinebreakBeforeClosingBrace" },
