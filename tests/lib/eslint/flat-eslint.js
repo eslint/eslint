@@ -965,8 +965,8 @@ describe("FlatESLint", () => {
             [
                 ["a string with a single space", " "],
                 ["an array with one empty string", [""]],
-                ["an array with two empty strings", ["", ""]]
-
+                ["an array with two empty strings", ["", ""]],
+                ["undefined", void 0]
             ].forEach(([name, value]) => {
 
                 it(`should throw an error when passed ${name}`, async () => {
