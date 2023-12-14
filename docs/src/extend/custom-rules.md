@@ -549,7 +549,7 @@ Once you have an instance of `SourceCode`, you can use the following methods on 
     * If the node is an `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`, the declared variable is returned.
     * Otherwise, if the node does not declare any variables, an empty array is returned.
 * `getScope(node)`: Returns the [scope](./scope-manager-interface#scope-interface) of the given node. This information can be used to track references to variables.
-* `markVariableAsUsed(name)`: Marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
+* `markVariableAsUsed(name, refNode)`: Marks a variable with the given name in a scope indicated by the given reference node as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
 
 `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
 
