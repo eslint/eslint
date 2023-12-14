@@ -121,7 +121,7 @@ Miscellaneous:
   --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched
   --exit-on-fatal-error           Exit with exit code 2 in case of fatal error - default: false
   --no-warn-ignored               Suppress warnings when the file list includes ignored files. *Flat Config Mode Only*
-  --pass-on-no-patterns           Exit with exit code 0 in case no file patterns are passed.
+  --pass-on-no-patterns           Exit with exit code 0 in case no file patterns are passed
   --debug                         Output debugging information
   -h, --help                      Show help
   -v, --version                   Output the version number
