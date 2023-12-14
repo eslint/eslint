@@ -786,8 +786,6 @@ To learn more about JSON Schema, we recommend looking at some examples on the [J
 
 The `SourceCode#getScope(node)` method returns the scope of the given node. It is a useful method for finding information about the variables in a given scope and how they are used in other scopes.
 
-**Deprecated:** The `context.getScope()` is deprecated; make sure to use `SourceCode#getScope(node)` instead.
-
 #### Scope types
 
 The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface#scope-interface).
@@ -834,8 +832,6 @@ For examples of using `SourceCode#getScope()` to track variables, refer to the s
 * [no-redeclare](https://github.com/eslint/eslint/blob/main/lib/rules/no-redeclare.js): Calls `sourceCode.getScope()` at each scope to make sure that a variable is not declared twice in the same scope. ([no-redeclare](../rules/no-redeclare) documentation)
 
 ### Marking Variables as Used
-
-**Deprecated:** The `context.markVariableAsUsed()` method is deprecated in favor of `sourceCode.markVariableAsUsed()`.
 
 Certain ESLint rules, such as [`no-unused-vars`](../rules/no-unused-vars), check to see if a variable has been used. ESLint itself only knows about the standard rules of variable access and so custom ways of accessing variables may not register as "used".
 
