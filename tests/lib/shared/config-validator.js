@@ -30,7 +30,7 @@ const assert = require("chai").assert,
 // Helpers
 //------------------------------------------------------------------------------
 
-const linter = new Linter();
+const linter = new Linter({ configType: "eslintrc" });
 
 const mockRule = {
     meta: {
