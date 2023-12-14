@@ -1101,7 +1101,9 @@ describe("ESLint", () => {
                             passOnNoPatterns: true
                         });
 
-                        await assert.doesNotReject(async () => await eslint.lintFiles(value));
+                        const results = await eslint.lintFiles(value);
+
+                        assert.strictEqual(results.length, 0);
                     });
                 }
 
