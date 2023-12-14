@@ -480,6 +480,57 @@ describe("Linter", () => {
             assert.strictEqual(suppressedMessages.length, 0);
         });
 
+        it("should expose parser services when using parseForESLint() and services are specified", () => {
+            linter.defineParser("enhanced-parser", testParsers.enhancedParser);
+            linter.defineRule("test-service-rule", {
+                create: context => ({
+                    Literal(node) {
+                        context.report({
+                            node,
+                            message: context.sourceCode.parserServices.test.getMessage()
+                        });
+                    }
+                })
+            });
+
+            const config = { rules: { "test-service-rule": 2 }, parser: "enhanced-parser" };
+            const messages = linter.verify("0", config, filename);
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Hi!");
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("should use the same parserServices if source code object is reused", () => {
+            linter.defineParser("enhanced-parser", testParsers.enhancedParser);
+            linter.defineRule("test-service-rule", {
+                create: context => ({
+                    Literal(node) {
+                        context.report({
+                            node,
+                            message: context.sourceCode.parserServices.test.getMessage()
+                        });
+                    }
+                })
+            });
+
+            const config = { rules: { "test-service-rule": 2 }, parser: "enhanced-parser" };
+            const messages = linter.verify("0", config, filename);
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Hi!");
+            assert.strictEqual(suppressedMessages.length, 0);
+
+            const messages2 = linter.verify(linter.getSourceCode(), config, filename);
+            const suppressedMessages2 = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages2.length, 1);
+            assert.strictEqual(messages2[0].message, "Hi!");
+            assert.strictEqual(suppressedMessages2.length, 0);
+        });
+
         it("should pass parser as parserPath to all rules when default parser is used", () => {
             linter.defineRule("test-rule", {
                 create: sinon.mock().withArgs(
@@ -7646,6 +7697,84 @@ describe("Linter with FlatConfigArray", () => {
 
                     assert.strictEqual(messages.length, 0);
                     assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("should expose parser services when using parseForESLint() and services are specified", () => {
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    "test-service-rule": {
+                                        create: context => ({
+                                            Literal(node) {
+                                                context.report({
+                                                    node,
+                                                    message: context.sourceCode.parserServices.test.getMessage()
+                                                });
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            parser: testParsers.enhancedParser
+                        },
+                        rules: {
+                            "test/test-service-rule": 2
+                        }
+                    };
+
+                    const messages = linter.verify("0", config, filename);
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].message, "Hi!");
+
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("should use the same parserServices if source code object is reused", () => {
+
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    "test-service-rule": {
+                                        create: context => ({
+                                            Literal(node) {
+                                                context.report({
+                                                    node,
+                                                    message: context.sourceCode.parserServices.test.getMessage()
+                                                });
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            parser: testParsers.enhancedParser
+                        },
+                        rules: {
+                            "test/test-service-rule": 2
+                        }
+                    };
+
+                    const messages = linter.verify("0", config, filename);
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].message, "Hi!");
+                    assert.strictEqual(suppressedMessages.length, 0);
+
+                    const messages2 = linter.verify(linter.getSourceCode(), config, filename);
+                    const suppressedMessages2 = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages2.length, 1);
+                    assert.strictEqual(messages2[0].message, "Hi!");
+                    assert.strictEqual(suppressedMessages2.length, 0);
                 });
 
                 it("should pass parser as context.languageOptions.parser to all rules when default parser is used", () => {
