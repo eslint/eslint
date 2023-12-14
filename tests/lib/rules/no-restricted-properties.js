@@ -549,135 +549,135 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "const { bar: { bad } = {} } = foo;",
             options: [{ property: "bad" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
                     propertyName: "bad",
                     message: ""
                 }
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "const { bar: { bad } } = foo;",
             options: [{ property: "bad" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
                     propertyName: "bad",
                     message: ""
                 }
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "const { bad } = foo();",
             options: [{ property: "bad" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
                     propertyName: "bad",
                     message: ""
                 }
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "({ bad } = foo());",
             options: [{ property: "bad" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
                     propertyName: "bad",
                     message: ""
                 }
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "({ bar: { bad } } = foo);",
             options: [{ property: "bad" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
                     propertyName: "bad",
                     message: ""
                 }
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "({ bar: { bad } = {} } = foo);",
             options: [{ property: "bad" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
                     propertyName: "bad",
                     message: ""
                 }
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "({ bad }) => {};",
             options: [{ property: "bad" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
                     propertyName: "bad",
                     message: ""
                 }
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "({ bad } = {}) => {};",
             options: [{ property: "bad" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
                     propertyName: "bad",
                     message: ""
                 }
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "({ bad: bar }) => {};",
             options: [{ property: "bad" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
                     propertyName: "bad",
                     message: ""
                 }
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "({ bar: { bad } = {} }) => {};",
             options: [{ property: "bad" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
                     propertyName: "bad",
                     message: ""
                 }
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "[{ bad }] = foo;",
             options: [{ property: "bad" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
                     propertyName: "bad",
                     message: ""
                 }
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "const [{ bad }] = foo;",
             options: [{ property: "bad" }],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
                     propertyName: "bad",
                     message: ""
                 }
-            }]
+            }],
+            languageOptions: { ecmaVersion: 6 }
         }
     ]
 });
