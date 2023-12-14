@@ -818,8 +818,6 @@ describe("cli", () => {
                         const exit = await cli.execute("--pass-on-no-patterns", null, useFlatConfig);
 
                         assert.isFalse(log.info.called);
-
-                        // When eslintrc is used, we get an exit code of 2 because the --no-warn-ignored option is unrecognized.
                         assert.strictEqual(exit, 0);
                     });
 
