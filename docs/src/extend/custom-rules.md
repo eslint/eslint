@@ -537,7 +537,7 @@ Once you have an instance of `SourceCode`, you can use the following methods on 
 * `getLocFromIndex(index)`: Returns an object with `line` and `column` properties, corresponding to the location of the given source index. `line` is 1-based and `column` is 0-based.
 * `getIndexFromLoc(loc)`: Returns the index of a given location in the source code, where `loc` is an object with a 1-based `line` key and a 0-based `column` key.
 * `commentsExistBetween(nodeOrToken1, nodeOrToken2)`: Returns `true` if comments exist between two nodes.
-* `getAncestors()`: Returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
+* `getAncestors(node)`: Returns an array of the ancestors of the given node, starting at the root of the AST and continuing through the direct parent of the given node. This array does not include the given node itself.
 * `getDeclaredVariables(node)`: Returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
     * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
     * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
