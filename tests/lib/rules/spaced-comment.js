@@ -163,8 +163,8 @@ ruleTester.run("spaced-comment", rule, {
             options: ["always", { markers: ["eslint"] }]
         },
         {
-            code: "/*eslint-disable no-alert, no-console */\nalert()\nconsole.log()\n/*eslint-enable no-alert */",
-            options: ["always", { markers: ["eslint-enable", "eslint-disable"] }]
+            code: "/*eslint-foo-disable no-alert, no-console */\nalert()\nconsole.log()\n/*eslint-foo-enable no-alert */",
+            options: ["always", { markers: ["eslint-foo-enable", "eslint-foo-disable"] }]
         },
 
         // misc. variations
