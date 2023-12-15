@@ -409,7 +409,7 @@ ruleTester.run("no-misleading-character-class", rule, {
                 },
                 {
                     column: 12,
-                    endColumn: 15,
+                    endColumn: 18,
                     messageId: "zwj",
                     suggestions: null
                 },
@@ -418,11 +418,6 @@ ruleTester.run("no-misleading-character-class", rule, {
                     endColumn: 16,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👨‍👩‍👦]/u" }]
-                },
-                {
-                    column: 15,
-                    endColumn: 18,
-                    messageId: "zwj"
                 },
                 {
                     column: 17,
@@ -437,12 +432,6 @@ ruleTester.run("no-misleading-character-class", rule, {
             errors: [
                 {
                     column: 11,
-                    endColumn: 16,
-                    messageId: "zwj",
-                    suggestions: null
-                },
-                {
-                    column: 14,
                     endColumn: 19,
                     messageId: "zwj",
                     suggestions: null
@@ -454,12 +443,6 @@ ruleTester.run("no-misleading-character-class", rule, {
             errors: [
                 {
                     column: 11,
-                    endColumn: 41,
-                    messageId: "zwj",
-                    suggestions: null
-                },
-                {
-                    column: 29,
                     endColumn: 59,
                     messageId: "zwj",
                     suggestions: null
@@ -471,12 +454,6 @@ ruleTester.run("no-misleading-character-class", rule, {
             errors: [
                 {
                     column: 11,
-                    endColumn: 37,
-                    messageId: "zwj",
-                    suggestions: null
-                },
-                {
-                    column: 28,
                     endColumn: 54,
                     messageId: "zwj",
                     suggestions: null
@@ -1034,7 +1011,7 @@ ruleTester.run("no-misleading-character-class", rule, {
                 },
                 {
                     column: 23,
-                    endColumn: 26,
+                    endColumn: 29,
                     messageId: "zwj",
                     suggestions: null
                 },
@@ -1043,11 +1020,6 @@ ruleTester.run("no-misleading-character-class", rule, {
                     endColumn: 27,
                     messageId: "surrogatePairWithoutUFlag",
                     suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[👨‍👩‍👦]", "u")` }]
-                },
-                {
-                    column: 26,
-                    endColumn: 29,
-                    messageId: "zwj"
                 },
                 {
                     column: 28,
@@ -1062,12 +1034,6 @@ ruleTester.run("no-misleading-character-class", rule, {
             errors: [
                 {
                     column: 22,
-                    endColumn: 27,
-                    messageId: "zwj",
-                    suggestions: null
-                },
-                {
-                    column: 25,
                     endColumn: 30,
                     messageId: "zwj",
                     suggestions: null
