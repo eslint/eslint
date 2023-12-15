@@ -10,6 +10,7 @@ Links can be rendered as cards by using the `link` shortcode. The only required 
 
 ## Examples
 
+<!-- markdownlint-disable-next-line MD034 -->
 {% link "https://blog.izs.me/2010/12/an-open-letter-to-javascript-leaders-regarding/" %}
-
+<!-- markdownlint-disable-next-line MD034 -->
 {% link "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get" %}

@@ -111,7 +111,12 @@ describe("bin/eslint.js", () => {
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     output: "var foo = bar;\n",
-                    usedDeprecatedRules: []
+                    usedDeprecatedRules: [
+                        {
+                            ruleId: "no-extra-semi",
+                            replacedBy: []
+                        }
+                    ]
                 }
             ]);
 
@@ -385,6 +390,54 @@ describe("bin/eslint.js", () => {
             });
 
             return Promise.all([exitCodeAssertion, outputAssertion]);
+        });
+
+        it("does not exit with zero when there is an error in the next tick", () => {
+            const config = path.join(__dirname, "../fixtures/bin/eslint.config-promise-tick-throws.js");
+            const file = path.join(__dirname, "../fixtures/bin/empty.js");
+            const child = runESLint(["--config", config, file]);
+            const exitCodeAssertion = assertExitCode(child, 2);
+            const outputAssertion = getOutput(child).then(output => {
+
+                // ensure the expected error was printed
+                assert.include(output.stderr, "test_error_stack");
+
+                // ensure that linting the file did not cause an error
+                assert.notInclude(output.stderr, "empty.js");
+                assert.notInclude(output.stdout, "empty.js");
+            });
+
+            return Promise.all([exitCodeAssertion, outputAssertion]);
+        });
+
+        // https://github.com/eslint/eslint/issues/17560
+        describe("does not print duplicate errors in the event of a crash", () => {
+
+            it("when there is an invalid config read from a config file", () => {
+                const config = path.join(__dirname, "../fixtures/bin/eslint.config-invalid.js");
+                const child = runESLint(["--config", config, "conf", "tools"]);
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+
+                    // The error text should appear exactly once in stderr
+                    assert.strictEqual(output.stderr.match(/A config object is using the "globals" key/gu).length, 1);
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+
+            it("when there is an error in the next tick", () => {
+                const config = path.join(__dirname, "../fixtures/bin/eslint.config-tick-throws.js");
+                const child = runESLint(["--config", config, "Makefile.js"]);
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+
+                    // The error text should appear exactly once in stderr
+                    assert.strictEqual(output.stderr.match(/test_error_stack/gu).length, 1);
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
         });
 
         it("prints the error message pointing to line of code", () => {

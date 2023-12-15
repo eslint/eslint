@@ -14,6 +14,8 @@ const { highlighter, lineNumberPlugin } = require("./src/_plugins/md-syntax-high
 const {
     DateTime
 } = require("luxon");
+const markdownIt = require("markdown-it");
+const markdownItRuleExample = require("./tools/markdown-it-rule-example");
 
 module.exports = function(eleventyConfig) {
 
@@ -54,6 +56,7 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addGlobalData("GIT_BRANCH", process.env.BRANCH);
     eleventyConfig.addGlobalData("HEAD", process.env.BRANCH === "main");
     eleventyConfig.addGlobalData("NOINDEX", process.env.BRANCH !== "latest");
+    eleventyConfig.addGlobalData("PATH_PREFIX", pathPrefix);
     eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
     //------------------------------------------------------------------------------
@@ -112,7 +115,7 @@ module.exports = function(eleventyConfig) {
      * Source: https://github.com/11ty/eleventy/issues/658
      */
     eleventyConfig.addFilter("markdown", value => {
-        const markdown = require("markdown-it")({
+        const markdown = markdownIt({
             html: true
         });
 
@@ -190,52 +193,44 @@ module.exports = function(eleventyConfig) {
         return btoa(unescape(encodeURIComponent(text)));
     }
 
-    /**
-     * Creates markdownItContainer settings for a playground-linked codeblock.
-     * @param {string} name Plugin name and class name to add to the code block.
-     * @returns {[string, object]} Plugin name and options for markdown-it.
-     */
-    function withPlaygroundRender(name) {
-        return [
-            name,
-            {
-                render(tokens, index) {
-                    if (tokens[index].nesting !== 1) {
-                        return "</div>";
-                    }
+    // markdown-it plugin options for playground-linked code blocks in rule examples.
+    const ruleExampleOptions = markdownItRuleExample({
+        open({ type, code, parserOptions, env }) {
+            const isRuleRemoved = !Object.prototype.hasOwnProperty.call(env.rules_meta, env.title);
 
-                    // See https://github.com/eslint/eslint.org/blob/ac38ab41f99b89a8798d374f74e2cce01171be8b/src/playground/App.js#L44
-                    const parserOptions = tokens[index].info?.split("correct ")[1]?.trim();
-                    const { content } = tokens[index + 1];
-                    const state = encodeToBase64(
-                        JSON.stringify({
-                            ...(parserOptions && { options: { parserOptions: JSON.parse(parserOptions) } }),
-                            text: content
-                        })
-                    );
-                    const prefix = process.env.CONTEXT && process.env.CONTEXT !== "deploy-preview"
-                        ? ""
-                        : "https://eslint.org";
+            if (isRuleRemoved) {
+                return `<div class="${type}">`;
+            }
 
-                    return `
-                        <div class="${name}">
+            // See https://github.com/eslint/eslint.org/blob/ac38ab41f99b89a8798d374f74e2cce01171be8b/src/playground/App.js#L44
+            const state = encodeToBase64(
+                JSON.stringify({
+                    options: { parserOptions },
+                    text: code
+                })
+            );
+            const prefix = process.env.CONTEXT && process.env.CONTEXT !== "deploy-preview"
+                ? ""
+                : "https://eslint.org";
+
+            return `
+                        <div class="${type}">
                             <a class="c-btn c-btn--secondary c-btn--playground" href="${prefix}/play#${state}" target="_blank">
                                 Open in Playground
                             </a>
-                    `.trim();
-                }
-            }
-        ];
-    }
+            `.trim();
+        },
+        close() {
+            return "</div>";
+        }
+    });
 
-    const markdownIt = require("markdown-it");
     const md = markdownIt({ html: true, linkify: true, typographer: true, highlight: (str, lang) => highlighter(md, str, lang) })
         .use(markdownItAnchor, {
             slugify: s => slug(s)
         })
         .use(markdownItContainer, "img-container", {})
-        .use(markdownItContainer, ...withPlaygroundRender("correct"))
-        .use(markdownItContainer, ...withPlaygroundRender("incorrect"))
+        .use(markdownItContainer, "rule-example", ruleExampleOptions)
         .use(markdownItContainer, "warning", {
             render(tokens, idx) {
                 return generateAlertMarkup("warning", tokens, idx);
@@ -487,25 +482,6 @@ module.exports = function(eleventyConfig) {
     //------------------------------------------------------------------------------
 
     /*
-     * When we run `eleventy --serve`, Eleventy 1.x uses browser-sync to serve the content.
-     * By default, browser-sync (more precisely, underlying serve-static) will not serve
-     * `foo/bar.html` when we request `foo/bar`. Thus, we need to rewrite URLs to append `.html`
-     * so that pretty links without `.html` can work in a local development environment.
-     *
-     * There's no need to rewrite URLs that end with `/`, because that already works well
-     * (server will return the content of `index.html` in the directory).
-     * URLs with a file extension, like main.css, main.js, sitemap.xml, etc. should not be rewritten
-     */
-    eleventyConfig.setBrowserSyncConfig({
-        middleware(req, res, next) {
-            if (!/(?:\.[a-zA-Z][^/]*|\/)$/u.test(req.url)) {
-                req.url += ".html";
-            }
-            return next();
-        }
-    });
-
-    /*
      * Generate the sitemap only in certain contexts to prevent unwanted discovery of sitemaps that
      * contain URLs we'd prefer not to appear in search results (URLs in sitemaps are considered important).
      * In particular, we don't want to deploy https://eslint.org/docs/head/sitemap.xml
@@ -524,14 +500,12 @@ module.exports = function(eleventyConfig) {
         eleventyConfig.ignores.add("src/static/sitemap.njk"); // ... then don't generate the sitemap.
     }
 
-
     return {
         passthroughFileCopy: true,
 
         pathPrefix,
 
         markdownTemplateEngine: "njk",
-        dataTemplateEngine: "njk",
         htmlTemplateEngine: "njk",
 
         dir: {

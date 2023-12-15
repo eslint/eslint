@@ -9,14 +9,19 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-return"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-useless-return", rule, {
     valid: [
@@ -127,23 +132,23 @@ ruleTester.run("no-useless-return", rule, {
                 for (var foo of bar) return;
               }
             `,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "() => { if (foo) return; bar(); }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "() => 5",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "() => { return; doSomething(); }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "if (foo) { return; } doSomething();",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
 
         // https://github.com/eslint/eslint/issues/7477
@@ -239,12 +244,12 @@ ruleTester.run("no-useless-return", rule, {
         {
             code: "foo(); return;",
             output: "foo(); ",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: "if (foo) { bar(); return; } else { baz(); }",
             output: "if (foo) { bar();  } else { baz(); }",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: `
@@ -573,7 +578,7 @@ ruleTester.run("no-useless-return", rule, {
         {
             code: "() => { return; }",
             output: "() => {  }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { return; return; }",

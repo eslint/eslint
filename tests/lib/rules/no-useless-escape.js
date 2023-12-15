@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-escape"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-useless-escape", rule, {
     valid: [
@@ -50,42 +55,42 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = '\\f';",
         "var foo = '\\\n';",
         "var foo = '\\\r\n';",
-        { code: "<foo attr=\"\\d\"/>", parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div> Testing: \\ </div>", parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<div> Testing: &#x5C </div>", parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<foo attr='\\d'></foo>", parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<> Testing: \\ </>", parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<> Testing: &#x5C </>", parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "var foo = `\\x123`", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `\\u00a9`", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `xs\\u2111`", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `foo \\\\ bar`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `\\t`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `foo \\b bar`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `\\n`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `foo \\r bar`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `\\v`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `\\f`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `\\\n`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `\\\r\n`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `${foo} \\x123`", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `${foo} \\u00a9`", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `${foo} xs\\u2111`", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `${foo} \\\\ ${bar}`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `${foo} \\b ${bar}`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `${foo}\\t`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `${foo}\\n`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `${foo}\\r`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `${foo}\\v`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `${foo}\\f`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `${foo}\\\n`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `${foo}\\\r\n`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `\\``", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `\\`${foo}\\``", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `\\${{${foo}`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `$\\{{${foo}`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = String.raw`\\.`", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = myFunc`\\.`", parserOptions: { ecmaVersion: 6 } },
+        { code: "<foo attr=\"\\d\"/>", languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div> Testing: \\ </div>", languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<div> Testing: &#x5C </div>", languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<foo attr='\\d'></foo>", languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<> Testing: \\ </>", languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<> Testing: &#x5C </>", languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "var foo = `\\x123`", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\u00a9`", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `xs\\u2111`", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `foo \\\\ bar`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\t`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `foo \\b bar`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\n`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `foo \\r bar`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\v`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\f`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\\n`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\\r\n`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo} \\x123`", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo} \\u00a9`", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo} xs\\u2111`", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo} \\\\ ${bar}`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo} \\b ${bar}`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\t`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\n`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\r`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\v`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\f`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\\n`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\\r\n`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\``", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\`${foo}\\``", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\${{${foo}`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `$\\{{${foo}`;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = String.raw`\\.`", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = myFunc`\\.`", languageOptions: { ecmaVersion: 6 } },
 
         String.raw`var foo = /[\d]/`,
         String.raw`var foo = /[a\-b]/`,
@@ -116,76 +121,76 @@ ruleTester.run("no-useless-escape", rule, {
         // https://github.com/eslint/eslint/issues/7789
         String.raw`/]/`,
         String.raw`/\]/`,
-        { code: String.raw`/\]/u`, parserOptions: { ecmaVersion: 6 } },
+        { code: String.raw`/\]/u`, languageOptions: { ecmaVersion: 6 } },
         String.raw`var foo = /foo\]/`,
         String.raw`var foo = /[[]\]/`, // A character class containing '[', followed by a ']' character
         String.raw`var foo = /\[foo\.bar\]/`,
 
         // ES2018
-        { code: String.raw`var foo = /(?<a>)\k<a>/`, parserOptions: { ecmaVersion: 2018 } },
-        { code: String.raw`var foo = /(\\?<a>)/`, parserOptions: { ecmaVersion: 2018 } },
-        { code: String.raw`var foo = /\p{ASCII}/u`, parserOptions: { ecmaVersion: 2018 } },
-        { code: String.raw`var foo = /\P{ASCII}/u`, parserOptions: { ecmaVersion: 2018 } },
-        { code: String.raw`var foo = /[\p{ASCII}]/u`, parserOptions: { ecmaVersion: 2018 } },
-        { code: String.raw`var foo = /[\P{ASCII}]/u`, parserOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /(?<a>)\k<a>/`, languageOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /(\\?<a>)/`, languageOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /\p{ASCII}/u`, languageOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /\P{ASCII}/u`, languageOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /[\p{ASCII}]/u`, languageOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /[\P{ASCII}]/u`, languageOptions: { ecmaVersion: 2018 } },
 
         // Carets
         String.raw`/[^^]/`,
-        { code: String.raw`/[^^]/u`, parserOptions: { ecmaVersion: 2015 } },
+        { code: String.raw`/[^^]/u`, languageOptions: { ecmaVersion: 2015 } },
 
         // ES2024
-        { code: String.raw`/[\q{abc}]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\(]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\)]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\{]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\]]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\}]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\/]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\-]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\|]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\$$]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\&&]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\!!]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\##]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\%%]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\**]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\++]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\,,]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\..]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\::]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\;;]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\<<]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\==]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\>>]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\??]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\@@]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: "/[\\``]/v", parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\~~]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[^\^^]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[_\^^]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[$\$]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[&\&]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[!\!]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[#\#]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[%\%]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[*\*]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[+\+]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[,\,]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[.\.]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[:\:]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[;\;]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[<\<]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[=\=]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[>\>]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[?\?]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[@\@]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: "/[`\\`]/v", parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[~\~]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[^^\^]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[_^\^]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\&&&\&]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[[\-]\-]/v`, parserOptions: { ecmaVersion: 2024 } },
-        { code: String.raw`/[\^]/v`, parserOptions: { ecmaVersion: 2024 } }
+        { code: String.raw`/[\q{abc}]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\(]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\)]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\{]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\]]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\}]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\/]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\-]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\|]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\$$]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\&&]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\!!]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\##]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\%%]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\**]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\++]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\,,]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\..]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\::]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\;;]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\<<]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\==]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\>>]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\??]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\@@]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: "/[\\``]/v", languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\~~]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[^\^^]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[_\^^]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[$\$]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[&\&]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[!\!]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[#\#]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[%\%]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[*\*]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[+\+]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[,\,]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[.\.]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[:\:]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[;\;]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[<\<]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[=\=]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[>\>]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[?\?]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[@\@]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: "/[`\\`]/v", languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[~\~]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[^^\^]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[_^\^]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\&&&\&]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[[\-]\-]/v`, languageOptions: { ecmaVersion: 2024 } },
+        { code: String.raw`/[\^]/v`, languageOptions: { ecmaVersion: 2024 } }
     ],
 
     invalid: [
@@ -442,7 +447,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "<foo attr={\"\\d\"}/>",
-            parserOptions: { ecmaFeatures: { jsx: true } },
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
             errors: [{
                 line: 1,
                 column: 13,
@@ -477,7 +482,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "var foo = `\\\"`;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 12,
@@ -495,7 +500,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "var foo = `\\'`;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 12,
@@ -513,7 +518,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "var foo = `\\#`;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 12,
@@ -564,7 +569,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "var foo = `\\\"${foo}\\\"`;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     line: 1,
@@ -598,7 +603,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "var foo = `\\'${foo}\\'`;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     line: 1,
@@ -632,7 +637,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "var foo = `\\#${foo}`;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 12,
@@ -650,7 +655,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "let foo = '\\ ';",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 12,
@@ -668,7 +673,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "let foo = /\\ /;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 12,
@@ -686,7 +691,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "var foo = `\\$\\{{${foo}`;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     line: 1,
@@ -706,7 +711,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "var foo = `\\$a${foo}`;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     line: 1,
@@ -726,7 +731,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "var foo = `a\\{{${foo}`;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     line: 1,
@@ -1001,7 +1006,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "`multiline template\nliteral with useless \\escape`",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 2,
                 column: 22,
@@ -1019,7 +1024,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "`multiline template\r\nliteral with useless \\escape`",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 2,
                 column: 22,
@@ -1037,7 +1042,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "`template literal with line continuation \\\nand useless \\escape`",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 2,
                 column: 13,
@@ -1055,7 +1060,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "`template literal with line continuation \\\r\nand useless \\escape`",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 2,
                 column: 13,
@@ -1073,7 +1078,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "`template literal with mixed linebreaks \r\r\n\n\\and useless escape`",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 4,
                 column: 1,
@@ -1091,7 +1096,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "`template literal with mixed linebreaks in line continuations \\\n\\\r\\\r\n\\and useless escape`",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 4,
                 column: 1,
@@ -1109,7 +1114,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "`\\a```",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 2,
@@ -1146,7 +1151,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`({ foo() { "foo"; "bar"; "ba\z" } })`,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 line: 1,
                 column: 29,
@@ -1185,7 +1190,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[^\^]/u`,
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 line: 1,
                 column: 4,
@@ -1207,7 +1212,7 @@ ruleTester.run("no-useless-escape", rule, {
         // ES2024
         {
             code: String.raw`/[\$]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1228,7 +1233,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\&\&]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1248,7 +1253,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\!\!]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1268,7 +1273,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\#\#]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1288,7 +1293,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\%\%]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1308,7 +1313,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\*\*]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1328,7 +1333,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\+\+]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1348,7 +1353,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\,\,]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1368,7 +1373,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\.\.]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1388,7 +1393,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\:\:]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1408,7 +1413,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\;\;]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1428,7 +1433,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\<\<]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1448,7 +1453,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\=\=]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1468,7 +1473,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\>\>]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1488,7 +1493,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\?\?]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1508,7 +1513,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\@\@]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1528,7 +1533,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: "/[\\`\\`]/v",
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1548,7 +1553,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\~\~]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1568,7 +1573,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[^\^\^]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 4,
@@ -1588,7 +1593,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[_\^\^]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 4,
@@ -1608,7 +1613,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\&\&&\&]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1628,7 +1633,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\p{ASCII}--\.]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 14,
@@ -1644,7 +1649,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\p{ASCII}&&\.]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 14,
@@ -1660,7 +1665,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\.--[.&]]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1676,7 +1681,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\.&&[.&]]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1692,7 +1697,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\.--\.--\.]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1730,7 +1735,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[\.&&\.&&\.]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 3,
@@ -1768,7 +1773,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[[\.&]--[\.&]]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 4,
@@ -1803,7 +1808,7 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`/[[\.&]&&[\.&]]/v`,
-            parserOptions: { ecmaVersion: 2024 },
+            languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 line: 1,
                 column: 4,

@@ -1036,28 +1036,28 @@ describe("FlatConfigArray", () => {
                     await assertInvalidConfig([
                         {
                             linterOptions: {
-                                reportUnusedDisableDirectives: "true"
+                                reportUnusedDisableDirectives: {}
                             }
                         }
-                    ], /Expected a Boolean/u);
+                    ], /Expected one of: "error", "warn", "off", 0, 1, 2, or a boolean./u);
                 });
 
                 it("should merge two objects when second object has overrides", () => assertMergedResult([
                     {
                         linterOptions: {
-                            reportUnusedDisableDirectives: false
+                            reportUnusedDisableDirectives: "off"
                         }
                     },
                     {
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         }
                     }
                 ], {
                     plugins: baseConfig.plugins,
 
                     linterOptions: {
-                        reportUnusedDisableDirectives: true
+                        reportUnusedDisableDirectives: 1
                     }
                 }));
 
@@ -1065,14 +1065,14 @@ describe("FlatConfigArray", () => {
                     {},
                     {
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         }
                     }
                 ], {
                     plugins: baseConfig.plugins,
 
                     linterOptions: {
-                        reportUnusedDisableDirectives: true
+                        reportUnusedDisableDirectives: 1
                     }
                 }));
 
@@ -1726,6 +1726,17 @@ describe("FlatConfigArray", () => {
                 ], "Key \"rules\": Key \"foo\": Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.");
             });
 
+            it("should error when a string rule severity is not in lowercase", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            foo: "Error"
+                        }
+                    }
+                ], "Key \"rules\": Key \"foo\": Expected severity of \"off\", 0, \"warn\", 1, \"error\", or 2.");
+            });
+
             it("should error when an invalid rule severity is set in an array", async () => {
 
                 await assertInvalidConfig([
@@ -1972,6 +1983,73 @@ describe("FlatConfigArray", () => {
 
             });
 
+
+        });
+
+    });
+
+    // https://github.com/eslint/eslint/issues/12592
+    describe("Shared references between rule configs", () => {
+
+        it("shared rule config should not cause a rule validation error", () => {
+
+            const ruleConfig = ["error", {}];
+
+            const configs = new FlatConfigArray([{
+                rules: {
+                    camelcase: ruleConfig,
+                    "default-case": ruleConfig
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+
+            assert.deepStrictEqual(config.rules, {
+                camelcase: [2, {
+                    ignoreDestructuring: false,
+                    ignoreGlobals: false,
+                    ignoreImports: false
+                }],
+                "default-case": [2, {}]
+            });
+
+        });
+
+
+        it("should throw rule validation error for camelcase", async () => {
+
+            const ruleConfig = ["error", {}];
+
+            const configs = new FlatConfigArray([
+                {
+                    rules: {
+                        camelcase: ruleConfig
+                    }
+                },
+                {
+                    rules: {
+                        "default-case": ruleConfig,
+
+
+                        camelcase: [
+                            "error",
+                            {
+                                ignoreDestructuring: Date
+                            }
+
+                        ]
+                    }
+                }
+            ]);
+
+            configs.normalizeSync();
+
+            // exact error may differ based on structuredClone implementation so just test prefix
+            assert.throws(() => {
+                configs.getConfig("foo.js");
+            }, /Key "rules": Key "camelcase":/u);
 
         });
 

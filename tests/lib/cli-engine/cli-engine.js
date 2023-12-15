@@ -360,7 +360,12 @@ describe("CLIEngine", () => {
                 fatalErrorCount: 0,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
-                usedDeprecatedRules: []
+                usedDeprecatedRules: [
+                    {
+                        ruleId: "semi",
+                        replacedBy: []
+                    }
+                ]
             });
         });
 
@@ -725,7 +730,7 @@ describe("CLIEngine", () => {
         it("should return a `source` property when a parsing error has occurred", () => {
             engine = new CLIEngine({
                 useEslintrc: false,
-                rules: { semi: 2 }
+                rules: { eqeqeq: 2 }
             });
 
             const report = engine.executeOnText("var bar = foothis is a syntax error.\n return bar;");
@@ -1774,7 +1779,7 @@ describe("CLIEngine", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
                 useEslintrc: false,
-                rules: { indent: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
+                rules: { eqeqeq: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);

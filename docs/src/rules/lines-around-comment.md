@@ -6,7 +6,7 @@ related_rules:
 - spaced-comment
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/lines-around-comment) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Many style guides require empty lines before or after comments. The primary goal
 of these rules is to make the comments easier to read and improve readability of the code.
@@ -663,7 +663,7 @@ Examples of **correct** code for the `ignorePattern` option:
 /*eslint lines-around-comment: ["error"]*/
 
 foo();
-/* eslint mentioned in this comment */,
+/* eslint mentioned in this comment */
 bar();
 
 /*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */

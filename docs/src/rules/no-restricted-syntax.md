@@ -57,7 +57,7 @@ The string and object formats can be freely mixed in the configuration as needed
 
 Examples of **incorrect** code for this rule with the `"FunctionExpression", "WithStatement", BinaryExpression[operator='in']` options:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"] */
@@ -75,7 +75,7 @@ foo in bar;
 
 Examples of **correct** code for this rule with the `"FunctionExpression", "WithStatement", BinaryExpression[operator='in']` options:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"] */

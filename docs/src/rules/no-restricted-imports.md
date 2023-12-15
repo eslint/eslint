@@ -118,6 +118,17 @@ Pattern matches can restrict specific import names only, similar to the `paths` 
 }]
 ```
 
+Regex patterns can also be used to restrict specific import Name:
+
+```json
+"no-restricted-imports": ["error", {
+    "patterns": [{
+      "group": ["import-foo/*"],
+      "importNamePattern": "^foo",
+    }]
+}]
+```
+
 To restrict the use of all Node.js core imports (via <https://github.com/nodejs/node/tree/master/lib>):
 
 ```json
@@ -207,7 +218,7 @@ import { DisallowedObject } from "foo";
 
 import { DisallowedObject as AllowedObject } from "foo";
 
-import { "DisallowedObject" as AllowedObject } from "foo";
+import { "DisallowedObject" as SomeObject } from "foo";
 ```
 
 :::
@@ -262,6 +273,48 @@ import pick from 'fooBar';
 }]}]*/
 
 import { isEmpty } from 'utils/collection-utils';
+```
+
+:::
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNamePattern: '^is',
+    message: "Use 'is*' functions from lodash instead."
+}]}]*/
+
+import { isEmpty } from 'utils/collection-utils';
+```
+
+:::
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["foo/*"],
+    importNamePattern: '^(is|has)',
+    message: "Use 'is*' and 'has*' functions from baz/bar instead"
+}]}]*/
+
+import { isSomething, hasSomething } from 'foo/bar';
+```
+
+:::
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["foo/*"],
+    importNames: ["bar"],
+    importNamePattern: '^baz',
+}]}]*/
+
+import { bar, bazQux } from 'foo/quux';
 ```
 
 :::
@@ -351,6 +404,20 @@ import pick from 'food';
 }]}]*/
 
 import { hasValues } from 'utils/collection-utils';
+```
+
+:::
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNamePattern: '^is',
+    message: "Use 'is*' functions from lodash instead."
+}]}]*/
+
+import isEmpty, { hasValue } from 'utils/collection-utils';
 ```
 
 :::

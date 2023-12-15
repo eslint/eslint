@@ -9,7 +9,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/no-extra-parens) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 This rule restricts the use of parentheses to only where they are necessary.
 
@@ -82,8 +82,6 @@ for (a of (b));
 typeof (a);
 
 (Object.prototype.toString.call());
-
-(function(){} ? a() : b());
 
 class A {
     [(x)] = 1;
@@ -159,11 +157,11 @@ Examples of **correct** code for this rule with the `"all"` and `{ "returnAssign
 ```js
 /* eslint no-extra-parens: ["error", "all", { "returnAssign": false }] */
 
-function a(b) {
+function a1(b) {
   return (b = 1);
 }
 
-function a(b) {
+function a2(b) {
   return b ? (c = d) : (c = e);
 }
 
@@ -218,8 +216,8 @@ Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "a
 
 ```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "all" }] */
-const Component = (<div />)
-const Component = (
+const ThisComponent = (<div />)
+const ThatComponent = (
     <div
         prop={true}
     />
@@ -234,8 +232,8 @@ Examples of **incorrect** code for this rule with the `all` and `{ "ignoreJSX": 
 
 ```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "multi-line" }] */
-const Component = (<div />)
-const Component = (<div><p /></div>)
+const ThisComponent = (<div />)
+const ThatComponent = (<div><p /></div>)
 ```
 
 :::
@@ -246,12 +244,12 @@ Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "m
 
 ```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "multi-line" }] */
-const Component = (
+const ThisComponent = (
     <div>
         <p />
     </div>
 )
-const Component = (
+const ThatComponent = (
     <div
         prop={true}
     />
@@ -266,12 +264,12 @@ Examples of **incorrect** code for this rule with the `all` and `{ "ignoreJSX": 
 
 ```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
-const Component = (
+const ThisComponent = (
     <div>
         <p />
     </div>
 )
-const Component = (
+const ThatComponent = (
     <div
         prop={true}
     />
@@ -286,8 +284,8 @@ Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "s
 
 ```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
-const Component = (<div />)
-const Component = (<div><p /></div>)
+const ThisComponent = (<div />)
+const ThatComponent = (<div><p /></div>)
 ```
 
 :::

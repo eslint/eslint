@@ -1,0 +1,46 @@
+name: "\U0001F4DD Docs"
+description: "Request an improvement to documentation"
+title: "Docs: (fill in)"
+labels:
+  - documentation
+body:
+- type: markdown
+  attributes:
+    value: By opening an issue, you agree to abide by the [Open JS Foundation Code of Conduct](https://eslint.org/conduct).
+- type: textarea
+  attributes:
+    label: Docs page(s)
+    description: |
+      What page(s) are you suggesting be changed or created?
+    placeholder: |
+      e.g. https://eslint.org/docs/latest/use/getting-started
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: What documentation issue do you want to solve?
+    description: |
+      Please explain your issue in as much detail as possible.
+    placeholder: |
+      The ESLint docs currently...
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: What do you think is the correct solution?
+    description: |
+      Please explain how you'd like to change the ESLint docs to address the problem.
+    placeholder: |
+      I'd like the ESLint docs to...
+  validations:
+    required: true
+- type: checkboxes
+  attributes:
+    label: Participation
+    options:
+      - label: I am willing to submit a pull request for this change.
+        required: false
+- type: textarea
+  attributes:
+    label: Additional comments
+    description: Is there anything else that's important for the team to know?

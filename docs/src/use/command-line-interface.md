@@ -97,7 +97,8 @@ Output:
 
 Inline configuration comments:
   --no-inline-config              Prevent comments from changing config or rules
-  --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
+  --report-unused-disable-directives  Adds reported errors for unused eslint-disable and eslint-enable directives
+  --report-unused-disable-directives-severity String  Chooses severity level for reporting unused eslint-disable and eslint-enable directives - either: off, warn, error, 0, 1, or 2
 
 Caching:
   --cache                         Only check changed files - default: false
@@ -110,6 +111,7 @@ Miscellaneous:
   --env-info                      Output execution environment information - default: false
   --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched
   --exit-on-fatal-error           Exit with exit code 2 in case of fatal error - default: false
+  --no-warn-ignored               Suppress warnings when the file list includes ignored files. *Flat Config Mode Only*
   --debug                         Output debugging information
   -h, --help                      Show help
   -v, --version                   Output the version number
@@ -120,7 +122,7 @@ Miscellaneous:
 
 #### `--no-eslintrc`
 
-Disables use of configuration from `.eslintrc.*` and `package.json` files.
+**eslintrc Mode Only.** Disables use of configuration from `.eslintrc.*` and `package.json` files. For flat config mode, use `--no-config-lookup` instead.
 
 * **Argument Type**: No argument.
 
@@ -149,7 +151,7 @@ If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.
 
 #### `--env`
 
-This option enables specific environments.
+**eslintrc Mode Only.** This option enables specific environments.
 
 * **Argument Type**: String. One of the available environments.
 * **Multiple Arguments**: Yes
@@ -165,7 +167,7 @@ npx eslint --env browser --env node file.js
 
 #### `--ext`
 
-This option allows you to specify which file extensions ESLint uses when searching for target files in the directories you specify.
+**eslintrc Mode Only.** This option allows you to specify which file extensions ESLint uses when searching for target files in the directories you specify.
 
 * **Argument Type**: String. File extension.
 * **Multiple Arguments**: Yes
@@ -231,7 +233,7 @@ echo '3 ** 4' | npx eslint --stdin --parser-options ecmaVersion:7 # succeeds, ya
 
 #### `--resolve-plugins-relative-to`
 
-Changes the directory where plugins are resolved from.
+**eslintrc Mode Only.** Changes the directory where plugins are resolved from.
 
 * **Argument Type**: String. Path to directory.
 * **Multiple Arguments**: No
@@ -278,7 +280,7 @@ This option specifies the rules to be used.
 
 These rules are merged with any rules specified with configuration files. If the rule is defined in a plugin, you have to prefix the rule ID with the plugin name and a `/`.
 
-To ignore rules in `.eslintrc` configuration files and only run rules specified in the command line, use the `--rules` flag in combination with the [`--no-eslintrc`](#--no-eslintrc) flag.
+To ignore rules in `.eslintrc` configuration files and only run rules specified in the command line, use the `--rule` flag in combination with the [`--no-eslintrc`](#--no-eslintrc) flag.
 
 ##### `--rule` example
 
@@ -373,7 +375,7 @@ npx eslint --fix --fix-type suggestion,layout .
 
 #### `--ignore-path`
 
-This option allows you to specify the file to use as your `.eslintignore`.
+**eslintrc Mode Only.** This option allows you to specify the file to use as your `.eslintignore`.
 
 * **Argument Type**: String. Path to file.
 * **Multiple Arguments**: No
@@ -576,18 +578,35 @@ This option causes ESLint to report directive comments like `// eslint-disable-l
 
 * **Argument Type**: No argument.
 
-This can be useful to prevent future errors from unexpectedly being suppressed, by cleaning up old `eslint-disable` comments which are no longer applicable.
+This can be useful to prevent future errors from unexpectedly being suppressed, by cleaning up old `eslint-disable` and `eslint-enable` comments which are no longer applicable.
 
 ::: warning
 When using this option, it is possible that new errors start being reported whenever ESLint or custom rules are upgraded.
 
-For example, suppose a rule has a bug that causes it to report a false positive, and an `eslint-disable` comment is added to suppress the incorrect report. If the bug is then fixed in a patch release of ESLint, the `eslint-disable` comment becomes unused since ESLint is no longer generating an incorrect report. This results in a new reported error for the unused directive if the `report-unused-disable-directives` option is used.
+For example, suppose a rule has a bug that causes it to report a false positive, and an `eslint-disable` comment is added to suppress the incorrect report. If the bug is then fixed in a patch release of ESLint, the `eslint-disable` comment becomes unused since ESLint is no longer generating an incorrect report. This results in a new reported error for the unused directive if the `--report-unused-disable-directives` option is used.
 :::
 
 ##### `--report-unused-disable-directives` example
 
 ```shell
 npx eslint --report-unused-disable-directives file.js
+```
+
+#### `--report-unused-disable-directives-severity`
+
+Same as [`--report-unused-disable-directives`](#--report-unused-disable-directives), but allows you to specify the severity level (`error`, `warn`, `off`) of the reported errors. Only one of these two options can be used at a time.
+
+* **Argument Type**: String. One of the following values:
+  1. `off` (or `0`)
+  1. `warn` (or `1`)
+  1. `error` (or `2`)
+* **Multiple Arguments**: No
+* **Default Value**: By default, `linterOptions.reportUnusedDisableDirectives` configuration setting is used.
+
+##### `--report-unused-disable-directives-severity` example
+
+```shell
+npx eslint --report-unused-disable-directives-severity warn file.js
 ```
 
 ### Caching
@@ -701,6 +720,18 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 ```shell
 npx eslint --exit-on-fatal-error file.js
+```
+
+#### `--no-warn-ignored`
+
+**Flat Config Mode Only.** This option suppresses both `File ignored by default` and `File ignored because of a matching ignore pattern` warnings when an ignored filename is passed explicitly. It is useful when paired with `--max-warnings 0` as it will prevent exit code 1 due to the aforementioned warning.
+
+* **Argument Type**: No argument.
+
+##### `--no-warn-ignored` example
+
+```shell
+npx eslint --no-warn-ignored --max-warnings 0 ignored-file.js
 ```
 
 #### `--debug`

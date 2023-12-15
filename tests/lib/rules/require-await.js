@@ -10,14 +10,14 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/require-await"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-    parserOptions: {
+    languageOptions: {
         ecmaVersion: 2018
     }
 });
@@ -46,7 +46,9 @@ ruleTester.run("require-await", rule, {
         // global await
         {
             code: "await foo()",
-            parser: require.resolve("../../fixtures/parsers/typescript-parsers/global-await")
+            languageOptions: {
+                parser: require("../../fixtures/parsers/typescript-parsers/global-await")
+            }
         },
         {
             code: `
@@ -54,11 +56,13 @@ ruleTester.run("require-await", rule, {
                     console.log(num);
                 }
             `,
-            parser: require.resolve("../../fixtures/parsers/typescript-parsers/global-for-await-of")
+            languageOptions: {
+                parser: require("../../fixtures/parsers/typescript-parsers/global-for-await-of")
+            }
         },
         {
             code: "async function* run() { yield * anotherAsyncGenerator() }",
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         },
         {
             code: `async function* run() {
@@ -67,23 +71,23 @@ ruleTester.run("require-await", rule, {
                 console.log('World');
             }
             `,
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         },
         {
             code: "async function* run() { }",
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         },
         {
             code: "const foo = async function *(){}",
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         },
         {
             code: 'const foo = async function *(){ console.log("bar") }',
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         },
         {
             code: 'async function* run() { console.log("bar") }',
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         }
 
     ],

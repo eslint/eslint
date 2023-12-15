@@ -10,7 +10,7 @@ For example `a = a || b` can be shortened to `a ||= b`.
 
 ## Rule Details
 
-This rule requires or disallows logical assignment operator shorthand.  
+This rule requires or disallows logical assignment operator shorthand.
 
 ### Options
 
@@ -27,6 +27,9 @@ Object option (only available if string option is set to `"always"`):
 
 #### always
 
+This option checks for expressions that can be shortened using logical assignment operator. For example, `a = a || b` can be shortened to `a ||= b`.
+Expressions with associativity such as `a = a || b || c` are reported as being able to be shortened to `a ||= b || c` unless the evaluation order is explicitly defined using parentheses, such as `a = (a || b) || c`.
+
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ::: incorrect
@@ -40,6 +43,9 @@ a = a ?? b
 a || (a = b)
 a && (a = b)
 a ?? (a = b)
+a = a || b || c
+a = a && b && c
+a = a ?? b ?? c
 ```
 
 :::
@@ -58,6 +64,8 @@ a = b || c
 a || (b = c)
 
 if (a) a = b
+
+a = (a || b) || c
 ```
 
 :::
