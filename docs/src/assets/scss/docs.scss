@@ -104,6 +104,11 @@ html {
 div.correct,
 div.incorrect {
     position: relative;
+    background-color: var(--lightest-background-color);
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 3rem;
 
     &::after {
         position: absolute;
@@ -111,6 +116,16 @@ div.incorrect {
         right: -22px;
         offset-inline-end: -22px;
         offset-block-start: -22px;
+    }
+
+    & > pre[class*="language-"] {
+        padding-top: unset;
+        padding-bottom: unset;
+        margin: 0;
+
+        & > .line-numbers-wrapper {
+            padding-top: unset;
+        }
     }
 }
 
