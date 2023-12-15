@@ -103,9 +103,20 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: "var r = /[\\uD83D\\uDC4D-\\uffff]/",
+            languageOptions: { ecmaVersion: 3, sourceType: "script" },
             errors: [{
                 column: 11,
                 endColumn: 23,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: null // pattern would be invalid with the 'u' flag
+            }]
+        },
+        {
+            code: "var r = /[👍]/",
+            languageOptions: { ecmaVersion: 3, sourceType: "script" },
+            errors: [{
+                column: 11,
+                endColumn: 13,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: null // pattern would be invalid with the 'u' flag
             }]
@@ -541,24 +552,6 @@ ruleTester.run("no-misleading-character-class", rule, {
                 endColumn: 30,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = RegExp("\t\t\t👍[👍]", "u")` }]
-            }]
-        },
-        {
-            code: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "")`,
-            errors: [{
-                column: 20,
-                endColumn: 38,
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("[\\uD83D\\uDC4D]", "u")` }]
-            }]
-        },
-        {
-            code: String.raw`var r = new RegExp("\\uDC4D[\\uD83D\\uDC4D]", "")`,
-            errors: [{
-                column: 20,
-                endColumn: 45,
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: String.raw`var r = new RegExp("\\uDC4D[\\uD83D\\uDC4D]", "u")` }]
             }]
         },
         {
