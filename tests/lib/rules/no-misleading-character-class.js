@@ -501,6 +501,31 @@ ruleTester.run("no-misleading-character-class", rule, {
             }]
         },
         {
+            code: `var r = new RegExp(\`
+                [👍]\`)`,
+            errors: [{
+                line: 2,
+                endLine: 2,
+                column: 18,
+                endColumn: 20,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{
+                    messageId: "suggestUnicodeFlag", output: `var r = new RegExp(\`
+                [👍]\`, "u")`
+                }]
+            }]
+        },
+        {
+            code: `var r = new RegExp(\`
+                [❇️]\`)`,
+            errors: [{
+                column: 18,
+                endColumn: 20,
+                messageId: "combiningClass",
+                suggestions: null
+            }]
+        },
+        {
             code: String.raw`var r = new RegExp("[👍]", flags)`,
             errors: [{
                 column: 22,
