@@ -69,6 +69,8 @@ ruleTester.run("no-implicit-coercion", rule, {
         { code: "!!foo", options: [{ boolean: false }] },
         { code: "~foo.indexOf(1)", options: [{ boolean: false }] },
         { code: "+foo", options: [{ number: false }] },
+        { code: "-(-foo)", options: [{ number: false }] },
+        { code: "foo - 0", options: [{ number: false }] },
         { code: "1*foo", options: [{ number: false }] },
         { code: "\"\"+foo", options: [{ string: false }] },
         { code: "foo += \"\"", options: [{ string: false }] },
@@ -76,6 +78,8 @@ ruleTester.run("no-implicit-coercion", rule, {
         { code: "var a = ~foo.indexOf(1)", options: [{ boolean: true, allow: ["~"] }] },
         { code: "var a = ~foo", options: [{ boolean: true }] },
         { code: "var a = 1 * foo", options: [{ boolean: true, allow: ["*"] }] },
+        { code: "- -foo", options: [{ number: true, allow: ["- -"] }] },
+        { code: "foo - 0", options: [{ number: true, allow: ["-"] }] },
         { code: "var a = +foo", options: [{ boolean: true, allow: ["+"] }] },
         { code: "var a = \"\" + foo", options: [{ boolean: true, string: true, allow: ["+"] }] },
 
