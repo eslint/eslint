@@ -4408,6 +4408,14 @@ describe("FlatESLint", () => {
 
             await assert.rejects(() => eslint.isPathIgnored(null), /'filePath' must be a non-empty string/u);
         });
+
+        describe("with unsupported .eslintignore file", () => {
+            it("throws an error", async () => {
+                const cwd = getFixturePath("ignored-paths");
+
+                assert.throws(() => new FlatESLint({ cwd }), /\.eslintignore file is unsupported in flat config\./u);
+            });
+        });
     });
 
     describe("loadFormatter()", () => {
