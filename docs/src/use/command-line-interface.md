@@ -98,6 +98,7 @@ Output:
 Inline configuration comments:
   --no-inline-config              Prevent comments from changing config or rules
   --report-unused-disable-directives  Adds reported errors for unused eslint-disable and eslint-enable directives
+  --report-unused-disable-directives-severity String  Chooses severity level for reporting unused eslint-disable and eslint-enable directives - either: off, warn, error, 0, 1, or 2
 
 Caching:
   --cache                         Only check changed files - default: false
@@ -279,7 +280,7 @@ This option specifies the rules to be used.
 
 These rules are merged with any rules specified with configuration files. If the rule is defined in a plugin, you have to prefix the rule ID with the plugin name and a `/`.
 
-To ignore rules in `.eslintrc` configuration files and only run rules specified in the command line, use the `--rules` flag in combination with the [`--no-eslintrc`](#--no-eslintrc) flag.
+To ignore rules in `.eslintrc` configuration files and only run rules specified in the command line, use the `--rule` flag in combination with the [`--no-eslintrc`](#--no-eslintrc) flag.
 
 ##### `--rule` example
 
@@ -582,13 +583,30 @@ This can be useful to prevent future errors from unexpectedly being suppressed, 
 ::: warning
 When using this option, it is possible that new errors start being reported whenever ESLint or custom rules are upgraded.
 
-For example, suppose a rule has a bug that causes it to report a false positive, and an `eslint-disable` comment is added to suppress the incorrect report. If the bug is then fixed in a patch release of ESLint, the `eslint-disable` comment becomes unused since ESLint is no longer generating an incorrect report. This results in a new reported error for the unused directive if the `report-unused-disable-directives` option is used.
+For example, suppose a rule has a bug that causes it to report a false positive, and an `eslint-disable` comment is added to suppress the incorrect report. If the bug is then fixed in a patch release of ESLint, the `eslint-disable` comment becomes unused since ESLint is no longer generating an incorrect report. This results in a new reported error for the unused directive if the `--report-unused-disable-directives` option is used.
 :::
 
 ##### `--report-unused-disable-directives` example
 
 ```shell
 npx eslint --report-unused-disable-directives file.js
+```
+
+#### `--report-unused-disable-directives-severity`
+
+Same as [`--report-unused-disable-directives`](#--report-unused-disable-directives), but allows you to specify the severity level (`error`, `warn`, `off`) of the reported errors. Only one of these two options can be used at a time.
+
+* **Argument Type**: String. One of the following values:
+  1. `off` (or `0`)
+  1. `warn` (or `1`)
+  1. `error` (or `2`)
+* **Multiple Arguments**: No
+* **Default Value**: By default, `linterOptions.reportUnusedDisableDirectives` configuration setting is used.
+
+##### `--report-unused-disable-directives-severity` example
+
+```shell
+npx eslint --report-unused-disable-directives-severity warn file.js
 ```
 
 ### Caching

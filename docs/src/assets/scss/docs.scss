@@ -113,7 +113,8 @@ div.incorrect {
         offset-block-start: -22px;
     }
 
-    pre.line-numbers-mode {
+    // Add space to the bottom if there is a Playground button.
+    .c-btn.c-btn--playground ~ pre.line-numbers-mode {
         padding-bottom: 4.5rem;
     }
 }

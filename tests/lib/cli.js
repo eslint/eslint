@@ -63,7 +63,7 @@ describe("cli", () => {
 
         const localCLI = proxyquire("../../lib/cli", {
             "./eslint": { ESLint: fakeESLint },
-            "./flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+            "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(configType === "flat") },
             "./shared/logging": log
         });
 
@@ -990,7 +990,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1009,7 +1009,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1040,7 +1040,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1076,7 +1076,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1113,7 +1113,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1131,12 +1131,12 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
 
-                const exitCode = await localCLI.execute("--fix .", "foo = bar;", null, useFlatConfig);
+                const exitCode = await localCLI.execute("--fix .", "foo = bar;", useFlatConfig);
 
                 assert.strictEqual(exitCode, 2);
             });
@@ -1162,7 +1162,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1190,7 +1190,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1225,7 +1225,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1262,7 +1262,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1298,7 +1298,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1315,7 +1315,7 @@ describe("cli", () => {
 
                 localCLI = proxyquire("../../lib/cli", {
                     "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(false) },
+                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1364,6 +1364,114 @@ describe("cli", () => {
                 assert.isTrue(log.info.notCalled);
                 assert.isTrue(log.error.calledOnce);
                 assert.strictEqual(exitCode, 2);
+            });
+        });
+
+        describe("when passing --report-unused-disable-directives", () => {
+            describe(`config type: ${configType}`, () => {
+                it("errors when --report-unused-disable-directives", async () => {
+                    const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --report-unused-disable-directives --rule "'no-console': 'error'"`,
+                        "foo(); // eslint-disable-line no-console",
+                        useFlatConfig);
+
+                    assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                    assert.strictEqual(log.info.callCount, 1, "log.info is called once");
+                    assert.ok(log.info.firstCall.args[0].includes("Unused eslint-disable directive (no problems were reported from 'no-console')"), "has correct message about unused directives");
+                    assert.ok(log.info.firstCall.args[0].includes("1 error and 0 warning"), "has correct error and warning count");
+                    assert.strictEqual(exitCode, 1, "exit code should be 1");
+                });
+
+                it("errors when --report-unused-disable-directives-severity error", async () => {
+                    const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --report-unused-disable-directives-severity error --rule "'no-console': 'error'"`,
+                        "foo(); // eslint-disable-line no-console",
+                        useFlatConfig);
+
+                    assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                    assert.strictEqual(log.info.callCount, 1, "log.info is called once");
+                    assert.ok(log.info.firstCall.args[0].includes("Unused eslint-disable directive (no problems were reported from 'no-console')"), "has correct message about unused directives");
+                    assert.ok(log.info.firstCall.args[0].includes("1 error and 0 warning"), "has correct error and warning count");
+                    assert.strictEqual(exitCode, 1, "exit code should be 1");
+                });
+
+                it("errors when --report-unused-disable-directives-severity 2", async () => {
+                    const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --report-unused-disable-directives-severity 2 --rule "'no-console': 'error'"`,
+                        "foo(); // eslint-disable-line no-console",
+                        useFlatConfig);
+
+                    assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                    assert.strictEqual(log.info.callCount, 1, "log.info is called once");
+                    assert.ok(log.info.firstCall.args[0].includes("Unused eslint-disable directive (no problems were reported from 'no-console')"), "has correct message about unused directives");
+                    assert.ok(log.info.firstCall.args[0].includes("1 error and 0 warning"), "has correct error and warning count");
+                    assert.strictEqual(exitCode, 1, "exit code should be 1");
+                });
+
+                it("warns when --report-unused-disable-directives-severity warn", async () => {
+                    const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --report-unused-disable-directives-severity warn --rule "'no-console': 'error'""`,
+                        "foo(); // eslint-disable-line no-console",
+                        useFlatConfig);
+
+                    assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                    assert.strictEqual(log.info.callCount, 1, "log.info is called once");
+                    assert.ok(log.info.firstCall.args[0].includes("Unused eslint-disable directive (no problems were reported from 'no-console')"), "has correct message about unused directives");
+                    assert.ok(log.info.firstCall.args[0].includes("0 errors and 1 warning"), "has correct error and warning count");
+                    assert.strictEqual(exitCode, 0, "exit code should be 0");
+                });
+
+                it("warns when --report-unused-disable-directives-severity 1", async () => {
+                    const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --report-unused-disable-directives-severity 1 --rule "'no-console': 'error'"`,
+                        "foo(); // eslint-disable-line no-console",
+                        useFlatConfig);
+
+                    assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                    assert.strictEqual(log.info.callCount, 1, "log.info is called once");
+                    assert.ok(log.info.firstCall.args[0].includes("Unused eslint-disable directive (no problems were reported from 'no-console')"), "has correct message about unused directives");
+                    assert.ok(log.info.firstCall.args[0].includes("0 errors and 1 warning"), "has correct error and warning count");
+                    assert.strictEqual(exitCode, 0, "exit code should be 0");
+                });
+
+                it("does not report when --report-unused-disable-directives-severity off", async () => {
+                    const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --report-unused-disable-directives-severity off --rule "'no-console': 'error'"`,
+                        "foo(); // eslint-disable-line no-console",
+                        useFlatConfig);
+
+                    assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(exitCode, 0, "exit code should be 0");
+                });
+
+                it("does not report when --report-unused-disable-directives-severity 0", async () => {
+                    const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --report-unused-disable-directives-severity 0 --rule "'no-console': 'error'"`,
+                        "foo(); // eslint-disable-line no-console",
+                        useFlatConfig);
+
+                    assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(exitCode, 0, "exit code should be 0");
+                });
+
+                it("fails when passing invalid string for --report-unused-disable-directives-severity", async () => {
+                    const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --report-unused-disable-directives-severity foo`, null, useFlatConfig);
+
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
+
+                    const lines = ["Option report-unused-disable-directives-severity: 'foo' not one of off, warn, error, 0, 1, or 2."];
+
+                    if (useFlatConfig) {
+                        lines.push("You're using eslint.config.js, some command line flags are no longer available. Please see https://eslint.org/docs/latest/use/command-line-interface for details.");
+                    }
+                    assert.deepStrictEqual(log.error.firstCall.args, [lines.join("\n")], "has the right text to log.error");
+                    assert.strictEqual(exitCode, 2, "exit code should be 2");
+                });
+
+                it("fails when passing both --report-unused-disable-directives and --report-unused-disable-directives-severity", async () => {
+                    const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --report-unused-disable-directives --report-unused-disable-directives-severity warn`, null, useFlatConfig);
+
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
+                    assert.deepStrictEqual(log.error.firstCall.args, ["The --report-unused-disable-directives option and the --report-unused-disable-directives-severity option cannot be used together."], "has the right text to log.error");
+                    assert.strictEqual(exitCode, 2, "exit code should be 2");
+                });
             });
         });
 

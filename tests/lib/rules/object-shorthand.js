@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/object-shorthand"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 const { unIndent } = require("../../_utils");
 
 //------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ const LONGFORM_METHOD_STRING_LITERAL_ERROR = { messageId: "expectedLiteralMethod
 const ALL_SHORTHAND_ERROR = { messageId: "expectedAllPropertiesShorthanded", type: "ObjectExpression" };
 const MIXED_SHORTHAND_ERROR = { messageId: "unexpectedMix", type: "ObjectExpression" };
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2018 } });
 
 ruleTester.run("object-shorthand", rule, {
     valid: [
@@ -253,7 +253,7 @@ ruleTester.run("object-shorthand", rule, {
         {
             code: "var x = {foo: foo, bar: bar, ...baz}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
 
         // consistent
@@ -276,22 +276,22 @@ ruleTester.run("object-shorthand", rule, {
         {
             code: "var x = {...bar}",
             options: ["consistent-as-needed"],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var x = {foo, bar, ...baz}",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var x = {bar: baz, ...qux}",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var x = {...foo, bar: bar, baz: baz}",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
 
         // consistent-as-needed
@@ -330,17 +330,17 @@ ruleTester.run("object-shorthand", rule, {
         {
             code: "var x = {bar, ...baz}",
             options: ["consistent-as-needed"],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var x = {bar: baz, ...qux}",
             options: ["consistent-as-needed"],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var x = {...foo, bar, baz}",
             options: ["consistent-as-needed"],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
 
         // avoidExplicitReturnArrows
@@ -579,19 +579,19 @@ ruleTester.run("object-shorthand", rule, {
         {
             code: "({ foo: async function () {} })",
             output: "({ async foo () {} })",
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [METHOD_ERROR]
         },
         {
             code: "({ 'foo': async function() {} })",
             output: "({ async 'foo'() {} })",
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [METHOD_ERROR]
         },
         {
             code: "({ [foo]: async function() {} })",
             output: "({ async [foo]() {} })",
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [METHOD_ERROR]
         },
         {
@@ -607,7 +607,7 @@ ruleTester.run("object-shorthand", rule, {
         {
             code: "({ [ foo ]: async function() {} })",
             output: "({ async [ foo ]() {} })",
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [METHOD_ERROR]
         },
         {
@@ -659,7 +659,7 @@ ruleTester.run("object-shorthand", rule, {
         {
             code: "({ [(foo)]: async function() { return; } })",
             output: "({ async [(foo)]() { return; } })",
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [METHOD_ERROR]
         },
         {
@@ -677,7 +677,7 @@ ruleTester.run("object-shorthand", rule, {
             code: "({ async [(foo)]() { return; } })",
             output: "({ [(foo)]: async function() { return; } })",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [LONGFORM_METHOD_ERROR]
         },
         {
@@ -708,14 +708,14 @@ ruleTester.run("object-shorthand", rule, {
             code: "({ async foo() { return; } })",
             output: "({ foo: async function() { return; } })",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [LONGFORM_METHOD_ERROR]
         },
         {
             code: "({ *['foo bar']() { return; } })",
             output: "({ ['foo bar']: function*() { return; } })",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [LONGFORM_METHOD_ERROR]
         },
         {
@@ -776,14 +776,14 @@ ruleTester.run("object-shorthand", rule, {
             code: "var x = {foo: foo, bar: baz, ...qux}",
             output: "var x = {foo, bar: baz, ...qux}",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: [PROPERTY_ERROR]
         },
         {
             code: "var x = {foo, bar: baz, ...qux}",
             output: "var x = {foo: foo, bar: baz, ...qux}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: [LONGFORM_PROPERTY_ERROR]
         },
 
@@ -920,7 +920,7 @@ ruleTester.run("object-shorthand", rule, {
             code: "var x = {foo, bar: baz, ...qux}",
             output: null,
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: [MIXED_SHORTHAND_ERROR]
         },
 
@@ -948,14 +948,14 @@ ruleTester.run("object-shorthand", rule, {
             code: "var x = {a: a, b: b, ...baz}",
             output: null,
             options: ["consistent-as-needed"],
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: [ALL_SHORTHAND_ERROR]
         },
         {
             code: "var x = {foo, bar: bar, ...qux}",
             output: null,
             options: ["consistent-as-needed"],
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: [MIXED_SHORTHAND_ERROR]
         },
 
@@ -1084,14 +1084,14 @@ ruleTester.run("object-shorthand", rule, {
             code: "({ a: 1, foo: async (bar = 1) => { return; } })",
             output: "({ a: 1, async foo(bar = 1) { return; } })",
             options: ["always", { avoidExplicitReturnArrows: true }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [METHOD_ERROR]
         },
         {
             code: "({ [ foo ]: async bar => { return; } })",
             output: "({ async [ foo ](bar) { return; } })",
             options: ["always", { avoidExplicitReturnArrows: true }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [METHOD_ERROR]
         },
         {
@@ -1263,7 +1263,9 @@ ruleTester.run("object-shorthand", rule, {
                 }
             `,
             options: ["always", { avoidExplicitReturnArrows: true }],
-            parser: require.resolve("../../fixtures/parsers/typescript-parsers/object-with-arrow-fn-props"),
+            languageOptions: {
+                parser: require("../../fixtures/parsers/typescript-parsers/object-with-arrow-fn-props")
+            },
             errors: Array(18).fill(METHOD_ERROR)
         }
     ]

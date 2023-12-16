@@ -15589,7 +15589,7 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages.length, 0);
                 });
 
-                it("reports problems for unused eslint-disable comments (in config)", () => {
+                it("reports problems for unused eslint-disable comments (in config) (boolean value, true)", () => {
                     const messages = linter.verify("/* eslint-disable */", {
                         linterOptions: {
                             reportUnusedDisableDirectives: true
@@ -15618,11 +15618,82 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages.length, 0);
                 });
 
+                it("does not report problems for unused eslint-disable comments (in config) (boolean value, false)", () => {
+                    const messages = linter.verify("/* eslint-disable */", {
+                        linterOptions: {
+                            reportUnusedDisableDirectives: false
+                        }
+                    });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.deepStrictEqual(messages, []);
+
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("does not report problems for unused eslint-disable comments (in config) (string value, off)", () => {
+                    const messages = linter.verify("/* eslint-disable */", {
+                        linterOptions: {
+                            reportUnusedDisableDirectives: "off"
+                        }
+                    });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.deepStrictEqual(messages, []);
+
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("reports problems for unused eslint-disable comments (in config) (string value, error)", () => {
+                    const messages = linter.verify("/* eslint-disable */", {
+                        linterOptions: {
+                            reportUnusedDisableDirectives: "error"
+                        }
+                    });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.deepStrictEqual(
+                        messages,
+                        [
+                            {
+                                ruleId: null,
+                                message: "Unused eslint-disable directive (no problems were reported).",
+                                line: 1,
+                                column: 1,
+                                fix: {
+                                    range: [0, 20],
+                                    text: " "
+                                },
+                                severity: 2,
+                                nodeType: null
+                            }
+                        ]
+                    );
+
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("throws with invalid string for reportUnusedDisableDirectives in config", () => {
+                    assert.throws(() => linter.verify("/* eslint-disable */", {
+                        linterOptions: {
+                            reportUnusedDisableDirectives: "foo"
+                        }
+                    }), 'Key "linterOptions": Key "reportUnusedDisableDirectives": Expected one of: "error", "warn", "off", 0, 1, 2, or a boolean.');
+                });
+
+                it("throws with invalid type for reportUnusedDisableDirectives in config", () => {
+                    assert.throws(() => linter.verify("/* eslint-disable */", {
+                        linterOptions: {
+                            reportUnusedDisableDirectives: {}
+                        }
+                    }), 'Key "linterOptions": Key "reportUnusedDisableDirectives": Expected one of: "error", "warn", "off", 0, 1, 2, or a boolean.');
+                });
+
                 it("reports problems for partially unused eslint-disable comments (in config)", () => {
                     const code = "alert('test'); // eslint-disable-line no-alert, no-redeclare";
                     const config = {
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         },
                         rules: {
                             "no-alert": 1,
@@ -15662,7 +15733,7 @@ var a = "test2";
                     assert.deepStrictEqual(
                         linter.verify("// eslint-disable-next-line", {
                             linterOptions: {
-                                reportUnusedDisableDirectives: true
+                                reportUnusedDisableDirectives: "warn"
                             }
                         }),
                         [
@@ -15686,7 +15757,7 @@ var a = "test2";
                     assert.deepStrictEqual(
                         linter.verify("/* \neslint-disable-next-line\n */", {
                             linterOptions: {
-                                reportUnusedDisableDirectives: true
+                                reportUnusedDisableDirectives: "warn"
                             }
                         }),
                         [
@@ -15710,7 +15781,7 @@ var a = "test2";
                     const code = "// eslint-disable-next-line no-alert, no-redeclare \nalert('test');";
                     const config = {
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         },
                         rules: {
                             "no-alert": 1,
@@ -15752,7 +15823,7 @@ var a = "test2";
                     `;
                     const config = {
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         },
                         rules: {
                             "no-alert": 1,
@@ -16109,7 +16180,7 @@ var a = "test2";
                             }
                         },
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         },
                         rules: {
                             ...Object.fromEntries(usedRules.map(name => [`test/${name}`, "error"])),

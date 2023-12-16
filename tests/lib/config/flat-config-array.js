@@ -1037,28 +1037,28 @@ describe("FlatConfigArray", () => {
                     await assertInvalidConfig([
                         {
                             linterOptions: {
-                                reportUnusedDisableDirectives: "true"
+                                reportUnusedDisableDirectives: {}
                             }
                         }
-                    ], /Expected a Boolean/u);
+                    ], /Expected one of: "error", "warn", "off", 0, 1, 2, or a boolean./u);
                 });
 
                 it("should merge two objects when second object has overrides", () => assertMergedResult([
                     {
                         linterOptions: {
-                            reportUnusedDisableDirectives: false
+                            reportUnusedDisableDirectives: "off"
                         }
                     },
                     {
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         }
                     }
                 ], {
                     plugins: baseConfig.plugins,
 
                     linterOptions: {
-                        reportUnusedDisableDirectives: true
+                        reportUnusedDisableDirectives: 1
                     }
                 }));
 
@@ -1066,14 +1066,14 @@ describe("FlatConfigArray", () => {
                     {},
                     {
                         linterOptions: {
-                            reportUnusedDisableDirectives: true
+                            reportUnusedDisableDirectives: "warn"
                         }
                     }
                 ], {
                     plugins: baseConfig.plugins,
 
                     linterOptions: {
-                        reportUnusedDisableDirectives: true
+                        reportUnusedDisableDirectives: 1
                     }
                 }));
 

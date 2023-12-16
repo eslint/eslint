@@ -61,8 +61,9 @@ describe("check-rule-examples", () => {
                 "\x1B[0m  \x1B[2m12:1\x1B[22m  \x1B[31merror\x1B[39m  Syntax error: 'import' and 'export' may appear only with 'sourceType: module'\x1B[0m\n" +
                 "\x1B[0m  \x1B[2m20:5\x1B[22m  \x1B[31merror\x1B[39m  Nonstandard language tag 'ts': use one of 'javascript', 'js' or 'jsx'\x1B[0m\n" +
                 "\x1B[0m  \x1B[2m23:7\x1B[22m  \x1B[31merror\x1B[39m  Syntax error: Identifier 'foo' has already been declared\x1B[0m\n" +
+                "\x1B[0m  \x1B[2m31:1\x1B[22m  \x1B[31merror\x1B[39m  Example code should contain a configuration comment like /* eslint no-restricted-syntax: \"error\" */\x1B[0m\n" +
                 "\x1B[0m\x1B[0m\n" +
-                "\x1B[0m\x1B[31m\x1B[1m✖ 4 problems (4 errors, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
+                "\x1B[0m\x1B[31m\x1B[1m✖ 5 problems (5 errors, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
                 "\x1B[0m\x1B[31m\x1B[1m\x1B[22m\x1B[39m\x1B[0m\n"
             }
         );

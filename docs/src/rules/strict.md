@@ -271,18 +271,12 @@ This option ensures that all functions are executed in strict mode. A strict mod
 
 Examples of **incorrect** code for this rule with the earlier default option which has been removed:
 
-::: incorrect { "sourceType": "script" }
-
 ```js
 // "strict": "error"
 
 function foo() {
 }
 ```
-
-:::
-
-::: incorrect { "sourceType": "script" }
 
 ```js
 // "strict": "error"
@@ -294,11 +288,7 @@ function foo() {
 }());
 ```
 
-:::
-
 Examples of **correct** code for this rule with the earlier default option which has been removed:
-
-::: correct { "sourceType": "script" }
 
 ```js
 // "strict": "error"
@@ -309,10 +299,6 @@ function foo() {
 }
 ```
 
-:::
-
-::: correct { "sourceType": "script" }
-
 ```js
 // "strict": "error"
 
@@ -320,10 +306,6 @@ function foo() {
     "use strict";
 }
 ```
-
-:::
-
-::: correct { "sourceType": "script" }
 
 ```js
 // "strict": "error"
@@ -335,8 +317,6 @@ function foo() {
     }
 }());
 ```
-
-:::
 
 ## When Not To Use It
 
