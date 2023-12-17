@@ -249,7 +249,7 @@ flatRuleTester.run("no-useless-assignment", rule, {
             }
         },
 
-        // Try catch
+        // Try catch finally
         `let message = 'init';
         try {
             const result = call();
@@ -288,6 +288,13 @@ flatRuleTester.run("no-useless-assignment", rule, {
             // ignore
         }
         console.log(v)`,
+        `let a;
+        try {
+            foo();
+        } finally {
+            a = 5;
+        }
+        console.log(a);`,
 
         // An expression within an assignment.
         `const obj = { a: 5 };
