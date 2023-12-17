@@ -164,6 +164,23 @@ flatRuleTester.run("no-useless-assignment", rule, {
         // Unused variable
         "let v = 'used variable';",
 
+        // Unreachable
+        `function foo() {
+            return;
+
+            const x = 1;
+            if (y) {
+                bar(x);
+            }
+        }`,
+        `function foo() {
+            const x = 1;
+            console.log(x);
+            return;
+
+            x = 'Foo'
+        }`,
+
         // Update
         `function foo() {
             let a = 42;
