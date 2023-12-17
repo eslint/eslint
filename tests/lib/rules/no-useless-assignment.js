@@ -16,7 +16,26 @@ const FlatRuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const flatRuleTester = new FlatRuleTester();
+const flatRuleTester = new FlatRuleTester({
+    plugins: {
+        test: {
+            rules: {
+                "use-a": {
+                    create(context) {
+                        const sourceCode = context.sourceCode;
+
+                        return {
+                            VariableDeclaration(node) {
+                                sourceCode.markVariableAsUsed("a", node);
+                            }
+                        };
+                    }
+                }
+            }
+        }
+    }
+});
+
 
 flatRuleTester.run("no-useless-assignment", rule, {
     valid: [
@@ -129,6 +148,13 @@ flatRuleTester.run("no-useless-assignment", rule, {
             foo = 'unused like but exported with directive';`,
             languageOptions: { sourceType: "script" }
         },
+
+        // Mark variables as used via markVariableAsUsed()
+        `/*eslint test/use-a:1*/
+        let a = 'used';
+        console.log(a);
+        a = 'unused like but marked by markVariableAsUsed()';
+        `,
 
         // Unknown variable
         `v = 'used';
