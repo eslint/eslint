@@ -13034,6 +13034,38 @@ describe("Linter with FlatConfigArray", () => {
                         assert.strictEqual(messages.length, 1);
                         assert.strictEqual(suppressedMessages.length, 0);
                     });
+
+                    it("rules should apply meta.defaultOptions", () => {
+                        const config = {
+                            languageOptions: {
+                                sourceType: "script"
+                            },
+                            rules: {}
+                        };
+                        const codeA = "/*eslint arrow-body-style: error */ var arrow = a => { return a; }";
+                        const messages = linter.verify(codeA, config, filename, false);
+
+                        assert.deepStrictEqual(
+                            messages,
+                            [
+                                {
+                                    severity: 2,
+                                    ruleId: "arrow-body-style",
+                                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`.",
+                                    messageId: "unexpectedSingleBlock",
+                                    line: 1,
+                                    column: 54,
+                                    endLine: 1,
+                                    endColumn: 67,
+                                    fix: {
+                                        range: [53, 66],
+                                        text: "a"
+                                    },
+                                    nodeType: "ArrowFunctionExpression"
+                                }
+                            ]
+                        );
+                    });
                 });
 
                 describe("when evaluating code with invalid comments to enable rules", () => {
