@@ -30,7 +30,8 @@
     "test": "node Makefile.js test",
     "test:cli": "mocha",
     "test:fuzz": "node Makefile.js fuzz",
-    "test:performance": "node Makefile.js perf"
+    "test:performance": "node Makefile.js perf",
+    "trunk": "trunk"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -104,6 +105,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
+    "@trunkio/launcher": "^1.2.4",
     "@wdio/browser-runner": "^8.14.6",
     "@wdio/cli": "^8.14.6",
     "@wdio/concise-reporter": "^8.14.0",
