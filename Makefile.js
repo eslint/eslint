@@ -21,8 +21,6 @@ const checker = require("npm-license"),
     semver = require("semver"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
-    yaml = require("js-yaml"),
-    ignore = require("ignore"),
     { CLIEngine } = require("./lib/cli-engine"),
     builtinRules = require("./lib/rules/index");
 
@@ -33,18 +31,7 @@ require("shelljs/make");
  * @see https://github.com/shelljs/shelljs/blob/124d3349af42cb794ae8f78fc9b0b538109f7ca7/make.js#L4
  * @see https://github.com/DefinitelyTyped/DefinitelyTyped/blob/3aa2d09b6408380598cfb802743b07e1edb725f3/types/shelljs/make.d.ts#L8-L11
  */
-const {
-    cat,
-    cd,
-    echo,
-    exec,
-    exit,
-    find,
-    ls,
-    mkdir,
-    pwd,
-    test
-} = require("shelljs");
+const { cat, cd, echo, exec, exit, find, mkdir, pwd, test } = require("shelljs");
 
 //------------------------------------------------------------------------------
 // Settings
@@ -59,14 +46,7 @@ const {
 const PERF_MULTIPLIER = 13e6;
 
 const OPEN_SOURCE_LICENSES = [
-    /MIT/u,
-    /BSD/u,
-    /Apache/u,
-    /ISC/u,
-    /WTF/u,
-    /Public Domain/u,
-    /LGPL/u,
-    /Python/u
+    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u, /Public Domain/u, /LGPL/u, /Python/u
 ];
 
 //------------------------------------------------------------------------------
@@ -89,10 +69,9 @@ const NODE = "node ", // intentional extra space
     ESLINT = `${NODE} bin/eslint.js `,
 
     // Files
-    RULE_FILES = glob
-        .sync("lib/rules/*.js")
-        .filter(filePath => path.basename(filePath) !== "index.js"),
-    TEST_FILES = '"tests/{bin,conf,lib,tools}/**/*.js"',
+    RULE_FILES = glob.sync("lib/rules/*.js").filter(filePath => path.basename(filePath) !== "index.js"),
+    JSON_FILES = find("conf/").filter(fileType("json")),
+    TEST_FILES = "\"tests/{bin,conf,lib,tools}/**/*.js\"",
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslint.config.js"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
 
@@ -108,6 +87,18 @@ const NODE = "node ", // intentional extra space
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
+
+/**
+ * Simple JSON file validation that relies on ES JSON parser.
+ * @param {string} filePath Path to JSON.
+ * @throws Error If file contents is invalid JSON.
+ * @returns {undefined}
+ */
+function validateJsonFile(filePath) {
+    const contents = fs.readFileSync(filePath, "utf8");
+
+    JSON.parse(contents);
+}
 
 /**
  * Generates a function that matches files with a particular extension.
@@ -150,26 +141,16 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
          */
         .sort((ruleA, ruleB) => ruleB.length - ruleA.length);
 
-    const renderContext = Object.assign(
-        { prereleaseMajorVersion, ruleList },
-        releaseInfo
-    );
+    const renderContext = Object.assign({ prereleaseMajorVersion, ruleList }, releaseInfo);
 
-    const output = ejs.render(
-            cat("./templates/blogpost.md.ejs"),
-            renderContext
-        ),
+    const output = ejs.render(cat("./templates/blogpost.md.ejs"), renderContext),
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
-        filename = path.join(
-            SITE_DIR,
-            `src/content/blog/${now.getFullYear()}-${
-                month < 10 ? `0${month}` : month
-            }-${day < 10 ? `0${day}` : day}-eslint-v${
-                releaseInfo.version
-            }-released.md`
-        );
+        filename = path.join(SITE_DIR, `src/content/blog/${now.getFullYear()}-${
+            month < 10 ? `0${month}` : month}-${
+            day < 10 ? `0${day}` : day}-eslint-v${
+            releaseInfo.version}-released.md`);
 
     output.to(filename);
 }
@@ -180,10 +161,7 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
  * @returns {void}
  */
 function generateFormatterExamples(formatterInfo) {
-    const output = ejs.render(
-        cat("./templates/formatter-examples.md.ejs"),
-        formatterInfo
-    );
+    const output = ejs.render(cat("./templates/formatter-examples.md.ejs"), formatterInfo);
     const outputDir = path.join(DOCS_SRC_DIR, "use/formatters/"),
         filename = path.join(outputDir, "index.md"),
         htmlFilename = path.join(outputDir, "html-formatter-example.html");
@@ -208,7 +186,8 @@ function generateRuleIndexPage() {
 
     const meta = {};
 
-    RULE_FILES.map(filename => [filename, path.basename(filename, ".js")])
+    RULE_FILES
+        .map(filename => [filename, path.basename(filename, ".js")])
         .sort((a, b) => a[1].localeCompare(b[1]))
         .forEach(pair => {
             const filename = pair[0];
@@ -251,9 +230,7 @@ function generateRuleIndexPage() {
         });
 
     ruleTypesData.types = Object.fromEntries(
-        Object.entries(ruleTypesData.types).filter(
-            ([, value]) => value && value.length > 0
-        )
+        Object.entries(ruleTypesData.types).filter(([, value]) => value && value.length > 0)
     );
 
     JSON.stringify(ruleTypesData, null, 4).to(docsSiteOutputFile);
@@ -309,10 +286,7 @@ function generateRelease() {
     const docsPackage = require(docsPackagePath);
 
     docsPackage.version = releaseInfo.version;
-    fs.writeFileSync(
-        docsPackagePath,
-        `${JSON.stringify(docsPackage, null, 4)}\n`
-    );
+    fs.writeFileSync(docsPackagePath, `${JSON.stringify(docsPackage, null, 4)}\n`);
 
     echo("Updating commit with docs data");
     exec("git add docs/ && git commit --amend --no-edit");
@@ -411,16 +385,14 @@ function getFirstVersionOfFile(filePath) {
     let tags = execSilent(`git tag --contains ${firstCommit}`);
 
     tags = splitCommandResultToLines(tags);
-    return tags
-        .reduce((list, version) => {
-            const validatedVersion = semver.valid(version.trim());
+    return tags.reduce((list, version) => {
+        const validatedVersion = semver.valid(version.trim());
 
-            if (validatedVersion) {
-                list.push(validatedVersion);
-            }
-            return list;
-        }, [])
-        .sort(semver.compare)[0];
+        if (validatedVersion) {
+            list.push(validatedVersion);
+        }
+        return list;
+    }, []).sort(semver.compare)[0];
 }
 
 /**
@@ -449,7 +421,6 @@ function getFirstVersionOfDeletion(filePath) {
         .sort(semver.compare)[0];
 }
 
-
 /**
  * Gets linting results from every formatter, based on a hard-coded snippet and config
  * @returns {Object} Output from each formatter
@@ -458,9 +429,7 @@ function getFormatterResults() {
     const stripAnsi = require("strip-ansi");
     const formattersMetadata = require("./lib/cli-engine/formatters/formatters-meta.json");
 
-    const formatterFiles = fs
-            .readdirSync("./lib/cli-engine/formatters/")
-            .filter(fileName => !fileName.includes("formatters-meta.json")),
+    const formatterFiles = fs.readdirSync("./lib/cli-engine/formatters/").filter(fileName => !fileName.includes("formatters-meta.json")),
         rules = {
             "no-else-return": "warn",
             indent: ["warn", 4],
@@ -490,28 +459,23 @@ function getFormatterResults() {
         rulesMeta[ruleId] = rulesMap.get(ruleId).meta;
     });
 
-    return formatterFiles.reduce(
-        (data, filename) => {
-            const fileExt = path.extname(filename),
-                name = path.basename(filename, fileExt);
+    return formatterFiles.reduce((data, filename) => {
+        const fileExt = path.extname(filename),
+            name = path.basename(filename, fileExt);
 
-            if (fileExt === ".js") {
-                const formattedOutput = cli.getFormatter(name)(
-                    rawMessages.results,
-                    { rulesMeta }
-                );
+        if (fileExt === ".js") {
+            const formattedOutput = cli.getFormatter(name)(
+                rawMessages.results,
+                { rulesMeta }
+            );
 
-                data.formatterResults[name] = {
-                    result: stripAnsi(formattedOutput),
-                    description: formattersMetadata.find(
-                        formatter => formatter.name === name
-                    ).description
-                };
-            }
-            return data;
-        },
-        { formatterResults: {} }
-    );
+            data.formatterResults[name] = {
+                result: stripAnsi(formattedOutput),
+                description: formattersMetadata.find(formatter => formatter.name === name).description
+            };
+        }
+        return data;
+    }, { formatterResults: {} });
 }
 
 /**
@@ -528,7 +492,6 @@ function getBinFile(command) {
 //------------------------------------------------------------------------------
 
 target.lint = function([fix = false] = []) {
-    echo("Running trunk check on modified files");
 
     /*
      * In order to successfully lint JavaScript files in the `docs` directory, dependencies declared in `docs/package.json`
@@ -539,12 +502,15 @@ target.lint = function([fix = false] = []) {
      * Therefore, default check doesn't run on "docs/**" as ignored in trunk.yaml
      * There is a separate command `target.lintDocsJS` for linting JavaScript files in the `docs` directory.
      */
-
+    echo("Validating modified files with trunk check");
     const lastReturn = exec(`trunk check ${fix ? " -y" : ""}`);
 
     if (lastReturn.code !== 0) {
         exit(1);
     }
+
+    echo("Validating JSON Files");
+    JSON_FILES.forEach(validateJsonFile);
 };
 
 target.lintDocsJS = function([fix = false] = []) {
@@ -563,23 +529,12 @@ target.fuzz = function({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
     const fuzzResults = fuzzerRunner.run({ amount, fuzzBrokenAutofixes });
 
     if (fuzzResults.length) {
-        const uniqueStackTraceCount = new Set(
-            fuzzResults.map(result => result.error)
-        ).size;
 
-        echo(
-            `The fuzzer reported ${fuzzResults.length} error${
-                fuzzResults.length === 1 ? "" : "s"
-            } with a total of ${uniqueStackTraceCount} unique stack trace${
-                uniqueStackTraceCount === 1 ? "" : "s"
-            }.`
-        );
+        const uniqueStackTraceCount = new Set(fuzzResults.map(result => result.error)).size;
 
-        const formattedResults = JSON.stringify(
-            { results: fuzzResults },
-            null,
-            4
-        );
+        echo(`The fuzzer reported ${fuzzResults.length} error${fuzzResults.length === 1 ? "" : "s"} with a total of ${uniqueStackTraceCount} unique stack trace${uniqueStackTraceCount === 1 ? "" : "s"}.`);
+
+        const formattedResults = JSON.stringify({ results: fuzzResults }, null, 4);
 
         if (process.env.CI) {
             echo("More details can be found below.");
@@ -594,10 +549,7 @@ target.fuzz = function({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
 
             // To avoid overwriting any existing fuzzer log files, append a numeric suffix to the end of the filename.
             do {
-                fuzzLogPath = path.join(
-                    DEBUG_DIR,
-                    `fuzzer-log-${fileSuffix}.json`
-                );
+                fuzzLogPath = path.join(DEBUG_DIR, `fuzzer-log-${fileSuffix}.json`);
                 fileSuffix++;
             } while (test("-f", fuzzLogPath));
 
@@ -617,20 +569,12 @@ target.mocha = () => {
 
     echo("Running unit tests");
 
-    lastReturn = exec(
-        `${getBinFile(
-            "c8"
-        )} -- ${MOCHA} --forbid-only -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`
-    );
+    lastReturn = exec(`${getBinFile("c8")} -- ${MOCHA} --forbid-only -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
 
-    lastReturn = exec(
-        `${getBinFile(
-            "c8"
-        )} check-coverage --statement 98 --branch 97 --function 98 --lines 98`
-    );
+    lastReturn = exec(`${getBinFile("c8")} check-coverage --statement 98 --branch 97 --function 98 --lines 98`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -664,15 +608,10 @@ target.gensite = function() {
     echo("Generating documentation");
 
     const DOCS_RULES_DIR = path.join(DOCS_SRC_DIR, "rules");
-    const RULE_VERSIONS_FILE = path.join(
-        DOCS_SRC_DIR,
-        "_data/rule_versions.json"
-    );
+    const RULE_VERSIONS_FILE = path.join(DOCS_SRC_DIR, "_data/rule_versions.json");
 
     // Set up rule version information
-    let versions = test("-f", RULE_VERSIONS_FILE)
-        ? JSON.parse(cat(RULE_VERSIONS_FILE))
-        : {};
+    let versions = test("-f", RULE_VERSIONS_FILE) ? JSON.parse(cat(RULE_VERSIONS_FILE)) : {};
 
     if (!versions.added) {
         versions = {
@@ -687,11 +626,8 @@ target.gensite = function() {
 
     ruleDocsFiles.forEach((filename, i) => {
         if (test("-f", filename) && path.extname(filename) === ".md") {
-            echo(
-                `> Updating rule version meta data (Step 1: ${i + 1}/${
-                    ruleDocsFiles.length
-                }): ${filename}`
-            );
+
+            echo(`> Updating rule version meta data (Step 1: ${i + 1}/${ruleDocsFiles.length}): ${filename}`);
 
             const baseName = path.basename(filename, ".md"),
                 sourceBaseName = `${baseName}.js`,
@@ -702,9 +638,9 @@ target.gensite = function() {
             }
 
             if (!versions.removed[baseName] && !test("-f", sourcePath)) {
-                versions.removed[baseName] =
-                    getFirstVersionOfDeletion(sourcePath);
+                versions.removed[baseName] = getFirstVersionOfDeletion(sourcePath);
             }
+
         }
     });
 
@@ -728,6 +664,7 @@ target.webpack = function(mode = "none") {
 };
 
 target.checkRuleFiles = function() {
+
     echo("Validating rules");
 
     const ruleTypes = require("./tools/rule-types.json");
@@ -738,20 +675,9 @@ target.checkRuleFiles = function() {
         const docFilename = `docs/src/rules/${basename}.md`;
         const docText = cat(docFilename);
         const docTextWithoutFrontmatter = matter(String(docText)).content;
-        const docMarkdown = marked.lexer(docTextWithoutFrontmatter, {
-            gfm: true,
-            silent: false
-        });
+        const docMarkdown = marked.lexer(docTextWithoutFrontmatter, { gfm: true, silent: false });
         const ruleCode = cat(filename);
-        const knownHeaders = [
-            "Rule Details",
-            "Options",
-            "Environments",
-            "Examples",
-            "Known Limitations",
-            "When Not To Use It",
-            "Compatibility"
-        ];
+        const knownHeaders = ["Rule Details", "Options", "Environments", "Examples", "Known Limitations", "When Not To Use It", "Compatibility"];
 
         /**
          * Check if basename is present in rule-types.json file.
@@ -779,11 +705,7 @@ target.checkRuleFiles = function() {
          * @returns {boolean} true if all headers are known and in the right order
          */
         function hasKnownHeaders() {
-            const headers = docMarkdown
-                .filter(
-                    token => token.type === "heading" && token.depth === 2
-                )
-                .map(header => header.text);
+            const headers = docMarkdown.filter(token => token.type === "heading" && token.depth === 2).map(header => header.text);
 
             for (const header of headers) {
                 if (!knownHeaders.includes(header)) {
@@ -794,8 +716,7 @@ target.checkRuleFiles = function() {
             /*
              * Check only the subset of used headers for the correct order
              */
-            const presentHeaders = knownHeaders.filter(header =>
-                headers.includes(header));
+            const presentHeaders = knownHeaders.filter(header => headers.includes(header));
 
             for (let i = 0; i < presentHeaders.length; ++i) {
                 if (presentHeaders[i] !== headers[i]) {
@@ -813,13 +734,9 @@ target.checkRuleFiles = function() {
          */
         function hasDeprecatedInfo() {
             const deprecatedTagRegExp = /@deprecated in ESLint/u;
-            const deprecatedInfoRegExp =
-                /This rule was .+deprecated.+in ESLint/u;
+            const deprecatedInfoRegExp = /This rule was .+deprecated.+in ESLint/u;
 
-            return (
-                deprecatedTagRegExp.test(ruleCode) &&
-                deprecatedInfoRegExp.test(docText)
-            );
+            return deprecatedTagRegExp.test(ruleCode) && deprecatedInfoRegExp.test(docText);
         }
 
         /**
@@ -841,30 +758,20 @@ target.checkRuleFiles = function() {
 
             // check for proper doc h1 format
             if (!hasIdInTitle(basename)) {
-                console.error(
-                    "Missing id in the doc page's title of rule %s",
-                    basename
-                );
+                console.error("Missing id in the doc page's title of rule %s", basename);
                 errors++;
             }
 
             // check for proper doc headers
             if (!hasKnownHeaders()) {
-                console.error(
-                    "Unknown or misplaced header in the doc page of rule %s, allowed headers (and their order) are: '%s'",
-                    basename,
-                    knownHeaders.join("', '")
-                );
+                console.error("Unknown or misplaced header in the doc page of rule %s, allowed headers (and their order) are: '%s'", basename, knownHeaders.join("', '"));
                 errors++;
             }
         }
 
         // check for recommended configuration
         if (!isInRuleTypes()) {
-            console.error(
-                "Missing setting for %s in tools/rule-types.json",
-                basename
-            );
+            console.error("Missing setting for %s in tools/rule-types.json", basename);
             errors++;
         }
 
@@ -873,17 +780,13 @@ target.checkRuleFiles = function() {
         const ruleDef = ruleIdsInIndex.get(basename);
 
         if (!ruleDef) {
-            console.error(
-                `Missing rule from index (./lib/rules/index.js): ${basename}. If you just added a new rule then add an entry for it in this file.`
-            );
+            console.error(`Missing rule from index (./lib/rules/index.js): ${basename}. If you just added a new rule then add an entry for it in this file.`);
             errors++;
         } else {
 
             // check deprecated
             if (ruleDef.meta.deprecated && !hasDeprecatedInfo()) {
-                console.error(
-                    `Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code and「This rule was deprecated in ESLint ...」 in README.md.`,
-                );
+                console.error(`Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code and「This rule was deprecated in ESLint ...」 in README.md.`);
                 errors++;
             }
 
@@ -892,24 +795,18 @@ target.checkRuleFiles = function() {
 
             if (ruleDef.meta.docs.recommended) {
                 if (recommended.rules[basename] !== "error") {
-                    console.error(
-                        `Missing rule from eslint:recommended (./packages/js/src/configs/eslint-recommended.js): ${basename}. If you just made a rule recommended then add an entry for it in this file.`,
-                    );
+                    console.error(`Missing rule from eslint:recommended (./packages/js/src/configs/eslint-recommended.js): ${basename}. If you just made a rule recommended then add an entry for it in this file.`);
                     errors++;
                 }
             } else {
                 if (basename in recommended.rules) {
-                    console.error(
-                        `Extra rule in eslint:recommended (./packages/js/src/configs/eslint-recommended.js): ${basename}. If you just added a rule then don't add an entry for it in this file.`,
-                    );
+                    console.error(`Extra rule in eslint:recommended (./packages/js/src/configs/eslint-recommended.js): ${basename}. If you just added a rule then don't add an entry for it in this file.`);
                     errors++;
                 }
             }
 
             if (!hasRuleTypeJSDocComment()) {
-                console.error(
-                    `Missing rule type JSDoc comment from ${basename} rule code.`,
-                );
+                console.error(`Missing rule type JSDoc comment from ${basename} rule code.`);
                 errors++;
             }
         }
@@ -919,29 +816,28 @@ target.checkRuleFiles = function() {
             console.error("Missing tests for rule %s", basename);
             errors++;
         }
+
     });
 
     if (errors) {
         exit(1);
     }
+
 };
 
-target.checkRuleExamples = function () {
+target.checkRuleExamples = function() {
     const { execFileSync } = require("child_process");
 
     // We don't need the stack trace of execFileSync if the command fails.
     try {
-        execFileSync(
-            process.execPath,
-            ["tools/check-rule-examples.js", "docs/src/rules/*.md"],
-            { stdio: "inherit" },
-        );
+        execFileSync(process.execPath, ["tools/check-rule-examples.js", "docs/src/rules/*.md"], { stdio: "inherit" });
     } catch {
         exit(1);
     }
 };
 
-target.checkLicenses = function () {
+target.checkLicenses = function() {
+
     /**
      * Check if a dependency is eligible to be used by us
      * @param {Object} dependency dependency to check
@@ -952,43 +848,36 @@ target.checkLicenses = function () {
         const licenses = dependency.licenses;
 
         if (Array.isArray(licenses)) {
-            return licenses.some((license) =>
-                isPermissible({
-                    name: dependency.name,
-                    licenses: license,
-                }),
-            );
+            return licenses.some(license => isPermissible({
+                name: dependency.name,
+                licenses: license
+            }));
         }
 
-        return OPEN_SOURCE_LICENSES.some((license) => license.test(licenses));
+        return OPEN_SOURCE_LICENSES.some(license => license.test(licenses));
     }
 
     echo("Validating licenses");
 
-    checker.init(
-        {
-            start: __dirname,
-        },
-        (deps) => {
-            const impermissible = Object.keys(deps)
-                .map((dependency) => ({
-                    name: dependency,
-                    licenses: deps[dependency].licenses,
-                }))
-                .filter((dependency) => !isPermissible(dependency));
+    checker.init({
+        start: __dirname
+    }, deps => {
+        const impermissible = Object.keys(deps).map(dependency => ({
+            name: dependency,
+            licenses: deps[dependency].licenses
+        })).filter(dependency => !isPermissible(dependency));
 
-            if (impermissible.length) {
-                impermissible.forEach((dependency) => {
-                    console.error(
-                        "%s license for %s is impermissible.",
-                        dependency.licenses,
-                        dependency.name,
-                    );
-                });
-                exit(1);
-            }
-        },
-    );
+        if (impermissible.length) {
+            impermissible.forEach(dependency => {
+                console.error(
+                    "%s license for %s is impermissible.",
+                    dependency.licenses,
+                    dependency.name
+                );
+            });
+            exit(1);
+        }
+    });
 };
 
 /**
@@ -1002,14 +891,8 @@ function downloadMultifilesTestTarget(cb) {
         process.nextTick(cb);
     } else {
         mkdir("-p", PERF_MULTIFILES_TARGET_DIR);
-        echo(
-            "Downloading the repository of multi-files performance test target.",
-        );
-        exec(
-            `git clone -b v1.10.3 --depth 1 https://github.com/eslint/eslint.git "${PERF_MULTIFILES_TARGET_DIR}"`,
-            { silent: true },
-            cb,
-        );
+        echo("Downloading the repository of multi-files performance test target.");
+        exec(`git clone -b v1.10.3 --depth 1 https://github.com/eslint/eslint.git "${PERF_MULTIFILES_TARGET_DIR}"`, { silent: true }, cb);
     }
 }
 
@@ -1022,7 +905,7 @@ function createConfigForPerformanceTest() {
     let rules = "";
 
     for (const [ruleId] of builtinRules) {
-        rules += `    "${ruleId}": 1,\n`;
+        rules += (`    "${ruleId}": 1,\n`);
     }
 
     const content = `
@@ -1055,33 +938,31 @@ module.exports = [{
 function time(cmd, runs, runNumber, results, cb) {
     const start = process.hrtime();
 
-    exec(
-        cmd,
-        { maxBuffer: 64 * 1024 * 1024, silent: true },
-        (code, stdout, stderr) => {
-            const diff = process.hrtime(start),
-                actual = diff[0] * 1e3 + diff[1] / 1e6; // ms
+    exec(cmd, { maxBuffer: 64 * 1024 * 1024, silent: true }, (code, stdout, stderr) => {
+        const diff = process.hrtime(start),
+            actual = (diff[0] * 1e3 + diff[1] / 1e6); // ms
 
-            if (code) {
-                echo(`  Performance Run #${runNumber} failed.`);
-                if (stdout) {
-                    echo(`STDOUT:\n${stdout}\n\n`);
-                }
-
-                if (stderr) {
-                    echo(`STDERR:\n${stderr}\n\n`);
-                }
-                return cb(null);
+        if (code) {
+            echo(`  Performance Run #${runNumber} failed.`);
+            if (stdout) {
+                echo(`STDOUT:\n${stdout}\n\n`);
             }
 
-            results.push(actual);
-            echo(`  Performance Run #${runNumber}:  %dms`, actual);
-            if (runs > 1) {
-                return time(cmd, runs - 1, runNumber + 1, results, cb);
+            if (stderr) {
+                echo(`STDERR:\n${stderr}\n\n`);
             }
-            return cb(results);
-        },
-    );
+            return cb(null);
+        }
+
+        results.push(actual);
+        echo(`  Performance Run #${runNumber}:  %dms`, actual);
+        if (runs > 1) {
+            return time(cmd, runs - 1, runNumber + 1, results, cb);
+        }
+        return cb(results);
+
+    });
+
 }
 
 /**
@@ -1101,9 +982,8 @@ function runPerformanceTest(title, targets, multiplier, cb) {
     echo(title);
     echo("  CPU Speed is %d with multiplier %d", cpuSpeed, multiplier);
 
-    time(cmd, 5, 1, [], (results) => {
-        if (!results || results.length === 0) {
-            // No results? Something is wrong.
+    time(cmd, 5, 1, [], results => {
+        if (!results || results.length === 0) { // No results? Something is wrong.
             throw new Error("Performance test failed.");
         }
 
@@ -1113,11 +993,7 @@ function runPerformanceTest(title, targets, multiplier, cb) {
 
         echo("");
         if (median > max) {
-            echo(
-                "  Performance budget exceeded: %dms (limit: %dms)",
-                median,
-                max,
-            );
+            echo("  Performance budget exceeded: %dms (limit: %dms)", median, max);
         } else {
             echo("  Performance budget ok:  %dms (limit: %dms)", median, max);
         }
@@ -1139,13 +1015,10 @@ function loadPerformance() {
 
     for (let cnt = 0; cnt < 5; cnt++) {
         const loadPerfData = loadPerf({
-            checkDependencies: false,
+            checkDependencies: false
         });
 
-        echo(
-            `  Load performance Run #${cnt + 1}:  %dms`,
-            loadPerfData.loadTime,
-        );
+        echo(`  Load performance Run #${cnt + 1}:  %dms`, loadPerfData.loadTime);
         results.push(loadPerfData.loadTime);
     }
 
@@ -1157,7 +1030,7 @@ function loadPerformance() {
     echo("");
 }
 
-target.perf = function () {
+target.perf = function() {
     downloadMultifilesTestTarget(() => {
         createConfigForPerformanceTest();
 
@@ -1168,26 +1041,28 @@ target.perf = function () {
             "tests/performance/jshint.js",
             PERF_MULTIPLIER,
             () => {
+
                 // Count test target files.
                 const count = glob.sync(
-                    (process.platform === "win32"
-                        ? PERF_MULTIFILES_TARGETS.replace(/\\/gu, "/")
-                        : PERF_MULTIFILES_TARGETS
-                    ).slice(1, -1), // strip quotes
+                    (
+                        process.platform === "win32"
+                            ? PERF_MULTIFILES_TARGETS.replace(/\\/gu, "/")
+                            : PERF_MULTIFILES_TARGETS
+                    )
+                        .slice(1, -1) // strip quotes
                 ).length;
 
                 runPerformanceTest(
                     `Multi Files (${count} files):`,
                     PERF_MULTIFILES_TARGETS,
                     3 * PERF_MULTIPLIER,
-                    () => {},
+                    () => {}
                 );
-            },
+            }
         );
     });
 };
 
 target.generateRelease = generateRelease;
-target.generatePrerelease = ([prereleaseType]) =>
-    generatePrerelease(prereleaseType);
+target.generatePrerelease = ([prereleaseType]) => generatePrerelease(prereleaseType);
 target.publishRelease = publishRelease;
