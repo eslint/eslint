@@ -43,7 +43,7 @@ const {
     ls,
     mkdir,
     pwd,
-    test,
+    test
 } = require("shelljs");
 
 //------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ const OPEN_SOURCE_LICENSES = [
     /WTF/u,
     /Public Domain/u,
     /LGPL/u,
-    /Python/u,
+    /Python/u
 ];
 
 //------------------------------------------------------------------------------
@@ -83,21 +83,25 @@ const NODE = "node ", // intentional extra space
     DOCS_SRC_DIR = path.join(DOCS_DIR, "src"),
     DOCS_DATA_DIR = path.join(DOCS_SRC_DIR, "_data"),
     PERF_TMP_DIR = path.join(TEMP_DIR, "eslint", "performance"),
+
     // Utilities - intentional extra space at the end of each string
     MOCHA = `${NODE_MODULES}mocha/bin/_mocha `,
     ESLINT = `${NODE} bin/eslint.js `,
+
     // Files
     RULE_FILES = glob
         .sync("lib/rules/*.js")
-        .filter((filePath) => path.basename(filePath) !== "index.js"),
+        .filter(filePath => path.basename(filePath) !== "index.js"),
     TEST_FILES = '"tests/{bin,conf,lib,tools}/**/*.js"',
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslint.config.js"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
+
     /*
      * glob arguments with Windows separator `\` don't work:
      * https://github.com/eslint/eslint/issues/16259
      */
     PERF_MULTIFILES_TARGETS = `"${TEMP_DIR}eslint/performance/eslint/{lib,tests/lib}/**/*.js"`,
+
     // Settings
     MOCHA_TIMEOUT = parseInt(process.env.ESLINT_MOCHA_TIMEOUT, 10) || 10000;
 
@@ -106,25 +110,13 @@ const NODE = "node ", // intentional extra space
 //------------------------------------------------------------------------------
 
 /**
- * Simple JSON file validation that relies on ES JSON parser.
- * @param {string} filePath Path to JSON.
- * @throws Error If file contents is invalid JSON.
- * @returns {undefined}
- */
-function validateJsonFile(filePath) {
-    const contents = fs.readFileSync(filePath, "utf8");
-
-    JSON.parse(contents);
-}
-
-/**
  * Generates a function that matches files with a particular extension.
  * @param {string} extension The file extension (i.e. "js")
  * @returns {Function} The function to pass into a filter method.
  * @private
  */
 function fileType(extension) {
-    return function (filename) {
+    return function(filename) {
         return filename.slice(filename.lastIndexOf(".") + 1) === extension;
     };
 }
@@ -149,7 +141,7 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
     const ruleList = RULE_FILES
 
         // Strip the .js extension
-        .map((ruleFileName) => path.basename(ruleFileName, ".js"))
+        .map(ruleFileName => path.basename(ruleFileName, ".js"))
 
         /*
          * Sort by length descending. This ensures that rule names which are substrings of other rule names are not
@@ -160,12 +152,12 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
 
     const renderContext = Object.assign(
         { prereleaseMajorVersion, ruleList },
-        releaseInfo,
+        releaseInfo
     );
 
     const output = ejs.render(
             cat("./templates/blogpost.md.ejs"),
-            renderContext,
+            renderContext
         ),
         now = new Date(),
         month = now.getMonth() + 1,
@@ -176,7 +168,7 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
                 month < 10 ? `0${month}` : month
             }-${day < 10 ? `0${day}` : day}-eslint-v${
                 releaseInfo.version
-            }-released.md`,
+            }-released.md`
         );
 
     output.to(filename);
@@ -190,7 +182,7 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
 function generateFormatterExamples(formatterInfo) {
     const output = ejs.render(
         cat("./templates/formatter-examples.md.ejs"),
-        formatterInfo,
+        formatterInfo
     );
     const outputDir = path.join(DOCS_SRC_DIR, "use/formatters/"),
         filename = path.join(outputDir, "index.md"),
@@ -216,9 +208,9 @@ function generateRuleIndexPage() {
 
     const meta = {};
 
-    RULE_FILES.map((filename) => [filename, path.basename(filename, ".js")])
+    RULE_FILES.map(filename => [filename, path.basename(filename, ".js")])
         .sort((a, b) => a[1].localeCompare(b[1]))
-        .forEach((pair) => {
+        .forEach(pair => {
             const filename = pair[0];
             const basename = pair[1];
             const rule = require(path.resolve(filename));
@@ -234,7 +226,7 @@ function generateRuleIndexPage() {
             meta[basename] = {
                 ...rule.meta,
                 schema: void 0,
-                messages: void 0,
+                messages: void 0
             };
 
             if (rule.meta.deprecated) {
@@ -242,7 +234,7 @@ function generateRuleIndexPage() {
                     name: basename,
                     replacedBy: rule.meta.replacedBy || [],
                     fixable: !!rule.meta.fixable,
-                    hasSuggestions: !!rule.meta.hasSuggestions,
+                    hasSuggestions: !!rule.meta.hasSuggestions
                 });
             } else {
                 const output = {
@@ -250,7 +242,7 @@ function generateRuleIndexPage() {
                         description: rule.meta.docs.description,
                         recommended: rule.meta.docs.recommended || false,
                         fixable: !!rule.meta.fixable,
-                        hasSuggestions: !!rule.meta.hasSuggestions,
+                        hasSuggestions: !!rule.meta.hasSuggestions
                     },
                     ruleType = ruleTypesData.types[rule.meta.type];
 
@@ -260,8 +252,8 @@ function generateRuleIndexPage() {
 
     ruleTypesData.types = Object.fromEntries(
         Object.entries(ruleTypesData.types).filter(
-            ([, value]) => value && value.length > 0,
-        ),
+            ([, value]) => value && value.length > 0
+        )
     );
 
     JSON.stringify(ruleTypesData, null, 4).to(docsSiteOutputFile);
@@ -319,7 +311,7 @@ function generateRelease() {
     docsPackage.version = releaseInfo.version;
     fs.writeFileSync(
         docsPackagePath,
-        `${JSON.stringify(docsPackage, null, 4)}\n`,
+        `${JSON.stringify(docsPackage, null, 4)}\n`
     );
 
     echo("Updating commit with docs data");
@@ -351,6 +343,7 @@ function generatePrerelease(prereleaseId) {
      * 4.0.1-alpha.0 --> next major = 5, current major = 4
      */
     if (semver.major(releaseInfo.version) === semver.major(nextMajor)) {
+
         /*
          * This prerelease is for a major release (not preminor/prepatch).
          * Blog post generation logic needs to be aware of this (as well as
@@ -451,10 +444,11 @@ function getFirstVersionOfDeletion(filePath) {
         tags = execSilent(`git tag --contains ${deletionCommit}`);
 
     return splitCommandResultToLines(tags)
-        .map((version) => semver.valid(version.trim()))
-        .filter((version) => version)
+        .map(version => semver.valid(version.trim()))
+        .filter(version => version)
         .sort(semver.compare)[0];
 }
+
 
 /**
  * Gets linting results from every formatter, based on a hard-coded snippet and config
@@ -466,18 +460,18 @@ function getFormatterResults() {
 
     const formatterFiles = fs
             .readdirSync("./lib/cli-engine/formatters/")
-            .filter((fileName) => !fileName.includes("formatters-meta.json")),
+            .filter(fileName => !fileName.includes("formatters-meta.json")),
         rules = {
             "no-else-return": "warn",
             indent: ["warn", 4],
             "space-unary-ops": "error",
             semi: ["warn", "always"],
-            "consistent-return": "error",
+            "consistent-return": "error"
         },
         cli = new CLIEngine({
             useEslintrc: false,
             baseConfig: { extends: "eslint:recommended" },
-            rules,
+            rules
         }),
         codeString = [
             "function addOne(i) {",
@@ -486,13 +480,13 @@ function getFormatterResults() {
             "    } else {",
             "      return",
             "    }",
-            "};",
+            "};"
         ].join("\n"),
         rawMessages = cli.executeOnText(codeString, "fullOfProblems.js", true),
         rulesMap = cli.getRules(),
         rulesMeta = {};
 
-    Object.keys(rules).forEach((ruleId) => {
+    Object.keys(rules).forEach(ruleId => {
         rulesMeta[ruleId] = rulesMap.get(ruleId).meta;
     });
 
@@ -504,19 +498,19 @@ function getFormatterResults() {
             if (fileExt === ".js") {
                 const formattedOutput = cli.getFormatter(name)(
                     rawMessages.results,
-                    { rulesMeta },
+                    { rulesMeta }
                 );
 
                 data.formatterResults[name] = {
                     result: stripAnsi(formattedOutput),
                     description: formattersMetadata.find(
-                        (formatter) => formatter.name === name,
-                    ).description,
+                        formatter => formatter.name === name
+                    ).description
                 };
             }
             return data;
         },
-        { formatterResults: {} },
+        { formatterResults: {} }
     );
 }
 
@@ -533,7 +527,7 @@ function getBinFile(command) {
 // Tasks
 //------------------------------------------------------------------------------
 
-target.lint = function ([fix = false] = []) {
+target.lint = function([fix = false] = []) {
     echo("Running trunk check on modified files");
 
     /*
@@ -553,10 +547,10 @@ target.lint = function ([fix = false] = []) {
     }
 };
 
-target.lintDocsJS = function ([fix = false] = []) {
+target.lintDocsJS = function([fix = false] = []) {
     echo("Validating JavaScript files in the docs directory");
     const lastReturn = exec(
-        `trunk check --filter=eslint --force ${fix ? "--fix" : ""} docs`,
+        `trunk check --filter=eslint --force ${fix ? "--fix" : ""} docs`
     );
 
     if (lastReturn.code !== 0) {
@@ -564,13 +558,13 @@ target.lintDocsJS = function ([fix = false] = []) {
     }
 };
 
-target.fuzz = function ({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
+target.fuzz = function({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
     const fuzzerRunner = require("./tools/fuzzer-runner");
     const fuzzResults = fuzzerRunner.run({ amount, fuzzBrokenAutofixes });
 
     if (fuzzResults.length) {
         const uniqueStackTraceCount = new Set(
-            fuzzResults.map((result) => result.error),
+            fuzzResults.map(result => result.error)
         ).size;
 
         echo(
@@ -578,13 +572,13 @@ target.fuzz = function ({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
                 fuzzResults.length === 1 ? "" : "s"
             } with a total of ${uniqueStackTraceCount} unique stack trace${
                 uniqueStackTraceCount === 1 ? "" : "s"
-            }.`,
+            }.`
         );
 
         const formattedResults = JSON.stringify(
             { results: fuzzResults },
             null,
-            4,
+            4
         );
 
         if (process.env.CI) {
@@ -602,7 +596,7 @@ target.fuzz = function ({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
             do {
                 fuzzLogPath = path.join(
                     DEBUG_DIR,
-                    `fuzzer-log-${fileSuffix}.json`,
+                    `fuzzer-log-${fileSuffix}.json`
                 );
                 fileSuffix++;
             } while (test("-f", fuzzLogPath));
@@ -625,8 +619,8 @@ target.mocha = () => {
 
     lastReturn = exec(
         `${getBinFile(
-            "c8",
-        )} -- ${MOCHA} --forbid-only -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`,
+            "c8"
+        )} -- ${MOCHA} --forbid-only -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`
     );
     if (lastReturn.code !== 0) {
         errors++;
@@ -634,8 +628,8 @@ target.mocha = () => {
 
     lastReturn = exec(
         `${getBinFile(
-            "c8",
-        )} check-coverage --statement 98 --branch 97 --function 98 --lines 98`,
+            "c8"
+        )} check-coverage --statement 98 --branch 97 --function 98 --lines 98`
     );
     if (lastReturn.code !== 0) {
         errors++;
@@ -656,7 +650,7 @@ target.wdio = () => {
     }
 };
 
-target.test = function () {
+target.test = function() {
     target.checkRuleFiles();
     target.mocha();
 
@@ -666,13 +660,13 @@ target.test = function () {
     target.checkLicenses();
 };
 
-target.gensite = function () {
+target.gensite = function() {
     echo("Generating documentation");
 
     const DOCS_RULES_DIR = path.join(DOCS_SRC_DIR, "rules");
     const RULE_VERSIONS_FILE = path.join(
         DOCS_SRC_DIR,
-        "_data/rule_versions.json",
+        "_data/rule_versions.json"
     );
 
     // Set up rule version information
@@ -683,7 +677,7 @@ target.gensite = function () {
     if (!versions.added) {
         versions = {
             added: versions,
-            removed: {},
+            removed: {}
         };
     }
 
@@ -696,7 +690,7 @@ target.gensite = function () {
             echo(
                 `> Updating rule version meta data (Step 1: ${i + 1}/${
                     ruleDocsFiles.length
-                }): ${filename}`,
+                }): ${filename}`
             );
 
             const baseName = path.basename(filename, ".md"),
@@ -729,24 +723,24 @@ target.gensite = function () {
 
 target.generateRuleIndexPage = generateRuleIndexPage;
 
-target.webpack = function (mode = "none") {
+target.webpack = function(mode = "none") {
     exec(`${getBinFile("webpack")} --mode=${mode} --output-path=${BUILD_DIR}`);
 };
 
-target.checkRuleFiles = function () {
+target.checkRuleFiles = function() {
     echo("Validating rules");
 
     const ruleTypes = require("./tools/rule-types.json");
     let errors = 0;
 
-    RULE_FILES.forEach((filename) => {
+    RULE_FILES.forEach(filename => {
         const basename = path.basename(filename, ".js");
         const docFilename = `docs/src/rules/${basename}.md`;
         const docText = cat(docFilename);
         const docTextWithoutFrontmatter = matter(String(docText)).content;
         const docMarkdown = marked.lexer(docTextWithoutFrontmatter, {
             gfm: true,
-            silent: false,
+            silent: false
         });
         const ruleCode = cat(filename);
         const knownHeaders = [
@@ -756,7 +750,7 @@ target.checkRuleFiles = function () {
             "Examples",
             "Known Limitations",
             "When Not To Use It",
-            "Compatibility",
+            "Compatibility"
         ];
 
         /**
@@ -787,9 +781,9 @@ target.checkRuleFiles = function () {
         function hasKnownHeaders() {
             const headers = docMarkdown
                 .filter(
-                    (token) => token.type === "heading" && token.depth === 2,
+                    token => token.type === "heading" && token.depth === 2
                 )
-                .map((header) => header.text);
+                .map(header => header.text);
 
             for (const header of headers) {
                 if (!knownHeaders.includes(header)) {
@@ -800,9 +794,8 @@ target.checkRuleFiles = function () {
             /*
              * Check only the subset of used headers for the correct order
              */
-            const presentHeaders = knownHeaders.filter((header) =>
-                headers.includes(header),
-            );
+            const presentHeaders = knownHeaders.filter(header =>
+                headers.includes(header));
 
             for (let i = 0; i < presentHeaders.length; ++i) {
                 if (presentHeaders[i] !== headers[i]) {
@@ -845,11 +838,12 @@ target.checkRuleFiles = function () {
             console.error("Missing documentation for rule %s", basename);
             errors++;
         } else {
+
             // check for proper doc h1 format
             if (!hasIdInTitle(basename)) {
                 console.error(
                     "Missing id in the doc page's title of rule %s",
-                    basename,
+                    basename
                 );
                 errors++;
             }
@@ -859,7 +853,7 @@ target.checkRuleFiles = function () {
                 console.error(
                     "Unknown or misplaced header in the doc page of rule %s, allowed headers (and their order) are: '%s'",
                     basename,
-                    knownHeaders.join("', '"),
+                    knownHeaders.join("', '")
                 );
                 errors++;
             }
@@ -869,7 +863,7 @@ target.checkRuleFiles = function () {
         if (!isInRuleTypes()) {
             console.error(
                 "Missing setting for %s in tools/rule-types.json",
-                basename,
+                basename
             );
             errors++;
         }
@@ -880,10 +874,11 @@ target.checkRuleFiles = function () {
 
         if (!ruleDef) {
             console.error(
-                `Missing rule from index (./lib/rules/index.js): ${basename}. If you just added a new rule then add an entry for it in this file.`,
+                `Missing rule from index (./lib/rules/index.js): ${basename}. If you just added a new rule then add an entry for it in this file.`
             );
             errors++;
         } else {
+
             // check deprecated
             if (ruleDef.meta.deprecated && !hasDeprecatedInfo()) {
                 console.error(
