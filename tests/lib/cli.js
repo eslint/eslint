@@ -340,6 +340,17 @@ describe("cli", () => {
             });
 
             describe("when given an invalid built-in formatter name", () => {
+
+                const originalCwd = process.cwd;
+
+                beforeEach(() => {
+                    process.cwd = () => getFixturePath();
+                });
+
+                afterEach(() => {
+                    process.cwd = originalCwd;
+                });
+
                 it(`should execute with error: with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
                     const exit = await cli.execute(`-f fakeformatter ${filePath} ${flag}`, null, useFlatConfig);
@@ -349,6 +360,17 @@ describe("cli", () => {
             });
 
             describe("when given a valid formatter path", () => {
+
+                const originalCwd = process.cwd;
+
+                beforeEach(() => {
+                    process.cwd = () => getFixturePath();
+                });
+
+                afterEach(() => {
+                    process.cwd = originalCwd;
+                });
+
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const formatterPath = getFixturePath("formatters", "simple.js");
                     const filePath = getFixturePath("passing.js");
@@ -380,6 +402,17 @@ describe("cli", () => {
             });
 
             describe("when given an async formatter path", () => {
+
+                const originalCwd = process.cwd;
+
+                beforeEach(() => {
+                    process.cwd = () => getFixturePath();
+                });
+
+                afterEach(() => {
+                    process.cwd = originalCwd;
+                });
+
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const formatterPath = getFixturePath("formatters", "async.js");
                     const filePath = getFixturePath("passing.js");
