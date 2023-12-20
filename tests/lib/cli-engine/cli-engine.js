@@ -4794,7 +4794,7 @@ describe("CLIEngine", () => {
 
         it("should return a function when a bundled formatter is requested", () => {
             const engine = new CLIEngine(),
-                formatter = engine.getFormatter("compact");
+                formatter = engine.getFormatter("json");
 
             assert.isFunction(formatter);
         });
