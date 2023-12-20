@@ -2490,116 +2490,30 @@ describe("RuleTester", () => {
             assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
         });
 
-        it("should pass-through services from parseForESLint to the rule and log deprecation notice", () => {
-            const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
-            const disallowHiRule = {
-                create: context => ({
-                    Literal(node) {
-                        assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
+        it("should emit a deprecation warning when CodePath#currentSegments is accessed", () => {
 
-                        const disallowed = context.sourceCode.parserServices.test.getMessage(); // returns "Hi!"
-
-                        if (node.value === disallowed) {
-                            context.report({ node, message: `Don't use '${disallowed}'` });
-                        }
+            const useCurrentSegmentsRule = {
+                create: () => ({
+                    onCodePathStart(codePath) {
+                        codePath.currentSegments.forEach(() => {});
                     }
                 })
             };
 
-            ruleTester.run("no-hi", disallowHiRule, {
-                valid: [
-                    {
-                        code: "'Hello!'",
-                        parser: enhancedParserPath
-                    }
-                ],
-                invalid: [
-                    {
-                        code: "'Hi!'",
-                        parser: enhancedParserPath,
-                        errors: [{ message: "Don't use 'Hi!'" }]
-                    }
-                ]
+            ruleTester.run("use-current-segments", useCurrentSegmentsRule, {
+                valid: ["foo"],
+                invalid: []
             });
 
             assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
             assert.deepStrictEqual(
                 processStub.getCall(0).args,
                 [
-                    "\"no-hi\" rule is using `context.parserServices`, which is deprecated and will be removed in ESLint v9. Please use `sourceCode.parserServices` instead.",
+                    "\"use-current-segments\" rule uses CodePath#currentSegments and will stop working in ESLint v9. Please read the documentation for how to update your code: https://eslint.org/docs/latest/extend/code-path-analysis#usage-examples",
                     "DeprecationWarning"
                 ]
             );
-
         });
-        Object.entries({
-            getSource: "getText",
-            getSourceLines: "getLines",
-            getAllComments: "getAllComments",
-            getNodeByRangeIndex: "getNodeByRangeIndex",
-            getCommentsBefore: "getCommentsBefore",
-            getCommentsAfter: "getCommentsAfter",
-            getCommentsInside: "getCommentsInside",
-            getJSDocComment: "getJSDocComment",
-            getFirstToken: "getFirstToken",
-            getFirstTokens: "getFirstTokens",
-            getLastToken: "getLastToken",
-            getLastTokens: "getLastTokens",
-            getTokenAfter: "getTokenAfter",
-            getTokenBefore: "getTokenBefore",
-            getTokenByRangeStart: "getTokenByRangeStart",
-            getTokens: "getTokens",
-            getTokensAfter: "getTokensAfter",
-            getTokensBefore: "getTokensBefore",
-            getTokensBetween: "getTokensBetween",
-            getScope: "getScope",
-            getAncestors: "getAncestors",
-            getDeclaredVariables: "getDeclaredVariables",
-            markVariableAsUsed: "markVariableAsUsed"
-        }).forEach(([methodName, replacementName]) => {
-
-            it(`should log a deprecation warning when calling \`context.${methodName}\``, () => {
-                const ruleToCheckDeprecation = {
-                    meta: {
-                        type: "problem",
-                        schema: []
-                    },
-                    create(context) {
-                        return {
-                            Program(node) {
-
-                                // special case
-                                if (methodName === "getTokensBetween") {
-                                    context[methodName](node, node);
-                                } else {
-                                    context[methodName](node);
-                                }
-
-                                context.report({ node, message: "bad" });
-                            }
-                        };
-                    }
-                };
-
-                ruleTester.run("deprecated-method", ruleToCheckDeprecation, {
-                    valid: [],
-                    invalid: [
-                        { code: "var foo = bar;", options: [], errors: 1 }
-                    ]
-                });
-
-                assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
-                assert.deepStrictEqual(
-                    processStub.getCall(0).args,
-                    [
-                        `"deprecated-method" rule is using \`context.${methodName}()\`, which is deprecated and will be removed in ESLint v9. Please use \`sourceCode.${replacementName}()\` instead.`,
-                        "DeprecationWarning"
-                    ]
-                );
-            });
-
-        });
-
 
     });
 

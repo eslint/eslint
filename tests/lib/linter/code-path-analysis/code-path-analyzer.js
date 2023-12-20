@@ -137,6 +137,37 @@ describe("CodePathAnalyzer", () => {
             assert(actual[1].thrownSegments[0] instanceof CodePathSegment);
         });
 
+        it("should have `currentSegments` as CodePathSegment[]", () => {
+            assert(Array.isArray(actual[0].currentSegments));
+            assert(Array.isArray(actual[1].currentSegments));
+            assert(actual[0].currentSegments.length === 0);
+            assert(actual[1].currentSegments.length === 0);
+
+            // there is the current segment in progress.
+            linter.defineRule("test", {
+                create() {
+                    let codePath = null;
+
+                    return {
+                        onCodePathStart(cp) {
+                            codePath = cp;
+                        },
+                        ReturnStatement() {
+                            assert(codePath.currentSegments.length === 1);
+                            assert(codePath.currentSegments[0] instanceof CodePathSegment);
+                        },
+                        ThrowStatement() {
+                            assert(codePath.currentSegments.length === 1);
+                            assert(codePath.currentSegments[0] instanceof CodePathSegment);
+                        }
+                    };
+                }
+            });
+            linter.verify(
+                "function foo(a) { if (a) return 0; else throw new Error(); }",
+                { rules: { test: 2 } }
+            );
+        });
     });
 
     describe("interface of code path segments", () => {
