@@ -867,7 +867,6 @@ ESLint analyzes code paths while traversing AST. You can access code path object
 
 Please note that the following `SourceCode` methods have been deprecated and will be removed in a future version of ESLint:
 
-* `getComments()`: Replaced by `SourceCode#getCommentsBefore()`, `SourceCode#getCommentsAfter()`, and `SourceCode#getCommentsInside()`.
 * `getTokenOrCommentBefore()`: Replaced by `SourceCode#getTokenBefore()` with the `{ includeComments: true }` option.
 * `getTokenOrCommentAfter()`: Replaced by `SourceCode#getTokenAfter()` with the `{ includeComments: true }` option.
 * `isSpaceBetweenTokens()`: Replaced by `SourceCode#isSpaceBetween()`
