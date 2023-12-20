@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/lines-between-class-members");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -23,7 +23,7 @@ const neverError = { messageId: "never" };
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("lines-between-class-members", rule, {
     valid: [
@@ -765,7 +765,7 @@ ruleTester.run("lines-between-class-members", rule, {
                 get area() {
                     return this.method1();
                 }
-                
+
                 method2() {}
               }
             `,
@@ -798,7 +798,7 @@ ruleTester.run("lines-between-class-members", rule, {
                 get area() {
                     return this.method1();
                 }
-                
+
                 method2() {}
               }
             `,
@@ -1625,7 +1625,7 @@ ruleTester.run("lines-between-class-members", rule, {
                 fieldA = 'Field A';
                 #fieldB = 'Field B';
                 method1() {}
-                
+
                 get area() {
                     return this.method1();
                 }
@@ -1787,7 +1787,7 @@ fieldA = 'Field A';
                     this.height = height;
                     this.width = width;
                 }
-                
+
                 fieldA = 'Field A';
 
                 #fieldB = 'Field B';

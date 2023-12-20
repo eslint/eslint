@@ -652,7 +652,7 @@
                 "description": "Disallow `Array` constructors",
                 "recommended": false,
                 "fixable": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "no-bitwise",
@@ -680,7 +680,7 @@
                 "description": "Disallow the use of `console`",
                 "recommended": false,
                 "fixable": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "no-continue",
@@ -1396,233 +1396,339 @@
     "deprecated": [
         {
             "name": "array-bracket-newline",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "array-bracket-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "array-element-newline",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "arrow-parens",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "arrow-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "block-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "brace-style",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "callback-return",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "comma-dangle",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "comma-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "comma-style",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "computed-property-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "dot-location",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "eol-last",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "func-call-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "function-call-argument-newline",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "function-paren-newline",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "generator-star-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "global-require",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "handle-callback-err",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "id-blacklist",
             "replacedBy": [
                 "id-denylist"
-            ]
+            ],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "implicit-arrow-linebreak",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "indent",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "indent-legacy",
             "replacedBy": [
                 "indent"
-            ]
+            ],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "jsx-quotes",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "key-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "keyword-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "linebreak-style",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "lines-around-comment",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "lines-around-directive",
             "replacedBy": [
                 "padding-line-between-statements"
-            ]
+            ],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "lines-between-class-members",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "max-len",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "max-statements-per-line",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "multiline-ternary",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "new-parens",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "newline-after-var",
             "replacedBy": [
                 "padding-line-between-statements"
-            ]
+            ],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "newline-before-return",
             "replacedBy": [
                 "padding-line-between-statements"
-            ]
+            ],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "newline-per-chained-call",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "no-buffer-constructor",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-catch-shadow",
             "replacedBy": [
                 "no-shadow"
-            ]
+            ],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-confusing-arrow",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "no-extra-parens",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "no-extra-semi",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "no-floating-decimal",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "no-mixed-operators",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-mixed-requires",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-mixed-spaces-and-tabs",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-multi-spaces",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "no-multiple-empty-lines",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "no-native-reassign",
             "replacedBy": [
                 "no-global-assign"
-            ]
+            ],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-negated-in-lhs",
             "replacedBy": [
                 "no-unsafe-negation"
-            ]
+            ],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-new-object",
             "replacedBy": [
                 "no-object-constructor"
-            ]
+            ],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-new-require",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-new-symbol",
@@ -1632,161 +1738,239 @@
         },
         {
             "name": "no-path-concat",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-process-env",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-process-exit",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-restricted-modules",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-return-await",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": true
         },
         {
             "name": "no-spaced-func",
             "replacedBy": [
                 "func-call-spacing"
-            ]
+            ],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "no-sync",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-tabs",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "no-trailing-spaces",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "no-whitespace-before-property",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "nonblock-statement-body-position",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "object-curly-newline",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "object-curly-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "object-property-newline",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "one-var-declaration-per-line",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "operator-linebreak",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "padded-blocks",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "padding-line-between-statements",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "prefer-reflect",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "quote-props",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "quotes",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "require-jsdoc",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
         },
         {
             "name": "rest-spread-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "semi",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "semi-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "semi-style",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "space-before-blocks",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "space-before-function-paren",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "space-in-parens",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "space-infix-ops",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "space-unary-ops",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "spaced-comment",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "switch-colon-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "template-curly-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "template-tag-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "valid-jsdoc",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "wrap-iife",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "wrap-regex",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         },
         {
             "name": "yield-star-spacing",
-            "replacedBy": []
+            "replacedBy": [],
+            "fixable": true,
+            "hasSuggestions": false
         }
     ],
     "removed": [

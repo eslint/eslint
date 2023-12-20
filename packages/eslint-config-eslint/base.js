@@ -81,6 +81,7 @@ const jsConfigs = [js.configs.recommended, {
         "no-eval": "error",
         "no-extend-native": "error",
         "no-extra-bind": "error",
+        "no-extra-semi": "error",
         "no-floating-decimal": "error",
         "no-implied-eval": "error",
         "no-invalid-this": "error",
@@ -378,7 +379,7 @@ const eslintCommentsConfigs = [eslintComments.configs.recommended, {
 }];
 
 module.exports = [
-    { linterOptions: { reportUnusedDisableDirectives: true } },
+    { linterOptions: { reportUnusedDisableDirectives: "error" } },
     ...jsConfigs,
     ...unicornConfigs,
     ...jsdocConfigs,

@@ -26,22 +26,24 @@
         <p class="rule__description">{{ params.description }}</p>
         {%- endif -%}
     </div>
+    {%- if params.removed == undefined -%}
     <div class="rule__categories">
         <span class="visually-hidden">Categories:</span>
-        {%- if (params.deprecated) or (params.removed) -%}
+        {%- if params.deprecated -%}
             <p class="rule__categories__type">❌</p>
             {%- else -%}
-            <p class="rule__categories__type" {% if params.categories.recommended == false %}aria-hidden="true" {%- endif -%}>
+            <p class="rule__categories__type"{% if params.categories.recommended == false %} aria-hidden="true"{%- endif -%}>
             ✅ <span class="visually-hidden">Extends</span>
         </p>
         {%- endif -%}
 
-        <p class="rule__categories__type" {% if params.categories.fixable == false %}aria-hidden="true" {%- endif -%}>
+        <p class="rule__categories__type"{% if params.categories.fixable == false %} aria-hidden="true"{%- endif -%}>
             🔧 <span class="visually-hidden">Fix</span>
         </p>
-        <p class="rule__categories__type" {% if params.categories.hasSuggestions == false %}aria-hidden="true" {%- endif -%}>
+        <p class="rule__categories__type"{% if params.categories.hasSuggestions == false %} aria-hidden="true"{%- endif -%}>
             💡 <span class="visually-hidden">Suggestions</span>
         </p>
     </div>
+    {%- endif -%}
 </article>
 {%- endmacro -%}

@@ -185,11 +185,12 @@ describe("FlatESLint", () => {
                     parser: "",
                     parserOptions: {},
                     rules: {},
-                    plugins: []
+                    plugins: [],
+                    reportUnusedDisableDirectives: "error"
                 }),
                 new RegExp(escapeStringRegExp([
                     "Invalid Options:",
-                    "- Unknown options: cacheFile, configFile, envs, globals, ignorePath, ignorePattern, parser, parserOptions, rules"
+                    "- Unknown options: cacheFile, configFile, envs, globals, ignorePath, ignorePattern, parser, parserOptions, rules, reportUnusedDisableDirectives"
                 ].join("\n")), "u")
             );
         });
@@ -211,7 +212,6 @@ describe("FlatESLint", () => {
                     overrideConfig: "",
                     overrideConfigFile: "",
                     plugins: "",
-                    reportUnusedDisableDirectives: "",
                     warnIgnored: ""
                 }),
                 new RegExp(escapeStringRegExp([
@@ -230,7 +230,6 @@ describe("FlatESLint", () => {
                     "- 'overrideConfig' must be an object or null.",
                     "- 'overrideConfigFile' must be a non-empty string, null, or true.",
                     "- 'plugins' must be an object or null.",
-                    "- 'reportUnusedDisableDirectives' must be any of \"error\", \"warn\", \"off\", and null.",
                     "- 'warnIgnored' must be a boolean."
                 ].join("\n")), "u")
             );
@@ -2300,21 +2299,7 @@ describe("FlatESLint", () => {
                  */
                 function deleteCacheDir() {
                     try {
-
-                        /*
-                         * `fs.rmdir(path, { recursive: true })` is deprecated and will be removed.
-                         * Use `fs.rm(path, { recursive: true })` instead.
-                         * When supporting Node.js 14.14.0+, the compatibility condition can be removed for `fs.rmdir`.
-                         */
-                        // eslint-disable-next-line n/no-unsupported-features/node-builtins -- just checking if it exists
-                        if (typeof fs.rm === "function") {
-
-                            // eslint-disable-next-line n/no-unsupported-features/node-builtins -- conditionally used
-                            fs.rmSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
-                        } else {
-                            fs.rmdirSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
-                        }
-
+                        fs.rmSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
                     } catch {
 
                         /*
@@ -2601,6 +2586,40 @@ describe("FlatESLint", () => {
                 assert(!shell.test("-f", cacheFilePath), "the cache for eslint should have been deleted since last run did not use the cache");
             });
 
+            it("should not throw an error if the cache file to be deleted does not exist on a read-only file system", async () => {
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
+
+                // Simulate a read-only file system.
+                sinon.stub(fsp, "unlink").rejects(
+                    Object.assign(new Error("read-only file system"), { code: "EROFS" })
+                );
+
+                const eslintOptions = {
+                    overrideConfigFile: true,
+
+                    // specifying cache false the cache will be deleted
+                    cache: false,
+                    cacheLocation: cacheFilePath,
+                    overrideConfig: {
+                        rules: {
+                            "no-console": 0,
+                            "no-unused-vars": 2
+                        }
+                    },
+                    cwd: path.join(fixtureDir, "..")
+                };
+
+                eslint = new FlatESLint(eslintOptions);
+
+                const file = getFixturePath("cache/src", "test-file.js");
+
+                await eslint.lintFiles([file]);
+
+                assert(fsp.unlink.calledWithExactly(cacheFilePath), "Expected attempt to delete the cache was not made.");
+            });
+
             it("should store in the cache a file that has lint messages and a file that doesn't have lint messages", async () => {
                 cacheFilePath = getFixturePath(".eslintcache");
                 doDelete(cacheFilePath);
@@ -2874,6 +2893,105 @@ describe("FlatESLint", () => {
                 const cachedResult = await eslint.lintFiles([badFile, goodFile]);
 
                 assert.deepStrictEqual(result, cachedResult, "result should be the same with or without cache");
+            });
+
+            // https://github.com/eslint/eslint/issues/13507
+            it("should not store `usedDeprecatedRules` in the cache file", async () => {
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
+
+                const deprecatedRuleId = "space-in-parens";
+
+                eslint = new FlatESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    overrideConfigFile: true,
+
+                    // specifying cache true the cache will be created
+                    cache: true,
+                    cacheLocation: cacheFilePath,
+                    overrideConfig: {
+                        rules: {
+                            [deprecatedRuleId]: 2
+                        }
+                    }
+                });
+
+                const filePath = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
+
+                /*
+                 * Run linting on the same file 3 times to cover multiple cases:
+                 *   Run 1: Lint result wasn't already cached.
+                 *   Run 2: Lint result was already cached. The cached lint result is used but the cache is reconciled before the run ends.
+                 *   Run 3: Lint result was already cached. The cached lint result was being used throughout the previous run, so possible
+                 *     mutations in the previous run that occured after the cache was reconciled may have side effects for this run.
+                 */
+                for (let i = 0; i < 3; i++) {
+                    const [result] = await eslint.lintFiles([filePath]);
+
+                    assert(
+                        result.usedDeprecatedRules && result.usedDeprecatedRules.some(rule => rule.ruleId === deprecatedRuleId),
+                        "the deprecated rule should have been in result.usedDeprecatedRules"
+                    );
+
+                    assert(shell.test("-f", cacheFilePath), "the cache for eslint should have been created");
+
+                    const fileCache = fCache.create(cacheFilePath);
+                    const descriptor = fileCache.getFileDescriptor(filePath);
+
+                    assert(typeof descriptor === "object", "an entry for the file should have been in the cache file");
+                    assert(typeof descriptor.meta.results === "object", "lint result for the file should have been in its cache entry in the cache file");
+                    assert(typeof descriptor.meta.results.usedDeprecatedRules === "undefined", "lint result in the cache file contains `usedDeprecatedRules`");
+                }
+
+            });
+
+            // https://github.com/eslint/eslint/issues/13507
+            it("should store `source` as `null` in the cache file if the lint result has `source` property", async () => {
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
+
+                eslint = new FlatESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    overrideConfigFile: true,
+
+                    // specifying cache true the cache will be created
+                    cache: true,
+                    cacheLocation: cacheFilePath,
+                    overrideConfig: {
+                        rules: {
+                            "no-unused-vars": 2
+                        }
+                    }
+                });
+
+                const filePath = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
+
+                /*
+                 * Run linting on the same file 3 times to cover multiple cases:
+                 *   Run 1: Lint result wasn't already cached.
+                 *   Run 2: Lint result was already cached. The cached lint result is used but the cache is reconciled before the run ends.
+                 *   Run 3: Lint result was already cached. The cached lint result was being used throughout the previous run, so possible
+                 *     mutations in the previous run that occured after the cache was reconciled may have side effects for this run.
+                 */
+                for (let i = 0; i < 3; i++) {
+                    const [result] = await eslint.lintFiles([filePath]);
+
+                    assert(typeof result.source === "string", "the result should have contained the `source` property");
+
+                    assert(shell.test("-f", cacheFilePath), "the cache for eslint should have been created");
+
+                    const fileCache = fCache.create(cacheFilePath);
+                    const descriptor = fileCache.getFileDescriptor(filePath);
+
+                    assert(typeof descriptor === "object", "an entry for the file should have been in the cache file");
+                    assert(typeof descriptor.meta.results === "object", "lint result for the file should have been in its cache entry in the cache file");
+
+                    // if the lint result contains `source`, it should be stored as `null` in the cache file
+                    assert.strictEqual(descriptor.meta.results.source, null, "lint result in the cache file contains non-null `source`");
+                }
+
             });
 
             describe("cacheStrategy", () => {
@@ -3733,16 +3851,110 @@ describe("FlatESLint", () => {
             const root = getFixturePath("cli-engine/reportUnusedDisableDirectives");
 
             let cleanup;
+            let i = 0;
 
             beforeEach(() => {
                 cleanup = () => { };
+                i++;
             });
 
             afterEach(() => cleanup());
 
-            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives' was given.", async () => {
+            it("should error unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = error'.", async () => {
                 const teardown = createCustomTeardown({
-                    cwd: root,
+                    cwd: `${root}${i}`,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: 'error' } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 2);
+                assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should error unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = 2'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: `${root}${i}`,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: 2 } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 2);
+                assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = warn'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: `${root}${i}`,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: 'warn' } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 1);
+                assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = 1'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: `${root}${i}`,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: 1 } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 1);
+                assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = true'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: `${root}${i}`,
                     files: {
                         "test.js": "/* eslint-disable eqeqeq */",
                         "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: true } }"
@@ -3763,13 +3975,73 @@ describe("FlatESLint", () => {
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
 
+            it("should not warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = false'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: `${root}${i}`,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: false } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 0);
+            });
+
+            it("should not warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = off'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: `${root}${i}`,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: 'off' } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 0);
+            });
+
+            it("should not warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives = 0'.", async () => {
+                const teardown = createCustomTeardown({
+                    cwd: `${root}${i}`,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        "eslint.config.js": "module.exports = { linterOptions: { reportUnusedDisableDirectives: 0 } }"
+                    }
+                });
+
+
+                await teardown.prepare();
+                cleanup = teardown.cleanup;
+                eslint = new FlatESLint({ cwd: teardown.getPath() });
+
+                const results = await eslint.lintFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 0);
+            });
+
             describe("the runtime option overrides config files.", () => {
                 it("should not warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives=off' was given in runtime.", async () => {
                     const teardown = createCustomTeardown({
-                        cwd: root,
+                        cwd: `${root}${i}`,
                         files: {
                             "test.js": "/* eslint-disable eqeqeq */",
-                            ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                            "eslint.config.js": "module.exports = [{ linterOptions: { reportUnusedDisableDirectives: true } }]"
                         }
                     });
 
@@ -3778,7 +4050,9 @@ describe("FlatESLint", () => {
 
                     eslint = new FlatESLint({
                         cwd: teardown.getPath(),
-                        reportUnusedDisableDirectives: "off"
+                        overrideConfig: {
+                            linterOptions: { reportUnusedDisableDirectives: "off" }
+                        }
                     });
 
                     const results = await eslint.lintFiles(["test.js"]);
@@ -3789,10 +4063,10 @@ describe("FlatESLint", () => {
 
                 it("should warn unused 'eslint-disable' comments as error if 'reportUnusedDisableDirectives=error' was given in runtime.", async () => {
                     const teardown = createCustomTeardown({
-                        cwd: root,
+                        cwd: `${root}${i}`,
                         files: {
                             "test.js": "/* eslint-disable eqeqeq */",
-                            ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                            "eslint.config.js": "module.exports = [{ linterOptions: { reportUnusedDisableDirectives: true } }]"
                         }
                     });
 
@@ -3801,7 +4075,9 @@ describe("FlatESLint", () => {
 
                     eslint = new FlatESLint({
                         cwd: teardown.getPath(),
-                        reportUnusedDisableDirectives: "error"
+                        overrideConfig: {
+                            linterOptions: { reportUnusedDisableDirectives: "error" }
+                        }
                     });
 
                     const results = await eslint.lintFiles(["test.js"]);
@@ -4123,7 +4399,7 @@ describe("FlatESLint", () => {
     describe("loadFormatter()", () => {
         it("should return a formatter object when a bundled formatter is requested", async () => {
             const engine = new FlatESLint();
-            const formatter = await engine.loadFormatter("compact");
+            const formatter = await engine.loadFormatter("json");
 
             assert.strictEqual(typeof formatter, "object");
             assert.strictEqual(typeof formatter.format, "function");
@@ -4634,9 +4910,11 @@ describe("FlatESLint", () => {
                 overrideConfig: {
                     rules: {
                         "no-var": "warn"
+                    },
+                    linterOptions: {
+                        reportUnusedDisableDirectives: "warn"
                     }
-                },
-                reportUnusedDisableDirectives: "warn"
+                }
             });
 
             {
@@ -4662,8 +4940,7 @@ describe("FlatESLint", () => {
         it("should return a non-empty value if some of the messages are related to a rule", async () => {
             const engine = new FlatESLint({
                 overrideConfigFile: true,
-                overrideConfig: { rules: { "no-var": "warn" } },
-                reportUnusedDisableDirectives: "warn"
+                overrideConfig: { rules: { "no-var": "warn" }, linterOptions: { reportUnusedDisableDirectives: "warn" } }
             });
 
             const results = await engine.lintText("// eslint-disable-line no-var\nvar foo;");
@@ -4838,7 +5115,7 @@ describe("FlatESLint", () => {
 
     describe("when evaluating code when reportUnusedDisableDirectives is enabled", () => {
         it("should report problems for unused eslint-disable directives", async () => {
-            const eslint = new FlatESLint({ overrideConfigFile: true, reportUnusedDisableDirectives: "error" });
+            const eslint = new FlatESLint({ overrideConfigFile: true, overrideConfig: { linterOptions: { reportUnusedDisableDirectives: "error" } } });
 
             assert.deepStrictEqual(
                 await eslint.lintText("/* eslint-disable */"),
@@ -6030,6 +6307,72 @@ describe("FlatESLint", () => {
             });
         });
     }
+
+    describe("config with circular references", () => {
+        it("in 'settings'", async () => {
+            let resolvedSettings = null;
+
+            const circular = {};
+
+            circular.self = circular;
+
+            const eslint = new FlatESLint({
+                overrideConfigFile: true,
+                baseConfig: {
+                    settings: {
+                        sharedData: circular
+                    },
+                    rules: {
+                        "test-plugin/test-rule": 1
+                    }
+                },
+                plugins: {
+                    "test-plugin": {
+                        rules: {
+                            "test-rule": {
+                                create(context) {
+                                    resolvedSettings = context.settings;
+                                    return { };
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            await eslint.lintText("debugger;");
+
+            assert.deepStrictEqual(resolvedSettings.sharedData, circular);
+        });
+
+        it("in 'parserOptions'", async () => {
+            let resolvedParserOptions = null;
+
+            const circular = {};
+
+            circular.self = circular;
+
+            const eslint = new FlatESLint({
+                overrideConfigFile: true,
+                baseConfig: {
+                    languageOptions: {
+                        parser: {
+                            parse(text, parserOptions) {
+                                resolvedParserOptions = parserOptions;
+                            }
+                        },
+                        parserOptions: {
+                            testOption: circular
+                        }
+                    }
+                }
+            });
+
+            await eslint.lintText("debugger;");
+
+            assert.deepStrictEqual(resolvedParserOptions.testOption, circular);
+        });
+    });
 
 });
 

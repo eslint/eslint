@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/for-direction");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2020 } });
 const incorrectDirection = { messageId: "incorrectDirection" };
 
 ruleTester.run("for-direction", rule, {
@@ -27,6 +27,12 @@ ruleTester.run("for-direction", rule, {
         "for(var i = 0; i <= 10; i++){}",
         "for(var i = 10; i > 0; i--){}",
         "for(var i = 10; i >= 0; i--){}",
+
+        // test if '++', '--' with counter 'i' on the right side of test condition
+        "for(var i = 0; 10 > i; i++){}",
+        "for(var i = 0; 10 >= i; i++){}",
+        "for(var i = 10; 0 < i; i--){}",
+        "for(var i = 10; 0 <= i; i--){}",
 
         // test if '+=', '-=',
         "for(var i = 0; i < 10; i+=1){}",
@@ -43,6 +49,9 @@ ruleTester.run("for-direction", rule, {
         "for(var i = 0; i < 10; i+=+5e-7){}",
         "for(var i = 0; i < MAX; i -= ~2);",
         "for(var i = 0, n = -1; i < MAX; i += -n);",
+
+        // test if '+=', '-=' with counter 'i' on the right side of test condition
+        "for(var i = 0; 10 > i; i+=1){}",
 
         // test if no update.
         "for(var i = 10; i > 0;){}",
@@ -82,6 +91,12 @@ ruleTester.run("for-direction", rule, {
         { code: "for(var i = 10; i > 10; i++){}", errors: [incorrectDirection] },
         { code: "for(var i = 10; i >= 0; i++){}", errors: [incorrectDirection] },
 
+        // test if '++', '--' with counter 'i' on the right side of test condition
+        { code: "for(var i = 0; 10 > i; i--){}", errors: [incorrectDirection] },
+        { code: "for(var i = 0; 10 >= i; i--){}", errors: [incorrectDirection] },
+        { code: "for(var i = 10; 10 < i; i++){}", errors: [incorrectDirection] },
+        { code: "for(var i = 10; 0 <= i; i++){}", errors: [incorrectDirection] },
+
         // test if '+=', '-='
         { code: "for(var i = 0; i < 10; i-=1){}", errors: [incorrectDirection] },
         { code: "for(var i = 0; i <= 10; i-=1){}", errors: [incorrectDirection] },
@@ -96,6 +111,9 @@ ruleTester.run("for-direction", rule, {
         { code: "for(var i = MIN; i <= MAX; i-=true){}", errors: [incorrectDirection] },
         { code: "for(var i = 0; i < 10; i-=+5e-7){}", errors: [incorrectDirection] },
         { code: "for(var i = 0; i < MAX; i += (2 - 3));", errors: [incorrectDirection] },
-        { code: "var n = -2; for(var i = 0; i < 10; i += n);", errors: [incorrectDirection] }
+        { code: "var n = -2; for(var i = 0; i < 10; i += n);", errors: [incorrectDirection] },
+
+        // test if '+=', '-=' with counter 'i' on the right side of test condition
+        { code: "for(var i = 0; 10 > i; i-=1){}", errors: [incorrectDirection] }
     ]
 });

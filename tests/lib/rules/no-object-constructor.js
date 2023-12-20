@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-object-constructor"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: "latest" } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: "latest", sourceType: "script" } });
 
 ruleTester.run("no-object-constructor", rule, {
     valid: [
@@ -27,8 +27,10 @@ ruleTester.run("no-object-constructor", rule, {
         "var Object; new Object;",
         {
             code: "new Object()",
-            globals: {
-                Object: "off"
+            languageOptions: {
+                globals: {
+                    Object: "off"
+                }
             }
         }
     ],
@@ -174,14 +176,14 @@ ruleTester.run("no-object-constructor", rule, {
                 <foo />
                 Object()
                 `,
-                parserOptions: { ecmaFeatures: { jsx: true } }
+                languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
             },
             {
                 code: `
                 <foo></foo>
                 Object()
                 `,
-                parserOptions: { ecmaFeatures: { jsx: true } }
+                languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
             }
         ].map(props => ({
             ...props,
@@ -316,28 +318,28 @@ ruleTester.run("no-object-constructor", rule, {
                 export { foo }
                 Object()
                 `,
-                parserOptions: { sourceType: "module" }
+                languageOptions: { sourceType: "module" }
             },
             {
                 code: `
                 export { foo } from 'bar'
                 Object()
                 `,
-                parserOptions: { sourceType: "module" }
+                languageOptions: { sourceType: "module" }
             },
             {
                 code: `
                 export * as foo from 'bar'
                 Object()
                 `,
-                parserOptions: { sourceType: "module" }
+                languageOptions: { sourceType: "module" }
             },
             {
                 code: `
                 import foo from 'bar'
                 Object()
                 `,
-                parserOptions: { sourceType: "module" }
+                languageOptions: { sourceType: "module" }
             },
             {
                 code: `

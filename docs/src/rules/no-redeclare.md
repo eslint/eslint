@@ -77,7 +77,7 @@ The `"builtinGlobals"` option will check for redeclaration of built-in globals i
 
 Examples of **incorrect** code for the `{ "builtinGlobals": true }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-redeclare: ["error", { "builtinGlobals": true }]*/
@@ -89,7 +89,7 @@ var Object = 0;
 
 Examples of **incorrect** code for the `{ "builtinGlobals": true }` option and the `browser` environment:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-redeclare: ["error", { "builtinGlobals": true }]*/

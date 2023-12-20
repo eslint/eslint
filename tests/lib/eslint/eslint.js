@@ -2404,21 +2404,7 @@ describe("ESLint", () => {
                  */
                 function deleteCacheDir() {
                     try {
-
-                        /*
-                         * `fs.rmdir(path, { recursive: true })` is deprecated and will be removed.
-                         * Use `fs.rm(path, { recursive: true })` instead.
-                         * When supporting Node.js 14.14.0+, the compatibility condition can be removed for `fs.rmdir`.
-                         */
-                        // eslint-disable-next-line n/no-unsupported-features/node-builtins -- just checking if it exists
-                        if (typeof fs.rm === "function") {
-
-                            // eslint-disable-next-line n/no-unsupported-features/node-builtins -- conditionally used
-                            fs.rmSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
-                        } else {
-                            fs.rmdirSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
-                        }
-
+                        fs.rmSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
                     } catch {
 
                         /*
@@ -2711,6 +2697,41 @@ describe("ESLint", () => {
                 assert(!shell.test("-f", cacheFilePath), "the cache for eslint should have been deleted since last run did not use the cache");
             });
 
+            it("should not throw an error if the cache file to be deleted does not exist on a read-only file system", async () => {
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
+
+                // Simulate a read-only file system.
+                sinon.stub(fs, "unlinkSync").throws(
+                    Object.assign(new Error("read-only file system"), { code: "EROFS" })
+                );
+
+                const eslintOptions = {
+                    useEslintrc: false,
+
+                    // specifying cache true the cache will be created
+                    cache: false,
+                    cacheLocation: cacheFilePath,
+                    overrideConfig: {
+                        rules: {
+                            "no-console": 0,
+                            "no-unused-vars": 2
+                        }
+                    },
+                    extensions: ["js"],
+                    cwd: path.join(fixtureDir, "..")
+                };
+
+                eslint = new ESLint(eslintOptions);
+
+                const file = getFixturePath("cache/src", "test-file.js");
+
+                await eslint.lintFiles([file]);
+
+                assert(fs.unlinkSync.calledWithExactly(cacheFilePath), "Expected attempt to delete the cache was not made.");
+            });
+
             it("should store in the cache a file that has lint messages and a file that doesn't have lint messages", async () => {
                 cacheFilePath = getFixturePath(".eslintcache");
                 doDelete(cacheFilePath);
@@ -2991,6 +3012,105 @@ describe("ESLint", () => {
                 const cachedResult = await eslint.lintFiles([badFile, goodFile]);
 
                 assert.deepStrictEqual(result, cachedResult, "result should be the same with or without cache");
+            });
+
+            // https://github.com/eslint/eslint/issues/13507
+            it("should not store `usedDeprecatedRules` in the cache file", async () => {
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
+
+                const deprecatedRuleId = "space-in-parens";
+
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+
+                    // specifying cache true the cache will be created
+                    cache: true,
+                    cacheLocation: cacheFilePath,
+                    overrideConfig: {
+                        rules: {
+                            [deprecatedRuleId]: 2
+                        }
+                    }
+                });
+
+                const filePath = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
+
+                /*
+                 * Run linting on the same file 3 times to cover multiple cases:
+                 *   Run 1: Lint result wasn't already cached.
+                 *   Run 2: Lint result was already cached. The cached lint result is used but the cache is reconciled before the run ends.
+                 *   Run 3: Lint result was already cached. The cached lint result was being used throughout the previous run, so possible
+                 *     mutations in the previous run that occured after the cache was reconciled may have side effects for this run.
+                 */
+                for (let i = 0; i < 3; i++) {
+                    const [result] = await eslint.lintFiles([filePath]);
+
+                    assert(
+                        result.usedDeprecatedRules && result.usedDeprecatedRules.some(rule => rule.ruleId === deprecatedRuleId),
+                        "the deprecated rule should have been in result.usedDeprecatedRules"
+                    );
+
+                    assert(shell.test("-f", cacheFilePath), "the cache for eslint should have been created");
+
+                    const fileCache = fCache.create(cacheFilePath);
+                    const descriptor = fileCache.getFileDescriptor(filePath);
+
+                    assert(typeof descriptor === "object", "an entry for the file should have been in the cache file");
+                    assert(typeof descriptor.meta.results === "object", "lint result for the file should have been in its cache entry in the cache file");
+                    assert(typeof descriptor.meta.results.usedDeprecatedRules === "undefined", "lint result in the cache file contains `usedDeprecatedRules`");
+                }
+
+            });
+
+            // https://github.com/eslint/eslint/issues/13507
+            it("should store `source` as `null` in the cache file if the lint result has `source` property", async () => {
+                cacheFilePath = getFixturePath(".eslintcache");
+                doDelete(cacheFilePath);
+                assert(!shell.test("-f", cacheFilePath), "the cache file already exists and wasn't successfully deleted");
+
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+
+                    // specifying cache true the cache will be created
+                    cache: true,
+                    cacheLocation: cacheFilePath,
+                    overrideConfig: {
+                        rules: {
+                            "no-unused-vars": 2
+                        }
+                    }
+                });
+
+                const filePath = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
+
+                /*
+                 * Run linting on the same file 3 times to cover multiple cases:
+                 *   Run 1: Lint result wasn't already cached.
+                 *   Run 2: Lint result was already cached. The cached lint result is used but the cache is reconciled before the run ends.
+                 *   Run 3: Lint result was already cached. The cached lint result was being used throughout the previous run, so possible
+                 *     mutations in the previous run that occured after the cache was reconciled may have side effects for this run.
+                 */
+                for (let i = 0; i < 3; i++) {
+                    const [result] = await eslint.lintFiles([filePath]);
+
+                    assert(typeof result.source === "string", "the result should have contained the `source` property");
+
+                    assert(shell.test("-f", cacheFilePath), "the cache for eslint should have been created");
+
+                    const fileCache = fCache.create(cacheFilePath);
+                    const descriptor = fileCache.getFileDescriptor(filePath);
+
+                    assert(typeof descriptor === "object", "an entry for the file should have been in the cache file");
+                    assert(typeof descriptor.meta.results === "object", "lint result for the file should have been in its cache entry in the cache file");
+
+                    // if the lint result contains `source`, it should be stored as `null` in the cache file
+                    assert.strictEqual(descriptor.meta.results.source, null, "lint result in the cache file contains non-null `source`");
+                }
+
             });
 
             describe("cacheStrategy", () => {
@@ -4944,7 +5064,7 @@ describe("ESLint", () => {
     describe("loadFormatter()", () => {
         it("should return a formatter object when a bundled formatter is requested", async () => {
             const engine = new ESLint();
-            const formatter = await engine.loadFormatter("compact");
+            const formatter = await engine.loadFormatter("json");
 
             assert.strictEqual(typeof formatter, "object");
             assert.strictEqual(typeof formatter.format, "function");

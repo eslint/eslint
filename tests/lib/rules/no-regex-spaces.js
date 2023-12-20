@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-regex-spaces"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -63,8 +63,8 @@ ruleTester.run("no-regex-spaces", rule, {
         "var foo = new RegExp(' \\[   \\] ');",
 
         // ES2024
-        { code: "var foo = /  {2}/v;", parserOptions: { ecmaVersion: 2024 } },
-        { code: "var foo = /[\\q{    }]/v;", parserOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /  {2}/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[\\q{    }]/v;", languageOptions: { ecmaVersion: 2024 } },
 
         // don't report invalid regex
         "var foo = new RegExp('[  ');",
@@ -148,7 +148,7 @@ ruleTester.run("no-regex-spaces", rule, {
             // `RegExp` is not shadowed in the scope where it's called
             code: "{ let RegExp = function() {}; } var foo = RegExp('bar    baz');",
             output: "{ let RegExp = function() {}; } var foo = RegExp('bar {4}baz');",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "multipleSpaces",
@@ -386,7 +386,7 @@ ruleTester.run("no-regex-spaces", rule, {
         {
             code: "var foo = /[[    ]    ]    /v;",
             output: "var foo = /[[    ]    ] {4}/v;",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2024
             },
             errors: [

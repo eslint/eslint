@@ -21,6 +21,8 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
+/* eslint no-buffer-constructor: error */
+
 new Buffer(5);
 new Buffer([1, 2, 3]);
 
@@ -38,6 +40,8 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
+/* eslint no-buffer-constructor: error */
+
 Buffer.alloc(5);
 Buffer.allocUnsafe(5);
 Buffer.from([1, 2, 3]);

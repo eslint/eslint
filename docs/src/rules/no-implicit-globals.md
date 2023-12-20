@@ -79,7 +79,7 @@ window.bar = function() {};
 
 Examples of **correct** code for this rule with `"parserOptions": { "sourceType": "module" }` in the ESLint configuration:
 
-::: correct { "sourceType": "script" }
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-implicit-globals: "error"*/
@@ -264,6 +264,7 @@ Examples of **correct** code for `/* exported variableName */` operation:
 ::: correct { "sourceType": "script" }
 
 ```js
+/* eslint no-implicit-globals: error */
 /* exported global_var */
 
 var global_var = 42;
