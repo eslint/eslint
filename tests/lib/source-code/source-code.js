@@ -3646,10 +3646,10 @@ describe("SourceCode", () => {
                 create(context) {
                     const sourceCode = context.sourceCode;
 
-                    spy = sinon.spy(() => {
+                    spy = sinon.spy(node => {
                         assert.isTrue(sourceCode.markVariableAsUsed("a"));
 
-                        const scope = context.getScope();
+                        const scope = sourceCode.getScope(node);
 
                         assert.isTrue(getVariable(scope, "a").eslintUsed);
                         assert.notOk(getVariable(scope, "b").eslintUsed);
@@ -3674,7 +3674,7 @@ describe("SourceCode", () => {
                     spy = sinon.spy(node => {
                         assert.isTrue(sourceCode.markVariableAsUsed("a", node));
 
-                        const scope = context.getScope();
+                        const scope = sourceCode.getScope(node);
 
                         assert.isTrue(getVariable(scope, "a").eslintUsed);
                         assert.notOk(getVariable(scope, "b").eslintUsed);
@@ -3699,8 +3699,8 @@ describe("SourceCode", () => {
                     returnSpy = sinon.spy(node => {
                         assert.isTrue(sourceCode.markVariableAsUsed("a", node));
                     });
-                    exitSpy = sinon.spy(() => {
-                        const scope = context.getScope();
+                    exitSpy = sinon.spy(node => {
+                        const scope = sourceCode.getScope(node);
 
                         assert.isTrue(getVariable(scope, "a").eslintUsed);
                         assert.notOk(getVariable(scope, "b").eslintUsed);
@@ -3723,8 +3723,8 @@ describe("SourceCode", () => {
                 create(context) {
                     const sourceCode = context.sourceCode;
 
-                    spy = sinon.spy(() => {
-                        const globalScope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const globalScope = sourceCode.getScope(node),
                             childScope = globalScope.childScopes[0];
 
                         assert.isTrue(sourceCode.markVariableAsUsed("a"));
@@ -3749,8 +3749,8 @@ describe("SourceCode", () => {
                 create(context) {
                     const sourceCode = context.sourceCode;
 
-                    spy = sinon.spy(() => {
-                        const globalScope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const globalScope = sourceCode.getScope(node),
                             childScope = globalScope.childScopes[0];
 
                         assert.isTrue(sourceCode.markVariableAsUsed("a"));
