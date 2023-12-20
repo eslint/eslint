@@ -38,7 +38,10 @@
   },
   "lint-staged": {
     "*.js": "eslint --fix",
-    "*.md": "prettier --write && markdownlint --fix",
+    "*.md": [
+      "prettier --write",
+      "markdownlint --fix"
+    ],
     "lib/rules/*.js": [
       "node tools/update-eslint-all.js",
       "git add packages/js/src/configs/eslint-all.js"
