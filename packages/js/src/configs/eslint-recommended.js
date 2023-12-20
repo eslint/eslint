@@ -45,7 +45,7 @@ module.exports = Object.freeze({
         "no-irregular-whitespace": "error",
         "no-loss-of-precision": "error",
         "no-misleading-character-class": "error",
-        "no-new-symbol": "error",
+        "no-new-native-nonconstructor": "error",
         "no-nonoctal-decimal-escape": "error",
         "no-obj-calls": "error",
         "no-octal": "error",
