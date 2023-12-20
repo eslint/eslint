@@ -142,11 +142,15 @@ describe("cli", () => {
             const originalEnv = process.env;
             const originalCwd = process.cwd;
 
+            let processStub;
+
             beforeEach(() => {
+                processStub = sinon.stub(process, "emitWarning");
                 process.env = { ...originalEnv };
             });
 
             afterEach(() => {
+                processStub.restore();
                 process.env = originalEnv;
                 process.cwd = originalCwd;
             });
@@ -167,6 +171,12 @@ describe("cli", () => {
                 const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
 
                 assert.strictEqual(exitCode, 0);
+
+
+                if (useFlatConfig) {
+                    assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+                    assert.strictEqual(processStub.getCall(0).args[1], "ESLintRCWarning");
+                }
             });
 
             it(`should use it when ESLINT_USE_FLAT_CONFIG=true and useFlatConfig is true even if an eslint.config.js is not present:${configType}`, async () => {
@@ -237,10 +247,11 @@ describe("cli", () => {
 
         describe("Formatters", () => {
 
+            const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
+
             describe("when given a valid built-in formatter name", () => {
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
-                    const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
                     const exit = await cli.execute(`${flag} -f json ${filePath}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 0);
@@ -261,7 +272,6 @@ describe("cli", () => {
 
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
-                    const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
                     const exit = await cli.execute(`--no-ignore -f json-with-metadata ${filePath} ${flag}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 0);
@@ -289,7 +299,6 @@ describe("cli", () => {
             });
 
             describe("when the --max-warnings option is passed", () => {
-                const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
 
                 describe("and there are too many warnings", () => {
                     it(`should provide \`maxWarningsExceeded\` metadata to the formatter with configType:${configType}`, async () => {
@@ -330,7 +339,7 @@ describe("cli", () => {
             describe("when given an invalid built-in formatter name", () => {
                 it(`should execute with error: with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`-f fakeformatter ${filePath}`);
+                    const exit = await cli.execute(`-f fakeformatter ${filePath} ${flag}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 2);
                 });
@@ -340,7 +349,7 @@ describe("cli", () => {
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const formatterPath = getFixturePath("formatters", "simple.js");
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`-f ${formatterPath} ${filePath}`);
+                    const exit = await cli.execute(`-f ${formatterPath} ${filePath} ${flag}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -371,7 +380,7 @@ describe("cli", () => {
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const formatterPath = getFixturePath("formatters", "async.js");
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`-f ${formatterPath} ${filePath}`);
+                    const exit = await cli.execute(`-f ${formatterPath} ${filePath} ${flag}`, null, useFlatConfig);
 
                     assert.strictEqual(log.info.getCall(0).args[0], "from async formatter");
                     assert.strictEqual(exit, 0);
@@ -1480,7 +1489,7 @@ describe("cli", () => {
 
     describe("when given a config file", () => {
         it("should load the specified config file", async () => {
-            const configPath = getFixturePath(".eslintrc");
+            const configPath = getFixturePath("eslint.config.js");
             const filePath = getFixturePath("passing.js");
 
             await cli.execute(`--config ${configPath} ${filePath}`);
@@ -1498,7 +1507,7 @@ describe("cli", () => {
                     const filePath = getFixturePath("globals-browser.js");
                     const code = `--config ${configPath} ${filePath}`;
 
-                    const exit = await cli.execute(code);
+                    const exit = await cli.execute(code, null, false);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -1510,7 +1519,7 @@ describe("cli", () => {
                     const filePath = getFixturePath("globals-node.js");
                     const code = `--config ${configPath} ${filePath}`;
 
-                    const exit = await cli.execute(code);
+                    const exit = await cli.execute(code, null, false);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -1522,7 +1531,7 @@ describe("cli", () => {
                     const filePath = getFixturePath("globals-nashorn.js");
                     const code = `--config ${configPath} ${filePath}`;
 
-                    const exit = await cli.execute(code);
+                    const exit = await cli.execute(code, null, false);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -1534,7 +1543,7 @@ describe("cli", () => {
                     const filePath = getFixturePath("globals-webextensions.js");
                     const code = `--config ${configPath} ${filePath}`;
 
-                    const exit = await cli.execute(code);
+                    const exit = await cli.execute(code, null, false);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -1549,7 +1558,7 @@ describe("cli", () => {
                 const code = `--rulesdir ${rulesPath} --config ${configPath} --no-ignore ${filePath}`;
 
                 await stdAssert.rejects(async () => {
-                    const exit = await cli.execute(code);
+                    const exit = await cli.execute(code, null, false);
 
                     assert.strictEqual(exit, 2);
                 }, /Error while loading rule 'custom-rule': Boom!/u);
@@ -1561,7 +1570,7 @@ describe("cli", () => {
                 const filePath = getFixturePath("rules", "test", "test-custom-rule.js");
                 const code = `--rulesdir ${rulesPath} --config ${configPath} --no-ignore ${filePath}`;
 
-                await cli.execute(code);
+                await cli.execute(code, null, false);
 
                 assert.isTrue(log.info.calledOnce);
                 assert.isTrue(log.info.neverCalledWith(""));
@@ -1573,7 +1582,7 @@ describe("cli", () => {
                 const configPath = getFixturePath("rules", "multi-rulesdirs.json");
                 const filePath = getFixturePath("rules", "test-multi-rulesdirs.js");
                 const code = `--rulesdir ${rulesPath} --rulesdir ${rulesPath2} --config ${configPath} --no-ignore ${filePath}`;
-                const exit = await cli.execute(code);
+                const exit = await cli.execute(code, null, false);
 
                 const call = log.info.getCall(0);
 
@@ -1591,7 +1600,7 @@ describe("cli", () => {
         describe("when executing with no-eslintrc flag", () => {
             it("should ignore a local config file", async () => {
                 const filePath = getFixturePath("eslintrc", "quotes.js");
-                const exit = await cli.execute(`--no-eslintrc --no-ignore ${filePath}`);
+                const exit = await cli.execute(`--no-eslintrc --no-ignore ${filePath}`, null, false);
 
                 assert.isTrue(log.info.notCalled);
                 assert.strictEqual(exit, 0);
@@ -1601,7 +1610,7 @@ describe("cli", () => {
         describe("when executing without no-eslintrc flag", () => {
             it("should load a local config file", async () => {
                 const filePath = getFixturePath("eslintrc", "quotes.js");
-                const exit = await cli.execute(`--no-ignore ${filePath}`);
+                const exit = await cli.execute(`--no-ignore ${filePath}`, null, false);
 
                 assert.isTrue(log.info.calledOnce);
                 assert.strictEqual(exit, 1);
@@ -1615,7 +1624,7 @@ describe("cli", () => {
                     getFixturePath("globals-node.js")
                 ];
 
-                await cli.execute(`--no-eslintrc --config ./packages/js/src/configs/eslint-recommended.js --no-ignore ${files.join(" ")}`);
+                await cli.execute(`--no-eslintrc --config ./packages/js/src/configs/eslint-recommended.js --no-ignore ${files.join(" ")}`, null, false);
 
                 assert.strictEqual(log.info.args[0][0].split("\n").length, 10);
             });
