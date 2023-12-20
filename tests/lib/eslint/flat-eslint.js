@@ -6322,6 +6322,72 @@ describe("FlatESLint", () => {
         });
     }
 
+    describe("config with circular references", () => {
+        it("in 'settings'", async () => {
+            let resolvedSettings = null;
+
+            const circular = {};
+
+            circular.self = circular;
+
+            const eslint = new FlatESLint({
+                overrideConfigFile: true,
+                baseConfig: {
+                    settings: {
+                        sharedData: circular
+                    },
+                    rules: {
+                        "test-plugin/test-rule": 1
+                    }
+                },
+                plugins: {
+                    "test-plugin": {
+                        rules: {
+                            "test-rule": {
+                                create(context) {
+                                    resolvedSettings = context.settings;
+                                    return { };
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            await eslint.lintText("debugger;");
+
+            assert.deepStrictEqual(resolvedSettings.sharedData, circular);
+        });
+
+        it("in 'parserOptions'", async () => {
+            let resolvedParserOptions = null;
+
+            const circular = {};
+
+            circular.self = circular;
+
+            const eslint = new FlatESLint({
+                overrideConfigFile: true,
+                baseConfig: {
+                    languageOptions: {
+                        parser: {
+                            parse(text, parserOptions) {
+                                resolvedParserOptions = parserOptions;
+                            }
+                        },
+                        parserOptions: {
+                            testOption: circular
+                        }
+                    }
+                }
+            });
+
+            await eslint.lintText("debugger;");
+
+            assert.deepStrictEqual(resolvedParserOptions.testOption, circular);
+        });
+    });
+
 });
 
 describe("shouldUseFlatConfig", () => {
