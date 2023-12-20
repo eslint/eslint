@@ -223,6 +223,7 @@ module.exports = {
         "no-eval": "error",
         "no-extend-native": "error",
         "no-extra-bind": "error",
+        "no-extra-semi": "error",
         "no-floating-decimal": "error",
         "no-implied-eval": "error",
         "no-invalid-this": "error",
