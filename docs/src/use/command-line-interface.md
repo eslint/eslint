@@ -746,7 +746,7 @@ npx eslint --no-warn-ignored --max-warnings 0 ignored-file.js
 
 #### `--pass-on-no-patterns`
 
-This option allows ESLint to exit with code 0 when no file or directory patterns are passed. Without this option, ESLint assume you wan to use `.` as the pattern. (When running in legacy eslintrc mode, ESLint will exit with code 1.)
+This option allows ESLint to exit with code 0 when no file or directory patterns are passed. Without this option, ESLint assumes you want to use `.` as the pattern. (When running in legacy eslintrc mode, ESLint will exit with code 1.)
 
 * **Argument Type**: No argument.
 
