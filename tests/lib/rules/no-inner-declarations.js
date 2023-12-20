@@ -98,6 +98,26 @@ ruleTester.run("no-inner-declarations", rule, {
             code: "class C { static { var x; } }",
             options: ["both"],
             languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "'use strict' \n if (test) { function doSomething() { } }",
+            options: ["both"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "'use strict' \n if (foo) var a;",
+            options: ["both"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "'use strict' \n if (foo) { var fn = function(){} }",
+            options: ["both"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "'use strict' \n if (foo) { function f(){ if(bar) var a; } }",
+            options: ["both", { legacy: true }],
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
 
@@ -155,7 +175,7 @@ ruleTester.run("no-inner-declarations", rule, {
                 type: "VariableDeclaration"
             }]
         }, {
-            code: "if (foo) function f(){ if(bar) var a; } ",
+            code: "if (foo) { function f(){ if(bar) var a; } }",
             options: ["both"],
             errors: [{
                 messageId: "moveDeclToRoot",
@@ -340,6 +360,65 @@ ruleTester.run("no-inner-declarations", rule, {
                 data: {
                     type: "variable",
                     body: "class static block body"
+                },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "'use strict' \n if (foo) var a;",
+            options: ["both", { legacy: true }],
+            languageOptions: { ecmaVersion: 5 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "program"
+                },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "'use strict' \n if (foo) { var fn = function(){} }",
+            options: ["both", { legacy: true }],
+            languageOptions: { ecmaVersion: 5 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "program"
+                },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "'use strict' \n if (test) { function doSomething() { } }",
+            options: ["both", { legacy: true }],
+            languageOptions: { ecmaVersion: 5 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "program"
+                },
+                type: "FunctionDeclaration"
+            }]
+        },
+        {
+            code: "'use strict' \n if (foo){ function f(){ if(bar){ var a; } } }",
+            options: ["both", { legacy: true }],
+            languageOptions: { ecmaVersion: 5 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "program"
+                },
+                type: "FunctionDeclaration"
+            }, {
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "function body"
                 },
                 type: "VariableDeclaration"
             }]
