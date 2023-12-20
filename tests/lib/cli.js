@@ -16,7 +16,7 @@
 
 const assert = require("chai").assert,
     stdAssert = require("assert"),
-    { ESLint } = require("../../lib/eslint"),
+    { ESLint, FlatESLint } = require("../../lib/eslint"),
     BuiltinRules = require("../../lib/rules"),
     path = require("path"),
     sinon = require("sinon"),
@@ -54,10 +54,12 @@ describe("cli", () => {
      */
     async function verifyESLintOpts(cmd, opts, configType) {
 
+        const ActiveESLint = configType === "flat" ? FlatESLint : ESLint;
+
         // create a fake ESLint class to test with
         const fakeESLint = sinon.mock().withExactArgs(sinon.match(opts));
 
-        Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+        Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
         sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
         sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: sinon.spy() });
 
@@ -110,6 +112,7 @@ describe("cli", () => {
     ["eslintrc", "flat"].forEach(configType => {
 
         const useFlatConfig = configType === "flat";
+        const ActiveESLint = configType === "flat" ? FlatESLint : ESLint;
 
         describe("execute()", () => {
 
@@ -555,7 +558,7 @@ describe("cli", () => {
 
                 it(`should allow defining variables with multiple flags with configType:${configType}`, async () => {
                     const filePath = getFixturePath("undef.js");
-                    const exit = await cli.execute(`--global baz --global bat:true --no-ignore ${filePath}`);
+                    const exit = await cli.execute(`--global baz --global bat:true --no-ignore ${filePath}`, null, useFlatConfig);
 
                     assert.isTrue(log.info.notCalled);
                     assert.strictEqual(exit, 0);
@@ -980,7 +983,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ allowInlineConfig: false }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns([{
                     filePath: "./foo.js",
                     output: "bar",
@@ -1010,7 +1013,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.stub();
@@ -1041,7 +1044,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.mock().once();
@@ -1077,7 +1080,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns(report);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.mock().withExactArgs(report);
@@ -1113,7 +1116,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns(report);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.getErrorResults = sinon.stub().returns([]);
@@ -1163,7 +1166,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.mock().never();
@@ -1191,7 +1194,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match(expectedESLintOptions));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.stub();
@@ -1226,7 +1229,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns(report);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.mock().never();
@@ -1262,7 +1265,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns(report);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.getErrorResults = sinon.stub().returns([]);
@@ -1299,7 +1302,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintText").returns(report);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.mock().never();
