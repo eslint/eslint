@@ -271,7 +271,7 @@ Example of **incorrect** code for this rule with `{ legacy: true }` option when 
 ::: incorrect { "sourceType": "script" }
 
 ```js
-/*eslint no-inner-declarations: ["error", "both"]*/
+/*eslint no-inner-declarations: ["error", "both", { legecy: true }]*/
 
 // when ecmaVersion is 5
 
