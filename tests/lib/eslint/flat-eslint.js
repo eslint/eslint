@@ -1963,7 +1963,7 @@ describe("FlatESLint", () => {
                     cwd: originalDir,
                     overrideConfigFile: true,
                     overrideConfig: {
-                        rules: { eqeqeq: 1, "require-jsdoc": 0 }
+                        rules: { eqeqeq: 1, "callback-return": 0 }
                     }
                 });
                 const results = await eslint.lintFiles(["lib/cli*.js"]);
