@@ -20,10 +20,10 @@ This page explains how to create a shareable config using the flat config format
 
 Shareable configs are simply npm packages that export a configuration object. To start, [create a Node.js module](https://docs.npmjs.com/getting-started/creating-node-modules) like you normally would.
 
-The module name must take one of the following forms:
+While you can name the package in any way that you'd like, we recommend using one of the following conventions to make your package easier to identify:
 
 * Begin with `eslint-config-`, such as `eslint-config-myconfig`.
-* Be an npm [scoped module](https://docs.npmjs.com/misc/scope). To create a scoped module, name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
+* For an npm [scoped module](https://docs.npmjs.com/misc/scope), name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
 
 In your module, export the shareable config from the module's [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) entry point file. The default main entry point is `index.js`. For example:
 
