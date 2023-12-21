@@ -1075,6 +1075,43 @@ describe("ESLint", () => {
             await assert.rejects(async () => await eslint.lintFiles(["lib/cli.js"]), /Cannot find module 'test11'/u);
         });
 
+        describe("Invalid inputs", () => {
+
+            [
+                ["an empty string", ""],
+                ["an empty array", []],
+                ["a string with a single space", " "],
+                ["an array with one empty string", [""]],
+                ["an array with two empty strings", ["", ""]]
+
+            ].forEach(([name, value]) => {
+
+                it(`should throw an error when passed ${name}`, async () => {
+                    eslint = new ESLint({
+                        useEslintrc: false
+                    });
+
+                    await assert.rejects(async () => await eslint.lintFiles(value), /'patterns' must be a non-empty string or an array of non-empty strings/u);
+                });
+
+                if (value === "" || Array.isArray(value) && value.length === 0) {
+                    it(`should not throw an error when passed ${name} and passOnNoPatterns: true`, async () => {
+                        eslint = new ESLint({
+                            useEslintrc: false,
+                            passOnNoPatterns: true
+                        });
+
+                        const results = await eslint.lintFiles(value);
+
+                        assert.strictEqual(results.length, 0);
+                    });
+                }
+
+            });
+
+
+        });
+
         it("should report zero messages when given a directory with a .js2 file", async () => {
             eslint = new ESLint({
                 cwd: path.join(fixtureDir, ".."),
@@ -1543,6 +1580,19 @@ describe("ESLint", () => {
             await assert.rejects(async () => {
                 await eslint.lintFiles(["tests/fixtures/*-quoted.js"]);
             }, /All files matched by 'tests\/fixtures\/\*-quoted\.js' are ignored\./u);
+        });
+
+        it("should not throw an error when ignorePatterns is an empty array", async () => {
+            eslint = new ESLint({
+                useEslintrc: false,
+                overrideConfig: {
+                    ignorePatterns: []
+                }
+            });
+
+            await assert.doesNotReject(async () => {
+                await eslint.lintFiles(["*.js"]);
+            });
         });
 
         it("should return a warning when an explicitly given file is ignored", async () => {

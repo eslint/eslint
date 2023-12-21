@@ -823,6 +823,13 @@ describe("cli", () => {
                         assert.strictEqual(exit, useFlatConfig ? 0 : 2);
                     });
 
+                    it(`should not lint anything when no files are passed if --pass-on-no-patterns is passed with configType:${configType}`, async () => {
+                        const exit = await cli.execute("--pass-on-no-patterns", null, useFlatConfig);
+
+                        assert.isFalse(log.info.called);
+                        assert.strictEqual(exit, 0);
+                    });
+
                     it(`should suppress the warning if --no-warn-ignored is passed and an ignored file is passed via stdin with configType:${configType}`, async () => {
                         const options = useFlatConfig
                             ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`

@@ -36,6 +36,15 @@ Please note that when passing a glob as a parameter, it is expanded by your shel
 npx eslint "lib/**"
 ```
 
+If you are using a [flat configuration file](./configure/configuration-files-new) (`eslint.config.js`), you can also omit the file arguments and ESLint will use `.`. For instance, these two lines perform the same operation:
+
+```shell
+npx eslint .
+npx eslint
+```
+
+If you are not using a flat configuration file, running ESLint without file arguments results in an error.
+
 **Note:** You can also use alternative package managers such as [Yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/) to run ESLint. Please refer to your package manager's documentation for the correct syntax.
 
 ## Pass Multiple Values to an Option
@@ -112,6 +121,7 @@ Miscellaneous:
   --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched
   --exit-on-fatal-error           Exit with exit code 2 in case of fatal error - default: false
   --no-warn-ignored               Suppress warnings when the file list includes ignored files. *Flat Config Mode Only*
+  --pass-on-no-patterns           Exit with exit code 0 in case no file patterns are passed
   --debug                         Output debugging information
   -h, --help                      Show help
   -v, --version                   Output the version number
@@ -732,6 +742,18 @@ npx eslint --exit-on-fatal-error file.js
 
 ```shell
 npx eslint --no-warn-ignored --max-warnings 0 ignored-file.js
+```
+
+#### `--pass-on-no-patterns`
+
+This option allows ESLint to exit with code 0 when no file or directory patterns are passed. Without this option, ESLint assumes you want to use `.` as the pattern. (When running in legacy eslintrc mode, ESLint will exit with code 1.)
+
+* **Argument Type**: No argument.
+
+##### `--pass-on-no-patterns` example
+
+```shell
+npx eslint --pass-on-no-patterns
 ```
 
 #### `--debug`

@@ -408,10 +408,18 @@ describe("options", () => {
     });
 
     describe("--no-config-lookup", () => {
-        it("should return a string for .rulesdir when passed a string", () => {
+        it("should return a boolean for .configLookup when passed a string", () => {
             const currentOptions = flatOptions.parse("--no-config-lookup foo.js");
 
             assert.isFalse(currentOptions.configLookup);
+        });
+    });
+
+    describe("--pass-on-no-patterns", () => {
+        it("should return a boolean for .passOnNoPatterns when passed a string", () => {
+            const currentOptions = flatOptions.parse("--pass-on-no-patterns");
+
+            assert.isTrue(currentOptions.passOnNoPatterns);
         });
     });
 
