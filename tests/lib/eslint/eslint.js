@@ -1798,8 +1798,7 @@ describe("ESLint", () => {
                 overrideConfig: {
                     rules: {
                         "indent-legacy": 1,
-                        "require-jsdoc": 1,
-                        "valid-jsdoc": 1
+                        "callback-return": 1
                     }
                 }
             });
@@ -1809,8 +1808,7 @@ describe("ESLint", () => {
                 results[0].usedDeprecatedRules,
                 [
                     { ruleId: "indent-legacy", replacedBy: ["indent"] },
-                    { ruleId: "require-jsdoc", replacedBy: [] },
-                    { ruleId: "valid-jsdoc", replacedBy: [] }
+                    { ruleId: "callback-return", replacedBy: [] }
                 ]
             );
         });
@@ -1820,7 +1818,7 @@ describe("ESLint", () => {
                 cwd: originalDir,
                 useEslintrc: false,
                 overrideConfig: {
-                    rules: { eqeqeq: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
+                    rules: { eqeqeq: 1, "callback-return": 0 }
                 }
             });
             const results = await eslint.lintFiles(["lib/cli*.js"]);
