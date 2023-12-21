@@ -1277,7 +1277,6 @@ describe("FlatRuleTester", () => {
             const disallowHiRule = {
                 create: context => ({
                     Literal(node) {
-                        assert.strictEqual(context.parserServices, context.sourceCode.parserServices);
 
                         const disallowed = context.sourceCode.parserServices.test.getMessage(); // returns "Hi!"
 
@@ -2021,6 +2020,47 @@ describe("FlatRuleTester", () => {
             }, "Error should have 2 suggestions. Instead found 1 suggestions");
         });
 
+        it("should throw if suggestion fix made a syntax error.", () => {
+            assert.throw(() => {
+                ruleTester.run(
+                    "foo",
+                    {
+                        meta: { hasSuggestions: true },
+                        create(context) {
+                            return {
+                                Identifier(node) {
+                                    context.report({
+                                        node,
+                                        message: "make a syntax error",
+                                        suggest: [
+                                            {
+                                                desc: "make a syntax error",
+                                                fix(fixer) {
+                                                    return fixer.replaceText(node, "one two");
+                                                }
+                                            }
+                                        ]
+                                    });
+                                }
+                            };
+                        }
+                    },
+                    {
+                        valid: [""],
+                        invalid: [{
+                            code: "one()",
+                            errors: [{
+                                suggestions: [{
+                                    desc: "make a syntax error",
+                                    output: "one two()"
+                                }]
+                            }]
+                        }]
+                    }
+                );
+            }, /A fatal parsing error occurred in suggestion fix\.\nError: .+\nSuggestion output:\n.+/u);
+        });
+
         it("should throw if the suggestion description doesn't match", () => {
             assert.throws(() => {
                 ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
@@ -2312,6 +2352,39 @@ describe("FlatRuleTester", () => {
                     }]
                 });
             }, /Invalid suggestion property name 'outpt'/u);
+        });
+
+        it("should fail if a rule produces two suggestions with the same description", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-with-duplicate-descriptions", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateDescriptions, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", errors: 1 }
+                    ]
+                });
+            }, "Suggestion message 'Rename 'foo' to 'bar'' reported from suggestion 1 was previously reported by suggestion 0. Suggestion messages should be unique within an error.");
+        });
+
+        it("should fail if a rule produces two suggestions with the same messageId without data", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-with-duplicate-messageids-no-data", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateMessageIdsNoData, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", errors: 1 }
+                    ]
+                });
+            }, "Suggestion message 'Rename identifier' reported from suggestion 1 was previously reported by suggestion 0. Suggestion messages should be unique within an error.");
+        });
+
+        it("should fail if a rule produces two suggestions with the same messageId with data", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-with-duplicate-messageids-with-data", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateMessageIdsWithData, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", errors: 1 }
+                    ]
+                });
+            }, "Suggestion message 'Rename identifier 'foo' to 'bar'' reported from suggestion 1 was previously reported by suggestion 0. Suggestion messages should be unique within an error.");
         });
 
         it("should throw an error if a rule that doesn't have `meta.hasSuggestions` enabled produces suggestions", () => {
@@ -2663,39 +2736,6 @@ describe("FlatRuleTester", () => {
             sinon.assert.calledWith(spyRuleTesterIt, code);
         });
 
-    });
-
-    describe("SourceCode#getComments()", () => {
-        const useGetCommentsRule = {
-            create: context => ({
-                Program(node) {
-                    const sourceCode = context.sourceCode;
-
-                    sourceCode.getComments(node);
-                }
-            })
-        };
-
-        it("should throw if called from a valid test case", () => {
-            assert.throws(() => {
-                ruleTester.run("use-get-comments", useGetCommentsRule, {
-                    valid: [""],
-                    invalid: []
-                });
-            }, /`SourceCode#getComments\(\)` is deprecated/u);
-        });
-
-        it("should throw if called from an invalid test case", () => {
-            assert.throws(() => {
-                ruleTester.run("use-get-comments", useGetCommentsRule, {
-                    valid: [],
-                    invalid: [{
-                        code: "",
-                        errors: [{}]
-                    }]
-                });
-            }, /`SourceCode#getComments\(\)` is deprecated/u);
-        });
     });
 
     describe("SourceCode forbidden methods", () => {

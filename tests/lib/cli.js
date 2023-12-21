@@ -16,7 +16,7 @@
 
 const assert = require("chai").assert,
     stdAssert = require("assert"),
-    { ESLint } = require("../../lib/eslint"),
+    { ESLint, FlatESLint } = require("../../lib/eslint"),
     BuiltinRules = require("../../lib/rules"),
     path = require("path"),
     sinon = require("sinon"),
@@ -54,10 +54,12 @@ describe("cli", () => {
      */
     async function verifyESLintOpts(cmd, opts, configType) {
 
+        const ActiveESLint = configType === "flat" ? FlatESLint : ESLint;
+
         // create a fake ESLint class to test with
         const fakeESLint = sinon.mock().withExactArgs(sinon.match(opts));
 
-        Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+        Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
         sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
         sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: sinon.spy() });
 
@@ -110,6 +112,7 @@ describe("cli", () => {
     ["eslintrc", "flat"].forEach(configType => {
 
         const useFlatConfig = configType === "flat";
+        const ActiveESLint = configType === "flat" ? FlatESLint : ESLint;
 
         describe("execute()", () => {
 
@@ -142,11 +145,15 @@ describe("cli", () => {
             const originalEnv = process.env;
             const originalCwd = process.cwd;
 
+            let processStub;
+
             beforeEach(() => {
+                processStub = sinon.stub(process, "emitWarning");
                 process.env = { ...originalEnv };
             });
 
             afterEach(() => {
+                processStub.restore();
                 process.env = originalEnv;
                 process.cwd = originalCwd;
             });
@@ -167,6 +174,12 @@ describe("cli", () => {
                 const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
 
                 assert.strictEqual(exitCode, 0);
+
+
+                if (useFlatConfig) {
+                    assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+                    assert.strictEqual(processStub.getCall(0).args[1], "ESLintRCWarning");
+                }
             });
 
             it(`should use it when ESLINT_USE_FLAT_CONFIG=true and useFlatConfig is true even if an eslint.config.js is not present:${configType}`, async () => {
@@ -237,11 +250,12 @@ describe("cli", () => {
 
         describe("Formatters", () => {
 
+            const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
+
             describe("when given a valid built-in formatter name", () => {
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
-                    const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
-                    const exit = await cli.execute(`${flag} -f checkstyle ${filePath}`, null, useFlatConfig);
+                    const exit = await cli.execute(`${flag} -f json ${filePath}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -261,7 +275,6 @@ describe("cli", () => {
 
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
-                    const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
                     const exit = await cli.execute(`--no-ignore -f json-with-metadata ${filePath} ${flag}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 0);
@@ -289,7 +302,6 @@ describe("cli", () => {
             });
 
             describe("when the --max-warnings option is passed", () => {
-                const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
 
                 describe("and there are too many warnings", () => {
                     it(`should provide \`maxWarningsExceeded\` metadata to the formatter with configType:${configType}`, async () => {
@@ -328,19 +340,41 @@ describe("cli", () => {
             });
 
             describe("when given an invalid built-in formatter name", () => {
+
+                const originalCwd = process.cwd;
+
+                beforeEach(() => {
+                    process.cwd = () => getFixturePath();
+                });
+
+                afterEach(() => {
+                    process.cwd = originalCwd;
+                });
+
                 it(`should execute with error: with configType:${configType}`, async () => {
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`-f fakeformatter ${filePath}`);
+                    const exit = await cli.execute(`-f fakeformatter ${filePath} ${flag}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 2);
                 });
             });
 
             describe("when given a valid formatter path", () => {
+
+                const originalCwd = process.cwd;
+
+                beforeEach(() => {
+                    process.cwd = () => getFixturePath();
+                });
+
+                afterEach(() => {
+                    process.cwd = originalCwd;
+                });
+
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const formatterPath = getFixturePath("formatters", "simple.js");
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`-f ${formatterPath} ${filePath}`);
+                    const exit = await cli.execute(`-f ${formatterPath} ${filePath} ${flag}`, null, useFlatConfig);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -368,10 +402,21 @@ describe("cli", () => {
             });
 
             describe("when given an async formatter path", () => {
+
+                const originalCwd = process.cwd;
+
+                beforeEach(() => {
+                    process.cwd = () => getFixturePath();
+                });
+
+                afterEach(() => {
+                    process.cwd = originalCwd;
+                });
+
                 it(`should execute without any errors with configType:${configType}`, async () => {
                     const formatterPath = getFixturePath("formatters", "async.js");
                     const filePath = getFixturePath("passing.js");
-                    const exit = await cli.execute(`-f ${formatterPath} ${filePath}`);
+                    const exit = await cli.execute(`-f ${formatterPath} ${filePath} ${flag}`, null, useFlatConfig);
 
                     assert.strictEqual(log.info.getCall(0).args[0], "from async formatter");
                     assert.strictEqual(exit, 0);
@@ -546,7 +591,7 @@ describe("cli", () => {
 
                 it(`should allow defining variables with multiple flags with configType:${configType}`, async () => {
                     const filePath = getFixturePath("undef.js");
-                    const exit = await cli.execute(`--global baz --global bat:true --no-ignore ${filePath}`);
+                    const exit = await cli.execute(`--global baz --global bat:true --no-ignore ${filePath}`, null, useFlatConfig);
 
                     assert.isTrue(log.info.notCalled);
                     assert.strictEqual(exit, 0);
@@ -570,7 +615,7 @@ describe("cli", () => {
 
                 it(`should only print error with configType:${configType}`, async () => {
                     const filePath = getFixturePath("single-quoted.js");
-                    const cliArgs = `--no-ignore --quiet  -f compact --rule 'quotes: [2, double]' --rule 'no-unused-vars: 1' ${filePath}`;
+                    const cliArgs = `--no-ignore --quiet -f stylish --rule 'quotes: [2, double]' --rule 'no-undef: 1' ${filePath}`;
 
                     await cli.execute(cliArgs, null, useFlatConfig);
 
@@ -578,13 +623,12 @@ describe("cli", () => {
 
                     const formattedOutput = log.info.firstCall.args[0];
 
-                    assert.include(formattedOutput, "Error");
-                    assert.notInclude(formattedOutput, "Warning");
+                    assert.include(formattedOutput, "(1 error, 0 warnings)");
                 });
 
                 it(`should print nothing if there are no errors with configType:${configType}`, async () => {
                     const filePath = getFixturePath("single-quoted.js");
-                    const cliArgs = `--quiet  -f compact --rule 'quotes: [1, double]' --rule 'no-unused-vars: 1' ${filePath}`;
+                    const cliArgs = `--no-ignore --quiet -f stylish --rule 'quotes: [1, double]' --rule 'no-undef: 1' ${filePath}`;
 
                     await cli.execute(cliArgs, null, useFlatConfig);
 
@@ -815,6 +859,13 @@ describe("cli", () => {
                         assert.strictEqual(exit, useFlatConfig ? 0 : 2);
                     });
 
+                    it(`should not lint anything when no files are passed if --pass-on-no-patterns is passed with configType:${configType}`, async () => {
+                        const exit = await cli.execute("--pass-on-no-patterns", null, useFlatConfig);
+
+                        assert.isFalse(log.info.called);
+                        assert.strictEqual(exit, 0);
+                    });
+
                     it(`should suppress the warning if --no-warn-ignored is passed and an ignored file is passed via stdin with configType:${configType}`, async () => {
                         const options = useFlatConfig
                             ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
@@ -972,7 +1023,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ allowInlineConfig: false }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns([{
                     filePath: "./foo.js",
                     output: "bar",
@@ -1002,7 +1053,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.stub();
@@ -1033,7 +1084,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.mock().once();
@@ -1069,7 +1120,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns(report);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.mock().withExactArgs(report);
@@ -1105,7 +1156,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns(report);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.getErrorResults = sinon.stub().returns([]);
@@ -1155,7 +1206,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.mock().never();
@@ -1183,7 +1234,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match(expectedESLintOptions));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.stub();
@@ -1218,7 +1269,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns(report);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.mock().never();
@@ -1254,7 +1305,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintFiles").returns(report);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.getErrorResults = sinon.stub().returns([]);
@@ -1291,7 +1342,7 @@ describe("cli", () => {
                 // create a fake ESLint class to test with
                 const fakeESLint = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+                Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ActiveESLint.prototype));
                 sinon.stub(fakeESLint.prototype, "lintText").returns(report);
                 sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: () => "done" });
                 fakeESLint.outputFixes = sinon.mock().never();
@@ -1481,7 +1532,7 @@ describe("cli", () => {
 
     describe("when given a config file", () => {
         it("should load the specified config file", async () => {
-            const configPath = getFixturePath(".eslintrc");
+            const configPath = getFixturePath("eslint.config.js");
             const filePath = getFixturePath("passing.js");
 
             await cli.execute(`--config ${configPath} ${filePath}`);
@@ -1499,7 +1550,7 @@ describe("cli", () => {
                     const filePath = getFixturePath("globals-browser.js");
                     const code = `--config ${configPath} ${filePath}`;
 
-                    const exit = await cli.execute(code);
+                    const exit = await cli.execute(code, null, false);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -1511,7 +1562,7 @@ describe("cli", () => {
                     const filePath = getFixturePath("globals-node.js");
                     const code = `--config ${configPath} ${filePath}`;
 
-                    const exit = await cli.execute(code);
+                    const exit = await cli.execute(code, null, false);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -1523,7 +1574,7 @@ describe("cli", () => {
                     const filePath = getFixturePath("globals-nashorn.js");
                     const code = `--config ${configPath} ${filePath}`;
 
-                    const exit = await cli.execute(code);
+                    const exit = await cli.execute(code, null, false);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -1535,7 +1586,7 @@ describe("cli", () => {
                     const filePath = getFixturePath("globals-webextensions.js");
                     const code = `--config ${configPath} ${filePath}`;
 
-                    const exit = await cli.execute(code);
+                    const exit = await cli.execute(code, null, false);
 
                     assert.strictEqual(exit, 0);
                 });
@@ -1550,7 +1601,7 @@ describe("cli", () => {
                 const code = `--rulesdir ${rulesPath} --config ${configPath} --no-ignore ${filePath}`;
 
                 await stdAssert.rejects(async () => {
-                    const exit = await cli.execute(code);
+                    const exit = await cli.execute(code, null, false);
 
                     assert.strictEqual(exit, 2);
                 }, /Error while loading rule 'custom-rule': Boom!/u);
@@ -1562,7 +1613,7 @@ describe("cli", () => {
                 const filePath = getFixturePath("rules", "test", "test-custom-rule.js");
                 const code = `--rulesdir ${rulesPath} --config ${configPath} --no-ignore ${filePath}`;
 
-                await cli.execute(code);
+                await cli.execute(code, null, false);
 
                 assert.isTrue(log.info.calledOnce);
                 assert.isTrue(log.info.neverCalledWith(""));
@@ -1574,7 +1625,7 @@ describe("cli", () => {
                 const configPath = getFixturePath("rules", "multi-rulesdirs.json");
                 const filePath = getFixturePath("rules", "test-multi-rulesdirs.js");
                 const code = `--rulesdir ${rulesPath} --rulesdir ${rulesPath2} --config ${configPath} --no-ignore ${filePath}`;
-                const exit = await cli.execute(code);
+                const exit = await cli.execute(code, null, false);
 
                 const call = log.info.getCall(0);
 
@@ -1592,7 +1643,7 @@ describe("cli", () => {
         describe("when executing with no-eslintrc flag", () => {
             it("should ignore a local config file", async () => {
                 const filePath = getFixturePath("eslintrc", "quotes.js");
-                const exit = await cli.execute(`--no-eslintrc --no-ignore ${filePath}`);
+                const exit = await cli.execute(`--no-eslintrc --no-ignore ${filePath}`, null, false);
 
                 assert.isTrue(log.info.notCalled);
                 assert.strictEqual(exit, 0);
@@ -1602,7 +1653,7 @@ describe("cli", () => {
         describe("when executing without no-eslintrc flag", () => {
             it("should load a local config file", async () => {
                 const filePath = getFixturePath("eslintrc", "quotes.js");
-                const exit = await cli.execute(`--no-ignore ${filePath}`);
+                const exit = await cli.execute(`--no-ignore ${filePath}`, null, false);
 
                 assert.isTrue(log.info.calledOnce);
                 assert.strictEqual(exit, 1);
@@ -1616,7 +1667,7 @@ describe("cli", () => {
                     getFixturePath("globals-node.js")
                 ];
 
-                await cli.execute(`--no-eslintrc --config ./packages/js/src/configs/eslint-recommended.js --no-ignore ${files.join(" ")}`);
+                await cli.execute(`--no-eslintrc --config ./packages/js/src/configs/eslint-recommended.js --no-ignore ${files.join(" ")}`, null, false);
 
                 assert.strictEqual(log.info.args[0][0].split("\n").length, 10);
             });

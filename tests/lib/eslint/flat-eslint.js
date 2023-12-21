@@ -960,6 +960,67 @@ describe("FlatESLint", () => {
             await assert.rejects(async () => await eslint.lintFiles(["lib/cli.js"]), /Expected object with parse\(\) or parseForESLint\(\) method/u);
         });
 
+        describe("Invalid inputs", () => {
+
+            [
+                ["a string with a single space", " "],
+                ["an array with one empty string", [""]],
+                ["an array with two empty strings", ["", ""]],
+                ["undefined", void 0]
+            ].forEach(([name, value]) => {
+
+                it(`should throw an error when passed ${name}`, async () => {
+                    eslint = new FlatESLint({
+                        overrideConfigFile: true
+                    });
+
+                    await assert.rejects(async () => await eslint.lintFiles(value), /'patterns' must be a non-empty string or an array of non-empty strings/u);
+                });
+            });
+
+        });
+
+        describe("Normalized inputs", () => {
+
+            [
+                ["an empty string", ""],
+                ["an empty array", []]
+
+            ].forEach(([name, value]) => {
+
+                it(`should normalize to '.' when ${name} is passed`, async () => {
+                    eslint = new FlatESLint({
+                        ignore: false,
+                        cwd: getFixturePath("files"),
+                        overrideConfig: { files: ["**/*.js"] },
+                        overrideConfigFile: getFixturePath("eslint.config.js")
+                    });
+                    const results = await eslint.lintFiles(value);
+
+                    assert.strictEqual(results.length, 2);
+                    assert.strictEqual(results[0].filePath, getFixturePath("files/.bar.js"));
+                    assert.strictEqual(results[0].messages.length, 0);
+                    assert.strictEqual(results[1].filePath, getFixturePath("files/foo.js"));
+                    assert.strictEqual(results[1].messages.length, 0);
+                    assert.strictEqual(results[0].suppressedMessages.length, 0);
+                });
+
+                it(`should return an empty array when ${name} is passed with passOnNoPatterns: true`, async () => {
+                    eslint = new FlatESLint({
+                        ignore: false,
+                        cwd: getFixturePath("files"),
+                        overrideConfig: { files: ["**/*.js"] },
+                        overrideConfigFile: getFixturePath("eslint.config.js"),
+                        passOnNoPatterns: true
+                    });
+                    const results = await eslint.lintFiles(value);
+
+                    assert.strictEqual(results.length, 0);
+                });
+            });
+
+        });
+
         it("should report zero messages when given a directory with a .js2 file", async () => {
             eslint = new FlatESLint({
                 cwd: path.join(fixtureDir, ".."),
@@ -1529,6 +1590,18 @@ describe("FlatESLint", () => {
                     await eslint.lintFiles(["tests/fixtures/*-quoted.js"]);
                 }, /All files matched by 'tests\/fixtures\/\*-quoted\.js' are ignored\./u);
             });
+
+            it("should not throw an error when ignorePatterns is an empty array", async () => {
+                eslint = new FlatESLint({
+                    overrideConfigFile: true,
+                    ignorePatterns: []
+                });
+
+                await assert.doesNotReject(async () => {
+                    await eslint.lintFiles(["*.js"]);
+                });
+            });
+
 
             it("should return a warning when an explicitly given file is ignored", async () => {
                 eslint = new FlatESLint({
@@ -2299,21 +2372,7 @@ describe("FlatESLint", () => {
                  */
                 function deleteCacheDir() {
                     try {
-
-                        /*
-                         * `fs.rmdir(path, { recursive: true })` is deprecated and will be removed.
-                         * Use `fs.rm(path, { recursive: true })` instead.
-                         * When supporting Node.js 14.14.0+, the compatibility condition can be removed for `fs.rmdir`.
-                         */
-                        // eslint-disable-next-line n/no-unsupported-features/node-builtins -- just checking if it exists
-                        if (typeof fs.rm === "function") {
-
-                            // eslint-disable-next-line n/no-unsupported-features/node-builtins -- conditionally used
-                            fs.rmSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
-                        } else {
-                            fs.rmdirSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
-                        }
-
+                        fs.rmSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
                     } catch {
 
                         /*
@@ -4413,7 +4472,7 @@ describe("FlatESLint", () => {
     describe("loadFormatter()", () => {
         it("should return a formatter object when a bundled formatter is requested", async () => {
             const engine = new FlatESLint();
-            const formatter = await engine.loadFormatter("compact");
+            const formatter = await engine.loadFormatter("json");
 
             assert.strictEqual(typeof formatter, "object");
             assert.strictEqual(typeof formatter.format, "function");
@@ -6322,6 +6381,72 @@ describe("FlatESLint", () => {
         });
     }
 
+    describe("config with circular references", () => {
+        it("in 'settings'", async () => {
+            let resolvedSettings = null;
+
+            const circular = {};
+
+            circular.self = circular;
+
+            const eslint = new FlatESLint({
+                overrideConfigFile: true,
+                baseConfig: {
+                    settings: {
+                        sharedData: circular
+                    },
+                    rules: {
+                        "test-plugin/test-rule": 1
+                    }
+                },
+                plugins: {
+                    "test-plugin": {
+                        rules: {
+                            "test-rule": {
+                                create(context) {
+                                    resolvedSettings = context.settings;
+                                    return { };
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            await eslint.lintText("debugger;");
+
+            assert.deepStrictEqual(resolvedSettings.sharedData, circular);
+        });
+
+        it("in 'parserOptions'", async () => {
+            let resolvedParserOptions = null;
+
+            const circular = {};
+
+            circular.self = circular;
+
+            const eslint = new FlatESLint({
+                overrideConfigFile: true,
+                baseConfig: {
+                    languageOptions: {
+                        parser: {
+                            parse(text, parserOptions) {
+                                resolvedParserOptions = parserOptions;
+                            }
+                        },
+                        parserOptions: {
+                            testOption: circular
+                        }
+                    }
+                }
+            });
+
+            await eslint.lintText("debugger;");
+
+            assert.deepStrictEqual(resolvedParserOptions.testOption, circular);
+        });
+    });
+
 });
 
 describe("shouldUseFlatConfig", () => {
@@ -6394,6 +6519,6 @@ describe("shouldUseFlatConfig", () => {
     });
 
     describe("when the env variable `ESLINT_USE_FLAT_CONFIG` is unset", () => {
-        testShouldUseFlatConfig(true, false);
+        testShouldUseFlatConfig(true, true);
     });
 });
