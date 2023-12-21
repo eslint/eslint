@@ -61,14 +61,15 @@ function doSomething() {
 
 ## Rule Details
 
-This rule requires that function declarations and, optionally, variable declarations be in the root of a program, or in the root of the body of a function, or in the root of the body of a class static block.
+This rule requires that function declarations and, optionally, variable declarations be in the root of a program, or in the root of the body of a function, or in the root of the body of a class static block in the non-strict code. This rule doesn't report function declarations and variable declarations if code is in strict mode (code with `"use strict"` tag).
 
 ## Options
 
-This rule has a string option:
+This rule has a string and an object option:
 
 * `"functions"` (default) disallows `function` declarations in nested blocks
 * `"both"` disallows `function` and `var` declarations in nested blocks
+* `{ legacy: false }` (default) if this option set to `true` then the rule will report function and variable declarations (according to the string options) only if the eslint is configured to `ecmaVersion: 5`.
 
 ### functions
 
@@ -103,6 +104,38 @@ class C {
 :::
 
 Examples of **correct** code for this rule with the default `"functions"` option:
+
+::: correct { "sourceType": "script" }
+
+```js
+/*eslint no-inner-declarations: "error"*/
+
+"use strict"
+
+if (test) {
+    function doSomething() { }
+}
+
+function doSomethingElse() {
+    if (test) {
+        function doAnotherThing() { }
+    }
+}
+
+if (foo) {
+    function f(){}
+}
+
+class C {
+    static {
+        if (test) {
+            function doSomething() { }
+        }
+    }
+}
+```
+
+:::
 
 ::: correct { "sourceType": "script" }
 
@@ -176,6 +209,42 @@ Examples of **correct** code for this rule with the `"both"` option:
 ```js
 /*eslint no-inner-declarations: ["error", "both"]*/
 
+"use strict"
+
+if (test) {
+    var foo = 42;
+}
+
+function doAnotherThing() {
+    if (test) {
+        var bar = 81;
+    }
+}
+
+if (foo) {
+    var a;
+}
+
+if (foo) {
+    function f(){}
+}
+
+class C {
+    static {
+        if (test) {
+            var something;
+        }
+    }
+}
+```
+
+:::
+
+::: correct { "sourceType": "script" }
+
+```js
+/*eslint no-inner-declarations: ["error", "both"]*/
+
 var bar = 42;
 
 if (test) {
@@ -190,6 +259,40 @@ class C {
     static {
         var something;
     }
+}
+```
+
+### legacy
+
+:::
+
+Example of **incorrect** code for this rule with `{ legacy: true }` option when `ecmaVersion: 5`:
+
+::: incorrect { "sourceType": "script" }
+
+```js
+/*eslint no-inner-declarations: ["error", "both"]*/
+
+// when ecmaVersion is 5
+
+"use strict"
+
+if (test) {
+    var foo = 42;
+}
+
+function doAnotherThing() {
+    if (test) {
+        var bar = 81;
+    }
+}
+
+if (foo) {
+    var a;
+}
+
+if (foo) {
+    function f(){}
 }
 ```
 

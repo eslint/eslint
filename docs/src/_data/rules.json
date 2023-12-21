@@ -11,7 +11,7 @@
             {
                 "name": "constructor-super",
                 "description": "Require `super()` calls in constructors",
-                "recommended": true,
+                "recommended": false,
                 "fixable": false,
                 "hasSuggestions": false
             },

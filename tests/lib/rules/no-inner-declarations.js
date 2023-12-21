@@ -118,6 +118,11 @@ ruleTester.run("no-inner-declarations", rule, {
             code: "'use strict' \n if (foo) { function f(){ if(bar) var a; } }",
             options: ["both", { legacy: true }],
             languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "'use strict' \n if (foo) { var fn = function(){} }",
+            options: ["both"],
+            languageOptions: { ecmaVersion: 5 }
         }
     ],
 
