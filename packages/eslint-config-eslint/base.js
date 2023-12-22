@@ -334,7 +334,7 @@ const jsdocConfigs = [jsdoc.configs["flat/recommended"], {
         "jsdoc/empty-tags": "error",
         "jsdoc/implements-on-classes": "error",
         "jsdoc/multiline-blocks": "error",
-        "jsdoc/no-multi-asterisks": "error",
+        "jsdoc/no-multi-asterisks": ["error", { allowWhitespace: true }],
         "jsdoc/require-jsdoc": ["error", { require: { ClassDeclaration: true } }],
         "jsdoc/require-param": "error",
         "jsdoc/require-param-description": "error",
