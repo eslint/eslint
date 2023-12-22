@@ -3128,26 +3128,74 @@ describe("SourceCode", () => {
             assert.isTrue(variable.writeable);
         });
 
+        describe("exported variables", () => {
 
-        it("should mark exported variables", () => {
+            /**
+             * GlobalScope
+             * @param {string} code the code to check
+             * @returns {Scope} globalScope
+             */
+            function loadGlobalScope(code) {
+                const ast = espree.parse(code, DEFAULT_CONFIG);
+                const scopeManager = eslintScope.analyze(ast, {
+                    ignoreEval: true,
+                    ecmaVersion: 6
+                });
+                const sourceCode = new SourceCode({ text: code, ast, scopeManager });
 
-            const code = "/*exported foo */ var foo;";
-            const ast = espree.parse(code, DEFAULT_CONFIG);
-            const scopeManager = eslintScope.analyze(ast, {
-                ignoreEval: true,
-                ecmaVersion: 6
+                sourceCode.applyInlineConfig();
+                sourceCode.finalize();
+
+                const globalScope = sourceCode.scopeManager.scopes[0].set;
+
+                return globalScope;
+            }
+
+            it("should mark exported variable", () => {
+                const code = "/*exported foo */ var foo;";
+                const globalScope = loadGlobalScope(code);
+                const variable = globalScope.get("foo");
+
+                assert.isDefined(variable);
+                assert.isTrue(variable.eslintUsed);
+                assert.isTrue(variable.eslintExported);
             });
-            const sourceCode = new SourceCode({ text: code, ast, scopeManager });
 
-            sourceCode.applyInlineConfig();
-            sourceCode.finalize();
+            it("should not mark exported variable with `key: value` pair", () => {
+                const code = "/*exported foo: true */ var foo;";
+                const globalScope = loadGlobalScope(code);
+                const variable = globalScope.get("foo");
 
-            const globalScope = sourceCode.scopeManager.scopes[0];
-            const variable = globalScope.set.get("foo");
+                assert.isDefined(variable);
+                assert.notOk(variable.eslintUsed);
+                assert.notOk(variable.eslintExported);
+            });
 
-            assert.isDefined(variable);
-            assert.isTrue(variable.eslintUsed);
-            assert.isTrue(variable.eslintExported);
+            it("should mark exported variables with comma", () => {
+                const code = "/*exported foo, bar */ var foo, bar;";
+                const globalScope = loadGlobalScope(code);
+
+                ["foo", "bar"].forEach(name => {
+                    const variable = globalScope.get(name);
+
+                    assert.isDefined(variable);
+                    assert.isTrue(variable.eslintUsed);
+                    assert.isTrue(variable.eslintExported);
+                });
+            });
+
+            it("should not mark exported variables without comma", () => {
+                const code = "/*exported foo bar */ var foo, bar;";
+                const globalScope = loadGlobalScope(code);
+
+                ["foo", "bar"].forEach(name => {
+                    const variable = globalScope.get(name);
+
+                    assert.isDefined(variable);
+                    assert.notOk(variable.eslintUsed);
+                    assert.notOk(variable.eslintExported);
+                });
+            });
         });
 
         it("should extract rule configuration", () => {

@@ -817,6 +817,96 @@ describe("Linter", () => {
             linter.verify(code, config, filename, true);
         });
 
+        it("variable should be exported ", () => {
+            const code = "/* exported horse */\n\nvar horse;";
+            const config = { rules: { checker: "error" } };
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope(),
+                            horse = getVariable(scope, "horse");
+
+                        assert.isTrue(horse.eslintUsed);
+                    });
+
+                    return { Program: spy };
+                }
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("`key: value` pair variable should not be exported", () => {
+            const code = "/* exported horse: true */\n\nvar horse;";
+            const config = { rules: { checker: "error" } };
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope(),
+                            horse = getVariable(scope, "horse");
+
+                        assert.notOk(horse.eslintUsed);
+                    });
+
+                    return { Program: spy };
+                }
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("variables with comma should be exported", () => {
+            const code = "/* exported horse, dog */\n\nvar horse, dog;";
+            const config = { rules: { checker: "error" } };
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
+
+                        ["horse", "dog"].forEach(name => {
+                            assert.isTrue(getVariable(scope, name).eslintUsed);
+                        });
+                    });
+
+                    return { Program: spy };
+                }
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("variables without comma should not be exported", () => {
+            const code = "/* exported horse dog */\n\nvar horse, dog;";
+            const config = { rules: { checker: "error" } };
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    spy = sinon.spy(() => {
+                        const scope = context.getScope();
+
+                        ["horse", "dog"].forEach(name => {
+                            assert.notOk(getVariable(scope, name).eslintUsed);
+                        });
+                    });
+
+                    return { Program: spy };
+                }
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
         it("variables should be exported", () => {
             const code = "/* exported horse */\n\nvar horse = 'circus'";
             const config = { rules: { checker: "error" } };
@@ -9831,6 +9921,136 @@ describe("Linter with FlatConfigArray", () => {
                     const config = { rules: {} };
 
                     linter.verify(code, config, filename, true);
+                });
+
+                it("variable should be exported", () => {
+                    const code = "/* exported horse */\n\nvar horse;";
+                    let spy;
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: {
+                                        create(context) {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope(),
+                                                    horse = getVariable(scope, "horse");
+
+                                                assert.isTrue(horse.eslintUsed);
+                                            });
+
+                                            return { Program: spy };
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            sourceType: "script"
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("`key: value` pair variable should not be exported", () => {
+                    const code = "/* exported horse: true */\n\nvar horse;";
+                    let spy;
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: {
+                                        create(context) {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope(),
+                                                    horse = getVariable(scope, "horse");
+
+                                                assert.notOk(horse.eslintUsed);
+                                            });
+
+                                            return { Program: spy };
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            sourceType: "script"
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("variables with comma should be exported", () => {
+                    const code = "/* exported horse, dog */\n\nvar horse, dog;";
+                    let spy;
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: {
+                                        create(context) {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
+
+                                                ["horse", "dog"].forEach(name => {
+                                                    assert.isTrue(getVariable(scope, name).eslintUsed);
+                                                });
+                                            });
+
+                                            return { Program: spy };
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            sourceType: "script"
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("variables without comma should not be exported", () => {
+                    const code = "/* exported horse dog */\n\nvar horse, dog;";
+                    let spy;
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: {
+                                        create(context) {
+                                            spy = sinon.spy(() => {
+                                                const scope = context.getScope();
+
+                                                ["horse", "dog"].forEach(name => {
+                                                    assert.notOk(getVariable(scope, name).eslintUsed);
+                                                });
+                                            });
+
+                                            return { Program: spy };
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            sourceType: "script"
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
                 });
 
                 it("variables should be exported", () => {
