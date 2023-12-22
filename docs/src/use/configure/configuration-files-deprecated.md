@@ -193,7 +193,7 @@ The complete configuration hierarchy, from highest to lowest precedence, is as f
     1. `.eslintrc.*` or `package.json` file in the same directory as the linted file
     1. Continue searching for `.eslintrc.*` and `package.json` files in ancestor directories up to and including the root directory or until a config with `"root": true` is found.
 
-Please note that the [home directory of the current user on your preferred operating system](https://nodejs.org/api/os.html#os_os_homedir) (`~/`) is also considered a root directory in this context and searching for configuration files stops there as well. And with the [removal of support for Personal Configuration Files](configuration-files#personal-configuration-files-deprecated) from the 8.0.0 release forward, configuration files present in that directory are ignored.
+Please note that the [home directory of the current user on your preferred operating system](https://nodejs.org/api/os.html#os_os_homedir) (`~/`) is also considered a root directory in this context and searching for configuration files stops there as well. And with the [removal of support for Personal Configuration Files](configuration-files-deprecated#personal-configuration-files-deprecated) from the 8.0.0 release forward, configuration files present in that directory are ignored.
 
 ## Extending Configuration Files
 

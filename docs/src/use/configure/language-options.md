@@ -37,7 +37,7 @@ export default [
 ];
 ```
 
-## Specifying Default Parser Options
+## Specifying Parser Options
 
 If you are using the built-in ESLint parser, you can additionally change how ESLint interprets your code by specifying the `languageOptions.parserOptions` key. All language options are `false` by default:
 
