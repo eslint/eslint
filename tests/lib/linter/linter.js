@@ -824,8 +824,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
                             horse = getVariable(scope, "horse");
 
                         assert.isTrue(horse.eslintUsed);
@@ -846,8 +846,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope(),
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
                             horse = getVariable(scope, "horse");
 
                         assert.notOk(horse.eslintUsed);
@@ -868,8 +868,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node);
 
                         ["horse", "dog"].forEach(name => {
                             assert.isTrue(getVariable(scope, name).eslintUsed);
@@ -891,8 +891,8 @@ describe("Linter", () => {
 
             linter.defineRule("checker", {
                 create(context) {
-                    spy = sinon.spy(() => {
-                        const scope = context.getScope();
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node);
 
                         ["horse", "dog"].forEach(name => {
                             assert.notOk(getVariable(scope, name).eslintUsed);
@@ -9932,8 +9932,8 @@ describe("Linter with FlatConfigArray", () => {
                                 rules: {
                                     checker: {
                                         create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope(),
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node),
                                                     horse = getVariable(scope, "horse");
 
                                                 assert.isTrue(horse.eslintUsed);
@@ -9964,8 +9964,8 @@ describe("Linter with FlatConfigArray", () => {
                                 rules: {
                                     checker: {
                                         create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope(),
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node),
                                                     horse = getVariable(scope, "horse");
 
                                                 assert.notOk(horse.eslintUsed);
@@ -9996,8 +9996,8 @@ describe("Linter with FlatConfigArray", () => {
                                 rules: {
                                     checker: {
                                         create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node);
 
                                                 ["horse", "dog"].forEach(name => {
                                                     assert.isTrue(getVariable(scope, name).eslintUsed);
@@ -10029,8 +10029,8 @@ describe("Linter with FlatConfigArray", () => {
                                 rules: {
                                     checker: {
                                         create(context) {
-                                            spy = sinon.spy(() => {
-                                                const scope = context.getScope();
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node);
 
                                                 ["horse", "dog"].forEach(name => {
                                                     assert.notOk(getVariable(scope, name).eslintUsed);
