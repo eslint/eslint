@@ -1307,7 +1307,7 @@ describe("Linter", () => {
 
     describe("when evaluating code with invalid comments to enable rules", () => {
         it("should report a violation when the config is not a valid rule configuration", () => {
-            const messages = linter.verify("/*eslint no-alert:true*/ alert('test');", {});
+            const messages = linter.verify("/*eslint no-alert:true*/ alert('test');");
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.deepStrictEqual(
@@ -1330,7 +1330,7 @@ describe("Linter", () => {
         });
 
         it("should report a violation when the config violates a rule's schema", () => {
-            const messages = linter.verify("/* eslint no-alert: [error, {nonExistentPropertyName: true}]*/", {});
+            const messages = linter.verify("/* eslint no-alert: [error, {nonExistentPropertyName: true}]*/");
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.deepStrictEqual(
@@ -10100,7 +10100,7 @@ describe("Linter with FlatConfigArray", () => {
 
                 describe("when evaluating code with invalid comments to enable rules", () => {
                     it("should report a violation when the config is not a valid rule configuration", () => {
-                        const messages = linter.verify("/*eslint no-alert:true*/ alert('test');", {});
+                        const messages = linter.verify("/*eslint no-alert:true*/ alert('test');");
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         assert.deepStrictEqual(
@@ -10123,7 +10123,7 @@ describe("Linter with FlatConfigArray", () => {
                     });
 
                     it("should report a violation when a rule is configured using a string severity that contains uppercase letters", () => {
-                        const messages = linter.verify("/*eslint no-alert: \"Error\"*/ alert('test');", {});
+                        const messages = linter.verify("/*eslint no-alert: \"Error\"*/ alert('test');");
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         assert.deepStrictEqual(
@@ -10146,7 +10146,7 @@ describe("Linter with FlatConfigArray", () => {
                     });
 
                     it("should report a violation when the config violates a rule's schema", () => {
-                        const messages = linter.verify("/* eslint no-alert: [error, {nonExistentPropertyName: true}]*/", {});
+                        const messages = linter.verify("/* eslint no-alert: [error, {nonExistentPropertyName: true}]*/");
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         assert.deepStrictEqual(
@@ -10175,7 +10175,7 @@ describe("Linter with FlatConfigArray", () => {
                             "foo(); // <-- expected no-undef error here"
                         ].join("\n");
 
-                        const messages = linter.verify(code, {});
+                        const messages = linter.verify(code);
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         // different engines have different JSON parsing error messages
@@ -14288,7 +14288,7 @@ var a = "test2";
                 const code = BROKEN_TEST_CODE;
 
                 it("should report a violation with a useful parse error prefix", () => {
-                    const messages = linter.verify(code, {});
+                    const messages = linter.verify(code);
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     assert.strictEqual(messages.length, 1);
@@ -14333,6 +14333,21 @@ var a = "test2";
                 });
             });
 
+        });
+
+        it("should default to flat config mode when a config isn't passed", () => {
+
+            // eslint-env should not be honored
+            const messages = linter.verify("/*eslint no-undef:error*//*eslint-env browser*/\nwindow;");
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-undef");
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].line, 2);
+            assert.strictEqual(messages[0].column, 1);
+
+            assert.strictEqual(suppressedMessages.length, 0);
         });
     });
 
@@ -15219,7 +15234,7 @@ var a = "test2";
         });
 
         it("should not crash when invalid parentheses syntax is encountered", () => {
-            linter.verify("left = (aSize.width/2) - ()", {});
+            linter.verify("left = (aSize.width/2) - ()");
         });
 
         it("should not crash when let is used inside of switch case", () => {
