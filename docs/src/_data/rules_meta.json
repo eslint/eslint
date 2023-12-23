@@ -2371,16 +2371,6 @@
             "url": "https://eslint.org/docs/latest/rules/require-await"
         }
     },
-    "require-jsdoc": {
-        "type": "suggestion",
-        "docs": {
-            "description": "Require JSDoc comments",
-            "recommended": false,
-            "url": "https://eslint.org/docs/latest/rules/require-jsdoc"
-        },
-        "deprecated": true,
-        "replacedBy": []
-    },
     "require-unicode-regexp": {
         "type": "suggestion",
         "docs": {
@@ -2601,17 +2591,6 @@
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/use-isnan"
         }
-    },
-    "valid-jsdoc": {
-        "type": "suggestion",
-        "docs": {
-            "description": "Enforce valid JSDoc comments",
-            "recommended": false,
-            "url": "https://eslint.org/docs/latest/rules/valid-jsdoc"
-        },
-        "fixable": "code",
-        "deprecated": true,
-        "replacedBy": []
     },
     "valid-typeof": {
         "type": "problem",

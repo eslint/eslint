@@ -154,7 +154,7 @@ module.exports = {
         "jsdoc/empty-tags": "error",
         "jsdoc/implements-on-classes": "error",
         "jsdoc/multiline-blocks": "error",
-        "jsdoc/no-multi-asterisks": "error",
+        "jsdoc/no-multi-asterisks": ["error", { allowWhitespace: true }],
         "jsdoc/require-jsdoc": [
             "error",
             {
