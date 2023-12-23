@@ -69,7 +69,7 @@ This rule has a string and an object option:
 
 * `"functions"` (default) disallows `function` declarations in nested blocks
 * `"both"` disallows `function` and `var` declarations in nested blocks
-* `{ legacy: false }` (default) if this option set to `true` then the rule will report function and variable declarations (according to the string options) only if the eslint is configured to `ecmaVersion: 5`.
+* `{ legacy: false }` (default) if this option set to `true` then the rule will report only function declarations even in the strict mode but only if the eslint is configured to `ecmaVersion: 5`.
 
 ### functions
 
@@ -110,7 +110,7 @@ Examples of **correct** code for this rule with the default `"functions"` option
 ```js
 /*eslint no-inner-declarations: "error"*/
 
-"use strict"
+"use strict";
 
 if (test) {
     function doSomething() { }
@@ -146,6 +146,14 @@ function doSomething() { }
 
 function doSomethingElse() {
     function doAnotherThing() { }
+}
+
+function doSomethingElse() {
+    "use strict";
+
+    if (test) {
+        function doAnotherThing() { }
+    }
 }
 
 class C {
@@ -209,7 +217,7 @@ Examples of **correct** code for this rule with the `"both"` option:
 ```js
 /*eslint no-inner-declarations: ["error", "both"]*/
 
-"use strict"
+"use strict";
 
 if (test) {
     var foo = 42;
@@ -271,28 +279,34 @@ Example of **incorrect** code for this rule with `{ legacy: true }` option when 
 ::: incorrect { "sourceType": "script" }
 
 ```js
-/*eslint no-inner-declarations: ["error", "both", { legecy: true }]*/
+/*eslint no-inner-declarations: ["error", { legacy: true }]*/
 
 // when ecmaVersion is 5
 
-"use strict"
+"use strict";
 
 if (test) {
-    var foo = 42;
+    function doSomething() { }
 }
 
-function doAnotherThing() {
+function doSomethingElse() {
     if (test) {
-        var bar = 81;
+        function doAnotherThing() { }
     }
 }
 
-if (foo) {
-    var a;
+function doSomethingElse() {
+    {
+        function doAnotherThing() { }
+    }
 }
 
-if (foo) {
-    function f(){}
+function doSomethingElse() {
+    "use strict";
+
+    {
+        function doAnotherThing() { }
+    }
 }
 ```
 
