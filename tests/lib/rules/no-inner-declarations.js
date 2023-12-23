@@ -123,6 +123,11 @@ ruleTester.run("no-inner-declarations", rule, {
             code: "'use strict' \n if (foo) { var fn = function(){} }",
             options: ["both"],
             languageOptions: { ecmaVersion: 5 }
+        },
+        {
+            code: "function doSomething() { function somethingElse() { } }",
+            options: ["functions", { legacy: true }],
+            languageOptions: { ecmaVersion: 5 }
         }
     ],
 
@@ -245,7 +250,7 @@ ruleTester.run("no-inner-declarations", rule, {
             }]
         },
         {
-            code: "if (foo){ var a; }",
+            code: "if (foo) { var a; }",
             options: ["both"],
             errors: [{
                 messageId: "moveDeclToRoot",
@@ -379,6 +384,32 @@ ruleTester.run("no-inner-declarations", rule, {
                 data: {
                     type: "function",
                     body: "program"
+                },
+                type: "FunctionDeclaration"
+            }]
+        },
+        {
+            code: "function foo() {'use strict' \n { function bar() { } } }",
+            options: ["both", { legacy: true }],
+            languageOptions: { ecmaVersion: 5 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "function body"
+                },
+                type: "FunctionDeclaration"
+            }]
+        },
+        {
+            code: "function doSomething() { 'use strict' \n do { function somethingElse() { } } while (test); }",
+            options: ["both", { legacy: true }],
+            languageOptions: { ecmaVersion: 5 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "function body"
                 },
                 type: "FunctionDeclaration"
             }]
