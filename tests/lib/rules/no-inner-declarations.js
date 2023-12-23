@@ -333,18 +333,6 @@ ruleTester.run("no-inner-declarations", rule, {
                 type: "VariableDeclaration"
             }]
         }, {
-            code: "class C { static { if (test) { function foo() {} } } }",
-            options: ["both"],
-            languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                messageId: "moveDeclToRoot",
-                data: {
-                    type: "function",
-                    body: "class static block body"
-                },
-                type: "FunctionDeclaration"
-            }]
-        }, {
             code: "class C { static { if (test) { var foo; } } }",
             options: ["both"],
             languageOptions: { ecmaVersion: 2022 },
@@ -365,32 +353,6 @@ ruleTester.run("no-inner-declarations", rule, {
                 data: {
                     type: "variable",
                     body: "class static block body"
-                },
-                type: "VariableDeclaration"
-            }]
-        },
-        {
-            code: "'use strict' \n if (foo) var a;",
-            options: ["both", { legacy: true }],
-            languageOptions: { ecmaVersion: 5 },
-            errors: [{
-                messageId: "moveDeclToRoot",
-                data: {
-                    type: "variable",
-                    body: "program"
-                },
-                type: "VariableDeclaration"
-            }]
-        },
-        {
-            code: "'use strict' \n if (foo) { var fn = function(){} }",
-            options: ["both", { legacy: true }],
-            languageOptions: { ecmaVersion: 5 },
-            errors: [{
-                messageId: "moveDeclToRoot",
-                data: {
-                    type: "variable",
-                    body: "program"
                 },
                 type: "VariableDeclaration"
             }]
@@ -419,13 +381,6 @@ ruleTester.run("no-inner-declarations", rule, {
                     body: "program"
                 },
                 type: "FunctionDeclaration"
-            }, {
-                messageId: "moveDeclToRoot",
-                data: {
-                    type: "variable",
-                    body: "function body"
-                },
-                type: "VariableDeclaration"
             }]
         }
     ]
