@@ -3039,8 +3039,6 @@ var a = "test2";
     });
 
     describe("when using an invalid (undefined) rule", () => {
-        linter = new Linter();
-
         const code = TEST_CODE;
         let results, result, warningResult, arrayOptionResults, objectOptionResults, resultsMultiple;
 
