@@ -168,14 +168,6 @@ ruleTester.run("no-implicit-coercion", rule, {
             }]
         },
         {
-            code: "-(-foo)",
-            output: null,
-            errors: [{
-                messageId: "useRecommendation",
-                type: "UnaryExpression"
-            }]
-        },
-        {
             code: "+foo.bar",
             output: "Number(foo.bar)",
             errors: [{
