@@ -11,7 +11,7 @@
 
 const assert = require("assert"),
     { Linter } = require("../../../../lib/linter");
-const linter = new Linter();
+const linter = new Linter({ configType: "eslintrc" });
 
 //------------------------------------------------------------------------------
 // Helpers
