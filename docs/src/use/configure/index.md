@@ -32,7 +32,7 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 [**Configure Language Options**](language-options)
 
-* [Specifying JavaScript Options](./language-options#specifying-parser-options)
+* [Specifying JavaScript Options](./language-options#specifying-javascript-options)
 * [Specifying Globals](./language-options#specifying-globals)
 
 [**Configure Rules**](rules)
