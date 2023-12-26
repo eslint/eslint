@@ -138,7 +138,7 @@ export default [
 ```
 
 ::: warning
-Namespaces that don't begin with `@` don't have any restrictions; namespaces that begin with `@` must also contain a `/`. For example, `@eslint` is not a valid namespace but `@eslint/plugin` is valid. This restriction is for backwards compatibility with eslintrc plugin naming restrictions.
+Namespaces that don't begin with `@` may not contain a `/`; namespaces that begin with `@` may contain a `/`. For example, `eslint/plugin` is not a valid namespace but `@eslint/plugin` is valid. This restriction is for backwards compatibility with eslintrc plugin naming restrictions.
 :::
 
 ### Processors in Plugins
