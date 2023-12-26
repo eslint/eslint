@@ -364,4 +364,4 @@ export default [
 ];
 ```
 
-This setting is similar to [--report-unused-disable-directives](../command-line-interface#--report-unused-disable-directives) and [--report-unused-disable-directives-severity](../command-line-interface#--report-unused-disable-directives-severity) CLI options.
+This setting is similar to [`--report-unused-disable-directives`](../command-line-interface#--report-unused-disable-directives) and [`--report-unused-disable-directives-severity`](../command-line-interface#--report-unused-disable-directives-severity) CLI options.
