@@ -12,7 +12,7 @@ This page explains how to create and publish a shareable config.
 
 ## Creating a Shareable Config
 
-Shareable configs are simply npm packages that export a configuration object or array. To start, [create a Node.js module](https://docs.npmjs.com/getting-started/creating-node-modules) like you normally would.
+Shareable configs are simply npm packages that export a configuration object. To start, [create a Node.js module](https://docs.npmjs.com/getting-started/creating-node-modules) like you normally would.
 
 The module name must take one of the following forms:
 
