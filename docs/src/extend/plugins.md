@@ -76,7 +76,7 @@ const plugin = {
 
     // alternate location of name and version
     name: "eslint-plugin-example",
-    version: "1.2.3"
+    version: "1.2.3",
     rules: {
         // add rules here
     }
