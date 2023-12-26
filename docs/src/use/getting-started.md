@@ -137,10 +137,12 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
    export default [
        js.configs.recommended,
 
-       rules: {
-           "no-unused-vars": "warn",
-           "no-undef": "warn"
-       }
+      {
+          rules: {
+              "no-unused-vars": "warn",
+              "no-undef": "warn"
+          }
+      }
    ];
    ```
 
