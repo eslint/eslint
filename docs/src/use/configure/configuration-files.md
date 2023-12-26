@@ -245,7 +245,7 @@ export default [
     {
         files: ["**/*.js"],
         linterOptions: {
-            reportUnusedDisableDirectives: true
+            reportUnusedDisableDirectives: "error"
         }
     }
 ];
