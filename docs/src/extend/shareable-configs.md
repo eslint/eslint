@@ -60,7 +60,7 @@ You should declare your dependency on ESLint in the `package.json` using the [pe
 ```json
 {
     "peerDependencies": {
-        "eslint": ">= 8"
+        "eslint": ">= 9"
     }
 }
 ```
