@@ -347,7 +347,7 @@ export default [
 ];
 ```
 
-You can also use the [--no-inline-config](../command-line-interface#--no-inline-config) CLI option to disable rule comments, in addition to other in-line configuration.
+You can also use the [`--no-inline-config`](../command-line-interface#--no-inline-config) CLI option to disable rule comments, in addition to other in-line configuration.
 
 #### Report unused `eslint-disable` comments
 
