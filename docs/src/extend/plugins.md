@@ -272,4 +272,4 @@ In order to make your plugin available publicly, you have to publish it on npm. 
     }
     ```
 
-2. **Specify keywords.** ESLint plugins should specify `eslint` and `eslint-plugin` as  [keywords](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) in your `package.json` file.
+2. **Specify keywords.** ESLint plugins should specify `eslint`, `eslintplugin` and `eslint-plugin` as [keywords](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#keywords) in your `package.json` file.
