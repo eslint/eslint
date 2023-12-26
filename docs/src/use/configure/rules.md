@@ -85,7 +85,6 @@ export default [
             "no-unused-vars": "error",
             "prefer-const": "warn"
         }
-
     }
 ];
 ```
@@ -348,7 +347,7 @@ export default [
 ];
 ```
 
-You can also use the [--no-inline-config](../command-line-interface#--no-inline-config) CLI option to disable rule comments, in addition to other in-line configuration.
+You can also use the [`--no-inline-config`](../command-line-interface#--no-inline-config) CLI option to disable rule comments, in addition to other in-line configuration.
 
 #### Report unused `eslint-disable` comments
 
@@ -365,4 +364,4 @@ export default [
 ];
 ```
 
-This setting is similar to [--report-unused-disable-directives](../command-line-interface#--report-unused-disable-directives) and [--report-unused-disable-directives-severity](../command-line-interface#--report-unused-disable-directives-severity) CLI options.
+This setting is similar to [`--report-unused-disable-directives`](../command-line-interface#--report-unused-disable-directives) and [`--report-unused-disable-directives-severity`](../command-line-interface#--report-unused-disable-directives-severity) CLI options.

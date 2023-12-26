@@ -1,5 +1,5 @@
 ---
-title: Configure Language Options
+title: Configure Language Options (Deprecated)
 ---
 
 ::: warning

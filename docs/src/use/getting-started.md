@@ -62,7 +62,7 @@ yarn run eslint yourfile.js
 
 ## Configuration
 
-**Note:** If you are coming from a version before 1.0.0 please see the [migration guide](migrating-to-1.0.0).
+**Note:** If you are coming from a version before 9.0.0 please see the [migration guide](configure/migration-guide).
 
 After running `npm init @eslint/config`, you'll have an `eslint.config.js` file in your directory. In it, you'll see some rules configured like this:
 
@@ -95,9 +95,11 @@ import js from "@eslint/js";
 export default [
     js.configs.recommended,
 
-    rules: {
-        "no-unused-vars": "warn",
-        "no-undef": "warn"
+    {
+        rules: {
+            "no-unused-vars": "warn",
+            "no-undef": "warn"
+        }
     }
 ];
 ```
@@ -135,10 +137,12 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
    export default [
        js.configs.recommended,
 
-       rules: {
-           "no-unused-vars": "warn",
-           "no-undef": "warn"
-       }
+      {
+          rules: {
+              "no-unused-vars": "warn",
+              "no-undef": "warn"
+          }
+      }
    ];
    ```
 
