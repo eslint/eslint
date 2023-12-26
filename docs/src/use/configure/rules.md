@@ -315,8 +315,10 @@ export default [
         }
     },
     {
-      files: ["*-test.js","*.spec.js"],
-      rules: {
+        files: ["*-test.js","*.spec.js"],
+        rules: {
+            "no-unused-expressions": "off"
+        }
         "no-unused-expressions": "off"
       }
     }
