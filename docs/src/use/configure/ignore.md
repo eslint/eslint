@@ -31,7 +31,7 @@ This configuration specifies that all of the files in the `.config` directory sh
 You can also ignore files on the command line using `--ignore-pattern`, such as:
 
 ```shell
-npx eslint . --ignore-pattern .config/*
+npx eslint . --ignore-pattern ".config/*"
 ```
 
 ## Unignoring Files
