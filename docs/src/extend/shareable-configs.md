@@ -130,7 +130,7 @@ export default [
     ...myconfig,
     mySpecialConfig,
 
-    // anything from here will override myconfig
+    // anything from here will override myconfig and mySpecialConfig
     {
         rules: {
             "no-unused-vars": "warn"
