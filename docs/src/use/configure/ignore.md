@@ -8,6 +8,10 @@ eleventyNavigation:
 
 ---
 
+::: tip
+This page explains how to ignore files using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](ignore-deprecated).
+:::
+
 You can configure ESLint to ignore certain files and directories while linting by specifying one or more glob patterns in the following ways:
 
 * Inside of your `eslint.config.js` file
