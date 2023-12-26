@@ -159,3 +159,5 @@ export default [
     }
 ];
 ```
+
+See [Specify a Processor](../use/configure/plugins#specify-a-processor) in the Plugin Configuration documentation for more details.
