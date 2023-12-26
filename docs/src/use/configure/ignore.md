@@ -83,7 +83,7 @@ export default [
 And then you run:
 
 ```shell
-eslint foo.js
+npx eslint foo.js
 ```
 
 You'll see this warning:
@@ -96,20 +96,3 @@ foo.js
 ```
 
 This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-ignore` to omit using the ignore rules.
-
-Consider another scenario where you want to run ESLint on a specific dot-file or dot-folder, but have forgotten to specifically allow those files in your `eslint.config.js` file. You would run something like this:
-
-```shell
-eslint .config/foo.js
-```
-
-You would see this warning:
-
-```text
-.config/foo.js
-  0:0  warning  File ignored by default.  Use a negated ignore pattern (like "--ignore-pattern '!<relative/path/to/filename>'") to override
-
-✖ 1 problem (0 errors, 1 warning)
-```
-
-This message occurs because, normally, this file would be ignored by ESLint's implicit ignore rules (as mentioned above). A negated ignore rule in your `eslint.config.js` file would override the implicit rule and reinclude this file for linting. Additionally, in this case, `--no-ignore` could be used to lint the file as well.
