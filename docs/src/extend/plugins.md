@@ -95,7 +95,7 @@ While the `meta` object is the preferred way to provide the plugin name and vers
 
 ### Rules in Plugins
 
-Plugins can expose custom rules for use in ESLint. To do so, the plugin must export a `rules` object containing a key-value mapping of rule ID to rule. The rule ID does not have to follow any naming convention (so it can just be `dollar-sign`, for instance). To learn more about creating custom rules in plugins, refer to [Custom Rules](custom-rules).
+Plugins can expose custom rules for use in ESLint. To do so, the plugin must export a `rules` object containing a key-value mapping of rule ID to rule. The rule ID does not have to follow any naming convention except that it should not contain a `/` character (so it can just be `dollar-sign` but not `foo/dollar-sign`, for instance). To learn more about creating custom rules in plugins, refer to [Custom Rules](custom-rules).
 
 ```js
 const plugin = {
