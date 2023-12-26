@@ -85,7 +85,6 @@ export default [
             "no-unused-vars": "error",
             "prefer-const": "warn"
         }
-
     }
 ];
 ```
