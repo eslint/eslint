@@ -83,7 +83,7 @@ export default [
         rules: {
             eqeqeq: "off",
             "no-unused-vars": "error",
-            "prefer-const": "warn"
+            "prefer-const": ["error", { "ignoreReadBeforeAssign": true }]
         }
     }
 ];
