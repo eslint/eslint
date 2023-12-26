@@ -60,8 +60,8 @@ export default [
                 babelOptions: {
                   babelrc: false,
                   configFile: false,
-                  presets: ["@babel/preset-env"],
-                },
+                  presets: ["@babel/preset-env"]
+                }
             }
         }
     }
