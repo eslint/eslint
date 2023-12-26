@@ -35,7 +35,7 @@ export default [
             globals: {
                 MyGlobal: true
             }
-        }
+        },
 
         rules: {
             semi: [2, "always"]
