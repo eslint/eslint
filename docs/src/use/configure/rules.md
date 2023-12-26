@@ -83,7 +83,7 @@ export default [
         rules: {
             eqeqeq: "off",
             "no-unused-vars": "error",
-            "prefer-const": "warn"
+            "prefer-const": ["error", { "ignoreReadBeforeAssign": true }]
         }
     }
 ];
@@ -315,8 +315,10 @@ export default [
         }
     },
     {
-      files: ["*-test.js","*.spec.js"],
-      rules: {
+        files: ["*-test.js","*.spec.js"],
+        rules: {
+            "no-unused-expressions": "off"
+        }
         "no-unused-expressions": "off"
       }
     }
@@ -337,13 +339,7 @@ export default [
         rules: {
             "no-unused-expressions": "error"
         }
-    },
-    {
-      files: ["*-test.js","*.spec.js"],
-      rules: {
-        "no-unused-expressions": "off"
-      }
-    }
+    }    
 ];
 ```
 
