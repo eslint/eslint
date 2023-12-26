@@ -343,7 +343,7 @@ export default [
 
 ## Using a Shareable Configuration Package
 
-A sharable configuration is an npm package that exports a configuration object or array. This package should be installed as a dependency in your project and then reference from inside of your `eslint.config.js` file. For example, to use a shareable configuration named `eslint-config-example`, your configuration file would look like this:
+A sharable configuration is an npm package that exports a configuration object or array. This package should be installed as a dependency in your project and then referenced from inside of your `eslint.config.js` file. For example, to use a shareable configuration named `eslint-config-example`, your configuration file would look like this:
 
 ```js
 // eslint.config.js
