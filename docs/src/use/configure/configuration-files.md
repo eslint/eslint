@@ -1,9 +1,9 @@
 ---
-title: Configuration Files (New)
+title: Configuration Files
 eleventyNavigation:
     key: configuration files
     parent: configure
-    title: Configuration Files (New)
+    title: Configuration Files
     order: 1
 
 ---

@@ -1,5 +1,5 @@
 ---
-title: Configuration Files
+title: Configuration Files (Deprecated)
 ---
 
 ::: warning
