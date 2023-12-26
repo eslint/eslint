@@ -54,8 +54,10 @@ Here's an example configuration file that enables JSX parsing in the default par
 export default [
     {
         languageOptions: {
-            ecmaFeatures: {
-                jsx: true
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
             }
         }
     }
