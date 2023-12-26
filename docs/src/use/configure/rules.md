@@ -339,13 +339,7 @@ export default [
         rules: {
             "no-unused-expressions": "error"
         }
-    },
-    {
-      files: ["*-test.js","*.spec.js"],
-      rules: {
-        "no-unused-expressions": "off"
-      }
-    }
+    }    
 ];
 ```
 
