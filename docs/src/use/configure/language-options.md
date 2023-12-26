@@ -39,7 +39,7 @@ export default [
 
 ## Specifying Parser Options
 
-If you are using the built-in ESLint parser, you can additionally change how ESLint interprets your code by specifying the `languageOptions.parserOptions` key. All language options are `false` by default:
+If you are using the built-in ESLint parser, you can additionally change how ESLint interprets your code by specifying the `languageOptions.parserOptions` key. All options are `false` by default:
 
 * `allowReserved` - allow the use of reserved words as identifiers (if `ecmaVersion` is `3`).
 * `ecmaFeatures` - an object indicating which additional language features you'd like to use:
