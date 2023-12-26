@@ -392,5 +392,3 @@ npx eslint --config some-other-file.js **/*.js
 ```
 
 In this case, ESLint does not search for `eslint.config.js` and instead uses `some-other-file.js`.
-
-By default, all configuration objects are applied to all files ending with `.js`, `.cjs`, and `.mjs`. Sometimes, however, a more fine-grained application of configuration settings is necessary. For example, what if you'd like to apply a different configuration to different files in the same directory?
