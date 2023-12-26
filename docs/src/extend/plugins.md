@@ -267,7 +267,7 @@ In order to make your plugin available publicly, you have to publish it on npm. 
     ```json
     {
         "peerDependencies": {
-            "eslint": ">=8.0.0"
+            "eslint": ">=9.0.0"
         }
     }
     ```
