@@ -18,7 +18,7 @@ This page explains how to create a shareable config using the flat config format
 
 ## Creating a Shareable Config
 
-Shareable configs are simply npm packages that export a configuration object. To start, [create a Node.js module](https://docs.npmjs.com/getting-started/creating-node-modules) like you normally would.
+Shareable configs are simply npm packages that export a configuration object or array. To start, [create a Node.js module](https://docs.npmjs.com/getting-started/creating-node-modules) like you normally would.
 
 While you can name the package in any way that you'd like, we recommend using one of the following conventions to make your package easier to identify:
 
