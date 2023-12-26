@@ -50,6 +50,7 @@ ESLint is officially dropping support for these versions of Node.js starting wit
 ESLint v9.0.0 has removed the following formatters from the core:
 
 | **Removed Formatter** | **Replacement npm Package** |
+|-----------------------|-----------------------------|
 | `checkstyle` | `eslint-formatter-checkstyle` |
 | `compact` | `eslint-formatter-compact` |
 | `jslint-xml` | `eslint-formatter-jslint-xml` |
