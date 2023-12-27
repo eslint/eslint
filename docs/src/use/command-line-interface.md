@@ -166,7 +166,7 @@ If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.
 * **Argument Type**: String. One of the available environments.
 * **Multiple Arguments**: Yes
 
-Details about the global variables defined by each environment are available in the [Specifying Environments](configure/language-options#specifying-environments) documentation. This option only enables environments. It does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
+Details about the global variables defined by each environment are available in the [Specifying Environments](configure/language-options-deprecated#specifying-environments) documentation. This option only enables environments. It does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
 
 ##### `--env` example
 
@@ -391,7 +391,7 @@ npx eslint --fix --fix-type suggestion,layout .
 * **Multiple Arguments**: No
 * **Default Value**:  By default, ESLint looks for `.eslintignore` in the current working directory.
 
-**Note:** `--ignore-path` is not supported when using [flat configuration](./configure/configuration-files-new) (`eslint.config.js`).
+**Note:** `--ignore-path` is only supported when using [deprecated configuration](./configure/configuration-files-deprecated).
 
 ##### `--ignore-path` example
 
@@ -416,7 +416,7 @@ npx eslint --no-ignore file.js
 
 This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`).
 
-* **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
+* **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore-deprecated#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 * **Multiple Arguments**: Yes
 
 ##### `--ignore-pattern` example

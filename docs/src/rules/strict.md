@@ -47,7 +47,7 @@ In **ECMAScript** modules, which always have strict mode semantics, the directiv
 
 This rule requires or disallows strict mode directives.
 
-This rule disallows strict mode directives, no matter which option is specified, if ESLint configuration specifies either of the following as [parser options](../use/configure/language-options#specifying-parser-options):
+This rule disallows strict mode directives, no matter which option is specified, if ESLint configuration specifies either of the following as [parser options](../use/configure/language-options#specifying-javascript-options):
 
 * `"sourceType": "module"` that is, files are **ECMAScript** modules
 * `"impliedStrict": true` property in the `ecmaFeatures` object
@@ -73,7 +73,6 @@ This rule has a string option:
 
 The `"safe"` option corresponds to the `"global"` option if ESLint considers a file to be a **Node.js** or **CommonJS** module because the configuration specifies either of the following:
 
-* `node` or `commonjs` [environments](../use/configure/language-options#specifying-environments)
 * `"globalReturn": true` property in the `ecmaFeatures` object of [parser options](../use/configure/language-options#specifying-parser-options)
 
 Otherwise the `"safe"` option corresponds to the `"function"` option. Note that if `"globalReturn": false` is explicitly specified in the configuration, the `"safe"` option will correspond to the `"function"` option regardless of the specified environment.
