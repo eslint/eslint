@@ -821,6 +821,73 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].messages[0].severity, 2);
             assert.strictEqual(results[0].messages[0].ruleId, "quotes");
         });
+
+        describe("Alternate config files", () => {
+
+            it("should find eslint.config.mjs when present", async () => {
+
+                const cwd = getFixturePath("mjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it("should find eslint.config.cjs when present", async () => {
+
+                const cwd = getFixturePath("cjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it("should favor eslint.config.js when eslint.config.mjs and eslint.config.cjs are present", async () => {
+
+                const cwd = getFixturePath("js-mjs-cjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 0);
+            });
+
+            it("should favor eslint.config.mjs when eslint.config.cjs is present", async () => {
+
+                const cwd = getFixturePath("mjs-cjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+        });
     });
 
     describe("lintFiles()", () => {
@@ -4167,6 +4234,75 @@ describe("FlatESLint", () => {
             await assert.rejects(() => eslint.lintFiles(777), /'patterns' must be a non-empty string or an array of non-empty strings/u);
             await assert.rejects(() => eslint.lintFiles([null]), /'patterns' must be a non-empty string or an array of non-empty strings/u);
         });
+
+        describe("Alternate config files", () => {
+
+            it("should find eslint.config.mjs when present", async () => {
+
+                const cwd = getFixturePath("mjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it("should find eslint.config.cjs when present", async () => {
+
+                const cwd = getFixturePath("cjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it("should favor eslint.config.js when eslint.config.mjs and eslint.config.cjs are present", async () => {
+
+                const cwd = getFixturePath("js-mjs-cjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 0);
+            });
+
+            it("should favor eslint.config.mjs when eslint.config.cjs is present", async () => {
+
+                const cwd = getFixturePath("mjs-cjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+        });
+
+
     });
 
     describe("Fix Types", () => {
