@@ -24,10 +24,10 @@ ruleTester.run("line-comment-position", rule, {
         "/* block comments are skipped */\n1 + 1;",
         "1 + 1; /* block comments are skipped */",
         "1 + 1; /* eslint eqeqeq: 'error' */",
-        "1 + 1; /* eslint-foo-disable */",
-        "1 + 1; /* eslint-foo-enable */",
-        "1 + 1; // eslint-foo-disable-line",
-        "// eslint-foo-disable-next-line\n1 + 1;",
+        "1 + 1; /* eslint-disable */",
+        "1 + 1; /* eslint-enable */",
+        "1 + 1; // eslint-disable-line",
+        "// eslint-disable-next-line\n1 + 1;",
         "1 + 1; // global MY_GLOBAL, ANOTHER",
         "1 + 1; // globals MY_GLOBAL: true",
         "1 + 1; // exported MY_GLOBAL, ANOTHER",
@@ -82,7 +82,7 @@ ruleTester.run("line-comment-position", rule, {
             options: [{ ignorePattern: "ignored" }]
         },
         {
-            code: "foo; // eslint-foo-disable-line no-alert",
+            code: "foo; // eslint-disable-line no-alert",
             options: [{ position: "above" }]
         }
     ],

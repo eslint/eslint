@@ -41,8 +41,8 @@ ruleTester.run("no-inline-comments", rule, {
         "// A valid comment before code\nvar a = 1;",
         "var a = 2;\n// A valid comment after code",
         "// A solitary comment",
-        "var a = 1; // eslint-foo-line no-debugger",
-        "var a = 1; /* eslint-foo-line no-debugger */",
+        "var a = 1; // eslint-disable-line no-debugger",
+        "var a = 1; /* eslint-disable-line no-debugger */",
         "foo(); /* global foo */",
         "foo(); /* globals foo */",
         "var foo; /* exported foo */",
@@ -138,7 +138,7 @@ ruleTester.run("no-inline-comments", rule, {
             errors: [lineError]
         },
         {
-            code: "var a = 3; // someday use eslint-foo-line here",
+            code: "var a = 3; // someday use eslint-disable-line here",
             errors: [lineError]
         },
         {

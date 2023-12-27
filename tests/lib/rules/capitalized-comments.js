@@ -59,8 +59,8 @@ ruleTester.run("capitalized-comments", rule, {
         // No options: eslint/istanbul/jshint/jscs/globals?/exported are okay
         "// jscs: enable",
         "// jscs:disable",
-        "// eslint-foo-line",
-        "// eslint-foo-next-line",
+        "// eslint-disable-line",
+        "// eslint-disable-next-line",
         "/* eslint semi:off */",
         "/* eslint-env node */",
         "/* istanbul ignore next */",
@@ -120,8 +120,8 @@ ruleTester.run("capitalized-comments", rule, {
         // Using "always" string option: eslint/istanbul/jshint/jscs/globals?/exported are okay
         { code: "// jscs: enable", options: ["always"] },
         { code: "// jscs:disable", options: ["always"] },
-        { code: "// eslint-foo-line", options: ["always"] },
-        { code: "// eslint-foo-next-line", options: ["always"] },
+        { code: "// eslint-disable-line", options: ["always"] },
+        { code: "// eslint-disable-next-line", options: ["always"] },
         { code: "/* eslint semi:off */", options: ["always"] },
         { code: "/* eslint-env node */", options: ["always"] },
         { code: "/* istanbul ignore next */", options: ["always"] },
@@ -564,8 +564,8 @@ ruleTester.run("capitalized-comments", rule, {
             }]
         },
         {
-            code: "//* eslint-foo-line",
-            output: "//* Eslint-foo-line",
+            code: "//* eslint-disable-line",
+            output: "//* Eslint-disable-line",
             options: ["always"],
             errors: [{
                 messageId: "unexpectedLowercaseComment",
@@ -574,8 +574,8 @@ ruleTester.run("capitalized-comments", rule, {
             }]
         },
         {
-            code: "//* eslint-foo-next-line",
-            output: "//* Eslint-foo-next-line",
+            code: "//* eslint-disable-next-line",
+            output: "//* Eslint-disable-next-line",
             options: ["always"],
             errors: [{
                 messageId: "unexpectedLowercaseComment",

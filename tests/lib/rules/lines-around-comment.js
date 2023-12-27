@@ -1026,10 +1026,10 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code:
             "foo;\n\n" +
-            "/* eslint-foo-disable no-underscore-dangle */\n\n" +
+            "/* eslint-disable no-underscore-dangle */\n\n" +
             "this._values = values;\n" +
             "this._values2 = true;\n" +
-            "/* eslint-foo-enable no-underscore-dangle */\n" +
+            "/* eslint-enable no-underscore-dangle */\n" +
             "bar",
             options: [{
                 beforeBlockComment: true,
@@ -2088,18 +2088,18 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code:
             "foo;\n\n" +
-            "/* eslint-foo-disable no-underscore-dangle */\n\n" +
+            "/* eslint-disable no-underscore-dangle */\n\n" +
             "this._values = values;\n" +
             "this._values2 = true;\n" +
-            "/* eslint-foo-enable no-underscore-dangle */\n" +
+            "/* eslint-enable no-underscore-dangle */\n" +
             "bar",
             output:
             "foo;\n\n" +
-            "/* eslint-foo-disable no-underscore-dangle */\n\n" +
+            "/* eslint-disable no-underscore-dangle */\n\n" +
             "this._values = values;\n" +
             "this._values2 = true;\n" +
             "\n" +
-            "/* eslint-foo-enable no-underscore-dangle */\n" +
+            "/* eslint-enable no-underscore-dangle */\n" +
             "\n" +
             "bar",
             options: [{
