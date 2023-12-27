@@ -4,7 +4,7 @@ eleventyNavigation:
     key: configure plugins
     parent: configure
     title: Configure Plugins
-    order: 5
+    order: 4
 
 ---
 

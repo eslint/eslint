@@ -4,7 +4,7 @@ eleventyNavigation:
     key: configure language options
     parent: configure
     title: Configure Language Options
-    order: 3
+    order: 2
 ---
 
 ::: tip
