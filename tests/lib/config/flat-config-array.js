@@ -190,6 +190,9 @@ describe("FlatConfigArray", () => {
                     parser: `espree@${espree.version}`,
                     parserOptions: {}
                 },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
                 processor: void 0
             };
             const actual = config.toJSON();
@@ -221,6 +224,9 @@ describe("FlatConfigArray", () => {
                     sourceType: "module",
                     parser: `espree@${espree.version}`,
                     parserOptions: {}
+                },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
                 },
                 processor: void 0
             };
@@ -255,6 +261,9 @@ describe("FlatConfigArray", () => {
                     sourceType: "module",
                     parser: `espree@${espree.version}`,
                     parserOptions: {}
+                },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
                 },
                 processor: void 0
             };
@@ -353,6 +362,9 @@ describe("FlatConfigArray", () => {
                     parserOptions: {},
                     sourceType: "module"
                 },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
                 plugins: ["@"],
                 processor: void 0
             });
@@ -383,6 +395,9 @@ describe("FlatConfigArray", () => {
                     parser: "custom-parser@0.1.0",
                     parserOptions: {},
                     sourceType: "module"
+                },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
                 },
                 plugins: ["@"],
                 processor: void 0
@@ -415,6 +430,9 @@ describe("FlatConfigArray", () => {
                     parserOptions: {},
                     sourceType: "module"
                 },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
                 plugins: ["@"],
                 processor: void 0
             });
@@ -443,6 +461,9 @@ describe("FlatConfigArray", () => {
                     parser: "custom-parser@0.1.0",
                     parserOptions: {},
                     sourceType: "module"
+                },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
                 },
                 plugins: ["@"],
                 processor: void 0
@@ -513,6 +534,9 @@ describe("FlatConfigArray", () => {
                     parserOptions: {},
                     sourceType: "module"
                 },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
                 plugins: ["@"],
                 processor: "custom-processor"
             });
@@ -539,6 +563,9 @@ describe("FlatConfigArray", () => {
                     parser: `espree@${espree.version}`,
                     parserOptions: {},
                     sourceType: "module"
+                },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
                 },
                 plugins: ["@"],
                 processor: "custom-processor"
@@ -571,6 +598,9 @@ describe("FlatConfigArray", () => {
                     parserOptions: {},
                     sourceType: "module"
                 },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
                 plugins: ["@"],
                 processor: "custom-processor@1.2.3"
             });
@@ -599,6 +629,9 @@ describe("FlatConfigArray", () => {
                     parser: `espree@${espree.version}`,
                     parserOptions: {},
                     sourceType: "module"
+                },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
                 },
                 plugins: ["@"],
                 processor: "custom-processor@1.2.3"
