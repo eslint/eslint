@@ -9831,6 +9831,138 @@ describe("Linter with FlatConfigArray", () => {
                 });
             });
 
+            describe("ruleFilter", () => {
+                it("should not run rules that are filtered out", () => {
+                    const code = [
+                        "alert(\"test\");"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ ruleId }) => ruleId !== "no-alert"
+                    });
+
+                    assert.strictEqual(messages.length, 0);
+                });
+
+                it("should run rules that are not filtered out", () => {
+                    const code = [
+                        "alert(\"test\");"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ ruleId }) => ruleId === "no-alert"
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+
+                it("should run rules that are not filtered out but not run rules that are filtered out", () => {
+                    const code = [
+                        "alert(\"test\");",
+                        "fakeVar.run();"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, "no-undef": 1 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ ruleId }) => ruleId === "no-alert"
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+
+                it("should filter rules by severity", () => {
+                    const code = [
+                        "alert(\"test\")"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, semi: 2 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ severity }) => severity === 2
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+
+                it("should ignore disable directives in filtered rules", () => {
+                    const code = [
+                        "// eslint-disable-next-line no-alert",
+                        "alert(\"test\")"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, semi: 2 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ severity }) => severity === 2,
+                        reportUnusedDisableDirectives: "error"
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+
+                it("should ignore disable directives in filtered rules even when unused", () => {
+                    const code = [
+                        "// eslint-disable-next-line no-alert",
+                        "notAnAlert(\"test\")"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, semi: 2 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ severity }) => severity === 2,
+                        reportUnusedDisableDirectives: "error"
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+
+                it("should not ignore disable directives in non-filtered rules", () => {
+                    const code = [
+                        "// eslint-disable-next-line semi",
+                        "alert(\"test\")"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, semi: 2 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ severity }) => severity === 2,
+                        reportUnusedDisableDirectives: "error"
+                    });
+
+                    assert.strictEqual(messages.length, 0);
+                });
+
+                it("should report disable directives in non-filtered rules when unused", () => {
+                    const code = [
+                        "// eslint-disable-next-line semi",
+                        "alert(\"test\");"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, semi: 2 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ severity }) => severity === 2,
+                        reportUnusedDisableDirectives: "error"
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'semi').");
+                });
+            });
+
         });
 
         describe("Inline Directives", () => {

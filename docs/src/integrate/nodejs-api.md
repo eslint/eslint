@@ -159,6 +159,8 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `[]`. An array of paths to directories to load custom rules from.
 * `options.useEslintrc` (`boolean`)<br>
   Default is `true`. If `false` is present, ESLint doesn't load configuration files (`.eslintrc.*` files). Only the configuration of the constructor options is valid.
+* `options.ruleFilter` (`({ruleId: string, severity: number}) => boolean`)<br>
+  Default is `() => true`. A predicate function that filters rules to be run. This function is called with an object containing `ruleId` and `severity`, and returns `true` if the rule should be run.
 
 ##### Autofix
 
@@ -538,6 +540,7 @@ The most important method on `Linter` is `verify()`, which initiates linting of 
     * `disableFixes` - (optional) when set to `true`, the linter doesn't make either the `fix` or `suggestions` property of the lint result.
     * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
     * `reportUnusedDisableDirectives` - (optional) when set to `true`, adds reported errors for unused `eslint-disable` and `eslint-enable` directives when no problems would be reported in the disabled area anyway.
+    * `ruleFilter` - (optional) A function predicate that decides which rules should run. It receives an object containing `ruleId` and `severity`, and returns `true` if the rule should be run.
 
 If the third argument is a string, it is interpreted as the `filename`.
 

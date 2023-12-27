@@ -212,7 +212,8 @@ describe("FlatESLint", () => {
                     overrideConfig: "",
                     overrideConfigFile: "",
                     plugins: "",
-                    warnIgnored: ""
+                    warnIgnored: "",
+                    ruleFilter: ""
                 }),
                 new RegExp(escapeStringRegExp([
                     "Invalid Options:",
@@ -230,7 +231,8 @@ describe("FlatESLint", () => {
                     "- 'overrideConfig' must be an object or null.",
                     "- 'overrideConfigFile' must be a non-empty string, null, or true.",
                     "- 'plugins' must be an object or null.",
-                    "- 'warnIgnored' must be a boolean."
+                    "- 'warnIgnored' must be a boolean.",
+                    "- 'ruleFilter' must be a function."
                 ].join("\n")), "u")
             );
         });

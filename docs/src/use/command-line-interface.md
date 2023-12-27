@@ -96,7 +96,7 @@ Use stdin:
   --stdin-filename String         Specify filename to process STDIN as
 
 Handle warnings:
-  --quiet                         Report errors only - default: false
+  --quiet                         Report and check errors only - default: false
   --max-warnings Int              Number of warnings to trigger nonzero exit code - default: -1
 
 Output:
@@ -458,7 +458,7 @@ cat myfile.js | npx eslint --stdin --stdin-filename myfile.js
 
 #### `--quiet`
 
-This option allows you to disable reporting on warnings. If you enable this option, only errors are reported by ESLint.
+This option allows you to disable reporting on warnings and running of rules set to warn. If you enable this option, only errors are reported by ESLint and only rules set to error will be run.
 
 * **Argument Type**: No argument.
 
@@ -476,6 +476,10 @@ This option allows you to specify a warning threshold, which can be used to forc
 * **Multiple Arguments**: No
 
 Normally, if ESLint runs and finds no errors (only warnings), it exits with a success exit status. However, if `--max-warnings` is specified and the total warning count is greater than the specified threshold, ESLint exits with an error status.
+
+::: important
+When used alongside `--quiet`, this will cause rules marked as warn to still be run, but not reported.
+:::
 
 ##### `--max-warnings` example
 
