@@ -10,8 +10,6 @@ eleventyNavigation:
 
 You can create custom rules to use with ESLint. You might want to create a custom rule if the [core rules](../rules/) do not cover your use case.
 
-**Note:** This page covers the most recent rule format for ESLint >= 3.0.0. There is also a [deprecated rule format](./custom-rules-deprecated).
-
 Here's the basic format of a custom rule:
 
 ```js
@@ -60,7 +58,7 @@ The source file for a rule exports an object with the following properties. Both
 
   **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
-* `schema`: (`object | array`) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules).
+* `schema`: (`object | array | false`) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules). Mandatory when the rule has options.
 
 * `deprecated`: (`boolean`) Indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.
 
@@ -482,6 +480,13 @@ The `quotes` rule in this example has one option, `"double"` (the `error` is the
 
 ```js
 module.exports = {
+    meta: {
+        schema: [
+            {
+                enum: ["single", "double", "backtick"]
+            }
+        ]
+    },
     create: function(context) {
         var isDouble = (context.options[0] === "double");
 
@@ -493,6 +498,8 @@ module.exports = {
 Since `context.options` is just an array, you can use it to determine how many options have been passed as well as retrieving the actual options themselves. Keep in mind that the error level is not part of `context.options`, as the error level cannot be known or modified from inside a rule.
 
 When using options, make sure that your rule has some logical defaults in case the options are not provided.
+
+Rules with options must specify a [schema](#options-schemas).
 
 ### Accessing the Source Code
 
@@ -612,9 +619,11 @@ You can also access comments through many of `sourceCode`'s methods using the `i
 
 ### Options Schemas
 
-Rules may specify a `schema` property, which is a [JSON Schema](https://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
+Rules with options must specify a `meta.schema` property, which is a [JSON Schema](https://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
 
-Note: Prior to ESLint v9.0.0, rules without a schema are passed their options directly from the config without any validation. In ESLint v9.0.0 and later, rules without schemas will throw errors when options are passed. See the [Require schemas and object-style rules](https://github.com/eslint/rfcs/blob/main/designs/2021-schema-object-rules/README.md) RFC for further details.
+If your rule has options, it is strongly recommended that you specify a schema for options validation. However, it is possible to opt-out of options validation by setting `schema: false`, but doing so is discouraged as it increases the chance of bugs and mistakes.
+
+For rules that don't specify a `meta.schema` property, ESLint throws errors when any options are passed. If your rule doesn't have options, do not set `schema: false`, but simply omit the schema property or use `schema: []`, both of which prevent any options from being passed.
 
 When validating a rule's config, there are five steps:
 

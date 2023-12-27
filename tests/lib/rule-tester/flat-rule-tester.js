@@ -1326,6 +1326,29 @@ describe("FlatRuleTester", () => {
 
     });
 
+    it("should throw an error with the original message and an additional description if rule has `meta.schema` of an invalid type", () => {
+        const rule = {
+            meta: {
+                schema: true
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("rule-with-invalid-schema-type", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, /Rule's `meta.schema` must be an array or object.*set `meta.schema` to an array or non-empty object to enable options validation/us);
+    });
 
     it("should prevent invalid options schemas", () => {
         assert.throws(() => {
@@ -1340,6 +1363,92 @@ describe("FlatRuleTester", () => {
             });
         }, "Schema for rule no-invalid-schema is invalid:,\titems: should be object\n\titems[0].enum: should NOT have fewer than 1 items\n\titems: should match some schema in anyOf");
 
+    });
+
+    it("should throw an error if rule schema is `{}`", () => {
+        const rule = {
+            meta: {
+                schema: {}
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("rule-with-empty-object-schema", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, /`schema: \{\}` is a no-op.*set `meta.schema` to an array or non-empty object to enable options validation/us);
+    });
+
+    it("should throw an error if rule schema has only non-enumerable properties", () => {
+        const rule = {
+            meta: {
+                schema: Object.create(null, {
+                    type: {
+                        value: "array",
+                        enumerable: false
+                    },
+                    items: {
+                        value: [{ enum: ["foo"] }],
+                        enumerable: false
+                    }
+                })
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("rule-with-empty-object-schema", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, /`schema: \{\}` is a no-op.*set `meta.schema` to an array or non-empty object to enable options validation/us);
+    });
+
+    it("should throw an error if rule schema has only inherited enumerable properties", () => {
+        const rule = {
+            meta: {
+                schema: {
+                    __proto__: {
+                        type: "array",
+                        items: [{ enum: ["foo"] }]
+                    }
+                }
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("rule-with-empty-object-schema", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, /`schema: \{\}` is a no-op.*set `meta.schema` to an array or non-empty object to enable options validation/us);
     });
 
     it("should prevent schema violations in options", () => {
@@ -1638,6 +1747,52 @@ describe("FlatRuleTester", () => {
         }, "Use node.range[0] instead of node.start");
     });
 
+    it("should throw an error if rule is a function", () => {
+
+        /**
+         * Legacy-format rule (a function instead of an object with `create` method).
+         * @param {RuleContext} context The ESLint rule context object.
+         * @returns {Object} Listeners.
+         */
+        function functionStyleRule(context) {
+            return {
+                Program(node) {
+                    context.report({ node, message: "bad" });
+                }
+            };
+        }
+
+        assert.throws(() => {
+            ruleTester.run("function-style-rule", functionStyleRule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, "Rule must be an object with a `create` method");
+    });
+
+    it("should throw an error if rule is an object without 'create' method", () => {
+        const rule = {
+            create_(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("object-rule-without-create", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, "Rule must be an object with a `create` method");
+    });
+
     it("should throw an error if no test scenarios given", () => {
         assert.throws(() => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"));
@@ -1772,30 +1927,6 @@ describe("FlatRuleTester", () => {
                 };
             }
         };
-
-        assert.throws(() => {
-            ruleTester.run("replaceProgramWith5", replaceProgramWith5Rule, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", output: "5", errors: 1 }
-                ]
-            });
-        }, /Fixable rules must set the `meta\.fixable` property/u);
-    });
-    it("should throw an error if a legacy-format rule produces fixes", () => {
-
-        /**
-         * Legacy-format rule (a function instead of an object with `create` method).
-         * @param {RuleContext} context The ESLint rule context object.
-         * @returns {Object} Listeners.
-         */
-        function replaceProgramWith5Rule(context) {
-            return {
-                Program(node) {
-                    context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
-                }
-            };
-        }
 
         assert.throws(() => {
             ruleTester.run("replaceProgramWith5", replaceProgramWith5Rule, {
