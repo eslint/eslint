@@ -13405,7 +13405,7 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages[1].suppressions.length, 1);
                 });
 
-                it("reports problems for unused eslint-disable comments (warn, explicit set)", () => {
+                it("reports problems for unused eslint-disable comments (warn, explicitly set)", () => {
                     const messages = linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: "warn" });
                     const suppressedMessages = linter.getSuppressedMessages();
 
