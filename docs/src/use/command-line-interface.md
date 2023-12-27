@@ -36,7 +36,7 @@ Please note that when passing a glob as a parameter, it is expanded by your shel
 npx eslint "lib/**"
 ```
 
-If you are using a [flat configuration file](./configure/configuration-files-new) (`eslint.config.js`), you can also omit the file arguments and ESLint will use `.`. For instance, these two lines perform the same operation:
+If you are using a [flat configuration file](./configure/configuration-files) (`eslint.config.js`), you can also omit the file arguments and ESLint will use `.`. For instance, these two lines perform the same operation:
 
 ```shell
 npx eslint .
