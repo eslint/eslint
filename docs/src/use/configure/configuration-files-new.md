@@ -257,6 +257,8 @@ export default [
 ];
 ```
 
+This setting defaults to `"warn"`.
+
 You can override this setting using the [`--report-unused-disable-directives`](../command-line-interface#--report-unused-disable-directives) or the [`--report-unused-disable-directives-severity`](../command-line-interface#--report-unused-disable-directives-severity) command line options.
 
 For legacy compatibility, `true` is equivalent to `"warn"` and `false` is equivalent to `"off"`.

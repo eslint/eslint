@@ -339,7 +339,7 @@ export default [
         rules: {
             "no-unused-expressions": "error"
         }
-    }    
+    }
 ];
 ```
 
@@ -354,10 +354,12 @@ To report unused `eslint-disable` comments, use the `reportUnusedDisableDirectiv
 export default [
     {
         linterOptions: {
-            reportUnusedDisableDirectives: true
+            reportUnusedDisableDirectives: "error"
         }
     }
 ];
 ```
+
+This setting defaults to `"warn"`.
 
 This setting is similar to [`--report-unused-disable-directives`](../command-line-interface#--report-unused-disable-directives) and [`--report-unused-disable-directives-severity`](../command-line-interface#--report-unused-disable-directives-severity) CLI options.
