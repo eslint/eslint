@@ -6,7 +6,7 @@ further_reading:
 - https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-objects
 ---
 
-
+This rule was **deprecated** in ESLint v9.0.0 and replaced by the [no-new-native-nonconstructor](no-new-native-nonconstructor) rule.
 
 `Symbol` is not intended to be used with the `new` operator, but to be called as a function.
 

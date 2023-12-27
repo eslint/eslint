@@ -36,6 +36,15 @@ Please note that when passing a glob as a parameter, it is expanded by your shel
 npx eslint "lib/**"
 ```
 
+If you are using a [flat configuration file](./configure/configuration-files-new) (`eslint.config.js`), you can also omit the file arguments and ESLint will use `.`. For instance, these two lines perform the same operation:
+
+```shell
+npx eslint .
+npx eslint
+```
+
+If you are not using a flat configuration file, running ESLint without file arguments results in an error.
+
 **Note:** You can also use alternative package managers such as [Yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/) to run ESLint. Please refer to your package manager's documentation for the correct syntax.
 
 ## Pass Multiple Values to an Option
@@ -98,6 +107,7 @@ Output:
 Inline configuration comments:
   --no-inline-config              Prevent comments from changing config or rules
   --report-unused-disable-directives  Adds reported errors for unused eslint-disable and eslint-enable directives
+  --report-unused-disable-directives-severity String  Chooses severity level for reporting unused eslint-disable and eslint-enable directives - either: off, warn, error, 0, 1, or 2
 
 Caching:
   --cache                         Only check changed files - default: false
@@ -111,6 +121,7 @@ Miscellaneous:
   --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched
   --exit-on-fatal-error           Exit with exit code 2 in case of fatal error - default: false
   --no-warn-ignored               Suppress warnings when the file list includes ignored files. *Flat Config Mode Only*
+  --pass-on-no-patterns           Exit with exit code 0 in case no file patterns are passed
   --debug                         Output debugging information
   -h, --help                      Show help
   -v, --version                   Output the version number
@@ -502,16 +513,16 @@ An npm-installed formatter is resolved with or without `eslint-formatter-` prefi
 When specified, the given format is output to the console. If you'd like to save that output into a file, you can do so on the command line like so:
 
 ```shell
-# Saves the output into the `results.txt` file.
-npx eslint -f compact file.js > results.txt
+# Saves the output into the `results.json` file.
+npx eslint -f json file.js > results.json
 ```
 
 ##### `-f`, `--format` example
 
-Use the built-in `compact` formatter:
+Use the built-in `json` formatter:
 
 ```shell
-npx eslint --format compact file.js
+npx eslint --format json file.js
 ```
 
 Use a local custom formatter:
@@ -582,13 +593,30 @@ This can be useful to prevent future errors from unexpectedly being suppressed, 
 ::: warning
 When using this option, it is possible that new errors start being reported whenever ESLint or custom rules are upgraded.
 
-For example, suppose a rule has a bug that causes it to report a false positive, and an `eslint-disable` comment is added to suppress the incorrect report. If the bug is then fixed in a patch release of ESLint, the `eslint-disable` comment becomes unused since ESLint is no longer generating an incorrect report. This results in a new reported error for the unused directive if the `report-unused-disable-directives` option is used.
+For example, suppose a rule has a bug that causes it to report a false positive, and an `eslint-disable` comment is added to suppress the incorrect report. If the bug is then fixed in a patch release of ESLint, the `eslint-disable` comment becomes unused since ESLint is no longer generating an incorrect report. This results in a new reported error for the unused directive if the `--report-unused-disable-directives` option is used.
 :::
 
 ##### `--report-unused-disable-directives` example
 
 ```shell
 npx eslint --report-unused-disable-directives file.js
+```
+
+#### `--report-unused-disable-directives-severity`
+
+Same as [`--report-unused-disable-directives`](#--report-unused-disable-directives), but allows you to specify the severity level (`error`, `warn`, `off`) of the reported errors. Only one of these two options can be used at a time.
+
+* **Argument Type**: String. One of the following values:
+  1. `off` (or `0`)
+  1. `warn` (or `1`)
+  1. `error` (or `2`)
+* **Multiple Arguments**: No
+* **Default Value**: By default, `linterOptions.reportUnusedDisableDirectives` configuration setting is used.
+
+##### `--report-unused-disable-directives-severity` example
+
+```shell
+npx eslint --report-unused-disable-directives-severity warn file.js
 ```
 
 ### Caching
@@ -714,6 +742,18 @@ npx eslint --exit-on-fatal-error file.js
 
 ```shell
 npx eslint --no-warn-ignored --max-warnings 0 ignored-file.js
+```
+
+#### `--pass-on-no-patterns`
+
+This option allows ESLint to exit with code 0 when no file or directory patterns are passed. Without this option, ESLint assumes you want to use `.` as the pattern. (When running in legacy eslintrc mode, ESLint will exit with code 1.)
+
+* **Argument Type**: No argument.
+
+##### `--pass-on-no-patterns` example
+
+```shell
+npx eslint --pass-on-no-patterns
 ```
 
 #### `--debug`

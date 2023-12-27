@@ -154,7 +154,7 @@ module.exports = {
         "jsdoc/empty-tags": "error",
         "jsdoc/implements-on-classes": "error",
         "jsdoc/multiline-blocks": "error",
-        "jsdoc/no-multi-asterisks": "error",
+        "jsdoc/no-multi-asterisks": ["error", { allowWhitespace: true }],
         "jsdoc/require-jsdoc": [
             "error",
             {
@@ -223,6 +223,7 @@ module.exports = {
         "no-eval": "error",
         "no-extend-native": "error",
         "no-extra-bind": "error",
+        "no-extra-semi": "error",
         "no-floating-decimal": "error",
         "no-implied-eval": "error",
         "no-invalid-this": "error",

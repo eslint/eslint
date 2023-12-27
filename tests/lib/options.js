@@ -69,10 +69,10 @@ describe("options", () => {
 
             describe("--format", () => {
                 it("should return a string for .format when passed a string", () => {
-                    const currentOptions = options.parse("--format compact");
+                    const currentOptions = options.parse("--format json");
 
                     assert.isString(currentOptions.format);
-                    assert.strictEqual(currentOptions.format, "compact");
+                    assert.strictEqual(currentOptions.format, "json");
                 });
 
                 it("should return stylish for .format when not passed", () => {
@@ -85,10 +85,10 @@ describe("options", () => {
 
             describe("-f", () => {
                 it("should return a string for .format when passed a string", () => {
-                    const currentOptions = options.parse("-f compact");
+                    const currentOptions = options.parse("-f json");
 
                     assert.isString(currentOptions.format);
-                    assert.strictEqual(currentOptions.format, "compact");
+                    assert.strictEqual(currentOptions.format, "json");
                 });
             });
 
@@ -408,10 +408,18 @@ describe("options", () => {
     });
 
     describe("--no-config-lookup", () => {
-        it("should return a string for .rulesdir when passed a string", () => {
+        it("should return a boolean for .configLookup when passed a string", () => {
             const currentOptions = flatOptions.parse("--no-config-lookup foo.js");
 
             assert.isFalse(currentOptions.configLookup);
+        });
+    });
+
+    describe("--pass-on-no-patterns", () => {
+        it("should return a boolean for .passOnNoPatterns when passed a string", () => {
+            const currentOptions = flatOptions.parse("--pass-on-no-patterns");
+
+            assert.isTrue(currentOptions.passOnNoPatterns);
         });
     });
 

@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-new-native-nonconstructor"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ env: { es2022: true } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("no-new-native-nonconstructor", rule, {
     valid: [

@@ -114,7 +114,6 @@ module.exports = Object.freeze({
         "no-new": "error",
         "no-new-func": "error",
         "no-new-native-nonconstructor": "error",
-        "no-new-symbol": "error",
         "no-new-wrappers": "error",
         "no-nonoctal-decimal-escape": "error",
         "no-obj-calls": "error",

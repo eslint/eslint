@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-unused-labels"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -94,7 +94,7 @@ ruleTester.run("no-unused-labels", rule, {
         {
             code: "A: `use strict`", // `use strict` may be changed to "use strict" by another rule.
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unused" }]
         },
         {

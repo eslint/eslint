@@ -31,7 +31,7 @@ const STANDARD_ESQUERY_OPTION = { visitorKeys: vk.KEYS, fallback: Traverser.getK
 
 const expectedPattern = /\/\*expected\s+((?:.|[\r\n])+?)\s*\*\//gu;
 const lineEndingPattern = /\r?\n/gu;
-const linter = new Linter();
+const linter = new Linter({ configType: "eslintrc" });
 
 /**
  * Extracts the content of `/*expected` comments from a given source code.

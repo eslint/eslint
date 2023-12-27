@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/prefer-arrow-callback");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -21,7 +21,7 @@ const errors = [{
     type: "FunctionExpression"
 }];
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2020, sourceType: "script" } });
 
 ruleTester.run("prefer-arrow-callback", rule, {
     valid: [

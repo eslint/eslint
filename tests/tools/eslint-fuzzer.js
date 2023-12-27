@@ -23,7 +23,7 @@ describe("eslint-fuzzer", function() {
      */
     this.timeout(15000); // eslint-disable-line no-invalid-this -- Mocha timeout
 
-    const linter = new eslint.Linter();
+    const linter = new eslint.Linter({ configType: "eslintrc" });
     const coreRules = linter.getRules();
     const fixableRuleNames = Array.from(coreRules)
         .filter(rulePair => rulePair[1].meta && rulePair[1].meta.fixable)

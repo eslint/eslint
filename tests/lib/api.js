@@ -18,6 +18,10 @@ const assert = require("chai").assert,
 
 describe("api", () => {
 
+    it("should have ESLint exposed", () => {
+        assert.isFunction(api.ESLint);
+    });
+
     it("should have RuleTester exposed", () => {
         assert.isFunction(api.RuleTester);
     });

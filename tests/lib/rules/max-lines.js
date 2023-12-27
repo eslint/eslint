@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/max-lines"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
