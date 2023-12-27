@@ -4,7 +4,7 @@ eleventyNavigation:
     key: configure parser
     parent: configure
     title: Configure a Parser
-    order: 6
+    order: 5
 ---
 
 ::: tip

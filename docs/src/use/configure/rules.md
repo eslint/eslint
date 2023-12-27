@@ -4,7 +4,7 @@ eleventyNavigation:
     key: configure rules
     parent: configure
     title: Configure Rules
-    order: 4
+    order: 3
 
 ---
 
@@ -319,8 +319,6 @@ export default [
         rules: {
             "no-unused-expressions": "off"
         }
-        "no-unused-expressions": "off"
-      }
     }
 ];
 ```
@@ -339,7 +337,7 @@ export default [
         rules: {
             "no-unused-expressions": "error"
         }
-    }    
+    }
 ];
 ```
 
