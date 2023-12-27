@@ -172,6 +172,7 @@ ruleTester.run("no-implicit-coercion", rule, {
             output: null,
             errors: [{
                 messageId: "useRecommendation",
+                data: { recommendation: "Number(foo)" },
                 type: "UnaryExpression"
             }]
         },
