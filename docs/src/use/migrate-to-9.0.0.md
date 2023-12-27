@@ -67,7 +67,7 @@ ESLint v9.0.0 has removed the following formatters from the core:
 
 The `require-jsdoc` and `valid-jsdoc` rules have been removed in ESLint v9.0.0. These rules were initially deprecated in 2018.
 
-**To address:** Use the [replacment rules](https://github.com/gajus/eslint-plugin-jsdoc/wiki/Comparison-with-deprecated-JSdoc-related-ESLint-rules) in `eslint-plugin-jsdoc`.
+**To address:** Use the [replacement rules](https://github.com/gajus/eslint-plugin-jsdoc/wiki/Comparison-with-deprecated-JSdoc-related-ESLint-rules) in `eslint-plugin-jsdoc`.
 
 **Related issue(s):** [#15820](https://github.com/eslint/eslint/issues/15820)
 
@@ -77,17 +77,19 @@ Four new rules have been enabled in `eslint:recommended`:
 
 * [`no-constant-binary-expression`](../rules/no-constant-binary-expression)
 * [`no-empty-static-block`](../rules/no-empty-static-block)
+* [`no-new-native-nonconstructor`](../rules/no-new-native-nonconstructor)
 * [`no-unused-private-class-members`](../rules/no-unused-private-class-members)
 
 Additionally, the following rules have been removed from `eslint:recommended`:
 
 * [`no-extra-semi`](../rules/no-extra-semi)
-* [`no-mixed-spaces-and-tabs`](../rules/no-mixed-spaces-and-tabs)
 * [`no-inner-declarations`](../rules/no-inner-declarations)
+* [`no-mixed-spaces-and-tabs`](../rules/no-mixed-spaces-and-tabs)
+* [`no-new-symbol`](../rules/no-new-symbol)
 
 **To address:** Fix errors or disable these rules.
 
-**Related issue(s):** [#15576](https://github.com/eslint/eslint/issues/15576), [#17596](https://github.com/eslint/eslint/issues/17596)
+**Related issue(s):** [#15576](https://github.com/eslint/eslint/issues/15576), [#17446](https://github.com/eslint/eslint/issues/17446), [#17596](https://github.com/eslint/eslint/issues/17596)
 
 ## <a name="removed-context-methods"></a> Removed multiple `context` methods
 
