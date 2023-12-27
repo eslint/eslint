@@ -413,6 +413,19 @@ ruleTester.run("no-inner-declarations", rule, {
                 },
                 type: "FunctionDeclaration"
             }]
+        },
+        {
+            code: "if (foo) var fn = function() { }",
+            options: ["both"],
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "program"
+                },
+                type: "VariableDeclaration"
+            }]
         }
     ]
 });
