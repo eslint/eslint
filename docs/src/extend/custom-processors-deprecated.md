@@ -1,30 +1,19 @@
 ---
-title: Custom Processors
-eleventyNavigation:
-    key: custom processors
-    parent: create plugins
-    title: Custom Processors
-    order: 3
-
+title: Custom Processors (Deprecated)
 ---
 
-You can also create custom processors that tell ESLint how to process files other than standard JavaScript. For example, you could write a custom processor to extract and process JavaScript from Markdown files ([eslint-plugin-markdown](https://www.npmjs.com/package/eslint-plugin-markdown) includes a custom processor for this).
-
-::: tip
-This page explains how to create a custom processor for use with the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](custom-processors-deprecated).
+::: warning
+This documentation is for custom processors using the deprecated eslintrc configuration format. [View the updated documentation](custom-processors).
 :::
+
+You can also create custom processors that tell ESLint how to process files other than standard JavaScript. For example, you could write a custom processor to extract and process JavaScript from Markdown files ([eslint-plugin-markdown](https://www.npmjs.com/package/eslint-plugin-markdown) includes a custom processor for this).
 
 ## Custom Processor Specification
 
 In order to create a custom processor, the object exported from your module has to conform to the following interface:
 
 ```js
-const plugin = {
-
-    meta: {
-        name: "eslint-plugin-example",
-        version: "1.2.3"
-    },
+module.exports = {
     processors: {
         "processor-name": {
             meta: {
@@ -32,7 +21,7 @@ const plugin = {
                 version: "1.2.3"
             },
             // takes text of the file and filename
-            preprocess(text, filename) {
+            preprocess: function(text, filename) {
                 // here, you can strip out any non-JS content
                 // and split into multiple strings to lint
 
@@ -43,7 +32,7 @@ const plugin = {
             },
 
             // takes a Message[][] and filename
-            postprocess(messages, filename) {
+            postprocess: function(messages, filename) {
                 // `messages` argument contains two-dimensional array of Message objects
                 // where each top-level array item contains array of lint messages related
                 // to the text that was returned in array from preprocess() method
@@ -56,17 +45,11 @@ const plugin = {
         }
     }
 };
-
-// for ESM
-export default plugin;
-
-// OR for CommonJS
-module.exports = plugin;
 ```
 
 **The `preprocess` method** takes the file contents and filename as arguments, and returns an array of code blocks to lint. The code blocks will be linted separately but still be registered to the filename.
 
-A code block has two properties `text` and `filename`. The `text` property is the content of the block and the `filename` property is the name of the block. The name of the block can be anything, but should include the file extension, which tells ESLint how to process the current block. ESLint checks matching `files` entries in the project's config to determine if the code blocks should be linted.
+A code block has two properties `text` and `filename`. The `text` property is the content of the block and the `filename` property is the name of the block. The name of the block can be anything, but should include the file extension, which tells the linter how to process the current block. The linter checks the [`--ext` CLI option](../use/command-line-interface#--ext) to see if the current block should be linted and resolves `overrides` configs to check how to process the current block.
 
 It's up to the plugin to decide if it needs to return just one part of the non-JavaScript file or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts. However, for `.md` files, you can return multiple items because each JavaScript block might be independent.
 
@@ -144,20 +127,61 @@ You can have both rules and custom processors in a single plugin. You can also h
 
 ## Specifying Processor in Config Files
 
-In order to use a processor from a plugin in a configuration file, import the plugin and include it in the `plugins` key, specifying a namespace. Then, use that namespace to reference the processor in the `processor` configuration, like this:
+To use a processor, add its ID to a `processor` section in the config file. Processor ID is a concatenated string of plugin name and processor name with a slash as a separator. This can also be added to a `overrides` section of the config, to specify which processors should handle which files.
 
-```js
-// eslint.config.js
-import example from "eslint-plugin-example";
+For example:
 
-export default [
-    {
-        plugins: {
-            example
-        },
-        processor: "example/processor-name"
-    }
-];
+```yml
+plugins:
+  - a-plugin
+overrides:
+  - files: "*.md"
+    processor: a-plugin/markdown
 ```
 
 See [Specify a Processor](../use/configure/plugins#specify-a-processor) in the Plugin Configuration documentation for more details.
+
+## File Extension-named Processor
+
+::: warning
+This feature is deprecated and only works in eslintrc-style configuration files. Flat config files do not automatically apply processors; you need to explicitly set the `processor` property.
+:::
+
+If a custom processor name starts with `.`, ESLint handles the processor as a **file extension-named processor**. ESLint applies the processor to files with that filename extension automatically. Users don't need to specify the file extension-named processors in their config files.
+
+For example:
+
+```js
+module.exports = {
+    processors: {
+        // This processor will be applied to `*.md` files automatically.
+        // Also, you can use this processor as "plugin-id/.md" explicitly.
+        ".md": {
+            preprocess(text, filename) { /* ... */ },
+            postprocess(messageLists, filename) { /* ... */ }
+        }
+        // This processor will not be applied to any files automatically.
+        // To use this processor, you must explicitly specify it
+        // in your configuration as "plugin-id/markdown".
+       "markdown": {
+            preprocess(text, filename) { /* ... */ },
+            postprocess(messageLists, filename) { /* ... */ }
+        }
+    }
+}
+```
+
+You can also use the same custom processor with multiple filename extensions. The following example shows using the same processor for both `.md` and `.mdx` files:
+
+```js
+const myCustomProcessor = { /* processor methods */ };
+
+module.exports = {
+    // The same custom processor is applied to both
+    // `.md` and `.mdx` files.
+    processors: {
+        ".md": myCustomProcessor,
+        ".mdx": myCustomProcessor
+    }
+}
+```
