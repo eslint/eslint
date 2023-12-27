@@ -368,7 +368,7 @@ describe("FlatESLint", () => {
         it("should return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is true", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config_with_ignores.js"
+                overrideConfigFile: "fixtures/eslint.config-with-ignores.js"
             });
 
             const options = { filePath: "fixtures/passing.js", warnIgnored: true };
@@ -391,7 +391,7 @@ describe("FlatESLint", () => {
         it("should return a warning when given a filename by --stdin-filename in excluded files list if constructor warnIgnored is false, but lintText warnIgnored is true", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config_with_ignores.js",
+                overrideConfigFile: "fixtures/eslint.config-with-ignores.js",
                 warnIgnored: false
             });
 
@@ -415,7 +415,7 @@ describe("FlatESLint", () => {
         it("should not return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is false", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config_with_ignores.js"
+                overrideConfigFile: "fixtures/eslint.config-with-ignores.js"
             });
             const options = {
                 filePath: "fixtures/passing.js",
@@ -432,7 +432,7 @@ describe("FlatESLint", () => {
         it("should not return a warning when given a filename by --stdin-filename in excluded files list if constructor warnIgnored is false", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config_with_ignores.js",
+                overrideConfigFile: "fixtures/eslint.config-with-ignores.js",
                 warnIgnored: false
             });
             const options = { filePath: "fixtures/passing.js" };
@@ -445,7 +445,7 @@ describe("FlatESLint", () => {
         it("should show excluded file warnings by default", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config_with_ignores.js"
+                overrideConfigFile: "fixtures/eslint.config-with-ignores.js"
             });
             const options = { filePath: "fixtures/passing.js" };
             const results = await eslint.lintText("var bar = foo;", options);
@@ -458,7 +458,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
                 ignore: false,
-                overrideConfigFile: "fixtures/eslint.config_with_ignores.js",
+                overrideConfigFile: "fixtures/eslint.config-with-ignores.js",
                 overrideConfig: {
                     rules: {
                         "no-undef": 2
@@ -1527,7 +1527,7 @@ describe("FlatESLint", () => {
 
             it("should throw an error when all given files are ignored", async () => {
                 eslint = new FlatESLint({
-                    overrideConfigFile: getFixturePath("eslint.config_with_ignores.js")
+                    overrideConfigFile: getFixturePath("eslint.config-with-ignores.js")
                 });
 
                 await assert.rejects(async () => {
@@ -1537,7 +1537,7 @@ describe("FlatESLint", () => {
 
             it("should throw an error when all given files are ignored even with a `./` prefix", async () => {
                 eslint = new FlatESLint({
-                    overrideConfigFile: getFixturePath("eslint.config_with_ignores.js")
+                    overrideConfigFile: getFixturePath("eslint.config-with-ignores.js")
                 });
 
                 await assert.rejects(async () => {
@@ -1569,7 +1569,7 @@ describe("FlatESLint", () => {
             // https://github.com/eslint/eslint/issues/3812
             it("should ignore all files and throw an error when **/fixtures/** is in `ignores` in the config file", async () => {
                 eslint = new FlatESLint({
-                    overrideConfigFile: getFixturePath("cli-engine/eslint.config_with_ignores2.js"),
+                    overrideConfigFile: getFixturePath("cli-engine/eslint.config-with-ignores2.js"),
                     overrideConfig: {
                         rules: {
                             quotes: [2, "double"]
@@ -1607,7 +1607,7 @@ describe("FlatESLint", () => {
 
             it("should return a warning when an explicitly given file is ignored", async () => {
                 eslint = new FlatESLint({
-                    overrideConfigFile: "eslint.config_with_ignores.js",
+                    overrideConfigFile: "eslint.config-with-ignores.js",
                     cwd: getFixturePath()
                 });
                 const filePath = getFixturePath("passing.js");
@@ -1627,7 +1627,7 @@ describe("FlatESLint", () => {
 
             it("should suppress the warning when an explicitly given file is ignored and warnIgnored is false", async () => {
                 eslint = new FlatESLint({
-                    overrideConfigFile: "eslint.config_with_ignores.js",
+                    overrideConfigFile: "eslint.config-with-ignores.js",
                     cwd: getFixturePath(),
                     warnIgnored: false
                 });
@@ -1639,7 +1639,7 @@ describe("FlatESLint", () => {
 
             it("should return a warning about matching ignore patterns when an explicitly given dotfile is ignored", async () => {
                 eslint = new FlatESLint({
-                    overrideConfigFile: "eslint.config_with_ignores.js",
+                    overrideConfigFile: "eslint.config-with-ignores.js",
                     cwd: getFixturePath()
                 });
                 const filePath = getFixturePath("dot-files/.a.js");
@@ -1661,7 +1661,7 @@ describe("FlatESLint", () => {
                 eslint = new FlatESLint({
                     cwd: getFixturePath(),
                     ignore: false,
-                    overrideConfigFile: getFixturePath("eslint.config_with_ignores.js"),
+                    overrideConfigFile: getFixturePath("eslint.config-with-ignores.js"),
                     overrideConfig: {
                         rules: {
                             "no-undef": 2
@@ -4249,7 +4249,7 @@ describe("FlatESLint", () => {
     describe("isPathIgnored", () => {
         it("should check if the given path is ignored", async () => {
             const engine = new FlatESLint({
-                overrideConfigFile: getFixturePath("eslint.config_with_ignores2.js"),
+                overrideConfigFile: getFixturePath("eslint.config-with-ignores2.js"),
                 cwd: getFixturePath()
             });
 
@@ -4260,7 +4260,7 @@ describe("FlatESLint", () => {
         it("should return false if ignoring is disabled", async () => {
             const engine = new FlatESLint({
                 ignore: false,
-                overrideConfigFile: getFixturePath("eslint.config_with_ignores2.js"),
+                overrideConfigFile: getFixturePath("eslint.config-with-ignores2.js"),
                 cwd: getFixturePath()
             });
 
@@ -4453,7 +4453,7 @@ describe("FlatESLint", () => {
             it("should return false for ignored file when unignored with ignore pattern", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new FlatESLint({
-                    overrideConfigFile: getFixturePath("eslint.config_with_ignores2.js"),
+                    overrideConfigFile: getFixturePath("eslint.config-with-ignores2.js"),
                     ignorePatterns: ["!undef.js"],
                     cwd
                 });
@@ -4653,7 +4653,7 @@ describe("FlatESLint", () => {
 
         it("should return 0 error or warning messages even when the file has warnings", async () => {
             const engine = new FlatESLint({
-                overrideConfigFile: getFixturePath("eslint.config_with_ignores.js"),
+                overrideConfigFile: getFixturePath("eslint.config-with-ignores.js"),
                 cwd: path.join(fixtureDir, "..")
             });
             const options = {
@@ -6187,7 +6187,7 @@ describe("FlatESLint", () => {
 
         it("should be inserted before configs from the config file and overrideConfig", async () => {
             const eslint = new FlatESLint({
-                overrideConfigFile: getFixturePath("eslint.config_with_rules.js"),
+                overrideConfigFile: getFixturePath("eslint.config-with-rules.js"),
                 baseConfig: {
                     rules: {
                         quotes: ["error", "double"],
@@ -6205,7 +6205,7 @@ describe("FlatESLint", () => {
 
             /*
              * baseConfig: { quotes: ["error", "double"], semi: "error" }
-             * eslint.config_with_rules.js: { quotes: ["error", "single"] }
+             * eslint.config-with-rules.js: { quotes: ["error", "single"] }
              * overrideConfig: { quotes: "warn" }
              *
              * Merged config: { quotes: ["warn", "single"], semi: "error" }
