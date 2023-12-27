@@ -29,7 +29,7 @@ const DEFAULT_CONFIG = {
     range: true,
     loc: true
 };
-const linter = new Linter();
+const linter = new Linter({ configType: "eslintrc" });
 const flatLinter = new Linter({ configType: "flat" });
 const AST = espree.parse("let foo = bar;", DEFAULT_CONFIG),
     TEST_CODE = "var answer = 6 * 7;",
