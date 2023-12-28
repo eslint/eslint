@@ -140,7 +140,7 @@ ESLint v9.0.0 drops support for function-style rules. Function-style rules are r
 
 **To address:** Update your rules to [the most recent rule format](../extend/custom-rules).
 
-The [eslint-plugin/prefer-object-rule](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/prefer-object-rule.md) rule can help enforce the usage of object-style rules and autofix any remaining funtion-style rules.
+The [eslint-plugin/prefer-object-rule](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-object-rule.md) rule can help enforce the usage of object-style rules and autofix any remaining function-style rules.
 
 **Related Issues(s):** [#14709](https://github.com/eslint/eslint/issues/14709)
 
