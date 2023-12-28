@@ -136,7 +136,7 @@ ESLint v9.0.0 removes the deprecated `sourceCode.getComments()` method.
 
 ## <a name="drop-function-style-rules"></a> Function-style rules are no longer supported
 
-ESLint v9.0.0 drops support for function-style rules. Function-style rules are rules created by exporting a function from a file rather than exporting an object with a `create()` method. This rule format was deprecated in 2016.
+ESLint v9.0.0 drops support for function-style rules. Function-style rules are rules created by exporting a function rather than an object with a `create()` method. This rule format was deprecated in 2016.
 
 **To address:** Update your rules to [the most recent rule format](../extend/custom-rules).
 
