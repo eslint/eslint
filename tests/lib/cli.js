@@ -16,7 +16,7 @@
 
 const assert = require("chai").assert,
     stdAssert = require("assert"),
-    { ESLint, FlatESLint } = require("../../lib/eslint"),
+    { ESLint, LegacyESLint } = require("../../lib/eslint"),
     BuiltinRules = require("../../lib/rules"),
     path = require("path"),
     sinon = require("sinon"),
@@ -54,7 +54,7 @@ describe("cli", () => {
      */
     async function verifyESLintOpts(cmd, opts, configType) {
 
-        const ActiveESLint = configType === "flat" ? FlatESLint : ESLint;
+        const ActiveESLint = configType === "flat" ? ESLint : LegacyESLint;
 
         // create a fake ESLint class to test with
         const fakeESLint = sinon.mock().withExactArgs(sinon.match(opts));
@@ -64,8 +64,8 @@ describe("cli", () => {
         sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: sinon.spy() });
 
         const localCLI = proxyquire("../../lib/cli", {
-            "./eslint": { ESLint: fakeESLint },
-            "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(configType === "flat") },
+            "./eslint": { LegacyESLint: fakeESLint },
+            "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(configType === "flat") },
             "./shared/logging": log
         });
 
@@ -112,7 +112,7 @@ describe("cli", () => {
     ["eslintrc", "flat"].forEach(configType => {
 
         const useFlatConfig = configType === "flat";
-        const ActiveESLint = configType === "flat" ? FlatESLint : ESLint;
+        const ActiveESLint = configType === "flat" ? ESLint : LegacyESLint;
 
         describe("execute()", () => {
 
@@ -1062,8 +1062,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.stub();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1081,8 +1081,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.stub();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1112,8 +1112,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().once();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1148,9 +1148,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().withExactArgs(report);
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
-
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1185,9 +1184,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().withExactArgs(report);
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
-
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1203,9 +1201,8 @@ describe("cli", () => {
                 const fakeESLint = sinon.mock().never();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
-
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1234,8 +1231,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().never();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1262,8 +1259,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.stub();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1297,8 +1294,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().never();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1334,8 +1331,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().never();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1370,8 +1367,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().never();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1387,9 +1384,8 @@ describe("cli", () => {
                 const fakeESLint = sinon.mock().never();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
-
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 

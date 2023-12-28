@@ -30,6 +30,7 @@ The lists below are ordered roughly by the number of users each change is expect
 ### Breaking changes for integration developers
 
 * [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
+* [`FlatESLint` is now `ESLint`](#flat-eslint)
 
 ---
 
@@ -130,3 +131,17 @@ ESLint v9.0.0 removes the deprecated `sourceCode.getComments()` method.
 **To address:** Replace with `sourceCode.getCommentsBefore()`, `sourceCode.getCommentsAfter()`, or `sourceCode.getCommentsInside()`.
 
 **Related Issues(s):** [#14744](https://github.com/eslint/eslint/issues/14744)
+
+## <a name="flat-eslint"></a> `FlatESLint` is now `ESLint`
+
+As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the temporary `FlatESLint` class has been renamed to `ESLint`, while the `ESLint` class from v8.x has been renamed to `LegacyESLint`.
+
+**To address:** If you are currently using the `ESLint` class, verify that your tests pass using the new `ESLint` class. Not all of the old options are supported, so you may need to update the arguments passed to the constructor. See the [Node.js API Reference](/docs/next/integrate/nodejs-api) for details.
+
+If you still need the v8.x `ESLint` functionality, use the `LegacyESLint` class like this:
+
+```js
+const { LegacyESLint } = require("eslint/use-at-your-own-risk");
+```
+
+**Related Issues(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
