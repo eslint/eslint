@@ -154,7 +154,7 @@ As of ESLint v9.0.0, an error will be thrown if any options are [passed](../use/
 * If your rule doesn't expect any options, there is no action required. This change ensures that end users will not mistakenly configure options for rules that don't expect options.
 * **(not recommended)** you can also set `meta.schema` to `false` to disable this validation, but it is highly recommended to provide a schema if the rule expects options and omit the schema (or set `[]`) if the rule doesn't expect options so that ESLint can ensure that your users' configurations are valid.
 
-The [eslint-plugin/require-meta-schema](https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin/blob/master/docs/rules/require-meta-schema.md) rule can help enforce that rules have schemas when required.
+The [eslint-plugin/require-meta-schema](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-schema.md) rule can help enforce that rules have schemas when required.
 
 **Related Issues(s):** [#14709](https://github.com/eslint/eslint/issues/14709)
 
