@@ -86,36 +86,31 @@ describe("merge", () => {
         confirmLegacyMergeResult(first, second, result);
     });
 
-    it("merges an object in a property with an array", () => {
+    it("overwrites an object in a property with an array", () => {
         const first = { someProperty: { 1: "foo", bar: "baz" } };
         const second = { someProperty: ["qux"] };
         const result = merge(first, second);
 
-        /*
-         * When comparing two arrays, chai's deepStrictEqual does not consider non-index properties.
-         * So we have to use an additional assertion:
-         */
-        assert.deepStrictEqual(result, { someProperty: ["qux", "foo"] });
-        assert.propertyVal(result.someProperty, "bar", "baz");
-        confirmLegacyMergeResult(first, second, result);
+        assert.deepStrictEqual(result, second);
+        assert.strictEqual(result.someProperty, second.someProperty);
     });
 
-    it("merges two arrays in a property", () => {
+    it("overwrites an array in a property with another array", () => {
         const first = { someProperty: ["foo", "bar", void 0, "baz"] };
         const second = { someProperty: ["qux", void 0, 42] };
         const result = merge(first, second);
 
-        assert.deepStrictEqual(result, { someProperty: ["qux", "bar", 42, "baz"] });
-        confirmLegacyMergeResult(first, second, result);
+        assert.deepStrictEqual(result, second);
+        assert.strictEqual(result.someProperty, second.someProperty);
     });
 
-    it("merges an array in a property with an object", () => {
+    it("overwrites an array in a property with an object", () => {
         const first = { foo: ["foobar"] };
         const second = { foo: { 1: "qux", bar: "baz" } };
         const result = merge(first, second);
 
-        assert.deepStrictEqual(result, { foo: { 0: "foobar", 1: "qux", bar: "baz" } });
-        confirmLegacyMergeResult(first, second, result);
+        assert.deepStrictEqual(result, second);
+        assert.strictEqual(result.foo, second.foo);
     });
 
     it("does not override a value in a property with undefined", () => {
