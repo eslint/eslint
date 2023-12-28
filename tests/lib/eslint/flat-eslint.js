@@ -212,7 +212,8 @@ describe("FlatESLint", () => {
                     overrideConfig: "",
                     overrideConfigFile: "",
                     plugins: "",
-                    warnIgnored: ""
+                    warnIgnored: "",
+                    ruleFilter: ""
                 }),
                 new RegExp(escapeStringRegExp([
                     "Invalid Options:",
@@ -230,7 +231,8 @@ describe("FlatESLint", () => {
                     "- 'overrideConfig' must be an object or null.",
                     "- 'overrideConfigFile' must be a non-empty string, null, or true.",
                     "- 'plugins' must be an object or null.",
-                    "- 'warnIgnored' must be a boolean."
+                    "- 'warnIgnored' must be a boolean.",
+                    "- 'ruleFilter' must be a function."
                 ].join("\n")), "u")
             );
         });
@@ -366,7 +368,7 @@ describe("FlatESLint", () => {
         it("should return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is true", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config_with_ignores.js"
+                overrideConfigFile: "fixtures/eslint.config-with-ignores.js"
             });
 
             const options = { filePath: "fixtures/passing.js", warnIgnored: true };
@@ -389,7 +391,7 @@ describe("FlatESLint", () => {
         it("should return a warning when given a filename by --stdin-filename in excluded files list if constructor warnIgnored is false, but lintText warnIgnored is true", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config_with_ignores.js",
+                overrideConfigFile: "fixtures/eslint.config-with-ignores.js",
                 warnIgnored: false
             });
 
@@ -413,7 +415,7 @@ describe("FlatESLint", () => {
         it("should not return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is false", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config_with_ignores.js"
+                overrideConfigFile: "fixtures/eslint.config-with-ignores.js"
             });
             const options = {
                 filePath: "fixtures/passing.js",
@@ -430,7 +432,7 @@ describe("FlatESLint", () => {
         it("should not return a warning when given a filename by --stdin-filename in excluded files list if constructor warnIgnored is false", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config_with_ignores.js",
+                overrideConfigFile: "fixtures/eslint.config-with-ignores.js",
                 warnIgnored: false
             });
             const options = { filePath: "fixtures/passing.js" };
@@ -443,7 +445,7 @@ describe("FlatESLint", () => {
         it("should show excluded file warnings by default", async () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
-                overrideConfigFile: "fixtures/eslint.config_with_ignores.js"
+                overrideConfigFile: "fixtures/eslint.config-with-ignores.js"
             });
             const options = { filePath: "fixtures/passing.js" };
             const results = await eslint.lintText("var bar = foo;", options);
@@ -456,7 +458,7 @@ describe("FlatESLint", () => {
             eslint = new FlatESLint({
                 cwd: getFixturePath(".."),
                 ignore: false,
-                overrideConfigFile: "fixtures/eslint.config_with_ignores.js",
+                overrideConfigFile: "fixtures/eslint.config-with-ignores.js",
                 overrideConfig: {
                     rules: {
                         "no-undef": 2
@@ -821,6 +823,73 @@ describe("FlatESLint", () => {
             assert.strictEqual(results[0].messages[0].severity, 2);
             assert.strictEqual(results[0].messages[0].ruleId, "quotes");
         });
+
+        describe("Alternate config files", () => {
+
+            it("should find eslint.config.mjs when present", async () => {
+
+                const cwd = getFixturePath("mjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it("should find eslint.config.cjs when present", async () => {
+
+                const cwd = getFixturePath("cjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it("should favor eslint.config.js when eslint.config.mjs and eslint.config.cjs are present", async () => {
+
+                const cwd = getFixturePath("js-mjs-cjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 0);
+            });
+
+            it("should favor eslint.config.mjs when eslint.config.cjs is present", async () => {
+
+                const cwd = getFixturePath("mjs-cjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+        });
     });
 
     describe("lintFiles()", () => {
@@ -958,6 +1027,67 @@ describe("FlatESLint", () => {
             });
 
             await assert.rejects(async () => await eslint.lintFiles(["lib/cli.js"]), /Expected object with parse\(\) or parseForESLint\(\) method/u);
+        });
+
+        describe("Invalid inputs", () => {
+
+            [
+                ["a string with a single space", " "],
+                ["an array with one empty string", [""]],
+                ["an array with two empty strings", ["", ""]],
+                ["undefined", void 0]
+            ].forEach(([name, value]) => {
+
+                it(`should throw an error when passed ${name}`, async () => {
+                    eslint = new FlatESLint({
+                        overrideConfigFile: true
+                    });
+
+                    await assert.rejects(async () => await eslint.lintFiles(value), /'patterns' must be a non-empty string or an array of non-empty strings/u);
+                });
+            });
+
+        });
+
+        describe("Normalized inputs", () => {
+
+            [
+                ["an empty string", ""],
+                ["an empty array", []]
+
+            ].forEach(([name, value]) => {
+
+                it(`should normalize to '.' when ${name} is passed`, async () => {
+                    eslint = new FlatESLint({
+                        ignore: false,
+                        cwd: getFixturePath("files"),
+                        overrideConfig: { files: ["**/*.js"] },
+                        overrideConfigFile: getFixturePath("eslint.config.js")
+                    });
+                    const results = await eslint.lintFiles(value);
+
+                    assert.strictEqual(results.length, 2);
+                    assert.strictEqual(results[0].filePath, getFixturePath("files/.bar.js"));
+                    assert.strictEqual(results[0].messages.length, 0);
+                    assert.strictEqual(results[1].filePath, getFixturePath("files/foo.js"));
+                    assert.strictEqual(results[1].messages.length, 0);
+                    assert.strictEqual(results[0].suppressedMessages.length, 0);
+                });
+
+                it(`should return an empty array when ${name} is passed with passOnNoPatterns: true`, async () => {
+                    eslint = new FlatESLint({
+                        ignore: false,
+                        cwd: getFixturePath("files"),
+                        overrideConfig: { files: ["**/*.js"] },
+                        overrideConfigFile: getFixturePath("eslint.config.js"),
+                        passOnNoPatterns: true
+                    });
+                    const results = await eslint.lintFiles(value);
+
+                    assert.strictEqual(results.length, 0);
+                });
+            });
+
         });
 
         it("should report zero messages when given a directory with a .js2 file", async () => {
@@ -1464,7 +1594,7 @@ describe("FlatESLint", () => {
 
             it("should throw an error when all given files are ignored", async () => {
                 eslint = new FlatESLint({
-                    overrideConfigFile: getFixturePath("eslint.config_with_ignores.js")
+                    overrideConfigFile: getFixturePath("eslint.config-with-ignores.js")
                 });
 
                 await assert.rejects(async () => {
@@ -1474,7 +1604,7 @@ describe("FlatESLint", () => {
 
             it("should throw an error when all given files are ignored even with a `./` prefix", async () => {
                 eslint = new FlatESLint({
-                    overrideConfigFile: getFixturePath("eslint.config_with_ignores.js")
+                    overrideConfigFile: getFixturePath("eslint.config-with-ignores.js")
                 });
 
                 await assert.rejects(async () => {
@@ -1506,7 +1636,7 @@ describe("FlatESLint", () => {
             // https://github.com/eslint/eslint/issues/3812
             it("should ignore all files and throw an error when **/fixtures/** is in `ignores` in the config file", async () => {
                 eslint = new FlatESLint({
-                    overrideConfigFile: getFixturePath("cli-engine/eslint.config_with_ignores2.js"),
+                    overrideConfigFile: getFixturePath("cli-engine/eslint.config-with-ignores2.js"),
                     overrideConfig: {
                         rules: {
                             quotes: [2, "double"]
@@ -1530,9 +1660,21 @@ describe("FlatESLint", () => {
                 }, /All files matched by 'tests\/fixtures\/\*-quoted\.js' are ignored\./u);
             });
 
+            it("should not throw an error when ignorePatterns is an empty array", async () => {
+                eslint = new FlatESLint({
+                    overrideConfigFile: true,
+                    ignorePatterns: []
+                });
+
+                await assert.doesNotReject(async () => {
+                    await eslint.lintFiles(["*.js"]);
+                });
+            });
+
+
             it("should return a warning when an explicitly given file is ignored", async () => {
                 eslint = new FlatESLint({
-                    overrideConfigFile: "eslint.config_with_ignores.js",
+                    overrideConfigFile: "eslint.config-with-ignores.js",
                     cwd: getFixturePath()
                 });
                 const filePath = getFixturePath("passing.js");
@@ -1552,7 +1694,7 @@ describe("FlatESLint", () => {
 
             it("should suppress the warning when an explicitly given file is ignored and warnIgnored is false", async () => {
                 eslint = new FlatESLint({
-                    overrideConfigFile: "eslint.config_with_ignores.js",
+                    overrideConfigFile: "eslint.config-with-ignores.js",
                     cwd: getFixturePath(),
                     warnIgnored: false
                 });
@@ -1564,7 +1706,7 @@ describe("FlatESLint", () => {
 
             it("should return a warning about matching ignore patterns when an explicitly given dotfile is ignored", async () => {
                 eslint = new FlatESLint({
-                    overrideConfigFile: "eslint.config_with_ignores.js",
+                    overrideConfigFile: "eslint.config-with-ignores.js",
                     cwd: getFixturePath()
                 });
                 const filePath = getFixturePath("dot-files/.a.js");
@@ -1586,7 +1728,7 @@ describe("FlatESLint", () => {
                 eslint = new FlatESLint({
                     cwd: getFixturePath(),
                     ignore: false,
-                    overrideConfigFile: getFixturePath("eslint.config_with_ignores.js"),
+                    overrideConfigFile: getFixturePath("eslint.config-with-ignores.js"),
                     overrideConfig: {
                         rules: {
                             "no-undef": 2
@@ -1943,8 +2085,7 @@ describe("FlatESLint", () => {
                     overrideConfig: {
                         rules: {
                             "indent-legacy": 1,
-                            "require-jsdoc": 1,
-                            "valid-jsdoc": 1
+                            "callback-return": 1
                         }
                     }
                 });
@@ -1954,8 +2095,7 @@ describe("FlatESLint", () => {
                     results[0].usedDeprecatedRules,
                     [
                         { ruleId: "indent-legacy", replacedBy: ["indent"] },
-                        { ruleId: "require-jsdoc", replacedBy: [] },
-                        { ruleId: "valid-jsdoc", replacedBy: [] }
+                        { ruleId: "callback-return", replacedBy: [] }
                     ]
                 );
             });
@@ -1965,7 +2105,7 @@ describe("FlatESLint", () => {
                     cwd: originalDir,
                     overrideConfigFile: true,
                     overrideConfig: {
-                        rules: { eqeqeq: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
+                        rules: { eqeqeq: 1, "callback-return": 0 }
                     }
                 });
                 const results = await eslint.lintFiles(["lib/cli*.js"]);
@@ -2299,21 +2439,7 @@ describe("FlatESLint", () => {
                  */
                 function deleteCacheDir() {
                     try {
-
-                        /*
-                         * `fs.rmdir(path, { recursive: true })` is deprecated and will be removed.
-                         * Use `fs.rm(path, { recursive: true })` instead.
-                         * When supporting Node.js 14.14.0+, the compatibility condition can be removed for `fs.rmdir`.
-                         */
-                        // eslint-disable-next-line n/no-unsupported-features/node-builtins -- just checking if it exists
-                        if (typeof fs.rm === "function") {
-
-                            // eslint-disable-next-line n/no-unsupported-features/node-builtins -- conditionally used
-                            fs.rmSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
-                        } else {
-                            fs.rmdirSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
-                        }
-
+                        fs.rmSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
                     } catch {
 
                         /*
@@ -4110,6 +4236,75 @@ describe("FlatESLint", () => {
             await assert.rejects(() => eslint.lintFiles(777), /'patterns' must be a non-empty string or an array of non-empty strings/u);
             await assert.rejects(() => eslint.lintFiles([null]), /'patterns' must be a non-empty string or an array of non-empty strings/u);
         });
+
+        describe("Alternate config files", () => {
+
+            it("should find eslint.config.mjs when present", async () => {
+
+                const cwd = getFixturePath("mjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it("should find eslint.config.cjs when present", async () => {
+
+                const cwd = getFixturePath("cjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it("should favor eslint.config.js when eslint.config.mjs and eslint.config.cjs are present", async () => {
+
+                const cwd = getFixturePath("js-mjs-cjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 0);
+            });
+
+            it("should favor eslint.config.mjs when eslint.config.cjs is present", async () => {
+
+                const cwd = getFixturePath("mjs-cjs-config");
+
+                eslint = new FlatESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+        });
+
+
     });
 
     describe("Fix Types", () => {
@@ -4190,7 +4385,7 @@ describe("FlatESLint", () => {
     describe("isPathIgnored", () => {
         it("should check if the given path is ignored", async () => {
             const engine = new FlatESLint({
-                overrideConfigFile: getFixturePath("eslint.config_with_ignores2.js"),
+                overrideConfigFile: getFixturePath("eslint.config-with-ignores2.js"),
                 cwd: getFixturePath()
             });
 
@@ -4201,7 +4396,7 @@ describe("FlatESLint", () => {
         it("should return false if ignoring is disabled", async () => {
             const engine = new FlatESLint({
                 ignore: false,
-                overrideConfigFile: getFixturePath("eslint.config_with_ignores2.js"),
+                overrideConfigFile: getFixturePath("eslint.config-with-ignores2.js"),
                 cwd: getFixturePath()
             });
 
@@ -4394,7 +4589,7 @@ describe("FlatESLint", () => {
             it("should return false for ignored file when unignored with ignore pattern", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new FlatESLint({
-                    overrideConfigFile: getFixturePath("eslint.config_with_ignores2.js"),
+                    overrideConfigFile: getFixturePath("eslint.config-with-ignores2.js"),
                     ignorePatterns: ["!undef.js"],
                     cwd
                 });
@@ -4413,7 +4608,7 @@ describe("FlatESLint", () => {
     describe("loadFormatter()", () => {
         it("should return a formatter object when a bundled formatter is requested", async () => {
             const engine = new FlatESLint();
-            const formatter = await engine.loadFormatter("compact");
+            const formatter = await engine.loadFormatter("json");
 
             assert.strictEqual(typeof formatter, "object");
             assert.strictEqual(typeof formatter.format, "function");
@@ -4594,7 +4789,7 @@ describe("FlatESLint", () => {
 
         it("should return 0 error or warning messages even when the file has warnings", async () => {
             const engine = new FlatESLint({
-                overrideConfigFile: getFixturePath("eslint.config_with_ignores.js"),
+                overrideConfigFile: getFixturePath("eslint.config-with-ignores.js"),
                 cwd: path.join(fixtureDir, "..")
             });
             const options = {
@@ -6128,7 +6323,7 @@ describe("FlatESLint", () => {
 
         it("should be inserted before configs from the config file and overrideConfig", async () => {
             const eslint = new FlatESLint({
-                overrideConfigFile: getFixturePath("eslint.config_with_rules.js"),
+                overrideConfigFile: getFixturePath("eslint.config-with-rules.js"),
                 baseConfig: {
                     rules: {
                         quotes: ["error", "double"],
@@ -6146,7 +6341,7 @@ describe("FlatESLint", () => {
 
             /*
              * baseConfig: { quotes: ["error", "double"], semi: "error" }
-             * eslint.config_with_rules.js: { quotes: ["error", "single"] }
+             * eslint.config-with-rules.js: { quotes: ["error", "single"] }
              * overrideConfig: { quotes: "warn" }
              *
              * Merged config: { quotes: ["warn", "single"], semi: "error" }
@@ -6322,6 +6517,72 @@ describe("FlatESLint", () => {
         });
     }
 
+    describe("config with circular references", () => {
+        it("in 'settings'", async () => {
+            let resolvedSettings = null;
+
+            const circular = {};
+
+            circular.self = circular;
+
+            const eslint = new FlatESLint({
+                overrideConfigFile: true,
+                baseConfig: {
+                    settings: {
+                        sharedData: circular
+                    },
+                    rules: {
+                        "test-plugin/test-rule": 1
+                    }
+                },
+                plugins: {
+                    "test-plugin": {
+                        rules: {
+                            "test-rule": {
+                                create(context) {
+                                    resolvedSettings = context.settings;
+                                    return { };
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            await eslint.lintText("debugger;");
+
+            assert.deepStrictEqual(resolvedSettings.sharedData, circular);
+        });
+
+        it("in 'parserOptions'", async () => {
+            let resolvedParserOptions = null;
+
+            const circular = {};
+
+            circular.self = circular;
+
+            const eslint = new FlatESLint({
+                overrideConfigFile: true,
+                baseConfig: {
+                    languageOptions: {
+                        parser: {
+                            parse(text, parserOptions) {
+                                resolvedParserOptions = parserOptions;
+                            }
+                        },
+                        parserOptions: {
+                            testOption: circular
+                        }
+                    }
+                }
+            });
+
+            await eslint.lintText("debugger;");
+
+            assert.deepStrictEqual(resolvedParserOptions.testOption, circular);
+        });
+    });
+
 });
 
 describe("shouldUseFlatConfig", () => {
@@ -6394,6 +6655,6 @@ describe("shouldUseFlatConfig", () => {
     });
 
     describe("when the env variable `ESLINT_USE_FLAT_CONFIG` is unset", () => {
-        testShouldUseFlatConfig(true, false);
+        testShouldUseFlatConfig(true, true);
     });
 });

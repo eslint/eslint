@@ -11,10 +11,6 @@
 
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 const assert = require("chai").assert;
-const {
-    all: allConfig,
-    recommended: recommendedConfig
-} = require("@eslint/js").configs;
 const stringify = require("json-stable-stringify-without-jsonify");
 const espree = require("espree");
 
@@ -127,24 +123,6 @@ async function assertInvalidConfig(values, message) {
     }, message);
 }
 
-/**
- * Normalizes the rule configs to an array with severity to match
- * how Flat Config merges rule options.
- * @param {Object} rulesConfig The rules config portion of a config.
- * @returns {Array} The rules config object.
- */
-function normalizeRuleConfig(rulesConfig) {
-    const rulesConfigCopy = {
-        ...rulesConfig
-    };
-
-    for (const ruleId of Object.keys(rulesConfigCopy)) {
-        rulesConfigCopy[ruleId] = [2];
-    }
-
-    return rulesConfigCopy;
-}
-
 //-----------------------------------------------------------------------------
 // Tests
 //-----------------------------------------------------------------------------
@@ -212,6 +190,9 @@ describe("FlatConfigArray", () => {
                     parser: `espree@${espree.version}`,
                     parserOptions: {}
                 },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
                 processor: void 0
             };
             const actual = config.toJSON();
@@ -243,6 +224,9 @@ describe("FlatConfigArray", () => {
                     sourceType: "module",
                     parser: `espree@${espree.version}`,
                     parserOptions: {}
+                },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
                 },
                 processor: void 0
             };
@@ -277,6 +261,9 @@ describe("FlatConfigArray", () => {
                     sourceType: "module",
                     parser: `espree@${espree.version}`,
                     parserOptions: {}
+                },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
                 },
                 processor: void 0
             };
@@ -375,6 +362,9 @@ describe("FlatConfigArray", () => {
                     parserOptions: {},
                     sourceType: "module"
                 },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
                 plugins: ["@"],
                 processor: void 0
             });
@@ -405,6 +395,9 @@ describe("FlatConfigArray", () => {
                     parser: "custom-parser@0.1.0",
                     parserOptions: {},
                     sourceType: "module"
+                },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
                 },
                 plugins: ["@"],
                 processor: void 0
@@ -437,6 +430,9 @@ describe("FlatConfigArray", () => {
                     parserOptions: {},
                     sourceType: "module"
                 },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
                 plugins: ["@"],
                 processor: void 0
             });
@@ -465,6 +461,9 @@ describe("FlatConfigArray", () => {
                     parser: "custom-parser@0.1.0",
                     parserOptions: {},
                     sourceType: "module"
+                },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
                 },
                 plugins: ["@"],
                 processor: void 0
@@ -535,6 +534,9 @@ describe("FlatConfigArray", () => {
                     parserOptions: {},
                     sourceType: "module"
                 },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
                 plugins: ["@"],
                 processor: "custom-processor"
             });
@@ -561,6 +563,9 @@ describe("FlatConfigArray", () => {
                     parser: `espree@${espree.version}`,
                     parserOptions: {},
                     sourceType: "module"
+                },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
                 },
                 plugins: ["@"],
                 processor: "custom-processor"
@@ -593,6 +598,9 @@ describe("FlatConfigArray", () => {
                     parserOptions: {},
                     sourceType: "module"
                 },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
                 plugins: ["@"],
                 processor: "custom-processor@1.2.3"
             });
@@ -622,6 +630,9 @@ describe("FlatConfigArray", () => {
                     parserOptions: {},
                     sourceType: "module"
                 },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
                 plugins: ["@"],
                 processor: "custom-processor@1.2.3"
             });
@@ -630,24 +641,17 @@ describe("FlatConfigArray", () => {
 
     });
 
-    describe("Special configs", () => {
-        it("eslint:recommended is replaced with an actual config", async () => {
-            const configs = new FlatConfigArray(["eslint:recommended"]);
+    describe("Config array elements", () => {
+        it("should error on 'eslint:recommended' string config", async () => {
 
-            await configs.normalize();
-            const config = configs.getConfig("foo.js");
-
-            assert.deepStrictEqual(config.rules, normalizeRuleConfig(recommendedConfig.rules));
+            await assertInvalidConfig(["eslint:recommended"], "All arguments must be objects.");
         });
 
-        it("eslint:all is replaced with an actual config", async () => {
-            const configs = new FlatConfigArray(["eslint:all"]);
+        it("should error on 'eslint:all' string config", async () => {
 
-            await configs.normalize();
-            const config = configs.getConfig("foo.js");
-
-            assert.deepStrictEqual(config.rules, normalizeRuleConfig(allConfig.rules));
+            await assertInvalidConfig(["eslint:all"], "All arguments must be objects.");
         });
+
     });
 
     describe("Config Properties", () => {
@@ -1801,6 +1805,212 @@ describe("FlatConfigArray", () => {
                         }
                     }
                 ], /Value \[\] should NOT have fewer than 1 items/u);
+            });
+
+            [null, true, 0, 1, "", "always", () => {}].forEach(schema => {
+                it(`should error with a message that contains the rule name when a configured rule has invalid \`meta.schema\` (${schema})`, async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            plugins: {
+                                foo: {
+                                    rules: {
+                                        bar: {
+                                            meta: {
+                                                schema
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            rules: {
+                                "foo/bar": "error"
+                            }
+                        }
+                    ], "Error while processing options validation schema of rule 'foo/bar': Rule's `meta.schema` must be an array or object");
+                });
+            });
+
+            it("should error with a message that contains the rule name when a configured rule has invalid `meta.schema` (invalid JSON Schema definition)", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        plugins: {
+                            foo: {
+                                rules: {
+                                    bar: {
+                                        meta: {
+                                            schema: { minItems: [] }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        rules: {
+                            "foo/bar": "error"
+                        }
+                    }
+                ], "Error while processing options validation schema of rule 'foo/bar': minItems must be number");
+            });
+
+            it("should allow rules with `schema:false` to have any configurations", async () => {
+
+                const configs = new FlatConfigArray([
+                    {
+                        plugins: {
+                            foo: {
+                                rules: {
+                                    bar: {
+                                        meta: {
+                                            schema: false
+                                        },
+                                        create() {
+                                            return {};
+                                        }
+                                    },
+                                    baz: {
+                                        meta: {
+                                            schema: false
+                                        },
+                                        create() {
+                                            return {};
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        rules: {
+                            "foo/bar": "error",
+                            "foo/baz": ["error", "always"]
+                        }
+                    }
+                ]);
+
+                await configs.normalize();
+
+                // does not throw
+                const config = configs.getConfig("foo.js");
+
+                assert.deepStrictEqual(config.rules, {
+                    "foo/bar": [2],
+                    "foo/baz": [2, "always"]
+                });
+            });
+
+            it("should allow rules without `meta` to be configured without options", async () => {
+
+                const configs = new FlatConfigArray([
+                    {
+                        plugins: {
+                            foo: {
+                                rules: {
+                                    bar: {
+                                        create() {
+                                            return {};
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        rules: {
+                            "foo/bar": "error"
+                        }
+                    }
+                ]);
+
+                await configs.normalize();
+
+                // does not throw
+                const config = configs.getConfig("foo.js");
+
+                assert.deepStrictEqual(config.rules, {
+                    "foo/bar": [2]
+                });
+            });
+
+            it("should allow rules without `meta.schema` to be configured without options", async () => {
+
+                const configs = new FlatConfigArray([
+                    {
+                        plugins: {
+                            foo: {
+                                rules: {
+                                    meta: {},
+                                    bar: {
+                                        create() {
+                                            return {};
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        rules: {
+                            "foo/bar": "error"
+                        }
+                    }
+                ]);
+
+                await configs.normalize();
+
+                // does not throw
+                const config = configs.getConfig("foo.js");
+
+                assert.deepStrictEqual(config.rules, {
+                    "foo/bar": [2]
+                });
+            });
+
+            it("should throw if a rule without `meta` is configured with an option", async () => {
+                await assertInvalidConfig([
+                    {
+                        plugins: {
+                            foo: {
+                                rules: {
+                                    bar: {
+                                        create() {
+                                            return {};
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        rules: {
+                            "foo/bar": ["error", "always"]
+                        }
+                    }
+                ], /should NOT have more than 0 items/u);
+            });
+
+            it("should throw if a rule without `meta.schema` is configured with an option", async () => {
+                await assertInvalidConfig([
+                    {
+                        plugins: {
+                            foo: {
+                                rules: {
+                                    bar: {
+                                        meta: {},
+                                        create() {
+                                            return {};
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        rules: {
+                            "foo/bar": ["error", "always"]
+                        }
+                    }
+                ], /should NOT have more than 0 items/u);
             });
 
             it("should merge two objects", () => assertMergedResult([

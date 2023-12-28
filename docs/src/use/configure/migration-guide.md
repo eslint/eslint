@@ -4,7 +4,7 @@ eleventyNavigation:
     key: migration guide
     parent: configure
     title: Configuration Migration Guide
-    order: 8
+    order: 7
 ---
 
 This guide provides an overview of how you can migrate your ESLint configuration file from the eslintrc format (typically configured in `.eslintrc.js` or `.eslintrc.json` files) to the new flat config format (typically configured in an `eslint.config.js` file).
@@ -13,8 +13,8 @@ To learn more about the flat config format, refer to [this blog post](https://es
 
 For reference information on these configuration formats, refer to the following documentation:
 
-* [eslintrc configuration files](configuration-files)
-* [flat configuration files](configuration-files-new)
+* [eslintrc configuration files](configuration-files-deprecated)
+* [flat configuration files](configuration-files)
 
 ## Start Using Flat Config Files
 
@@ -116,7 +116,7 @@ export default [
 
 ### Processors
 
-In eslintrc files, processors had to be defined in a plugin, and then referenced by name in the configuration. Processors beginning with a dot indicated a [file extension-named processor](../../extend/custom-processors#file-extension-named-processor) which ESLint would automatically configure for that file extension.
+In eslintrc files, processors had to be defined in a plugin, and then referenced by name in the configuration. Processors beginning with a dot indicated a [file extension-named processor](../../extend/custom-processors-deprecated#file-extension-named-processor) which ESLint would automatically configure for that file extension.
 
 In flat config files, processors can still be referenced from plugins by their name, but they can now also be inserted directly into the configuration. Processors will _never_ be automatically configured, and must be explicitly set in the configuration.
 

@@ -1075,6 +1075,43 @@ describe("ESLint", () => {
             await assert.rejects(async () => await eslint.lintFiles(["lib/cli.js"]), /Cannot find module 'test11'/u);
         });
 
+        describe("Invalid inputs", () => {
+
+            [
+                ["an empty string", ""],
+                ["an empty array", []],
+                ["a string with a single space", " "],
+                ["an array with one empty string", [""]],
+                ["an array with two empty strings", ["", ""]]
+
+            ].forEach(([name, value]) => {
+
+                it(`should throw an error when passed ${name}`, async () => {
+                    eslint = new ESLint({
+                        useEslintrc: false
+                    });
+
+                    await assert.rejects(async () => await eslint.lintFiles(value), /'patterns' must be a non-empty string or an array of non-empty strings/u);
+                });
+
+                if (value === "" || Array.isArray(value) && value.length === 0) {
+                    it(`should not throw an error when passed ${name} and passOnNoPatterns: true`, async () => {
+                        eslint = new ESLint({
+                            useEslintrc: false,
+                            passOnNoPatterns: true
+                        });
+
+                        const results = await eslint.lintFiles(value);
+
+                        assert.strictEqual(results.length, 0);
+                    });
+                }
+
+            });
+
+
+        });
+
         it("should report zero messages when given a directory with a .js2 file", async () => {
             eslint = new ESLint({
                 cwd: path.join(fixtureDir, ".."),
@@ -1545,6 +1582,19 @@ describe("ESLint", () => {
             }, /All files matched by 'tests\/fixtures\/\*-quoted\.js' are ignored\./u);
         });
 
+        it("should not throw an error when ignorePatterns is an empty array", async () => {
+            eslint = new ESLint({
+                useEslintrc: false,
+                overrideConfig: {
+                    ignorePatterns: []
+                }
+            });
+
+            await assert.doesNotReject(async () => {
+                await eslint.lintFiles(["*.js"]);
+            });
+        });
+
         it("should return a warning when an explicitly given file is ignored", async () => {
             eslint = new ESLint({
                 ignorePath: getFixturePath(".eslintignore"),
@@ -1621,6 +1671,23 @@ describe("ESLint", () => {
             await assert.rejects(async () => {
                 await eslint.lintFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
             }, /Error while loading rule 'custom-rule'/u);
+        });
+
+        it("should throw an error when loading a function-style custom rule", async () => {
+            eslint = new ESLint({
+                ignore: false,
+                useEslintrc: false,
+                rulePaths: [getFixturePath("rules", "function-style")],
+                overrideConfig: {
+                    rules: {
+                        "no-strings": "error"
+                    }
+                }
+            });
+
+            await assert.rejects(async () => {
+                await eslint.lintFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
+            }, /Error while loading rule 'no-strings': Rule must be an object with a `create` method/u);
         });
 
         it("should return one message when a custom rule matches a file", async () => {
@@ -1748,8 +1815,7 @@ describe("ESLint", () => {
                 overrideConfig: {
                     rules: {
                         "indent-legacy": 1,
-                        "require-jsdoc": 1,
-                        "valid-jsdoc": 1
+                        "callback-return": 1
                     }
                 }
             });
@@ -1759,8 +1825,7 @@ describe("ESLint", () => {
                 results[0].usedDeprecatedRules,
                 [
                     { ruleId: "indent-legacy", replacedBy: ["indent"] },
-                    { ruleId: "require-jsdoc", replacedBy: [] },
-                    { ruleId: "valid-jsdoc", replacedBy: [] }
+                    { ruleId: "callback-return", replacedBy: [] }
                 ]
             );
         });
@@ -1770,7 +1835,7 @@ describe("ESLint", () => {
                 cwd: originalDir,
                 useEslintrc: false,
                 overrideConfig: {
-                    rules: { eqeqeq: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
+                    rules: { eqeqeq: 1, "callback-return": 0 }
                 }
             });
             const results = await eslint.lintFiles(["lib/cli*.js"]);
@@ -2314,6 +2379,24 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].messages[0].ruleId, "test/example-rule");
             });
 
+            it("should throw an error when executing with a function-style rule from a preloaded plugin", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    overrideConfig: {
+                        plugins: ["test"],
+                        rules: { "test/example-rule": 1 }
+                    },
+                    plugins: {
+                        "eslint-plugin-test": { rules: { "example-rule": () => ({}) } }
+                    }
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+                }, /Error while loading rule 'test\/example-rule': Rule must be an object with a `create` method/u);
+            });
+
             it("should return two messages when executing with `baseConfig` that extends preloaded plugin config", async () => {
                 eslint = new ESLint({
                     cwd: path.join(fixtureDir, ".."),
@@ -2360,6 +2443,277 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].messages[0].ruleId, "with-rules/rule1");
                 assert.strictEqual(results[0].messages[0].message, "Rule report from plugin");
             });
+
+            it("should throw an error when executing with a function-style rule from a plugin", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["with-function-style-rules"],
+                        rules: { "with-function-style-rules/rule1": "error" }
+                    },
+                    useEslintrc: false
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+                }, /Error while loading rule 'with-function-style-rules\/rule1': Rule must be an object with a `create` method/u);
+            });
+
+            it("should throw an error when executing with a rule with `schema:true` from a plugin", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-true"],
+                        rules: { "schema-true/rule1": "error" }
+                    },
+                    useEslintrc: false
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+                }, /Error while processing options validation schema of rule 'schema-true\/rule1': Rule's `meta.schema` must be an array or object/u);
+            });
+
+            it("should throw an error when executing with a rule with `schema:null` from a plugin", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-null"],
+                        rules: { "schema-null/rule1": "error" }
+                    },
+                    useEslintrc: false
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+                }, /Error while processing options validation schema of rule 'schema-null\/rule1': Rule's `meta.schema` must be an array or object/u);
+            });
+
+            it("should throw an error when executing with a rule with invalid JSON schema type from a plugin", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-invalid"],
+                        rules: { "schema-invalid/rule1": "error" }
+                    },
+                    useEslintrc: false
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+                }, /Error while processing options validation schema of rule 'schema-invalid\/rule1': minItems must be number/u);
+            });
+
+            it("should succesfully execute with a rule with `schema:false` from a plugin when no options were passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-false"],
+                        rules: { "schema-false/rule1": "error" }
+                    },
+                    useEslintrc: false
+                });
+
+                const [result] = await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].ruleId, "schema-false/rule1");
+                assert.strictEqual(result.messages[0].message, "No options were passed");
+            });
+
+            it("should succesfully execute with a rule with `schema:false` from a plugin when an option is passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-false"],
+                        rules: { "schema-false/rule1": ["error", "always"] }
+                    },
+                    useEslintrc: false
+                });
+
+                const [result] = await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].ruleId, "schema-false/rule1");
+                assert.strictEqual(result.messages[0].message, "Option 'always' was passed");
+            });
+
+            it("should succesfully execute with a rule with `schema:[]` from a plugin when no options were passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-empty-array"],
+                        rules: { "schema-empty-array/rule1": "error" }
+                    },
+                    useEslintrc: false
+                });
+
+                const [result] = await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].ruleId, "schema-empty-array/rule1");
+                assert.strictEqual(result.messages[0].message, "Hello");
+            });
+
+            it("should throw when executing with a rule with `schema:[]` from a plugin when an option is passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-empty-array"],
+                        rules: { "schema-empty-array/rule1": ["error", "always"] }
+                    },
+                    useEslintrc: false
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+                }, /Configuration for rule "schema-empty-array\/rule1" is invalid.*should NOT have more than 0 items/us);
+            });
+
+            it("should succesfully execute with a rule with no schema from a plugin when no options were passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-missing"],
+                        rules: { "schema-missing/rule1": "error" }
+                    },
+                    useEslintrc: false
+                });
+
+                const [result] = await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].ruleId, "schema-missing/rule1");
+                assert.strictEqual(result.messages[0].message, "Hello");
+            });
+
+            it("should throw when executing with a rule with no schema from a plugin when an option is passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-missing"],
+                        rules: { "schema-missing/rule1": ["error", "always"] }
+                    },
+                    useEslintrc: false
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+                }, /Configuration for rule "schema-missing\/rule1" is invalid.*should NOT have more than 0 items/us);
+            });
+
+            it("should succesfully execute with a rule with an array schema from a plugin when no options were passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-array"],
+                        rules: { "schema-array/rule1": "error" }
+                    },
+                    useEslintrc: false
+                });
+
+                const [result] = await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].ruleId, "schema-array/rule1");
+                assert.strictEqual(result.messages[0].message, "No options were passed");
+            });
+
+            it("should succesfully execute with a rule with an array schema from a plugin when a correct option was passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-array"],
+                        rules: { "schema-array/rule1": ["error", "always"] }
+                    },
+                    useEslintrc: false
+                });
+
+                const [result] = await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].ruleId, "schema-array/rule1");
+                assert.strictEqual(result.messages[0].message, "Option 'always' was passed");
+            });
+
+            it("should throw when executing with a rule with an array schema from a plugin when an incorrect option was passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-array"],
+                        rules: { "schema-array/rule1": ["error", 5] }
+                    },
+                    useEslintrc: false
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+                }, /Configuration for rule "schema-array\/rule1" is invalid.*Value 5 should be string/us);
+            });
+
+            it("should throw when executing with a rule with an array schema from a plugin when an extra option was passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-array"],
+                        rules: { "schema-array/rule1": ["error", "always", "never"] }
+                    },
+                    useEslintrc: false
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+                }, /Configuration for rule "schema-array\/rule1" is invalid.*should NOT have more than 1 items/us);
+            });
+
+            it("should succesfully execute with a rule with an object schema from a plugin when no options were passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-object"],
+                        rules: { "schema-object/rule1": "error" }
+                    },
+                    useEslintrc: false
+                });
+
+                const [result] = await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].ruleId, "schema-object/rule1");
+                assert.strictEqual(result.messages[0].message, "No options were passed");
+            });
+
+            it("should succesfully execute with a rule with an object schema from a plugin when a correct option was passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-object"],
+                        rules: { "schema-object/rule1": ["error", "always"] }
+                    },
+                    useEslintrc: false
+                });
+
+                const [result] = await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].ruleId, "schema-object/rule1");
+                assert.strictEqual(result.messages[0].message, "Option 'always' was passed");
+            });
+
+            it("should throw when executing with a rule with an object schema from a plugin when an incorrect option was passed", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, "plugins"),
+                    baseConfig: {
+                        plugins: ["schema-object"],
+                        rules: { "schema-object/rule1": ["error", 5] }
+                    },
+                    useEslintrc: false
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles([fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"))]);
+                }, /Configuration for rule "schema-object\/rule1" is invalid.*Value 5 should be string/us);
+            });
         });
 
         describe("cache", () => {
@@ -2404,21 +2758,7 @@ describe("ESLint", () => {
                  */
                 function deleteCacheDir() {
                     try {
-
-                        /*
-                         * `fs.rmdir(path, { recursive: true })` is deprecated and will be removed.
-                         * Use `fs.rm(path, { recursive: true })` instead.
-                         * When supporting Node.js 14.14.0+, the compatibility condition can be removed for `fs.rmdir`.
-                         */
-                        // eslint-disable-next-line n/no-unsupported-features/node-builtins -- just checking if it exists
-                        if (typeof fs.rm === "function") {
-
-                            // eslint-disable-next-line n/no-unsupported-features/node-builtins -- conditionally used
-                            fs.rmSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
-                        } else {
-                            fs.rmdirSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
-                        }
-
+                        fs.rmSync(path.resolve(cwd, "tmp/.cacheFileDir/"), { recursive: true, force: true });
                     } catch {
 
                         /*
@@ -4182,11 +4522,15 @@ describe("ESLint", () => {
                 cwd: rootPath,
                 files: {
                     "internal-rules/test.js": `
-                            module.exports = context => ({
-                                ExpressionStatement(node) {
-                                    context.report({ node, message: "ok" })
-                                }
-                            })
+                            module.exports = {
+                                create(context) {
+                                    return {
+                                        ExpressionStatement(node) {
+                                            context.report({ node, message: "ok" });
+                                        },
+                                    };
+                                },
+                            };
                         `,
                     ".eslintrc.json": {
                         root: true,
@@ -5078,7 +5422,7 @@ describe("ESLint", () => {
     describe("loadFormatter()", () => {
         it("should return a formatter object when a bundled formatter is requested", async () => {
             const engine = new ESLint();
-            const formatter = await engine.loadFormatter("compact");
+            const formatter = await engine.loadFormatter("json");
 
             assert.strictEqual(typeof formatter, "object");
             assert.strictEqual(typeof formatter.format, "function");

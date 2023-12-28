@@ -1433,7 +1433,7 @@
         "type": "problem",
         "docs": {
             "description": "Disallow `new` operators with global non-constructor functions",
-            "recommended": false,
+            "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-new-native-nonconstructor"
         }
     },
@@ -1463,9 +1463,13 @@
         "type": "problem",
         "docs": {
             "description": "Disallow `new` operators with the `Symbol` object",
-            "recommended": true,
+            "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-new-symbol"
-        }
+        },
+        "deprecated": true,
+        "replacedBy": [
+            "no-new-native-nonconstructor"
+        ]
     },
     "no-new-wrappers": {
         "type": "suggestion",
@@ -2367,16 +2371,6 @@
             "url": "https://eslint.org/docs/latest/rules/require-await"
         }
     },
-    "require-jsdoc": {
-        "type": "suggestion",
-        "docs": {
-            "description": "Require JSDoc comments",
-            "recommended": false,
-            "url": "https://eslint.org/docs/latest/rules/require-jsdoc"
-        },
-        "deprecated": true,
-        "replacedBy": []
-    },
     "require-unicode-regexp": {
         "type": "suggestion",
         "docs": {
@@ -2597,17 +2591,6 @@
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/use-isnan"
         }
-    },
-    "valid-jsdoc": {
-        "type": "suggestion",
-        "docs": {
-            "description": "Enforce valid JSDoc comments",
-            "recommended": false,
-            "url": "https://eslint.org/docs/latest/rules/valid-jsdoc"
-        },
-        "fixable": "code",
-        "deprecated": true,
-        "replacedBy": []
     },
     "valid-typeof": {
         "type": "problem",

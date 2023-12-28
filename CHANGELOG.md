@@ -1,3 +1,25 @@
+v8.56.0 - December 15, 2023
+
+* [`ba6af85`](https://github.com/eslint/eslint/commit/ba6af85c7d8ba55d37f8663aee949d148e441c1a) chore: upgrade @eslint/js@8.56.0 (#17864) (Milos Djermanovic)
+* [`60a531a`](https://github.com/eslint/eslint/commit/60a531a9c0811ddf718e26b9136e133f580b6c36) chore: package.json update for @eslint/js release (Jenkins)
+* [`0dd9704`](https://github.com/eslint/eslint/commit/0dd9704c4751e1cd02039f7d6485fee09bbccbf6) feat: Support custom severity when reporting unused disable directives (#17212) (Bryan Mishkin)
+* [`31a7e3f`](https://github.com/eslint/eslint/commit/31a7e3fde491e36496b54e8905c766b31162d776) feat: fix no-restricted-properties false negatives with unknown objects (#17818) (Arka Pratim Chaudhuri)
+* [`ba87a06`](https://github.com/eslint/eslint/commit/ba87a0651a65b52c3ac442b512dd9f4c2b4c5f57) chore: update dependency markdownlint to ^0.32.0 (#17783) (renovate[bot])
+* [`7d5e5f6`](https://github.com/eslint/eslint/commit/7d5e5f68849ae80caec0fc96ecceebccd348deec) fix: `TypeError: fs.exists is not a function` on read-only file system (#17846) (Francesco Trotta)
+* [`9271d10`](https://github.com/eslint/eslint/commit/9271d10d9eabeafb0129a090f29191bfd14273c0) chore: add GitHub issue template for docs issues (#17845) (Josh Goldberg ✨)
+* [`70a686b`](https://github.com/eslint/eslint/commit/70a686b3c1feac5eca98bbff9bd67175f550d5db) chore: Convert rule tests to FlatRuleTester (#17819) (Nicholas C. Zakas)
+* [`9007719`](https://github.com/eslint/eslint/commit/90077199fe519953f9af8664bf947db4e4958514) docs: update link in ways-to-extend.md (#17839) (Amel SELMANE)
+* [`f3a599d`](https://github.com/eslint/eslint/commit/f3a599d34c7080fc0b2c9a60b5e54dc98c22867c) chore: upgrade eslint-plugin-unicorn to v49.0.0 (#17837) (唯然)
+* [`905d4b7`](https://github.com/eslint/eslint/commit/905d4b75ab2df42aba30622cee0f66b511397e2c) chore: upgrade eslint-plugin-eslint-plugin v5.2.1 (#17838) (唯然)
+* [`4d7c3ce`](https://github.com/eslint/eslint/commit/4d7c3ce246e6b499f472342ef59496a47cc033d6) chore: update eslint-plugin-n v16.4.0 (#17836) (唯然)
+* [`3a22236`](https://github.com/eslint/eslint/commit/3a22236f8d10af8a5bcafe56092651d3d681c99d) docs: Update README (GitHub Actions Bot)
+* [`54c3ca6`](https://github.com/eslint/eslint/commit/54c3ca6f2dcd2a7afd53f42fc32055a25587259e) docs: fix migration-guide example (#17829) (Tanuj Kanti)
+* [`4391b71`](https://github.com/eslint/eslint/commit/4391b71e62b15e54b0493f0dce1ea053ebbc0689) docs: check config comments in rule examples (#17815) (Francesco Trotta)
+* [`fd28363`](https://github.com/eslint/eslint/commit/fd2836342c2be4751b05fe0ba7cece17d1edecc8) docs: remove mention about ESLint stylistic rules in readme (#17810) (Zwyx)
+* [`fd0c60c`](https://github.com/eslint/eslint/commit/fd0c60c3be1f213e5a6d69d8a3248e963619e155) ci: unpin Node.js 21.2.0 (#17821) (Francesco Trotta)
+* [`48ed5a6`](https://github.com/eslint/eslint/commit/48ed5a6dad478a14d3e823f137455c523f373e0b) docs: Update README (GitHub Actions Bot)
+* [`74739c8`](https://github.com/eslint/eslint/commit/74739c849bbb6547b0e555ed8bb2ba1cbe0fdce4) fix: suggestion with invalid syntax in no-promise-executor-return rule (#17812) (Bryan Mishkin)
+
 v8.55.0 - December 1, 2023
 
 * [`eb8950c`](https://github.com/eslint/eslint/commit/eb8950c3b811c9163b9aae23af8b6266ad98b295) chore: upgrade @eslint/js@8.55.0 (#17811) (Milos Djermanovic)

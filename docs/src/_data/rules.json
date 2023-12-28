@@ -228,13 +228,6 @@
             {
                 "name": "no-new-native-nonconstructor",
                 "description": "Disallow `new` operators with global non-constructor functions",
-                "recommended": false,
-                "fixable": false,
-                "hasSuggestions": false
-            },
-            {
-                "name": "no-new-symbol",
-                "description": "Disallow `new` operators with the `Symbol` object",
                 "recommended": true,
                 "fixable": false,
                 "hasSuggestions": false
@@ -659,7 +652,7 @@
                 "description": "Disallow `Array` constructors",
                 "recommended": false,
                 "fixable": false,
-                "hasSuggestions": true
+                "hasSuggestions": false
             },
             {
                 "name": "no-bitwise",
@@ -687,7 +680,7 @@
                 "description": "Disallow the use of `console`",
                 "recommended": false,
                 "fixable": false,
-                "hasSuggestions": true
+                "hasSuggestions": false
             },
             {
                 "name": "no-continue",
@@ -1736,6 +1729,12 @@
             "replacedBy": [],
             "fixable": false,
             "hasSuggestions": false
+        },
+        {
+            "name": "no-new-symbol",
+            "replacedBy": [
+                "no-new-native-nonconstructor"
+            ]
         },
         {
             "name": "no-path-concat",
