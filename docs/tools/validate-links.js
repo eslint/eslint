@@ -18,6 +18,7 @@ const skipPatterns = [
     "/team",
     "/donate",
     "/docs/latest",
+    "/docs/next",
     'src="null"'
 ];
 
