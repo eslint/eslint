@@ -638,7 +638,7 @@ describe("cli", () => {
                 if (useFlatConfig) {
                     it(`should not run rules set to 'warn' with configType:${configType}`, async () => {
                         const filePath = getFixturePath("single-quoted.js");
-                        const configPath = getFixturePath("eslint.config_rule_throws.js");
+                        const configPath = getFixturePath("eslint.config-rule-throws.js");
                         const cliArgs = `--quiet --config ${configPath}' ${filePath}`;
 
                         const exit = await cli.execute(cliArgs, null, useFlatConfig);
@@ -648,7 +648,7 @@ describe("cli", () => {
 
                     it(`should run rules set to 'warn' while maxWarnings is set with configType:${configType}`, async () => {
                         const filePath = getFixturePath("single-quoted.js");
-                        const configPath = getFixturePath("eslint.config_rule_throws.js");
+                        const configPath = getFixturePath("eslint.config-rule-throws.js");
                         const cliArgs = `--quiet --max-warnings=1 --config ${configPath}' ${filePath}`;
 
                         await stdAssert.rejects(async () => {
@@ -830,7 +830,7 @@ describe("cli", () => {
                 describe("when given a directory with eslint excluded files in the directory", () => {
                     it(`should throw an error and not process any files with configType:${configType}`, async () => {
                         const options = useFlatConfig
-                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            ? `--config ${getFixturePath("eslint.config-with-ignores.js")}`
                             : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("cli");
                         const expectedMessage = useFlatConfig
@@ -846,7 +846,7 @@ describe("cli", () => {
                 describe("when given a file in excluded files list", () => {
                     it(`should not process the file with configType:${configType}`, async () => {
                         const options = useFlatConfig
-                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            ? `--config ${getFixturePath("eslint.config-with-ignores.js")}`
                             : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("passing.js");
                         const exit = await cli.execute(`${options} ${filePath}`, null, useFlatConfig);
@@ -858,7 +858,7 @@ describe("cli", () => {
 
                     it(`should process the file when forced with configType:${configType}`, async () => {
                         const options = useFlatConfig
-                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            ? `--config ${getFixturePath("eslint.config-with-ignores.js")}`
                             : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("passing.js");
                         const exit = await cli.execute(`${options} --no-ignore ${filePath}`, null, useFlatConfig);
@@ -870,7 +870,7 @@ describe("cli", () => {
 
                     it(`should suppress the warning if --no-warn-ignored is passed with configType:${configType}`, async () => {
                         const options = useFlatConfig
-                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            ? `--config ${getFixturePath("eslint.config-with-ignores.js")}`
                             : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("passing.js");
                         const exit = await cli.execute(`${options} --no-warn-ignored ${filePath}`, null, useFlatConfig);
@@ -890,7 +890,7 @@ describe("cli", () => {
 
                     it(`should suppress the warning if --no-warn-ignored is passed and an ignored file is passed via stdin with configType:${configType}`, async () => {
                         const options = useFlatConfig
-                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            ? `--config ${getFixturePath("eslint.config-with-ignores.js")}`
                             : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("passing.js");
                         const exit = await cli.execute(`${options} --no-warn-ignored --stdin --stdin-filename ${filePath}`, "foo", useFlatConfig);
