@@ -61,7 +61,7 @@ function doSomething() {
 
 ## Rule Details
 
-This rule requires that function declarations and, optionally, variable declarations be in the root of a program, or in the root of the body of a function, or in the root of the body of a class static block in the non-strict code. This rule doesn't report function declarations and variable declarations if code is in strict mode (code with `"use strict"` tag).
+This rule requires that function declarations and, optionally, variable declarations be in the root of a program, or in the root of the body of a function, or in the root of a class static block in non-strict code. This rule doesn't report function declarations and variable declarations if code is in strict mode (code with `"use strict"` tag or ESM modules).
 
 ## Options
 
@@ -69,7 +69,7 @@ This rule has a string and an object option:
 
 * `"functions"` (default) disallows `function` declarations in nested blocks
 * `"both"` disallows `function` and `var` declarations in nested blocks
-* `{ legacy: false }` (default) if this option set to `true` then the rule will report only function declarations even in the strict mode but only if the eslint is configured to `ecmaVersion: 5`.
+* `{ legacy: false }` (default) if this option set to `true` then the rule will report only function declarations when `ecmaVersion` is set to `5`.
 
 ### functions
 
