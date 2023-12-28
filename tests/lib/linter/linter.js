@@ -10901,7 +10901,8 @@ describe("Linter with FlatConfigArray", () => {
                             },
                             rules: {
                                 "test/checker": "error"
-                            }
+                            },
+                            linterOptions: { reportUnusedDisableDirectives: 0 }
                         };
 
                         const problems = linter.verify(code, config);
@@ -11036,7 +11037,7 @@ describe("Linter with FlatConfigArray", () => {
                             "/*eslint-enable*/"
                         ].join("\n");
 
-                        const config = { rules: { "no-alert": 1 } };
+                        const config = { rules: { "no-alert": 1 }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                         const messages = linter.verify(code, config, filename);
                         const suppressedMessages = linter.getSuppressedMessages();
@@ -11298,7 +11299,7 @@ var a = "test2";
                         "console.log(\"foo\");",
                         "/* eslint-enable quotes */"
                     ].join("\n");
-                    const config = { rules: { quotes: 2 } };
+                    const config = { rules: { quotes: 2 }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -11343,7 +11344,7 @@ var a = "test2";
                         "/*eslint-enable no-console */",
                         "alert('test');"
                     ].join("\n");
-                    const config = { rules: { "no-alert": 1, "no-console": 1 } };
+                    const config = { rules: { "no-alert": 1, "no-console": 1 }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -11407,7 +11408,7 @@ var a = "test2";
 
                         "/*eslint-enable*/"
                     ].join("\n");
-                    const config = { rules: { "no-alert": 1, "no-console": 1 } };
+                    const config = { rules: { "no-alert": 1, "no-console": 1 }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -11446,7 +11447,7 @@ var a = "test2";
                         "console.log('test');", // here
                         "/*eslint-enable no-console */"
                     ].join("\n");
-                    const config = { rules: { "no-alert": 1, "no-console": 1 } };
+                    const config = { rules: { "no-alert": 1, "no-console": 1 }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -11485,7 +11486,7 @@ var a = "test2";
                         "console.log('test');", // here
                         "/*eslint-enable no-console */"
                     ].join("\n");
-                    const config = { rules: { "no-alert": "warn", "no-console": "warn" } };
+                    const config = { rules: { "no-alert": "warn", "no-console": "warn" }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -11514,7 +11515,7 @@ var a = "test2";
                         "var bar;",
                         "/* eslint-enable no-unused-vars */" // here
                     ].join("\n");
-                    const config = { rules: { "no-unused-vars": 2 } };
+                    const config = { rules: { "no-unused-vars": 2 }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -11914,7 +11915,8 @@ var a = "test2";
                     const config = {
                         rules: {
                             "no-alert": 1
-                        }
+                        },
+                        linterOptions: { reportUnusedDisableDirectives: 0 }
                     };
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -11978,7 +11980,8 @@ var a = "test2";
                         rules: {
                             "no-alert": 1,
                             "no-console": 1
-                        }
+                        },
+                        linterOptions: { reportUnusedDisableDirectives: 0 }
                     };
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -12001,7 +12004,8 @@ var a = "test2";
                         rules: {
                             "no-alert": 1,
                             "no-console": 1
-                        }
+                        },
+                        linterOptions: { reportUnusedDisableDirectives: 0 }
                     };
                     const messages = linter.verify(code, config, filename);
 
@@ -12406,7 +12410,7 @@ var a = "test2";
                     /*eslint-enable no-redeclare -- no-unused-vars */
                     var aaa = {}
                     var aaa = {}
-                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" }, linterOptions: { reportUnusedDisableDirectives: 0 } });
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     // Do include `no-redeclare` but not `no-unused-vars`
@@ -12446,7 +12450,7 @@ var a = "test2";
                     const messages = linter.verify(`
                     var aaa = {} //eslint-disable-line no-redeclare -- no-unused-vars
                     var aaa = {} //eslint-disable-line no-redeclare -- no-unused-vars
-                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" }, linterOptions: { reportUnusedDisableDirectives: 0 } });
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     // Do include `no-unused-vars` but not `no-redeclare`
@@ -12486,7 +12490,7 @@ var a = "test2";
                     const messages = linter.verify(`
                     var aaa = {} /*eslint-disable-line no-redeclare -- no-unused-vars */
                     var aaa = {} /*eslint-disable-line no-redeclare -- no-unused-vars */
-                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" }, linterOptions: { reportUnusedDisableDirectives: 0 } });
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     // Do include `no-unused-vars` but not `no-redeclare`
@@ -12528,7 +12532,7 @@ var a = "test2";
                     var aaa = {}
                     //eslint-disable-next-line no-redeclare -- no-unused-vars
                     var aaa = {}
-                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" }, linterOptions: { reportUnusedDisableDirectives: 0 } });
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     // Do include `no-unused-vars` but not `no-redeclare`
@@ -12570,7 +12574,7 @@ var a = "test2";
                     var aaa = {}
                     /*eslint-disable-next-line no-redeclare -- no-unused-vars */
                     var aaa = {}
-                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" }, linterOptions: { reportUnusedDisableDirectives: 0 } });
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     // Do include `no-unused-vars` but not `no-redeclare`
@@ -13712,8 +13716,33 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages[1].suppressions.length, 1);
                 });
 
-                it("reports problems for unused eslint-disable comments (warn)", () => {
+                it("reports problems for unused eslint-disable comments (warn, explicitly set)", () => {
                     const messages = linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: "warn" });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.deepStrictEqual(
+                        messages,
+                        [
+                            {
+                                ruleId: null,
+                                message: "Unused eslint-disable directive (no problems were reported).",
+                                line: 1,
+                                column: 1,
+                                fix: {
+                                    range: [0, 20],
+                                    text: " "
+                                },
+                                severity: 1,
+                                nodeType: null
+                            }
+                        ]
+                    );
+
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("reports problems for unused eslint-disable comments (warn by default)", () => {
+                    const messages = linter.verify("/* eslint-disable */", {});
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     assert.deepStrictEqual(

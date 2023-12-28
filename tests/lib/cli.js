@@ -1545,6 +1545,24 @@ describe("cli", () => {
                     assert.deepStrictEqual(log.error.firstCall.args, ["The --report-unused-disable-directives option and the --report-unused-disable-directives-severity option cannot be used together."], "has the right text to log.error");
                     assert.strictEqual(exitCode, 2, "exit code should be 2");
                 });
+
+                it("warns by default in flat config only", async () => {
+                    const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --rule "'no-console': 'error'"`,
+                        "foo(); // eslint-disable-line no-console",
+                        useFlatConfig);
+
+                    if (useFlatConfig) {
+                        assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                        assert.strictEqual(log.info.callCount, 1, "log.info is called once");
+                        assert.ok(log.info.firstCall.args[0].includes("Unused eslint-disable directive (no problems were reported from 'no-console')"), "has correct message about unused directives");
+                        assert.ok(log.info.firstCall.args[0].includes("0 errors and 1 warning"), "has correct error and warning count");
+                        assert.strictEqual(exitCode, 0, "exit code should be 0");
+                    } else {
+                        assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                        assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                        assert.strictEqual(exitCode, 0, "exit code should be 0");
+                    }
+                });
             });
         });
 
