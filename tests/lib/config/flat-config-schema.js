@@ -191,6 +191,14 @@ describe("merge", () => {
         confirmLegacyMergeResult(first, second, result);
     });
 
+    it("sets properties to undefined", () => {
+        const first = { foo: void 0, bar: void 0 };
+        const second = { foo: void 0, baz: void 0 };
+        const result = merge(first, second);
+
+        assert.deepStrictEqual(result, { foo: void 0, bar: void 0, baz: void 0 });
+    });
+
     it("merges objects with self-references", () => {
         const first = { foo: 42 };
 
