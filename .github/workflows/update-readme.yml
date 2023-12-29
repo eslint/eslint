@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-node@v4
 
     - name: Install npm packages
-      run: npm install
+      run: npm install --force
 
     - name: Update README with latest team and sponsor data
       run: npm run build:readme
@@ -26,7 +26,7 @@ jobs:
       run: |
         git config user.name "GitHub Actions Bot"
         git config user.email "<eslint@googlegroups.com>"
-    
+
     - name: Save updated files
       run: |
         chmod +x ./tools/commit-readme.sh
