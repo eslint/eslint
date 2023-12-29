@@ -85,15 +85,10 @@ const testCode = `
     const eslint = new ESLint({
         useEslintrc: false,
         overrideConfig: {
-            extends: ["eslint:recommended"],
             parserOptions: {
-                sourceType: "module",
-                ecmaVersion: "latest",
-            },
-            env: {
-                es2022: true,
-                node: true,
-            },
+                ecmaVersion: 2018,
+                sourceType: "commonjs"
+            }
         },
     });
 
@@ -130,8 +125,6 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `process.cwd()`. The working directory. This must be an absolute path.
 * `options.errorOnUnmatchedPattern` (`boolean`)<br>
   Default is `true`. Unless set to `false`, the [`eslint.lintFiles()`][eslint-lintfiles] method will throw an error when no target files are found.
-* `options.extensions` (`string[] | null`)<br>
-  Default is `null`. If you pass directory paths to the [`eslint.lintFiles()`][eslint-lintfiles] method, ESLint checks the files in those directories that have the given extensions. For example, when passing the `src/` directory and `extensions` is `[".js", ".ts"]`, ESLint will lint `*.js` and `*.ts` files in `src/`. If `extensions` is `null`, ESLint checks `*.js` files and files that match `overrides[].files` patterns in your configuration.<br>**Note:** This option only applies when you pass directory paths to the [`eslint.lintFiles()`][eslint-lintfiles] method. If you pass glob patterns like `lib/**/*`, ESLint will lint all files matching the glob pattern regardless of extension.
 * `options.globInputPaths` (`boolean`)<br>
   Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't interpret glob patterns.
 * `options.ignore` (`boolean`)<br>
@@ -147,18 +140,12 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `null`. [Configuration object], extended by all configurations used with this instance. You can use this option to define the default settings that will be used if your configuration files don't configure it.
 * `options.overrideConfig` (`ConfigData | null`)<br>
   Default is `null`. [Configuration object], overrides all configurations used with this instance. You can use this option to define the settings that will be used even if your configuration files configure it.
-* `options.overrideConfigFile` (`string | null`)<br>
-  Default is `null`. The path to a configuration file, overrides all configurations used with this instance. The `options.overrideConfig` option is applied after this option is applied.
+* `options.overrideConfigFile` (`string | boolean`)<br>
+  Default is `false`. The path to a configuration file, overrides all configurations used with this instance. The `options.overrideConfig` option is applied after this option is applied.
 * `options.plugins` (`Record<string, Plugin> | null`)<br>
   Default is `null`. The plugin implementations that ESLint uses for the `plugins` setting of your configuration. This is a map-like object. Those keys are plugin IDs and each value is implementation.
 * `options.reportUnusedDisableDirectives` (`"error" | "warn" | "off" | null`)<br>
   Default is `null`. The severity to report unused eslint-disable and eslint-enable directives. If this option is a severity, it overrides the `reportUnusedDisableDirectives` setting in your configurations.
-* `options.resolvePluginsRelativeTo` (`string` | `null`)<br>
-  Default is `null`. The path to a directory where plugins should be resolved from. If `null` is present, ESLint loads plugins from the location of the configuration file that contains the plugin setting. If a path is present, ESLint loads all plugins from there.
-* `options.rulePaths` (`string[]`)<br>
-  Default is `[]`. An array of paths to directories to load custom rules from.
-* `options.useEslintrc` (`boolean`)<br>
-  Default is `true`. If `false` is present, ESLint doesn't load configuration files (`.eslintrc.*` files). Only the configuration of the constructor options is valid.
 * `options.ruleFilter` (`({ruleId: string, severity: number}) => boolean`)<br>
   Default is `() => true`. A predicate function that filters rules to be run. This function is called with an object containing `ruleId` and `severity`, and returns `true` if the rule should be run.
 
@@ -250,12 +237,6 @@ const config = await eslint.calculateConfigForFile(filePath);
 ```
 
 This method calculates the configuration for a given file, which can be useful for debugging purposes.
-
-* It resolves and merges `extends` and `overrides` settings into the top level configuration.
-* It resolves the `parser` setting to absolute paths.
-* It normalizes the `plugins` setting to align short names. (e.g., `eslint-plugin-foo` → `foo`)
-* It adds the `processor` setting if a legacy file extension processor is matched.
-* It doesn't interpret the `env` setting to the `globals` and `parserOptions` settings, so the result object contains the `env` setting as is.
 
 #### Parameters
 
