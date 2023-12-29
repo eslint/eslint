@@ -24,7 +24,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
 * [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
 * [Stricter `/* exported */` parsing](#exported-parsing)
-* [`"eslint:recommended"` and `"eslint:all"` invalid in flat config](#string-config)
+* [`"eslint:recommended"` and `"eslint:all"`strings no longer accepted in flat config](#string-config)
 
 ### Breaking changes for plugin developers
 
