@@ -84,6 +84,7 @@ const jsConfigs = [js.configs.recommended, {
         "no-extra-semi": "error",
         "no-floating-decimal": "error",
         "no-implied-eval": "error",
+        "no-inner-declarations": "error",
         "no-invalid-this": "error",
         "no-iterator": "error",
         "no-label-var": "error",
