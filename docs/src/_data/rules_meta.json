@@ -881,7 +881,7 @@
         "type": "problem",
         "docs": {
             "description": "Disallow expressions where the operation doesn't affect the value",
-            "recommended": false,
+            "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-constant-binary-expression"
         }
     },
@@ -1038,7 +1038,7 @@
         "type": "suggestion",
         "docs": {
             "description": "Disallow empty static blocks",
-            "recommended": false,
+            "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-empty-static-block"
         }
     },
@@ -1118,7 +1118,7 @@
         "type": "suggestion",
         "docs": {
             "description": "Disallow unnecessary semicolons",
-            "recommended": true,
+            "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-extra-semi"
         },
         "fixable": "code"
@@ -1203,7 +1203,7 @@
         "type": "problem",
         "docs": {
             "description": "Disallow variable or `function` declarations in nested blocks",
-            "recommended": true,
+            "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-inner-declarations"
         }
     },
@@ -1331,7 +1331,7 @@
         "type": "layout",
         "docs": {
             "description": "Disallow mixed spaces and tabs for indentation",
-            "recommended": true,
+            "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-mixed-spaces-and-tabs"
         }
     },
@@ -1942,7 +1942,7 @@
         "type": "problem",
         "docs": {
             "description": "Disallow unused private class members",
-            "recommended": false,
+            "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-unused-private-class-members"
         }
     },
