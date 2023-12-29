@@ -136,7 +136,7 @@ ESLint v9.0.0 removes the deprecated `sourceCode.getComments()` method.
 
 As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the temporary `FlatESLint` class has been renamed to `ESLint`, while the `ESLint` class from v8.x has been renamed to `LegacyESLint`.
 
-**To address:** If you are currently using the `ESLint` class, verify that your tests pass using the new `ESLint` class. Not all of the old options are supported, so you may need to update the arguments passed to the constructor. See the [Node.js API Reference](/docs/next/integrate/nodejs-api) for details.
+**To address:** If you are currently using the `ESLint` class, verify that your tests pass using the new `ESLint` class. Not all of the old options are supported, so you may need to update the arguments passed to the constructor. See the [Node.js API Reference](../integrate/nodejs-api) for details.
 
 If you still need the v8.x `ESLint` functionality, use the `LegacyESLint` class like this:
 
