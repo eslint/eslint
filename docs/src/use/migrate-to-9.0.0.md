@@ -29,6 +29,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [Function-style rules are no longer supported](#drop-function-style-rules)
 * [`meta.schema` is required for rules with options](#meta-schema-required)
 * [`FlatRuleTester` is now `RuleTester`](#flat-rule-tester)
+* [Stricter `RuleTester` checks](#stricter-rule-tester)
 
 ### Breaking changes for integration developers
 
@@ -208,6 +209,17 @@ As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the t
 * **Translate other config keys.** Keys such as `env` and `parser` that used to run on the eslintrc config system must be translated into the flat config system. Please refer to the [Configuration Migration Guide](configure/migration-guide) for details on translating other keys you may be using.
 
 **Related Issues(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
+
+## <a name="stricter-rule-tester"></a> Stricter `RuleTester` checks
+
+In order to aid in the development of high-quality custom rules that are free from common bugs, ESLint v9.0.0 implements several changes to `RuleTester`:
+
+1. **Suggestion messages must be unique.** Because suggestions are typically displayed in an editor as a dropdown list, it's important that no two suggestions have the same message. Otherwise, it's impossible to know what any given suggestion will do. This additional check runs automatically.
+1. **Suggestions must generate valid syntax.** In order for rule suggestions to be helpful, they need to be valid syntax. `RuleTester` now parses the output of suggestions using the same language options as the `code` value and throws an error if parsing fails.
+
+**To address:** Run your rule tests using `RuleTester` and fix any errors that occur. The changes you'll need to make to satisfy `RuleTester` are compatible with ESLint v8.x.
+
+**Related Issues(s):** [#15735](https://github.com/eslint/eslint/issues/15735), [#16908](https://github.com/eslint/eslint/issues/16908)
 
 ## <a name="flat-eslint"></a> `FlatESLint` is now `ESLint`
 
