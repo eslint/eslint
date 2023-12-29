@@ -180,7 +180,7 @@ As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the t
 * **Change `parserOptions` to `languageOptions`.** If you're setting `ecmaVersion` or `sourceType` on your tests, move those from `parserOptions` to `languageOptions`, like this:
 
     ```js
-    ruleTester.run({
+    ruleTester.run("my-rule", myRule, {
         valid: [
             {
                 code: "foo",
