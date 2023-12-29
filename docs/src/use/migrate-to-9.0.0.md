@@ -17,6 +17,7 @@ The lists below are ordered roughly by the number of users each change is expect
 ### Breaking changes for users
 
 * [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
+* [New config format (`eslint.config.js`)](#flat-config)
 * [Removed multiple formatters](#removed-formatters)
 * [Removed `require-jsdoc` and `valid-jsdoc` rules](#remove-jsdoc-rules)
 * [`eslint:recommended` has been updated](#eslint-recommended)
@@ -54,6 +55,12 @@ ESLint is officially dropping support for these versions of Node.js starting wit
 **To address:** Make sure you upgrade to at least Node.js v18.18.0 when using ESLint v9.0.0. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint v8.56.0 until you are able to upgrade Node.js.
 
 **Related issue(s):** [#17595](https://github.com/eslint/eslint/issues/17595)
+
+## <a name="flat-config"></a> New config format (`eslint.config.js`)
+
+In ESLint v9.0.0, [`eslint.config.js`](./configure//configuration-files) is the default configuration format.
+
+**To address:** Update your configuration to the new format following the [Configuration Migration Guide](./configure/migration-guide). In case you still need to use the old `eslintrc` config format, set environment variable `ESLINT_USE_FLAT_CONFIG` to `false`.
 
 ## <a name="removed-formatters"></a> Removed multiple formatters
 
