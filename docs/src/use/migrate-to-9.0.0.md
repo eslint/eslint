@@ -122,7 +122,7 @@ This has been fixed in ESLint v9.0.0:
 
 ## <a name="no-implicit-coercion"></a> New checks in `no-implicit-coercion` by default
 
-In ESLint 9.0.0, the `no-implicit-coercion` rule additionally reports the following cases by default:
+In ESLint v9.0.0, the `no-implicit-coercion` rule additionally reports the following cases by default:
 
 ```js
 -(-foo);
