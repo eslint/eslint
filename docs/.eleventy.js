@@ -189,7 +189,6 @@ module.exports = function(eleventyConfig) {
      * @returns {string} The base 64 encoded equivalent of the text.
      */
     function encodeToBase64(text) {
-        /* global btoa -- It does exist, and is what the playground uses. */
         return btoa(unescape(encodeURIComponent(text)));
     }
 
