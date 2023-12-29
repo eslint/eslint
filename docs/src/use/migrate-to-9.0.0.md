@@ -143,7 +143,7 @@ foo - 0;
 
 ## <a name="no-invalid-regexp"></a> Case-sensitive flags in `no-invalid-regexp`
 
-In ESLint 9.0.0, the option `allowConstructorFlags` is now case-sensitive.
+In ESLint v9.0.0, the option `allowConstructorFlags` is now case-sensitive.
 
 **To address:** Update your configuration if needed.
 
