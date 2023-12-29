@@ -28,6 +28,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [Removed `sourceCode.getComments()`](#removed-sourcecode-getcomments)
 * [Function-style rules are no longer supported](#drop-function-style-rules)
 * [`meta.schema` is required for rules with options](#meta-schema-required)
+* [`FlatRuleTester` is now `RuleTester`](#flat-rule-tester)
 
 ### Breaking changes for integration developers
 
@@ -157,6 +158,56 @@ As of ESLint v9.0.0, an error will be thrown if any options are [passed](../use/
 The [eslint-plugin/require-meta-schema](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-schema.md) rule can help enforce that rules have schemas when required.
 
 **Related Issues(s):** [#14709](https://github.com/eslint/eslint/issues/14709)
+
+## <a name="flat-rule-tester"></a> `FlatRuleTester` is now `RuleTester`
+
+As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the temporary `FlatRuleTester` class has been renamed to `RuleTester`, while the `RuleTester` class from v8.x has been removed. Additionally, the `FlatRuleTester` export from `eslint/use-at-your-own-risk` has been removed.
+
+**To address:** Update your rule tests to use the new `RuleTester`. To do so, here are some of the common changes you'll need to make:
+
+* **Be aware of new defaults for `ecmaVersion` and `sourceType`.** By default, `RuleTester` uses the flat config default of `ecmaVersion: "latest"` and `sourceType: "module"`. This may cause some tests to break if they were expecting the old default of `ecmaVersion: 5` and `sourceType: "script"`. If you'd like to use the old default, you'll need to manually specify that in your `RuleTester` like this:
+
+    ```js
+    // use eslintrc defaults
+    const ruleTester = new RuleTester({
+        languageOptions: {
+            ecmaVersion: 5,
+            sourceType: "script"
+        }
+    });
+    ```
+
+* **Change `parserOptions` to `languageOptions`.** If you're setting `ecmaVersion` or `sourceType` on your tests, move those from `parserOptions` to `languageOptions`, like this:
+
+    ```js
+    ruleTester.run({
+        valid: [
+            {
+                code: "foo",
+                parserOptions: {
+                    ecmaVersion: 6
+                }
+            }
+        ]
+    });
+
+    // becomes
+
+    ruleTester.run({
+        valid: [
+            {
+                code: "foo",
+                languageOptions: {
+                    ecmaVersion: 6
+                }
+            }
+        ]
+    });
+    ```
+
+* **Translate other config keys.** Keys such as `env` and `parser` that used to run on the eslintrc config system must be translated into the flat config system. Please refer to the [Configuration Migration Guide](/docs/latest/use/configure/migration-guide) for details on translating other keys you may be using.
+
+**Related Issues(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
 
 ## <a name="flat-eslint"></a> `FlatESLint` is now `ESLint`
 

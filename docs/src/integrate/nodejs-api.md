@@ -789,8 +789,12 @@ ruleTester.run("my-rule", rule, {
 The `RuleTester` constructor accepts an optional object argument, which can be used to specify defaults for your test cases. For example, if all of your test cases use ES2015, you can set it as a default:
 
 ```js
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2015 } });
 ```
+
+::: tip
+If you don't specify any options to the `RuleTester` constructor, then it uses the ESLint defaults (`languageOptions: { ecmaVersion: "latest", sourceType: "module" }`).
+:::
 
 The `RuleTester#run()` method is used to run the tests. It should be passed the following arguments:
 
@@ -822,12 +826,12 @@ In addition to the properties above, invalid test cases can also have the follow
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
 * `output` (string, required if the rule fixes code): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
 
-Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `parserOptions` property to configure parser behavior:
+Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `languageOptions` property to configure parser behavior:
 
 ```js
 {
     code: "let foo;",
-    parserOptions: { ecmaVersion: 2015 }
+    languageOptions: { ecmaVersion: 2015 }
 }
 ```
 
@@ -907,7 +911,7 @@ ruleTester.run("my-rule-for-no-foo", rule, {
 
     If `RuleTester.itOnly` has been set to a function value, `RuleTester` will call `RuleTester.itOnly` instead of `RuleTester.it` to run cases with `only: true`. If `RuleTester.itOnly` is not set but `RuleTester.it` has an `only` function property, `RuleTester` will fall back to `RuleTester.it.only`.
 
-2. Otherwise, if `describe` and `it` are present as globals, `RuleTester` will use `global.describe` and `global.it` to run tests and `global.it.only` to run cases with `only: true`. This allows `RuleTester` to work when using frameworks like [Mocha](https://mochajs.org/) without any additional configuration.
+2. Otherwise, if `describe` and `it` are present as globals, `RuleTester` will use `globalThis.describe` and `globalThis.it` to run tests and `globalThis.it.only` to run cases with `only: true`. This allows `RuleTester` to work when using frameworks like [Mocha](https://mochajs.org/) without any additional configuration.
 3. Otherwise, `RuleTester#run` will simply execute all of the tests in sequence, and will throw an error if one of them fails. This means you can simply execute a test file that calls `RuleTester.run` using `Node.js`, without needing a testing framework.
 
 `RuleTester#run` calls the `describe` function with two arguments: a string describing the rule, and a callback function. The callback calls the `it` function with a string describing the test case, and a test function. The test function will return successfully if the test passes, and throw an error if the test fails. The signature for `only` is the same as `it`. `RuleTester` calls either `it` or `only` for every case even when some cases have `only: true`, and the test framework is responsible for implementing test case exclusivity. (Note that this is the standard behavior for test suites when using frameworks like [Mocha](https://mochajs.org/); this information is only relevant if you plan to customize `RuleTester.describe`, `RuleTester.it`, or `RuleTester.itOnly`.)

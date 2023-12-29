@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/indent"),
-    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 const fs = require("fs");
 const path = require("path");
 

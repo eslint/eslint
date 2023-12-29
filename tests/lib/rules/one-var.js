@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/one-var"),
-    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6, sourceType: "script" } });
 
