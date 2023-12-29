@@ -20,6 +20,9 @@ The lists below are ordered roughly by the number of users each change is expect
 * [Removed multiple formatters](#removed-formatters)
 * [Removed `require-jsdoc` and `valid-jsdoc` rules](#remove-jsdoc-rules)
 * [`eslint:recommended` has been updated](#eslint-recommended)
+* [`no-constructor-return` and `no-sequences` rule schemas are stricter](#stricter-rule-schemas)
+* [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
+* [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
 
 ### Breaking changes for plugin developers
 
@@ -94,6 +97,57 @@ Additionally, the following rules have been removed from `eslint:recommended`:
 **To address:** Fix errors or disable these rules.
 
 **Related issue(s):** [#15576](https://github.com/eslint/eslint/issues/15576), [#17446](https://github.com/eslint/eslint/issues/17446), [#17596](https://github.com/eslint/eslint/issues/17596)
+
+## <a name="stricter-rule-schemas"></a> `no-constructor-return` and `no-sequences` rule schemas are stricter
+
+In previous versions of ESLint, `no-constructor-return` and `no-sequences` rules were mistakenly accepting invalid options.
+
+This has been fixed in ESLint v9.0.0:
+
+* The `no-constructor-return` rule does not accept any options.
+* The `no-sequences` rule can take one option, an object with a property `"allowInParentheses"` (boolean).
+
+```json
+{
+    "rules": {
+        "no-constructor-return": ["error"],
+        "no-sequences": ["error", { "allowInParentheses": false }]
+    }
+}
+```
+
+**To address:** If ESLint reports invalid configuration for any of these rules, update your configuration.
+
+**Related issue(s):** [#16879](https://github.com/eslint/eslint/issues/16879)
+
+## <a name="no-implicit-coercion"></a> New checks in `no-implicit-coercion` by default
+
+In ESLint v9.0.0, the `no-implicit-coercion` rule additionally reports the following cases by default:
+
+```js
+-(-foo);
+foo - 0;
+```
+
+**To address:** If you want to retain the previous behavior of this rule, set `"allow": ["-", "- -"]`.
+
+```json
+{
+    "rules": {
+        "no-implicit-coercion": [2, { "allow": ["-", "- -"] } ],
+    }
+}
+```
+
+**Related issue(s):** [#17832](https://github.com/eslint/eslint/pull/17832)
+
+## <a name="no-invalid-regexp"></a> Case-sensitive flags in `no-invalid-regexp`
+
+In ESLint v9.0.0, the option `allowConstructorFlags` is now case-sensitive.
+
+**To address:** Update your configuration if needed.
+
+**Related issue(s):** [#16574](https://github.com/eslint/eslint/issues/16574)
 
 ## <a name="removed-context-methods"></a> Removed multiple `context` methods
 
