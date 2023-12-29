@@ -205,7 +205,7 @@ As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the t
     });
     ```
 
-* **Translate other config keys.** Keys such as `env` and `parser` that used to run on the eslintrc config system must be translated into the flat config system. Please refer to the [Configuration Migration Guide](/docs/latest/use/configure/migration-guide) for details on translating other keys you may be using.
+* **Translate other config keys.** Keys such as `env` and `parser` that used to run on the eslintrc config system must be translated into the flat config system. Please refer to the [Configuration Migration Guide](configure/migration-guide) for details on translating other keys you may be using.
 
 **Related Issues(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
 
