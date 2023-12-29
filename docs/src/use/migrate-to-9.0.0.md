@@ -17,7 +17,7 @@ The lists below are ordered roughly by the number of users each change is expect
 ### Breaking changes for users
 
 * [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
-* [New config format (`eslint.config.js`)](#flat-config)
+* [New default config format (`eslint.config.js`)](#flat-config)
 * [Removed multiple formatters](#removed-formatters)
 * [Removed `require-jsdoc` and `valid-jsdoc` rules](#remove-jsdoc-rules)
 * [`eslint:recommended` has been updated](#eslint-recommended)
