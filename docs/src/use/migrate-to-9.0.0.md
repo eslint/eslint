@@ -62,6 +62,8 @@ In ESLint v9.0.0, [`eslint.config.js`](./configure/configuration-files) is the d
 
 **To address:** Update your configuration to the new format following the [Configuration Migration Guide](./configure/migration-guide). In case you still need to use the old `eslintrc` config format, set environment variable `ESLINT_USE_FLAT_CONFIG` to `false`.
 
+**Related Issues(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
+
 ## <a name="removed-formatters"></a> Removed multiple formatters
 
 ESLint v9.0.0 has removed the following formatters from the core:
