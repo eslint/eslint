@@ -20,6 +20,8 @@ The lists below are ordered roughly by the number of users each change is expect
 * [Removed multiple formatters](#removed-formatters)
 * [Removed `require-jsdoc` and `valid-jsdoc` rules](#remove-jsdoc-rules)
 * [`eslint:recommended` has been updated](#eslint-recommended)
+* [`--quiet` no longer runs rules set to `"warn"`](#quiet-warn)
+* [Change in behavior when no patterns are passed to CLI](#cli-empty-patterns)
 * [`no-constructor-return` and `no-sequences` rule schemas are stricter](#stricter-rule-schemas)
 * [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
 * [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
@@ -100,6 +102,27 @@ Additionally, the following rules have been removed from `eslint:recommended`:
 **To address:** Fix errors or disable these rules.
 
 **Related issue(s):** [#15576](https://github.com/eslint/eslint/issues/15576), [#17446](https://github.com/eslint/eslint/issues/17446), [#17596](https://github.com/eslint/eslint/issues/17596)
+
+## <a name="quiet-warn"></a> `--quiet` no longer runs rules set to `"warn"`
+
+Prior to ESLint v9.0.0, the `--quiet` CLI flag would run all rules set to either `"error"` or `"warn"` and then hide the results from rules set to `"warn"`. In ESLint v9.0.0, `--quiet` will prevent rules from being executed when set to `"warn"`. This can result in a performance improvement for configurations containing many rules set to `"warn"`.
+
+If `--max-warnings` is used then `--quiet` will not suppress the execution of rules set to `"warn"` but the output of those rules will be suppressed.
+
+**To address:** In most cases, this change is transparent. If, however, you are running a rule set to `"warn"` that makes changes to the data available to other rules (for example, if the rule uses `sourceCode.markVariableAsUsed()`), then this can result in a behavior change. In such a case, you'll need to either set the rule to `"error"` or stop using `--quiet`.
+
+**Related issue(s):** [#16450](https://github.com/eslint/eslint/issues/16450)
+
+## <a name="cli-empty-patterns"></a> Change in behavior when no patterns are passed to CLI
+
+Prior to ESLint v9.0.0, running the ESLint CLI without any file or directory patterns would result in no files being linted and would exit with code 0. This was confusing because it wasn't clear that nothing had actually happened. In ESLint v9.0.0, this behavior has been updated:
+
+* **Flat config.** If you are using flat config, you can run `npx eslint` or `eslint` (if globally installed) and ESLint will assume you want to lint the current directory. Effectively, passing no patterns is equivalent to passing `.`.
+* **eslintrc.** If you are using the deprecated eslintrc config, you'll now receive an error when running the CLI without any patterns.
+
+**To address:** In most cases, no change is necessary, and you may find some locations where you thought ESLint was running but it wasn't. If you'd like to keep the v8.x behavior, where passing no patterns results in ESLint exiting with code 0, add the `--pass-on-no-patterns` flag to the CLI call.
+
+**Related issue(s):** [#14308](https://github.com/eslint/eslint/issues/14308)
 
 ## <a name="stricter-rule-schemas"></a> `no-constructor-return` and `no-sequences` rule schemas are stricter
 
