@@ -26,6 +26,8 @@ The lists below are ordered roughly by the number of users each change is expect
 * [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
 * [Removed multiple `context` methods](#removed-context-methods)
 * [Removed `sourceCode.getComments()`](#removed-sourcecode-getcomments)
+* [Function-style rules are no longer supported](#drop-function-style-rules)
+* [`meta.schema` is required for rules with options](#meta-schema-required)
 
 ### Breaking changes for integration developers
 
@@ -131,6 +133,30 @@ ESLint v9.0.0 removes the deprecated `sourceCode.getComments()` method.
 **To address:** Replace with `sourceCode.getCommentsBefore()`, `sourceCode.getCommentsAfter()`, or `sourceCode.getCommentsInside()`.
 
 **Related Issues(s):** [#14744](https://github.com/eslint/eslint/issues/14744)
+
+## <a name="drop-function-style-rules"></a> Function-style rules are no longer supported
+
+ESLint v9.0.0 drops support for function-style rules. Function-style rules are rules created by exporting a function rather than an object with a `create()` method. This rule format was deprecated in 2016.
+
+**To address:** Update your rules to [the most recent rule format](../extend/custom-rules).
+
+The [eslint-plugin/prefer-object-rule](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-object-rule.md) rule can help enforce the usage of object-style rules and autofix any remaining function-style rules.
+
+**Related Issues(s):** [#14709](https://github.com/eslint/eslint/issues/14709)
+
+## <a name="meta-schema-required"></a> `meta.schema` is required for rules with options
+
+As of ESLint v9.0.0, an error will be thrown if any options are [passed](../use/configure/rules#using-configuration-files) to a rule that doesn't specify `meta.schema` property.
+
+**To address:**
+
+* If your rule expects [options](../extend/custom-rules#accessing-options-passed-to-a-rule), set [`meta.schema`](../extend/custom-rules#options-schemas) property to a JSON Schema format description of the rule’s options. This schema will be used by ESLint to validate configured options and prevent invalid or unexpected inputs to your rule.
+* If your rule doesn't expect any options, there is no action required. This change ensures that end users will not mistakenly configure options for rules that don't expect options.
+* **(not recommended)** you can also set `meta.schema` to `false` to disable this validation, but it is highly recommended to provide a schema if the rule expects options and omit the schema (or set `[]`) if the rule doesn't expect options so that ESLint can ensure that your users' configurations are valid.
+
+The [eslint-plugin/require-meta-schema](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-schema.md) rule can help enforce that rules have schemas when required.
+
+**Related Issues(s):** [#14709](https://github.com/eslint/eslint/issues/14709)
 
 ## <a name="flat-eslint"></a> `FlatESLint` is now `ESLint`
 
