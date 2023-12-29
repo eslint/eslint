@@ -74,22 +74,10 @@ describe("check-rule-examples", () => {
 
         await assert.rejects(
             promise,
-            ({ code, stdout, stderr }) => {
-                assert.strictEqual(code, 1);
-                assert.strictEqual(stdout, "");
-                const expectedStderr =
-                "\x1B[0m\x1B[0m\n" +
-                "\x1B[0m\x1B[4mtests/fixtures/non-existing-examples.md\x1B[24m\x1B[0m\n" +
-                "\x1B[0m  \x1B[2m0:0\x1B[22m  \x1B[31merror\x1B[39m  Error checking file: ENOENT: no such file or directory, open <FILE>\x1B[0m\n" +
-                "\x1B[0m\x1B[0m\n" +
-                "\x1B[0m\x1B[31m\x1B[1m✖ 1 problem (1 error, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
-                "\x1B[0m\x1B[31m\x1B[1m\x1B[22m\x1B[39m\x1B[0m\n";
-
-                // Replace filename as it's OS-dependent.
-                const normalizedStderr = stderr.replace(/'.+'/u, "<FILE>");
-
-                assert.strictEqual(normalizedStderr, expectedStderr);
-                return true;
+            {
+                code: 1,
+                stdout: "",
+                stderr: "No files found that match the specified patterns.\n"
             }
         );
     });

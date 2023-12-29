@@ -167,7 +167,13 @@ const patterns = process.argv.slice(2);
 (async function() {
 
     // determine which files to check
-    const filenames = (await Promise.all(patterns.map(pattern => glob(pattern, { nonull: true })))).flat();
+    const filenames = await glob(patterns);
+
+    if (patterns.length && !filenames.length) {
+        console.error("No files found that match the specified patterns.");
+        process.exitCode = 1;
+        return;
+    }
     const results = await Promise.all(filenames.map(checkFile));
 
     if (results.every(result => result.errorCount === 0)) {
