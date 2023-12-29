@@ -199,6 +199,36 @@ describe("merge", () => {
         assert.deepStrictEqual(result, { foo: void 0, bar: void 0, baz: void 0 });
     });
 
+    it("considers only own enumerable properties", () => {
+        const first = {
+            __proto__: { inherited1: "A" }, // non-own properties are not considered
+            included1: "B",
+            notMerged1: { first: true }
+        };
+        const second = {
+            __proto__: { inherited2: "C" }, // non-own properties are not considered
+            included2: "D",
+            notMerged2: { second: true }
+        };
+
+        // non-enumerable properties are not considered
+        Object.defineProperty(first, "notMerged2", { enumerable: false, value: { first: true } });
+        Object.defineProperty(second, "notMerged1", { enumerable: false, value: { second: true } });
+
+        const result = merge(first, second);
+
+        assert.deepStrictEqual(
+            result,
+            {
+                included1: "B",
+                included2: "D",
+                notMerged1: { first: true },
+                notMerged2: { second: true }
+            }
+        );
+        confirmLegacyMergeResult(first, second, result);
+    });
+
     it("merges objects with self-references", () => {
         const first = { foo: 42 };
 
