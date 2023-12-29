@@ -193,7 +193,7 @@ As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the t
 
     // becomes
 
-    ruleTester.run({
+    ruleTester.run("my-rule", myRule, {
         valid: [
             {
                 code: "foo",
