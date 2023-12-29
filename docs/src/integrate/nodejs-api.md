@@ -83,9 +83,9 @@ const testCode = `
 (async function main() {
     // 1. Create an instance
     const eslint = new ESLint({
-        useEslintrc: false,
+        overrideConfigFile: true,
         overrideConfig: {
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2018,
                 sourceType: "commonjs"
             }
@@ -129,8 +129,12 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't interpret glob patterns.
 * `options.ignore` (`boolean`)<br>
   Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't respect `.eslintignore` files or `ignorePatterns` in your configuration.
-* `options.ignorePath` (`string | null`)<br>
-  Default is `null`. The path to a file ESLint uses instead of `$CWD/.eslintignore`. If a path is present and the file doesn't exist, this constructor will throw an error.
+* `options.ignorePatterns` (`string[] | null`)<br>
+  Default is `null`. Ignore file patterns to use in addition to config ignores. These patterns are relative to `cwd`.
+* `options.passOnNoPatterns` (`boolean`)<br>
+  Default is `false`. When set to `true`, missing patterns cause the linting operation to short circuit and not report any failures.
+* `options.warnIgnored` (`boolean`)<br>
+  Default is `true`. Show warnings when the file list includes ignored files.
 
 ##### Linting
 
@@ -144,8 +148,6 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `false`. The path to a configuration file, overrides all configurations used with this instance. The `options.overrideConfig` option is applied after this option is applied.
 * `options.plugins` (`Record<string, Plugin> | null`)<br>
   Default is `null`. The plugin implementations that ESLint uses for the `plugins` setting of your configuration. This is a map-like object. Those keys are plugin IDs and each value is implementation.
-* `options.reportUnusedDisableDirectives` (`"error" | "warn" | "off" | null`)<br>
-  Default is `null`. The severity to report unused eslint-disable and eslint-enable directives. If this option is a severity, it overrides the `reportUnusedDisableDirectives` setting in your configurations.
 * `options.ruleFilter` (`({ruleId: string, severity: number}) => boolean`)<br>
   Default is `() => true`. A predicate function that filters rules to be run. This function is called with an object containing `ruleId` and `severity`, and returns `true` if the rule should be run.
 
@@ -204,7 +206,7 @@ The second parameter `options` is omittable.
 * `options.filePath` (`string`)<br>
   Optional. The path to the file of the source code text. If omitted, the `result.filePath` becomes the string `"<text>"`.
 * `options.warnIgnored` (`boolean`)<br>
-  Optional. If `true` is present and the `options.filePath` is a file ESLint should ignore, this method returns a lint result contains a warning message.
+  Optional, defaults to `options.warnIgnored` passed to the constructor. If `true` is present and the `options.filePath` is a file ESLint should ignore, this method returns a lint result contains a warning message.
 
 #### Return Value
 
