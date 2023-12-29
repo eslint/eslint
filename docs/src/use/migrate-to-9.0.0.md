@@ -23,6 +23,8 @@ The lists below are ordered roughly by the number of users each change is expect
 * [`no-constructor-return` and `no-sequences` rule schemas are stricter](#stricter-rule-schemas)
 * [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
 * [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
+* [Stricter `/* exported */` parsing](#exported-parsing)
+* [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
 
 ### Breaking changes for plugin developers
 
@@ -149,6 +151,58 @@ In ESLint v9.0.0, the option `allowConstructorFlags` is now case-sensitive.
 **To address:** Update your configuration if needed.
 
 **Related issue(s):** [#16574](https://github.com/eslint/eslint/issues/16574)
+
+## <a name="exported-parsing"></a> Stricter `/* exported */` parsing
+
+Prior to ESLint v9.0.0, the `/* exported */` directive incorrectly allowed the following syntax:
+
+```js
+/* exported foo: true, bar: false */
+
+// and
+
+/* exported foo bar */
+```
+
+The `true` and `false` in this example had no effect on ESLint's behavior, and in fact, was a parsing bug.
+
+In ESLint v9.0.0, any `/* exported */` variables followed by a colon and value will be ignored as invalid.
+
+**To address:** Update any `/* exported */` directives to eliminate the colons and subsequent values, and ensure there are commas between variable names such as:
+
+```js
+/* exported foo, bar */
+```
+
+**Related issue(s):** [#17622](https://github.com/eslint/eslint/issues/17622)
+
+## <a name="string-config"></a> `"eslint:recommended"` and `"eslint:all"` no longer accepted in flat config
+
+In ESLint v8.x, `eslint.config.js` could refer to `"eslint:recommended"` and `"eslint:all"` configurations by inserting a string into the config array, as in this example:
+
+```js
+// eslint.config.js
+export default [
+    "eslint:recommended",
+    "eslint:all"
+];
+```
+
+In ESLint v9.0.0, this format is no longer supported and will result in an error.
+
+**To address:** Use the `@eslint/js` package instead:
+
+```js
+// eslint.config.js
+import js from "@eslint/js";
+
+export default [
+    js.configs.recommended,
+    js.configs.all
+];
+```
+
+**Related issue(s):** [#17488](https://github.com/eslint/eslint/issues/17488)
 
 ## <a name="removed-context-methods"></a> Removed multiple `context` methods
 
