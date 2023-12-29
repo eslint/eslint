@@ -986,7 +986,7 @@ describe("LegacyESLint", () => {
 
     describe("lintFiles()", () => {
 
-        /** @type {InstanceType<import("../../../lib/eslint").ESLint>} */
+        /** @type {InstanceType<import("../../../lib/eslint/legacy-eslint").LegacyESLint>} */
         let eslint;
 
         it("should use correct parser when custom parser is specified", async () => {
@@ -5981,7 +5981,7 @@ describe("LegacyESLint", () => {
 
     describe("when retrieving version number", () => {
         it("should return current version number", () => {
-            const eslintCLI = require("../../../lib/eslint").ESLint;
+            const eslintCLI = require("../../../lib/eslint").LegacyESLint;
             const version = eslintCLI.version;
 
             assert.strictEqual(typeof version, "string");
