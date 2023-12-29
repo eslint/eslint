@@ -58,7 +58,7 @@ ESLint is officially dropping support for these versions of Node.js starting wit
 
 ## <a name="flat-config"></a> New default config format (`eslint.config.js`)
 
-In ESLint v9.0.0, [`eslint.config.js`](./configure/configuration-files) is the default configuration format.
+As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), In ESLint v9.0.0, [`eslint.config.js`](./configure/configuration-files) is the now default configuration format. The previous format, eslintrc, is now deprecated and will not automatically be searched for.
 
 **To address:** Update your configuration to the new format following the [Configuration Migration Guide](./configure/migration-guide). In case you still need to use the old `eslintrc` config format, set environment variable `ESLINT_USE_FLAT_CONFIG` to `false`.
 
