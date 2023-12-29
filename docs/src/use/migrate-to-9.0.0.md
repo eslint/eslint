@@ -158,17 +158,25 @@ Prior to ESLint v9.0.0, the `/* exported */` directive incorrectly allowed the f
 
 ```js
 /* exported foo: true, bar: false */
+
+// and
+
+/* exported foo bar */
 ```
 
 The `true` and `false` in this example had no effect on ESLint's behavior, and in fact, was a parsing bug.
 
 In ESLint v9.0.0, any `/* exported */` variables followed by a colon and value will be ignored as invalid.
 
-**To address:** Update any `/* exported */` directives to eliminate the colons and subsequent values.
+**To address:** Update any `/* exported */` directives to eliminate the colons and subsequent values, and ensure there are commas between variable names such as:
+
+```js
+/* exported foo, bar */
+```
 
 **Related issue(s):** [#17622](https://github.com/eslint/eslint/issues/17622)
 
-## <a name="string-config"></a> `"eslint:recommended"` and `"eslint:all"` invalid in flat config
+## <a name="string-config"></a> `"eslint:recommended"` and `"eslint:all"` no longer accepted in flat config
 
 In ESLint v8.x, `eslint.config.js` could refer to `"eslint:recommended"` and `"eslint:all"` configurations by inserting a string into the config array, as in this example:
 
