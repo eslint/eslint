@@ -1135,7 +1135,7 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "try{}catch(err){};",
             options: [{ caughtErrors: "all", varsIgnorePattern: "^err" }],
-            errors: [definedError("err", ". Allowed unused vars must match /^err/u")]
+            errors: [definedError("err")]
         },
 
         // multiple try catch with one success
