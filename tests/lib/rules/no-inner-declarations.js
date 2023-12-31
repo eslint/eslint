@@ -105,22 +105,7 @@ ruleTester.run("no-inner-declarations", rule, {
             languageOptions: { ecmaVersion: 2022 }
         },
         {
-            code: "'use strict' \n if (foo) var a;",
-            options: ["both"],
-            languageOptions: { ecmaVersion: 2022 }
-        },
-        {
-            code: "'use strict' \n if (foo) { var fn = function(){} }",
-            options: ["both"],
-            languageOptions: { ecmaVersion: 2022 }
-        },
-        {
-            code: "'use strict' \n if (foo) { function f(){ if(bar) var a; } }",
-            options: ["both", { legacy: true }],
-            languageOptions: { ecmaVersion: 2022 }
-        },
-        {
-            code: "'use strict' \n if (foo) { var fn = function(){} }",
+            code: "'use strict' \n if (foo) { function doSomething() { } }",
             options: ["both"],
             languageOptions: { ecmaVersion: 5 }
         },
@@ -135,22 +120,7 @@ ruleTester.run("no-inner-declarations", rule, {
             languageOptions: { ecmaVersion: 2022, sourceType: "module" }
         },
         {
-            code: "if (foo) var fn = function() { }",
-            options: ["both"],
-            languageOptions: { ecmaVersion: 2022, sourceType: "module" }
-        },
-        {
-            code: "class C { method() { if(test) { var foo; } } }",
-            options: ["both"],
-            languageOptions: { ecmaVersion: 2022 }
-        },
-        {
-            code: "class C { static { if (test) { var foo; } } }",
-            options: ["both"],
-            languageOptions: { ecmaVersion: 2022 }
-        },
-        {
-            code: "class C { static { if (test) { if (anotherTest) { var foo; } } } }",
+            code: "class C { method() { if(test) { function somethingElse() { } } } }",
             options: ["both"],
             languageOptions: { ecmaVersion: 2022 }
         }
@@ -353,19 +323,6 @@ ruleTester.run("no-inner-declarations", rule, {
         },
         {
             code: "'use strict' \n if (test) { function doSomething() { } }",
-            options: ["both", { legacy: true }],
-            languageOptions: { ecmaVersion: 5 },
-            errors: [{
-                messageId: "moveDeclToRoot",
-                data: {
-                    type: "function",
-                    body: "program"
-                },
-                type: "FunctionDeclaration"
-            }]
-        },
-        {
-            code: "'use strict' \n if (foo){ function f(){ if(bar){ var a; } } }",
             options: ["both", { legacy: true }],
             languageOptions: { ecmaVersion: 5 },
             errors: [{

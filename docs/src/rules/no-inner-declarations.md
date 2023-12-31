@@ -61,7 +61,7 @@ function doSomething() {
 
 ## Rule Details
 
-This rule requires that function declarations and, optionally, variable declarations be in the root of a program, or in the root of the body of a function, or in the root of a class static block in non-strict code. This rule doesn't report function declarations and variable declarations if code is in strict mode (code with `"use strict"` tag or ESM modules).
+This rule requires that function declarations and, optionally, variable declarations be in the root of a program, or in the root of the body of a function, or in the root of a class static block in non-strict code. This rule doesn't report function declarations if code is in strict mode (code with `"use strict"` tag or ESM modules).
 
 ## Options
 
@@ -211,42 +211,6 @@ class C {
 :::
 
 Examples of **correct** code for this rule with the `"both"` option:
-
-::: correct { "sourceType": "script" }
-
-```js
-/*eslint no-inner-declarations: ["error", "both"]*/
-
-"use strict";
-
-if (test) {
-    var foo = 42;
-}
-
-function doAnotherThing() {
-    if (test) {
-        var bar = 81;
-    }
-}
-
-if (foo) {
-    var a;
-}
-
-if (foo) {
-    function f(){}
-}
-
-class C {
-    static {
-        if (test) {
-            var something;
-        }
-    }
-}
-```
-
-:::
 
 ::: correct { "sourceType": "script" }
 
