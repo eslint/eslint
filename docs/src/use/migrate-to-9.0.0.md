@@ -34,6 +34,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
 * [Removed multiple `context` methods](#removed-context-methods)
 * [Removed `sourceCode.getComments()`](#removed-sourcecode-getcomments)
+* [Removed `CodePath#currentSegments`](#removed-codepath-currentsegments)
 * [Function-style rules are no longer supported](#drop-function-style-rules)
 * [`meta.schema` is required for rules with options](#meta-schema-required)
 * [`FlatRuleTester` is now `RuleTester`](#flat-rule-tester)
@@ -276,6 +277,14 @@ ESLint v9.0.0 removes the deprecated `sourceCode.getComments()` method.
 **To address:** Replace with `sourceCode.getCommentsBefore()`, `sourceCode.getCommentsAfter()`, or `sourceCode.getCommentsInside()`.
 
 **Related Issues(s):** [#14744](https://github.com/eslint/eslint/issues/14744)
+
+## <a name="removed-codepath-currentsegments"></a> Removed `CodePath#currentSegments`
+
+ESLint v9.0.0 removes the deprecated `CodePath#currentSegments` property.
+
+**To address:** Update your code following the recommendations in the [blog post](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#codepath%23currentsegments).
+
+**Related Issues(s):** [#17457](https://github.com/eslint/eslint/issues/17457)
 
 ## <a name="drop-function-style-rules"></a> Function-style rules are no longer supported
 
