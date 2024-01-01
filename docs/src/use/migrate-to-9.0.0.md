@@ -43,6 +43,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 * [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
 * [`FlatESLint` is now `ESLint`](#flat-eslint)
+* [`Linter` now expects flat config format](#flat-linter)
 
 ---
 
@@ -371,6 +372,95 @@ If you still need the v8.x `ESLint` functionality, use the `LegacyESLint` class 
 
 ```js
 const { LegacyESLint } = require("eslint/use-at-your-own-risk");
+```
+
+**Related Issues(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
+
+## <a name="flat-linter"></a> `Linter` now expects flat config format
+
+In ESLint v9.0.0, the `config` argument passed to `Linter#verify()` and `Linter#verifyAndFix()` methods should be in the flat config format.
+
+Additionally, methods `Linter#defineRule()`, `Linter#defineRules()`, `Linter#defineParser()`, and `Linter#getRules()` are no longer available.
+
+**To address:** If you are using the `Linter` class, verify that your tests pass.
+
+If you're passing configuration objects that are incompatible with the flat config format, you'll need to update the code.
+
+```js
+// eslintrc config format
+linter.verify(code, {
+    parserOptions: {
+        ecmaVersion: 6
+    }
+});
+
+// flat config format
+linter.verify(code, {
+    languageOptions: {
+        ecmaVersion: 6
+    }
+});
+```
+
+Please refer to the [Configuration Migration Guide](configure/migration-guide) for details on translating other keys you may be using.
+
+Rules and parsers can be defined directly in the configuration.
+
+```js
+// eslintrc mode
+linter.defineRule("my-rule1", myRule1);
+linter.defineRules({
+    "my-rule2": myRule2,
+    "my-rule3": myRule3
+});
+linter.defineParser("my-parser", myParser);
+linter.verify(code, {
+    rules: {
+        "my-rule1": "error",
+        "my-rule2": "error",
+        "my-rule3": "error"
+    },
+    parser: "my-parser"
+});
+
+// flat config mode
+linter.verify(code, {
+    plugins: {
+        "my-plugin-foo": {
+            rules: {
+                "my-rule1": myRule1
+            }
+        },
+        "my-plugin-bar": {
+            rules: {
+                "my-rule2": myRule2,
+                "my-rule3": myRule3
+            }
+        }
+    },
+    rules: {
+        "my-plugin-foo/my-rule1": "error",
+        "my-plugin-bar/my-rule2": "error",
+        "my-plugin-bar/my-rule3": "error"
+    },
+    languageOptions: {
+        parser: myParser
+    }
+});
+```
+
+If you still need the v8.x `Linter` functionality, pass `configType: "eslintrc"` to the constructor like this:
+
+```js
+const linter = new Linter({ configType: "eslintrc" });
+
+linter.verify(code, {
+    parserOptions: {
+        ecmaVersion: 6
+    }
+});
+
+linter.getRules();
 ```
 
 **Related Issues(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
