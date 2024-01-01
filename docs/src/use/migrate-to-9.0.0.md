@@ -378,9 +378,9 @@ const { LegacyESLint } = require("eslint/use-at-your-own-risk");
 
 ## <a name="flat-linter"></a> `Linter` now expects flat config format
 
-In ESLint v9.0.0, the `config` argument passed to `Linter#verify` and `Linter#verifyAndFix` methods should be in the flat config format.
+In ESLint v9.0.0, the `config` argument passed to `Linter#verify()` and `Linter#verifyAndFix()` methods should be in the flat config format.
 
-Additionally, methods `Linter#defineRule`, `Linter#defineRules`, `Linter#defineParser`, and `Linter#getRules` are no longer available.
+Additionally, methods `Linter#defineRule()`, `Linter#defineRules()`, `Linter#defineParser()`, and `Linter#getRules()` are no longer available.
 
 **To address:** If you are using the `Linter` class, verify that your tests pass.
 
