@@ -283,7 +283,7 @@ ESLint v9.0.0 removes the deprecated `CodePath#currentSegments` property.
 
 **To address:** Update your code following the recommendations in the [blog post](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#codepath%23currentsegments).
 
-**Related Issues(s):** [#16999](https://github.com/eslint/eslint/issues/16999)
+**Related Issues(s):** [#17457](https://github.com/eslint/eslint/issues/17457)
 
 ## <a name="drop-function-style-rules"></a> Function-style rules are no longer supported
 
