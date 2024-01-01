@@ -52,7 +52,6 @@
         "postcss-cli": "^10.0.0",
         "postcss-html": "^1.5.0",
         "prismjs": "^1.29.0",
-        "rimraf": "^3.0.2",
         "sass": "^1.52.1",
         "stylelint": "^14.13.0",
         "stylelint-config-html": "^1.1.0",
