@@ -491,7 +491,7 @@ const codeLines = SourceCode.splitLines(code);
 
 ## Linter
 
-The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. Unless you are working in the browser, you probably want to use the [ESLint class](#eslint-class) instead.
+The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration files. Unless you are working in the browser, you probably want to use the [ESLint class](#eslint-class) instead.
 
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
@@ -513,8 +513,8 @@ Those run on `linter2` will get `process.cwd()` if the global `process` object i
 The most important method on `Linter` is `verify()`, which initiates linting of the given text. This method accepts three arguments:
 
 * `code` - the source code to lint (a string or instance of `SourceCode`).
-* `config` - a configuration object that has been processed and normalized by `ESLint` using eslintrc files and/or other configuration arguments.
-    * **Note**: If you want to lint text and have your configuration be read and processed, use [`ESLint#lintFiles()`][eslint-lintfiles] or [`ESLint#lintText()`][eslint-linttext] instead.
+* `config` - a [Configuration object] or an array of configuration objects.
+    * **Note**: If you want to lint text and have your configuration be read from the file system, use [`ESLint#lintFiles()`][eslint-lintfiles] or [`ESLint#lintText()`][eslint-linttext] instead.
 * `options` - (optional) Additional options for this run.
     * `filename` - (optional) the filename to associate with the source code.
     * `preprocess` - (optional) A function that [Processors in Plugins](../extend/plugins#processors-in-plugins) documentation describes as the `preprocess` method.
@@ -557,18 +557,20 @@ const messages = linter.verify(code, {
 The `verify()` method returns an array of objects containing information about the linting warnings and errors. Here's an example:
 
 ```js
-{
-    fatal: false,
-    ruleId: "semi",
-    severity: 2,
-    line: 1,
-    column: 23,
-    message: "Expected a semicolon.",
-    fix: {
-        range: [1, 15],
-        text: ";"
+[
+    {
+        fatal: false,
+        ruleId: "semi",
+        severity: 2,
+        line: 1,
+        column: 23,
+        message: "Expected a semicolon.",
+        fix: {
+            range: [1, 15],
+            text: ";"
+        }
     }
-}
+]
 ```
 
 The information available for each linting message is:
@@ -600,8 +602,6 @@ const suppressedMessages = linter.getSuppressedMessages();
 
 console.log(suppressedMessages[0].suppressions); // [{ "kind": "directive", "justification": "Need to suppress" }]
 ```
-
-Linting message objects have a deprecated `source` property. This property **will be removed** from linting messages in an upcoming breaking release. If you depend on this property, you should now use the `SourceCode` instance provided by the linter.
 
 You can also get an instance of the `SourceCode` object used inside of `linter` by using the `getSourceCode()` method:
 
@@ -653,83 +653,6 @@ The information available is:
 * `output` - Fixed code text (might be the same as input if no fixes were applied).
 * `messages` - Collection of all messages for the given code (It has the same information as explained above under `verify` block).
 
-### Linter#defineRule
-
-Each `Linter` instance holds a map of rule names to loaded rule objects. By default, all ESLint core rules are loaded. If you want to use `Linter` with custom rules, you should use the `defineRule` method to register your rules by ID.
-
-```js
-const Linter = require("eslint").Linter;
-const linter = new Linter();
-
-linter.defineRule("my-custom-rule", {
-    // (an ESLint rule)
-
-    create(context) {
-        // ...
-    }
-});
-
-const results = linter.verify("// some source text", { rules: { "my-custom-rule": "error" } });
-```
-
-### Linter#defineRules
-
-This is a convenience method similar to `Linter#defineRule`, except that it allows you to define many rules at once using an object.
-
-```js
-const Linter = require("eslint").Linter;
-const linter = new Linter();
-
-linter.defineRules({
-    "my-custom-rule": { /* an ESLint rule */ create() {} },
-    "another-custom-rule": { /* an ESLint rule */ create() {} }
-});
-
-const results = linter.verify("// some source text", {
-    rules: {
-        "my-custom-rule": "error",
-        "another-custom-rule": "warn"
-    }
-});
-```
-
-### Linter#getRules
-
-This method returns a map of all loaded rules.
-
-```js
-const Linter = require("eslint").Linter;
-const linter = new Linter();
-
-linter.getRules();
-
-/*
-Map {
-  'accessor-pairs' => { meta: { docs: [Object], schema: [Array] }, create: [Function: create] },
-  'array-bracket-newline' => { meta: { docs: [Object], schema: [Array] }, create: [Function: create] },
-  ...
-}
-*/
-```
-
-### Linter#defineParser
-
-Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically, you can add this function
-with the name of the parser as first argument and the [parser object](../extend/custom-parsers) as second argument. The default `"espree"` parser will already be loaded for every `Linter` instance.
-
-```js
-const Linter = require("eslint").Linter;
-const linter = new Linter();
-
-linter.defineParser("my-custom-parser", {
-    parse(code, options) {
-        // ...
-    }
-});
-
-const results = linter.verify("// some source text", { parser: "my-custom-parser" });
-```
-
 ### Linter#version/Linter.version
 
 Each instance of `Linter` has a `version` property containing the semantic version number of ESLint that the `Linter` instance is from.
@@ -738,7 +661,7 @@ Each instance of `Linter` has a `version` property containing the semantic versi
 const Linter = require("eslint").Linter;
 const linter = new Linter();
 
-linter.version; // => '4.5.0'
+linter.version; // => '9.0.0'
 ```
 
 There is also a `Linter.version` property that you can read without instantiating `Linter`:
@@ -746,7 +669,7 @@ There is also a `Linter.version` property that you can read without instantiatin
 ```js
 const Linter = require("eslint").Linter;
 
-Linter.version; // => '4.5.0'
+Linter.version; // => '9.0.0'
 ```
 
 ---
