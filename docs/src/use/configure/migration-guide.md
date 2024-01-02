@@ -612,7 +612,7 @@ export default [
 
         // configure the rule
         rules: {
-            "my-rule": ["error"]
+            "local/my-rule": ["error"]
         }
 
     }
