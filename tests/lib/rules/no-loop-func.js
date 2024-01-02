@@ -473,6 +473,20 @@ ruleTester.run("no-loop-func", rule, {
             `,
             languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
+        },
+        {
+            code: `
+            var arr1 = [], arr2 = [];
+
+            for (var [i, j] of ["a", "b", "c"].entries()) {
+                (() => {
+                    arr1.push((() => i)());
+                    arr2.push(() => j);
+                })();
+            }
+            `,
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'j'" }, type: "ArrowFunctionExpression" }]
         }
     ]
 });
