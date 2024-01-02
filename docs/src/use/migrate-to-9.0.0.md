@@ -23,7 +23,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [`eslint:recommended` has been updated](#eslint-recommended)
 * [`--quiet` no longer runs rules set to `"warn"`](#quiet-warn)
 * [Change in behavior when no patterns are passed to CLI](#cli-empty-patterns)
-* [`/* eslint */` comments with only severity retain options from the config file](#eslint-comment-options)
+* [`/* eslint */` comments with only severity now retain options from the config file](#eslint-comment-options)
 * [`no-constructor-return` and `no-sequences` rule schemas are stricter](#stricter-rule-schemas)
 * [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
 * [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
@@ -136,7 +136,7 @@ Prior to ESLint v9.0.0, running the ESLint CLI without any file or directory pat
 
 **Related issue(s):** [#14308](https://github.com/eslint/eslint/issues/14308)
 
-## <a name="eslint-comment-options"></a> `/* eslint */` comments with only severity retain options from the config file
+## <a name="eslint-comment-options"></a> `/* eslint */` comments with only severity now retain options from the config file
 
 Prior to ESLint v9.0.0, configuration comments such as `/* eslint curly: "warn" */` or `/* eslint curly: ["warn"] */` would completely override any configuration specified for the rule in the config file, and thus enforce the default options of the rule.
 
