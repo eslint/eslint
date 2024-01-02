@@ -593,7 +593,7 @@ The flag `--no-eslintrc` has been replaced with `--no-config-lookup`.
 
 #### `--rulesdir`
 
-The `--rulesdir` flag was used to load additional rules from a specified directly. This is no longer supported when using flat config. You can instead create a plugin containing the local rules you have directly in your config, like this:
+The `--rulesdir` flag was used to load additional rules from a specified directory. This is no longer supported when using flat config. You can instead create a plugin containing the local rules you have directly in your config, like this:
 
 ```js
 // eslint.config.js
