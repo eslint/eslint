@@ -54,6 +54,7 @@ ruleTester.run("no-eval", rule, {
         { code: "() => { this.eval('foo') }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "function f() { 'use strict'; () => { this.eval('foo') } }", languageOptions: { ecmaVersion: 6 } },
         { code: "(function f() { 'use strict'; () => { this.eval('foo') } })", languageOptions: { ecmaVersion: 6 } },
+        { code: "class C extends function () { this.eval('foo'); } {}", languageOptions: { ecmaVersion: 6 } },
         { code: "class A { foo() { this.eval(); } }", languageOptions: { ecmaVersion: 6 } },
         { code: "class A { static foo() { this.eval(); } }", languageOptions: { ecmaVersion: 6 } },
         { code: "class A { field = this.eval(); }", languageOptions: { ecmaVersion: 2022 } },
