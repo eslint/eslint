@@ -1455,6 +1455,90 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(suppressedMessages.length, 0);
         });
+
+        describe("when the rule was already configured", () => {
+
+            beforeEach(() => {
+                linter.defineRule("my-rule", {
+                    meta: {
+                        schema: [{
+                            type: "string"
+                        }]
+                    },
+                    create(context) {
+                        const message = context.options[0] ?? "option not provided";
+
+                        return {
+                            Program(node) {
+                                context.report({ node, message });
+                            }
+                        };
+                    }
+                });
+            });
+
+            [
+                "off",
+                "warn",
+                "error",
+                ["off"],
+                ["warn"],
+                ["error"],
+                ["off", "bar"],
+                ["warn", "bar"],
+                ["error", "bar"]
+            ].forEach(ruleConfig => {
+                const config = {
+                    rules: {
+                        "my-rule": ruleConfig
+                    }
+                };
+
+                it(`severity from the /*eslint*/ comment and options from the config should apply when the comment has only severity (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                    const code = "/*eslint my-rule: 'warn' */";
+                    const messages = linter.verify(code, config);
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    const expectedMessage = Array.isArray(ruleConfig) && ruleConfig.length > 1
+                        ? ruleConfig[1]
+                        : "option not provided";
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].ruleId, "my-rule");
+                    assert.strictEqual(messages[0].severity, 1);
+                    assert.strictEqual(messages[0].message, expectedMessage);
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it(`severity from the /*eslint*/ comment and options from the config should apply when the comment has array with only severity (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                    const code = "/*eslint my-rule: ['warn'] */";
+                    const messages = linter.verify(code, config);
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    const expectedMessage = Array.isArray(ruleConfig) && ruleConfig.length > 1
+                        ? ruleConfig[1]
+                        : "option not provided";
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].ruleId, "my-rule");
+                    assert.strictEqual(messages[0].severity, 1);
+                    assert.strictEqual(messages[0].message, expectedMessage);
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it(`severity and options from the /*eslint*/ comment should apply when the comment includes options (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                    const code = "/*eslint my-rule: ['warn', 'foo'] */";
+                    const messages = linter.verify(code, config);
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].ruleId, "my-rule");
+                    assert.strictEqual(messages[0].severity, 1);
+                    assert.strictEqual(messages[0].message, "foo");
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+            });
+        });
     });
 
     describe("when evaluating code with invalid comments to enable rules", () => {
@@ -10624,6 +10708,94 @@ describe("Linter with FlatConfigArray", () => {
 
                         assert.strictEqual(messages.length, 1);
                         assert.strictEqual(suppressedMessages.length, 0);
+                    });
+
+                    describe("when the rule was already configured", () => {
+                        const plugin = {
+                            rules: {
+                                "my-rule": {
+                                    meta: {
+                                        schema: [{
+                                            type: "string"
+                                        }]
+                                    },
+                                    create(context) {
+                                        const message = context.options[0] ?? "option not provided";
+
+                                        return {
+                                            Program(node) {
+                                                context.report({ node, message });
+                                            }
+                                        };
+                                    }
+                                }
+                            }
+                        };
+
+                        [
+                            "off",
+                            "warn",
+                            "error",
+                            ["off"],
+                            ["warn"],
+                            ["error"],
+                            ["off", "bar"],
+                            ["warn", "bar"],
+                            ["error", "bar"]
+                        ].forEach(ruleConfig => {
+                            const config = {
+                                plugins: {
+                                    test: plugin
+                                },
+                                rules: {
+                                    "test/my-rule": ruleConfig
+                                }
+                            };
+
+                            it(`severity from the /*eslint*/ comment and options from the config should apply when the comment has only severity (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                                const code = "/*eslint test/my-rule: 'warn' */";
+                                const messages = linter.verify(code, config);
+                                const suppressedMessages = linter.getSuppressedMessages();
+
+                                const expectedMessage = Array.isArray(ruleConfig) && ruleConfig.length > 1
+                                    ? ruleConfig[1]
+                                    : "option not provided";
+
+                                assert.strictEqual(messages.length, 1);
+                                assert.strictEqual(messages[0].ruleId, "test/my-rule");
+                                assert.strictEqual(messages[0].severity, 1);
+                                assert.strictEqual(messages[0].message, expectedMessage);
+                                assert.strictEqual(suppressedMessages.length, 0);
+                            });
+
+                            it(`severity from the /*eslint*/ comment and options from the config should apply when the comment has array with only severity (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                                const code = "/*eslint test/my-rule: ['warn'] */";
+                                const messages = linter.verify(code, config);
+                                const suppressedMessages = linter.getSuppressedMessages();
+
+                                const expectedMessage = Array.isArray(ruleConfig) && ruleConfig.length > 1
+                                    ? ruleConfig[1]
+                                    : "option not provided";
+
+                                assert.strictEqual(messages.length, 1);
+                                assert.strictEqual(messages[0].ruleId, "test/my-rule");
+                                assert.strictEqual(messages[0].severity, 1);
+                                assert.strictEqual(messages[0].message, expectedMessage);
+                                assert.strictEqual(suppressedMessages.length, 0);
+                            });
+
+                            it(`severity and options from the /*eslint*/ comment should apply when the comment includes options (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                                const code = "/*eslint test/my-rule: ['warn', 'foo'] */";
+                                const messages = linter.verify(code, config);
+                                const suppressedMessages = linter.getSuppressedMessages();
+
+                                assert.strictEqual(messages.length, 1);
+                                assert.strictEqual(messages[0].ruleId, "test/my-rule");
+                                assert.strictEqual(messages[0].severity, 1);
+                                assert.strictEqual(messages[0].message, "foo");
+                                assert.strictEqual(suppressedMessages.length, 0);
+                            });
+                        });
                     });
                 });
 
