@@ -691,7 +691,7 @@ target.checkRuleFiles = function() {
          * @private
          */
         function isInRuleTypes() {
-            return Object.prototype.hasOwnProperty.call(ruleTypes, basename);
+            return Object.hasOwn(ruleTypes, basename);
         }
 
         /**

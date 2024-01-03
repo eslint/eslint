@@ -3227,7 +3227,7 @@ describe("CLIEngine", () => {
                     const report = engine.executeOnText("<script>foo</script>", "foo.html");
 
                     assert.strictEqual(report.results[0].messages.length, 1);
-                    assert.isFalse(Object.prototype.hasOwnProperty.call(report.results[0], "output"));
+                    assert.isFalse(Object.hasOwn(report.results[0], "output"));
                 });
 
                 it("should not run in autofix mode when `fix: true` is not provided, even if the processor supports autofixing", () => {
@@ -3252,7 +3252,7 @@ describe("CLIEngine", () => {
                     const report = engine.executeOnText("<script>foo</script>", "foo.html");
 
                     assert.strictEqual(report.results[0].messages.length, 1);
-                    assert.isFalse(Object.prototype.hasOwnProperty.call(report.results[0], "output"));
+                    assert.isFalse(Object.hasOwn(report.results[0], "output"));
                 });
             });
         });

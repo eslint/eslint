@@ -210,6 +210,7 @@ const jsConfigs = [js.configs.recommended, {
         "prefer-const": "error",
         "prefer-exponentiation-operator": "error",
         "prefer-numeric-literals": "error",
+        "prefer-object-has-own": "error",
         "prefer-promise-reject-errors": "error",
         "prefer-regex-literals": "error",
         "prefer-rest-params": "error",

@@ -3846,7 +3846,7 @@ describe("LegacyESLint", () => {
                     const results = await eslint.lintText("<script>foo</script>", { filePath: "foo.html" });
 
                     assert.strictEqual(results[0].messages.length, 1);
-                    assert(!Object.prototype.hasOwnProperty.call(results[0], "output"));
+                    assert(!Object.hasOwn(results[0], "output"));
                 });
 
                 it("should not run in autofix mode when `fix: true` is not provided, even if the processor supports autofixing", async () => {
@@ -3871,7 +3871,7 @@ describe("LegacyESLint", () => {
                     const results = await eslint.lintText("<script>foo</script>", { filePath: "foo.html" });
 
                     assert.strictEqual(results[0].messages.length, 1);
-                    assert(!Object.prototype.hasOwnProperty.call(results[0], "output"));
+                    assert(!Object.hasOwn(results[0], "output"));
                 });
             });
         });
