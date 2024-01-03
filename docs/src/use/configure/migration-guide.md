@@ -591,6 +591,57 @@ The following CLI flags are no longer supported with the flat config file format
 
 The flag `--no-eslintrc` has been replaced with `--no-config-lookup`.
 
+#### `--rulesdir`
+
+The `--rulesdir` flag was used to load additional rules from a specified directory. This is no longer supported when using flat config. You can instead create a plugin containing the local rules you have directly in your config, like this:
+
+```js
+// eslint.config.js
+import myRule from "./rules/my-rule.js";
+
+export default [
+    {
+        // define the plugin
+        plugins: {
+            local: {
+                rules: {
+                    "my-rule": myRule
+                }
+            }
+        },
+
+        // configure the rule
+        rules: {
+            "local/my-rule": ["error"]
+        }
+
+    }
+];
+```
+
+#### `--ext`
+
+The `--ext` flag was used to specify additional file extensions ESLint should search for when a directory was passed on the command line, such as `npx eslint .`. This is no longer supported when using flat config. Instead, specify the file patterns you'd like ESLint to search for directly in your config. For example, if you previously were using `--ext .ts,.tsx`, then you will need to update your config file like this:
+
+```js
+// eslint.config.js
+export default [
+    {
+        files: ["**/*.ts", "**/*.tsx"]
+
+        // any additional configuration for these file types here
+    }
+];
+```
+
+ESLint uses the `files` keys from the config file to determine which files should be linted.
+
+#### `--resolve-plugins-relative-to`
+
+The `--resolve-plugins-relative-to` flag was used to indicate which directory plugin references in your configuration file should be resolved relative to. This was necessary because shareable configs could only resolve plugins that were peer dependencies or dependencies of parent packages.
+
+With flat config, shareable configs can specify their dependencies directly, so this flag is no longer needed.
+
 ### Additional Changes
 
 The following changes have been made from the eslintrc to the flat config file format:
