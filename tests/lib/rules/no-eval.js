@@ -107,6 +107,7 @@ ruleTester.run("no-eval", rule, {
         { code: "var EVAL = eval; EVAL('foo')", errors: [{ messageId: "unexpected", type: "Identifier", column: 12, endColumn: 16 }] },
         { code: "var EVAL = this.eval; EVAL('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression", column: 17, endColumn: 21 }] },
         { code: "'use strict'; var EVAL = this.eval; EVAL('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression", column: 31, endColumn: 35 }] },
+        { code: "function foo() { ('use strict'); this.eval; }", errors: [{ messageId: "unexpected", type: "MemberExpression", column: 39, endColumn: 43 }] },
         { code: "() => { this.eval('foo'); }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 14, endColumn: 18 }] },
         { code: "() => { 'use strict'; this.eval('foo'); }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 28, endColumn: 32 }] },
         { code: "'use strict'; () => { this.eval('foo'); }", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression", column: 28, endColumn: 32 }] },
