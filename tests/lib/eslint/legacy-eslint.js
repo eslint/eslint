@@ -88,7 +88,7 @@ describe("LegacyESLint", () => {
      * @returns {void}
      */
     function callLastArgument(...args) {
-        process.nextTick(args[args.length - 1], null);
+        process.nextTick(args.at(-1), null);
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files

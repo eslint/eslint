@@ -438,6 +438,7 @@ module.exports = {
         "unicorn/prefer-array-flat": "error",
         "unicorn/prefer-array-index-of": "error",
         "unicorn/prefer-array-some": "error",
+        "unicorn/prefer-at": "error",
         "unicorn/prefer-includes": "error",
         "unicorn/prefer-set-has": "error",
         "unicorn/prefer-string-slice": "error",
