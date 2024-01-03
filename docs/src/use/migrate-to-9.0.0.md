@@ -23,6 +23,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [`eslint:recommended` has been updated](#eslint-recommended)
 * [`--quiet` no longer runs rules set to `"warn"`](#quiet-warn)
 * [Change in behavior when no patterns are passed to CLI](#cli-empty-patterns)
+* [`/* eslint */` comments with only severity now retain options from the config file](#eslint-comment-options)
 * [`no-constructor-return` and `no-sequences` rule schemas are stricter](#stricter-rule-schemas)
 * [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
 * [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
@@ -134,6 +135,46 @@ Prior to ESLint v9.0.0, running the ESLint CLI without any file or directory pat
 **To address:** In most cases, no change is necessary, and you may find some locations where you thought ESLint was running but it wasn't. If you'd like to keep the v8.x behavior, where passing no patterns results in ESLint exiting with code 0, add the `--pass-on-no-patterns` flag to the CLI call.
 
 **Related issue(s):** [#14308](https://github.com/eslint/eslint/issues/14308)
+
+## <a name="eslint-comment-options"></a> `/* eslint */` comments with only severity now retain options from the config file
+
+Prior to ESLint v9.0.0, configuration comments such as `/* eslint curly: "warn" */` or `/* eslint curly: ["warn"] */` would completely override any configuration specified for the rule in the config file, and thus enforce the default options of the rule.
+
+In ESLint v9.0.0, the behavior of configuration comments is aligned with how rule configurations in config files are merged, meaning that a configuration comment with only severity now retains options specified in the config file and just overrides the severity.
+
+For example, if you have the following config file:
+
+```js
+// eslint.config.js
+
+export default [{
+    rules: {
+        curly: ["error", "multi"]
+    }
+}];
+```
+
+and the following configuration comment:
+
+```js
+// my-file.js
+
+/* eslint curly: "warn" */
+```
+
+the resulting configuration for the `curly` rule when linting `my-file.js` will be `curly: ["warn", "multi"]`.
+
+Note that this change only affects cases where the same rule is configured in the config file with options and using a configuration comment without options. In all other cases (e.g. the rule is only configured using a configuration comment), the behavior remains the same as prior to ESLint v9.0.0.
+
+**To address:** We expect that in most cases no change is necessary, as rules configured using configuration comments are typically not already configured in the config file. However, if you need a configuration comment to completely override configuration from the config file and enforce the default options, you'll need to specify at least one option:
+
+```js
+// my-file.js
+
+/* eslint curly: ["warn", "all"] */
+```
+
+**Related issue(s):** [#17381](https://github.com/eslint/eslint/issues/17381)
 
 ## <a name="stricter-rule-schemas"></a> `no-constructor-return` and `no-sequences` rule schemas are stricter
 
