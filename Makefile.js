@@ -340,7 +340,7 @@ function getFirstCommitOfFile(filePath) {
     let commits = execSilent(`git rev-list HEAD -- ${filePath}`);
 
     commits = splitCommandResultToLines(commits);
-    return commits[commits.length - 1].trim();
+    return commits.at(-1).trim();
 }
 
 /**
