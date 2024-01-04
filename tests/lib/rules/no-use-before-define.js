@@ -1129,37 +1129,33 @@ ruleTester.run("no-use-before-define", rule, {
                 data: { name: "a" }
             }]
         },
-
-        /*
-         * TODO(mdjermanovic): Add the following test cases once https://github.com/eslint/eslint-scope/issues/59 gets fixed:
-         * {
-         *  code: "(class C extends C {});",
-         *  options: [{ classes: false }],
-         *  languageOptions: { ecmaVersion: 6 },
-         *  errors: [{
-         *      messageId: "usedBeforeDefined",
-         *      data: { name: "C" }
-         *  }]
-         * },
-         * {
-         *  code: "(class C extends (class { [C](){} }) {});",
-         *  options: [{ classes: false }],
-         *  languageOptions: { ecmaVersion: 6 },
-         *  errors: [{
-         *      messageId: "usedBeforeDefined",
-         *      data: { name: "C" }
-         *  }]
-         * },
-         * {
-         *  code: "(class C extends (class { static field = C; }) {});",
-         *  options: [{ classes: false }],
-         *  languageOptions: { ecmaVersion: 2022 },
-         *  errors: [{
-         *      messageId: "usedBeforeDefined",
-         *      data: { name: "C" }
-         *  }]
-         * }
-         */
+        {
+            code: "(class C extends C {});",
+            options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "C" }
+            }]
+        },
+        {
+            code: "(class C extends (class { [C](){} }) {});",
+            options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "C" }
+            }]
+        },
+        {
+            code: "(class C extends (class { static field = C; }) {});",
+            options: [{ classes: false }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "C" }
+            }]
+        },
 
         // "allowNamedExports" option
         {
