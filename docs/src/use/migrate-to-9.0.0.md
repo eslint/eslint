@@ -312,9 +312,9 @@ In addition to the methods in the above table, there are several other methods t
 
 |**Removed on `context`**|**Replacement(s) on `SourceCode`**|
 |-----------------------|--------------------------|
-|`context.getAncestors()`|`sourceCode.getAncestors()`|
-|`context.getScope()`|`sourceCode.getScope()`|
-|`context.markVariableAsUsed()`|`sourceCode.markVariableAsUsed()`|
+|`context.getAncestors()`|`sourceCode.getAncestors(node)`|
+|`context.getScope()`|`sourceCode.getScope(node)`|
+|`context.markVariableAsUsed(name)`|`sourceCode.markVariableAsUsed(name, node)`|
 
 **To address:** Following the recommendations in the [blog post](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#from-context-to-sourcecode).
 
