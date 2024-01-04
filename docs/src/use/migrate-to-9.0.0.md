@@ -29,6 +29,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
 * [Stricter `/* exported */` parsing](#exported-parsing)
 * [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
+* [`varsIgnorePattern` option of `no-unused-vars` no longer applies to catch arguments](#vars-ignore-pattern)
 
 ### Breaking changes for plugin developers
 
@@ -278,6 +279,25 @@ export default [
 ```
 
 **Related issue(s):** [#17488](https://github.com/eslint/eslint/issues/17488)
+
+## <a name="vars-ignore-pattern"></a> `varsIgnorePattern` option of `no-unused-vars` no longer applies to catch arguments
+
+In previous versions of ESLint, the `varsIgnorePattern` option of `no-unused-vars` incorrectly ignored errors specified in a `catch` clause. In ESLint v9.0.0, `varsIgnorePattern` no longer applies to errors in `catch` clauses. For example:
+
+```js
+/*eslint no-unused-vars: ["error", { "caughtErrors": "all", "varsIgnorePattern": "^err" }]*/
+
+try {
+    //...
+} catch (err) { // 'err' will be reported.
+    console.error("errors");
+}
+
+```
+
+**To address:** If you want to specify ignore patterns for `catch` clause variable names, use the `caughtErrorsIgnorePattern` option in addition to `varsIgnorePattern`.
+
+**Related issue(s):** [#17540](https://github.com/eslint/eslint/issues/17540)
 
 ## <a name="removed-context-methods"></a> Removed multiple `context` methods
 
