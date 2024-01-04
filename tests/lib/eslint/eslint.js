@@ -4603,6 +4603,20 @@ describe("ESLint", () => {
 
             await assert.rejects(() => eslint.isPathIgnored(null), /'filePath' must be a non-empty string/u);
         });
+
+        it("should warn if .eslintignore file is present", async () => {
+            const cwd = getFixturePath("ignored-paths");
+            const processStub = sinon.stub(process, "emitWarning");
+
+            // eslint-disable-next-line no-new -- for testing purpose only
+            new ESLint({ cwd });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.strictEqual(processStub.getCall(0).args[0], "The \".eslintignore\" file is no longer supported. For an upgrade, switch to using the \"ignores\" property in a config object. See https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files for details.");
+            assert.strictEqual(processStub.getCall(0).args[1], "ESLintIgnoreWarning");
+
+            processStub.restore();
+        });
     });
 
     describe("loadFormatter()", () => {
