@@ -11,7 +11,7 @@ In many cases, you won't write an ESLint config file from scratch, but rather, y
 
 ## Apply a Config Object
 
-If you are importing an object from another module, in most cases, you can just insert the object directly into your config file's exported array. For example, you can use the recommended rule configurations for JavaScript by importing `recommended` config and using it in your array:
+If you are importing an object from another module, in most cases, you can just insert the object directly into your config file's exported array. For example, you can use the recommended rule configurations for JavaScript by importing the `recommended` config and using it in your array:
 
 ```js
 // eslint.config.js
