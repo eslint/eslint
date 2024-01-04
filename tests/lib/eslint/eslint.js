@@ -3501,7 +3501,7 @@ describe("ESLint", () => {
 
                     assert.strictEqual(results[0].messages.length, 1);
                     assert.strictEqual(results[0].suppressedMessages.length, 0);
-                    assert(!Object.prototype.hasOwnProperty.call(results[0], "output"));
+                    assert(!Object.hasOwn(results[0], "output"));
                 });
 
                 it("should not run in autofix mode when `fix: true` is not provided, even if the processor supports autofixing", async () => {
@@ -3528,7 +3528,7 @@ describe("ESLint", () => {
 
                     assert.strictEqual(results[0].messages.length, 1);
                     assert.strictEqual(results[0].suppressedMessages.length, 0);
-                    assert(!Object.prototype.hasOwnProperty.call(results[0], "output"));
+                    assert(!Object.hasOwn(results[0], "output"));
                 });
             });
         });

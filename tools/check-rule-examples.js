@@ -90,7 +90,7 @@ async function findProblems(filename) {
                         const { directiveValue } = commentParser.parseDirective(comment);
                         const parseResult = commentParser.parseJsonConfig(directiveValue, comment.loc);
 
-                        return parseResult.success && Object.prototype.hasOwnProperty.call(parseResult.config, title);
+                        return parseResult.success && Object.hasOwn(parseResult.config, title);
                     }
                 );
 
