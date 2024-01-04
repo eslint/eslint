@@ -81,7 +81,7 @@ export default [
     ...exampleConfigs.map(config => ({
         ...config,
         files: ["**/src/safe/*.js"]
-    }),
+    })),
 
     // your modifications
     {
