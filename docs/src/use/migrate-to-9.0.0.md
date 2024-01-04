@@ -306,6 +306,15 @@ ESLint v9.0.0 removes multiple deprecated methods from the `context` object and 
 |`context.getTokensBefore()`|`sourceCode.getTokensBefore()`|
 |`context.getTokensBetween()`|`sourceCode.getTokensBetween()`|
 |`context.parserServices`|`sourceCode.parserServices`|
+|`context.getDeclaredVariables()`|`sourceCode.getDeclaredVariables()`|
+
+In addition to the methods in the above table, there are several other methods that are also moved but required different method signatures:
+
+|**Removed on `context`**|**Replacement(s) on `SourceCode`**|
+|-----------------------|--------------------------|
+|`context.getAncestors()`|`sourceCode.getAncestors()`|
+|`context.getScope()`|`sourceCode.getScope()`|
+|`context.markVariableAsUsed()`|`sourceCode.markVariableAsUsed()`|
 
 **To address:** Following the recommendations in the [blog post](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#from-context-to-sourcecode).
 
