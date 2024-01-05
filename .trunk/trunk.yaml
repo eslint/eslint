@@ -25,8 +25,23 @@ lint:
           commands:
               - name: lint
                 run: ${workspace}/bin/eslint.js --output-file ${tmpfile} --format json ${target}
+        - name: validateJson
+          files:          
+            - json
+          commands:
+            - name: format
+              output: pass_fail
+              success_codes: [0, 1]
+              run: node ${workspace}/.trunk/validate-json.js --files ${target}
+            #   read_output_from: stdout
+            #   success_codes: [0, 2]
+              batch: true
+            #   parser:
+            #     runtime: python
+            #     run: python3 ${plugin}/linters/prettier/prettier_to_sarif.py 
     enabled:
-        - eslint@8.56.0
+        - eslint
+        - validateJson
         - actionlint@1.6.26
         - checkov@3.1.38
         - git-diff-check
@@ -50,6 +65,12 @@ lint:
           # Default `check` mode will not run on anything in docs
           paths:
               - docs/**
+        # - linters: [validateJson]
+        #   paths: 
+        #     # Ignore json 
+        #     - "**"
+        #     # Except for files in config/
+        #     - "!conf/**"
 actions:
     disabled:
         - trunk-announce

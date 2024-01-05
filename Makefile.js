@@ -503,7 +503,7 @@ target.lint = function([fix = false] = []) {
      * There is a separate command `target.lintDocsJS` for linting JavaScript files in the `docs` directory.
      */
     echo("Validating modified files with trunk check");
-    const lastReturn = exec(`trunk check ${fix ? " -y" : ""}`);
+    const lastReturn = exec(`${getBinFile("trunk")} check ${fix ? " -y" : ""}`);
 
     if (lastReturn.code !== 0) {
         exit(1);
@@ -516,7 +516,7 @@ target.lint = function([fix = false] = []) {
 target.lintDocsJS = function([fix = false] = []) {
     echo("Validating JavaScript files in the docs directory");
     const lastReturn = exec(
-        `trunk check --filter=eslint --force ${fix ? "--fix" : ""} docs`
+        `${getBinFile("trunk")} check --filter=eslint --force ${fix ? "--fix" : ""} docs`
     );
 
     if (lastReturn.code !== 0) {
