@@ -70,7 +70,6 @@ const NODE = "node ", // intentional extra space
 
     // Files
     RULE_FILES = glob.sync("lib/rules/*.js").filter(filePath => path.basename(filePath) !== "index.js"),
-    JSON_FILES = find("conf/").filter(fileType("json")),
     TEST_FILES = "\"tests/{bin,conf,lib,tools}/**/*.js\"",
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslint.config.js"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
@@ -87,30 +86,6 @@ const NODE = "node ", // intentional extra space
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
-
-/**
- * Simple JSON file validation that relies on ES JSON parser.
- * @param {string} filePath Path to JSON.
- * @throws Error If file contents is invalid JSON.
- * @returns {undefined}
- */
-function validateJsonFile(filePath) {
-    const contents = fs.readFileSync(filePath, "utf8");
-
-    JSON.parse(contents);
-}
-
-/**
- * Generates a function that matches files with a particular extension.
- * @param {string} extension The file extension (i.e. "js")
- * @returns {Function} The function to pass into a filter method.
- * @private
- */
-function fileType(extension) {
-    return function(filename) {
-        return filename.slice(filename.lastIndexOf(".") + 1) === extension;
-    };
-}
 
 /**
  * Executes a command and returns the output instead of printing it to stdout.
@@ -490,28 +465,6 @@ function getBinFile(command) {
 //------------------------------------------------------------------------------
 // Tasks
 //------------------------------------------------------------------------------
-
-target.lint = function([fix = false] = []) {
-
-    /*
-     * In order to successfully lint JavaScript files in the `docs` directory, dependencies declared in `docs/package.json`
-     * would have to be installed in `docs/node_modules`. In particular, eslint-plugin-node rules examine `docs/node_modules`
-     * when analyzing `require()` calls from CJS modules in the `docs` directory. Since our release process does not run `npm install`
-     * in the `docs` directory, linting would fail and break the release. Also, working on the main `eslint` package does not require
-     * installing dependencies declared in `docs/package.json`, so most contributors will not have `docs/node_modules` locally.
-     * Therefore, default check doesn't run on "docs/**" as ignored in trunk.yaml
-     * There is a separate command `target.lintDocsJS` for linting JavaScript files in the `docs` directory.
-     */
-    echo("Validating modified files with trunk check");
-    const lastReturn = exec(`${getBinFile("trunk")} check ${fix ? " -y" : ""}`);
-
-    if (lastReturn.code !== 0) {
-        exit(1);
-    }
-
-    echo("Validating JSON Files");
-    JSON_FILES.forEach(validateJsonFile);
-};
 
 target.lintDocsJS = function([fix = false] = []) {
     echo("Validating JavaScript files in the docs directory");

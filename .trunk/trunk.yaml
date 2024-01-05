@@ -17,8 +17,8 @@ runtimes:
         - node@18.12.1
         - python@3.10.8
 tools:
-    runtimes:
-        - node
+    runtimes: [node]
+
 # This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
 lint:
     definitions:
@@ -27,7 +27,7 @@ lint:
               - name: lint
                 run: ${workspace}/bin/eslint.js --output-file ${tmpfile} --format json ${target}
     enabled:
-        - eslint        
+        - eslint
         - actionlint@1.6.26
         - checkov@3.1.51
         - git-diff-check
@@ -46,8 +46,13 @@ lint:
           paths:
               - CHANGELOG.md
         - linters: [eslint]
-          # Linting of the docs/ javascript code is managed by the lintDocs command.
-          # Default `check` mode will not run on anything in docs
+          #  In order to successfully lint JavaScript files in the `docs` directory, dependencies declared in `docs/package.json`
+          #  would have to be installed in `docs/node_modules`. In particular, eslint-plugin-node rules examine `docs/node_modules`
+          #  when analyzing `require()` calls from CJS modules in the `docs` directory. Since our release process does not run `npm install`
+          #  in the `docs` directory, linting would fail and break the release. Also, working on the main `eslint` package does not require
+          #  installing dependencies declared in `docs/package.json`, so most contributors will not have `docs/node_modules` locally.
+          #  Therefore, default check doesn't run on "docs/**" as ignored in trunk.yaml
+          #  There is a separate command `lint:docs` which will force linteing for JavaScript files in the `docs` directory.
           paths:
               - docs/**
         - linters: [prettier]
