@@ -30,6 +30,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [Stricter `/* exported */` parsing](#exported-parsing)
 * [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
 * [`varsIgnorePattern` option of `no-unused-vars` no longer applies to catch arguments](#vars-ignore-pattern)
+* [`--output-file` now writes a file to disk even with empty output](#output-file)
 
 ### Breaking changes for plugin developers
 
@@ -543,3 +544,11 @@ linter.getRules();
 ```
 
 **Related Issues(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
+
+## <a name="output-file"></a> `--output-file` now writes a file to disk even with empty output
+
+Prior to ESLint v9.0.0, the `--output-file` flag would skip writing a file to disk if the output was empty. However, in ESLint v9.0.0, `--output-file` now consistently writes a file to disk, even when the output is empty. This update ensures a more consistent and reliable behavior for `--output-file`.
+
+**To address:** Review your usage of the `--output-file` flag, especially if your processes depend on the file's presence or absence based on output content. If necessary, update your scripts or configurations to accommodate this change.
+
+**Related Issues(s):** [#17660](https://github.com/eslint/eslint/issues/17660)
