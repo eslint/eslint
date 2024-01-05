@@ -123,7 +123,7 @@ describe("bin/eslint.js", () => {
             const exitCodePromise = assertExitCode(child, 0);
             const stdoutPromise = getOutput(child).then(output => {
                 assert.strictEqual(output.stdout.trim(), expectedOutput);
-                assert.match(output.stderr, /ESLintIgnoreWarning: The ".eslintignore" file is no longer supported./u);
+                assert.strictEqual(output.stderr, "");
             });
 
             child.stdin.write("var foo = bar;;\n");

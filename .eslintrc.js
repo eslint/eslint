@@ -67,6 +67,21 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 2021
     },
+    ignorePatterns: [
+        "build/**",
+        "coverage/**",
+        "docs/*",
+        "!docs/*.js",
+        "!docs/tools/",
+        "jsdoc/**",
+        "templates/**",
+        "tests/bench/**",
+        "tests/fixtures/**",
+        "tests/performance/**",
+        "tmp/**",
+        "tools/internal-rules/node_modules/**",
+        "**/test.js"
+    ],
     rules: {
         "internal-rules/multiline-comment-style": "error"
     },

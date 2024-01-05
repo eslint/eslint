@@ -4612,7 +4612,7 @@ describe("ESLint", () => {
             new ESLint({ cwd });
 
             assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
-            assert.strictEqual(processStub.getCall(0).args[0], "The \".eslintignore\" file is no longer supported. For an upgrade, switch to using the \"ignores\" property in a config object. See https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files for details.");
+            assert.strictEqual(processStub.getCall(0).args[0], "The \".eslintignore\" file is no longer supported. Switch to using the \"ignores\" property in \"eslint.config.js\": https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files");
             assert.strictEqual(processStub.getCall(0).args[1], "ESLintIgnoreWarning");
 
             processStub.restore();
