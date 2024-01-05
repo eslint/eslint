@@ -2,13 +2,14 @@
 # To learn more about the format of this file, see https://docs.trunk.io/reference/trunk-yaml
 version: 0.1
 cli:
-    version: 1.18.1
+    version: 1.18.2-beta.14
 # Trunk provides extensibility via plugins. (https://docs.trunk.io/plugins)
 plugins:
     sources:
         - id: trunk
-          ref: v1.4.0
           uri: https://github.com/trunk-io/plugins
+          ref: 3b669ebca634c090a400a989f3a753a33fb09003
+
 # Many linters and tools depend on runtimes - configure them here. (https://docs.trunk.io/runtimes)
 runtimes:
     enabled:
@@ -25,37 +26,21 @@ lint:
           commands:
               - name: lint
                 run: ${workspace}/bin/eslint.js --output-file ${tmpfile} --format json ${target}
-        - name: validateJson
-          files:          
-            - json
-          commands:
-            - name: format
-              output: pass_fail
-              success_codes: [0, 1]
-              run: node ${workspace}/.trunk/validate-json.js --files ${target}
-            #   read_output_from: stdout
-            #   success_codes: [0, 2]
-              batch: true
-            #   parser:
-            #     runtime: python
-            #     run: python3 ${plugin}/linters/prettier/prettier_to_sarif.py 
     enabled:
-        - eslint
-        - validateJson
+        - eslint        
         - actionlint@1.6.26
-        - checkov@3.1.38
+        - checkov@3.1.51
         - git-diff-check
         - markdownlint@0.38.0
         - oxipng@9.0.0
-        - renovate@37.102.1
+        - prettier@3.1.1
+        - renovate@37.122.0
         - shellcheck@0.9.0
         - shfmt@3.6.0
-        - svgo@3.1.0
-        - trivy@0.48.1
-        - trufflehog@3.63.4
+        - svgo@3.2.0
+        - trivy@0.48.2
+        - trufflehog@3.63.7
         - yamllint@1.33.0
-    disabled:
-        - prettier
     ignore:
         - linters: [markdownlint]
           paths:
@@ -65,12 +50,12 @@ lint:
           # Default `check` mode will not run on anything in docs
           paths:
               - docs/**
-        # - linters: [validateJson]
-        #   paths: 
-        #     # Ignore json 
-        #     - "**"
-        #     # Except for files in config/
-        #     - "!conf/**"
+        - linters: [prettier]
+          paths:
+            # Ignore all files
+            - "**"
+            # Except for json files in conf/
+            - "!conf/**/*.json"
 actions:
     disabled:
         - trunk-announce
