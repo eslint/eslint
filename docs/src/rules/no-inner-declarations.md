@@ -30,6 +30,20 @@ function anotherThing() {
 }
 ```
 
+In ES6, [block-level functions](https://leanpub.com/understandinges6/read#leanpub-auto-block-level-functions) (functions declared inside a block) are limited to the scope of the block they are declared in and out of the block scope they can't be accessed and called but only when the code is in strict mode (code with `"use strict"` tag or ESM modules). In non-strict mode they can be accessed and called out of the block scope.
+
+```js
+"use strict"
+
+if (test) {
+    function doSomething () { }
+
+    doSomething(); // no error
+}
+
+doSomething(); // error
+```
+
 A variable declaration is permitted anywhere a statement can go, even nested deeply inside other blocks. This is often undesirable due to variable hoisting, and moving declarations to the root of the program or function body can increase clarity. Note that [block bindings](https://leanpub.com/understandinges6/read#leanpub-auto-block-bindings) (`let`, `const`) are not hoisted and therefore they are not affected by this rule.
 
 ```js
@@ -61,7 +75,7 @@ function doSomething() {
 
 ## Rule Details
 
-This rule requires that function declarations and, optionally, variable declarations be in the root of a program, or in the root of the body of a function, or in the root of a class static block in non-strict code. This rule doesn't report function declarations if code is in strict mode (code with `"use strict"` tag or ESM modules).
+This rule requires that function declarations and, optionally, variable declarations be in the root of a program, or in the root of the body of a function, or in the root of the body of a class static block.
 
 ## Options
 
@@ -69,7 +83,7 @@ This rule has a string and an object option:
 
 * `"functions"` (default) disallows `function` declarations in nested blocks
 * `"both"` disallows `function` and `var` declarations in nested blocks
-* `{ legacy: false }` (default) if this option set to `true` then the rule will report only function declarations when `ecmaVersion` is set to `5`.
+* `{ blockScopedFunctions: "allow" }` (default) this option allows only `function` declarations in nested blocks when code is in strict mode (code with `"use strict"` tag or ESM modules) and `ecmaVersion` is set to `6` (or `2015` or above). This option can be disabled by setting it to `disallow`.
 
 ### functions
 
@@ -78,10 +92,16 @@ Examples of **incorrect** code for this rule with the default `"functions"` opti
 ::: incorrect { "sourceType": "script" }
 
 ```js
-/*eslint no-inner-declarations: "error"*/
+/*eslint no-inner-declarations: ["error", { blockScopedFunctions: "disallow" }]*/
 
 if (test) {
     function doSomething() { }
+}
+
+function doSomethingElse() {
+    if (test) {
+        function doAnotherThing() { }
+    }
 }
 
 function doSomethingElse() {
@@ -110,38 +130,6 @@ Examples of **correct** code for this rule with the default `"functions"` option
 ```js
 /*eslint no-inner-declarations: "error"*/
 
-"use strict";
-
-if (test) {
-    function doSomething() { }
-}
-
-function doSomethingElse() {
-    if (test) {
-        function doAnotherThing() { }
-    }
-}
-
-if (foo) {
-    function f(){}
-}
-
-class C {
-    static {
-        if (test) {
-            function doSomething() { }
-        }
-    }
-}
-```
-
-:::
-
-::: correct { "sourceType": "script" }
-
-```js
-/*eslint no-inner-declarations: "error"*/
-
 function doSomething() { }
 
 function doSomethingElse() {
@@ -150,7 +138,7 @@ function doSomethingElse() {
 
 function doSomethingElse() {
     "use strict";
-
+    
     if (test) {
         function doAnotherThing() { }
     }
@@ -234,20 +222,50 @@ class C {
 }
 ```
 
-### legacy
+### blockScopedFunctions
 
 :::
 
-Example of **incorrect** code for this rule with `{ legacy: true }` option when `ecmaVersion: 5`:
+Example of **correct** code for this rule with `{ blockScopedFunctions: "allow" }` option with `ecmaVersion: 6`:
 
-::: incorrect { "sourceType": "script" }
+::: correct { "sourceType": "script" }
 
 ```js
-/*eslint no-inner-declarations: ["error", { legacy: true }]*/
-
-// when ecmaVersion is 5
+/*eslint no-inner-declarations: ["error", { blockScopedFunctions: "allow" }]*/
+/*eslint-env es6*/
 
 "use strict";
+
+if (test) {
+    function doSomething() { }
+}
+
+function doSomething() {
+    if (test) {
+        function doSomethingElse() { }
+    }
+}
+
+// OR
+
+function foo() {
+    "use strict";
+
+    if (test) {
+        function bar() { }
+    }
+}
+```
+
+:::
+
+`ESM modules` and both `class` declarations and expressions are always in strict mode.
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-inner-declarations: ["error", { blockScopedFunctions: "allow" }]*/
+/*eslint-env es6*/
 
 if (test) {
     function doSomething() { }
@@ -259,17 +277,19 @@ function doSomethingElse() {
     }
 }
 
-function doSomethingElse() {
-    {
-        function doAnotherThing() { }
+class Some {
+    static {
+        if (test) {
+            function doSomething() { }
+        }
     }
 }
 
-function doSomethingElse() {
-    "use strict";
-
-    {
-        function doAnotherThing() { }
+const C = class {
+    static {
+        if (test) {
+            function doSomething() { }
+        }
     }
 }
 ```
