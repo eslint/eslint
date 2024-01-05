@@ -21,12 +21,13 @@ jobs:
       with:
         node-version: 'lts/*'
 
-    - name: Install Root Packages
-      run: npm install
-
     - name: Install Docs Packages
       working-directory: docs
       run: npm install
+
+    - name: Stylelint Docs
+      working-directory: docs
+      run: npm run lint:scss
 
     - name: Build Docs Website
       working-directory: docs
