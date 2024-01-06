@@ -121,6 +121,12 @@ describe("ESLint", () => {
 
     beforeEach(() => {
         ({ ESLint } = require("../../../lib/eslint/eslint"));
+        sinon.stub(process, "emitWarning").withArgs(sinon.match.any, "ESLintIgnoreWarning").returns();
+        process.emitWarning.callThrough();
+    });
+
+    afterEach(() => {
+        sinon.restore();
     });
 
     after(() => {
@@ -4379,7 +4385,6 @@ describe("ESLint", () => {
 
             assert.strictEqual(results[0].output, expectedOutput);
         });
-
     });
 
     describe("isPathIgnored", () => {
@@ -4606,6 +4611,8 @@ describe("ESLint", () => {
 
         it("should warn if .eslintignore file is present", async () => {
             const cwd = getFixturePath("ignored-paths");
+
+            sinon.restore();
             const processStub = sinon.stub(process, "emitWarning");
 
             // eslint-disable-next-line no-new -- for testing purpose only

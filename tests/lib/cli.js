@@ -100,7 +100,13 @@ describe("cli", () => {
         sh.cp("-r", "./tests/fixtures/.", fixtureDir);
     });
 
+    beforeEach(() => {
+        sinon.stub(process, "emitWarning").withArgs(sinon.match.any, "ESLintIgnoreWarning").returns();
+        process.emitWarning.callThrough();
+    });
+
     afterEach(() => {
+        sinon.restore();
         log.info.resetHistory();
         log.error.resetHistory();
     });
@@ -148,6 +154,7 @@ describe("cli", () => {
             let processStub;
 
             beforeEach(() => {
+                sinon.restore();
                 processStub = sinon.stub(process, "emitWarning");
                 process.env = { ...originalEnv };
             });
