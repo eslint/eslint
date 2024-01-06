@@ -1457,13 +1457,8 @@ describe("Linter", () => {
         });
 
         it("rules should apply meta.defaultOptions", () => {
-            const config = {
-                languageOptions: {
-                    sourceType: "script"
-                },
-                rules: {}
-            };
-            const codeA = "/*eslint arrow-body-style: error */ var arrow = a => { return a; }";
+            const config = { rules: {} };
+            const codeA = "/*eslint block-spacing: error */ function run() {return true; }";
             const messages = linter.verify(codeA, config, filename, false);
 
             assert.deepStrictEqual(
@@ -1471,18 +1466,18 @@ describe("Linter", () => {
                 [
                     {
                         severity: 2,
-                        ruleId: "arrow-body-style",
-                        message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`.",
-                        messageId: "unexpectedSingleBlock",
+                        ruleId: "block-spacing",
+                        message: "Requires a space after '{'.",
+                        messageId: "missing",
+                        nodeType: "BlockStatement",
                         line: 1,
-                        column: 54,
+                        column: 49,
                         endLine: 1,
-                        endColumn: 67,
+                        endColumn: 50,
                         fix: {
-                            range: [53, 66],
-                            text: "a"
-                        },
-                        nodeType: "ArrowFunctionExpression"
+                            range: [49, 49],
+                            text: " "
+                        }
                     }
                 ]
             );

@@ -13,7 +13,6 @@ const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 const assert = require("chai").assert;
 const stringify = require("json-stable-stringify-without-jsonify");
 const espree = require("espree");
-const rules = require("../../../lib/rules");
 
 //-----------------------------------------------------------------------------
 // Helpers
