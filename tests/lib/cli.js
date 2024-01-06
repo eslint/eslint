@@ -1011,6 +1011,7 @@ describe("cli", () => {
                 const filePath = getFixturePath("single-quoted.js");
                 const code = `${flag} --rule 'quotes: [1, single]' --o tests/output/eslint-output.txt ${filePath}`;
 
+                // TODO: fix this test to: await cli.execute(code, null, useFlatConfig);
                 await cli.execute(code, "var a = 'b'", useFlatConfig);
 
                 assert.isTrue(fs.existsSync("tests/output/eslint-output.txt"));
