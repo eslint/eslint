@@ -1006,6 +1006,19 @@ describe("cli", () => {
                 assert.isTrue(log.info.notCalled);
             });
 
+            // https://github.com/eslint/eslint/issues/17660
+            it(`should write the file and create dirs if they don't exist even when output is empty with configType:${configType}`, async () => {
+                const filePath = getFixturePath("single-quoted.js");
+                const code = `${flag} --rule 'quotes: [1, single]' --o tests/output/eslint-output.txt ${filePath}`;
+
+                // TODO: fix this test to: await cli.execute(code, null, useFlatConfig);
+                await cli.execute(code, "var a = 'b'", useFlatConfig);
+
+                assert.isTrue(fs.existsSync("tests/output/eslint-output.txt"));
+                assert.strictEqual(fs.readFileSync("tests/output/eslint-output.txt", "utf8"), "");
+                assert.isTrue(log.info.notCalled);
+            });
+
             it(`should return an error if the path is a directory with configType:${configType}`, async () => {
                 const filePath = getFixturePath("single-quoted.js");
                 const code = `${flag} --rule 'quotes: [1, double]' --o tests/output ${filePath}`;
