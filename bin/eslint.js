@@ -15,6 +15,12 @@ if (process.argv.includes("--debug")) {
 }
 
 //------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
+const { onFatalError } = require("../lib/shared/error-utils");
+
+//------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
@@ -57,84 +63,25 @@ function readStdin() {
 }
 
 /**
- * Get the error message of a given value.
- * @param {any} error The value to get.
- * @returns {string} The error message.
- */
-function getErrorMessage(error) {
-
-    // Lazy loading because this is used only if an error happened.
-    const util = require("util");
-
-    // Foolproof -- third-party module might throw non-object.
-    if (typeof error !== "object" || error === null) {
-        return String(error);
-    }
-
-    // Use templates if `error.messageTemplate` is present.
-    if (typeof error.messageTemplate === "string") {
-        try {
-            const template = require(`../messages/${error.messageTemplate}.js`);
-
-            return template(error.messageData || {});
-        } catch {
-
-            // Ignore template error then fallback to use `error.stack`.
-        }
-    }
-
-    // Use the stacktrace if it's an error object.
-    if (typeof error.stack === "string") {
-        return error.stack;
-    }
-
-    // Otherwise, dump the object.
-    return util.format("%o", error);
-}
-
-/**
- * Tracks error messages that are shown to the user so we only ever show the
- * same message once.
- * @type {Set<string>}
- */
-const displayedErrors = new Set();
-
-/**
  * Tracks whether an unexpected error was caught
  * @type {boolean}
  */
 let hadFatalError = false;
 
-/**
- * Catch and report unexpected error.
- * @param {any} error The thrown error object.
- * @returns {void}
- */
-function onFatalError(error) {
-    process.exitCode = 2;
-    hadFatalError = true;
-
-    const { version } = require("../package.json");
-    const message = `
-Oops! Something went wrong! :(
-
-ESLint: ${version}
-
-${getErrorMessage(error)}`;
-
-    if (!displayedErrors.has(message)) {
-        console.error(message);
-        displayedErrors.add(message);
-    }
-}
 
 //------------------------------------------------------------------------------
 // Execution
 //------------------------------------------------------------------------------
 
 (async function main() {
-    process.on("uncaughtException", onFatalError);
-    process.on("unhandledRejection", onFatalError);
+    process.on("uncaughtException", error => {
+        hadFatalError = true;
+        onFatalError(error);
+    });
+    process.on("unhandledRejection", error => {
+        hadFatalError = true;
+        onFatalError(error);
+    });
 
     // Call the config initializer if `--init` is present.
     if (process.argv.includes("--init")) {
