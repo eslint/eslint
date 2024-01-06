@@ -36,6 +36,15 @@ Please note that when passing a glob as a parameter, it is expanded by your shel
 npx eslint "lib/**"
 ```
 
+If you are using a [flat configuration file](./configure/configuration-files) (`eslint.config.js`), you can also omit the file arguments and ESLint will use `.`. For instance, these two lines perform the same operation:
+
+```shell
+npx eslint .
+npx eslint
+```
+
+If you are not using a flat configuration file, running ESLint without file arguments results in an error.
+
 **Note:** You can also use alternative package managers such as [Yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/) to run ESLint. Please refer to your package manager's documentation for the correct syntax.
 
 ## Pass Multiple Values to an Option
@@ -87,7 +96,7 @@ Use stdin:
   --stdin-filename String         Specify filename to process STDIN as
 
 Handle warnings:
-  --quiet                         Report errors only - default: false
+  --quiet                         Report and check errors only - default: false
   --max-warnings Int              Number of warnings to trigger nonzero exit code - default: -1
 
 Output:
@@ -112,6 +121,7 @@ Miscellaneous:
   --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched
   --exit-on-fatal-error           Exit with exit code 2 in case of fatal error - default: false
   --no-warn-ignored               Suppress warnings when the file list includes ignored files. *Flat Config Mode Only*
+  --pass-on-no-patterns           Exit with exit code 0 in case no file patterns are passed
   --debug                         Output debugging information
   -h, --help                      Show help
   -v, --version                   Output the version number
@@ -156,7 +166,7 @@ If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.
 * **Argument Type**: String. One of the available environments.
 * **Multiple Arguments**: Yes
 
-Details about the global variables defined by each environment are available in the [Specifying Environments](configure/language-options#specifying-environments) documentation. This option only enables environments. It does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
+Details about the global variables defined by each environment are available in the [Specifying Environments](configure/language-options-deprecated#specifying-environments) documentation. This option only enables environments. It does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
 
 ##### `--env` example
 
@@ -381,7 +391,7 @@ npx eslint --fix --fix-type suggestion,layout .
 * **Multiple Arguments**: No
 * **Default Value**:  By default, ESLint looks for `.eslintignore` in the current working directory.
 
-**Note:** `--ignore-path` is not supported when using [flat configuration](./configure/configuration-files-new) (`eslint.config.js`).
+**Note:** `--ignore-path` is only supported when using [deprecated configuration](./configure/configuration-files-deprecated).
 
 ##### `--ignore-path` example
 
@@ -406,7 +416,7 @@ npx eslint --no-ignore file.js
 
 This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`).
 
-* **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
+* **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore-deprecated#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 * **Multiple Arguments**: Yes
 
 ##### `--ignore-pattern` example
@@ -448,7 +458,7 @@ cat myfile.js | npx eslint --stdin --stdin-filename myfile.js
 
 #### `--quiet`
 
-This option allows you to disable reporting on warnings. If you enable this option, only errors are reported by ESLint.
+This option allows you to disable reporting on warnings and running of rules set to warn. If you enable this option, only errors are reported by ESLint and only rules set to error will be run.
 
 * **Argument Type**: No argument.
 
@@ -466,6 +476,10 @@ This option allows you to specify a warning threshold, which can be used to forc
 * **Multiple Arguments**: No
 
 Normally, if ESLint runs and finds no errors (only warnings), it exits with a success exit status. However, if `--max-warnings` is specified and the total warning count is greater than the specified threshold, ESLint exits with an error status.
+
+::: important
+When used alongside `--quiet`, this will cause rules marked as warn to still be run, but not reported.
+:::
 
 ##### `--max-warnings` example
 
@@ -503,16 +517,16 @@ An npm-installed formatter is resolved with or without `eslint-formatter-` prefi
 When specified, the given format is output to the console. If you'd like to save that output into a file, you can do so on the command line like so:
 
 ```shell
-# Saves the output into the `results.txt` file.
-npx eslint -f compact file.js > results.txt
+# Saves the output into the `results.json` file.
+npx eslint -f json file.js > results.json
 ```
 
 ##### `-f`, `--format` example
 
-Use the built-in `compact` formatter:
+Use the built-in `json` formatter:
 
 ```shell
-npx eslint --format compact file.js
+npx eslint --format json file.js
 ```
 
 Use a local custom formatter:
@@ -601,7 +615,7 @@ Same as [`--report-unused-disable-directives`](#--report-unused-disable-directiv
   1. `warn` (or `1`)
   1. `error` (or `2`)
 * **Multiple Arguments**: No
-* **Default Value**: By default, `linterOptions.reportUnusedDisableDirectives` configuration setting is used.
+* **Default Value**: By default, `linterOptions.reportUnusedDisableDirectives` configuration setting is used (which defaults to `"warn"`).
 
 ##### `--report-unused-disable-directives-severity` example
 
@@ -732,6 +746,18 @@ npx eslint --exit-on-fatal-error file.js
 
 ```shell
 npx eslint --no-warn-ignored --max-warnings 0 ignored-file.js
+```
+
+#### `--pass-on-no-patterns`
+
+This option allows ESLint to exit with code 0 when no file or directory patterns are passed. Without this option, ESLint assumes you want to use `.` as the pattern. (When running in legacy eslintrc mode, ESLint will exit with code 1.)
+
+* **Argument Type**: No argument.
+
+##### `--pass-on-no-patterns` example
+
+```shell
+npx eslint --pass-on-no-patterns
 ```
 
 #### `--debug`

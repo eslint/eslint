@@ -52,3 +52,4 @@ If you were using a prior version of ESLint, you can get help with the transitio
 * [migrating-to-6.0.0](migrating-to-6.0.0)
 * [migrating-to-7.0.0](migrating-to-7.0.0)
 * [migrate-to-8.0.0](migrate-to-8.0.0)
+* [migrate-to-9.x](migrate-to-9.0.0)

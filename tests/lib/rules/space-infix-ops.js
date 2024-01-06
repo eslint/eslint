@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/space-infix-ops"),
-    RuleTester = require("../../../lib/rule-tester/flat-rule-tester"),
+    RuleTester = require("../../../lib/rule-tester/rule-tester"),
     parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------

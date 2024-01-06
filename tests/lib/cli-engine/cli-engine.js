@@ -1757,8 +1757,7 @@ describe("CLIEngine", () => {
                 useEslintrc: false,
                 rules: {
                     "indent-legacy": 1,
-                    "require-jsdoc": 1,
-                    "valid-jsdoc": 1
+                    "callback-return": 1
                 }
             });
 
@@ -1768,8 +1767,7 @@ describe("CLIEngine", () => {
                 report.usedDeprecatedRules,
                 [
                     { ruleId: "indent-legacy", replacedBy: ["indent"] },
-                    { ruleId: "require-jsdoc", replacedBy: [] },
-                    { ruleId: "valid-jsdoc", replacedBy: [] }
+                    { ruleId: "callback-return", replacedBy: [] }
                 ]
             );
             assert.strictEqual(report.results[0].suppressedMessages.length, 0);
@@ -1779,7 +1777,7 @@ describe("CLIEngine", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
                 useEslintrc: false,
-                rules: { eqeqeq: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
+                rules: { eqeqeq: 1, "callback-return": 0 }
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
@@ -3229,7 +3227,7 @@ describe("CLIEngine", () => {
                     const report = engine.executeOnText("<script>foo</script>", "foo.html");
 
                     assert.strictEqual(report.results[0].messages.length, 1);
-                    assert.isFalse(Object.prototype.hasOwnProperty.call(report.results[0], "output"));
+                    assert.isFalse(Object.hasOwn(report.results[0], "output"));
                 });
 
                 it("should not run in autofix mode when `fix: true` is not provided, even if the processor supports autofixing", () => {
@@ -3254,7 +3252,7 @@ describe("CLIEngine", () => {
                     const report = engine.executeOnText("<script>foo</script>", "foo.html");
 
                     assert.strictEqual(report.results[0].messages.length, 1);
-                    assert.isFalse(Object.prototype.hasOwnProperty.call(report.results[0], "output"));
+                    assert.isFalse(Object.hasOwn(report.results[0], "output"));
                 });
             });
         });
@@ -3961,11 +3959,15 @@ describe("CLIEngine", () => {
                 cwd: rootPath,
                 files: {
                     "internal-rules/test.js": `
-                            module.exports = context => ({
-                                ExpressionStatement(node) {
-                                    context.report({ node, message: "ok" })
-                                }
-                            })
+                            module.exports = {
+                                create(context) {
+                                    return {
+                                        ExpressionStatement(node) {
+                                            context.report({ node, message: "ok" });
+                                        },
+                                    };
+                                },
+                            };
                         `,
                     ".eslintrc.json": {
                         root: true,
@@ -4794,7 +4796,7 @@ describe("CLIEngine", () => {
 
         it("should return a function when a bundled formatter is requested", () => {
             const engine = new CLIEngine(),
-                formatter = engine.getFormatter("compact");
+                formatter = engine.getFormatter("json");
 
             assert.isFunction(formatter);
         });

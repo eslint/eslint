@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/lines-around-comment"),
-    RuleTester = require("../../../lib/rule-tester/flat-rule-tester"),
+    RuleTester = require("../../../lib/rule-tester/rule-tester"),
     { unIndent } = require("../../_utils");
 
 //------------------------------------------------------------------------------
