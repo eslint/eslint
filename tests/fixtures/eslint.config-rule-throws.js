@@ -4,8 +4,17 @@ module.exports = [
             foo: {
                 rules: {
                     bar: {
-                        create() {
-                            throw new Error("Rule created");
+                        create(context) {
+                            // Rule was executed if this is logged
+                            console.log("Rule Created.");
+                            return {
+                                Program(node) {
+                                    context.report({
+                                        node,
+                                        message: "Rule created",
+                                    });
+                                },
+                            };
                         }
                     }
                 }

@@ -640,20 +640,29 @@ describe("cli", () => {
                         const filePath = getFixturePath("single-quoted.js");
                         const configPath = getFixturePath("eslint.config-rule-throws.js");
                         const cliArgs = `--quiet --config ${configPath}' ${filePath}`;
+                        const consoleStub = sinon.stub(console, "log");
 
                         const exit = await cli.execute(cliArgs, null, useFlatConfig);
 
                         assert.strictEqual(exit, 0);
+                        assert.strictEqual(consoleStub.callCount, 0, "shouldn't call `console.log()`");
+
+                        consoleStub.restore();
                     });
 
                     it(`should run rules set to 'warn' while maxWarnings is set with configType:${configType}`, async () => {
                         const filePath = getFixturePath("single-quoted.js");
                         const configPath = getFixturePath("eslint.config-rule-throws.js");
                         const cliArgs = `--quiet --max-warnings=1 --config ${configPath}' ${filePath}`;
+                        const consoleStub = sinon.stub(console, "log");
 
-                        await stdAssert.rejects(async () => {
-                            await cli.execute(cliArgs, null, useFlatConfig);
-                        });
+                        const exit = await cli.execute(cliArgs, null, useFlatConfig);
+
+                        assert.strictEqual(exit, 0);
+                        assert.strictEqual(consoleStub.callCount, 1, "calls `console.log()` once");
+                        assert.strictEqual(consoleStub.getCall(0).args[0], "Rule Created.");
+
+                        consoleStub.restore();
                     });
                 }
             });

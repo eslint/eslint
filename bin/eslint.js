@@ -117,4 +117,7 @@ let hadFatalError = false;
     if (!hadFatalError) {
         process.exitCode = exitCode;
     }
-}()).catch(onFatalError);
+}()).catch(error => {
+    hadFatalError = true;
+    onFatalError(error);
+});
