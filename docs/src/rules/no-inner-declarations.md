@@ -30,10 +30,10 @@ function anotherThing() {
 }
 ```
 
-In ES6, [block-level functions](https://leanpub.com/understandinges6/read#leanpub-auto-block-level-functions) (functions declared inside a block) are limited to the scope of the block they are declared in and out of the block scope they can't be accessed and called but only when the code is in strict mode (code with `"use strict"` tag or ESM modules). In non-strict mode they can be accessed and called out of the block scope.
+In ES6, [block-level functions](https://leanpub.com/understandinges6/read#leanpub-auto-block-level-functions) (functions declared inside a block) are limited to the scope of the block they are declared in and outside of the block scope they can't be accessed and called, but only when the code is in strict mode (code with `"use strict"` tag or ESM modules). In non-strict mode, they can be accessed and called outside of the block scope.
 
 ```js
-"use strict"
+"use strict";
 
 if (test) {
     function doSomething () { }
@@ -83,7 +83,7 @@ This rule has a string and an object option:
 
 * `"functions"` (default) disallows `function` declarations in nested blocks
 * `"both"` disallows `function` and `var` declarations in nested blocks
-* `{ blockScopedFunctions: "allow" }` (default) this option allows only `function` declarations in nested blocks when code is in strict mode (code with `"use strict"` tag or ESM modules) and `ecmaVersion` is set to `6` (or `2015` or above). This option can be disabled by setting it to `disallow`.
+* `{ blockScopedFunctions: "allow" }` (default) this option allows `function` declarations in nested blocks when code is in strict mode (code with `"use strict"` tag or ESM modules) and `languageOptions.ecmaVersion` is set to `2015` or above. This option can be disabled by setting it to `disallow`.
 
 ### functions
 
@@ -92,7 +92,9 @@ Examples of **incorrect** code for this rule with the default `"functions"` opti
 ::: incorrect { "sourceType": "script" }
 
 ```js
-/*eslint no-inner-declarations: ["error", { blockScopedFunctions: "disallow" }]*/
+/*eslint no-inner-declarations: "error"*/
+
+// script, non-strict code
 
 if (test) {
     function doSomething() { }
@@ -104,21 +106,7 @@ function doSomethingElse() {
     }
 }
 
-function doSomethingElse() {
-    if (test) {
-        function doAnotherThing() { }
-    }
-}
-
 if (foo) function f(){}
-
-class C {
-    static {
-        if (test) {
-            function doSomething() { }
-        }
-    }
-}
 ```
 
 :::
@@ -222,7 +210,59 @@ class C {
 }
 ```
 
+:::
+
 ### blockScopedFunctions
+
+Example of **incorrect** code for this rule with `{ blockScopedFunctions: "disallow" }` option with `ecmaVersion: 6`:
+
+::: incorrect { "sourceType": "script" }
+
+```js
+/*eslint no-inner-declarations: ["error", { blockScopedFunctions: "disallow" }]*/
+/*eslint-env es6*/
+
+// non-strict code
+
+if (test) {
+    function doSomething() { }
+}
+
+function doSomething() {
+    if (test) {
+        function doSomethingElse() { }
+    }
+}
+
+// strict code
+
+function foo() {
+    "use strict";
+
+    if (test) {
+        function bar() { }
+    }
+}
+```
+
+:::
+
+Example of **correct** code for this rule with `{ blockScopedFunctions: "disallow" }` option with `ecmaVersion: 6`:
+
+::: correct { "sourceType": "script" }
+
+```js
+/*eslint no-inner-declarations: ["error", { blockScopedFunctions: "disallow" }]*/
+/*eslint-env es6*/
+
+"use strict";
+
+function doSomething() { }
+
+function doSomething() {
+    function doSomethingElse() { }
+}
+```
 
 :::
 

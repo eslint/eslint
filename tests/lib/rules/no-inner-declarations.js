@@ -185,7 +185,7 @@ ruleTester.run("no-inner-declarations", rule, {
                 type: "VariableDeclaration"
             }]
         }, {
-            code: "if (foo) { function f(){ if(bar) var a; } }",
+            code: "if (foo) function f(){ if(bar) var a; }",
             options: ["both"],
             errors: [{
                 messageId: "moveDeclToRoot",
@@ -327,6 +327,58 @@ ruleTester.run("no-inner-declarations", rule, {
             }]
         },
         {
+            code: "class C { method() { if(test) { var foo; } } }",
+            options: ["both"],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "function body"
+                },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { if (test) { var foo; } } }",
+            options: ["both"],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "class static block body"
+                },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { if (test) { function foo() {} } } }",
+            options: ["both", { blockScopedFunctions: "disallow" }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "class static block body"
+                },
+                type: "FunctionDeclaration"
+            }]
+        },
+        {
+            code: "class C { static { if (test) { if (anotherTest) { var foo; } } } }",
+            options: ["both"],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "class static block body"
+                },
+                type: "VariableDeclaration"
+            }]
+        },
+        {
             code: "if (test) { function doSomething() { } }",
             options: ["both", { blockScopedFunctions: "allow" }],
             languageOptions: { ecmaVersion: 5 },
@@ -426,6 +478,19 @@ ruleTester.run("no-inner-declarations", rule, {
                 data: {
                     type: "function",
                     body: "function body"
+                },
+                type: "FunctionDeclaration"
+            }]
+        },
+        {
+            code: "{ function foo () {'use strict' \n console.log('foo called'); } }",
+            options: ["both"],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "function",
+                    body: "program"
                 },
                 type: "FunctionDeclaration"
             }]

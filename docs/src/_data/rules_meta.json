@@ -1203,7 +1203,7 @@
         "type": "problem",
         "docs": {
             "description": "Disallow variable or `function` declarations in nested blocks",
-            "recommended": false,
+            "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-inner-declarations"
         }
     },
