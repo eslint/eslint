@@ -83,7 +83,7 @@ This rule has a string and an object option:
 
 * `"functions"` (default) disallows `function` declarations in nested blocks
 * `"both"` disallows `function` and `var` declarations in nested blocks
-* `{ blockScopedFunctions: "allow" }` (default) this option allows `function` declarations in nested blocks when code is in strict mode (code with `"use strict"` tag or ESM modules) and `languageOptions.ecmaVersion` is set to `2015` or above. This option can be disabled by setting it to `disallow`.
+* `{ blockScopedFunctions: "allow" }` (default) this option allows `function` declarations in nested blocks when code is in strict mode (code with `"use strict"` tag or ESM modules) and `languageOptions.ecmaVersion` is set to `2015` or above. This option can be disabled by setting it to `"disallow"`.
 
 ### functions
 
@@ -214,13 +214,12 @@ class C {
 
 ### blockScopedFunctions
 
-Example of **incorrect** code for this rule with `{ blockScopedFunctions: "disallow" }` option with `ecmaVersion: 6`:
+Example of **incorrect** code for this rule with `{ blockScopedFunctions: "disallow" }` option with `ecmaVersion: 2015`:
 
-::: incorrect { "sourceType": "script" }
+::: incorrect { "sourceType": "script", "ecmaVersion": 2015 }
 
 ```js
 /*eslint no-inner-declarations: ["error", { blockScopedFunctions: "disallow" }]*/
-/*eslint-env es6*/
 
 // non-strict code
 
@@ -247,15 +246,12 @@ function foo() {
 
 :::
 
-Example of **correct** code for this rule with `{ blockScopedFunctions: "disallow" }` option with `ecmaVersion: 6`:
+Example of **correct** code for this rule with `{ blockScopedFunctions: "disallow" }` option with `ecmaVersion: 2015`:
 
-::: correct { "sourceType": "script" }
+::: correct { "sourceType": "script", "ecmaVersion": 2015 }
 
 ```js
 /*eslint no-inner-declarations: ["error", { blockScopedFunctions: "disallow" }]*/
-/*eslint-env es6*/
-
-"use strict";
 
 function doSomething() { }
 
@@ -266,13 +262,12 @@ function doSomething() {
 
 :::
 
-Example of **correct** code for this rule with `{ blockScopedFunctions: "allow" }` option with `ecmaVersion: 6`:
+Example of **correct** code for this rule with `{ blockScopedFunctions: "allow" }` option with `ecmaVersion: 2015`:
 
-::: correct { "sourceType": "script" }
+::: correct { "sourceType": "script", "ecmaVersion": 2015 }
 
 ```js
 /*eslint no-inner-declarations: ["error", { blockScopedFunctions: "allow" }]*/
-/*eslint-env es6*/
 
 "use strict";
 
@@ -305,7 +300,6 @@ function foo() {
 
 ```js
 /*eslint no-inner-declarations: ["error", { blockScopedFunctions: "allow" }]*/
-/*eslint-env es6*/
 
 if (test) {
     function doSomething() { }
@@ -338,4 +332,8 @@ const C = class {
 
 ## When Not To Use It
 
-The function declaration portion rule will be rendered obsolete when [block-scoped functions](https://bugzilla.mozilla.org/show_bug.cgi?id=585536) land in ES6, but until then, it should be left on to enforce valid constructions. Disable checking variable declarations when using [block-scoped-var](block-scoped-var) or if declaring variables in nested blocks is acceptable despite hoisting.
+By default, this rule disallows inner function declarations only in contexts where their behavior is unspecified and thus inconsistent (pre-ES6 environments) or legacy semantics apply (non-strict mode code). If your code targets pre-ES6 environments or is not in strict mode, you should enable this rule to prevent unexpected behavior.
+
+In ES6+ environments, in strict mode code, the behavior of inner function declarations is well-defined and consistent - they are always block-scoped. If your code targets only ES6+ environments and is in strict mode (ES modules, or code with `"use strict"` directives) then there is no need to enable this rule unless you want to disallow inner functions as a stylistic choice, in which case you should enable this rule with the option `blockScopedFunctions: "disallow"`.
+
+Disable checking variable declarations when using [block-scoped-var](block-scoped-var) or if declaring variables in nested blocks is acceptable despite hoisting.
