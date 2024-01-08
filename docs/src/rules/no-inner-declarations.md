@@ -219,7 +219,7 @@ Example of **incorrect** code for this rule with `{ blockScopedFunctions: "disal
 ::: incorrect { "sourceType": "script", "ecmaVersion": 2015 }
 
 ```js
-/*eslint no-inner-declarations: ["error", { blockScopedFunctions: "disallow" }]*/
+/*eslint no-inner-declarations: ["error", "functions", { blockScopedFunctions: "disallow" }]*/
 
 // non-strict code
 
@@ -251,7 +251,7 @@ Example of **correct** code for this rule with `{ blockScopedFunctions: "disallo
 ::: correct { "sourceType": "script", "ecmaVersion": 2015 }
 
 ```js
-/*eslint no-inner-declarations: ["error", { blockScopedFunctions: "disallow" }]*/
+/*eslint no-inner-declarations: ["error", "functions", { blockScopedFunctions: "disallow" }]*/
 
 function doSomething() { }
 
@@ -267,7 +267,7 @@ Example of **correct** code for this rule with `{ blockScopedFunctions: "allow" 
 ::: correct { "sourceType": "script", "ecmaVersion": 2015 }
 
 ```js
-/*eslint no-inner-declarations: ["error", { blockScopedFunctions: "allow" }]*/
+/*eslint no-inner-declarations: ["error", "functions", { blockScopedFunctions: "allow" }]*/
 
 "use strict";
 
@@ -299,7 +299,7 @@ function foo() {
 ::: correct { "sourceType": "module" }
 
 ```js
-/*eslint no-inner-declarations: ["error", { blockScopedFunctions: "allow" }]*/
+/*eslint no-inner-declarations: ["error", "functions", { blockScopedFunctions: "allow" }]*/
 
 if (test) {
     function doSomething() { }
