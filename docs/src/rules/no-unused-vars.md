@@ -1,6 +1,8 @@
 ---
 title: no-unused-vars
 rule_type: problem
+related_rules:
+- no-useless-assignment
 ---
 
 
