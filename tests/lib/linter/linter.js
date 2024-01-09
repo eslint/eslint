@@ -18,6 +18,8 @@ const { assert } = require("chai"),
 const { Linter } = require("../../../lib/linter");
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 
+const { LATEST_ECMA_VERSION } = require("../../../conf/ecma-version");
+
 //------------------------------------------------------------------------------
 // Constants
 //------------------------------------------------------------------------------
@@ -5470,7 +5472,7 @@ var a = "test2";
                 assert.strictEqual(ecmaVersion, espree.latestEcmaVersion + 2009, "ecmaVersion should be 2022");
             });
 
-            it("the 'next' is equal to espree.latestEcmaVersion on languageOptions with custom parser", () => {
+            it("the 'next' is equal to ESLint's latest ECMA version on languageOptions with custom parser", () => {
                 let ecmaVersion = null;
                 const config = { rules: { "ecma-version": 2 }, parser: "custom-parser", parserOptions: { ecmaVersion: "next" } };
 
@@ -5483,7 +5485,7 @@ var a = "test2";
                     })
                 });
                 linter.verify("", config);
-                assert.strictEqual(ecmaVersion, espree.latestEcmaVersion + 2009, "ecmaVersion should be 2022");
+                assert.strictEqual(ecmaVersion, LATEST_ECMA_VERSION, `ecmaVersion should be ${LATEST_ECMA_VERSION}`);
             });
 
             it("missing ecmaVersion is equal to 5 on languageOptions with custom parser", () => {
@@ -7649,7 +7651,7 @@ describe("Linter with FlatConfigArray", () => {
                                     checker: {
                                         create: context => ({
                                             Program() {
-                                                assert.strictEqual(context.languageOptions.ecmaVersion, espree.latestEcmaVersion + 2009);
+                                                assert.strictEqual(context.languageOptions.ecmaVersion, LATEST_ECMA_VERSION);
                                             }
                                         })
                                     }
@@ -7694,7 +7696,7 @@ describe("Linter with FlatConfigArray", () => {
                                     checker: {
                                         create: context => ({
                                             Program() {
-                                                assert.strictEqual(context.languageOptions.ecmaVersion, espree.latestEcmaVersion + 2009);
+                                                assert.strictEqual(context.languageOptions.ecmaVersion, LATEST_ECMA_VERSION);
                                             }
                                         })
                                     }
@@ -8359,7 +8361,7 @@ describe("Linter with FlatConfigArray", () => {
                         }, "filename.js");
 
                         assert(spy.calledWithMatch(";", {
-                            ecmaVersion: espree.latestEcmaVersion + 2009,
+                            ecmaVersion: LATEST_ECMA_VERSION,
                             sourceType: "module"
                         }));
                     });
