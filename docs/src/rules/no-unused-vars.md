@@ -1,6 +1,8 @@
 ---
 title: no-unused-vars
 rule_type: problem
+related_rules:
+- no-useless-assignment
 ---
 
 
@@ -135,7 +137,7 @@ By default this rule is enabled with `all` option for variables and `after-used`
 ```json
 {
     "rules": {
-        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "caughtErrors": "none", "ignoreRestSiblings": false }]
     }
 }
 ```
@@ -144,7 +146,7 @@ By default this rule is enabled with `all` option for variables and `after-used`
 
 The `vars` option has two settings:
 
-* `all` checks all variables for usage, including those in the global scope. This is the default setting.
+* `all` checks all variables for usage, including those in the global scope. However, it excludes variables targeted by other options like `args` and `caughtErrors`. This is the default setting.
 * `local` checks only that locally-declared variables are used but will allow global variables to be unused.
 
 #### vars: local
@@ -164,7 +166,7 @@ some_unused_var = 42;
 
 ### varsIgnorePattern
 
-The `varsIgnorePattern` option specifies exceptions not to check for usage: variables whose names match a regexp pattern. For example, variables whose names contain `ignored` or `Ignored`.
+The `varsIgnorePattern` option specifies exceptions not to check for usage: variables whose names match a regexp pattern. For example, variables whose names contain `ignored` or `Ignored`. However, it excludes variables targeted by other options like `argsIgnorePattern` and `caughtErrorsIgnorePattern`.
 
 Examples of **correct** code for the `{ "varsIgnorePattern": "[iI]gnored" }` option:
 
@@ -333,7 +335,7 @@ Examples of **correct** code for the `{ "caughtErrorsIgnorePattern": "^ignore" }
 ::: correct
 
 ```js
-/*eslint no-unused-vars: ["error", { "caughtErrorsIgnorePattern": "^ignore" }]*/
+/*eslint no-unused-vars: ["error", { "caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore" }]*/
 
 try {
     //...

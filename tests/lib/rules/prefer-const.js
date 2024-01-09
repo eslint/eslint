@@ -11,7 +11,7 @@
 
 const rule = require("../../../lib/rules/prefer-const"),
     fixtureParser = require("../../fixtures/fixture-parser"),
-    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests

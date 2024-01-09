@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/space-before-blocks"),
-    RuleTester = require("../../../lib/rule-tester/flat-rule-tester"),
+    RuleTester = require("../../../lib/rule-tester/rule-tester"),
     fixtureParser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------

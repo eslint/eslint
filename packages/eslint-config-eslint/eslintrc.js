@@ -154,7 +154,7 @@ module.exports = {
         "jsdoc/empty-tags": "error",
         "jsdoc/implements-on-classes": "error",
         "jsdoc/multiline-blocks": "error",
-        "jsdoc/no-multi-asterisks": "error",
+        "jsdoc/no-multi-asterisks": ["error", { allowWhitespace: true }],
         "jsdoc/require-jsdoc": [
             "error",
             {
@@ -226,6 +226,7 @@ module.exports = {
         "no-extra-semi": "error",
         "no-floating-decimal": "error",
         "no-implied-eval": "error",
+        "no-inner-declarations": "error",
         "no-invalid-this": "error",
         "no-iterator": "error",
         "no-label-var": "error",
@@ -321,6 +322,7 @@ module.exports = {
             }
         ],
         "no-use-before-define": "error",
+        "no-useless-assignment": "error",
         "no-useless-call": "error",
         "no-useless-computed-key": "error",
         "no-useless-concat": "error",
@@ -376,6 +378,7 @@ module.exports = {
         "prefer-const": "error",
         "prefer-exponentiation-operator": "error",
         "prefer-numeric-literals": "error",
+        "prefer-object-has-own": "error",
         "prefer-promise-reject-errors": "error",
         "prefer-regex-literals": "error",
         "prefer-rest-params": "error",
@@ -437,6 +440,7 @@ module.exports = {
         "unicorn/prefer-array-flat": "error",
         "unicorn/prefer-array-index-of": "error",
         "unicorn/prefer-array-some": "error",
+        "unicorn/prefer-at": "error",
         "unicorn/prefer-includes": "error",
         "unicorn/prefer-set-has": "error",
         "unicorn/prefer-string-slice": "error",

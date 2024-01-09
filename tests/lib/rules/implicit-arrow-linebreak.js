@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/implicit-arrow-linebreak");
-const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 const { unIndent } = require("../../_utils");
 
 const EXPECTED_LINEBREAK = { messageId: "expected" };

@@ -18,6 +18,8 @@ const { assert } = require("chai"),
 const { Linter } = require("../../../lib/linter");
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 
+const { LATEST_ECMA_VERSION } = require("../../../conf/ecma-version");
+
 //------------------------------------------------------------------------------
 // Constants
 //------------------------------------------------------------------------------
@@ -59,7 +61,7 @@ describe("Linter", () => {
     let linter;
 
     beforeEach(() => {
-        linter = new Linter();
+        linter = new Linter({ configType: "eslintrc" });
     });
 
     afterEach(() => {
@@ -317,6 +319,68 @@ describe("Linter", () => {
             sinon.assert.calledOnce(spyIdentifier);
             sinon.assert.calledTwice(spyLiteral);
             sinon.assert.calledOnce(spyBinaryExpression);
+        });
+
+        it("should throw an error if a rule is a function", () => {
+
+            /**
+             * Legacy-format rule (a function instead of an object with `create` method).
+             * @param {RuleContext} context The ESLint rule context object.
+             * @returns {Object} Listeners.
+             */
+            function functionStyleRule(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+
+            linter.defineRule("function-style-rule", functionStyleRule);
+
+            assert.throws(
+                () => linter.verify("foo", { rules: { "function-style-rule": "error" } }),
+                TypeError,
+                "Error while loading rule 'function-style-rule': Rule must be an object with a `create` method"
+            );
+        });
+
+        it("should throw an error if a rule is an object without 'create' method", () => {
+            const rule = {
+                create_(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+            };
+
+            linter.defineRule("object-rule-without-create", rule);
+
+            assert.throws(
+                () => linter.verify("foo", { rules: { "object-rule-without-create": "error" } }),
+                TypeError,
+                "Error while loading rule 'object-rule-without-create': Rule must be an object with a `create` method"
+            );
+        });
+
+        it("should throw an error if a rule with invalid `meta.schema` is enabled in a configuration comment", () => {
+            const rule = {
+                meta: {
+                    schema: true
+                },
+                create() {
+                    return {};
+                }
+            };
+
+            linter.defineRule("rule-with-invalid-schema", rule);
+
+            assert.throws(
+                () => linter.verify("/* eslint rule-with-invalid-schema: 2 */"),
+                "Error while processing options validation schema of rule 'rule-with-invalid-schema': Rule's `meta.schema` must be an array or object"
+            );
         });
 
         it("should throw an error if a rule reports a problem without a message", () => {
@@ -817,6 +881,96 @@ describe("Linter", () => {
             linter.verify(code, config, filename, true);
         });
 
+        it("variable should be exported ", () => {
+            const code = "/* exported horse */\n\nvar horse;";
+            const config = { rules: { checker: "error" } };
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
+                            horse = getVariable(scope, "horse");
+
+                        assert.isTrue(horse.eslintUsed);
+                    });
+
+                    return { Program: spy };
+                }
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("`key: value` pair variable should not be exported", () => {
+            const code = "/* exported horse: true */\n\nvar horse;";
+            const config = { rules: { checker: "error" } };
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node),
+                            horse = getVariable(scope, "horse");
+
+                        assert.notOk(horse.eslintUsed);
+                    });
+
+                    return { Program: spy };
+                }
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("variables with comma should be exported", () => {
+            const code = "/* exported horse, dog */\n\nvar horse, dog;";
+            const config = { rules: { checker: "error" } };
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node);
+
+                        ["horse", "dog"].forEach(name => {
+                            assert.isTrue(getVariable(scope, name).eslintUsed);
+                        });
+                    });
+
+                    return { Program: spy };
+                }
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("variables without comma should not be exported", () => {
+            const code = "/* exported horse dog */\n\nvar horse, dog;";
+            const config = { rules: { checker: "error" } };
+            let spy;
+
+            linter.defineRule("checker", {
+                create(context) {
+                    spy = sinon.spy(node => {
+                        const scope = context.sourceCode.getScope(node);
+
+                        ["horse", "dog"].forEach(name => {
+                            assert.notOk(getVariable(scope, name).eslintUsed);
+                        });
+                    });
+
+                    return { Program: spy };
+                }
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
         it("variables should be exported", () => {
             const code = "/* exported horse */\n\nvar horse = 'circus'";
             const config = { rules: { checker: "error" } };
@@ -1303,11 +1457,95 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(suppressedMessages.length, 0);
         });
+
+        describe("when the rule was already configured", () => {
+
+            beforeEach(() => {
+                linter.defineRule("my-rule", {
+                    meta: {
+                        schema: [{
+                            type: "string"
+                        }]
+                    },
+                    create(context) {
+                        const message = context.options[0] ?? "option not provided";
+
+                        return {
+                            Program(node) {
+                                context.report({ node, message });
+                            }
+                        };
+                    }
+                });
+            });
+
+            [
+                "off",
+                "warn",
+                "error",
+                ["off"],
+                ["warn"],
+                ["error"],
+                ["off", "bar"],
+                ["warn", "bar"],
+                ["error", "bar"]
+            ].forEach(ruleConfig => {
+                const config = {
+                    rules: {
+                        "my-rule": ruleConfig
+                    }
+                };
+
+                it(`severity from the /*eslint*/ comment and options from the config should apply when the comment has only severity (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                    const code = "/*eslint my-rule: 'warn' */";
+                    const messages = linter.verify(code, config);
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    const expectedMessage = Array.isArray(ruleConfig) && ruleConfig.length > 1
+                        ? ruleConfig[1]
+                        : "option not provided";
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].ruleId, "my-rule");
+                    assert.strictEqual(messages[0].severity, 1);
+                    assert.strictEqual(messages[0].message, expectedMessage);
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it(`severity from the /*eslint*/ comment and options from the config should apply when the comment has array with only severity (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                    const code = "/*eslint my-rule: ['warn'] */";
+                    const messages = linter.verify(code, config);
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    const expectedMessage = Array.isArray(ruleConfig) && ruleConfig.length > 1
+                        ? ruleConfig[1]
+                        : "option not provided";
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].ruleId, "my-rule");
+                    assert.strictEqual(messages[0].severity, 1);
+                    assert.strictEqual(messages[0].message, expectedMessage);
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it(`severity and options from the /*eslint*/ comment should apply when the comment includes options (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                    const code = "/*eslint my-rule: ['warn', 'foo'] */";
+                    const messages = linter.verify(code, config);
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].ruleId, "my-rule");
+                    assert.strictEqual(messages[0].severity, 1);
+                    assert.strictEqual(messages[0].message, "foo");
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+            });
+        });
     });
 
     describe("when evaluating code with invalid comments to enable rules", () => {
         it("should report a violation when the config is not a valid rule configuration", () => {
-            const messages = linter.verify("/*eslint no-alert:true*/ alert('test');", {});
+            const messages = linter.verify("/*eslint no-alert:true*/ alert('test');");
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.deepStrictEqual(
@@ -1330,7 +1568,7 @@ describe("Linter", () => {
         });
 
         it("should report a violation when the config violates a rule's schema", () => {
-            const messages = linter.verify("/* eslint no-alert: [error, {nonExistentPropertyName: true}]*/", {});
+            const messages = linter.verify("/* eslint no-alert: [error, {nonExistentPropertyName: true}]*/");
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.deepStrictEqual(
@@ -2949,8 +3187,6 @@ var a = "test2";
     });
 
     describe("when using an invalid (undefined) rule", () => {
-        linter = new Linter();
-
         const code = TEST_CODE;
         let results, result, warningResult, arrayOptionResults, objectOptionResults, resultsMultiple;
 
@@ -3419,7 +3655,7 @@ var a = "test2";
 
         it("should get cwd correctly in the context", () => {
             const cwd = "cwd";
-            const linterWithOption = new Linter({ cwd });
+            const linterWithOption = new Linter({ cwd, configType: "eslintrc" });
             let spy;
 
             linterWithOption.defineRule("checker", {
@@ -3438,7 +3674,7 @@ var a = "test2";
 
         it("should assign process.cwd() to it if cwd is undefined", () => {
             let spy;
-            const linterWithOption = new Linter({ });
+            const linterWithOption = new Linter({ configType: "eslintrc" });
 
             linterWithOption.defineRule("checker", {
                 create(context) {
@@ -5236,7 +5472,7 @@ var a = "test2";
                 assert.strictEqual(ecmaVersion, espree.latestEcmaVersion + 2009, "ecmaVersion should be 2022");
             });
 
-            it("the 'next' is equal to espree.latestEcmaVersion on languageOptions with custom parser", () => {
+            it("the 'next' is equal to ESLint's latest ECMA version on languageOptions with custom parser", () => {
                 let ecmaVersion = null;
                 const config = { rules: { "ecma-version": 2 }, parser: "custom-parser", parserOptions: { ecmaVersion: "next" } };
 
@@ -5249,7 +5485,7 @@ var a = "test2";
                     })
                 });
                 linter.verify("", config);
-                assert.strictEqual(ecmaVersion, espree.latestEcmaVersion + 2009, "ecmaVersion should be 2022");
+                assert.strictEqual(ecmaVersion, LATEST_ECMA_VERSION, `ecmaVersion should be ${LATEST_ECMA_VERSION}`);
             });
 
             it("missing ecmaVersion is equal to 5 on languageOptions with custom parser", () => {
@@ -6483,8 +6719,8 @@ var a = "test2";
         let linter2 = null;
 
         beforeEach(() => {
-            linter1 = new Linter();
-            linter2 = new Linter();
+            linter1 = new Linter({ configType: "eslintrc" });
+            linter2 = new Linter({ configType: "eslintrc" });
         });
 
         describe("rules", () => {
@@ -7415,7 +7651,7 @@ describe("Linter with FlatConfigArray", () => {
                                     checker: {
                                         create: context => ({
                                             Program() {
-                                                assert.strictEqual(context.languageOptions.ecmaVersion, espree.latestEcmaVersion + 2009);
+                                                assert.strictEqual(context.languageOptions.ecmaVersion, LATEST_ECMA_VERSION);
                                             }
                                         })
                                     }
@@ -7460,7 +7696,7 @@ describe("Linter with FlatConfigArray", () => {
                                     checker: {
                                         create: context => ({
                                             Program() {
-                                                assert.strictEqual(context.languageOptions.ecmaVersion, espree.latestEcmaVersion + 2009);
+                                                assert.strictEqual(context.languageOptions.ecmaVersion, LATEST_ECMA_VERSION);
                                             }
                                         })
                                     }
@@ -8125,7 +8361,7 @@ describe("Linter with FlatConfigArray", () => {
                         }, "filename.js");
 
                         assert(spy.calledWithMatch(";", {
-                            ecmaVersion: espree.latestEcmaVersion + 2009,
+                            ecmaVersion: LATEST_ECMA_VERSION,
                             sourceType: "module"
                         }));
                     });
@@ -8899,6 +9135,123 @@ describe("Linter with FlatConfigArray", () => {
                 assert.strictEqual(suppressedMessages.length, 0);
             });
 
+            it("should throw an error if a rule is a function", () => {
+
+                /**
+                 * Legacy-format rule (a function instead of an object with `create` method).
+                 * @param {RuleContext} context The ESLint rule context object.
+                 * @returns {Object} Listeners.
+                 */
+                function functionStyleRule(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "bad" });
+                        }
+                    };
+                }
+
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                "function-style-rule": functionStyleRule
+                            }
+                        }
+                    },
+                    rules: { "test/function-style-rule": "error" }
+                };
+
+                assert.throws(
+                    () => linter.verify("foo", config),
+                    TypeError,
+                    "Error while loading rule 'test/function-style-rule': Rule must be an object with a `create` method"
+                );
+            });
+
+            it("should throw an error if a rule is an object without 'create' method", () => {
+                const rule = {
+                    create_(context) {
+                        return {
+                            Program(node) {
+                                context.report({ node, message: "bad" });
+                            }
+                        };
+                    }
+                };
+
+                const config = {
+                    plugins: {
+                        test: {
+                            rules: {
+                                "object-rule-without-create": rule
+                            }
+                        }
+                    },
+                    rules: { "test/object-rule-without-create": "error" }
+                };
+
+                assert.throws(
+                    () => linter.verify("foo", config),
+                    TypeError,
+                    "Error while loading rule 'test/object-rule-without-create': Rule must be an object with a `create` method"
+                );
+            });
+
+            it("should throw an error if a rule with invalid `meta.schema` is enabled in the configuration", () => {
+                const config = [
+                    {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    "rule-with-invalid-schema": {
+                                        meta: {
+                                            schema: true
+                                        },
+                                        create() {
+                                            return {};
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        rules: { "test/rule-with-invalid-schema": "error" }
+                    }
+                ];
+
+                assert.throws(
+                    () => linter.verify("foo", config),
+                    "Error while processing options validation schema of rule 'test/rule-with-invalid-schema': Rule's `meta.schema` must be an array or object"
+                );
+            });
+
+            it("should throw an error if a rule with invalid `meta.schema` is enabled in a configuration comment", () => {
+                const config = [
+                    {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    "rule-with-invalid-schema": {
+                                        meta: {
+                                            schema: true
+                                        },
+                                        create() {
+                                            return {};
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ];
+
+                assert.throws(
+                    () => linter.verify("/* eslint test/rule-with-invalid-schema: 2 */", config),
+                    "Error while processing options validation schema of rule 'test/rule-with-invalid-schema': Rule's `meta.schema` must be an array or object"
+                );
+            });
+
             it("should throw an error if a rule reports a problem without a message", () => {
 
                 const config = {
@@ -9564,6 +9917,138 @@ describe("Linter with FlatConfigArray", () => {
                 });
             });
 
+            describe("ruleFilter", () => {
+                it("should not run rules that are filtered out", () => {
+                    const code = [
+                        "alert(\"test\");"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ ruleId }) => ruleId !== "no-alert"
+                    });
+
+                    assert.strictEqual(messages.length, 0);
+                });
+
+                it("should run rules that are not filtered out", () => {
+                    const code = [
+                        "alert(\"test\");"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ ruleId }) => ruleId === "no-alert"
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+
+                it("should run rules that are not filtered out but not run rules that are filtered out", () => {
+                    const code = [
+                        "alert(\"test\");",
+                        "fakeVar.run();"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, "no-undef": 1 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ ruleId }) => ruleId === "no-alert"
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+
+                it("should filter rules by severity", () => {
+                    const code = [
+                        "alert(\"test\")"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, semi: 2 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ severity }) => severity === 2
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+
+                it("should ignore disable directives in filtered rules", () => {
+                    const code = [
+                        "// eslint-disable-next-line no-alert",
+                        "alert(\"test\")"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, semi: 2 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ severity }) => severity === 2,
+                        reportUnusedDisableDirectives: "error"
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+
+                it("should ignore disable directives in filtered rules even when unused", () => {
+                    const code = [
+                        "// eslint-disable-next-line no-alert",
+                        "notAnAlert(\"test\")"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, semi: 2 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ severity }) => severity === 2,
+                        reportUnusedDisableDirectives: "error"
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                });
+
+                it("should not ignore disable directives in non-filtered rules", () => {
+                    const code = [
+                        "// eslint-disable-next-line semi",
+                        "alert(\"test\")"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, semi: 2 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ severity }) => severity === 2,
+                        reportUnusedDisableDirectives: "error"
+                    });
+
+                    assert.strictEqual(messages.length, 0);
+                });
+
+                it("should report disable directives in non-filtered rules when unused", () => {
+                    const code = [
+                        "// eslint-disable-next-line semi",
+                        "alert(\"test\");"
+                    ].join("\n");
+                    const config = {
+                        rules: { "no-alert": 1, semi: 2 }
+                    };
+
+                    const messages = linter.verify(code, config, {
+                        ruleFilter: ({ severity }) => severity === 2,
+                        reportUnusedDisableDirectives: "error"
+                    });
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'semi').");
+                });
+            });
+
         });
 
         describe("Inline Directives", () => {
@@ -9833,6 +10318,136 @@ describe("Linter with FlatConfigArray", () => {
                     linter.verify(code, config, filename, true);
                 });
 
+                it("variable should be exported", () => {
+                    const code = "/* exported horse */\n\nvar horse;";
+                    let spy;
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: {
+                                        create(context) {
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node),
+                                                    horse = getVariable(scope, "horse");
+
+                                                assert.isTrue(horse.eslintUsed);
+                                            });
+
+                                            return { Program: spy };
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            sourceType: "script"
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("`key: value` pair variable should not be exported", () => {
+                    const code = "/* exported horse: true */\n\nvar horse;";
+                    let spy;
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: {
+                                        create(context) {
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node),
+                                                    horse = getVariable(scope, "horse");
+
+                                                assert.notOk(horse.eslintUsed);
+                                            });
+
+                                            return { Program: spy };
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            sourceType: "script"
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("variables with comma should be exported", () => {
+                    const code = "/* exported horse, dog */\n\nvar horse, dog;";
+                    let spy;
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: {
+                                        create(context) {
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node);
+
+                                                ["horse", "dog"].forEach(name => {
+                                                    assert.isTrue(getVariable(scope, name).eslintUsed);
+                                                });
+                                            });
+
+                                            return { Program: spy };
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            sourceType: "script"
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
+                it("variables without comma should not be exported", () => {
+                    const code = "/* exported horse dog */\n\nvar horse, dog;";
+                    let spy;
+                    const config = {
+                        plugins: {
+                            test: {
+                                rules: {
+                                    checker: {
+                                        create(context) {
+                                            spy = sinon.spy(node => {
+                                                const scope = context.sourceCode.getScope(node);
+
+                                                ["horse", "dog"].forEach(name => {
+                                                    assert.notOk(getVariable(scope, name).eslintUsed);
+                                                });
+                                            });
+
+                                            return { Program: spy };
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        languageOptions: {
+                            sourceType: "script"
+                        },
+                        rules: { "test/checker": "error" }
+                    };
+
+                    linter.verify(code, config);
+                    assert(spy && spy.calledOnce);
+                });
+
                 it("variables should be exported", () => {
                     const code = "/* exported horse */\n\nvar horse = 'circus'";
                     let spy;
@@ -10096,11 +10711,99 @@ describe("Linter with FlatConfigArray", () => {
                         assert.strictEqual(messages.length, 1);
                         assert.strictEqual(suppressedMessages.length, 0);
                     });
+
+                    describe("when the rule was already configured", () => {
+                        const plugin = {
+                            rules: {
+                                "my-rule": {
+                                    meta: {
+                                        schema: [{
+                                            type: "string"
+                                        }]
+                                    },
+                                    create(context) {
+                                        const message = context.options[0] ?? "option not provided";
+
+                                        return {
+                                            Program(node) {
+                                                context.report({ node, message });
+                                            }
+                                        };
+                                    }
+                                }
+                            }
+                        };
+
+                        [
+                            "off",
+                            "warn",
+                            "error",
+                            ["off"],
+                            ["warn"],
+                            ["error"],
+                            ["off", "bar"],
+                            ["warn", "bar"],
+                            ["error", "bar"]
+                        ].forEach(ruleConfig => {
+                            const config = {
+                                plugins: {
+                                    test: plugin
+                                },
+                                rules: {
+                                    "test/my-rule": ruleConfig
+                                }
+                            };
+
+                            it(`severity from the /*eslint*/ comment and options from the config should apply when the comment has only severity (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                                const code = "/*eslint test/my-rule: 'warn' */";
+                                const messages = linter.verify(code, config);
+                                const suppressedMessages = linter.getSuppressedMessages();
+
+                                const expectedMessage = Array.isArray(ruleConfig) && ruleConfig.length > 1
+                                    ? ruleConfig[1]
+                                    : "option not provided";
+
+                                assert.strictEqual(messages.length, 1);
+                                assert.strictEqual(messages[0].ruleId, "test/my-rule");
+                                assert.strictEqual(messages[0].severity, 1);
+                                assert.strictEqual(messages[0].message, expectedMessage);
+                                assert.strictEqual(suppressedMessages.length, 0);
+                            });
+
+                            it(`severity from the /*eslint*/ comment and options from the config should apply when the comment has array with only severity (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                                const code = "/*eslint test/my-rule: ['warn'] */";
+                                const messages = linter.verify(code, config);
+                                const suppressedMessages = linter.getSuppressedMessages();
+
+                                const expectedMessage = Array.isArray(ruleConfig) && ruleConfig.length > 1
+                                    ? ruleConfig[1]
+                                    : "option not provided";
+
+                                assert.strictEqual(messages.length, 1);
+                                assert.strictEqual(messages[0].ruleId, "test/my-rule");
+                                assert.strictEqual(messages[0].severity, 1);
+                                assert.strictEqual(messages[0].message, expectedMessage);
+                                assert.strictEqual(suppressedMessages.length, 0);
+                            });
+
+                            it(`severity and options from the /*eslint*/ comment should apply when the comment includes options (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                                const code = "/*eslint test/my-rule: ['warn', 'foo'] */";
+                                const messages = linter.verify(code, config);
+                                const suppressedMessages = linter.getSuppressedMessages();
+
+                                assert.strictEqual(messages.length, 1);
+                                assert.strictEqual(messages[0].ruleId, "test/my-rule");
+                                assert.strictEqual(messages[0].severity, 1);
+                                assert.strictEqual(messages[0].message, "foo");
+                                assert.strictEqual(suppressedMessages.length, 0);
+                            });
+                        });
+                    });
                 });
 
                 describe("when evaluating code with invalid comments to enable rules", () => {
                     it("should report a violation when the config is not a valid rule configuration", () => {
-                        const messages = linter.verify("/*eslint no-alert:true*/ alert('test');", {});
+                        const messages = linter.verify("/*eslint no-alert:true*/ alert('test');");
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         assert.deepStrictEqual(
@@ -10123,7 +10826,7 @@ describe("Linter with FlatConfigArray", () => {
                     });
 
                     it("should report a violation when a rule is configured using a string severity that contains uppercase letters", () => {
-                        const messages = linter.verify("/*eslint no-alert: \"Error\"*/ alert('test');", {});
+                        const messages = linter.verify("/*eslint no-alert: \"Error\"*/ alert('test');");
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         assert.deepStrictEqual(
@@ -10146,7 +10849,7 @@ describe("Linter with FlatConfigArray", () => {
                     });
 
                     it("should report a violation when the config violates a rule's schema", () => {
-                        const messages = linter.verify("/* eslint no-alert: [error, {nonExistentPropertyName: true}]*/", {});
+                        const messages = linter.verify("/* eslint no-alert: [error, {nonExistentPropertyName: true}]*/");
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         assert.deepStrictEqual(
@@ -10175,7 +10878,7 @@ describe("Linter with FlatConfigArray", () => {
                             "foo(); // <-- expected no-undef error here"
                         ].join("\n");
 
-                        const messages = linter.verify(code, {});
+                        const messages = linter.verify(code);
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         // different engines have different JSON parsing error messages
@@ -10372,7 +11075,8 @@ describe("Linter with FlatConfigArray", () => {
                             },
                             rules: {
                                 "test/checker": "error"
-                            }
+                            },
+                            linterOptions: { reportUnusedDisableDirectives: 0 }
                         };
 
                         const problems = linter.verify(code, config);
@@ -10507,7 +11211,7 @@ describe("Linter with FlatConfigArray", () => {
                             "/*eslint-enable*/"
                         ].join("\n");
 
-                        const config = { rules: { "no-alert": 1 } };
+                        const config = { rules: { "no-alert": 1 }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                         const messages = linter.verify(code, config, filename);
                         const suppressedMessages = linter.getSuppressedMessages();
@@ -10769,7 +11473,7 @@ var a = "test2";
                         "console.log(\"foo\");",
                         "/* eslint-enable quotes */"
                     ].join("\n");
-                    const config = { rules: { quotes: 2 } };
+                    const config = { rules: { quotes: 2 }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -10814,7 +11518,7 @@ var a = "test2";
                         "/*eslint-enable no-console */",
                         "alert('test');"
                     ].join("\n");
-                    const config = { rules: { "no-alert": 1, "no-console": 1 } };
+                    const config = { rules: { "no-alert": 1, "no-console": 1 }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -10878,7 +11582,7 @@ var a = "test2";
 
                         "/*eslint-enable*/"
                     ].join("\n");
-                    const config = { rules: { "no-alert": 1, "no-console": 1 } };
+                    const config = { rules: { "no-alert": 1, "no-console": 1 }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -10917,7 +11621,7 @@ var a = "test2";
                         "console.log('test');", // here
                         "/*eslint-enable no-console */"
                     ].join("\n");
-                    const config = { rules: { "no-alert": 1, "no-console": 1 } };
+                    const config = { rules: { "no-alert": 1, "no-console": 1 }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -10956,7 +11660,7 @@ var a = "test2";
                         "console.log('test');", // here
                         "/*eslint-enable no-console */"
                     ].join("\n");
-                    const config = { rules: { "no-alert": "warn", "no-console": "warn" } };
+                    const config = { rules: { "no-alert": "warn", "no-console": "warn" }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -10985,7 +11689,7 @@ var a = "test2";
                         "var bar;",
                         "/* eslint-enable no-unused-vars */" // here
                     ].join("\n");
-                    const config = { rules: { "no-unused-vars": 2 } };
+                    const config = { rules: { "no-unused-vars": 2 }, linterOptions: { reportUnusedDisableDirectives: 0 } };
 
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -11385,7 +12089,8 @@ var a = "test2";
                     const config = {
                         rules: {
                             "no-alert": 1
-                        }
+                        },
+                        linterOptions: { reportUnusedDisableDirectives: 0 }
                     };
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -11449,7 +12154,8 @@ var a = "test2";
                         rules: {
                             "no-alert": 1,
                             "no-console": 1
-                        }
+                        },
+                        linterOptions: { reportUnusedDisableDirectives: 0 }
                     };
                     const messages = linter.verify(code, config, filename);
                     const suppressedMessages = linter.getSuppressedMessages();
@@ -11472,7 +12178,8 @@ var a = "test2";
                         rules: {
                             "no-alert": 1,
                             "no-console": 1
-                        }
+                        },
+                        linterOptions: { reportUnusedDisableDirectives: 0 }
                     };
                     const messages = linter.verify(code, config, filename);
 
@@ -11877,7 +12584,7 @@ var a = "test2";
                     /*eslint-enable no-redeclare -- no-unused-vars */
                     var aaa = {}
                     var aaa = {}
-                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" }, linterOptions: { reportUnusedDisableDirectives: 0 } });
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     // Do include `no-redeclare` but not `no-unused-vars`
@@ -11917,7 +12624,7 @@ var a = "test2";
                     const messages = linter.verify(`
                     var aaa = {} //eslint-disable-line no-redeclare -- no-unused-vars
                     var aaa = {} //eslint-disable-line no-redeclare -- no-unused-vars
-                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" }, linterOptions: { reportUnusedDisableDirectives: 0 } });
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     // Do include `no-unused-vars` but not `no-redeclare`
@@ -11957,7 +12664,7 @@ var a = "test2";
                     const messages = linter.verify(`
                     var aaa = {} /*eslint-disable-line no-redeclare -- no-unused-vars */
                     var aaa = {} /*eslint-disable-line no-redeclare -- no-unused-vars */
-                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" }, linterOptions: { reportUnusedDisableDirectives: 0 } });
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     // Do include `no-unused-vars` but not `no-redeclare`
@@ -11999,7 +12706,7 @@ var a = "test2";
                     var aaa = {}
                     //eslint-disable-next-line no-redeclare -- no-unused-vars
                     var aaa = {}
-                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" }, linterOptions: { reportUnusedDisableDirectives: 0 } });
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     // Do include `no-unused-vars` but not `no-redeclare`
@@ -12041,7 +12748,7 @@ var a = "test2";
                     var aaa = {}
                     /*eslint-disable-next-line no-redeclare -- no-unused-vars */
                     var aaa = {}
-                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" }, linterOptions: { reportUnusedDisableDirectives: 0 } });
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     // Do include `no-unused-vars` but not `no-redeclare`
@@ -13183,8 +13890,33 @@ var a = "test2";
                     assert.strictEqual(suppressedMessages[1].suppressions.length, 1);
                 });
 
-                it("reports problems for unused eslint-disable comments (warn)", () => {
+                it("reports problems for unused eslint-disable comments (warn, explicitly set)", () => {
                     const messages = linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: "warn" });
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.deepStrictEqual(
+                        messages,
+                        [
+                            {
+                                ruleId: null,
+                                message: "Unused eslint-disable directive (no problems were reported).",
+                                line: 1,
+                                column: 1,
+                                fix: {
+                                    range: [0, 20],
+                                    text: " "
+                                },
+                                severity: 1,
+                                nodeType: null
+                            }
+                        ]
+                    );
+
+                    assert.strictEqual(suppressedMessages.length, 0);
+                });
+
+                it("reports problems for unused eslint-disable comments (warn by default)", () => {
+                    const messages = linter.verify("/* eslint-disable */", {});
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     assert.deepStrictEqual(
@@ -14288,7 +15020,7 @@ var a = "test2";
                 const code = BROKEN_TEST_CODE;
 
                 it("should report a violation with a useful parse error prefix", () => {
-                    const messages = linter.verify(code, {});
+                    const messages = linter.verify(code);
                     const suppressedMessages = linter.getSuppressedMessages();
 
                     assert.strictEqual(messages.length, 1);
@@ -14333,6 +15065,21 @@ var a = "test2";
                 });
             });
 
+        });
+
+        it("should default to flat config mode when a config isn't passed", () => {
+
+            // eslint-env should not be honored
+            const messages = linter.verify("/*eslint no-undef:error*//*eslint-env browser*/\nwindow;");
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-undef");
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].line, 2);
+            assert.strictEqual(messages[0].column, 1);
+
+            assert.strictEqual(suppressedMessages.length, 0);
         });
     });
 
@@ -14637,32 +15384,6 @@ var a = "test2";
             }, /Fixable rules must set the `meta\.fixable` property/u);
         });
     });
-
-    describe("Mutability", () => {
-        let linter1 = null;
-        let linter2 = null;
-
-        beforeEach(() => {
-            linter1 = new Linter();
-            linter2 = new Linter();
-        });
-
-        describe("rules", () => {
-            it("with no changes, same rules are loaded", () => {
-                assert.sameDeepMembers(Array.from(linter1.getRules().keys()), Array.from(linter2.getRules().keys()));
-            });
-
-            it("loading rule in one doesn't change the other", () => {
-                linter1.defineRule("mock-rule", {
-                    create: () => ({})
-                });
-
-                assert.isTrue(linter1.getRules().has("mock-rule"), "mock rule is present");
-                assert.isFalse(linter2.getRules().has("mock-rule"), "mock rule is not present");
-            });
-        });
-    });
-
 
     describe("processors", () => {
         let receivedFilenames = [];
@@ -15245,7 +15966,7 @@ var a = "test2";
         });
 
         it("should not crash when invalid parentheses syntax is encountered", () => {
-            linter.verify("left = (aSize.width/2) - ()", {});
+            linter.verify("left = (aSize.width/2) - ()");
         });
 
         it("should not crash when let is used inside of switch case", () => {

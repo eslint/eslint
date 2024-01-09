@@ -29,7 +29,7 @@ const DEFAULT_CONFIG = {
     range: true,
     loc: true
 };
-const linter = new Linter();
+const linter = new Linter({ configType: "eslintrc" });
 const flatLinter = new Linter({ configType: "flat" });
 const AST = espree.parse("let foo = bar;", DEFAULT_CONFIG),
     TEST_CODE = "var answer = 6 * 7;",
@@ -1255,7 +1255,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
                                 sourceCode.ast.tokens[0],
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                                sourceCode.ast.tokens.at(-1)
                             ),
                             expected
                         );
@@ -1269,7 +1269,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                                sourceCode.ast.tokens.at(-1),
                                 sourceCode.ast.tokens[0]
                             ),
                             expected
@@ -1319,7 +1319,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
                                 sourceCode.ast.tokens[0],
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 2]
+                                sourceCode.ast.tokens.at(-2)
                             ),
                             expected
                         );
@@ -1333,7 +1333,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 2],
+                                sourceCode.ast.tokens.at(-2),
                                 sourceCode.ast.tokens[0]
                             ),
                             expected
@@ -1381,7 +1381,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
                                 sourceCode.ast.tokens[0],
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1]
+                                sourceCode.ast.body.at(-1)
                             ),
                             expected
                         );
@@ -1395,7 +1395,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1],
+                                sourceCode.ast.body.at(-1),
                                 sourceCode.ast.tokens[0]
                             ),
                             expected
@@ -1443,7 +1443,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
                                 sourceCode.ast.body[0],
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                                sourceCode.ast.tokens.at(-1)
                             ),
                             expected
                         );
@@ -1457,7 +1457,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                                sourceCode.ast.tokens.at(-1),
                                 sourceCode.ast.body[0]
                             ),
                             expected
@@ -1503,7 +1503,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
                                 sourceCode.ast.body[0],
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1]
+                                sourceCode.ast.body.at(-1)
                             ),
                             expected
                         );
@@ -1517,7 +1517,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1],
+                                sourceCode.ast.body.at(-1),
                                 sourceCode.ast.body[0]
                             ),
                             expected
@@ -1608,7 +1608,7 @@ describe("SourceCode", () => {
 
                     assert.strictEqual(
                         sourceCode.isSpaceBetween(
-                            sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                            sourceCode.ast.tokens.at(-1),
                             sourceCode.ast.body[0]
                         ),
                         expected
@@ -1625,7 +1625,7 @@ describe("SourceCode", () => {
                     assert.strictEqual(
                         sourceCode.isSpaceBetween(
                             sourceCode.ast.body[0],
-                            sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                            sourceCode.ast.tokens.at(-1)
                         ),
                         expected
                     );
@@ -1651,7 +1651,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
                                 sourceCode.ast.tokens[0],
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                                sourceCode.ast.tokens.at(-1)
                             ),
                             expected
                         );
@@ -1665,7 +1665,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                                sourceCode.ast.tokens.at(-1),
                                 sourceCode.ast.tokens[0]
                             ),
                             expected
@@ -1715,7 +1715,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
                                 sourceCode.ast.tokens[0],
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 2]
+                                sourceCode.ast.tokens.at(-2)
                             ),
                             expected
                         );
@@ -1729,7 +1729,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 2],
+                                sourceCode.ast.tokens.at(-2),
                                 sourceCode.ast.tokens[0]
                             ),
                             expected
@@ -1777,7 +1777,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
                                 sourceCode.ast.tokens[0],
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1]
+                                sourceCode.ast.body.at(-1)
                             ),
                             expected
                         );
@@ -1791,7 +1791,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1],
+                                sourceCode.ast.body.at(-1),
                                 sourceCode.ast.tokens[0]
                             ),
                             expected
@@ -1839,7 +1839,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
                                 sourceCode.ast.body[0],
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                                sourceCode.ast.tokens.at(-1)
                             ),
                             expected
                         );
@@ -1853,7 +1853,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                                sourceCode.ast.tokens.at(-1),
                                 sourceCode.ast.body[0]
                             ),
                             expected
@@ -1899,7 +1899,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
                                 sourceCode.ast.body[0],
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1]
+                                sourceCode.ast.body.at(-1)
                             ),
                             expected
                         );
@@ -1913,7 +1913,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1],
+                                sourceCode.ast.body.at(-1),
                                 sourceCode.ast.body[0]
                             ),
                             expected
@@ -2004,7 +2004,7 @@ describe("SourceCode", () => {
 
                     assert.strictEqual(
                         sourceCode.isSpaceBetweenTokens(
-                            sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                            sourceCode.ast.tokens.at(-1),
                             sourceCode.ast.body[0]
                         ),
                         expected
@@ -2021,7 +2021,7 @@ describe("SourceCode", () => {
                     assert.strictEqual(
                         sourceCode.isSpaceBetweenTokens(
                             sourceCode.ast.body[0],
-                            sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                            sourceCode.ast.tokens.at(-1)
                         ),
                         expected
                     );
@@ -3128,26 +3128,74 @@ describe("SourceCode", () => {
             assert.isTrue(variable.writeable);
         });
 
+        describe("exported variables", () => {
 
-        it("should mark exported variables", () => {
+            /**
+             * GlobalScope
+             * @param {string} code the code to check
+             * @returns {Scope} globalScope
+             */
+            function loadGlobalScope(code) {
+                const ast = espree.parse(code, DEFAULT_CONFIG);
+                const scopeManager = eslintScope.analyze(ast, {
+                    ignoreEval: true,
+                    ecmaVersion: 6
+                });
+                const sourceCode = new SourceCode({ text: code, ast, scopeManager });
 
-            const code = "/*exported foo */ var foo;";
-            const ast = espree.parse(code, DEFAULT_CONFIG);
-            const scopeManager = eslintScope.analyze(ast, {
-                ignoreEval: true,
-                ecmaVersion: 6
+                sourceCode.applyInlineConfig();
+                sourceCode.finalize();
+
+                const globalScope = sourceCode.scopeManager.scopes[0].set;
+
+                return globalScope;
+            }
+
+            it("should mark exported variable", () => {
+                const code = "/*exported foo */ var foo;";
+                const globalScope = loadGlobalScope(code);
+                const variable = globalScope.get("foo");
+
+                assert.isDefined(variable);
+                assert.isTrue(variable.eslintUsed);
+                assert.isTrue(variable.eslintExported);
             });
-            const sourceCode = new SourceCode({ text: code, ast, scopeManager });
 
-            sourceCode.applyInlineConfig();
-            sourceCode.finalize();
+            it("should not mark exported variable with `key: value` pair", () => {
+                const code = "/*exported foo: true */ var foo;";
+                const globalScope = loadGlobalScope(code);
+                const variable = globalScope.get("foo");
 
-            const globalScope = sourceCode.scopeManager.scopes[0];
-            const variable = globalScope.set.get("foo");
+                assert.isDefined(variable);
+                assert.notOk(variable.eslintUsed);
+                assert.notOk(variable.eslintExported);
+            });
 
-            assert.isDefined(variable);
-            assert.isTrue(variable.eslintUsed);
-            assert.isTrue(variable.eslintExported);
+            it("should mark exported variables with comma", () => {
+                const code = "/*exported foo, bar */ var foo, bar;";
+                const globalScope = loadGlobalScope(code);
+
+                ["foo", "bar"].forEach(name => {
+                    const variable = globalScope.get(name);
+
+                    assert.isDefined(variable);
+                    assert.isTrue(variable.eslintUsed);
+                    assert.isTrue(variable.eslintExported);
+                });
+            });
+
+            it("should not mark exported variables without comma", () => {
+                const code = "/*exported foo bar */ var foo, bar;";
+                const globalScope = loadGlobalScope(code);
+
+                ["foo", "bar"].forEach(name => {
+                    const variable = globalScope.get(name);
+
+                    assert.isDefined(variable);
+                    assert.notOk(variable.eslintUsed);
+                    assert.notOk(variable.eslintExported);
+                });
+            });
         });
 
         it("should extract rule configuration", () => {

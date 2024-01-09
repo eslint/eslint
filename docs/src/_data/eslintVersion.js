@@ -16,6 +16,7 @@ const path = require("path");
 
 const pkgPath = path.resolve(__dirname, "../../package.json");
 const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
+const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, "./config.json"), "utf8"));
 const { ESLINT_VERSION } = process.env;
 
 //-----------------------------------------------------------------------------
@@ -31,4 +32,4 @@ const { ESLINT_VERSION } = process.env;
  * GitHub. Otherwise, we will use the version from package.json.
  */
 
-module.exports = ESLINT_VERSION ?? pkg.version;
+module.exports = ESLINT_VERSION ?? config.version ?? pkg.version;

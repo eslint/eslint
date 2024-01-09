@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-implicit-coercion");
-const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -31,18 +31,23 @@ ruleTester.run("no-implicit-coercion", rule, {
         "-foo",
         "+1234",
         "-1234",
+        "- -1234",
         "+Number(lol)",
         "-parseFloat(lol)",
         "2 * foo",
         "1 * 1234",
+        "123 - 0",
         "1 * Number(foo)",
         "1 * parseInt(foo)",
         "1 * parseFloat(foo)",
         "Number(foo) * 1",
+        "Number(foo) - 0",
         "parseInt(foo) * 1",
         "parseFloat(foo) * 1",
+        "- -Number(foo)",
         "1 * 1234 * 678 * Number(foo)",
         "1 * 1234 * 678 * parseInt(foo)",
+        "(1 - 0) * parseInt(foo)",
         "1234 * 1 * 678 * Number(foo)",
         "1234 * 1 * Number(foo) * Number(bar)",
         "1234 * 1 * Number(foo) * parseInt(bar)",
@@ -54,6 +59,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         "1234 * parseInt(foo) * 1 * Number(bar)",
         "1234 * parseFloat(foo) * 1 * parseInt(bar)",
         "1234 * parseFloat(foo) * 1 * Number(bar)",
+        "(- -1234) * (parseFloat(foo) - 0) * (Number(bar) - 0)",
         "1234*foo*1",
         "1234*1*foo",
         "1234*bar*1*foo",
@@ -69,6 +75,8 @@ ruleTester.run("no-implicit-coercion", rule, {
         { code: "!!foo", options: [{ boolean: false }] },
         { code: "~foo.indexOf(1)", options: [{ boolean: false }] },
         { code: "+foo", options: [{ number: false }] },
+        { code: "-(-foo)", options: [{ number: false }] },
+        { code: "foo - 0", options: [{ number: false }] },
         { code: "1*foo", options: [{ number: false }] },
         { code: "\"\"+foo", options: [{ string: false }] },
         { code: "foo += \"\"", options: [{ string: false }] },
@@ -76,6 +84,8 @@ ruleTester.run("no-implicit-coercion", rule, {
         { code: "var a = ~foo.indexOf(1)", options: [{ boolean: true, allow: ["~"] }] },
         { code: "var a = ~foo", options: [{ boolean: true }] },
         { code: "var a = 1 * foo", options: [{ boolean: true, allow: ["*"] }] },
+        { code: "- -foo", options: [{ number: true, allow: ["- -"] }] },
+        { code: "foo - 0", options: [{ number: true, allow: ["-"] }] },
         { code: "var a = +foo", options: [{ boolean: true, allow: ["+"] }] },
         { code: "var a = \"\" + foo", options: [{ boolean: true, string: true, allow: ["+"] }] },
 
@@ -158,6 +168,15 @@ ruleTester.run("no-implicit-coercion", rule, {
             }]
         },
         {
+            code: "-(-foo)",
+            output: null,
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo)" },
+                type: "UnaryExpression"
+            }]
+        },
+        {
             code: "+foo.bar",
             output: "Number(foo.bar)",
             errors: [{
@@ -186,6 +205,15 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "1*foo.bar",
+            output: "Number(foo.bar)",
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo.bar)" },
+                type: "BinaryExpression"
+            }]
+        },
+        {
+            code: "foo.bar-0",
             output: "Number(foo.bar)",
             errors: [{
                 messageId: "useRecommendation",

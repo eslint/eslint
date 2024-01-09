@@ -32,18 +32,6 @@ describe("rules", () => {
             assert.ok(rules.get(ruleId));
         });
 
-        it("should return the rule as an object with a create() method if the rule was defined as a function", () => {
-
-            /**
-             * A rule that does nothing
-             * @returns {void}
-             */
-            function rule() {}
-            rule.schema = [];
-            rules.define("foo", rule);
-            assert.deepStrictEqual(rules.get("foo"), { create: rule, schema: [] });
-        });
-
         it("should return the rule as-is if it was defined as an object with a create() method", () => {
             const rule = { create() {} };
 
@@ -58,30 +46,19 @@ describe("rules", () => {
 
             const linter = new Linter();
 
-            const problems = linter.verify("foo", { rules: { "test-rule": "error" } });
+            assert.throws(() => {
+                linter.verify("foo", { rules: { "test-rule": "error" } });
+            }, TypeError, "Could not find \"test-rule\" in plugin \"@\".");
 
-            assert.lengthOf(problems, 1);
-            assert.strictEqual(problems[0].message, "Definition for rule 'test-rule' was not found.");
-            assert.strictEqual(problems[0].line, 1);
-            assert.strictEqual(problems[0].column, 1);
-            assert.strictEqual(problems[0].endLine, 1);
-            assert.strictEqual(problems[0].endColumn, 2);
         });
 
 
         it("should report a linting error that lists replacements if a rule is known to have been replaced", () => {
             const linter = new Linter();
-            const problems = linter.verify("foo", { rules: { "no-arrow-condition": "error" } });
 
-            assert.lengthOf(problems, 1);
-            assert.strictEqual(
-                problems[0].message,
-                "Rule 'no-arrow-condition' was removed and replaced by: no-confusing-arrow, no-constant-condition"
-            );
-            assert.strictEqual(problems[0].line, 1);
-            assert.strictEqual(problems[0].column, 1);
-            assert.strictEqual(problems[0].endLine, 1);
-            assert.strictEqual(problems[0].endColumn, 2);
+            assert.throws(() => {
+                linter.verify("foo", { rules: { "no-arrow-condition": "error" } });
+            }, TypeError, "Key \"rules\": Key \"no-arrow-condition\": Rule \"no-arrow-condition\" was removed and replaced by \"no-confusing-arrow,no-constant-condition\".");
         });
     });
 
