@@ -20,7 +20,7 @@ jobs:
     - name: Install Packages
       run: npm install --force
     - name: Lint Files
-      run: node Makefile lint
+      run: trunk check --ci
     - name: Check Rule Files
       run: node Makefile checkRuleFiles
     - name: Check Licenses
