@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-assignment");
-const FlatRuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const flatRuleTester = new FlatRuleTester({
+const ruleTester = new RuleTester({
     plugins: {
         test: {
             rules: {
@@ -37,7 +37,7 @@ const flatRuleTester = new FlatRuleTester({
 });
 
 
-flatRuleTester.run("no-useless-assignment", rule, {
+ruleTester.run("no-useless-assignment", rule, {
     valid: [
 
         // Basic tests
