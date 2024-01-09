@@ -304,7 +304,7 @@ describe("ConfigRule", () => {
         it("should allow to ignore deprecated rules", () => {
             const expectedRules = Array.from(builtInRules.entries())
                     .filter(([, rule]) => {
-                        const isDeprecated = (typeof rule === "function") ? rule.deprecated : rule.meta.deprecated;
+                        const isDeprecated = rule.meta.deprecated;
 
                         return !isDeprecated;
                     })

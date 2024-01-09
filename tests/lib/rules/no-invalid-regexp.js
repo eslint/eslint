@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-invalid-regexp"),
-    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -181,6 +181,24 @@ ruleTester.run("no-invalid-regexp", rule, {
                 messageId: "regexMessage",
                 data: { message: "Invalid flags supplied to RegExp constructor 'z'" },
                 type: "NewExpression"
+            }]
+        },
+        {
+            code: "RegExp('.', 'a');",
+            options: [{ allowConstructorFlags: ["A"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'a'" },
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "RegExp('.', 'A');",
+            options: [{ allowConstructorFlags: ["a"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'A'" },
+                type: "CallExpression"
             }]
         },
         {

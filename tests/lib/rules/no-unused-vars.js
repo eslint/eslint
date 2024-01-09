@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-unused-vars"),
-    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -1131,6 +1131,16 @@ ruleTester.run("no-unused-vars", rule, {
             code: "try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
             errors: [definedError("err", ". Allowed unused args must match /^ignore/u")]
+        },
+        {
+            code: "try{}catch(err){};",
+            options: [{ caughtErrors: "all", varsIgnorePattern: "^err" }],
+            errors: [definedError("err")]
+        },
+        {
+            code: "try{}catch(err){};",
+            options: [{ caughtErrors: "all", varsIgnorePattern: "^." }],
+            errors: [definedError("err")]
         },
 
         // multiple try catch with one success

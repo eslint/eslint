@@ -245,15 +245,17 @@ function publishSite() {
 /**
  * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
  * and generates the site in an adjacent `website` folder.
+ * @param {string} [prereleaseId] The prerelease identifier (alpha, beta, etc.). If `undefined`, this is
+ *      a regular release.
  * @returns {void}
  */
-function generateRelease() {
-    ReleaseOps.generateRelease();
+function generateRelease(prereleaseId) {
+    ReleaseOps.generateRelease(prereleaseId);
     const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
 
     echo("Generating site");
     target.gensite();
-    generateBlogPost(releaseInfo);
+    generateBlogPost(releaseInfo, prereleaseId ? semver.inc(releaseInfo.version, "major") : void 0);
     commitSiteToGit(`v${releaseInfo.version}`);
 
     echo("Updating version in docs package");
@@ -266,44 +268,6 @@ function generateRelease() {
     echo("Updating commit with docs data");
     exec("git add docs/ && git commit --amend --no-edit");
     exec(`git tag -a -f v${releaseInfo.version} -m ${releaseInfo.version}`);
-}
-
-/**
- * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
- * and generates the site in an adjacent `website` folder.
- * @param {string} prereleaseId The prerelease identifier (alpha, beta, etc.)
- * @returns {void}
- */
-function generatePrerelease(prereleaseId) {
-    ReleaseOps.generateRelease(prereleaseId);
-    const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
-    const nextMajor = semver.inc(releaseInfo.version, "major");
-
-    echo("Generating site");
-
-    // always write docs into the next major directory (so 2.0.0-alpha.0 writes to 2.0.0)
-    target.gensite(nextMajor);
-
-    /*
-     * Premajor release should have identical "next major version".
-     * Preminor and prepatch release will not.
-     * 5.0.0-alpha.0 --> next major = 5, current major = 5
-     * 4.4.0-alpha.0 --> next major = 5, current major = 4
-     * 4.0.1-alpha.0 --> next major = 5, current major = 4
-     */
-    if (semver.major(releaseInfo.version) === semver.major(nextMajor)) {
-
-        /*
-         * This prerelease is for a major release (not preminor/prepatch).
-         * Blog post generation logic needs to be aware of this (as well as
-         * know what the next major version is actually supposed to be).
-         */
-        generateBlogPost(releaseInfo, nextMajor);
-    } else {
-        generateBlogPost(releaseInfo);
-    }
-
-    commitSiteToGit(`v${releaseInfo.version}`);
 }
 
 /**
@@ -347,7 +311,7 @@ function getFirstCommitOfFile(filePath) {
     let commits = execSilent(`git rev-list HEAD -- ${filePath}`);
 
     commits = splitCommandResultToLines(commits);
-    return commits[commits.length - 1].trim();
+    return commits.at(-1).trim();
 }
 
 /**
@@ -638,7 +602,7 @@ target.checkRuleFiles = function() {
          * @private
          */
         function isInRuleTypes() {
-            return Object.prototype.hasOwnProperty.call(ruleTypes, basename);
+            return Object.hasOwn(ruleTypes, basename);
         }
 
         /**
@@ -1016,6 +980,6 @@ target.perf = function() {
     });
 };
 
-target.generateRelease = generateRelease;
-target.generatePrerelease = ([prereleaseType]) => generatePrerelease(prereleaseType);
+target.generateRelease = () => generateRelease();
+target.generatePrerelease = ([prereleaseType]) => generateRelease(prereleaseType);
 target.publishRelease = publishRelease;

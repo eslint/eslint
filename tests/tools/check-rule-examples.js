@@ -51,12 +51,18 @@ describe("check-rule-examples", () => {
 
         await assert.rejects(
             promise,
-            {
-                code: 1,
-                stdout: "",
-                stderr:
+            ({ code, stdout, stderr }) => {
+                assert.strictEqual(code, 1);
+                assert.strictEqual(stdout, "");
+
+                // Remove OS-dependent path except base name.
+                const normalizedStderr =
+                // eslint-disable-next-line no-control-regex -- escaping control character
+                stderr.replace(/(?<=\x1B\[4m).*(?=bad-examples\.md)/u, "");
+
+                const expectedStderr =
                 "\x1B[0m\x1B[0m\n" +
-                "\x1B[0m\x1B[4mtests/fixtures/bad-examples.md\x1B[24m\x1B[0m\n" +
+                "\x1B[0m\x1B[4mbad-examples.md\x1B[24m\x1B[0m\n" +
                 "\x1B[0m  \x1B[2m11:4\x1B[22m  \x1B[31merror\x1B[39m  Missing language tag: use one of 'javascript', 'js' or 'jsx'\x1B[0m\n" +
                 "\x1B[0m  \x1B[2m12:1\x1B[22m  \x1B[31merror\x1B[39m  Syntax error: 'import' and 'export' may appear only with 'sourceType: module'\x1B[0m\n" +
                 "\x1B[0m  \x1B[2m20:5\x1B[22m  \x1B[31merror\x1B[39m  Nonstandard language tag 'ts': use one of 'javascript', 'js' or 'jsx'\x1B[0m\n" +
@@ -64,7 +70,10 @@ describe("check-rule-examples", () => {
                 "\x1B[0m  \x1B[2m31:1\x1B[22m  \x1B[31merror\x1B[39m  Example code should contain a configuration comment like /* eslint no-restricted-syntax: \"error\" */\x1B[0m\n" +
                 "\x1B[0m\x1B[0m\n" +
                 "\x1B[0m\x1B[31m\x1B[1m✖ 5 problems (5 errors, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
-                "\x1B[0m\x1B[31m\x1B[1m\x1B[22m\x1B[39m\x1B[0m\n"
+                "\x1B[0m\x1B[31m\x1B[1m\x1B[22m\x1B[39m\x1B[0m\n";
+
+                assert.strictEqual(normalizedStderr, expectedStderr);
+                return true;
             }
         );
     });
@@ -74,22 +83,10 @@ describe("check-rule-examples", () => {
 
         await assert.rejects(
             promise,
-            ({ code, stdout, stderr }) => {
-                assert.strictEqual(code, 1);
-                assert.strictEqual(stdout, "");
-                const expectedStderr =
-                "\x1B[0m\x1B[0m\n" +
-                "\x1B[0m\x1B[4mtests/fixtures/non-existing-examples.md\x1B[24m\x1B[0m\n" +
-                "\x1B[0m  \x1B[2m0:0\x1B[22m  \x1B[31merror\x1B[39m  Error checking file: ENOENT: no such file or directory, open <FILE>\x1B[0m\n" +
-                "\x1B[0m\x1B[0m\n" +
-                "\x1B[0m\x1B[31m\x1B[1m✖ 1 problem (1 error, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
-                "\x1B[0m\x1B[31m\x1B[1m\x1B[22m\x1B[39m\x1B[0m\n";
-
-                // Replace filename as it's OS-dependent.
-                const normalizedStderr = stderr.replace(/'.+'/u, "<FILE>");
-
-                assert.strictEqual(normalizedStderr, expectedStderr);
-                return true;
+            {
+                code: 1,
+                stdout: "",
+                stderr: "No files found that match the specified patterns.\n"
             }
         );
     });

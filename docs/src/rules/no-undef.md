@@ -13,7 +13,7 @@ This rule can help you locate potential ReferenceErrors resulting from misspelli
 
 ## Rule Details
 
-Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a `/*global ...*/` comment, or specified in the [`globals` key in the configuration file](../use/configure/language-options#using-configuration-files-1). A common use case for these is if you intentionally use globals that are defined elsewhere (e.g. in a script sourced from HTML).
+Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a `/*global ...*/` comment, or specified in the [`globals` key in the configuration file](../use/configure/language-options#specifying-globals). A common use case for these is if you intentionally use globals that are defined elsewhere (e.g. in a script sourced from HTML).
 
 Examples of **incorrect** code for this rule:
 
@@ -91,45 +91,6 @@ Examples of **correct** code for the `{ "typeof": true }` option with `global` d
 /*eslint no-undef: ["error", { "typeof": true }] */
 
 if(typeof a === "string"){}
-```
-
-:::
-
-## Environments
-
-For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](../use/configure/language-options#specifying-environments).  A few examples are given below.
-
-### browser
-
-Examples of **correct** code for this rule with `browser` environment:
-
-::: correct
-
-```js
-/*eslint no-undef: "error"*/
-/*eslint-env browser*/
-
-setTimeout(function() {
-    alert("Hello");
-});
-```
-
-:::
-
-### Node.js
-
-Examples of **correct** code for this rule with `node` environment:
-
-::: correct
-
-```js
-/*eslint no-undef: "error"*/
-/*eslint-env node*/
-
-var fs = require("fs");
-module.exports = function() {
-    console.log(fs);
-};
 ```
 
 :::

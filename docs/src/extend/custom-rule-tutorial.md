@@ -284,7 +284,7 @@ You might want to use a locally defined plugin in one of the following scenarios
 * You want to test the plugin before publishing it to npm.
 * You want to use a plugin, but do not want to publish it to npm.
 
-Before you can add the plugin to the project, create an ESLint configuration for your project using a [flat configuration file](../use/configure/configuration-files-new), `eslint.config.js`:
+Before you can add the plugin to the project, create an ESLint configuration for your project using a [flat configuration file](../use/configure/configuration-files), `eslint.config.js`:
 
 ```shell
 touch eslint.config.js

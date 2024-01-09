@@ -1,3 +1,5 @@
-module.exports = function() {
-    throw new Error("Boom!");
+module.exports = {
+    create() {
+        throw new Error("Boom!");
+    }
 };

@@ -10,8 +10,6 @@ eleventyNavigation:
 
 You can create custom rules to use with ESLint. You might want to create a custom rule if the [core rules](../rules/) do not cover your use case.
 
-**Note:** This page covers the most recent rule format for ESLint >= 3.0.0. There is also a [deprecated rule format](./custom-rules-deprecated).
-
 Here's the basic format of a custom rule:
 
 ```js
@@ -49,7 +47,7 @@ The source file for a rule exports an object with the following properties. Both
 * `docs`: (`object`) Required for core rules and optional for custom rules. Core rules have specific entries inside of `docs` while custom rules can include any properties that you need. The following properties are only relevant when working on core rules.
 
     * `description`: (`string`) Provides the short description of the rule in the [rules index](../rules/).
-    * `recommended`: (`boolean`) Specifies whether the `"extends": "eslint:recommended"` property in a [configuration file](../use/configure/configuration-files#extending-configuration-files) enables the rule.
+    * `recommended`: (`boolean`) Specifies whether the rule is enabled by the `recommended` config from `@eslint/js`.
     * `url`: (`string`) Specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations).
 
 * `fixable`: (`string`) Either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
@@ -60,7 +58,7 @@ The source file for a rule exports an object with the following properties. Both
 
   **Important:** the `hasSuggestions` property is mandatory for rules that provide suggestions. If this property isn't set to `true`, ESLint will throw an error whenever the rule attempts to produce a suggestion. Omit the `hasSuggestions` property if the rule does not provide suggestions.
 
-* `schema`: (`object | array`) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules).
+* `schema`: (`object | array | false`) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules). Mandatory when the rule has options.
 
 * `deprecated`: (`boolean`) Indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.
 
@@ -129,30 +127,16 @@ The `context` object has the following properties:
 * `cwd`: (`string`) The `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
 * `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
 * `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
-* `settings`: (`object`) The [shared settings](../use/configure/configuration-files#adding-shared-settings) from the configuration.
+* `settings`: (`object`) The [shared settings](../use/configure/configuration-files#configuring-shared-settings) from the configuration.
 * `parserPath`: (`string`) The name of the `parser` from the configuration.
-* `parserServices`: (**Deprecated:** Use `SourceCode#parserServices` instead.) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 * `parserOptions`: The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
 
 Additionally, the `context` object has the following methods:
 
-* `getAncestors()`: (**Deprecated:** Use `SourceCode#getAncestors(node)` instead.) Returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
 * `getCwd()`: (**Deprecated:** Use `context.cwd` instead.) Returns the `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
-* `getDeclaredVariables(node)`: (**Deprecated:** Use `SourceCode#getDeclaredVariables(node)` instead.) Returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
-    * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
-    * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
-    * If the node is a `FunctionDeclaration` or `FunctionExpression`, the variable for the function name is returned, in addition to variables for the function parameters.
-    * If the node is an `ArrowFunctionExpression`, variables for the parameters are returned.
-    * If the node is a `ClassDeclaration` or a `ClassExpression`, the variable for the class name is returned.
-    * If the node is a `CatchClause`, the variable for the exception is returned.
-    * If the node is an `ImportDeclaration`, variables for all of its specifiers are returned.
-    * If the node is an `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`, the declared variable is returned.
-    * Otherwise, if the node does not declare any variables, an empty array is returned.
 * `getFilename()`: (**Deprecated:** Use `context.filename` instead.) Returns the filename associated with the source.
 * `getPhysicalFilename()`: (**Deprecated:** Use `context.physicalFilename` instead.) When linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
-* `getScope()`: (**Deprecated:** Use `SourceCode#getScope(node)` instead.) Returns the [scope](./scope-manager-interface#scope-interface) of the currently-traversed node. This information can be used to track references to variables.
 * `getSourceCode()`: (**Deprecated:** Use `context.sourceCode` instead.) Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
-* `markVariableAsUsed(name)`: (**Deprecated:** Use `SourceCode#markVariableAsUsed(name, node)` instead.)  Marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
 * `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#reporting-problems)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
@@ -496,6 +480,13 @@ The `quotes` rule in this example has one option, `"double"` (the `error` is the
 
 ```js
 module.exports = {
+    meta: {
+        schema: [
+            {
+                enum: ["single", "double", "backtick"]
+            }
+        ]
+    },
     create: function(context) {
         var isDouble = (context.options[0] === "double");
 
@@ -507,6 +498,8 @@ module.exports = {
 Since `context.options` is just an array, you can use it to determine how many options have been passed as well as retrieving the actual options themselves. Keep in mind that the error level is not part of `context.options`, as the error level cannot be known or modified from inside a rule.
 
 When using options, make sure that your rule has some logical defaults in case the options are not provided.
+
+Rules with options must specify a [schema](#options-schemas).
 
 ### Accessing the Source Code
 
@@ -551,6 +544,19 @@ Once you have an instance of `SourceCode`, you can use the following methods on 
 * `getLocFromIndex(index)`: Returns an object with `line` and `column` properties, corresponding to the location of the given source index. `line` is 1-based and `column` is 0-based.
 * `getIndexFromLoc(loc)`: Returns the index of a given location in the source code, where `loc` is an object with a 1-based `line` key and a 0-based `column` key.
 * `commentsExistBetween(nodeOrToken1, nodeOrToken2)`: Returns `true` if comments exist between two nodes.
+* `getAncestors(node)`: Returns an array of the ancestors of the given node, starting at the root of the AST and continuing through the direct parent of the given node. This array does not include the given node itself.
+* `getDeclaredVariables(node)`: Returns a list of [variables](./scope-manager-interface#variable-interface) declared by the given node. This information can be used to track references to variables.
+    * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
+    * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
+    * If the node is a `FunctionDeclaration` or `FunctionExpression`, the variable for the function name is returned, in addition to variables for the function parameters.
+    * If the node is an `ArrowFunctionExpression`, variables for the parameters are returned.
+    * If the node is a `ClassDeclaration` or a `ClassExpression`, the variable for the class name is returned.
+    * If the node is a `CatchClause`, the variable for the exception is returned.
+    * If the node is an `ImportDeclaration`, variables for all of its specifiers are returned.
+    * If the node is an `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`, the declared variable is returned.
+    * Otherwise, if the node does not declare any variables, an empty array is returned.
+* `getScope(node)`: Returns the [scope](./scope-manager-interface#scope-interface) of the given node. This information can be used to track references to variables.
+* `markVariableAsUsed(name, refNode)`: Marks a variable with the given name in a scope indicated by the given reference node as used. This affects the [no-unused-vars](../rules/no-unused-vars) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
 
 `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
 
@@ -613,9 +619,11 @@ You can also access comments through many of `sourceCode`'s methods using the `i
 
 ### Options Schemas
 
-Rules may specify a `schema` property, which is a [JSON Schema](https://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
+Rules with options must specify a `meta.schema` property, which is a [JSON Schema](https://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
 
-Note: Prior to ESLint v9.0.0, rules without a schema are passed their options directly from the config without any validation. In ESLint v9.0.0 and later, rules without schemas will throw errors when options are passed. See the [Require schemas and object-style rules](https://github.com/eslint/rfcs/blob/main/designs/2021-schema-object-rules/README.md) RFC for further details.
+If your rule has options, it is strongly recommended that you specify a schema for options validation. However, it is possible to opt-out of options validation by setting `schema: false`, but doing so is discouraged as it increases the chance of bugs and mistakes.
+
+For rules that don't specify a `meta.schema` property, ESLint throws errors when any options are passed. If your rule doesn't have options, do not set `schema: false`, but simply omit the schema property or use `schema: []`, both of which prevent any options from being passed.
 
 When validating a rule's config, there are five steps:
 
@@ -787,8 +795,6 @@ To learn more about JSON Schema, we recommend looking at some examples on the [J
 
 The `SourceCode#getScope(node)` method returns the scope of the given node. It is a useful method for finding information about the variables in a given scope and how they are used in other scopes.
 
-**Deprecated:** The `context.getScope()` is deprecated; make sure to use `SourceCode#getScope(node)` instead.
-
 #### Scope types
 
 The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface#scope-interface).
@@ -836,8 +842,6 @@ For examples of using `SourceCode#getScope()` to track variables, refer to the s
 
 ### Marking Variables as Used
 
-**Deprecated:** The `context.markVariableAsUsed()` method is deprecated in favor of `sourceCode.markVariableAsUsed()`.
-
 Certain ESLint rules, such as [`no-unused-vars`](../rules/no-unused-vars), check to see if a variable has been used. ESLint itself only knows about the standard rules of variable access and so custom ways of accessing variables may not register as "used".
 
 To help with this, you can use the `sourceCode.markVariableAsUsed()` method. This method takes two arguments: the name of the variable to mark as used and an option reference node indicating the scope in which you are working. Here's an example:
@@ -866,13 +870,12 @@ Here, the `myCustomVar` variable is marked as used relative to a `ReturnStatemen
 
 ### Accessing Code Paths
 
-ESLint analyzes code paths while traversing AST. You can access code path objects with five events related to code paths. For more information, refer to [Code Path Analysis](code-path-analysis).
+ESLint analyzes code paths while traversing AST. You can access code path objects with seven events related to code paths. For more information, refer to [Code Path Analysis](code-path-analysis).
 
 ### Deprecated `SourceCode` Methods
 
 Please note that the following `SourceCode` methods have been deprecated and will be removed in a future version of ESLint:
 
-* `getComments()`: Replaced by `SourceCode#getCommentsBefore()`, `SourceCode#getCommentsAfter()`, and `SourceCode#getCommentsInside()`.
 * `getTokenOrCommentBefore()`: Replaced by `SourceCode#getTokenBefore()` with the `{ includeComments: true }` option.
 * `getTokenOrCommentAfter()`: Replaced by `SourceCode#getTokenAfter()` with the `{ includeComments: true }` option.
 * `isSpaceBetweenTokens()`: Replaced by `SourceCode#isSpaceBetween()`

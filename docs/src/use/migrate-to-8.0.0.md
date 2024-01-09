@@ -1,11 +1,5 @@
 ---
 title: Migrate to v8.0.0
-eleventyNavigation:
-    key: migrate to v8
-    parent: use eslint
-    title: Migrate to v8.x
-    order: 7
-
 ---
 
 ESLint v8.0.0 is a major release of ESLint. We have made a few breaking changes in this release. This guide is intended to walk you through the breaking changes.

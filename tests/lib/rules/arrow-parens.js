@@ -11,7 +11,7 @@
 
 const baseParser = require("../../fixtures/fixture-parser"),
     rule = require("../../../lib/rules/arrow-parens"),
-    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 /**
  * Loads a parser.

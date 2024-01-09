@@ -6,11 +6,10 @@
 
 const { parse } = require("espree");
 const { readFile } = require("fs").promises;
-const glob = require("glob");
+const { glob } = require("glob");
 const matter = require("gray-matter");
 const markdownIt = require("markdown-it");
 const markdownItContainer = require("markdown-it-container");
-const { promisify } = require("util");
 const markdownItRuleExample = require("../docs/tools/markdown-it-rule-example");
 const ConfigCommentParser = require("../lib/linter/config-comment-parser");
 const rules = require("../lib/rules");
@@ -91,7 +90,7 @@ async function findProblems(filename) {
                         const { directiveValue } = commentParser.parseDirective(comment);
                         const parseResult = commentParser.parseJsonConfig(directiveValue, comment.loc);
 
-                        return parseResult.success && Object.prototype.hasOwnProperty.call(parseResult.config, title);
+                        return parseResult.success && Object.hasOwn(parseResult.config, title);
                     }
                 );
 
@@ -166,10 +165,15 @@ async function checkFile(filename) {
 const patterns = process.argv.slice(2);
 
 (async function() {
-    const globAsync = promisify(glob);
 
     // determine which files to check
-    const filenames = (await Promise.all(patterns.map(pattern => globAsync(pattern, { nonull: true })))).flat();
+    const filenames = await glob(patterns);
+
+    if (patterns.length && !filenames.length) {
+        console.error("No files found that match the specified patterns.");
+        process.exitCode = 1;
+        return;
+    }
     const results = await Promise.all(filenames.map(checkFile));
 
     if (results.every(result => result.errorCount === 0)) {

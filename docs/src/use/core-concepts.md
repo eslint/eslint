@@ -27,7 +27,7 @@ For more information, refer to [Rules](../rules/).
 
 Rules may optionally provide fixes for violations that they find. Fixes safely correct the violation without changing application logic.
 
-Fixes may be applied automatically with the [`--fix` command line option](https://eslint.org/docs/latest/use/command-line-interface#--fix) and via editor extensions.
+Fixes may be applied automatically with the [`--fix` command line option](command-line-interface#--fix) and via editor extensions.
 
 Rules that may provide fixes are marked with 🔧 in [Rules](../rules/).
 

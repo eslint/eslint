@@ -74,7 +74,7 @@
             {
                 "name": "no-constant-binary-expression",
                 "description": "Disallow expressions where the operation doesn't affect the value",
-                "recommended": false,
+                "recommended": true,
                 "fixable": false,
                 "hasSuggestions": false
             },
@@ -193,7 +193,7 @@
             {
                 "name": "no-inner-declarations",
                 "description": "Disallow variable or `function` declarations in nested blocks",
-                "recommended": true,
+                "recommended": false,
                 "fixable": false,
                 "hasSuggestions": false
             },
@@ -228,13 +228,6 @@
             {
                 "name": "no-new-native-nonconstructor",
                 "description": "Disallow `new` operators with global non-constructor functions",
-                "recommended": false,
-                "fixable": false,
-                "hasSuggestions": false
-            },
-            {
-                "name": "no-new-symbol",
-                "description": "Disallow `new` operators with the `Symbol` object",
                 "recommended": true,
                 "fixable": false,
                 "hasSuggestions": false
@@ -361,7 +354,7 @@
             {
                 "name": "no-unused-private-class-members",
                 "description": "Disallow unused private class members",
-                "recommended": false,
+                "recommended": true,
                 "fixable": false,
                 "hasSuggestions": false
             },
@@ -734,7 +727,7 @@
             {
                 "name": "no-empty-static-block",
                 "description": "Disallow empty static blocks",
-                "recommended": false,
+                "recommended": true,
                 "fixable": false,
                 "hasSuggestions": false
             },
@@ -1738,6 +1731,14 @@
             "hasSuggestions": false
         },
         {
+            "name": "no-new-symbol",
+            "replacedBy": [
+                "no-new-native-nonconstructor"
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
             "name": "no-path-concat",
             "replacedBy": [],
             "fixable": false,
@@ -1866,12 +1867,6 @@
             "hasSuggestions": false
         },
         {
-            "name": "require-jsdoc",
-            "replacedBy": [],
-            "fixable": false,
-            "hasSuggestions": false
-        },
-        {
             "name": "rest-spread-spacing",
             "replacedBy": [],
             "fixable": true,
@@ -1945,12 +1940,6 @@
         },
         {
             "name": "template-tag-spacing",
-            "replacedBy": [],
-            "fixable": true,
-            "hasSuggestions": false
-        },
-        {
-            "name": "valid-jsdoc",
             "replacedBy": [],
             "fixable": true,
             "hasSuggestions": false
@@ -2084,6 +2073,14 @@
             "replacedBy": [
                 "spaced-comment"
             ]
+        },
+        {
+            "removed": "valid-jsdoc",
+            "replacedBy": []
+        },
+        {
+            "removed": "require-jsdoc",
+            "replacedBy": []
         }
     ]
 }

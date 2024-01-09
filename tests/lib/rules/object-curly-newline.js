@@ -11,7 +11,7 @@
 
 const resolvePath = require("path").resolve,
     rule = require("../../../lib/rules/object-curly-newline"),
-    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests

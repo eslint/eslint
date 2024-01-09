@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/nonblock-statement-body-position");
-const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 const EXPECTED_LINEBREAK = { messageId: "expectLinebreak" };
 const UNEXPECTED_LINEBREAK = { messageId: "expectNoLinebreak" };

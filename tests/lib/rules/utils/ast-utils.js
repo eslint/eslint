@@ -27,7 +27,7 @@ const ESPREE_CONFIG = {
     range: true,
     loc: true
 };
-const linter = new Linter();
+const linter = new Linter({ configType: "eslintrc" });
 
 describe("ast-utils", () => {
     let callCounts;
