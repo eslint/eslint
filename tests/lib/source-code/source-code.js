@@ -1255,7 +1255,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
                                 sourceCode.ast.tokens[0],
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                                sourceCode.ast.tokens.at(-1)
                             ),
                             expected
                         );
@@ -1269,7 +1269,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                                sourceCode.ast.tokens.at(-1),
                                 sourceCode.ast.tokens[0]
                             ),
                             expected
@@ -1319,7 +1319,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
                                 sourceCode.ast.tokens[0],
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 2]
+                                sourceCode.ast.tokens.at(-2)
                             ),
                             expected
                         );
@@ -1333,7 +1333,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 2],
+                                sourceCode.ast.tokens.at(-2),
                                 sourceCode.ast.tokens[0]
                             ),
                             expected
@@ -1381,7 +1381,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
                                 sourceCode.ast.tokens[0],
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1]
+                                sourceCode.ast.body.at(-1)
                             ),
                             expected
                         );
@@ -1395,7 +1395,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1],
+                                sourceCode.ast.body.at(-1),
                                 sourceCode.ast.tokens[0]
                             ),
                             expected
@@ -1443,7 +1443,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
                                 sourceCode.ast.body[0],
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                                sourceCode.ast.tokens.at(-1)
                             ),
                             expected
                         );
@@ -1457,7 +1457,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                                sourceCode.ast.tokens.at(-1),
                                 sourceCode.ast.body[0]
                             ),
                             expected
@@ -1503,7 +1503,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
                                 sourceCode.ast.body[0],
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1]
+                                sourceCode.ast.body.at(-1)
                             ),
                             expected
                         );
@@ -1517,7 +1517,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetween(
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1],
+                                sourceCode.ast.body.at(-1),
                                 sourceCode.ast.body[0]
                             ),
                             expected
@@ -1608,7 +1608,7 @@ describe("SourceCode", () => {
 
                     assert.strictEqual(
                         sourceCode.isSpaceBetween(
-                            sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                            sourceCode.ast.tokens.at(-1),
                             sourceCode.ast.body[0]
                         ),
                         expected
@@ -1625,7 +1625,7 @@ describe("SourceCode", () => {
                     assert.strictEqual(
                         sourceCode.isSpaceBetween(
                             sourceCode.ast.body[0],
-                            sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                            sourceCode.ast.tokens.at(-1)
                         ),
                         expected
                     );
@@ -1651,7 +1651,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
                                 sourceCode.ast.tokens[0],
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                                sourceCode.ast.tokens.at(-1)
                             ),
                             expected
                         );
@@ -1665,7 +1665,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                                sourceCode.ast.tokens.at(-1),
                                 sourceCode.ast.tokens[0]
                             ),
                             expected
@@ -1715,7 +1715,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
                                 sourceCode.ast.tokens[0],
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 2]
+                                sourceCode.ast.tokens.at(-2)
                             ),
                             expected
                         );
@@ -1729,7 +1729,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 2],
+                                sourceCode.ast.tokens.at(-2),
                                 sourceCode.ast.tokens[0]
                             ),
                             expected
@@ -1777,7 +1777,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
                                 sourceCode.ast.tokens[0],
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1]
+                                sourceCode.ast.body.at(-1)
                             ),
                             expected
                         );
@@ -1791,7 +1791,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1],
+                                sourceCode.ast.body.at(-1),
                                 sourceCode.ast.tokens[0]
                             ),
                             expected
@@ -1839,7 +1839,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
                                 sourceCode.ast.body[0],
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                                sourceCode.ast.tokens.at(-1)
                             ),
                             expected
                         );
@@ -1853,7 +1853,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
-                                sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                                sourceCode.ast.tokens.at(-1),
                                 sourceCode.ast.body[0]
                             ),
                             expected
@@ -1899,7 +1899,7 @@ describe("SourceCode", () => {
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
                                 sourceCode.ast.body[0],
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1]
+                                sourceCode.ast.body.at(-1)
                             ),
                             expected
                         );
@@ -1913,7 +1913,7 @@ describe("SourceCode", () => {
 
                         assert.strictEqual(
                             sourceCode.isSpaceBetweenTokens(
-                                sourceCode.ast.body[sourceCode.ast.body.length - 1],
+                                sourceCode.ast.body.at(-1),
                                 sourceCode.ast.body[0]
                             ),
                             expected
@@ -2004,7 +2004,7 @@ describe("SourceCode", () => {
 
                     assert.strictEqual(
                         sourceCode.isSpaceBetweenTokens(
-                            sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1],
+                            sourceCode.ast.tokens.at(-1),
                             sourceCode.ast.body[0]
                         ),
                         expected
@@ -2021,7 +2021,7 @@ describe("SourceCode", () => {
                     assert.strictEqual(
                         sourceCode.isSpaceBetweenTokens(
                             sourceCode.ast.body[0],
-                            sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+                            sourceCode.ast.tokens.at(-1)
                         ),
                         expected
                     );

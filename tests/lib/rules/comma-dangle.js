@@ -12,7 +12,7 @@
 const path = require("path"),
     { unIndent } = require("../../_utils"),
     rule = require("../../../lib/rules/comma-dangle"),
-    RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers

@@ -13,8 +13,8 @@ To learn more about the flat config format, refer to [this blog post](https://es
 
 For reference information on these configuration formats, refer to the following documentation:
 
-* [eslintrc configuration files](configuration-files)
-* [flat configuration files](configuration-files-new)
+* [eslintrc configuration files](configuration-files-deprecated)
+* [flat configuration files](configuration-files)
 
 ## Start Using Flat Config Files
 
@@ -116,7 +116,7 @@ export default [
 
 ### Processors
 
-In eslintrc files, processors had to be defined in a plugin, and then referenced by name in the configuration. Processors beginning with a dot indicated a [file extension-named processor](../../extend/custom-processors#file-extension-named-processor) which ESLint would automatically configure for that file extension.
+In eslintrc files, processors had to be defined in a plugin, and then referenced by name in the configuration. Processors beginning with a dot indicated a [file extension-named processor](../../extend/custom-processors-deprecated#file-extension-named-processor) which ESLint would automatically configure for that file extension.
 
 In flat config files, processors can still be referenced from plugins by their name, but they can now also be inserted directly into the configuration. Processors will _never_ be automatically configured, and must be explicitly set in the configuration.
 
@@ -590,6 +590,57 @@ The following CLI flags are no longer supported with the flat config file format
 * `--resolve-plugins-relative-to`
 
 The flag `--no-eslintrc` has been replaced with `--no-config-lookup`.
+
+#### `--rulesdir`
+
+The `--rulesdir` flag was used to load additional rules from a specified directory. This is no longer supported when using flat config. You can instead create a plugin containing the local rules you have directly in your config, like this:
+
+```js
+// eslint.config.js
+import myRule from "./rules/my-rule.js";
+
+export default [
+    {
+        // define the plugin
+        plugins: {
+            local: {
+                rules: {
+                    "my-rule": myRule
+                }
+            }
+        },
+
+        // configure the rule
+        rules: {
+            "local/my-rule": ["error"]
+        }
+
+    }
+];
+```
+
+#### `--ext`
+
+The `--ext` flag was used to specify additional file extensions ESLint should search for when a directory was passed on the command line, such as `npx eslint .`. This is no longer supported when using flat config. Instead, specify the file patterns you'd like ESLint to search for directly in your config. For example, if you previously were using `--ext .ts,.tsx`, then you will need to update your config file like this:
+
+```js
+// eslint.config.js
+export default [
+    {
+        files: ["**/*.ts", "**/*.tsx"]
+
+        // any additional configuration for these file types here
+    }
+];
+```
+
+ESLint uses the `files` keys from the config file to determine which files should be linted.
+
+#### `--resolve-plugins-relative-to`
+
+The `--resolve-plugins-relative-to` flag was used to indicate which directory plugin references in your configuration file should be resolved relative to. This was necessary because shareable configs could only resolve plugins that were peer dependencies or dependencies of parent packages.
+
+With flat config, shareable configs can specify their dependencies directly, so this flag is no longer needed.
 
 ### Additional Changes
 

@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/space-before-function-paren");
-const RuleTester = require("../../../lib/rule-tester/flat-rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 const baseParser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------

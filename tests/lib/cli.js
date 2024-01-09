@@ -16,7 +16,7 @@
 
 const assert = require("chai").assert,
     stdAssert = require("assert"),
-    { ESLint, FlatESLint } = require("../../lib/eslint"),
+    { ESLint, LegacyESLint } = require("../../lib/eslint"),
     BuiltinRules = require("../../lib/rules"),
     path = require("path"),
     sinon = require("sinon"),
@@ -54,7 +54,7 @@ describe("cli", () => {
      */
     async function verifyESLintOpts(cmd, opts, configType) {
 
-        const ActiveESLint = configType === "flat" ? FlatESLint : ESLint;
+        const ActiveESLint = configType === "flat" ? ESLint : LegacyESLint;
 
         // create a fake ESLint class to test with
         const fakeESLint = sinon.mock().withExactArgs(sinon.match(opts));
@@ -64,8 +64,8 @@ describe("cli", () => {
         sinon.stub(fakeESLint.prototype, "loadFormatter").returns({ format: sinon.spy() });
 
         const localCLI = proxyquire("../../lib/cli", {
-            "./eslint": { ESLint: fakeESLint },
-            "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(configType === "flat") },
+            "./eslint": { LegacyESLint: fakeESLint },
+            "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(configType === "flat") },
             "./shared/logging": log
         });
 
@@ -112,7 +112,7 @@ describe("cli", () => {
     ["eslintrc", "flat"].forEach(configType => {
 
         const useFlatConfig = configType === "flat";
-        const ActiveESLint = configType === "flat" ? FlatESLint : ESLint;
+        const ActiveESLint = configType === "flat" ? ESLint : LegacyESLint;
 
         describe("execute()", () => {
 
@@ -634,6 +634,28 @@ describe("cli", () => {
 
                     sinon.assert.notCalled(log.info);
                 });
+
+                if (useFlatConfig) {
+                    it(`should not run rules set to 'warn' with configType:${configType}`, async () => {
+                        const filePath = getFixturePath("single-quoted.js");
+                        const configPath = getFixturePath("eslint.config-rule-throws.js");
+                        const cliArgs = `--quiet --config ${configPath}' ${filePath}`;
+
+                        const exit = await cli.execute(cliArgs, null, useFlatConfig);
+
+                        assert.strictEqual(exit, 0);
+                    });
+
+                    it(`should run rules set to 'warn' while maxWarnings is set with configType:${configType}`, async () => {
+                        const filePath = getFixturePath("single-quoted.js");
+                        const configPath = getFixturePath("eslint.config-rule-throws.js");
+                        const cliArgs = `--quiet --max-warnings=1 --config ${configPath}' ${filePath}`;
+
+                        await stdAssert.rejects(async () => {
+                            await cli.execute(cliArgs, null, useFlatConfig);
+                        });
+                    });
+                }
             });
 
 
@@ -808,7 +830,7 @@ describe("cli", () => {
                 describe("when given a directory with eslint excluded files in the directory", () => {
                     it(`should throw an error and not process any files with configType:${configType}`, async () => {
                         const options = useFlatConfig
-                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            ? `--config ${getFixturePath("eslint.config-with-ignores.js")}`
                             : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("cli");
                         const expectedMessage = useFlatConfig
@@ -824,7 +846,7 @@ describe("cli", () => {
                 describe("when given a file in excluded files list", () => {
                     it(`should not process the file with configType:${configType}`, async () => {
                         const options = useFlatConfig
-                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            ? `--config ${getFixturePath("eslint.config-with-ignores.js")}`
                             : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("passing.js");
                         const exit = await cli.execute(`${options} ${filePath}`, null, useFlatConfig);
@@ -836,7 +858,7 @@ describe("cli", () => {
 
                     it(`should process the file when forced with configType:${configType}`, async () => {
                         const options = useFlatConfig
-                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            ? `--config ${getFixturePath("eslint.config-with-ignores.js")}`
                             : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("passing.js");
                         const exit = await cli.execute(`${options} --no-ignore ${filePath}`, null, useFlatConfig);
@@ -848,7 +870,7 @@ describe("cli", () => {
 
                     it(`should suppress the warning if --no-warn-ignored is passed with configType:${configType}`, async () => {
                         const options = useFlatConfig
-                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            ? `--config ${getFixturePath("eslint.config-with-ignores.js")}`
                             : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("passing.js");
                         const exit = await cli.execute(`${options} --no-warn-ignored ${filePath}`, null, useFlatConfig);
@@ -868,7 +890,7 @@ describe("cli", () => {
 
                     it(`should suppress the warning if --no-warn-ignored is passed and an ignored file is passed via stdin with configType:${configType}`, async () => {
                         const options = useFlatConfig
-                            ? `--config ${getFixturePath("eslint.config_with_ignores.js")}`
+                            ? `--config ${getFixturePath("eslint.config-with-ignores.js")}`
                             : `--ignore-path ${getFixturePath(".eslintignore")}`;
                         const filePath = getFixturePath("passing.js");
                         const exit = await cli.execute(`${options} --no-warn-ignored --stdin --stdin-filename ${filePath}`, "foo", useFlatConfig);
@@ -984,6 +1006,19 @@ describe("cli", () => {
                 assert.isTrue(log.info.notCalled);
             });
 
+            // https://github.com/eslint/eslint/issues/17660
+            it(`should write the file and create dirs if they don't exist even when output is empty with configType:${configType}`, async () => {
+                const filePath = getFixturePath("single-quoted.js");
+                const code = `${flag} --rule 'quotes: [1, single]' --o tests/output/eslint-output.txt ${filePath}`;
+
+                // TODO: fix this test to: await cli.execute(code, null, useFlatConfig);
+                await cli.execute(code, "var a = 'b'", useFlatConfig);
+
+                assert.isTrue(fs.existsSync("tests/output/eslint-output.txt"));
+                assert.strictEqual(fs.readFileSync("tests/output/eslint-output.txt", "utf8"), "");
+                assert.isTrue(log.info.notCalled);
+            });
+
             it(`should return an error if the path is a directory with configType:${configType}`, async () => {
                 const filePath = getFixturePath("single-quoted.js");
                 const code = `${flag} --rule 'quotes: [1, double]' --o tests/output ${filePath}`;
@@ -1040,8 +1075,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.stub();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1059,8 +1094,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.stub();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1090,8 +1125,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().once();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1126,9 +1161,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().withExactArgs(report);
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
-
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1163,9 +1197,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().withExactArgs(report);
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
-
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1181,9 +1214,8 @@ describe("cli", () => {
                 const fakeESLint = sinon.mock().never();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
-
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1212,8 +1244,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().never();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1240,8 +1272,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.stub();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1275,8 +1307,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().never();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1312,8 +1344,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().never();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1348,8 +1380,8 @@ describe("cli", () => {
                 fakeESLint.outputFixes = sinon.mock().never();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
 
                     "./shared/logging": log
                 });
@@ -1365,9 +1397,8 @@ describe("cli", () => {
                 const fakeESLint = sinon.mock().never();
 
                 localCLI = proxyquire("../../lib/cli", {
-                    "./eslint": { ESLint: fakeESLint },
-                    "./eslint/flat-eslint": { FlatESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
-
+                    "./eslint": { LegacyESLint: fakeESLint },
+                    "./eslint/eslint": { ESLint: fakeESLint, shouldUseFlatConfig: () => Promise.resolve(useFlatConfig) },
                     "./shared/logging": log
                 });
 
@@ -1522,6 +1553,24 @@ describe("cli", () => {
                     assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
                     assert.deepStrictEqual(log.error.firstCall.args, ["The --report-unused-disable-directives option and the --report-unused-disable-directives-severity option cannot be used together."], "has the right text to log.error");
                     assert.strictEqual(exitCode, 2, "exit code should be 2");
+                });
+
+                it("warns by default in flat config only", async () => {
+                    const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --rule "'no-console': 'error'"`,
+                        "foo(); // eslint-disable-line no-console",
+                        useFlatConfig);
+
+                    if (useFlatConfig) {
+                        assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                        assert.strictEqual(log.info.callCount, 1, "log.info is called once");
+                        assert.ok(log.info.firstCall.args[0].includes("Unused eslint-disable directive (no problems were reported from 'no-console')"), "has correct message about unused directives");
+                        assert.ok(log.info.firstCall.args[0].includes("0 errors and 1 warning"), "has correct error and warning count");
+                        assert.strictEqual(exitCode, 0, "exit code should be 0");
+                    } else {
+                        assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                        assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                        assert.strictEqual(exitCode, 0, "exit code should be 0");
+                    }
                 });
             });
         });

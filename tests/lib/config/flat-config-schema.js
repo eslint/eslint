@@ -7,6 +7,28 @@
 
 const { flatConfigSchema } = require("../../../lib/config/flat-config-schema");
 const { assert } = require("chai");
+const { Legacy: { ConfigArray } } = require("@eslint/eslintrc");
+
+/**
+ * This function checks the result of merging two values in eslintrc config.
+ * It uses deep strict equality to compare the actual and the expected results.
+ * This is useful to ensure that the flat config merge logic behaves similarly to the old logic.
+ * When eslintrc is removed, this function and its invocations can be also removed.
+ * @param {Object} [first] The base object.
+ * @param {Object} [second] The overrides object.
+ * @param {Object} [expectedResult] The expected reults of merging first and second values.
+ * @returns {void}
+ */
+function confirmLegacyMergeResult(first, second, expectedResult) {
+    const configArray = new ConfigArray(
+        { settings: first },
+        { settings: second }
+    );
+    const config = configArray.extractConfig("/file");
+    const actualResult = config.settings;
+
+    assert.deepStrictEqual(actualResult, expectedResult);
+}
 
 describe("merge", () => {
 
@@ -18,36 +40,14 @@ describe("merge", () => {
         const result = merge(first, second);
 
         assert.deepStrictEqual(result, { ...first, ...second });
-    });
-
-    it("overrides an object with an array", () => {
-        const first = { foo: 42 };
-        const second = ["bar", "baz"];
-        const result = merge(first, second);
-
-        assert.strictEqual(result, second);
-    });
-
-    it("merges an array with an object", () => {
-        const first = ["foo", "bar"];
-        const second = { baz: 42 };
-        const result = merge(first, second);
-
-        assert.deepStrictEqual(result, { 0: "foo", 1: "bar", baz: 42 });
-    });
-
-    it("overrides an array with another array", () => {
-        const first = ["foo", "bar"];
-        const second = ["baz", "qux"];
-        const result = merge(first, second);
-
-        assert.strictEqual(result, second);
+        confirmLegacyMergeResult(first, second, result);
     });
 
     it("returns an emtpy object if both values are undefined", () => {
         const result = merge(void 0, void 0);
 
         assert.deepStrictEqual(result, {});
+        confirmLegacyMergeResult(void 0, void 0, result);
     });
 
     it("returns an object equal to the first one if the second one is undefined", () => {
@@ -56,6 +56,7 @@ describe("merge", () => {
 
         assert.deepStrictEqual(result, first);
         assert.notStrictEqual(result, first);
+        confirmLegacyMergeResult(first, void 0, result);
     });
 
     it("returns an object equal to the second one if the first one is undefined", () => {
@@ -64,6 +65,16 @@ describe("merge", () => {
 
         assert.deepStrictEqual(result, second);
         assert.notStrictEqual(result, second);
+        confirmLegacyMergeResult(void 0, second, result);
+    });
+
+    it("does not preserve the type of merged objects", () => {
+        const first = new Set(["foo", "bar"]);
+        const second = new Set(["baz"]);
+        const result = merge(first, second);
+
+        assert.deepStrictEqual(result, {});
+        confirmLegacyMergeResult(first, second, result);
     });
 
     it("merges two objects in a property", () => {
@@ -72,6 +83,34 @@ describe("merge", () => {
         const result = merge(first, second);
 
         assert.deepStrictEqual(result, { foo: { bar: "baz", qux: 42 } });
+        confirmLegacyMergeResult(first, second, result);
+    });
+
+    it("overwrites an object in a property with an array", () => {
+        const first = { someProperty: { 1: "foo", bar: "baz" } };
+        const second = { someProperty: ["qux"] };
+        const result = merge(first, second);
+
+        assert.deepStrictEqual(result, second);
+        assert.strictEqual(result.someProperty, second.someProperty);
+    });
+
+    it("overwrites an array in a property with another array", () => {
+        const first = { someProperty: ["foo", "bar", void 0, "baz"] };
+        const second = { someProperty: ["qux", void 0, 42] };
+        const result = merge(first, second);
+
+        assert.deepStrictEqual(result, second);
+        assert.strictEqual(result.someProperty, second.someProperty);
+    });
+
+    it("overwrites an array in a property with an object", () => {
+        const first = { foo: ["foobar"] };
+        const second = { foo: { 1: "qux", bar: "baz" } };
+        const result = merge(first, second);
+
+        assert.deepStrictEqual(result, second);
+        assert.strictEqual(result.foo, second.foo);
     });
 
     it("does not override a value in a property with undefined", () => {
@@ -81,6 +120,7 @@ describe("merge", () => {
 
         assert.deepStrictEqual(result, first);
         assert.notStrictEqual(result, first);
+        confirmLegacyMergeResult(first, second, result);
     });
 
     it("does not change the prototype of a merged object", () => {
@@ -89,6 +129,7 @@ describe("merge", () => {
         const result = merge(first, second);
 
         assert.strictEqual(Object.getPrototypeOf(result), Object.prototype);
+        confirmLegacyMergeResult(first, second, result);
     });
 
     it("does not merge the '__proto__' property", () => {
@@ -96,32 +137,96 @@ describe("merge", () => {
         const second = { ["__proto__"]: { bar: "baz" } };
         const result = merge(first, second);
 
-        assert.deepStrictEqual(result, second);
-        assert.notStrictEqual(result, second);
+        assert.deepStrictEqual(result, {});
+        confirmLegacyMergeResult(first, second, result);
     });
 
-    it("throws an error if a value in a property is overriden with null", () => {
+    it("overrides a value in a property with null", () => {
         const first = { foo: { bar: "baz" } };
         const second = { foo: null };
+        const result = merge(first, second);
 
-        assert.throws(() => merge(first, second), TypeError);
+        assert.deepStrictEqual(result, second);
+        assert.notStrictEqual(result, second);
+        confirmLegacyMergeResult(first, second, result);
     });
 
-    it("does not override a value in a property with a primitive", () => {
+    it("overrides a value in a property with a non-nullish primitive", () => {
         const first = { foo: { bar: "baz" } };
         const second = { foo: 42 };
         const result = merge(first, second);
 
-        assert.deepStrictEqual(result, first);
-        assert.notStrictEqual(result, first);
+        assert.deepStrictEqual(result, second);
+        assert.notStrictEqual(result, second);
+        confirmLegacyMergeResult(first, second, result);
     });
 
-    it("merges an object in a property with a string", () => {
+    it("overrides an object in a property with a string", () => {
         const first = { foo: { bar: "baz" } };
         const second = { foo: "qux" };
         const result = merge(first, second);
 
-        assert.deepStrictEqual(result, { foo: { 0: "q", 1: "u", 2: "x", bar: "baz" } });
+        assert.deepStrictEqual(result, second);
+        assert.notStrictEqual(result, first);
+        confirmLegacyMergeResult(first, second, result);
+    });
+
+    it("overrides a value in a property with a function", () => {
+        const first = { someProperty: { foo: 42 } };
+        const second = { someProperty() {} };
+        const result = merge(first, second);
+
+        assert.deepStrictEqual(result, second);
+        assert.notProperty(result.someProperty, "foo");
+        confirmLegacyMergeResult(first, second, result);
+    });
+
+    it("overrides a function in a property with an object", () => {
+        const first = { someProperty: Object.assign(() => {}, { foo: "bar" }) };
+        const second = { someProperty: { baz: "qux" } };
+        const result = merge(first, second);
+
+        assert.deepStrictEqual(result, second);
+        assert.notProperty(result.someProperty, "foo");
+        confirmLegacyMergeResult(first, second, result);
+    });
+
+    it("sets properties to undefined", () => {
+        const first = { foo: void 0, bar: void 0 };
+        const second = { foo: void 0, baz: void 0 };
+        const result = merge(first, second);
+
+        assert.deepStrictEqual(result, { foo: void 0, bar: void 0, baz: void 0 });
+    });
+
+    it("considers only own enumerable properties", () => {
+        const first = {
+            __proto__: { inherited1: "A" }, // non-own properties are not considered
+            included1: "B",
+            notMerged1: { first: true }
+        };
+        const second = {
+            __proto__: { inherited2: "C" }, // non-own properties are not considered
+            included2: "D",
+            notMerged2: { second: true }
+        };
+
+        // non-enumerable properties are not considered
+        Object.defineProperty(first, "notMerged2", { enumerable: false, value: { first: true } });
+        Object.defineProperty(second, "notMerged1", { enumerable: false, value: { second: true } });
+
+        const result = merge(first, second);
+
+        assert.deepStrictEqual(
+            result,
+            {
+                included1: "B",
+                included2: "D",
+                notMerged1: { first: true },
+                notMerged2: { second: true }
+            }
+        );
+        confirmLegacyMergeResult(first, second, result);
     });
 
     it("merges objects with self-references", () => {

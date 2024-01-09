@@ -189,14 +189,13 @@ module.exports = function(eleventyConfig) {
      * @returns {string} The base 64 encoded equivalent of the text.
      */
     function encodeToBase64(text) {
-        /* global btoa -- It does exist, and is what the playground uses. */
         return btoa(unescape(encodeURIComponent(text)));
     }
 
     // markdown-it plugin options for playground-linked code blocks in rule examples.
     const ruleExampleOptions = markdownItRuleExample({
         open({ type, code, parserOptions, env }) {
-            const isRuleRemoved = !Object.prototype.hasOwnProperty.call(env.rules_meta, env.title);
+            const isRuleRemoved = !Object.hasOwn(env.rules_meta, env.title);
 
             if (isRuleRemoved) {
                 return `<div class="${type}">`;

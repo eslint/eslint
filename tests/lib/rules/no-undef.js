@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-undef"),
-    RuleTester = require("../../../lib/rule-tester/flat-rule-tester"),
+    RuleTester = require("../../../lib/rule-tester/rule-tester"),
     globals = require("globals");
 
 //------------------------------------------------------------------------------
@@ -72,6 +72,7 @@ ruleTester.run("no-undef", rule, {
         { code: "customElements;", languageOptions: { globals: globals.browser } },
         { code: "PromiseRejectionEvent;", languageOptions: { globals: globals.browser } },
         { code: "(foo, bar) => { foo ||= WeakRef; bar ??= FinalizationRegistry; }", languageOptions: { ecmaVersion: 2021 } },
+        { code: "(class C extends C {})", languageOptions: { ecmaVersion: 6 } },
 
         // Notifications of readonly are removed: https://github.com/eslint/eslint/issues/4504
         "/*global b:false*/ function f() { b = 1; }",
