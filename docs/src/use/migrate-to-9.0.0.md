@@ -311,7 +311,7 @@ export default [
 
 ## <a name="no-inner-declarations"></a> `no-inner-declarations` has a new default behavior with a new option
 
-ESLint v9.0.0 Introduces a new option in `no-inner-declarations` rule called `blockScopeFunctions` which by default allow block-level `functions` in strict mode when `languageOptions.ecmaVersion` is set to `2015` or above.
+ESLint v9.0.0 introduces a new option in `no-inner-declarations` rule called `blockScopeFunctions` which by default allow block-level `functions` in strict mode when `languageOptions.ecmaVersion` is set to `2015` or above.
 
 ```js
 /*eslint no-inner-declarations: "error"*/
