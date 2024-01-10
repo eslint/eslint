@@ -13,7 +13,6 @@ const childProcess = require("child_process");
 const fs = require("fs");
 const assert = require("chai").assert;
 const path = require("path");
-const sinon = require("sinon");
 
 //------------------------------------------------------------------------------
 // Data
