@@ -31,6 +31,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
 * [`varsIgnorePattern` option of `no-unused-vars` no longer applies to catch arguments](#vars-ignore-pattern)
 * [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
+* [`no-inner-declarations` has a new default behavior with a new option](#no-inner-declarations)
 
 ### Breaking changes for plugin developers
 
@@ -307,6 +308,21 @@ export default [
 ```
 
 **Related issue(s):** [#17488](https://github.com/eslint/eslint/issues/17488)
+
+## <a name="no-inner-declarations"></a> `no-inner-declarations` has a new default behavior with a new option
+
+ESLint v9.0.0, Introduced a new option in `no-inner-declarations` rule called `blockScopeFunctions` which by default allow block-level `functions` in strict mode when `languageOptions.ecmaVersion` is set to `2015` or above.
+
+```js
+/*eslint no-inner-declarations: "error"*/
+"use strict";
+
+if (test) {
+    function foo () { }  // no error
+}
+```
+
+**Related issue(s):** [#15576](https://github.com/eslint/eslint/issues/15576)
 
 ## <a name="removed-context-methods"></a> Removed multiple `context` methods
 
