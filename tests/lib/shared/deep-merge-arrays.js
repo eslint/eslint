@@ -18,7 +18,7 @@ const { deepMergeArrays } = require("../../../lib/shared/deep-merge-arrays");
  * @param {unknown} value Value to be stringified.
  * @returns {string} String equivalent of the value.
  */
-function stringify(value) {
+function toTestCaseName(value) {
     return typeof value === "object" ? JSON.stringify(value) : `${value}`;
 }
 
@@ -96,7 +96,7 @@ describe("deepMerge", () => {
             }]
         ]
     ]) {
-        it(`${stringify(first)}, ${stringify(second)}`, () => {
+        it(`${toTestCaseName(first)}, ${toTestCaseName(second)}`, () => {
             assert.deepStrictEqual(deepMergeArrays(first, second), result);
         });
     }
