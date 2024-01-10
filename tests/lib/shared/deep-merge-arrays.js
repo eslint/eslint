@@ -47,6 +47,7 @@ describe("deepMerge", () => {
         [[{ abc: true }], ["def"], ["def"]],
         [[{ a: undefined }], [{ a: 0 }], [{ a: 0 }]],
         [[{ a: null }], [{ a: 0 }], [{ a: 0 }]],
+        [[{ a: null }], [{ a: { b: 0 } }], [{ a: { b: 0 } }]],
         [[{ a: 0 }], [{ a: 1 }], [{ a: 1 }]],
         [[{ a: 0 }], [{ a: null }], [{ a: null }]],
         [[{ a: 0 }], [{ a: undefined }], [{ a: 0 }]],

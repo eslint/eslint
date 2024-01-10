@@ -60,6 +60,8 @@ The source file for a rule exports an object with the following properties. Both
 
 * `schema`: (`object | array | false`) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules). Mandatory when the rule has options.
 
+* `defaultOptions`: (`array`) Specifies [default options](#option-defaults) for the rule. If present, any user-provided options in their config will be merged on top of them recursively.
+
 * `deprecated`: (`boolean`) Indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.
 
 * `replacedBy`: (`array`) In the case of a deprecated rule, specify replacement rule(s).
@@ -786,6 +788,47 @@ module.exports = {
 **Note:** If your rule schema uses JSON schema [`$ref`](https://json-schema.org/understanding-json-schema/structuring.html#ref) properties, you must use the full JSON Schema object rather than the array of positional property schemas. This is because ESLint transforms the array shorthand into a single schema without updating references that makes them incorrect (they are ignored).
 
 To learn more about JSON Schema, we recommend looking at some examples on the [JSON Schema website](https://json-schema.org/learn/), or reading the free [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/) ebook.
+
+#### Option Defaults
+
+Rules may specify a `meta.defaultOptions` array of default values for any options.
+When the rule is enabled in a user configuration, ESLint will recursively merge any user-provided option elements on top of the default elements.
+
+For example, given the following defaults:
+
+```js
+module.exports = {
+    meta: {
+        defaultOptions: [{
+            alias: "basic",
+        }],
+        schema: {
+            type: "object",
+            properties: {
+                alias: {
+                    type: "string"
+                }
+            },
+            additionalProperties: false
+        }
+    },
+    create(context) {
+        const [{ alias }] = context.options;
+
+        return { /* ... */ };
+    }
+}
+```
+
+The rule would have a runtime `alias` value of `"basic"` unless the user configuration specifies a different value, such as with `["error", { alias: "complex" }]`.
+
+Each element of the options array is merged according to the following rules:
+
+* User-provided `undefined` uses any default option
+* User-provided arrays and primitive values other than `undefined` override any default option
+* User-provided objects will merge into a default option object and replace a non-object default otherwise
+
+Option defaults will also be validated against the rule's `meta.schema`.
 
 ### Accessing Shebangs
 
