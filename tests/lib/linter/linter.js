@@ -1458,7 +1458,7 @@ describe("Linter", () => {
 
         it("rules should apply meta.defaultOptions", () => {
             const config = { rules: {} };
-            const codeA = "/*eslint block-spacing: error */ function run() {return true; }";
+            const codeA = "/*eslint no-constant-condition: error */ while (true) {}";
             const messages = linter.verify(codeA, config, filename, false);
 
             assert.deepStrictEqual(
@@ -1466,18 +1466,14 @@ describe("Linter", () => {
                 [
                     {
                         severity: 2,
-                        ruleId: "block-spacing",
-                        message: "Requires a space after '{'.",
-                        messageId: "missing",
-                        nodeType: "BlockStatement",
+                        ruleId: "no-constant-condition",
+                        message: "Unexpected constant condition.",
+                        messageId: "unexpected",
+                        nodeType: "Literal",
                         line: 1,
                         column: 49,
                         endLine: 1,
-                        endColumn: 50,
-                        fix: {
-                            range: [49, 49],
-                            text: " "
-                        }
+                        endColumn: 53
                     }
                 ]
             );
