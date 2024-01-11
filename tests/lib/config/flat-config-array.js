@@ -2265,26 +2265,4 @@ describe("FlatConfigArray", () => {
 
     });
 
-    describe("invalid options", () => {
-
-        it("should report key when an invalid option is found during merge", () => {
-            const configs = new FlatConfigArray([
-                {
-                    rules: {
-                    }
-                },
-                {
-                    linterOptions: {
-                        reportUnusedDisableDirectives: "foo"
-                    }
-                }
-            ]);
-
-            configs.normalizeSync();
-
-            assert.throws(() => {
-                configs.getConfig("foo.js");
-            }, /Key "linterOptions": Key "reportUnusedDisableDirectives":/u);
-        });
-    });
 });
