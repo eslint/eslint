@@ -160,7 +160,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "+foo",
-            output: "Number(foo)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
@@ -178,7 +178,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "+foo.bar",
-            output: "Number(foo.bar)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo.bar)" },
@@ -187,7 +187,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "1*foo",
-            output: "Number(foo)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
@@ -196,7 +196,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "foo*1",
-            output: "Number(foo)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
@@ -205,7 +205,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "1*foo.bar",
-            output: "Number(foo.bar)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo.bar)" },
@@ -214,7 +214,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "foo.bar-0",
-            output: "Number(foo.bar)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo.bar)" },
@@ -223,7 +223,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "\"\"+foo",
-            output: "String(foo)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
@@ -232,7 +232,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "``+foo",
-            output: "String(foo)",
+            output: null,
             languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
@@ -242,7 +242,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "foo+\"\"",
-            output: "String(foo)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
@@ -251,7 +251,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "foo+``",
-            output: "String(foo)",
+            output: null,
             languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
@@ -261,7 +261,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "\"\"+foo.bar",
-            output: "String(foo.bar)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo.bar)" },
@@ -270,7 +270,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "``+foo.bar",
-            output: "String(foo.bar)",
+            output: null,
             languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
@@ -280,7 +280,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "foo.bar+\"\"",
-            output: "String(foo.bar)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo.bar)" },
@@ -289,7 +289,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "foo.bar+``",
-            output: "String(foo.bar)",
+            output: null,
             languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
@@ -299,7 +299,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "`${foo}`",
-            output: "String(foo)",
+            output: null,
             options: [{ disallowTemplateShorthand: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [{
@@ -310,7 +310,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "`\\\n${foo}`",
-            output: "String(foo)",
+            output: null,
             options: [{ disallowTemplateShorthand: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [{
@@ -321,7 +321,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "`${foo}\\\n`",
-            output: "String(foo)",
+            output: null,
             options: [{ disallowTemplateShorthand: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [{
@@ -332,7 +332,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "foo += \"\"",
-            output: "foo = String(foo)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "foo = String(foo)" },
@@ -341,7 +341,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "foo += ``",
-            output: "foo = String(foo)",
+            output: null,
             languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "useRecommendation",
@@ -371,7 +371,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "var a = 1 * foo",
-            output: "var a = Number(foo)",
+            output: null,
             options: [{ boolean: true, allow: ["+"] }],
             errors: [{
                 messageId: "useRecommendation",
@@ -381,7 +381,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "var a = +foo",
-            output: "var a = Number(foo)",
+            output: null,
             options: [{ boolean: true, allow: ["*"] }],
             errors: [{
                 messageId: "useRecommendation",
@@ -391,7 +391,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "var a = \"\" + foo",
-            output: "var a = String(foo)",
+            output: null,
             options: [{ boolean: true, allow: ["*"] }],
             errors: [{
                 messageId: "useRecommendation",
@@ -401,7 +401,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "var a = `` + foo",
-            output: "var a = String(foo)",
+            output: null,
             options: [{ boolean: true, allow: ["*"] }],
             languageOptions: { ecmaVersion: 6 },
             errors: [{
@@ -412,7 +412,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "typeof+foo",
-            output: "typeof Number(foo)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
@@ -421,7 +421,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "typeof +foo",
-            output: "typeof Number(foo)",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
@@ -430,7 +430,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "let x ='' + 1n;",
-            output: "let x =String(1n);",
+            output: null,
             languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "useRecommendation",
@@ -464,7 +464,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         // https://github.com/eslint/eslint/issues/16373 regression tests
         {
             code: "1 * a / 2",
-            output: "Number(a) / 2",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(a)" },
@@ -473,7 +473,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "(a * 1) / 2",
-            output: "(Number(a)) / 2",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(a)" },
@@ -482,7 +482,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "a * 1 / (b * 1)",
-            output: "a * 1 / (Number(b))",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(b)" },
@@ -491,7 +491,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "a * 1 + 2",
-            output: "Number(a) + 2",
+            output: null,
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(a)" },
