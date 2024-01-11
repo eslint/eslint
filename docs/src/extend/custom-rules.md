@@ -797,7 +797,7 @@ When the rule is enabled in a user configuration, ESLint will recursively merge 
 For example, given the following defaults:
 
 ```js
-module.exports = {
+export default {
     meta: {
         defaultOptions: [{
             alias: "basic",
