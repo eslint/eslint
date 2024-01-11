@@ -824,8 +824,8 @@ The rule would have a runtime `alias` value of `"basic"` unless the user configu
 
 Each element of the options array is merged according to the following rules:
 
-* User-provided `undefined` uses any default option
-* User-provided arrays and primitive values other than `undefined` override any default option
+* Any missing value or explicit user-provided `undefined` will fall back to a default option
+* User-provided arrays and primitive values other than `undefined` override a default option
 * User-provided objects will merge into a default option object and replace a non-object default otherwise
 
 Option defaults will also be validated against the rule's `meta.schema`.
