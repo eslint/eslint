@@ -245,6 +245,11 @@ The people who review and fix bugs and help triage issues.
 Bryan Mishkin
 </a>
 </td><td align="center" valign="top" width="11%">
+<a href="https://github.com/JoshuaKGoldberg">
+<img src="https://github.com/JoshuaKGoldberg.png?s=75" width="75" height="75" alt="Josh Goldberg ✨'s Avatar"><br />
+Josh Goldberg ✨
+</a>
+</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/fasttime">
 <img src="https://github.com/fasttime.png?s=75" width="75" height="75" alt="Francesco Trotta's Avatar"><br />
 Francesco Trotta
