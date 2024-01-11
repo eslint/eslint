@@ -17,7 +17,6 @@
 module.exports = leftpad;
 
 function leftpad (str, len, ch){
-  str = '' + str;
 
   var i = -1;
 
