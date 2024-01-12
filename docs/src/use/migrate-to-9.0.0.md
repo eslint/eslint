@@ -22,14 +22,16 @@ The lists below are ordered roughly by the number of users each change is expect
 * [Removed `require-jsdoc` and `valid-jsdoc` rules](#remove-jsdoc-rules)
 * [`eslint:recommended` has been updated](#eslint-recommended)
 * [`--quiet` no longer runs rules set to `"warn"`](#quiet-warn)
+* [`--output-file` now writes a file to disk even with an empty output](#output-file)
 * [Change in behavior when no patterns are passed to CLI](#cli-empty-patterns)
 * [`/* eslint */` comments with only severity now retain options from the config file](#eslint-comment-options)
+* [Stricter `/* exported */` parsing](#exported-parsing)
 * [`no-constructor-return` and `no-sequences` rule schemas are stricter](#stricter-rule-schemas)
 * [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
 * [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
-* [Stricter `/* exported */` parsing](#exported-parsing)
-* [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
 * [`varsIgnorePattern` option of `no-unused-vars` no longer applies to catch arguments](#vars-ignore-pattern)
+* [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
+* [`no-inner-declarations` has a new default behavior with a new option](#no-inner-declarations)
 
 ### Breaking changes for plugin developers
 
@@ -126,6 +128,14 @@ If `--max-warnings` is used then `--quiet` will not suppress the execution of ru
 
 **Related issue(s):** [#16450](https://github.com/eslint/eslint/issues/16450)
 
+## <a name="output-file"></a> `--output-file` now writes a file to disk even with an empty output
+
+Prior to ESLint v9.0.0, the `--output-file` flag would skip writing a file to disk if the output was empty. However, in ESLint v9.0.0, `--output-file` now consistently writes a file to disk, even when the output is empty. This update ensures a more consistent and reliable behavior for `--output-file`.
+
+**To address:** Review your usage of the `--output-file` flag, especially if your processes depend on the file's presence or absence based on output content. If necessary, update your scripts or configurations to accommodate this change.
+
+**Related Issues(s):** [#17660](https://github.com/eslint/eslint/issues/17660)
+
 ## <a name="cli-empty-patterns"></a> Change in behavior when no patterns are passed to CLI
 
 Prior to ESLint v9.0.0, running the ESLint CLI without any file or directory patterns would result in no files being linted and would exit with code 0. This was confusing because it wasn't clear that nothing had actually happened. In ESLint v9.0.0, this behavior has been updated:
@@ -176,6 +186,30 @@ Note that this change only affects cases where the same rule is configured in th
 ```
 
 **Related issue(s):** [#17381](https://github.com/eslint/eslint/issues/17381)
+
+## <a name="exported-parsing"></a> Stricter `/* exported */` parsing
+
+Prior to ESLint v9.0.0, the `/* exported */` directive incorrectly allowed the following syntax:
+
+```js
+/* exported foo: true, bar: false */
+
+// and
+
+/* exported foo bar */
+```
+
+The `true` and `false` in this example had no effect on ESLint's behavior, and in fact, was a parsing bug.
+
+In ESLint v9.0.0, any `/* exported */` variables followed by a colon and value will be ignored as invalid.
+
+**To address:** Update any `/* exported */` directives to eliminate the colons and subsequent values, and ensure there are commas between variable names such as:
+
+```js
+/* exported foo, bar */
+```
+
+**Related issue(s):** [#17622](https://github.com/eslint/eslint/issues/17622)
 
 ## <a name="stricter-rule-schemas"></a> `no-constructor-return` and `no-sequences` rule schemas are stricter
 
@@ -228,29 +262,24 @@ In ESLint v9.0.0, the option `allowConstructorFlags` is now case-sensitive.
 
 **Related issue(s):** [#16574](https://github.com/eslint/eslint/issues/16574)
 
-## <a name="exported-parsing"></a> Stricter `/* exported */` parsing
+## <a name="vars-ignore-pattern"></a> `varsIgnorePattern` option of `no-unused-vars` no longer applies to catch arguments
 
-Prior to ESLint v9.0.0, the `/* exported */` directive incorrectly allowed the following syntax:
-
-```js
-/* exported foo: true, bar: false */
-
-// and
-
-/* exported foo bar */
-```
-
-The `true` and `false` in this example had no effect on ESLint's behavior, and in fact, was a parsing bug.
-
-In ESLint v9.0.0, any `/* exported */` variables followed by a colon and value will be ignored as invalid.
-
-**To address:** Update any `/* exported */` directives to eliminate the colons and subsequent values, and ensure there are commas between variable names such as:
+In previous versions of ESLint, the `varsIgnorePattern` option of `no-unused-vars` incorrectly ignored errors specified in a `catch` clause. In ESLint v9.0.0, `varsIgnorePattern` no longer applies to errors in `catch` clauses. For example:
 
 ```js
-/* exported foo, bar */
+/*eslint no-unused-vars: ["error", { "caughtErrors": "all", "varsIgnorePattern": "^err" }]*/
+
+try {
+    //...
+} catch (err) { // 'err' will be reported.
+    console.error("errors");
+}
+
 ```
 
-**Related issue(s):** [#17622](https://github.com/eslint/eslint/issues/17622)
+**To address:** If you want to specify ignore patterns for `catch` clause variable names, use the `caughtErrorsIgnorePattern` option in addition to `varsIgnorePattern`.
+
+**Related issue(s):** [#17540](https://github.com/eslint/eslint/issues/17540)
 
 ## <a name="string-config"></a> `"eslint:recommended"` and `"eslint:all"` no longer accepted in flat config
 
@@ -280,24 +309,22 @@ export default [
 
 **Related issue(s):** [#17488](https://github.com/eslint/eslint/issues/17488)
 
-## <a name="vars-ignore-pattern"></a> `varsIgnorePattern` option of `no-unused-vars` no longer applies to catch arguments
+## <a name="no-inner-declarations"></a> `no-inner-declarations` has a new default behavior with a new option
 
-In previous versions of ESLint, the `varsIgnorePattern` option of `no-unused-vars` incorrectly ignored errors specified in a `catch` clause. In ESLint v9.0.0, `varsIgnorePattern` no longer applies to errors in `catch` clauses. For example:
+ESLint v9.0.0 introduces a new option in `no-inner-declarations` rule called `blockScopeFunctions` which by default allows block-level `function`s in strict mode when `languageOptions.ecmaVersion` is set to `2015` or above.
 
 ```js
-/*eslint no-unused-vars: ["error", { "caughtErrors": "all", "varsIgnorePattern": "^err" }]*/
+/*eslint no-inner-declarations: "error"*/
+"use strict";
 
-try {
-    //...
-} catch (err) { // 'err' will be reported.
-    console.error("errors");
+if (test) {
+    function foo () { }  // no error
 }
-
 ```
 
-**To address:** If you want to specify ignore patterns for `catch` clause variable names, use the `caughtErrorsIgnorePattern` option in addition to `varsIgnorePattern`.
+**To address:** If you want to report the block-level `function`s in every condition regardless of strict or non-strict mode, set the `blockScopeFunctions` option to `"disallow"`.
 
-**Related issue(s):** [#17540](https://github.com/eslint/eslint/issues/17540)
+**Related issue(s):** [#15576](https://github.com/eslint/eslint/issues/15576)
 
 ## <a name="removed-context-methods"></a> Removed multiple `context` methods
 

@@ -870,7 +870,7 @@ Here, the `myCustomVar` variable is marked as used relative to a `ReturnStatemen
 
 ### Accessing Code Paths
 
-ESLint analyzes code paths while traversing AST. You can access code path objects with five events related to code paths. For more information, refer to [Code Path Analysis](code-path-analysis).
+ESLint analyzes code paths while traversing AST. You can access code path objects with seven events related to code paths. For more information, refer to [Code Path Analysis](code-path-analysis).
 
 ### Deprecated `SourceCode` Methods
 
