@@ -1,7 +1,6 @@
 /* eslint dot-notation: 2 */
 /* eslint indent: [2, 2] */
 /* eslint no-extra-parens: 2 */
-/* eslint no-implicit-coercion: 2 */
 /* eslint no-whitespace-before-property: 2 */
 /* eslint quotes: [2, "single"] */
 /* eslint semi: 2 */
