@@ -2252,6 +2252,7 @@ describe("RuleTester", () => {
                         invalid: [{
                             code: "one()",
                             errors: [{
+                                message: "make a syntax error",
                                 suggestions: [{
                                     desc: "make a syntax error",
                                     output: "one two()"

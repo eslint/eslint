@@ -238,7 +238,6 @@ ruleTester.run("no-array-constructor", rule, {
             errors: [{
                 messageId: "preferLiteral",
                 suggestions: [{
-                    desc: "Replace with an array literal, add preceding semicolon.",
                     messageId: "useLiteralAfterSemicolon",
                     output: props.code.replace(/(new )?Array\((?<args>.*?)\)/su, ";[$<args>]")
                 }]
@@ -405,7 +404,6 @@ ruleTester.run("no-array-constructor", rule, {
             errors: [{
                 messageId: "preferLiteral",
                 suggestions: [{
-                    desc: "Replace with an array literal.",
                     messageId: "useLiteral",
                     output: props.code.replace(/(new )?Array\((?<args>.*?)\)/su, "[$<args>]")
                 }]
