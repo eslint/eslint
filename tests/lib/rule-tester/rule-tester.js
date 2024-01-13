@@ -1938,6 +1938,22 @@ describe("RuleTester", () => {
         }, /Fixable rules must set the `meta\.fixable` property/u);
     });
 
+    // https://github.com/eslint/eslint/issues/17962
+    it("should not throw an error in case of absolute paths", () => {
+        ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+            valid: [
+                "Eval(foo)"
+            ],
+            invalid: [
+                {
+                    code: "eval(foo)",
+                    filename: "/an-absolute-path/foo.js",
+                    errors: [{ message: "eval sucks.", type: "CallExpression" }]
+                }
+            ]
+        });
+    });
+
     describe("suggestions", () => {
         it("should pass with valid suggestions (tested using desc)", () => {
             ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
