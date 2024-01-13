@@ -146,6 +146,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "foo.indexOf(1) !== -1" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "foo.indexOf(1) !== -1" },
+                    output: "foo.indexOf(1) !== -1"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -155,6 +160,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "foo.bar.indexOf(2) !== -1" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "foo.bar.indexOf(2) !== -1" },
+                    output: "foo.bar.indexOf(2) !== -1"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -164,6 +174,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "Number(foo)"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -173,6 +188,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "Number(foo)"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -182,6 +202,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo.bar)" },
+                    output: "Number(foo.bar)"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -191,6 +216,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "Number(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -200,6 +230,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "Number(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -209,6 +244,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo.bar)" },
+                    output: "Number(foo.bar)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -218,6 +258,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo.bar)" },
+                    output: "Number(foo.bar)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -227,6 +272,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -237,6 +287,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -246,6 +301,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -256,6 +316,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -265,6 +330,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo.bar)" },
+                    output: "String(foo.bar)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -275,6 +345,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo.bar)" },
+                    output: "String(foo.bar)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -284,6 +359,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo.bar)" },
+                    output: "String(foo.bar)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -294,6 +374,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo.bar)" },
+                    output: "String(foo.bar)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -305,6 +390,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "TemplateLiteral"
             }]
         },
@@ -316,6 +406,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "TemplateLiteral"
             }]
         },
@@ -327,6 +422,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "TemplateLiteral"
             }]
         },
@@ -336,6 +436,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "foo = String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "foo = String(foo)" },
+                    output: "foo = String(foo)"
+                }],
                 type: "AssignmentExpression"
             }]
         },
@@ -346,6 +451,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "foo = String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "foo = String(foo)" },
+                    output: "foo = String(foo)"
+                }],
                 type: "AssignmentExpression"
             }]
         },
@@ -366,6 +476,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "foo.indexOf(1) !== -1" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "foo.indexOf(1) !== -1" },
+                    output: "var a = foo.indexOf(1) !== -1"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -376,6 +491,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "var a = Number(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -386,6 +506,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "var a = Number(foo)"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -396,6 +521,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "var a = String(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -407,6 +537,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "var a = String(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -416,6 +551,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "typeof Number(foo)"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -425,6 +565,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "typeof Number(foo)"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -435,6 +580,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "String(1n)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(1n)" },
+                    output: "let x =String(1n);"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -447,6 +597,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "foo?.indexOf(1) >= 0" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "foo?.indexOf(1) >= 0" },
+                    output: "foo?.indexOf(1) >= 0"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -457,6 +612,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "(foo?.indexOf)(1) !== -1" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "(foo?.indexOf)(1) !== -1" },
+                    output: "(foo?.indexOf)(1) !== -1"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -468,6 +628,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(a)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(a)" },
+                    output: "Number(a) / 2"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -477,6 +642,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(a)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(a)" },
+                    output: "(Number(a)) / 2"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -486,6 +656,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(b)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(b)" },
+                    output: "a * 1 / (Number(b))"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -495,6 +670,11 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "useRecommendation",
                 data: { recommendation: "Number(a)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(a)" },
+                    output: "Number(a) + 2"
+                }],
                 type: "BinaryExpression"
             }]
         }
