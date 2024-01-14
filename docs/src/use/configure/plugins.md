@@ -44,6 +44,54 @@ export default [
 When creating a namespace for a plugin, the convention is to use the npm package name without the `eslint-plugin-` prefix. In the preceding example, `eslint-plugin-example` is assigned a namespace of `example`.
 :::
 
+### Configure a Local Plugin
+
+Plugins don't need to be published to npm for use with ESLint. You can also load plugins directly from a file, as in this example:
+
+```js
+// eslint.config.js
+import local from "./my-local-plugin.js";
+
+export default [
+    {
+        plugins: {
+            local
+        },
+        rules: {
+            "local/rule1": "warn"
+        }
+    }
+];
+```
+
+Here, the namespace `local` is used, but you can also use any name you'd like instead.
+
+### Configure a Virtual Plugin
+
+Plugin definitions can be created virtually directly in your config. For example, suppose you have a rule contained in a file called `my-rule.js` that you'd like to enable in your config. You can define a virtual plugin to do so, as in this example:
+
+```js
+// eslint.config.js
+import myRule from "./rules/my-rule.js";
+
+export default [
+    {
+        plugins: {
+            local: {
+                rules: {
+                    "my-rule": myRule
+                }
+            }
+        },
+        rules: {
+            "local/my-rule": "warn"
+        }
+    }
+];
+```
+
+Here, the namespace `local` is used to define a virtual plugin. The rule `myRule` is then assigned a name of `my-rule` inside of the virtual plugin's `rules` object. (See [Create Plugins](../../extend/plugins) for the complete format of a plugin.) You can then reference the rule as `local/my-rule` to configure it.
+
 ## Use Plugin Rules
 
 You can use specific rules included in a plugin. To do this, specify the plugin
