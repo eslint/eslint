@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "9.0.0-alpha.0",
+  "version": "9.0.0-alpha.1",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -135,7 +135,7 @@
     "load-perf": "^0.2.0",
     "markdown-it": "^12.2.0",
     "markdown-it-container": "^3.0.0",
-    "markdownlint": "^0.32.0",
+    "markdownlint": "^0.33.0",
     "markdownlint-cli": "^0.38.0",
     "marked": "^4.0.8",
     "memfs": "^3.0.1",
