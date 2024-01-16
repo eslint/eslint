@@ -2882,6 +2882,46 @@ describe("RuleTester", () => {
                     });
                 }, "detected duplicate test case");
             });
+
+            it("throws with duplicate object test cases even when property order differs", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: {},
+                        create(context) {
+                            return {
+                                VariableDeclaration(node) {
+                                    context.report(node, "foo bar");
+                                }
+                            };
+                        }
+                    }, {
+                        valid: ["foo"],
+                        invalid: [
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }] },
+                            { errors: [{ message: "foo bar" }], code: "const x = 123;" }
+                        ]
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("ignores duplicate test case when potentially non-serializable property (e.g. settings) present", () => {
+                ruleTester.run("foo", {
+                    meta: {},
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], settings: {} },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], settings: {} }
+                    ]
+                });
+            });
         });
     });
 
