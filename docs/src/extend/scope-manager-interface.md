@@ -358,13 +358,13 @@ Those members are defined but not used in ESLint.
 
 | type                       | node |
 |:---------------------------|:-----|
-| `"CatchClause"`            | `CatchClause`
-| `"ClassName"`              | `ClassDeclaration` or `ClassExpression`
-| `"FunctionName"`           | `FunctionDeclaration` or `FunctionExpression`
-| `"ImplicitGlobalVariable"` | `Program`
-| `"ImportBinding"`          | `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`
-| `"Parameter"`              | `FunctionDeclaration`, `FunctionExpression`, or `ArrowFunctionExpression`
-| `"Variable"`               | `VariableDeclarator`
+| `"CatchClause"`            | `CatchClause` |
+| `"ClassName"`              | `ClassDeclaration` or `ClassExpression` |
+| `"FunctionName"`           | `FunctionDeclaration` or `FunctionExpression` |
+| `"ImplicitGlobalVariable"` | `Program` |
+| `"ImportBinding"`          | `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier` |
+| `"Parameter"`              | `FunctionDeclaration`, `FunctionExpression`, or `ArrowFunctionExpression` |
+| `"Variable"`               | `VariableDeclarator` |
 
 #### parent
 
@@ -373,13 +373,13 @@ Those members are defined but not used in ESLint.
 
 | type                       | parent |
 |:---------------------------|:-------|
-| `"CatchClause"`            | `null`
-| `"ClassName"`              | `null`
-| `"FunctionName"`           | `null`
-| `"ImplicitGlobalVariable"` | `null`
-| `"ImportBinding"`          | `ImportDeclaration`
-| `"Parameter"`              | `null`
-| `"Variable"`               | `VariableDeclaration`
+| `"CatchClause"`            | `null` |
+| `"ClassName"`              | `null` |
+| `"FunctionName"`           | `null` |
+| `"ImplicitGlobalVariable"` | `null` |
+| `"ImportBinding"`          | `ImportDeclaration` |
+| `"Parameter"`              | `null` |
+| `"Variable"`               | `VariableDeclaration` |
 
 ### Deprecated members
 
