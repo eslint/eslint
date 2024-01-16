@@ -2883,6 +2883,27 @@ describe("RuleTester", () => {
                 }, "detected duplicate test case");
             });
 
+            it("throws with duplicate object test cases when options is a primitive", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: { schema: false },
+                        create(context) {
+                            return {
+                                VariableDeclaration(node) {
+                                    context.report(node, "foo bar");
+                                }
+                            };
+                        }
+                    }, {
+                        valid: ["foo"],
+                        invalid: [
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }], options: ["abc"] },
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }], options: ["abc"] }
+                        ]
+                    });
+                }, "detected duplicate test case");
+            });
+
             it("throws with duplicate object test cases even when property order differs", () => {
                 assert.throws(() => {
                     ruleTester.run("foo", {
@@ -2919,6 +2940,82 @@ describe("RuleTester", () => {
                     invalid: [
                         { code: "const x = 123;", errors: [{ message: "foo bar" }], settings: {} },
                         { code: "const x = 123;", errors: [{ message: "foo bar" }], settings: {} }
+                    ]
+                });
+            });
+
+            it("ignores duplicate test case when potentially non-serializable property present (e.g. settings)", () => {
+                ruleTester.run("foo", {
+                    meta: {},
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], settings: { foo: /abc/u } },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], settings: { foo: /abc/u } }
+                    ]
+                });
+            });
+
+            it("ignores duplicate test case when potentially non-serializable property present (languageOptions.parserOptions)", () => {
+                ruleTester.run("foo", {
+                    meta: {},
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], languageOptions: { parserOptions: { foo: /abc/u } } },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], languageOptions: { parserOptions: { foo: /abc/u } } }
+                    ]
+                });
+            });
+
+            it("ignores duplicate test case when potentially non-serializable property present (plugins)", () => {
+                ruleTester.run("foo", {
+                    meta: {},
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], plugins: { foo: /abc/u } },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], plugins: { foo: /abc/u } }
+                    ]
+                });
+            });
+
+            it("ignores duplicate test case when potentially non-serializable property present (options as an object)", () => {
+                ruleTester.run("foo", {
+                    meta: { schema: false },
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], options: [{ foo: /abc/u }] },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], options: [{ foo: /abc/u }] }
                     ]
                 });
             });
