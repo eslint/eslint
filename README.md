@@ -117,7 +117,7 @@ Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [confi
 
 ### What ECMAScript versions does ESLint support?
 
-ESLint has full support for ECMAScript 3, 5, and every year from 2015 up until the most recent stage 4 specification. You can set your desired ECMAScript syntax and other settings (like global variables) through [configuration](https://eslint.org/docs/latest/use/configure).
+ESLint has full support for ECMAScript 3, 5, and every year from 2015 up until the most recent stage 4 specification (the default). You can set your desired ECMAScript syntax and other settings (like global variables) through [configuration](https://eslint.org/docs/latest/use/configure).
 
 ### What about experimental features?
 
