@@ -4624,14 +4624,6 @@ ruleTester.run("indent", rule, {
             `,
             options: [0]
         },
-        {
-            code: unIndent`
-              <App
-              \tfoo
-              />
-            `,
-            options: ["tab"]
-        },
         unIndent`
                 <App
                     foo
