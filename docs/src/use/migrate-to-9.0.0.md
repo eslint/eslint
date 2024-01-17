@@ -463,10 +463,11 @@ In order to aid in the development of high-quality custom rules that are free fr
 
 1. **Suggestion messages must be unique.** Because suggestions are typically displayed in an editor as a dropdown list, it's important that no two suggestions for the same lint problem have the same message. Otherwise, it's impossible to know what any given suggestion will do. This additional check runs automatically.
 1. **Suggestions must generate valid syntax.** In order for rule suggestions to be helpful, they need to be valid syntax. `RuleTester` now parses the output of suggestions using the same language options as the `code` value and throws an error if parsing fails.
+1. **Test cases must be unique.** Duplicate test cases can cause confusion or be hard to detect manually in a long test file. They can be safely removed.
 
 **To address:** Run your rule tests using `RuleTester` and fix any errors that occur. The changes you'll need to make to satisfy `RuleTester` are compatible with ESLint v8.x.
 
-**Related Issues(s):** [#15735](https://github.com/eslint/eslint/issues/15735), [#16908](https://github.com/eslint/eslint/issues/16908)
+**Related Issues(s):** [#15104](https://github.com/eslint/eslint/issues/15104), [#15735](https://github.com/eslint/eslint/issues/15735), [#16908](https://github.com/eslint/eslint/issues/16908)
 
 ## <a name="flat-eslint"></a> `FlatESLint` is now `ESLint`
 
