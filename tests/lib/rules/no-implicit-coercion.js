@@ -141,6 +141,20 @@ ruleTester.run("no-implicit-coercion", rule, {
             }]
         },
         {
+            code: "!!(foo + bar); var Boolean = null",
+            output: null,
+            errors: [{
+                messageId: "implicitCoercion",
+                data: { recommendation: "Boolean(foo + bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Boolean(foo + bar)" },
+                    output: "Boolean(foo + bar); var Boolean = null"
+                }],
+                type: "UnaryExpression"
+            }]
+        },
+        {
             code: "!!(foo + bar)",
             output: null,
             languageOptions: {
