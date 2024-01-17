@@ -155,7 +155,7 @@ ruleTester.run("no-misleading-character-class", rule, {
                 column: 11,
                 endColumn: 13,
                 messageId: "surrogatePairWithoutUFlag",
-                suggestions: null // ecmaVersion doesn't support the 'u' flag, ecmaVersion doesn't support the 'u' flag
+                suggestions: null // ecmaVersion doesn't support the 'u' flag
             }]
         },
         {
