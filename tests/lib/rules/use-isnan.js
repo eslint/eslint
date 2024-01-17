@@ -431,80 +431,56 @@ ruleTester.run("use-isnan", rule, {
             code: "NaN < \"abc\";",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: '!Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "\"abc\" < NaN;",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: 'Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "NaN > \"abc\";",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: 'Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "\"abc\" > NaN;",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: '!Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "NaN <= \"abc\";",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: '!Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "\"abc\" <= NaN;",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: 'Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "NaN >= \"abc\";",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: 'Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "\"abc\" >= NaN;",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: '!Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
@@ -591,80 +567,56 @@ ruleTester.run("use-isnan", rule, {
             code: "Number.NaN < \"abc\";",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: '!Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "\"abc\" < Number.NaN;",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: 'Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "Number.NaN > \"abc\";",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: 'Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "\"abc\" > Number.NaN;",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: '!Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "Number.NaN <= \"abc\";",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: '!Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "\"abc\" <= Number.NaN;",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: 'Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "Number.NaN >= \"abc\";",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: 'Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
             code: "\"abc\" >= Number.NaN;",
             errors: [{
                 ...comparisonError,
-                suggestions: [{
-                    messageId: "replaceWithIsNaN",
-                    output: '!Number.isNaN("abc");'
-                }]
+                suggestions: []
             }]
         },
         {
