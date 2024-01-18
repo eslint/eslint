@@ -83,7 +83,7 @@ module.exports = function(eleventyConfig) {
     });
 
     /* order collection by the order specified in the front matter */
-    eleventyConfig.addFilter("sortByPageOrder", values => values.slice().sort((a, b) => a.data.order - b.data.order));
+    eleventyConfig.addFilter("sortByPageOrder", values => values.toSorted((a, b) => a.data.order - b.data.order));
 
     eleventyConfig.addFilter("readableDate", dateObj => {
 
