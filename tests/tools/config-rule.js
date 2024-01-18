@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    ConfigRule = require("../../tools/config-rule"),
+    { generateConfigsFromSchema } = require("../../tools/config-rule"),
     builtInRules = require("../../lib/rules"),
     schema = require("../fixtures/config-rule/schemas");
 
@@ -26,19 +26,19 @@ describe("ConfigRule", () => {
         let actualConfigs;
 
         it("should create a config with only severity for an empty schema", () => {
-            actualConfigs = ConfigRule.generateConfigsFromSchema([]);
+            actualConfigs = generateConfigsFromSchema([]);
             assert.deepStrictEqual(actualConfigs, [SEVERITY]);
         });
 
         it("should create a config with only severity with no arguments", () => {
-            actualConfigs = ConfigRule.generateConfigsFromSchema();
+            actualConfigs = generateConfigsFromSchema();
             assert.deepStrictEqual(actualConfigs, [SEVERITY]);
         });
 
         describe("for a single enum schema", () => {
 
             before(() => {
-                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.enum);
+                actualConfigs = generateConfigsFromSchema(schema.enum);
             });
 
             it("should create an array of configs", () => {
@@ -66,7 +66,7 @@ describe("ConfigRule", () => {
         describe("for a object schema with a single enum property", () => {
 
             before(() => {
-                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.objectWithEnum);
+                actualConfigs = generateConfigsFromSchema(schema.objectWithEnum);
             });
 
             it("should return configs with option objects", () => {
@@ -106,7 +106,7 @@ describe("ConfigRule", () => {
         describe("for a object schema with a multiple enum properties", () => {
 
             before(() => {
-                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.objectWithMultipleEnums);
+                actualConfigs = generateConfigsFromSchema(schema.objectWithMultipleEnums);
             });
 
             it("should create configs for all properties in each config", () => {
@@ -140,7 +140,7 @@ describe("ConfigRule", () => {
         describe("for a object schema with a single boolean property", () => {
 
             before(() => {
-                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.objectWithBool);
+                actualConfigs = generateConfigsFromSchema(schema.objectWithBool);
             });
 
             it("should return configs with option objects", () => {
@@ -179,7 +179,7 @@ describe("ConfigRule", () => {
         describe("for a object schema with a multiple bool properties", () => {
 
             before(() => {
-                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.objectWithMultipleBools);
+                actualConfigs = generateConfigsFromSchema(schema.objectWithMultipleBools);
             });
 
             it("should create configs for all properties in each config", () => {
@@ -210,7 +210,7 @@ describe("ConfigRule", () => {
         describe("for a schema with an enum and an object", () => {
 
             before(() => {
-                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.mixedEnumObject);
+                actualConfigs = generateConfigsFromSchema(schema.mixedEnumObject);
             });
 
             it("should create configs with only the enum values", () => {
@@ -232,7 +232,7 @@ describe("ConfigRule", () => {
 
         describe("for a schema with an enum followed by an object with no usable properties", () => {
             before(() => {
-                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.mixedEnumObjectWithNothing);
+                actualConfigs = generateConfigsFromSchema(schema.mixedEnumObjectWithNothing);
             });
 
             it("should create config only for the enum", () => {
@@ -244,7 +244,7 @@ describe("ConfigRule", () => {
 
         describe("for a schema with an enum preceded by an object with no usable properties", () => {
             before(() => {
-                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.mixedObjectWithNothingEnum);
+                actualConfigs = generateConfigsFromSchema(schema.mixedObjectWithNothingEnum);
             });
 
             it("should not create a config for the enum", () => {
@@ -256,7 +256,7 @@ describe("ConfigRule", () => {
 
         describe("for a schema with an enum preceded by a string", () => {
             before(() => {
-                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.mixedStringEnum);
+                actualConfigs = generateConfigsFromSchema(schema.mixedStringEnum);
             });
 
             it("should not create a config for the enum", () => {
@@ -269,7 +269,7 @@ describe("ConfigRule", () => {
         describe("for a schema with oneOf", () => {
 
             before(() => {
-                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.oneOf);
+                actualConfigs = generateConfigsFromSchema(schema.oneOf);
             });
 
             it("should create a set of configs", () => {
@@ -280,7 +280,7 @@ describe("ConfigRule", () => {
         describe("for a schema with nested objects", () => {
 
             before(() => {
-                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.nestedObjects);
+                actualConfigs = generateConfigsFromSchema(schema.nestedObjects);
             });
 
             it("should create a set of configs", () => {
