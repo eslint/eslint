@@ -79,6 +79,14 @@ describe("serialization", () => {
             it("array with object with nested function", () => {
                 assert.isFalse(isSerializable([{ a: { fn() {} } }]));
             });
+
+            it("array with object with nested array with object", () => {
+                assert.isTrue(isSerializable([{ a: { b: [{ c: 123 }] } }]));
+            });
+
+            it("array with object with nested array with object with function", () => {
+                assert.isFalse(isSerializable([{ a: { b: [{ c() {} }] } }]));
+            });
         });
     });
 });
