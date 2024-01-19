@@ -179,11 +179,6 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "implicitCoercion",
                 data: { recommendation: "foo.indexOf(1) !== -1" },
-                suggestions: [{
-                    messageId: "useRecommendation",
-                    data: { recommendation: "foo.indexOf(1) !== -1" },
-                    output: "foo.indexOf(1) !== -1"
-                }],
                 type: "UnaryExpression"
             }]
         },
@@ -193,11 +188,6 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "implicitCoercion",
                 data: { recommendation: "foo.bar.indexOf(2) !== -1" },
-                suggestions: [{
-                    messageId: "useRecommendation",
-                    data: { recommendation: "foo.bar.indexOf(2) !== -1" },
-                    output: "foo.bar.indexOf(2) !== -1"
-                }],
                 type: "UnaryExpression"
             }]
         },
@@ -509,11 +499,6 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "implicitCoercion",
                 data: { recommendation: "foo.indexOf(1) !== -1" },
-                suggestions: [{
-                    messageId: "useRecommendation",
-                    data: { recommendation: "foo.indexOf(1) !== -1" },
-                    output: "var a = foo.indexOf(1) !== -1"
-                }],
                 type: "UnaryExpression"
             }]
         },
@@ -630,11 +615,6 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "implicitCoercion",
                 data: { recommendation: "foo?.indexOf(1) >= 0" },
-                suggestions: [{
-                    messageId: "useRecommendation",
-                    data: { recommendation: "foo?.indexOf(1) >= 0" },
-                    output: "foo?.indexOf(1) >= 0"
-                }],
                 type: "UnaryExpression"
             }]
         },
@@ -645,11 +625,6 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{
                 messageId: "implicitCoercion",
                 data: { recommendation: "(foo?.indexOf)(1) !== -1" },
-                suggestions: [{
-                    messageId: "useRecommendation",
-                    data: { recommendation: "(foo?.indexOf)(1) !== -1" },
-                    output: "(foo?.indexOf)(1) !== -1"
-                }],
                 type: "UnaryExpression"
             }]
         },
