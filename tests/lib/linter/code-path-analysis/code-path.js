@@ -10,8 +10,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("assert"),
-    { Linter } = require("../../../../lib/linter"),
-    debug = require("../../../../lib/linter/code-path-analysis/debug-helpers");
+    { Linter } = require("../../../../lib/linter");
 const linter = new Linter({ configType: "eslintrc" });
 
 //------------------------------------------------------------------------------
@@ -60,7 +59,6 @@ function getOrderOfTraversing(codePath, options, callback) {
             callback(segment, controller); // eslint-disable-line n/callback-return -- At end of inner function
         }
     });
-    debug.dumpDot(codePath);
 
     return retv;
 }
