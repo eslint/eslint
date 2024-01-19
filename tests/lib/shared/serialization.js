@@ -18,26 +18,38 @@ describe("serialization", () => {
         it("boolean", () => {
             assert.isTrue(isSerializable(true));
             assert.isTrue(isSerializable(false));
+            assert.isTrue(isSerializable({ a: true }));
+            assert.isTrue(isSerializable([true]));
         });
 
         it("number", () => {
             assert.isTrue(isSerializable(123));
+            assert.isTrue(isSerializable({ a: 123 }));
+            assert.isTrue(isSerializable([123]));
         });
 
         it("function", () => {
             assert.isFalse(isSerializable(() => {}));
+            assert.isFalse(isSerializable({ a() {} }));
+            assert.isFalse(isSerializable([() => {}]));
         });
 
         it("RegExp", () => {
             assert.isFalse(isSerializable(/abc/u));
+            assert.isFalse(isSerializable({ a: /abc/u }));
+            assert.isFalse(isSerializable([/abc/u]));
         });
 
         it("null", () => {
             assert.isTrue(isSerializable(null));
+            assert.isTrue(isSerializable({ a: null }));
+            assert.isTrue(isSerializable([null]));
         });
 
         it("undefined", () => {
             assert.isFalse(isSerializable(void 0));
+            assert.isFalse(isSerializable({ a: void 0 }));
+            assert.isFalse(isSerializable([void 0]));
         });
 
         describe("object", () => {
