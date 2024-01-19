@@ -35,9 +35,7 @@
             ]
         },
         "docs": {
-            "entry": ["src/{_data,_plugins}/*.js"],
-            "project": ["src/{_data,_plugins}/**/*.js"],
-            "ignoreDependencies": ["algoliasearch"]
+            "ignore": ["src/assets/js/search.js", "_examples/**"]
         },
         // Workspaces with default configs:
         "packages/*": {},
