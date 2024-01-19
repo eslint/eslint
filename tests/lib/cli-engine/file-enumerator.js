@@ -457,7 +457,7 @@ describe("FileEnumerator", () => {
                 });
 
                 it("should throw an error if no files match a glob", () => {
-                    const patterns = ["tests/fixtures/glob-util/ignored/**/*.js"];
+                    const patterns = ["dir-does-not-exist/**/*.js"];
 
                     assert.throws(() => {
                         listFiles(patterns, { cwd: getFixturePath("ignored-paths") });

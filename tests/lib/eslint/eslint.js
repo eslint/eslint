@@ -286,6 +286,22 @@ describe("ESLint", () => {
                 ].join("\n")), "u")
             );
         });
+
+        it("should warn if .eslintignore file is present", async () => {
+            const cwd = getFixturePath("ignored-paths");
+
+            sinon.restore();
+            const processStub = sinon.stub(process, "emitWarning");
+
+            // eslint-disable-next-line no-new -- for testing purpose only
+            new ESLint({ cwd });
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.strictEqual(processStub.getCall(0).args[0], "The \".eslintignore\" file is no longer supported. Switch to using the \"ignores\" property in \"eslint.config.js\": https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files");
+            assert.strictEqual(processStub.getCall(0).args[1], "ESLintIgnoreWarning");
+
+            processStub.restore();
+        });
     });
 
     describe("lintText()", () => {
@@ -4607,22 +4623,6 @@ describe("ESLint", () => {
             const eslint = new ESLint();
 
             await assert.rejects(() => eslint.isPathIgnored(null), /'filePath' must be a non-empty string/u);
-        });
-
-        it("should warn if .eslintignore file is present", async () => {
-            const cwd = getFixturePath("ignored-paths");
-
-            sinon.restore();
-            const processStub = sinon.stub(process, "emitWarning");
-
-            // eslint-disable-next-line no-new -- for testing purpose only
-            new ESLint({ cwd });
-
-            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
-            assert.strictEqual(processStub.getCall(0).args[0], "The \".eslintignore\" file is no longer supported. Switch to using the \"ignores\" property in \"eslint.config.js\": https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files");
-            assert.strictEqual(processStub.getCall(0).args[1], "ESLintIgnoreWarning");
-
-            processStub.restore();
         });
     });
 
