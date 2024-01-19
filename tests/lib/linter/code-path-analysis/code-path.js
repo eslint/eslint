@@ -384,6 +384,30 @@ describe("CodePathAnalyzer", () => {
             */
         });
 
+        it("should skip the next branch when 'controller.skip()' was called at top segment.", () => {
+            const codePath = parseCodePaths("a; while (b) { c; }")[0];
+
+            const order = getOrderOfTraversing(codePath, null, (segment, controller) => {
+                if (segment.id === "s1_1") {
+                    controller.skip();
+                }
+            });
+
+            assert.deepStrictEqual(order, ["s1_1"]);
+
+            /*
+            digraph {
+                node[shape=box,style="rounded,filled",fillcolor=white];
+                initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
+                final[label="",shape=doublecircle,style=filled,fillcolor=black,width=0.25,height=0.25];
+                s1_1[label="Program:enter\nExpressionStatement:enter\nIdentifier (a)\nExpressionStatement:exit\nWhileStatement:enter"];
+                s1_2[label="Identifier (b)"];
+                s1_3[label="BlockStatement:enter\nExpressionStatement:enter\nIdentifier (c)\nExpressionStatement:exit\nBlockStatement:exit"];
+                s1_4[label="WhileStatement:exit\nProgram:exit"];
+                initial->s1_1->s1_2->s1_3->s1_2->s1_4->final;
+            }
+            */
+        });
         /* eslint-enable internal-rules/multiline-comment-style -- Commenting out */
     });
 });
