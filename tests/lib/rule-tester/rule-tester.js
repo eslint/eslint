@@ -1975,7 +1975,7 @@ describe("RuleTester", () => {
                         errors: [{ message: "Avoid using identifiers named 'foo'." }]
                     }]
                 });
-            }, "Error should have suggestions on error with message: \"Avoid using identifiers named 'foo'.");
+            }, "Error at index 0 has suggestions. Please specify 'suggestions' property on the test error object.");
         });
 
         it("should pass with valid suggestions (tested using desc)", () => {
