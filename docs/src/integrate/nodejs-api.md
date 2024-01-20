@@ -788,7 +788,7 @@ Suggestions can be tested by defining a `suggestions` key on an errors object. T
 
 * `desc` (string): The suggestion `desc` value. Must provide this or `messageId`
 * `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s. Must provide this or `desc`
-* `data` (object): Placeholder data which can be used in combination with `messageId`. Required if `messageId` is specified and its message uses placeholders
+* `data` (object): Placeholder data which can be used in combination with `messageId`.
 * `output` (string, required): A code string representing the result of applying the suggestion fix to the input code
 
 Example:

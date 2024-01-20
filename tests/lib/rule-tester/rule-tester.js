@@ -793,7 +793,7 @@ describe("RuleTester", () => {
                     { code: "eval('')", output: "eval('')", errors: 1 }
                 ]
             });
-        }, /Use 'output: null' if the rule does not fix this case instead of copying the code\./u);
+        }, "Either omit the 'output' property or set it to null if there is no autofix.");
     });
 
     it("should throw an error when the expected output isn't specified and problems produce output", () => {
