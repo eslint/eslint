@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for object serialization utils.
+ * @fileoverview Tests for serialization utils.
  * @author Bryan Mishkin
  */
 
