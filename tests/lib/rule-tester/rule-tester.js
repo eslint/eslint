@@ -2180,7 +2180,7 @@ describe("RuleTester", () => {
                             }]
                         }]
                     });
-                }, "Error should have no suggestions on error with message: \"Avoid using identifiers named 'foo'.\"");
+                }, "Error should have suggestions on error with message: \"Avoid using identifiers named 'foo'.\"");
             });
         });
 
@@ -2198,10 +2198,38 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error should have an array of suggestions. Instead received \"undefined\" on error with message: \"Bad var.\"");
+            }, 'Error should have no suggestions on error with message: "Bad var."');
+        });
+
+        it("should support specifying only the amount of suggestions", () => {
+            ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                valid: [],
+                invalid: [{
+                    code: "var foo;",
+                    errors: [{
+                        message: "Avoid using identifiers named 'foo'.",
+                        suggestions: 1
+                    }]
+                }]
+            });
         });
 
         it("should fail when there are a different number of suggestions", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
+                            suggestions: 2
+                        }]
+                    }]
+                });
+            }, "Error should have 2 suggestions. Instead found 1 suggestions");
+        });
+
+        it("should fail when there are a different number of suggestions for arrays", () => {
             assert.throws(() => {
                 ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
                     valid: [],
