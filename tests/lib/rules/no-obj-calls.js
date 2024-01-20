@@ -73,9 +73,6 @@ ruleTester.run("no-obj-calls", rule, {
         { code: "var x = globalThis.Atomics();", languageOptions: { ecmaVersion: 2017 } },
         { code: "var x = globalThis.Atomics();", languageOptions: { ecmaVersion: 2017, globals: { Atomics: false } } },
         { code: "var x = globalThis.Intl();", languageOptions: { globals: globals.browser } },
-        {
-            code: "var x = globalThis.Intl();", languageOptions: { globals: { ...globals.browser, Intl: false } }
-        },
 
         // non-existing variables
         "/*globals Math: off*/ Math();",

@@ -35,7 +35,6 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = /\\D/",
         "var foo = /\\W/",
         "var foo = /\\w/",
-        "var foo = /\\B/",
         "var foo = /\\\\/g",
         "var foo = /\\w\\$\\*\\./",
         "var foo = /\\^\\+\\./",

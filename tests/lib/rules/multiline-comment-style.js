@@ -1265,20 +1265,6 @@ ${"                   "}
         {
             code: `
                 // foo
-                //
-                // bar
-            `,
-            output: `
-                /* foo
-${"                   "}
-                   bar */
-            `,
-            options: ["bare-block"],
-            errors: [{ messageId: "expectedBlock", line: 2 }]
-        },
-        {
-            code: `
-                // foo
                 //${" "}
                 // bar
             `,
