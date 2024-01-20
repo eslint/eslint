@@ -62,7 +62,6 @@ export * from 'fs';
 
 :::
 
-
 Examples of **correct** code for string option:
 
 ::: correct { "sourceType": "module" }
@@ -278,7 +277,6 @@ import pick from 'import1/private/someModule';
 In last example `"!import1/private/*"` is not reincluding the modules inside private directory because in `gitignore-style` negation mark (`!`) does not reinclude the files if it's parent directory is excluded by a pattern. In this case `import1/private` directory is already excluded by the `import1/*` pattern, but excluded directory can be reincluded like using `"!import1/private"`.
 
 Examples of **correct** code for `pattern` option:
-
 
 ::: correct { "sourceType": "module" }
 
