@@ -66,7 +66,7 @@
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.6.1",
     "@eslint/eslintrc": "^3.0.0",
-    "@eslint/js": "9.0.0-alpha.0",
+    "@eslint/js": "9.0.0-alpha.1",
     "@humanwhocodes/config-array": "^0.11.14",
     "@humanwhocodes/module-importer": "^1.0.1",
     "@nodelib/fs.walk": "^1.2.8",
