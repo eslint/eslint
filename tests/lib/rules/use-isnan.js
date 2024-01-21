@@ -663,6 +663,16 @@ ruleTester.run("use-isnan", rule, {
                 }]
             }]
         },
+        {
+            code: "(1, 2) === NaN;",
+            errors: [{
+                ...comparisonError,
+                suggestions: [{
+                    messageId: "replaceWithIsNaN",
+                    output: "Number.isNaN((1, 2));"
+                }]
+            }]
+        },
 
         //------------------------------------------------------------------------------
         // enforceForSwitchCase
