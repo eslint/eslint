@@ -1938,6 +1938,25 @@ describe("ESLint", () => {
                 assert.strictEqual(results[1].filePath, getFixturePath("ignores-directory-deep/tests/format/jsfmt.spec.js"));
             });
 
+            it("should allow only contents of a directory but not the directory itself to be ignored by a pattern ending with '**/*'", async () => {
+                eslint = new ESLint({
+                    cwd: getFixturePath("ignores-directory-deep"),
+                    overrideConfigFile: true,
+                    overrideConfig: {
+                        ignores: [
+                            "tests/format/**/*",
+                            "!tests/format/jsfmt.spec.js"
+                        ]
+                    }
+                });
+                const results = await eslint.lintFiles(["."]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].errorCount, 0);
+                assert.strictEqual(results[0].warningCount, 0);
+                assert.strictEqual(results[0].filePath, getFixturePath("ignores-directory-deep/tests/format/jsfmt.spec.js"));
+            });
+
             it("should skip ignored files in an unignored directory", async () => {
                 eslint = new ESLint({
                     cwd: getFixturePath("ignores-directory-deep"),
