@@ -2846,6 +2846,200 @@ describe("RuleTester", () => {
 
     });
 
+    describe("duplicate test cases", () => {
+        describe("valid test cases", () => {
+            it("throws with duplicate string test cases", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: {},
+                        create() {
+                            return {};
+                        }
+                    }, {
+                        valid: ["foo", "foo"],
+                        invalid: [{ code: "foo", errors: [{ message: "foo bar" }] }]
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("throws with duplicate object test cases", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: {},
+                        create() {
+                            return {};
+                        }
+                    }, {
+                        valid: [{ code: "foo" }, { code: "foo" }],
+                        invalid: [{ code: "foo", errors: [{ message: "foo bar" }] }]
+                    });
+                }, "detected duplicate test case");
+            });
+        });
+
+        describe("invalid test cases", () => {
+            it("throws with duplicate object test cases", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: {},
+                        create(context) {
+                            return {
+                                VariableDeclaration(node) {
+                                    context.report(node, "foo bar");
+                                }
+                            };
+                        }
+                    }, {
+                        valid: ["foo"],
+                        invalid: [
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }] },
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }] }
+                        ]
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("throws with duplicate object test cases when options is a primitive", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: { schema: false },
+                        create(context) {
+                            return {
+                                VariableDeclaration(node) {
+                                    context.report(node, "foo bar");
+                                }
+                            };
+                        }
+                    }, {
+                        valid: ["foo"],
+                        invalid: [
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }], options: ["abc"] },
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }], options: ["abc"] }
+                        ]
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("throws with duplicate object test cases when options is a nested serializable object", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: { schema: false },
+                        create(context) {
+                            return {
+                                VariableDeclaration(node) {
+                                    context.report(node, "foo bar");
+                                }
+                            };
+                        }
+                    }, {
+                        valid: ["foo"],
+                        invalid: [
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }], options: [{ foo: [{ a: true, b: [1, 2, 3] }] }] },
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }], options: [{ foo: [{ a: true, b: [1, 2, 3] }] }] }
+                        ]
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("throws with duplicate object test cases even when property order differs", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: {},
+                        create(context) {
+                            return {
+                                VariableDeclaration(node) {
+                                    context.report(node, "foo bar");
+                                }
+                            };
+                        }
+                    }, {
+                        valid: ["foo"],
+                        invalid: [
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }] },
+                            { errors: [{ message: "foo bar" }], code: "const x = 123;" }
+                        ]
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("ignores duplicate test case when non-serializable property present (settings)", () => {
+                ruleTester.run("foo", {
+                    meta: {},
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], settings: { foo: /abc/u } },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], settings: { foo: /abc/u } }
+                    ]
+                });
+            });
+
+            it("ignores duplicate test case when non-serializable property present (languageOptions.parserOptions)", () => {
+                ruleTester.run("foo", {
+                    meta: {},
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], languageOptions: { parserOptions: { foo: /abc/u } } },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], languageOptions: { parserOptions: { foo: /abc/u } } }
+                    ]
+                });
+            });
+
+            it("ignores duplicate test case when non-serializable property present (plugins)", () => {
+                ruleTester.run("foo", {
+                    meta: {},
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], plugins: { foo: /abc/u } },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], plugins: { foo: /abc/u } }
+                    ]
+                });
+            });
+
+            it("ignores duplicate test case when non-serializable property present (options)", () => {
+                ruleTester.run("foo", {
+                    meta: { schema: false },
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], options: [{ foo: /abc/u }] },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], options: [{ foo: /abc/u }] }
+                    ]
+                });
+            });
+        });
+    });
+
     describe("SourceCode forbidden methods", () => {
 
         [

@@ -38,7 +38,31 @@ You can also ignore files on the command line using `--ignore-pattern`, such as:
 npx eslint . --ignore-pattern ".config/*"
 ```
 
-## Unignoring Files
+## Ignoring Directories
+
+Ignoring directories works the same way as ignoring files, by placing a pattern in the `ignores` key of a configuration object with no other keys. For example, the following ignores the `.config` directory as a whole (meaning file search will not traverse into it at all):
+
+```js
+// eslint.config.js
+export default [
+    {
+        ignores: [".config/"]
+    }
+];
+```
+
+Unlike `.gitignore`, an ignore pattern like `.config` will only ignore the `.config` directory in the same directory as the configuration file. If you want to recursively ignore all directories named `.config`, you need to use `**/.config/`, as in this example:
+
+```js
+// eslint.config.js
+export default [
+    {
+        ignores: ["**/.config/"]
+    }
+];
+```
+
+## Unignoring Files and Directories
 
 You can also unignore files and directories that are ignored by previous patterns, including the default patterns. For example, this config unignores `node_modules/mylibrary`:
 

@@ -52,5 +52,6 @@ All of these options give you fine-grained control over how ESLint treats your c
 [**Ignore Files**](ignore)
 
 * [Ignoring Files](./ignore#ignoring-files)
-* [Unignoring Files](./ignore#unignoring-files)
+* [Ignoring Directories](./ignore#ignoring-directories)
+* [Unignoring Files and Directories](./ignore#unignoring-files-and-directories)
 * [Ignored File Warnings](./ignore#ignored-file-warnings)
