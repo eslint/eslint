@@ -1020,6 +1020,199 @@ ruleTester.run("no-restricted-imports", rule, {
             endColumn: 18
         }]
     },
+
+    // https://github.com/eslint/eslint/issues/15261
+    {
+        code: "import { Image, Text, ScrollView } from 'react-native'",
+        options: [{
+            paths: [
+                {
+                    name: "react-native",
+                    importNames: ["Text"],
+                    message: "import Text from ui/_components instead"
+                },
+                {
+                    name: "react-native",
+                    importNames: ["TextInput"],
+                    message: "import TextInput from ui/_components instead"
+                },
+                { name: "react-native", importNames: ["View"], message: "import View from ui/_components instead " },
+                {
+                    name: "react-native",
+                    importNames: ["ScrollView"],
+                    message: "import ScrollView from ui/_components instead"
+                },
+                {
+                    name: "react-native",
+                    importNames: ["KeyboardAvoidingView"],
+                    message: "import KeyboardAvoidingView from ui/_components instead"
+                },
+                {
+                    name: "react-native",
+                    importNames: ["ImageBackground"],
+                    message: "import ImageBackground from ui/_components instead"
+                },
+                {
+                    name: "react-native",
+                    importNames: ["Image"],
+                    message: "import Image from ui/_components instead"
+                }
+            ]
+        }],
+        errors: [
+            {
+                message: "'Image' import from 'react-native' is restricted. import Image from ui/_components instead",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 10,
+                endColumn: 15
+            },
+            {
+                message: "'Text' import from 'react-native' is restricted. import Text from ui/_components instead",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 17,
+                endColumn: 21
+            },
+            {
+                message: "'ScrollView' import from 'react-native' is restricted. import ScrollView from ui/_components instead",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 23,
+                endColumn: 33
+            }
+        ]
+    },
+    {
+        code: "import { foo, bar, baz } from 'mod'",
+        options: [{
+            paths: [
+                {
+                    name: "mod",
+                    importNames: ["foo"],
+                    message: "Import foo from qux instead."
+                },
+                {
+                    name: "mod",
+                    importNames: ["baz"],
+                    message: "Import baz from qux instead."
+                }
+            ]
+        }],
+        errors: [
+            {
+                message: "'foo' import from 'mod' is restricted. Import foo from qux instead.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 10,
+                endColumn: 13
+            },
+            {
+                message: "'baz' import from 'mod' is restricted. Import baz from qux instead.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 20,
+                endColumn: 23
+            }
+        ]
+    },
+    {
+        code: "import * as mod from 'mod'",
+        options: [{
+            paths: [
+                {
+                    name: "mod",
+                    importNames: ["foo"],
+                    message: "Import foo from qux instead."
+                },
+                {
+                    name: "mod",
+                    importNames: ["bar"],
+                    message: "Import bar from qux instead."
+                }
+            ]
+        }],
+        errors: [
+            {
+                message: "* import is invalid because 'foo' from 'mod' is restricted. Import foo from qux instead.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 8,
+                endColumn: 16
+            },
+            {
+                message: "* import is invalid because 'bar' from 'mod' is restricted. Import bar from qux instead.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 8,
+                endColumn: 16
+            }
+        ]
+    },
+    {
+        code: "import { foo } from 'mod'",
+        options: [{
+            paths: [
+
+                // restricts importing anything from the module
+                {
+                    name: "mod"
+                },
+
+                // message for a specific import name
+                {
+                    name: "mod",
+                    importNames: ["bar"],
+                    message: "Import bar from qux instead."
+                }
+            ]
+        }],
+        errors: [
+            {
+                message: "'mod' import is restricted from being used.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 1,
+                endColumn: 26
+            }
+        ]
+    },
+    {
+        code: "import { bar } from 'mod'",
+        options: [{
+            paths: [
+
+                // restricts importing anything from the module
+                {
+                    name: "mod"
+                },
+
+                // message for a specific import name
+                {
+                    name: "mod",
+                    importNames: ["bar"],
+                    message: "Import bar from qux instead."
+                }
+            ]
+        }],
+        errors: [
+            {
+                message: "'mod' import is restricted from being used.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 1,
+                endColumn: 26
+            },
+            {
+                message: "'bar' import from 'mod' is restricted. Import bar from qux instead.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 10,
+                endColumn: 13
+            }
+        ]
+    },
+
     {
         code: "import foo, { bar } from 'mod';",
         options: [{
