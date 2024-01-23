@@ -23,7 +23,7 @@
     "lint:docs:rule-examples": "node Makefile.js checkRuleExamples",
     "lint:fix": "node Makefile.js lint -- fix",
     "lint:fix:docs:js": "node Makefile.js lintDocsJS -- fix",
-    "lint:knip": "knip",
+    "lint:imports": "knip",
     "release:generate:alpha": "node Makefile.js generatePrerelease -- alpha",
     "release:generate:beta": "node Makefile.js generatePrerelease -- beta",
     "release:generate:latest": "node Makefile.js generateRelease",
