@@ -78,6 +78,37 @@ export default [
 ];
 ```
 
+If you'd like to ignore a directory except for specific files or subdirectories, then the ignore pattern `directory/**/*` must be used instead of `directory/**`. The pattern `directory/**` ignores the entire directory and its contents, so traversal will skip over the directory completely and you cannot unignore anything inside.
+
+For example,  `build/**` ignores directory `build` and its contents, whereas `build/**/*` ignores only its contents. If you'd like to ignore everything in the `build` directory except for `build/test.js`, you'd need to create a config like this:
+
+```js
+export default [
+    {
+        ignores: [
+            "build/**/*",     // ignore all contents in and under `build/` directory but not the `build/` directory itself
+            "!build/test.js"  // unignore `!build/test.js`
+        ]
+    }
+];
+```
+
+If you'd like to ignore a directory except for specific files at any level under the directory, you should also ensure that subdirectories are not ignored. Note that while patterns that end with `/` only match directories, patterns that don't end with `/` match both files and directories so it isn't possible to write a single pattern that only ignores files, but you can achieve this with two patterns: one to ignore all contents and another to unignore subdirectories.
+
+For example, this config ignores all files in and under `build` directory except for files named `test.js` at any level:
+
+```js
+export default [
+    {
+        ignores: [
+            "build/**/*",        // ignore all contents in and under `build/` directory but not the `build/` directory itself
+            "!build/**/*/",      // unignore all subdirectories
+            "!build/**/test.js"  // unignore `test.js` files
+        ]
+    }
+];
+```
+
 Note that only global `ignores` patterns can match directories.
 `ignores` patterns that are specific to a configuration will only match file names.
 
