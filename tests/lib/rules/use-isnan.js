@@ -371,10 +371,6 @@ ruleTester.run("use-isnan", rule, {
                     {
                         messageId: "replaceWithIsNaN",
                         output: "Number.isNaN(123);"
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: "Number.isNaN(Number(123));"
                     }
                 ]
             }]
@@ -387,10 +383,6 @@ ruleTester.run("use-isnan", rule, {
                     {
                         messageId: "replaceWithIsNaN",
                         output: 'Number.isNaN("abc");'
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: 'Number.isNaN(Number("abc"));'
                     }
                 ]
             }]
@@ -435,10 +427,6 @@ ruleTester.run("use-isnan", rule, {
                     {
                         messageId: "replaceWithIsNaN",
                         output: "!Number.isNaN(123);"
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: "!Number.isNaN(Number(123));"
                     }
                 ]
             }]
@@ -451,10 +439,6 @@ ruleTester.run("use-isnan", rule, {
                     {
                         messageId: "replaceWithIsNaN",
                         output: '!Number.isNaN("abc");'
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: '!Number.isNaN(Number("abc"));'
                     }
                 ]
             }]
@@ -555,10 +539,6 @@ ruleTester.run("use-isnan", rule, {
                     {
                         messageId: "replaceWithIsNaN",
                         output: "Number.isNaN(123);"
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: "Number.isNaN(Number(123));"
                     }
                 ]
             }]
@@ -571,10 +551,6 @@ ruleTester.run("use-isnan", rule, {
                     {
                         messageId: "replaceWithIsNaN",
                         output: "Number.isNaN(\"abc\");"
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: 'Number.isNaN(Number("abc"));'
                     }
                 ]
             }]
@@ -619,10 +595,6 @@ ruleTester.run("use-isnan", rule, {
                     {
                         messageId: "replaceWithIsNaN",
                         output: "!Number.isNaN(123);"
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: "!Number.isNaN(Number(123));"
                     }
                 ]
             }]
@@ -635,10 +607,6 @@ ruleTester.run("use-isnan", rule, {
                     {
                         messageId: "replaceWithIsNaN",
                         output: '!Number.isNaN("abc");'
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: '!Number.isNaN(Number("abc"));'
                     }
                 ]
             }]
@@ -724,10 +692,6 @@ ruleTester.run("use-isnan", rule, {
                     {
                         messageId: "replaceWithIsNaN",
                         output: "Number.isNaN(x);"
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: "Number.isNaN(Number(x));"
                     }
                 ]
             }]
@@ -741,10 +705,6 @@ ruleTester.run("use-isnan", rule, {
                     {
                         messageId: "replaceWithIsNaN",
                         output: "!Number.isNaN(x);"
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: "!Number.isNaN(Number(x));"
                     }
                 ]
             }]
@@ -757,10 +717,6 @@ ruleTester.run("use-isnan", rule, {
                     {
                         messageId: "replaceWithIsNaN",
                         output: "Number.isNaN(x);"
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: "Number.isNaN(Number(x));"
                     }
                 ]
             }]
@@ -775,11 +731,6 @@ ruleTester.run("use-isnan", rule, {
                         messageId: "replaceWithIsNaN",
                         output: `/* just
                 adding */ Number.isNaN(x); // here`
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: `/* just
-                adding */ Number.isNaN(Number(x)); // here`
                     }
                 ]
             }]
@@ -792,10 +743,6 @@ ruleTester.run("use-isnan", rule, {
                     {
                         messageId: "replaceWithIsNaN",
                         output: "Number.isNaN((1, 2));"
-                    },
-                    {
-                        messageId: "replaceWithCastingAndIsNaN",
-                        output: "Number.isNaN(Number((1, 2)));"
                     }
                 ]
             }]
