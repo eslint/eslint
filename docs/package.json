@@ -60,7 +60,7 @@
         "tap-spot": "^1.1.2"
     },
     "engines": {
-        "node": ">=14.0.0"
+        "node": ">=20.0.0"
     },
     "browserslist": [
         "defaults",
