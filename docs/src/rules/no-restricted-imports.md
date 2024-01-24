@@ -140,7 +140,6 @@ Custom messages for a particular module can also be specified in `paths` array u
 
 This option in `paths` is an array and can be used to specify the names of certain bindings exported from a module. Import names specified inside `paths` array affect the module specified in the `name` property of corresponding object, so it is required to specify the `name` property first when you are using `importNames` or `message` option.
 
-
 Specifying `"default"` string inside the `importNames` array will restrict the default export from being imported.
 
 ```json
