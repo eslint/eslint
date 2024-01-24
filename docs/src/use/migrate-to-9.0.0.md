@@ -30,6 +30,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
 * [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
 * [`varsIgnorePattern` option of `no-unused-vars` no longer applies to catch arguments](#vars-ignore-pattern)
+* [`no-restricted-imports` now accepts multiple config entries with the same `name`](#no-restricted-imports)
 * [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
 * [`no-inner-declarations` has a new default behavior with a new option](#no-inner-declarations)
 
@@ -280,6 +281,41 @@ try {
 **To address:** If you want to specify ignore patterns for `catch` clause variable names, use the `caughtErrorsIgnorePattern` option in addition to `varsIgnorePattern`.
 
 **Related issue(s):** [#17540](https://github.com/eslint/eslint/issues/17540)
+
+## <a name="no-restricted-imports"></a> `no-restricted-imports` now accepts multiple config entries with the same `name`
+
+In previous versions of ESLint, if multiple entries in the `paths` array of your configuration for the `no-restricted-imports` rule had the same `name` property, only the last one would apply, while the previous ones would be ignored.
+
+As of ESLint v9.0.0, all entries apply, allowing for specifying different messages for different imported names. For example, you can now configure the rule like this:
+
+```js
+{
+    rules: {
+        "no-restricted-imports": ["error", {
+            paths: [
+                {
+                    name: "react-native",
+                    importNames: ["Text"],
+                    message: "import 'Text' from 'ui/_components' instead"
+                },
+                {
+                    name: "react-native",
+                    importNames: ["View"],
+                    message: "import 'View' from 'ui/_components' instead"
+                }
+            ]
+        }]
+    }
+}
+```
+
+and both `import { Text } from "react-native"` and `import { View } from "react-native"` will be reported, with different messages.
+
+In previous versions of ESLint, with this configuration only `import { View } from "react-native"` would be reported.
+
+**To address:** If your configuration for this rule has multiple entries with the same `name`, you may need to remove unintentional ones.
+
+**Related issue(s):** [#15261](https://github.com/eslint/eslint/issues/15261)
 
 ## <a name="string-config"></a> `"eslint:recommended"` and `"eslint:all"` no longer accepted in flat config
 
