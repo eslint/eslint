@@ -78,7 +78,9 @@ export default [
 ];
 ```
 
-Note that a pattern like `build/**` matches directory `build` and its contents, whereas `build/**/*` matches only its contents. Therefore, if you want to ignore the entire contents of a directory except for some parts, the latter pattern may be more practical. For example, this config ignores all contents of a `build` directory except for `build/test.js`:
+If you'd like to ignore a directory except for specific files or subdirectories, then the ignore pattern `directory/**/*` must be used instead of `directory/**`. The pattern `directory/**` ignores the entire directory and its contents, so traversal will skip over the directory completely and you cannot unignore anything inside.
+
+For example,  `build/**` ignores directory `build` and its contents, whereas `build/**/*` ignores only its contents. If you'd like to ignore everything in the `build` directory except for `build/test.js`, you'd need to create a config like this::
 
 ```js
 export default [
