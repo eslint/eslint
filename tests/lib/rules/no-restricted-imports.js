@@ -1117,6 +1117,91 @@ ruleTester.run("no-restricted-imports", rule, {
         ]
     },
     {
+        code: "import { foo, bar, baz, qux } from 'mod'",
+        options: [{
+            paths: [
+                {
+                    name: "mod",
+                    importNames: ["bar"],
+                    message: "Use `barbaz` instead of `bar`."
+                },
+                {
+                    name: "mod",
+                    importNames: ["foo", "qux"],
+                    message: "Don't use 'foo' and `qux` from 'mod'."
+                }
+            ]
+        }],
+        errors: [
+            {
+                message: "'foo' import from 'mod' is restricted. Don't use 'foo' and `qux` from 'mod'.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 10,
+                endColumn: 13
+            },
+            {
+                message: "'bar' import from 'mod' is restricted. Use `barbaz` instead of `bar`.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 15,
+                endColumn: 18
+            },
+            {
+                message: "'qux' import from 'mod' is restricted. Don't use 'foo' and `qux` from 'mod'.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 25,
+                endColumn: 28
+            }
+        ]
+    },
+    {
+        code: "import { foo, bar, baz, qux } from 'mod'",
+        options: [{
+            paths: [
+                {
+                    name: "mod",
+                    importNames: ["foo", "baz"],
+                    message: "Don't use 'foo' or 'baz' from 'mod'."
+                },
+                {
+                    name: "mod",
+                    importNames: ["a", "c"],
+                    message: "Don't use 'a' or 'c' from 'mod'."
+                },
+                {
+                    name: "mod",
+                    importNames: ["b", "bar"],
+                    message: "Use 'b' or `bar` from 'quux/mod' instead."
+                }
+            ]
+        }],
+        errors: [
+            {
+                message: "'foo' import from 'mod' is restricted. Don't use 'foo' or 'baz' from 'mod'.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 10,
+                endColumn: 13
+            },
+            {
+                message: "'bar' import from 'mod' is restricted. Use 'b' or `bar` from 'quux/mod' instead.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 15,
+                endColumn: 18
+            },
+            {
+                message: "'baz' import from 'mod' is restricted. Don't use 'foo' or 'baz' from 'mod'.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 20,
+                endColumn: 23
+            }
+        ]
+    },
+    {
         code: "import * as mod from 'mod'",
         options: [{
             paths: [
