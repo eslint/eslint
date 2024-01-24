@@ -22,7 +22,7 @@ It applies to static imports only, not dynamic ones.
 
 This rule has both string and object options to specify the imported modules to restrict.
 
-Simplest way to specify a module that you want to restrict from being imported is to pass it's name as a string to the options:
+Using string option, you can specify  the name of a module that you want to restrict from being imported as a value in the rule options array:
 
 ```json
 "no-restricted-imports": ["error", "import1", "import2"]
@@ -40,7 +40,7 @@ import fs from 'fs';
 
 :::
 
-Specified string can also restrict the module from being exported:
+String options also restrict the module from being exported, as in this example:
 
 ::: incorrect { "sourceType": "module" }
 
@@ -75,7 +75,7 @@ export { foo } from "bar";
 
 :::
 
-You may also specify a custom message for a particular module simply using `name` and `message` properties inside an object, where the value of the `name` property will be the name of the module and `message` property will contain the custom message. The custom message will be appended to the default error message:
+You may also specify a custom message for a particular module using the `name` and `message` properties inside an object, where the value of the `name` is the name of the module and `message` property contains the custom message. (The custom message is appended to the default error message from the rule.)
 
 ```json
 "no-restricted-imports": ["error", {
@@ -104,7 +104,7 @@ import foo from 'disallowed-import';
 
 ### paths
 
-This is an object option whose value is an array and the name of the module you want to restrict can be specified inside this array, same as in string option above.
+This is an object option whose value is an array containing the names of the modules you want to restrict.
 
 ```json
 "no-restricted-imports": ["error", { "paths": ["import1", "import2"] }]
@@ -122,7 +122,7 @@ import cluster from 'cluster';
 
 :::
 
-Custom messages for a particular module can also be specified in `paths` array option using objects as above.
+Custom messages for a particular module can also be specified in `paths` array using objects with `name` and `message`.
 
 ```json
 "no-restricted-imports": ["error", {
@@ -138,9 +138,10 @@ Custom messages for a particular module can also be specified in `paths` array o
 
 #### importNames
 
-This option in `paths` is an array and can be used to specify certain imports to restrict that are being exported from a module. Import names specified inside `paths` array looks for the module specified in the `name` property of corresponding object, so it is required to specify the `name` key with both `importNames` and `message` options.
+This option in `paths` is an array and can be used to specify the names of certain bindings exported from a module. Import names specified inside `paths` array affect the module specified in the `name` property of corresponding object, so it is required to specify the `name` property first when you are using `importNames` or `message` option.
 
-Passing `"default"` string inside the `importNames` array will restrict the import that is being exported by default by the module.
+
+Specifying `"default"` string inside the `importNames` array will restrict the default export from being imported.
 
 ```json
 "no-restricted-imports": ["error", {
@@ -204,7 +205,7 @@ import * as Foo from "foo";
 
 Examples of **correct** code for `importNames` in `paths`:
 
-Other strings doesn't report default exported import even if the names are same:
+If the local name assigned to a default export is the same as a string in `importNames`, this will not cause an error.
 
 ::: correct { "sourceType": "module" }
 
@@ -232,9 +233,9 @@ import { AllowedObject as DisallowedObject } from "foo";
 
 ### patterns
 
-This is also an object option whose value is an array. This option comes handy when you need to restrict the modules present inside a perticular directory. Simply, you can specify the modules inside the directories you want to restrict as string in `gitignore-style` patterns.
+This is also an object option whose value is an array. This option allows you to specify multiple modules to restrict using `gitignore`-style patterns.
 
-Since the patterns follows the `gitignore-style` then if you want to reinclude any particular module this can be done by prefixing a negation (`!`) mark in front of the pattern and it's good to keep the negation patterns in last as `gitignore-style` follows order:
+Because the patterns follow the `gitignore`-style, if you want to reinclude any particular module this can be done by prefixing a negation (`!`) mark in front of the pattern. (Negated patterns should come last in the array because order is important.)
 
 ```json
 "no-restricted-imports": ["error", {
@@ -274,7 +275,7 @@ import pick from 'import1/private/someModule';
 
 :::
 
-In last example `"!import1/private/*"` is not reincluding the modules inside private directory because in `gitignore-style` negation mark (`!`) does not reinclude the files if it's parent directory is excluded by a pattern. In this case `import1/private` directory is already excluded by the `import1/*` pattern, but excluded directory can be reincluded like using `"!import1/private"`.
+In this example, `"!import1/private/*"` is not reincluding the modules inside `private` because the negation mark (`!`) does not reinclude the files if it's parent directory is excluded by a pattern. In this case, `import1/private` directory is already excluded by the `import1/*` pattern. (The excluded directory can be reincluded using `"!import1/private"`.)
 
 Examples of **correct** code for `pattern` option:
 
@@ -310,9 +311,9 @@ import pick from 'import1/private/someModule';
 
 #### group
 
-Alternatively you can use this object property which is an array to specify the `gitignore-style` patterns for restricting modules. Custom messages can also be specified like `paths`.
+The `patterns` array can also include objects. The `group` property is used to specify the `gitignore`-style patterns for restricting modules and the `message` property is used to specify a custom message.
 
-This is a required property if you are using object options inside the `patterns` array:
+The `group` property is required property when using objects inside the `patterns` array.
 
 ```json
 "no-restricted-imports": ["error", {
@@ -358,7 +359,7 @@ import lodash from 'lodash';
 
 #### caseSensitive
 
-This is a boolean option and allows the patterns specified in the `group` array to be case-sensitive when sets to `true`. Default is `false`:
+This is a boolean option and sets the patterns specified in the `group` array to be case-sensitive when `true`. Default is `false`.
 
 ```json
 "no-restricted-imports": ["error", {
@@ -401,7 +402,7 @@ import pick from 'food';
 
 #### importNames
 
-`patterns` too has an `importNames` property and this works similar as in `paths`, it just looks for patterns specified inside the `group` array:
+You can also specify `importNames` on objects inside of `patterns`. In this case, the specified names are applied only to the specified `group`.
 
 ```json
 "no-restricted-imports": ["error", {
