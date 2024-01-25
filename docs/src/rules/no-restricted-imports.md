@@ -518,14 +518,6 @@ import isEmpty, { hasValue } from 'utils/collection-utils';
 
 :::
 
-To restrict the use of all Node.js core imports (via <https://github.com/nodejs/node/tree/master/lib>):
-
-```json
-    "no-restricted-imports": ["error",
-         "assert","buffer","child_process","cluster","crypto","dgram","dns","domain","events","freelist","fs","http","https","module","net","os","path","punycode","querystring","readline","repl","smalloc","stream","string_decoder","sys","timers","tls","tracing","tty","url","util","vm","zlib"
-    ],
-```
-
 ## When Not To Use It
 
 Don't use this rule or don't include a module in the list for this rule if you want to be able to import a module in your project without an ESLint error or warning.
