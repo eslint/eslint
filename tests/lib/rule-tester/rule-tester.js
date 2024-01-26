@@ -793,7 +793,7 @@ describe("RuleTester", () => {
                     { code: "eval('')", output: "eval('')", errors: 1 }
                 ]
             });
-        }, "Either omit the 'output' property or set it to null if there is no autofix.");
+        }, "Test error object 'output' matches 'code'. If no autofix is expected, then omit the 'output' property or set it to null.");
     });
 
     it("should throw an error when the expected output isn't specified and problems produce output", () => {
@@ -2180,7 +2180,7 @@ describe("RuleTester", () => {
                             }]
                         }]
                     });
-                }, "Error should have suggestions on error with message: \"Avoid using identifiers named 'foo'.\"");
+                }, "Error should have no suggestions on error with message: \"Avoid using identifiers named 'foo'.\"");
             });
         });
 
@@ -2198,7 +2198,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, 'Error should have no suggestions on error with message: "Bad var."');
+            }, 'Error should have suggestions on error with message: "Bad var."');
         });
 
         it("should support specifying only the amount of suggestions", () => {
@@ -2248,6 +2248,21 @@ describe("RuleTester", () => {
                     }]
                 });
             }, "Error should have 2 suggestions. Instead found 1 suggestions");
+        });
+
+        it("should fail when the suggestion property is neither a number nor an array", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
+                            suggestions: "1"
+                        }]
+                    }]
+                });
+            }, "Test error object property 'suggestions' should be an array or a number");
         });
 
         it("should throw if suggestion fix made a syntax error.", () => {
