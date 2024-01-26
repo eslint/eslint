@@ -1,3 +1,26 @@
+v9.0.0-alpha.2 - January 26, 2024
+
+* [`6ffdcbb`](https://github.com/eslint/eslint/commit/6ffdcbb8c51956054d3f81c5ce446c15dcd51a6f) chore: upgrade @eslint/js@9.0.0-alpha.2 (#18038) (Milos Djermanovic)
+* [`2c12715`](https://github.com/eslint/eslint/commit/2c1271528e88d0c3c6a92eeee902001f1703d5c9) chore: package.json update for @eslint/js release (Jenkins)
+* [`cc74c4d`](https://github.com/eslint/eslint/commit/cc74c4da99368b97494b924dbea1cb6e87adec53) chore: upgrade espree@10.0.0 (#18037) (Milos Djermanovic)
+* [`26093c7`](https://github.com/eslint/eslint/commit/26093c76903310d12f21e24e73d97c0d2ac1f359) feat: fix false negatives in `no-this-before-super` (#17762) (Yosuke Ota)
+* [`57089cb`](https://github.com/eslint/eslint/commit/57089cb5166acf8b8bdba8a8dbeb0a129f841478) feat!: no-restricted-imports allow multiple config entries for same path (#18021) (Milos Djermanovic)
+* [`33d1ab0`](https://github.com/eslint/eslint/commit/33d1ab0b6ea5fcebca7284026d2396df41b06566) docs: add more examples to flat config ignores docs (#18020) (Milos Djermanovic)
+* [`e6eebca`](https://github.com/eslint/eslint/commit/e6eebca90750ef5c7c99d4fe3658553cf737dab8) docs: Update sort-keys options properties count (#18025) (LB (Ben Johnston))
+* [`dfb68b6`](https://github.com/eslint/eslint/commit/dfb68b63ce6e8df6ffe81bd843e650c5b017dce9) chore: use Node.js 20 for docs sites (#18026) (Milos Djermanovic)
+* [`8c1b8dd`](https://github.com/eslint/eslint/commit/8c1b8dda169920c4e3b99f6548f9c872d65ee426) test: add more tests for ignoring files and directories (#18018) (Milos Djermanovic)
+* [`60b966b`](https://github.com/eslint/eslint/commit/60b966b6861da11617ddc15487bd7a51c584c596) chore: update dependency @eslint/js to v9.0.0-alpha.1 (#18014) (renovate[bot])
+* [`5471e43`](https://github.com/eslint/eslint/commit/5471e435d12bf5add9869d81534b147e445a2368) feat: convert unsafe autofixes to suggestions in `no-implicit-coercion` (#17985) (Gürgün Dayıoğlu)
+* [`2e1d549`](https://github.com/eslint/eslint/commit/2e1d54960051b59e1c731fa44c2ef843290b1335) feat!: detect duplicate test cases (#17955) (Bryan Mishkin)
+* [`1fedfd2`](https://github.com/eslint/eslint/commit/1fedfd28a46d86b2fbcf06a2328befafd6535a88) docs: Improve flat config ignores docs (#17997) (Nicholas C. Zakas)
+* [`e3051be`](https://github.com/eslint/eslint/commit/e3051be6366b00e1571e702023a351177d24e443) feat: emit warning when `.eslintignore` file is detected (#17952) (Nitin Kumar)
+* [`38b9b06`](https://github.com/eslint/eslint/commit/38b9b06695f88c70441dd15ae5d97ffd8088be23) docs: update valid-typeof rule (#18001) (Tanuj Kanti)
+* [`39076fb`](https://github.com/eslint/eslint/commit/39076fb5e4c7fa10b305d510f489aff34a5f5d99) fix: handle absolute file paths in `RuleTester` (#17989) (Nitin Kumar)
+* [`b4abfea`](https://github.com/eslint/eslint/commit/b4abfea4c1703a50f1ce639e3207ad342a56f79d) docs: Update note about ECMAScript support (#17991) (Francesco Trotta)
+* [`c893bc0`](https://github.com/eslint/eslint/commit/c893bc0bdf1bca256fbab6190358e5f922683249) chore: update `markdownlint` to `v0.33.0` (#17995) (Nitin Kumar)
+* [`6788873`](https://github.com/eslint/eslint/commit/6788873328a7f974d5e45c0be06ca0c7dd409acd) docs: Update release blog post template (#17994) (Nicholas C. Zakas)
+* [`1f37442`](https://github.com/eslint/eslint/commit/1f3744278433006042b8d5f4e9e1e488b2bbb011) docs: Add sections on non-npm plugin configuration (#17984) (Nicholas C. Zakas)
+
 v9.0.0-alpha.1 - January 12, 2024
 
 * [`c5e50ee`](https://github.com/eslint/eslint/commit/c5e50ee65cf22871770b1d4d438b9056c577f646) chore: package.json update for @eslint/js release (Jenkins)
