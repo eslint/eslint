@@ -77,7 +77,7 @@
     "escape-string-regexp": "^4.0.0",
     "eslint-scope": "^8.0.0",
     "eslint-visitor-keys": "^3.4.3",
-    "espree": "^9.6.1",
+    "espree": "^10.0.0",
     "esquery": "^1.4.2",
     "esutils": "^2.0.2",
     "fast-deep-equal": "^3.1.3",
