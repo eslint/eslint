@@ -1159,6 +1159,7 @@
         }
     },
     "no-implicit-coercion": {
+        "hasSuggestions": true,
         "type": "suggestion",
         "docs": {
             "description": "Disallow shorthand type conversions",

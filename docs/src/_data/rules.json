@@ -792,7 +792,7 @@
                 "description": "Disallow shorthand type conversions",
                 "recommended": false,
                 "fixable": true,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "no-implicit-globals",
