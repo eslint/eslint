@@ -43,7 +43,7 @@ function install() {
             { filename: "code.js" },
         );
         if (messages.some((m) => m.fatal)) {
-            // If it contains a fatal error, change it to `ecmaVersion: 2015` and re-parse it.
+            // If it contains a fatal error, change it to remove `ecmaVersion: 2015` and re-parse it.
             messages = linter.verify(
                 code,
                 { languageOptions: { sourceType: "script" } },
