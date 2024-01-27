@@ -88,21 +88,21 @@ function install() {
                             : new Prism.Token(token.type, content, token.alias);
                 }
                 while (currentRange && content && currentRange[0] < start + content.length) {
-                    if (start < currentRange[0]) {
-                        const before = content.slice(0, currentRange[0] - start);
+                    const before = content.slice(0, Math.max(currentRange[0] - start, 0));
+                    if (before) {
                         yield buildToken(before);
                     }
                     const mark = content.slice(
                         Math.max(currentRange[0] - start, 0),
-                        currentRange[1] - start
+                        currentRange[1] - start,
                     );
                     yield new Prism.Token(
                         [typeof token === "string" ? "" : token.type, "eslint-marked"].join(" "),
                         mark,
-                        token.alias
+                        token.alias,
                     );
                     content = content.slice(currentRange[1] - start);
-                    start = start + mark.length;
+                    start = start + before.length + mark.length;
                     if (currentRange[1] <= start) {
                         currentRange = ranges.shift();
                     }
