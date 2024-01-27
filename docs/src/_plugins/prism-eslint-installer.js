@@ -36,7 +36,15 @@ function install() {
         }
 
         // Run lint to extract the error range.
-        const messages = linter.verify(code, {}, { filename: "code.js" });
+        let messages = linter.verify(code, {}, { filename: "code.js" });
+        if (messages.some((m) => m.fatal)) {
+            // If it contains a parsing error, change it to `sourceType: 'script'` and re-parse it.
+            messages = linter.verify(
+                code,
+                { languageOptions: { sourceType: "script" } },
+                { filename: "code.js" },
+            );
+        }
         const ranges = messages.map((m) => {
             const start = getIndexFromLoc({
                 line: m.line,
