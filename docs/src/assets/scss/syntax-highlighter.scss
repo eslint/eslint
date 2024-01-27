@@ -99,6 +99,10 @@ pre[class*="language-"] {
     cursor: help;
 }
 
+.token.eslint-marked {
+    border-bottom: 1px solid red;
+}
+
 .line-numbers-wrapper {
     position: absolute;
     top: 0;
