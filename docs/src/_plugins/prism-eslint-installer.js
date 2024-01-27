@@ -68,7 +68,7 @@ function install() {
             for (const token of tokens) {
                 if (!currentRange) {
                     yield token;
-                    return;
+                    continue;
                 }
                 let content;
                 let buildToken;
