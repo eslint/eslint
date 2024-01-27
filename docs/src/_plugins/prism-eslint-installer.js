@@ -36,12 +36,25 @@ function install() {
         }
 
         // Run lint to extract the error range.
-        let messages = linter.verify(code, {}, { filename: "code.js" });
+        // Use `sourceType: "script"` and `ecmaVersion: 2015` to make the initial parsing loose.
+        let messages = linter.verify(
+            code,
+            { languageOptions: { sourceType: "script", parserOptions: { ecmaVersion: 2015 } } },
+            { filename: "code.js" },
+        );
         if (messages.some((m) => m.fatal)) {
-            // If it contains a parsing error, change it to `sourceType: 'script'` and re-parse it.
+            // If it contains a fatal error, change it to `ecmaVersion: 2015` and re-parse it.
             messages = linter.verify(
                 code,
                 { languageOptions: { sourceType: "script" } },
+                { filename: "code.js" },
+            );
+        }
+        if (messages.some((m) => m.fatal)) {
+            // If it contains a fatal error, change it to `sourceType: 'module'` and re-parse it.
+            messages = linter.verify(
+                code,
+                { languageOptions: { sourceType: "module" } },
                 { filename: "code.js" },
             );
         }
