@@ -1,5 +1,7 @@
 "use strict";
 
+const { addContentMustBeMarked } = require("./prism-eslint-hook");
+
 /** @typedef {import("../../lib/shared/types").ParserOptions} ParserOptions */
 
 /**
@@ -80,6 +82,8 @@ function markdownItRuleExample({ open, close }) {
                 .replace(/⏎(?=\n)/gu, "");
 
             const text = open({ type, code, parserOptions, codeBlockToken, env });
+
+            addContentMustBeMarked(codeBlockToken.content, parserOptions);
 
             // Return an empty string to avoid appending unexpected text to the output.
             return typeof text === "string" ? text : "";
