@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "9.0.0-alpha.0",
+  "version": "9.0.0-alpha.2",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -31,8 +31,7 @@
     "test": "node Makefile.js test",
     "test:cli": "mocha",
     "test:fuzz": "node Makefile.js fuzz",
-    "test:performance": "node Makefile.js perf",
-    "trunk": "trunk"
+    "test:performance": "node Makefile.js perf"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -103,7 +102,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
-    "@trunkio/launcher": "^1.2.4",
+    "@trunkio/launcher": "^1.3.0",
     "@wdio/browser-runner": "^8.14.6",
     "@wdio/cli": "^8.14.6",
     "@wdio/concise-reporter": "^8.14.0",

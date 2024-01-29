@@ -2,13 +2,13 @@
 # To learn more about the format of this file, see https://docs.trunk.io/reference/trunk-yaml
 version: 0.1
 cli:
-    version: 1.18.2-beta.14
+    version: 1.19.0
 # Trunk provides extensibility via plugins. (https://docs.trunk.io/plugins)
 plugins:
     sources:
         - id: trunk
           uri: https://github.com/trunk-io/plugins
-          ref: 3b669ebca634c090a400a989f3a753a33fb09003
+          ref: v1.4.2
 
 # Many linters and tools depend on runtimes - configure them here. (https://docs.trunk.io/runtimes)
 runtimes:
@@ -17,6 +17,8 @@ runtimes:
         - node@18.12.1
         - python@3.10.8
 tools:
+    enabled:
+        - gh@2.42.1
     runtimes: [node]
 
 # This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
@@ -29,17 +31,17 @@ lint:
     enabled:
         - eslint
         - actionlint@1.6.26
-        - checkov@3.1.51
+        - checkov@3.2.0
         - git-diff-check
-        - markdownlint@0.38.0
+        - markdownlint@0.39.0
         - oxipng@9.0.0
-        - prettier@3.1.1
-        - renovate@37.122.0
+        - prettier@3.2.4
+        - renovate@37.154.0
         - shellcheck@0.9.0
         - shfmt@3.6.0
         - svgo@3.2.0
-        - trivy@0.48.2
-        - trufflehog@3.63.7
+        - trivy@0.48.3
+        - trufflehog@3.65.0
         - yamllint@1.33.0
     ignore:
         - linters: [markdownlint]
@@ -57,10 +59,10 @@ lint:
               - docs/**
         - linters: [prettier]
           paths:
-            # Ignore all files
-            - "**"
-            # Except for json files in conf/
-            - "!conf/**/*.json"
+              # Ignore all files
+              - "**"
+              # Except for json files in conf/
+              - "!conf/**/*.json"
 actions:
     disabled:
         - trunk-announce
