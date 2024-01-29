@@ -807,12 +807,7 @@ Example output:
 
 ```text
 
-<<<<<<< HEAD
-C:\projects\eslint\fullOfProblems.js
-
-=======
 /var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js
->>>>>>> upstream/main
   1:10  error    'addOne' is defined but never used            no-unused-vars
   2:9   error    Use the isNaN function to compare with NaN    use-isnan
   3:16  error    Unexpected space before unary operator '++'   space-unary-ops
