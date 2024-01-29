@@ -71,14 +71,17 @@ function installPrismESLintMarkerHook() {
          * Run lint to extract the error range.
          */
         const messages = linter.verify(
-            code,
+
+            // Remove trailing newline and presentational `⏎` characters
+            code.replace(/⏎(?=\n)/gu, ""),
             { languageOptions: { sourceType: parserOptions.sourceType, parserOptions } },
             { filename: "code.js" }
         );
 
         if (messages.some(m => m.fatal)) {
-            console.log(code);
-            throw new Error(`ESLint fatal error: ${messages.find(m => m.fatal).message}`);
+
+            // ESLint fatal error.
+            return;
         }
         const ranges = messages.map(m => {
             const start = getIndexFromLoc({
@@ -145,7 +148,13 @@ function installPrismESLintMarkerHook() {
                     );
 
                     yield new Prism.Token(
-                        [typeof token === "string" ? "" : token.type, "eslint-marked"].join(" "),
+                        [
+                            typeof token === "string" ? "" : token.type,
+                            "eslint-marked",
+                            mark === "\n" && (currentRange[0] + 1 === currentRange[1])
+                                ? "eslint-marked-line-feed"
+                                : null
+                        ].filter(Boolean).join(" "),
                         mark,
                         token.alias
                     );

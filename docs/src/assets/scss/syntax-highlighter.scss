@@ -103,6 +103,12 @@ pre[class*="language-"] {
     border-bottom: 1px solid red;
 }
 
+.token.eslint-marked-line-feed {
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 4px solid #d11;
+}
+
 .line-numbers-wrapper {
     position: absolute;
     top: 0;
