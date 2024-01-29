@@ -30,6 +30,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
 * [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
 * [`varsIgnorePattern` option of `no-unused-vars` no longer applies to catch arguments](#vars-ignore-pattern)
+* [`no-restricted-imports` now accepts multiple config entries with the same `name`](#no-restricted-imports)
 * [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
 * [`no-inner-declarations` has a new default behavior with a new option](#no-inner-declarations)
 
@@ -281,6 +282,41 @@ try {
 
 **Related issue(s):** [#17540](https://github.com/eslint/eslint/issues/17540)
 
+## <a name="no-restricted-imports"></a> `no-restricted-imports` now accepts multiple config entries with the same `name`
+
+In previous versions of ESLint, if multiple entries in the `paths` array of your configuration for the `no-restricted-imports` rule had the same `name` property, only the last one would apply, while the previous ones would be ignored.
+
+As of ESLint v9.0.0, all entries apply, allowing for specifying different messages for different imported names. For example, you can now configure the rule like this:
+
+```js
+{
+    rules: {
+        "no-restricted-imports": ["error", {
+            paths: [
+                {
+                    name: "react-native",
+                    importNames: ["Text"],
+                    message: "import 'Text' from 'ui/_components' instead"
+                },
+                {
+                    name: "react-native",
+                    importNames: ["View"],
+                    message: "import 'View' from 'ui/_components' instead"
+                }
+            ]
+        }]
+    }
+}
+```
+
+and both `import { Text } from "react-native"` and `import { View } from "react-native"` will be reported, with different messages.
+
+In previous versions of ESLint, with this configuration only `import { View } from "react-native"` would be reported.
+
+**To address:** If your configuration for this rule has multiple entries with the same `name`, you may need to remove unintentional ones.
+
+**Related issue(s):** [#15261](https://github.com/eslint/eslint/issues/15261)
+
 ## <a name="string-config"></a> `"eslint:recommended"` and `"eslint:all"` no longer accepted in flat config
 
 In ESLint v8.x, `eslint.config.js` could refer to `"eslint:recommended"` and `"eslint:all"` configurations by inserting a string into the config array, as in this example:
@@ -463,10 +499,11 @@ In order to aid in the development of high-quality custom rules that are free fr
 
 1. **Suggestion messages must be unique.** Because suggestions are typically displayed in an editor as a dropdown list, it's important that no two suggestions for the same lint problem have the same message. Otherwise, it's impossible to know what any given suggestion will do. This additional check runs automatically.
 1. **Suggestions must generate valid syntax.** In order for rule suggestions to be helpful, they need to be valid syntax. `RuleTester` now parses the output of suggestions using the same language options as the `code` value and throws an error if parsing fails.
+1. **Test cases must be unique.** Identical test cases can cause confusion and be hard to detect manually in a long test file. Duplicates are now automatically detected and can be safely removed.
 
 **To address:** Run your rule tests using `RuleTester` and fix any errors that occur. The changes you'll need to make to satisfy `RuleTester` are compatible with ESLint v8.x.
 
-**Related Issues(s):** [#15735](https://github.com/eslint/eslint/issues/15735), [#16908](https://github.com/eslint/eslint/issues/16908)
+**Related Issues(s):** [#15104](https://github.com/eslint/eslint/issues/15104), [#15735](https://github.com/eslint/eslint/issues/15735), [#16908](https://github.com/eslint/eslint/issues/16908)
 
 ## <a name="flat-eslint"></a> `FlatESLint` is now `ESLint`
 

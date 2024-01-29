@@ -78,8 +78,7 @@ Example output (formatted for easier reading):
 {
     "results": [
         {
-
-            "filePath": "C:\\projects\\eslint\\fullOfProblems.js",
+            "filePath": "/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js",
             "messages": [
                 {
                     "ruleId": "no-unused-vars",
@@ -203,31 +202,13 @@ Example output (formatted for easier reading):
                         ],
                         "text": ";"
                     }
-                },
-                {
-                    "ruleId": "no-extra-semi",
-                    "severity": 2,
-                    "message": "Unnecessary semicolon.",
-                    "line": 7,
-                    "column": 2,
-                    "nodeType": "EmptyStatement",
-                    "messageId": "unexpected",
-                    "endLine": 7,
-                    "endColumn": 3,
-                    "fix": {
-                        "range": [
-                            93,
-                            95
-                        ],
-                        "text": "}"
-                    }
                 }
             ],
             "suppressedMessages": [],
-            "errorCount": 5,
+            "errorCount": 4,
             "fatalErrorCount": 0,
             "warningCount": 4,
-            "fixableErrorCount": 2,
+            "fixableErrorCount": 1,
             "fixableWarningCount": 4,
             "source": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } else {\n      return\n    }\n};"
         }
@@ -681,7 +662,7 @@ Example output (formatted for easier reading):
 ```json
 [
     {
-        "filePath": "C:\\projects\\eslint\\fullOfProblems.js",
+        "filePath": "/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js",
         "messages": [
             {
                 "ruleId": "no-unused-vars",
@@ -805,31 +786,13 @@ Example output (formatted for easier reading):
                     ],
                     "text": ";"
                 }
-            },
-            {
-                "ruleId": "no-extra-semi",
-                "severity": 2,
-                "message": "Unnecessary semicolon.",
-                "line": 7,
-                "column": 2,
-                "nodeType": "EmptyStatement",
-                "messageId": "unexpected",
-                "endLine": 7,
-                "endColumn": 3,
-                "fix": {
-                    "range": [
-                        93,
-                        95
-                    ],
-                    "text": "}"
-                }
             }
         ],
         "suppressedMessages": [],
-        "errorCount": 5,
+        "errorCount": 4,
         "fatalErrorCount": 0,
         "warningCount": 4,
-        "fixableErrorCount": 2,
+        "fixableErrorCount": 1,
         "fixableWarningCount": 4,
         "source": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } else {\n      return\n    }\n};"
     }
@@ -844,8 +807,12 @@ Example output:
 
 ```text
 
+<<<<<<< HEAD
 C:\projects\eslint\fullOfProblems.js
 
+=======
+/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js
+>>>>>>> upstream/main
   1:10  error    'addOne' is defined but never used            no-unused-vars
   2:9   error    Use the isNaN function to compare with NaN    use-isnan
   3:16  error    Unexpected space before unary operator '++'   space-unary-ops
@@ -854,9 +821,8 @@ C:\projects\eslint\fullOfProblems.js
   5:1   warning  Expected indentation of 8 spaces but found 6  indent
   5:7   error    Function 'addOne' expected a return value     consistent-return
   5:13  warning  Missing semicolon                             semi
-  7:2   error    Unnecessary semicolon                         no-extra-semi
 
-✖ 9 problems (5 errors, 4 warnings)
-  2 errors and 4 warnings potentially fixable with the `--fix` option.
+✖ 8 problems (4 errors, 4 warnings)
+  1 error and 4 warnings potentially fixable with the `--fix` option.
 
 ```

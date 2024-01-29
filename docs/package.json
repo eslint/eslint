@@ -1,7 +1,7 @@
 {
     "name": "docs-eslint",
     "private": true,
-    "version": "9.0.0-alpha.0",
+    "version": "9.0.0-alpha.2",
     "description": "",
     "main": "index.js",
     "keywords": [],
@@ -60,7 +60,7 @@
         "tap-spot": "^1.1.2"
     },
     "engines": {
-        "node": ">=14.0.0"
+        "node": ">=20.0.0"
     },
     "browserslist": [
         "defaults",

@@ -90,15 +90,22 @@ describe("bin/eslint.js", () => {
         });
 
         it("has exit code 0 if no linting errors are reported", () => {
-            const child = runESLint([
-                "--stdin",
-                "--no-config-lookup",
-                "--rule",
-                "{'no-extra-semi': 2}",
-                "--fix-dry-run",
-                "--format",
-                "json"
-            ]);
+            const child = runESLint(
+                [
+                    "--stdin",
+                    "--no-config-lookup",
+                    "--rule",
+                    "{'no-extra-semi': 2}",
+                    "--fix-dry-run",
+                    "--format",
+                    "json"
+                ],
+                {
+
+                    // Use the tests directory as the CWD to supress the ESLintIgnoreWarning
+                    cwd: path.resolve(__dirname, "../")
+                }
+            );
 
             const expectedOutput = JSON.stringify([
                 {

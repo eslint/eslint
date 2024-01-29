@@ -126,7 +126,7 @@ ruleTester.run("no-implicit-coercion", rule, {
             code: "!!foo",
             output: "Boolean(foo)",
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Boolean(foo)" },
                 type: "UnaryExpression"
             }]
@@ -135,8 +135,41 @@ ruleTester.run("no-implicit-coercion", rule, {
             code: "!!(foo + bar)",
             output: "Boolean(foo + bar)",
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Boolean(foo + bar)" },
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "!!(foo + bar); var Boolean = null",
+            output: null,
+            errors: [{
+                messageId: "implicitCoercion",
+                data: { recommendation: "Boolean(foo + bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Boolean(foo + bar)" },
+                    output: "Boolean(foo + bar); var Boolean = null"
+                }],
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "!!(foo + bar)",
+            output: null,
+            languageOptions: {
+                globals: {
+                    Boolean: "off"
+                }
+            },
+            errors: [{
+                messageId: "implicitCoercion",
+                data: { recommendation: "Boolean(foo + bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Boolean(foo + bar)" },
+                    output: "Boolean(foo + bar)"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -144,7 +177,7 @@ ruleTester.run("no-implicit-coercion", rule, {
             code: "~foo.indexOf(1)",
             output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "foo.indexOf(1) !== -1" },
                 type: "UnaryExpression"
             }]
@@ -153,17 +186,22 @@ ruleTester.run("no-implicit-coercion", rule, {
             code: "~foo.bar.indexOf(2)",
             output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "foo.bar.indexOf(2) !== -1" },
                 type: "UnaryExpression"
             }]
         },
         {
             code: "+foo",
-            output: "Number(foo)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "Number(foo)"
+                }],
                 type: "UnaryExpression"
             }]
         },
@@ -171,181 +209,276 @@ ruleTester.run("no-implicit-coercion", rule, {
             code: "-(-foo)",
             output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "Number(foo)"
+                }],
                 type: "UnaryExpression"
             }]
         },
         {
             code: "+foo.bar",
-            output: "Number(foo.bar)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo.bar)" },
+                    output: "Number(foo.bar)"
+                }],
                 type: "UnaryExpression"
             }]
         },
         {
             code: "1*foo",
-            output: "Number(foo)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "Number(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "foo*1",
-            output: "Number(foo)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "Number(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "1*foo.bar",
-            output: "Number(foo.bar)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo.bar)" },
+                    output: "Number(foo.bar)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "foo.bar-0",
-            output: "Number(foo.bar)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo.bar)" },
+                    output: "Number(foo.bar)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "\"\"+foo",
-            output: "String(foo)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "``+foo",
-            output: "String(foo)",
+            output: null,
             languageOptions: { ecmaVersion: 6 },
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "foo+\"\"",
-            output: "String(foo)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "foo+``",
-            output: "String(foo)",
+            output: null,
             languageOptions: { ecmaVersion: 6 },
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "\"\"+foo.bar",
-            output: "String(foo.bar)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo.bar)" },
+                    output: "String(foo.bar)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "``+foo.bar",
-            output: "String(foo.bar)",
+            output: null,
             languageOptions: { ecmaVersion: 6 },
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo.bar)" },
+                    output: "String(foo.bar)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "foo.bar+\"\"",
-            output: "String(foo.bar)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo.bar)" },
+                    output: "String(foo.bar)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "foo.bar+``",
-            output: "String(foo.bar)",
+            output: null,
             languageOptions: { ecmaVersion: 6 },
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo.bar)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo.bar)" },
+                    output: "String(foo.bar)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "`${foo}`",
-            output: "String(foo)",
+            output: null,
             options: [{ disallowTemplateShorthand: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "TemplateLiteral"
             }]
         },
         {
             code: "`\\\n${foo}`",
-            output: "String(foo)",
+            output: null,
             options: [{ disallowTemplateShorthand: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "TemplateLiteral"
             }]
         },
         {
             code: "`${foo}\\\n`",
-            output: "String(foo)",
+            output: null,
             options: [{ disallowTemplateShorthand: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "String(foo)"
+                }],
                 type: "TemplateLiteral"
             }]
         },
         {
             code: "foo += \"\"",
-            output: "foo = String(foo)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "foo = String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "foo = String(foo)" },
+                    output: "foo = String(foo)"
+                }],
                 type: "AssignmentExpression"
             }]
         },
         {
             code: "foo += ``",
-            output: "foo = String(foo)",
+            output: null,
             languageOptions: { ecmaVersion: 6 },
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "foo = String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "foo = String(foo)" },
+                    output: "foo = String(foo)"
+                }],
                 type: "AssignmentExpression"
             }]
         },
@@ -354,7 +487,7 @@ ruleTester.run("no-implicit-coercion", rule, {
             output: "var a = Boolean(foo)",
             options: [{ boolean: true, allow: ["~"] }],
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Boolean(foo)" },
                 type: "UnaryExpression"
             }]
@@ -364,77 +497,112 @@ ruleTester.run("no-implicit-coercion", rule, {
             output: null,
             options: [{ boolean: true, allow: ["!!"] }],
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "foo.indexOf(1) !== -1" },
                 type: "UnaryExpression"
             }]
         },
         {
             code: "var a = 1 * foo",
-            output: "var a = Number(foo)",
+            output: null,
             options: [{ boolean: true, allow: ["+"] }],
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "var a = Number(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "var a = +foo",
-            output: "var a = Number(foo)",
+            output: null,
             options: [{ boolean: true, allow: ["*"] }],
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "var a = Number(foo)"
+                }],
                 type: "UnaryExpression"
             }]
         },
         {
             code: "var a = \"\" + foo",
-            output: "var a = String(foo)",
+            output: null,
             options: [{ boolean: true, allow: ["*"] }],
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "var a = String(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "var a = `` + foo",
-            output: "var a = String(foo)",
+            output: null,
             options: [{ boolean: true, allow: ["*"] }],
             languageOptions: { ecmaVersion: 6 },
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(foo)" },
+                    output: "var a = String(foo)"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "typeof+foo",
-            output: "typeof Number(foo)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "typeof Number(foo)"
+                }],
                 type: "UnaryExpression"
             }]
         },
         {
             code: "typeof +foo",
-            output: "typeof Number(foo)",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(foo)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(foo)" },
+                    output: "typeof Number(foo)"
+                }],
                 type: "UnaryExpression"
             }]
         },
         {
             code: "let x ='' + 1n;",
-            output: "let x =String(1n);",
+            output: null,
             languageOptions: { ecmaVersion: 2020 },
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "String(1n)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "String(1n)" },
+                    output: "let x =String(1n);"
+                }],
                 type: "BinaryExpression"
             }]
         },
@@ -445,7 +613,7 @@ ruleTester.run("no-implicit-coercion", rule, {
             output: null,
             languageOptions: { ecmaVersion: 2020 },
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "foo?.indexOf(1) >= 0" },
                 type: "UnaryExpression"
             }]
@@ -455,7 +623,7 @@ ruleTester.run("no-implicit-coercion", rule, {
             output: null,
             languageOptions: { ecmaVersion: 2020 },
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "(foo?.indexOf)(1) !== -1" },
                 type: "UnaryExpression"
             }]
@@ -464,37 +632,57 @@ ruleTester.run("no-implicit-coercion", rule, {
         // https://github.com/eslint/eslint/issues/16373 regression tests
         {
             code: "1 * a / 2",
-            output: "Number(a) / 2",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(a)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(a)" },
+                    output: "Number(a) / 2"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "(a * 1) / 2",
-            output: "(Number(a)) / 2",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(a)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(a)" },
+                    output: "(Number(a)) / 2"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "a * 1 / (b * 1)",
-            output: "a * 1 / (Number(b))",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(b)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(b)" },
+                    output: "a * 1 / (Number(b))"
+                }],
                 type: "BinaryExpression"
             }]
         },
         {
             code: "a * 1 + 2",
-            output: "Number(a) + 2",
+            output: null,
             errors: [{
-                messageId: "useRecommendation",
+                messageId: "implicitCoercion",
                 data: { recommendation: "Number(a)" },
+                suggestions: [{
+                    messageId: "useRecommendation",
+                    data: { recommendation: "Number(a)" },
+                    output: "Number(a) + 2"
+                }],
                 type: "BinaryExpression"
             }]
         }

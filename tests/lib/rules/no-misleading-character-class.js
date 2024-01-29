@@ -118,7 +118,7 @@ ruleTester.run("no-misleading-character-class", rule, {
                 column: 11,
                 endColumn: 13,
                 messageId: "surrogatePairWithoutUFlag",
-                suggestions: null // pattern would be invalid with the 'u' flag
+                suggestions: null // pattern would be invalid with the 'u' flag, ecmaVersion doesn't support the 'u' flag
             }]
         },
         {
@@ -146,16 +146,6 @@ ruleTester.run("no-misleading-character-class", rule, {
                 endColumn: 29,
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /\\uDC4D[\\uD83D\\uDC4D]/u" }]
-            }]
-        },
-        {
-            code: "var r = /[👍]/",
-            languageOptions: { ecmaVersion: 3, sourceType: "script" },
-            errors: [{
-                column: 11,
-                endColumn: 13,
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: null // ecmaVersion doesn't support the 'u' flag
             }]
         },
         {
@@ -1355,19 +1345,6 @@ ruleTester.run("no-misleading-character-class", rule, {
                 endColumn: 16,
                 messageId: "emojiModifier",
                 suggestions: null
-            }]
-        },
-        {
-            code: "var r = /[👍]/",
-            languageOptions: {
-                ecmaVersion: 5,
-                sourceType: "script"
-            },
-            errors: [{
-                column: 11,
-                endColumn: 13,
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: null // ecmaVersion doesn't support the 'u' flag
             }]
         },
         {
