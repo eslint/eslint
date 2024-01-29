@@ -73,7 +73,7 @@ function installPrismESLintMarkerHook() {
         const messages = linter.verify(
 
             // Remove trailing newline and presentational `⏎` characters
-            code.replace(/⏎(?=\n)/gu, ""),
+            code.replace(/⏎(?=\n)/gu, "").replace(/\n$/u, ""),
             { languageOptions: { sourceType: parserOptions.sourceType, parserOptions } },
             { filename: "code.js" }
         );
