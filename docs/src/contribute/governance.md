@@ -32,12 +32,17 @@ Website Team Members are community members who have shown that they are committe
 
  Website Team Members:
 
+* Are expected to work at least one hour per week triaging issues and reviewing pull requests.
+* Are expected to work at least two hours total per week on ESLint.
+* May invoice for the hours they spend working on ESLint at a rate of $50 USD per hour.
+* Are expected to check in on Discord once per week day for team updates.
 * Are expected to work on public branches of the source repository and submit pull requests from that branch to the master branch.
 * Are expected to delete their public branches when they are no longer necessary.
 * Must submit pull requests for all changes.
 * Have their work reviewed by Reviewers and TSC members before acceptance into the repository.
 * May label and close website-related issues (see [Manage Issues](../maintain/manage-issues))
 * May merge some pull requests (see [Review Pull Requests](../maintain/review-pull-requests))
+* Are expected to notify the team in Discord if they will be unavailable for more than a few days.
 
 To become a  Website Team Member:
 
@@ -55,12 +60,19 @@ Committers are community members who have shown that they are committed to the c
 
 Committers:
 
+* Are expected to work at least one hour per week triaging issues and reviewing pull requests.
+* Are expected to work at least two hours total per week on ESLint.
+* May invoice for the hours they spend working on ESLint at a rate of $50 USD per hour.
+* Are expected to check in on Discord once per week day for team updates.
 * Are expected to work on public branches of the source repository and submit pull requests from that branch to the master branch.
 * Are expected to delete their public branches when they are no longer necessary.
+* Are expected to provided feedback on issues in the "Feedback Needed" column of the [Triage Board](https://github.com/orgs/eslint/projects/3/views/1).
+* Are expected to work on at least one issue in the "Ready to Implement" column of the [Triage Board](https://github.com/orgs/eslint/projects/3/views/1) that they didn't create each month.
 * Must submit pull requests for all changes.
 * Have their work reviewed by TSC members before acceptance into the repository.
 * May label and close issues (see [Manage Issues](../maintain/manage-issues))
 * May merge some pull requests (see [Review Pull Requests](../maintain/review-pull-requests))
+* Are expected to notify the team in Discord if they will be unavailable for more than a few days.
 
 To become a Committer:
 
@@ -74,14 +86,6 @@ It is important to recognize that committership is a privilege, not a right. Tha
 
 A Committer who shows an above-average level of contribution to the project, particularly with respect to its strategic direction and long-term health, may be nominated to become a reviewer, described below.
 
-#### Process for Adding Committers
-
-1. Send email congratulating the new committer and confirming that they would like to accept. This should also outline the responsibilities of a committer with a link to the maintainer guide.
-1. Add the GitHub user to the "ESLint Team" team
-1. Add committer email to the ESLint team mailing list
-1. Invite to Discord team channel
-1. Tweet congratulations to the new committer from the ESLint Twitter account
-
 ### Reviewers
 
 Reviewers are community members who have contributed a significant amount of time to the project through triaging of issues, fixing bugs, implementing enhancements/features, and are trusted community leaders.
@@ -90,6 +94,7 @@ Reviewers may perform all of the duties of Committers, and also:
 
 * May merge external pull requests for accepted issues upon reviewing and approving the changes.
 * May merge their own pull requests once they have collected the feedback they deem necessary. (No pull request should be merged without at least one Committer/Reviewer/TSC member comment stating they've looked at the code.)
+* May invoice for the hours they spend working on ESLint at a rate of $80 USD per hour.
 
 To become a Reviewer:
 
@@ -99,11 +104,6 @@ To become a Reviewer:
 * Have submitted a minimum of 50 qualifying pull requests.
 
 A Committer is invited to become a Reviewer by existing Reviewers and TSC members. A nomination will result in discussion and then a decision by the TSC.
-
-#### Process for Adding Reviewers
-
-1. Add the GitHub user to the "ESLint Reviewers" GitHub team
-1. Tweet congratulations to the new Reviewer from the ESLint Twitter account
 
 ### Technical Steering Committee (TSC)
 
@@ -138,18 +138,6 @@ TSC members may perform all of the duties of Reviewers, and also:
 There is no specific set of requirements or qualifications for TSC members beyond those that are expected of Reviewers.
 
 A Reviewer is invited to become a TSC member by existing TSC members. A nomination will result in discussion and then a decision by the TSC.
-
-#### Process for Adding TSC Members
-
-1. Add the GitHub user to the "ESLint TSC" GitHub team
-1. Set the GitHub user to be have the "Owner" role for the ESLint organization
-1. Send a welcome email with a link to the [Maintain ESLint documentation](../maintain/) and instructions for npm 2FA.
-1. Invite to the Discord TSC channel
-1. Make the TSC member an admin on the ESLint team mailing list
-1. Add the TSC member to the recurring TSC meeting event on Google Calendar
-1. Add the TSC member as an admin to ESLint Twitter Account on Tweetdeck
-1. Add the TSC member to the ESLint TSC mailing list as an "Owner"
-1. Tweet congratulations to the new TSC member from the ESLint Twitter account
 
 #### TSC Meetings
 
