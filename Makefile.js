@@ -48,7 +48,8 @@ const { cat, cd, echo, exec, exit, find, ls, mkdir, pwd, test } = require("shell
 const PERF_MULTIPLIER = 13e6;
 
 const OPEN_SOURCE_LICENSES = [
-    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u, /Public Domain/u, /LGPL/u, /Python/u
+    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u,
+    /Public Domain/u, /LGPL/u, /Python/u, /BlueOak/u
 ];
 
 //------------------------------------------------------------------------------
