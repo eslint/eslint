@@ -145,8 +145,8 @@ Additionally, the `context` object has the following methods:
 
 The main method you'll use when writing custom rules is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
 
+* `messageId`: (`string`) The ID of the message (see [messageIds](#messageids)) (recommended over `message`).
 * `message`: (`string`) The problem message (alternative to `messageId`).
-* `messageId`: (`string`) The ID of the message (see [messageIds](#messageids)) (recommended alternative to `message`).
 * `node`: (optional `object`) The AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
 * `loc`: (optional `object`) Specifies the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
     * `start`: An object of the start location.
