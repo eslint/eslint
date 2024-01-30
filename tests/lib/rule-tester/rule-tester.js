@@ -793,7 +793,7 @@ describe("RuleTester", () => {
                     { code: "eval('')", output: "eval('')", errors: 1 }
                 ]
             });
-        }, "Test error object 'output' matches 'code'. If no autofix is expected, then omit the 'output' property or set it to null.");
+        }, "Test property 'output' matches 'code'. If no autofix is expected, then omit the 'output' property or set it to null.");
     });
 
     it("should throw an error when the expected output isn't specified and problems produce output", () => {
@@ -1040,7 +1040,7 @@ describe("RuleTester", () => {
                     errors: [{}]
                 }]
             });
-        }, "Error must have either a 'messageId' or 'message'.");
+        }, "Test error must specify either a 'messageId' or 'message'.");
     });
 
     it("should throw an error if an error has a property besides message or messageId", () => {
@@ -1052,7 +1052,7 @@ describe("RuleTester", () => {
                     errors: [{ line: 1 }]
                 }]
             });
-        }, "Error must have either a 'messageId' or 'message'.");
+        }, "Test error must specify either a 'messageId' or 'message'.");
     });
 
     it("should pass-through the globals config of valid tests to the to rule", () => {
@@ -1917,7 +1917,7 @@ describe("RuleTester", () => {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ data: "something" }] }]
             });
-        }, "Error must have either a 'messageId' or 'message'.");
+        }, "Test error must specify either a 'messageId' or 'message'.");
     });
 
     // fixable rules with or without `meta` property
