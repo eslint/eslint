@@ -377,7 +377,7 @@ catch (error) {
 }
 ```
 
-**To address:** If you want to allow unused caught errors, such as when writing code that will be directly run in a environment that does not support ES2019 optional catch bindings, set the `caughtErrors` option to `"none"`.
+**To address:** If you want to allow unused caught errors, such as when writing code that will be directly run in an environment that does not support ES2019 optional catch bindings, set the `caughtErrors` option to `"none"`.
 Otherwise, delete the unused caught errors.
 
 ```js
