@@ -286,11 +286,9 @@ It has two settings:
 * `all` - all named arguments must be used. This is the default setting.
 * `none` - do not check error objects.
 
-:::
-
 #### caughtErrors: all
 
-Not specifying this rule is equivalent of assigning it to `all`.
+Not specifying this option is equivalent of assigning it to `all`.
 
 Examples of **incorrect** code for the `{ "caughtErrors": "all" }` option:
 
@@ -325,6 +323,8 @@ try {
     console.error("errors");
 }
 ```
+
+:::
 
 ### caughtErrorsIgnorePattern
 
