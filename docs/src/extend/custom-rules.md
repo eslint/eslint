@@ -193,7 +193,7 @@ The node contains all the information necessary to figure out the line and colum
 
 #### `messageId`s
 
-`messageId`s are the recommended alternative to typing out messages in `context.report()` calls because of the following benefits:
+`messageId`s are the recommended approach to reporting messages in `context.report()` calls because of the following benefits:
 
 * Rule violation messages can be stored in a central `meta.messages` object for convenient management
 * Rule violation messages do not need to be repeated in both the rule file and rule test file
