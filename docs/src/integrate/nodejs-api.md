@@ -784,7 +784,7 @@ Please note that `data` in a test case does not assert `data` passed to `context
 
 ### Testing Suggestions
 
-Suggestions can be tested by defining a `suggestions` key on an errors object. The options to check for the suggestions are the following:
+Suggestions can be tested by defining a `suggestions` key on an errors object. If this is a number, it asserts the number of suggestions provided for the error. Otherwise, this should be an array of objects, each containing information about a single provided suggestion. The following properties can be used:
 
 * `desc` (string): The suggestion `desc` value. Must provide this or `messageId`
 * `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s. Must provide this or `desc`
