@@ -35,7 +35,7 @@ Website Team Members are community members who have shown that they are committe
 * Are expected to work at least one hour per week triaging issues and reviewing pull requests.
 * Are expected to work at least two hours total per week on ESLint.
 * May invoice for the hours they spend working on ESLint at a rate of $50 USD per hour.
-* Are expected to check in on Discord once per week day for team updates.
+* Are expected to check in on the `#team` Discord channel once per week day for team updates.
 * Are expected to work on public branches of the source repository and submit pull requests from that branch to the master branch.
 * Are expected to delete their public branches when they are no longer necessary.
 * Must submit pull requests for all changes.
@@ -63,7 +63,7 @@ Committers:
 * Are expected to work at least one hour per week triaging issues and reviewing pull requests.
 * Are expected to work at least two hours total per week on ESLint.
 * May invoice for the hours they spend working on ESLint at a rate of $50 USD per hour.
-* Are expected to check in on Discord once per week day for team updates.
+* Are expected to check in on the `#team` Discord channel once per week day for team updates.
 * Are expected to work on public branches of the source repository and submit pull requests from that branch to the master branch.
 * Are expected to delete their public branches when they are no longer necessary.
 * Are expected to provide feedback on issues in the "Feedback Needed" column of the [Triage Board](https://github.com/orgs/eslint/projects/3/views/1).
