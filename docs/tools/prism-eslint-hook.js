@@ -3,6 +3,7 @@
 const Prism = require("prismjs");
 const { Linter } = require("../../lib/api");
 const astUtils = require("../../lib/shared/ast-utils");
+const { docsExampleCodeToParsableCode } = require("./code-block-utils");
 
 /** @typedef {import("../../lib/shared/types").ParserOptions} ParserOptions */
 
@@ -73,7 +74,7 @@ function installPrismESLintMarkerHook() {
         const messages = linter.verify(
 
             // Remove trailing newline and presentational `⏎` characters
-            code.replace(/⏎(?=\n)/gu, "").replace(/\n$/u, ""),
+            docsExampleCodeToParsableCode(code),
             { languageOptions: { sourceType: parserOptions.sourceType, parserOptions } },
             { filename: "code.js" }
         );
