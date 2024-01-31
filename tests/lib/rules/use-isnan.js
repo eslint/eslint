@@ -918,98 +918,254 @@ ruleTester.run("use-isnan", rule, {
         {
             code: "foo.indexOf(NaN)",
             options: [{ enforceForIndexOf: true }],
-            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: "foo.findIndex(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "foo.lastIndexOf(NaN)",
             options: [{ enforceForIndexOf: true }],
-            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "lastIndexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "lastIndexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findLastIndex" },
+                    output: "foo.findLastIndex(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "foo['indexOf'](NaN)",
             options: [{ enforceForIndexOf: true }],
-            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: 'foo["findIndex"](Number.isNaN)'
+                }]
+            }]
         },
         {
             code: "foo['lastIndexOf'](NaN)",
             options: [{ enforceForIndexOf: true }],
-            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "lastIndexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "lastIndexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findLastIndex" },
+                    output: 'foo["findLastIndex"](Number.isNaN)'
+                }]
+            }]
         },
         {
             code: "foo().indexOf(NaN)",
             options: [{ enforceForIndexOf: true }],
-            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: "foo().findIndex(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "foo.bar.lastIndexOf(NaN)",
             options: [{ enforceForIndexOf: true }],
-            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "lastIndexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "lastIndexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findLastIndex" },
+                    output: "foo.bar.findLastIndex(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "foo.indexOf?.(NaN)",
             options: [{ enforceForIndexOf: true }],
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: "foo.findIndex?.(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "foo?.indexOf(NaN)",
             options: [{ enforceForIndexOf: true }],
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: "foo?.findIndex(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "(foo?.indexOf)(NaN)",
             options: [{ enforceForIndexOf: true }],
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: "(foo?.findIndex)(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "foo.indexOf(Number.NaN)",
             options: [{ enforceForIndexOf: true }],
-            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: "foo.findIndex(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "foo.lastIndexOf(Number.NaN)",
             options: [{ enforceForIndexOf: true }],
-            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "lastIndexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "lastIndexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findLastIndex" },
+                    output: "foo.findLastIndex(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "foo['indexOf'](Number.NaN)",
             options: [{ enforceForIndexOf: true }],
-            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: 'foo["findIndex"](Number.isNaN)'
+                }]
+            }]
         },
         {
             code: "foo['lastIndexOf'](Number.NaN)",
             options: [{ enforceForIndexOf: true }],
-            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "lastIndexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "lastIndexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findLastIndex" },
+                    output: 'foo["findLastIndex"](Number.isNaN)'
+                }]
+            }]
         },
         {
             code: "foo().indexOf(Number.NaN)",
             options: [{ enforceForIndexOf: true }],
-            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: "foo().findIndex(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "foo.bar.lastIndexOf(Number.NaN)",
             options: [{ enforceForIndexOf: true }],
-            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "lastIndexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "lastIndexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findLastIndex" },
+                    output: "foo.bar.findLastIndex(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "foo.indexOf?.(Number.NaN)",
             options: [{ enforceForIndexOf: true }],
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: "foo.findIndex?.(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "foo?.indexOf(Number.NaN)",
             options: [{ enforceForIndexOf: true }],
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: "foo?.findIndex(Number.isNaN)"
+                }]
+            }]
         },
         {
             code: "(foo?.indexOf)(Number.NaN)",
             options: [{ enforceForIndexOf: true }],
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: "(foo?.findIndex)(Number.isNaN)"
+                }]
+            }]
         }
     ]
 });
