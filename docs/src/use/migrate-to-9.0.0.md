@@ -376,6 +376,8 @@ class SomeClass {
 }
 ```
 
+**To address:** Fix the problems reported by the rule or revert to the previous behavior by setting the `enforceForClassMembers` option to `false`.
+
 **Related issue(s):** [#18042](https://github.com/eslint/eslint/issues/18042)
 
 ## <a name="removed-context-methods"></a> Removed multiple `context` methods
