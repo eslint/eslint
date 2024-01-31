@@ -430,10 +430,10 @@ function getBinFile(command) {
 // Tasks
 //------------------------------------------------------------------------------
 
-target.lintDocsJS = function([fix = false] = []) {
+target.lintDocsJS = function([fix = false, ci = false] = []) {
     echo("Validating JavaScript files in the docs directory");
     const lastReturn = exec(
-        `${getBinFile("trunk")} check --filter=eslint --force ${fix ? "--fix" : ""} docs`
+        `${getBinFile("trunk")} check --filter=eslint --force ${fix ? "--fix" : ""} ${ci ? "--ci" : ""} docs`
     );
 
     if (lastReturn.code !== 0) {
