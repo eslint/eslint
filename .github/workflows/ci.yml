@@ -25,7 +25,7 @@ jobs:
       run: npm install
 
     - name: Lint Files
-      run: npm run lint -- --ci
+      uses: trunk-io/trunk-action@v1
       
     - name: Check Rule Files
       run: node Makefile checkRuleFiles
