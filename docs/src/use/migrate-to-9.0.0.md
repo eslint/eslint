@@ -366,7 +366,7 @@ if (test) {
 ## <a name="no-unused-vars"></a> `no-unused-vars` now defaults `caughtErrors` to `"all"`
 
 ESLint v9.0.0 changes the default value for the `no-unused-vars` rule's `caughtErrors` option.
-Previously it defaulted to `"none"` to never check whether caught errors are used.
+Previously it defaulted to `"none"` to never check whether caught errors were used.
 It now defaults to `"all"` to check caught errors for being used.
 
 ```js
