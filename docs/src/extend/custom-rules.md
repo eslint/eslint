@@ -44,11 +44,11 @@ The source file for a rule exports an object with the following properties. Both
     * `"suggestion"`: The rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
     * `"layout"`: The rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
 
-* `docs`: (`object`) Required for core rules and optional for custom rules. Core rules have specific entries inside of `docs` while custom rules can include any properties that you need. The following properties are only relevant when working on core rules.
+* `docs`: (`object`) Properties often used for documentation generation and tooling. Required for core rules and optional for custom rules. Custom rules can include additional properties here as needed.
 
-    * `description`: (`string`) Provides the short description of the rule in the [rules index](../rules/).
-    * `recommended`: (`boolean`) Specifies whether the rule is enabled by the `recommended` config from `@eslint/js`.
-    * `url`: (`string`) Specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations).
+    * `description`: (`string`) Provides a short description of the rule. For core rules, this is used in [rules index](../rules/).
+    * `recommended`: (`boolean`) For core rules, this specifies whether the rule is enabled by the `recommended` config from `@eslint/js`.
+    * `url`: (`string`) Specifies the URL at which the full documentation can be accessed. Code editors often use this to provide a helpful link on highlighted rule violations.
 
 * `fixable`: (`string`) Either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
 
