@@ -366,7 +366,7 @@ if (test) {
 ## <a name="no-useless-computed-key"></a> `no-useless-computed-key` flags unnecessary computed member names in classes by default
 
 In ESLint v9.0.0, the default value of the `enforceForClassMembers` option of the `no-useless-computed-key` rule was changed from `false` to `true`.
-The effect of this change ist that unnecessary computed member names in classes will be flagged by default.
+The effect of this change is that unnecessary computed member names in classes will be flagged by default.
 
 ```js
 /*eslint no-useless-computed-key: "error"*/
