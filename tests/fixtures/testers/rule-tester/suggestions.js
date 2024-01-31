@@ -184,3 +184,17 @@ module.exports.withFixerWithoutChanges = {
         };
     }
 };
+
+module.exports.withFailingFixer = {
+    create(context) {
+        return {
+            Identifier(node) {
+                context.report({
+                    node,
+                    message: "some message",
+                    suggest: [{ desc: "some suggestion", fix: fixer => null }]
+                });
+            }
+        };
+    }
+};

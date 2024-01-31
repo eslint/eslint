@@ -636,6 +636,26 @@ describe("RuleTester", () => {
         });
     });
 
+    it("should not throw an error when the error is a string and the suggestion fixer is failing", () => {
+        ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/suggestions").withFailingFixer, {
+            valid: [],
+            invalid: [
+                { code: "foo", errors: ["some message"] }
+            ]
+        });
+    });
+
+    it("throws an error when the error is a string and the suggestion fixer provides a fix", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                valid: [],
+                invalid: [
+                    { code: "foo", errors: ["Avoid using identifiers named 'foo'."] }
+                ]
+            });
+        }, "The message has untested. suggestions. Please convert the error at index 0 into an object by assigning this message to a 'message' property.");
+    });
+
     it("should throw an error when the error is an object with an unknown property name", () => {
         assert.throws(() => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
