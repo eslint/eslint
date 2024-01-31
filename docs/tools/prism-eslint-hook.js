@@ -8,19 +8,26 @@ const { docsExampleCodeToParsableCode } = require("./code-block-utils");
 /** @typedef {import("../../lib/shared/types").ParserOptions} ParserOptions */
 
 /**
- * A set of content that needs to be marked.
- * @type {Map<string, ParserOptions>}
+ * Content that needs to be marked with ESLint
+ * @type {string|undefined}
  */
-const contentsMustBeMarked = new Map();
+let contentMustBeMarked;
 
 /**
- * Add content that needs to be marked.
- * @param {string} content Source code content that marks eslint errors.
+ * Parser options received from the `::: incorrect` or `::: correct` container.
+ * @type {ParserOptions|undefined}
+ */
+let contentParserOptions;
+
+/**
+ * Set content that needs to be marked.
+ * @param {string} content Source code content that marks ESLint errors.
  * @param {ParserOptions} options The options used for validation.
  * @returns {void}
  */
 function addContentMustBeMarked(content, options) {
-    contentsMustBeMarked.set(content, options);
+    contentMustBeMarked = content;
+    contentParserOptions = options;
 }
 
 /**
@@ -32,14 +39,13 @@ function installPrismESLintMarkerHook() {
 
     Prism.hooks.add("after-tokenize", env => {
 
-        const parserOptions = contentsMustBeMarked.get(env.code);
-
-        if (!parserOptions) {
+        if (contentMustBeMarked !== env.code) {
 
             // Ignore unmarked content.
             return;
         }
-        contentsMustBeMarked.delete(env.code);
+        contentMustBeMarked = void 0;
+        const parserOptions = contentParserOptions;
 
         const code = env.code;
         const tokens = env.tokens;
