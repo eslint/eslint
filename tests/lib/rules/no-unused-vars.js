@@ -113,7 +113,6 @@ ruleTester.run("no-unused-vars", rule, {
         "myFunc(function foo(){}.toString())",
         "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});}; foo()",
         "(function() { var doSomething = function doSomething() {}; doSomething() }())",
-        "try {} catch(e) {}",
         "/*global a */ a;",
         { code: "var a=10; (function() { alert(a); })();", options: [{ vars: "all" }] },
         { code: "function g(bar, baz) { return baz; }; g();", options: [{ vars: "all" }] },
@@ -284,12 +283,16 @@ ruleTester.run("no-unused-vars", rule, {
 
         // caughtErrors
         {
+            code: "try{}catch(err){}",
+            options: [{ caughtErrors: "none" }]
+        },
+        {
             code: "try{}catch(err){console.error(err);}",
             options: [{ caughtErrors: "all" }]
         },
         {
-            code: "try{}catch(err){}",
-            options: [{ caughtErrors: "none" }]
+            code: "try{}catch(ignoreErr){}",
+            options: [{ caughtErrorsIgnorePattern: "^ignore" }]
         },
         {
             code: "try{}catch(ignoreErr){}",
@@ -299,7 +302,7 @@ ruleTester.run("no-unused-vars", rule, {
         // caughtErrors with other combinations
         {
             code: "try{}catch(err){}",
-            options: [{ vars: "all", args: "all" }]
+            options: [{ caughtErrors: "none", vars: "all", args: "all" }]
         },
 
         // Using object rest for variable omission
@@ -1122,6 +1125,10 @@ ruleTester.run("no-unused-vars", rule, {
         },
 
         // caughtErrors
+        {
+            code: "try{}catch(err){};",
+            errors: [definedError("err")]
+        },
         {
             code: "try{}catch(err){};",
             options: [{ caughtErrors: "all" }],
