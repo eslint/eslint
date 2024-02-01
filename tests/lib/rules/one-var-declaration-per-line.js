@@ -68,7 +68,7 @@ ruleTester.run("one-var-declaration-per-line", rule, {
     ],
 
     invalid: [
-        { code: "var foo, bar;", output: "var foo, \nbar;", options: ["always"], errors: [{ line: 1, column: 10, endLine: 1, endColumn: 13 }] },
+        { code: "var foo, bar;", output: "var foo, \nbar;", options: ["always"], errors: [{ messageId: "expectVarOnNewline", line: 1, column: 10, endLine: 1, endColumn: 13 }] },
         { code: "var a, b;", output: "var a, \nb;", options: ["always"], errors: [errorAt(1, 8)] },
         { code: "let a, b;", output: "let a, \nb;", options: ["always"], languageOptions: { ecmaVersion: 6 }, errors: [errorAt(1, 8)] },
         { code: "var a, b = 0;", output: "var a, \nb = 0;", options: ["always"], errors: [errorAt(1, 8)] },
@@ -77,7 +77,7 @@ ruleTester.run("one-var-declaration-per-line", rule, {
         { code: "let a, b = 0;", output: "let a, \nb = 0;", options: ["always"], languageOptions: { ecmaVersion: 6 }, errors: [errorAt(1, 8)] },
         { code: "const a = 0, b = 0;", output: "const a = 0, \nb = 0;", options: ["always"], languageOptions: { ecmaVersion: 6 }, errors: [errorAt(1, 14)] },
 
-        { code: "var foo, bar, baz = 0;", output: "var foo, bar, \nbaz = 0;", options: ["initializations"], errors: [{ line: 1, column: 15, endLine: 1, endColumn: 22 }] },
+        { code: "var foo, bar, baz = 0;", output: "var foo, bar, \nbaz = 0;", options: ["initializations"], errors: [{ messageId: "expectVarOnNewline", line: 1, column: 15, endLine: 1, endColumn: 22 }] },
         { code: "var a, b, c = 0;", output: "var a, b, \nc = 0;", options: ["initializations"], errors: [errorAt(1, 11)] },
         { code: "var a, b,\nc = 0, d;", output: "var a, b,\nc = 0, \nd;", options: ["initializations"], errors: [errorAt(2, 8)] },
         { code: "var a, b,\nc = 0, d = 0;", output: "var a, b,\nc = 0, \nd = 0;", options: ["initializations"], errors: [errorAt(2, 8)] },
