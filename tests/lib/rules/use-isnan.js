@@ -776,6 +776,20 @@ ruleTester.run("use-isnan", rule, {
                 suggestions: []
             }]
         },
+        {
+            code: "x == (doStuff(), NaN);",
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
+        },
+        {
+            code: "x == (doStuff(), Number.NaN);",
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
+        },
 
         //------------------------------------------------------------------------------
         // enforceForSwitchCase
