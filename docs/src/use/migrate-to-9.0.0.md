@@ -33,6 +33,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [`no-restricted-imports` now accepts multiple config entries with the same `name`](#no-restricted-imports)
 * [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
 * [`no-inner-declarations` has a new default behavior with a new option](#no-inner-declarations)
+* [`no-unused-vars` now defaults `caughtErrors` to `"all"`](#no-unused-vars)
 * [`no-useless-computed-key` flags unnecessary computed member names in classes by default](#no-useless-computed-key)
 
 ### Breaking changes for plugin developers
@@ -362,6 +363,33 @@ if (test) {
 **To address:** If you want to report the block-level `function`s in every condition regardless of strict or non-strict mode, set the `blockScopeFunctions` option to `"disallow"`.
 
 **Related issue(s):** [#15576](https://github.com/eslint/eslint/issues/15576)
+
+## <a name="no-unused-vars"></a> `no-unused-vars` now defaults `caughtErrors` to `"all"`
+
+ESLint v9.0.0 changes the default value for the `no-unused-vars` rule's `caughtErrors` option.
+Previously it defaulted to `"none"` to never check whether caught errors were used.
+It now defaults to `"all"` to check caught errors for being used.
+
+```js
+/*eslint no-unused-vars: "error"*/
+try {}
+catch (error) {
+    // 'error' is defined but never used
+}
+```
+
+**To address:** If you want to allow unused caught errors, such as when writing code that will be directly run in an environment that does not support ES2019 optional catch bindings, set the `caughtErrors` option to `"none"`.
+Otherwise, delete the unused caught errors.
+
+```js
+/*eslint no-unused-vars: "error"*/
+try {}
+catch {
+    // no error
+}
+```
+
+**Related issue(s):** [#17974](https://github.com/eslint/eslint/issues/17974)
 
 ## <a name="no-useless-computed-key"></a> `no-useless-computed-key` flags unnecessary computed member names in classes by default
 
