@@ -57,6 +57,8 @@ if (foo === undefined) {
 function foo(undefined) {
     // ...
 }
+
+bar(undefined, "lorem");
 ```
 
 :::
@@ -77,6 +79,8 @@ if (typeof foo === "undefined") {
 }
 
 global.undefined = "foo";
+
+bar(void 0, "lorem");
 ```
 
 :::

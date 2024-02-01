@@ -275,7 +275,7 @@ rules:
     object-curly-newline: ["error", { "consistent": true, "multiline": true }]
     object-curly-spacing: ["error", "always"]
     object-property-newline: ["error", { "allowAllPropertiesOnSameLine": true }]
-    object-shorthand: "error"
+    object-shorthand: ["error", "always", { "avoidExplicitReturnArrows": true }]
     one-var-declaration-per-line: "error"
     operator-assignment: "error"
     operator-linebreak: "error"

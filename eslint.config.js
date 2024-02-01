@@ -82,7 +82,7 @@ module.exports = [
         ignores: [
             "build/**",
             "coverage/**",
-            "docs/**",
+            "docs/*",
             "!docs/.eleventy.js",
             "jsdoc/**",
             "templates/**",
@@ -91,8 +91,7 @@ module.exports = [
             "tests/performance/**",
             "tmp/**",
             "tools/internal-rules/node_modules/**",
-            "**/test.js",
-            "!.eslintrc.js"
+            "**/test.js"
         ]
     },
     {

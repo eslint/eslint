@@ -7,7 +7,7 @@
  *
  * To fetch info for just selected files (for use with lint-staged):
  *
- *      node tools/fetch-docs-links.js docs/src/user-guide/index.md
+ *      node tools/fetch-docs-links.js docs/src/use/index.md
  *
  * @author Nicholas C. Zakas
  */

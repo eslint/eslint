@@ -139,7 +139,7 @@ foo == null
 
 ### allow-null
 
-**Deprecated:** Instead of using this option use "always" and pass a "null" option property with value "ignore". This will tell ESLint to always enforce strict equality except when comparing with the `null` literal.
+**Deprecated:** Instead of using this option use `"always"` and pass a `"null"` option property with value `"ignore"`. This will tell ESLint to always enforce strict equality except when comparing with the `null` literal.
 
 ```js
 ["error", "always", {"null": "ignore"}]

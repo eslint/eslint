@@ -51,14 +51,14 @@ This rule aims to enforce spacing around the `*` of generator functions.
 
 ## Options
 
-The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`.
+The rule takes one option, an object, which has two keys `"before"` and `"after"` having boolean values `true` or `false`.
 
-* `before` enforces spacing between the `*` and the `function` keyword.
+* `"before"` enforces spacing between the `*` and the `function` keyword.
   If it is `true`, a space is required, otherwise spaces are disallowed.
 
   In object literal shorthand methods, spacing before the `*` is not checked, as they lack a `function` keyword.
 
-* `after` enforces spacing between the `*` and the function name (or the opening parenthesis for anonymous generator functions).
+* `"after"` enforces spacing between the `*` and the function name (or the opening parenthesis for anonymous generator functions).
   If it is `true`, a space is required, otherwise spaces are disallowed.
 
 The default is `{"before": true, "after": false}`.
@@ -99,9 +99,9 @@ An example of a configuration with overrides:
 }]
 ```
 
-In the example configuration above, the top level "before" and "after" options define the default behavior of
-the rule, while the "anonymous" and "method" options override the default behavior.
-Overrides can be either an object with "before" and "after", or a shorthand string as above.
+In the example configuration above, the top level `"before"` and `"after"` options define the default behavior of
+the rule, while the `"anonymous"` and `"method"` options override the default behavior.
+Overrides can be either an object with `"before"` and `"after"`, or a shorthand string as above.
 
 ## Examples
 

@@ -1055,6 +1055,35 @@ ruleTester.run("key-spacing", rule, {
             align: "value"
         }],
         parserOptions: { ecmaVersion: 6 }
+    },
+
+    // https://github.com/eslint/eslint/issues/16674
+    {
+        code: `
+        a = {
+            item       : 123,
+            longerItem : (
+              1 + 1
+            ),
+        };
+        `,
+        options: [{
+            align: {
+                beforeColon: true,
+                afterColon: true,
+                on: "colon"
+            }
+        }]
+    },
+    {
+        code: `
+        a = {
+            item: 123,
+            longerItem: // a comment - not a token
+            (1 + 1),
+        };
+        `,
+        options: [{ align: "value" }]
     }],
     invalid: [{
         code: "var a ={'key' : value };",
@@ -2579,6 +2608,32 @@ ruleTester.run("key-spacing", rule, {
         errors: [
             { messageId: "extraKey", data: { computed: "", key: "singleLine" }, line: 2, column: 15, type: "Identifier" },
             { messageId: "extraKey", data: { computed: "", key: "newGroup" }, line: 3, column: 13, type: "Identifier" }
+        ]
+    },
+
+    // https://github.com/eslint/eslint/issues/16674
+    {
+        code:
+        `
+        c = {
+            item: 123,
+            longerItem: (
+              1 + 1
+            ),
+        };
+        `,
+        output:
+        `
+        c = {
+            item      : 123,
+            longerItem: (
+              1 + 1
+            ),
+        };
+        `,
+        options: [{ align: "colon" }],
+        errors: [
+            { messageId: "missingKey", data: { computed: "", key: "item" }, line: 3, column: 13, type: "Identifier" }
         ]
     }]
 });

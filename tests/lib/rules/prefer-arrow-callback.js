@@ -205,6 +205,46 @@ ruleTester.run("prefer-arrow-callback", rule, {
             code: "foo((function() { return this; }?.bind)(this));",
             output: null,
             errors
+        },
+
+        // https://github.com/eslint/eslint/issues/16718
+        {
+            code: `
+            test(
+                function ()
+                { }
+            );
+            `,
+            output: `
+            test(
+                () =>
+                { }
+            );
+            `,
+            errors
+        },
+        {
+            code: `
+            test(
+                function (
+                    ...args
+                ) /* Lorem ipsum
+                dolor sit amet. */ {
+                    return args;
+                }
+            );
+            `,
+            output: `
+            test(
+                (
+                    ...args
+                ) => /* Lorem ipsum
+                dolor sit amet. */ {
+                    return args;
+                }
+            );
+            `,
+            errors
         }
     ]
 });

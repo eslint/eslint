@@ -32,59 +32,48 @@ const assert = require("chai").assert,
 
 const linter = new Linter();
 
-/**
- * Fake a rule object
- * @param {Object} context context passed to the rules by eslint
- * @returns {Object} mocked rule listeners
- * @private
- */
-function mockRule(context) {
-    return {
-        Program(node) {
-            context.report(node, "Expected a validation error.");
-        }
-    };
-}
-
-mockRule.schema = [
-    {
-        enum: ["first", "second"]
+const mockRule = {
+    meta: {
+        schema: [{
+            enum: ["first", "second"]
+        }]
+    },
+    create(context) {
+        return {
+            Program(node) {
+                context.report(node, "Expected a validation error.");
+            }
+        };
     }
-];
-
-/**
- * Fake a rule object
- * @param {Object} context context passed to the rules by eslint
- * @returns {Object} mocked rule listeners
- * @private
- */
-function mockObjectRule(context) {
-    return {
-        Program(node) {
-            context.report(node, "Expected a validation error.");
-        }
-    };
-}
-
-mockObjectRule.schema = {
-    enum: ["first", "second"]
 };
 
-/**
- * Fake a rule with no options
- * @param {Object} context context passed to the rules by eslint
- * @returns {Object} mocked rule listeners
- * @private
- */
-function mockNoOptionsRule(context) {
-    return {
-        Program(node) {
-            context.report(node, "Expected a validation error.");
+const mockObjectRule = {
+    meta: {
+        schema: {
+            enum: ["first", "second"]
         }
-    };
-}
+    },
+    create(context) {
+        return {
+            Program(node) {
+                context.report(node, "Expected a validation error.");
+            }
+        };
+    }
+};
 
-mockNoOptionsRule.schema = [];
+const mockNoOptionsRule = {
+    meta: {
+        schema: []
+    },
+    create(context) {
+        return {
+            Program(node) {
+                context.report(node, "Expected a validation error.");
+            }
+        };
+    }
+};
 
 const mockRequiredOptionsRule = {
     meta: {

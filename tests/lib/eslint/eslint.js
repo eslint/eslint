@@ -4400,7 +4400,7 @@ describe("ESLint", () => {
                 const cwd = getFixturePath("ignored-paths", "configurations");
                 const engine = new ESLint({ cwd });
 
-                // a .eslintignore in parent directories includes `*.js`, but don't load it.
+                // an .eslintignore in parent directories includes `*.js`, but don't load it.
                 assert(!await engine.isPathIgnored("foo.js"));
                 assert(await engine.isPathIgnored("node_modules/foo.js"));
             });

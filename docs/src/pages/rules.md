@@ -1,10 +1,10 @@
 ---
-title: Rules
+title: Rules Reference
 permalink: /rules/index.html
 eleventyNavigation:
     key: rules
-    parent: user guide
-    title: Rules
+    parent: use eslint
+    title: Rules Reference
     order: 5
 ---
 

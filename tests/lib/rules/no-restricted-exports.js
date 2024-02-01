@@ -107,7 +107,31 @@ ruleTester.run("no-restricted-exports", rule, {
         { code: "export default 1;", options: [{ restrictedNamedExports: ["default"] }] },
 
         // "default" does not disallow re-exporting a renamed default export from another module
-        { code: "export { default as a } from 'foo';", options: [{ restrictedNamedExports: ["default"] }] }
+        { code: "export { default as a } from 'foo';", options: [{ restrictedNamedExports: ["default"] }] },
+
+        // restrictDefaultExports.direct option
+        { code: "export default foo;", options: [{ restrictDefaultExports: { direct: false } }] },
+        { code: "export default 42;", options: [{ restrictDefaultExports: { direct: false } }] },
+        { code: "export default function foo() {}", options: [{ restrictDefaultExports: { direct: false } }] },
+
+        // restrictDefaultExports.named option
+        { code: "const foo = 123;\nexport { foo as default };", options: [{ restrictDefaultExports: { named: false } }] },
+
+        // restrictDefaultExports.defaultFrom option
+        { code: "export { default } from 'mod';", options: [{ restrictDefaultExports: { defaultFrom: false } }] },
+        { code: "export { default as default } from 'mod';", options: [{ restrictDefaultExports: { defaultFrom: false } }] },
+        { code: "export { foo as default } from 'mod';", options: [{ restrictDefaultExports: { defaultFrom: true } }] },
+        { code: "export { default } from 'mod';", options: [{ restrictDefaultExports: { named: true, defaultFrom: false } }] },
+        { code: "export { 'default' } from 'mod'; ", options: [{ restrictDefaultExports: { defaultFrom: false } }] },
+
+        // restrictDefaultExports.namedFrom option
+        { code: "export { foo as default } from 'mod';", options: [{ restrictDefaultExports: { namedFrom: false } }] },
+        { code: "export { default as default } from 'mod';", options: [{ restrictDefaultExports: { namedFrom: true } }] },
+        { code: "export { default as default } from 'mod';", options: [{ restrictDefaultExports: { namedFrom: false } }] },
+        { code: "export { 'default' } from 'mod'; ", options: [{ restrictDefaultExports: { defaultFrom: false, namedFrom: true } }] },
+
+        // restrictDefaultExports.namespaceFrom option
+        { code: "export * as default from 'mod';", options: [{ restrictDefaultExports: { namespaceFrom: false } }] }
     ],
 
     invalid: [
@@ -519,6 +543,66 @@ ruleTester.run("no-restricted-exports", rule, {
             code: "export { default } from 'foo';",
             options: [{ restrictedNamedExports: ["default"] }],
             errors: [{ messageId: "restrictedNamed", data: { name: "default" }, type: "Identifier", column: 10 }]
+        },
+
+        // restrictDefaultExports.direct option
+        {
+            code: "export default foo;",
+            options: [{ restrictDefaultExports: { direct: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "ExportDefaultDeclaration", column: 1 }]
+        },
+        {
+            code: "export default 42;",
+            options: [{ restrictDefaultExports: { direct: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "ExportDefaultDeclaration", column: 1 }]
+        },
+        {
+            code: "export default function foo() {}",
+            options: [{ restrictDefaultExports: { direct: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "ExportDefaultDeclaration", column: 1 }]
+        },
+        {
+            code: "export default foo;",
+            options: [{ restrictedNamedExports: ["bar"], restrictDefaultExports: { direct: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "ExportDefaultDeclaration", column: 1 }]
+        },
+
+        // restrictDefaultExports.named option
+        {
+            code: "const foo = 123;\nexport { foo as default };",
+            options: [{ restrictDefaultExports: { named: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "Identifier", line: 2, column: 17 }]
+        },
+
+        // restrictDefaultExports.defaultFrom option
+        {
+            code: "export { default } from 'mod';",
+            options: [{ restrictDefaultExports: { defaultFrom: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "Identifier", line: 1, column: 10 }]
+        },
+        {
+            code: "export { default as default } from 'mod';",
+            options: [{ restrictDefaultExports: { defaultFrom: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "Identifier", line: 1, column: 21 }]
+        },
+        {
+            code: "export { 'default' } from 'mod';",
+            options: [{ restrictDefaultExports: { defaultFrom: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "Literal", line: 1, column: 10 }]
+        },
+
+        // restrictDefaultExports.namedFrom option
+        {
+            code: "export { foo as default } from 'mod';",
+            options: [{ restrictDefaultExports: { namedFrom: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "Identifier", line: 1, column: 17 }]
+        },
+
+        // restrictDefaultExports.namespaceFrom option
+        {
+            code: "export * as default from 'mod';",
+            options: [{ restrictDefaultExports: { namespaceFrom: true } }],
+            errors: [{ messageId: "restrictedDefault", type: "Identifier", line: 1, column: 13 }]
         }
     ]
 });

@@ -319,6 +319,74 @@ ruleTester.run("no-var", rule, {
             code: "function foo() { var { let } = {}; }",
             output: null,
             errors: [{ messageId: "unexpectedVar" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/16610
+        {
+            code: "var fx = function (i = 0) { if (i < 5) { return fx(i + 1); } console.log(i); }; fx();",
+            output: "let fx = function (i = 0) { if (i < 5) { return fx(i + 1); } console.log(i); }; fx();",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedVar" }]
+        },
+        {
+            code: "var foo = function () { foo() };",
+            output: "let foo = function () { foo() };",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedVar" }]
+        },
+        {
+            code: "var foo = () => foo();",
+            output: "let foo = () => foo();",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedVar" }]
+        },
+        {
+            code: "var foo = (function () { foo(); })();",
+            output: null,
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedVar" }]
+        },
+        {
+            code: "var foo = bar(function () { foo(); });",
+            output: null,
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedVar" }]
+        },
+        {
+            code: "var bar = foo, foo = function () { foo(); };",
+            output: null,
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedVar" }]
+        },
+        {
+            code: "var bar = foo; var foo = function () { foo(); };",
+            output: "let bar = foo; var foo = function () { foo(); };",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                { messageId: "unexpectedVar" },
+                { messageId: "unexpectedVar" }
+            ]
+        },
+        {
+            code: "var { foo = foo } = function () { foo(); };",
+            output: null,
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedVar" }]
+        },
+        {
+            code: "var { bar = foo, foo } = function () { foo(); };",
+            output: null,
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ messageId: "unexpectedVar" }]
+        },
+        {
+            code: "var bar = function () { foo(); }; var foo = function() {};",
+            output: "let bar = function () { foo(); }; var foo = function() {};",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                { messageId: "unexpectedVar" },
+                { messageId: "unexpectedVar" }
+            ]
         }
     ]
 });

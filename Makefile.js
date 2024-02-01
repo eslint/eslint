@@ -167,7 +167,7 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
  */
 function generateFormatterExamples(formatterInfo) {
     const output = ejs.render(cat("./templates/formatter-examples.md.ejs"), formatterInfo);
-    const outputDir = path.join(DOCS_SRC_DIR, "user-guide/formatters/"),
+    const outputDir = path.join(DOCS_SRC_DIR, "use/formatters/"),
         filename = path.join(outputDir, "index.md"),
         htmlFilename = path.join(outputDir, "html-formatter-example.html");
 
@@ -345,9 +345,18 @@ function generatePrerelease(prereleaseId) {
  */
 function publishRelease() {
     ReleaseOps.publishRelease();
+    const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
+    const isPreRelease = /[a-z]/u.test(releaseInfo.version);
 
-    // push to latest branch to trigger docs deploy
-    exec("git push origin HEAD:latest -f");
+    /*
+     * for a pre-release, push to the "next" branch to trigger docs deploy
+     * for a release, push to the "latest" branch to trigger docs deploy
+     */
+    if (isPreRelease) {
+        exec("git push origin HEAD:next -f");
+    } else {
+        exec("git push origin HEAD:latest -f");
+    }
 
     publishSite();
 }
@@ -447,8 +456,9 @@ function lintMarkdown(files) {
  */
 function getFormatterResults() {
     const stripAnsi = require("strip-ansi");
+    const formattersMetadata = require("./lib/cli-engine/formatters/formatters-meta.json");
 
-    const formatterFiles = fs.readdirSync("./lib/cli-engine/formatters/"),
+    const formatterFiles = fs.readdirSync("./lib/cli-engine/formatters/").filter(fileName => !fileName.includes("formatters-meta.json")),
         rules = {
             "no-else-return": "warn",
             indent: ["warn", 4],
@@ -489,7 +499,8 @@ function getFormatterResults() {
             );
 
             data.formatterResults[name] = {
-                result: stripAnsi(formattedOutput)
+                result: stripAnsi(formattedOutput),
+                description: formattersMetadata.find(formatter => formatter.name === name).description
             };
         }
         return data;
@@ -546,7 +557,7 @@ target.lintDocsJS = function([fix = false] = []) {
     let errors = 0;
 
     echo("Validating JavaScript files in the docs directory");
-    const lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} docs/.eleventy.js`);
+    const lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} docs`);
 
     if (lastReturn.code !== 0) {
         errors++;
@@ -630,7 +641,6 @@ target.karma = () => {
 };
 
 target.test = function() {
-    target.lint();
     target.checkRuleFiles();
     target.mocha();
     target.karma();

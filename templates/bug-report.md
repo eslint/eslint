@@ -1,10 +1,19 @@
-**Tell us about your environment:**
+**Tell us about your environment (`npx eslint --env-info`):**
 
-* **ESLint Version:**
-* **Node Version:**
-* **npm Version:**
+* **Node version:**
+* **npm version:**
+* **Local ESLint version:**
+* **Global ESLint version:**
+* **Operating System:**
 
-**What parser (default, `@babel/eslint-parser`, `@typescript-eslint/parser`, etc.) are you using?**
+**What parser are you using (place an "X" next to just one item)?**
+
+[ ] `Default (Espree)`
+[ ] `@typescript-eslint/parser`
+[ ] `@babel/eslint-parser`
+[ ] `vue-eslint-parser`
+[ ] `@angular-eslint/template-parser`
+[ ] `Other`
 
 **Please show your full configuration:**
 

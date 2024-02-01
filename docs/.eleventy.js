@@ -10,7 +10,7 @@ const Image = require("@11ty/eleventy-img");
 const path = require("path");
 const { slug } = require("github-slugger");
 const yaml = require("js-yaml");
-
+const { highlighter, lineNumberPlugin } = require("./src/_plugins/md-syntax-highlighter");
 const {
     DateTime
 } = require("luxon");
@@ -25,8 +25,9 @@ module.exports = function(eleventyConfig) {
      * it's easier to see if URLs are broken.
      *
      * When a release is published, HEAD is pushed to the "latest" branch.
-     * Netlify deploys that branch as well, and in that case, we want the
-     * docs to be loaded from /docs/latest on eslint.org.
+     * When a pre-release is published, HEAD is pushed to the "next" branch.
+     * Netlify deploys those branches as well, and in that case, we want the
+     * docs to be loaded from /docs/latest or /docs/next on eslint.org.
      *
      * The path prefix is turned off for deploy previews so we can properly
      * see changes before deployed.
@@ -38,6 +39,8 @@ module.exports = function(eleventyConfig) {
         pathPrefix = "/";
     } else if (process.env.BRANCH === "latest") {
         pathPrefix = "/docs/latest/";
+    } else if (process.env.BRANCH === "next") {
+        pathPrefix = "/docs/next/";
     }
 
     //------------------------------------------------------------------------------
@@ -49,6 +52,7 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addGlobalData("site_name", siteName);
     eleventyConfig.addGlobalData("GIT_BRANCH", process.env.BRANCH);
+    eleventyConfig.addGlobalData("HEAD", process.env.BRANCH === "main");
     eleventyConfig.addGlobalData("NOINDEX", process.env.BRANCH !== "latest");
     eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
@@ -145,7 +149,8 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addPlugin(eleventyNavigationPlugin);
     eleventyConfig.addPlugin(syntaxHighlight, {
-        alwaysWrapLineHighlights: true
+        alwaysWrapLineHighlights: true,
+        templateFormats: ["liquid", "njk"]
     });
     eleventyConfig.addPlugin(pluginRss);
     eleventyConfig.addPlugin(pluginTOC, {
@@ -186,30 +191,32 @@ module.exports = function(eleventyConfig) {
     }
 
     const markdownIt = require("markdown-it");
+    const md = markdownIt({ html: true, linkify: true, typographer: true, highlight: (str, lang) => highlighter(md, str, lang) })
+        .use(markdownItAnchor, {
+            slugify
+        })
+        .use(markdownItContainer, "img-container", {})
+        .use(markdownItContainer, "correct", {})
+        .use(markdownItContainer, "incorrect", {})
+        .use(markdownItContainer, "warning", {
+            render(tokens, idx) {
+                return generateAlertMarkup("warning", tokens, idx);
+            }
+        })
+        .use(markdownItContainer, "tip", {
+            render(tokens, idx) {
+                return generateAlertMarkup("tip", tokens, idx);
+            }
+        })
+        .use(markdownItContainer, "important", {
+            render(tokens, idx) {
+                return generateAlertMarkup("important", tokens, idx);
+            }
+        })
+        .use(lineNumberPlugin)
+        .disable("code");
 
-    eleventyConfig.setLibrary("md",
-        markdownIt({ html: true, linkify: true, typographer: true })
-            .use(markdownItAnchor, {
-                slugify
-            })
-            .use(markdownItContainer, "correct", {})
-            .use(markdownItContainer, "incorrect", {})
-            .use(markdownItContainer, "warning", {
-                render(tokens, idx) {
-                    return generateAlertMarkup("warning", tokens, idx);
-                }
-            })
-            .use(markdownItContainer, "tip", {
-                render(tokens, idx) {
-                    return generateAlertMarkup("tip", tokens, idx);
-                }
-            })
-            .use(markdownItContainer, "important", {
-                render(tokens, idx) {
-                    return generateAlertMarkup("important", tokens, idx);
-                }
-            })
-            .disable("code"));
+    eleventyConfig.setLibrary("md", md);
 
     //------------------------------------------------------------------------------
     // Shortcodes
@@ -452,7 +459,7 @@ module.exports = function(eleventyConfig) {
      * URLs with a file extension, like main.css, main.js, sitemap.xml, etc. should not be rewritten
      */
     eleventyConfig.setBrowserSyncConfig({
-        middleware: (req, res, next) => {
+        middleware(req, res, next) {
             if (!/(?:\.[a-zA-Z][^/]*|\/)$/u.test(req.url)) {
                 req.url += ".html";
             }

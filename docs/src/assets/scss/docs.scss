@@ -126,6 +126,15 @@ div.incorrect {
     }
 }
 
+div.img-container {
+    background-color: var(--img-background-color);
+    border-radius: var(--border-radius);
+
+    img {
+        margin: 0 auto;
+    }
+}
+
 pre[class*="language-"] {
     position: relative;
 }
