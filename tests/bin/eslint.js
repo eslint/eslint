@@ -440,6 +440,21 @@ describe("bin/eslint.js", () => {
             });
         });
 
+        // https://github.com/eslint/eslint/issues/17960
+        it("should include key information in the error message when there is an invalid config", () => {
+
+            // The error message should include the key name
+            const config = path.join(__dirname, "../fixtures/bin/eslint.config-invalid-key.js");
+            const child = runESLint(["--config", config, "conf", "tools"]);
+            const exitCodeAssertion = assertExitCode(child, 2);
+            const outputAssertion = getOutput(child).then(output => {
+                assert.include(output.stderr, "Key \"linterOptions\": Key \"reportUnusedDisableDirectives\"");
+            });
+
+            return Promise.all([exitCodeAssertion, outputAssertion]);
+
+        });
+
         it("prints the error message pointing to line of code", () => {
             const invalidConfig = path.join(__dirname, "../fixtures/bin/eslint.config.js");
             const child = runESLint(["--no-ignore", "-c", invalidConfig]);
