@@ -1,67 +1,75 @@
 @media (prefers-color-scheme: dark) {
-    pre[class*="language-"] {
-        color: var(--color-neutral-100);
-    }
-
-    .token {
-        &.comment,
-        .prolog,
-        .doctype,
-        .cdata {
-            color: #8e9fae;
-        }
-    }
-
-    .logo-component {
-        fill: #fff;
-    }
-
-    #logo-center {
-        opacity: 0.6;
-    }
-
-    .rule__categories,
-    .rule__status {
-        background: var(--body-background-color);
-    }
-
-    .algolia-docsearch-suggestion--highlight {
-        background-color: var(--link-color);
-        color: var(--color-neutral-900);
-    }
-
-    .alert {
-        &.alert--warning {
-            color: var(--color-rose-300);
-            background-color: var(--color-rose-900);
-            border: 1px solid var(--color-rose-300);
+    .no-js {
+        pre[class*="language-"] {
+            color: var(--color-neutral-100);
         }
 
-        &.alert--important {
-            color: var(--color-warning-300);
-            background-color: var(--color-warning-900);
-            border: 1px solid var(--color-warning-300);
+        .token {
+            &.comment,
+            .prolog,
+            .doctype,
+            .cdata {
+                color: #8e9fae;
+            }
         }
 
-        &.alert--tip {
-            color: var(--color-success-300);
-            background-color: var(--color-success-900);
-            border: 1px solid var(--color-success-300);
-        }
-    }
-
-    .alert__type,
-    .alert__learn-more {
-        .alert--warning & {
-            color: var(--color-rose-200);
+        .logo-component {
+            fill: #fff;
         }
 
-        .alert--important & {
-            color: var(--color-warning-200);
+        #logo-center {
+            opacity: 0.6;
         }
 
-        .alert--tip & {
-            color: var(--color-success-200);
+        .rule__categories,
+        .rule__status {
+            background: var(--body-background-color);
+        }
+
+        .algolia-docsearch-suggestion--highlight {
+            background-color: var(--link-color);
+            color: var(--color-neutral-900);
+        }
+
+        .alert {
+            &.alert--warning {
+                color: var(--color-rose-300);
+                background-color: var(--color-rose-900);
+                border: 1px solid var(--color-rose-300);
+                .alert__type {
+                    color: var(--color-rose-300);
+                }
+            }
+
+            &.alert--important {
+                color: var(--color-warning-300);
+                background-color: var(--color-warning-900);
+                border: 1px solid var(--color-warning-300);
+            }
+
+            &.alert--tip {
+                color: var(--color-success-300);
+                background-color: var(--color-success-900);
+                border: 1px solid var(--color-success-300);
+                .alert__type {
+                    color: var(--color-success-300);
+                }
+            }
+        }
+
+        .alert__type,
+        .alert__learn-more {
+            .alert--warning & {
+                color: var(--color-rose-200);
+            }
+
+            .alert--important & {
+                color: var(--color-warning-200);
+            }
+
+            .alert--tip & {
+                color: var(--color-success-200);
+            }
         }
     }
 }
