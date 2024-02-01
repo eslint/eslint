@@ -653,7 +653,7 @@ describe("RuleTester", () => {
                     { code: "foo", errors: ["Avoid using identifiers named 'foo'."] }
                 ]
             });
-        }, "The message has untested. suggestions. Please convert the error at index 0 into an object by assigning this message to a 'message' property.");
+        }, "Error at index 0 has suggestions. Please convert the test error into an object and specify 'suggestions' property on it to test suggestions.");
     });
 
     it("should throw an error when the error is an object with an unknown property name", () => {
