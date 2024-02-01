@@ -255,11 +255,6 @@ Josh Goldberg ✨
 Francesco Trotta
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/ota-meshi">
-<img src="https://github.com/ota-meshi.png?s=75" width="75" height="75" alt="Yosuke Ota's Avatar"><br />
-Yosuke Ota
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/Tanujkanti4441">
 <img src="https://github.com/Tanujkanti4441.png?s=75" width="75" height="75" alt="Tanuj Kanti's Avatar"><br />
 Tanuj Kanti

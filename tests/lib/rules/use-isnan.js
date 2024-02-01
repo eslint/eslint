@@ -349,140 +349,403 @@ ruleTester.run("use-isnan", rule, {
     invalid: [
         {
             code: "123 == NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "Number.isNaN(123);"
+                    },
+                    {
+                        messageId: "replaceWithCastingAndIsNaN",
+                        output: "Number.isNaN(Number(123));"
+                    }
+                ]
+            }]
         },
         {
             code: "123 === NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "Number.isNaN(123);"
+                    }
+                ]
+            }]
         },
         {
             code: "NaN === \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: 'Number.isNaN("abc");'
+                    }
+                ]
+            }]
         },
         {
             code: "NaN == \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: 'Number.isNaN("abc");'
+                    },
+                    {
+                        messageId: "replaceWithCastingAndIsNaN",
+                        output: 'Number.isNaN(Number("abc"));'
+                    }
+                ]
+            }]
         },
         {
             code: "123 != NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "!Number.isNaN(123);"
+                    },
+                    {
+                        messageId: "replaceWithCastingAndIsNaN",
+                        output: "!Number.isNaN(Number(123));"
+                    }
+                ]
+            }]
         },
         {
             code: "123 !== NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "!Number.isNaN(123);"
+                    }
+                ]
+            }]
         },
         {
             code: "NaN !== \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: '!Number.isNaN("abc");'
+                    }
+                ]
+            }]
         },
         {
             code: "NaN != \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: '!Number.isNaN("abc");'
+                    },
+                    {
+                        messageId: "replaceWithCastingAndIsNaN",
+                        output: '!Number.isNaN(Number("abc"));'
+                    }
+                ]
+            }]
         },
         {
             code: "NaN < \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "\"abc\" < NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "NaN > \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "\"abc\" > NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "NaN <= \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "\"abc\" <= NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "NaN >= \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "\"abc\" >= NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "123 == Number.NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "Number.isNaN(123);"
+                    },
+                    {
+                        messageId: "replaceWithCastingAndIsNaN",
+                        output: "Number.isNaN(Number(123));"
+                    }
+                ]
+            }]
         },
         {
             code: "123 === Number.NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "Number.isNaN(123);"
+                    }
+                ]
+            }]
         },
         {
             code: "Number.NaN === \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "Number.isNaN(\"abc\");"
+                    }
+                ]
+            }]
         },
         {
             code: "Number.NaN == \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: 'Number.isNaN("abc");'
+                    },
+                    {
+                        messageId: "replaceWithCastingAndIsNaN",
+                        output: 'Number.isNaN(Number("abc"));'
+                    }
+                ]
+            }]
         },
         {
             code: "123 != Number.NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "!Number.isNaN(123);"
+                    },
+                    {
+                        messageId: "replaceWithCastingAndIsNaN",
+                        output: "!Number.isNaN(Number(123));"
+                    }
+                ]
+            }]
         },
         {
             code: "123 !== Number.NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "!Number.isNaN(123);"
+                    }
+                ]
+            }]
         },
         {
             code: "Number.NaN !== \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: '!Number.isNaN("abc");'
+                    }
+                ]
+            }]
         },
         {
             code: "Number.NaN != \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: '!Number.isNaN("abc");'
+                    },
+                    {
+                        messageId: "replaceWithCastingAndIsNaN",
+                        output: '!Number.isNaN(Number("abc"));'
+                    }
+                ]
+            }]
         },
         {
             code: "Number.NaN < \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "\"abc\" < Number.NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "Number.NaN > \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "\"abc\" > Number.NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "Number.NaN <= \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "\"abc\" <= Number.NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "Number.NaN >= \"abc\";",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "\"abc\" >= Number.NaN;",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: []
+            }]
         },
         {
             code: "x === Number?.NaN;",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "Number.isNaN(x);"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "x !== Number?.NaN;",
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "!Number.isNaN(x);"
+                    }
+                ]
+            }]
         },
         {
             code: "x === Number['NaN'];",
-            errors: [comparisonError]
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "Number.isNaN(x);"
+                    }
+                ]
+            }]
+        },
+        {
+            code: `/* just
+                adding */ x /* some */ === /* comments */ NaN; // here`,
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: `/* just
+                adding */ Number.isNaN(x); // here`
+                    }
+                ]
+            }]
+        },
+        {
+            code: "(1, 2) === NaN;",
+            errors: [{
+                ...comparisonError,
+                suggestions: [
+                    {
+                        messageId: "replaceWithIsNaN",
+                        output: "Number.isNaN((1, 2));"
+                    }
+                ]
+            }]
         },
 
         //------------------------------------------------------------------------------
