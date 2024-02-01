@@ -15,7 +15,7 @@ module.exports = {
         schema: []
     },
     create(context) {
-        var sourceCode = context.getSourceCode();
+        var sourceCode = context.sourceCode;
 
         return {
             "VariableDeclaration": function(node) {

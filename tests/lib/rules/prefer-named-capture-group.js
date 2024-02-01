@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/prefer-named-capture-group"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2018 } });
 
 ruleTester.run("prefer-named-capture-group", rule, {
     valid: [
@@ -37,30 +37,30 @@ ruleTester.run("prefer-named-capture-group", rule, {
         "new globalThis.RegExp('([0-9]{4})')",
         {
             code: "new globalThis.RegExp('([0-9]{4})')",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "new globalThis.RegExp('([0-9]{4})')",
-            env: { es2017: true }
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: "new globalThis.RegExp()",
-            env: { es2020: true }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "new globalThis.RegExp(foo)",
-            env: { es2020: true }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "globalThis.RegExp(foo)",
-            env: { es2020: true }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: `
                 var globalThis = bar;
                 globalThis.RegExp(foo);
                 `,
-            env: { es2020: true }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: `
@@ -69,8 +69,18 @@ ruleTester.run("prefer-named-capture-group", rule, {
                     new globalThis.RegExp(baz);
                 }
                 `,
-            env: { es2020: true }
-        }
+            languageOptions: { ecmaVersion: 2020 }
+        },
+
+        // ES2024
+        "new RegExp('(?<c>[[A--B]])', 'v')",
+
+        /*
+         * This testcase checks if the rule understands the v flag correctly.
+         * Without the v flag, `([\q])` is considered a valid regex and the rule reports,
+         * but if the v flag is understood correctly the rule does not because of a syntax error.
+         */
+        String.raw`new RegExp('([\\q])', 'v')` // SyntaxError
     ],
 
     invalid: [
@@ -519,7 +529,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
         },
         {
             code: "new globalThis.RegExp('([0-9]{4})')",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
@@ -541,7 +551,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
         },
         {
             code: "globalThis.RegExp('([0-9]{4})')",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
@@ -566,7 +576,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 function foo() { var globalThis = bar; }
                 new globalThis.RegExp('([0-9]{4})');
             `,
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
@@ -590,6 +600,27 @@ ruleTester.run("prefer-named-capture-group", rule, {
             `
                     }
                 ]
+            }]
+        },
+
+        // ES2024
+        {
+            code: "new RegExp('([[A--B]])', 'v')",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "([[A--B]])" },
+                line: 1,
+                column: 1,
+                suggestions: [
+                    {
+                        messageId: "addGroupName",
+                        output: "new RegExp('(?<temp1>[[A--B]])', 'v')"
+                    },
+                    {
+                        messageId: "addNonCapture",
+                        output: "new RegExp('(?:[[A--B]])', 'v')"
+                    }]
             }]
         }
     ]

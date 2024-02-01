@@ -30,7 +30,7 @@ html {
     grid-row: 1 / 2;
     padding-top: var(--space-l-xl);
     padding-block-start: var(--space-l-xl);
-    font-size: .875rem;
+    font-size: 0.875rem;
     display: grid;
     grid-auto-rows: max-content;
     align-items: start;
@@ -112,6 +112,11 @@ div.incorrect {
         offset-inline-end: -22px;
         offset-block-start: -22px;
     }
+
+    // Add space to the bottom if there is a Playground button.
+    .c-btn.c-btn--playground ~ pre.line-numbers-mode {
+        padding-bottom: 4.5rem;
+    }
 }
 
 div.correct {
@@ -142,18 +147,70 @@ pre[class*="language-"] {
 .c-btn.c-btn--playground {
     position: absolute;
     font-size: var(--step--1);
-    bottom: .5rem;
-    right: .5rem;
-    offset-block-end: .5rem;
-    offset-inline-end: .5rem;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 1;
 
-    @media all and (max-width: 768px) {
-        display: none;
+    @media all and (min-width: 768px) {
+        bottom: 1.5rem;
     }
 }
 
 @media (hover: none) {
     .anchorjs-link {
         opacity: 1;
+    }
+}
+
+#scroll-up-btn {
+    width: 50px;
+    height: 50px;
+    display: none;
+    position: fixed;
+    right: 19.8vw;
+    bottom: 35px;
+    z-index: 1;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    color: var(--body-background-color);
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--link-color);
+
+    @media (max-width: 1299px) {
+        right: 18.99vw;
+    }
+
+    @media (max-width: 1100px) {
+        right: 19.4vw;
+    }
+
+    @media (max-width: 1060px) {
+        right: 19.9vw;
+    }
+
+    @media (max-width: 1024px) {
+        right: 22vw;
+    }
+
+    @media (max-width: 860px) {
+        right: 22.2vw;
+    }
+
+    @media (max-width: 850px) {
+        right: 22.6vw;
+    }
+
+    @media (max-width: 820px) {
+        right: 23.4vw;
+    }
+
+    @media (max-width: 799px) {
+        right: 35px;
+    }
+
+    @media (max-width: 600px) {
+        right: 25px;
     }
 }

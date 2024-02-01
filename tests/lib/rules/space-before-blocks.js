@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/space-before-blocks"),
-    { RuleTester } = require("../../../lib/rule-tester"),
+    RuleTester = require("../../../lib/rule-tester/rule-tester"),
     fixtureParser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
@@ -54,25 +54,25 @@ ruleTester.run("space-before-blocks", rule, {
         {
             code: "export default class{}",
             options: functionsOnlyArgs,
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default class {}",
             options: classesOnlyArgs,
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default function a() {}",
             options: functionsOnlyArgs,
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default function a(){}",
             options: keywordOnlyArgs,
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
-        { code: "export function a(){}", options: keywordOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export function a() {}", options: functionsOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function a(){}", options: keywordOnlyArgs, languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function a() {}", options: functionsOnlyArgs, languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "function a(){}", options: keywordOnlyArgs },
         { code: "function a() {}", options: functionsOnlyArgs },
         { code: "function a(){ if(b) {} }", options: keywordOnlyArgs },
@@ -106,36 +106,36 @@ ruleTester.run("space-before-blocks", rule, {
         {
             code: "class test { constructor() {} }",
             options: [{ functions: "always", keywords: "never" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class test { constructor(){} }",
             options: classesOnlyArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class test{ constructor() {} }",
             options: functionsOnlyArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class test {}",
             options: classesOnlyArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class test{}",
             options: functionsOnlyArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class test{}",
             options: neverArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class test {}",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         { code: "function a(){if(b) {}}", options: keywordAlwaysOthersOffArgs },
         { code: "function a() {if(b) {}}", options: keywordAlwaysOthersOffArgs },
@@ -144,22 +144,22 @@ ruleTester.run("space-before-blocks", rule, {
         {
             code: "class test { constructor(){if(a){}} }",
             options: classesAlwaysOthersOffArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class test { constructor() {if(a){}} }",
             options: classesAlwaysOthersOffArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class test { constructor(){if(a) {}} }",
             options: classesAlwaysOthersOffArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class test { constructor() {if(a) {}} }",
             options: classesAlwaysOthersOffArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         { code: "function a(){if(b){}}", options: keywordNeverOthersOffArgs },
         { code: "function a() {if(b){}}", options: keywordNeverOthersOffArgs },
@@ -168,33 +168,33 @@ ruleTester.run("space-before-blocks", rule, {
         {
             code: "class test{ constructor(){if(a){}} }",
             options: classesNeverOthersOffArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class test{ constructor() {if(a){}} }",
             options: classesNeverOthersOffArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class test{ constructor(){if(a) {}} }",
             options: classesNeverOthersOffArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class test{ constructor() {if(a) {}} }",
             options: classesNeverOthersOffArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // https://github.com/eslint/eslint/issues/3769
-        { code: "()=>{};", options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: "() => {};", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "()=>{};", options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        { code: "() => {};", options: ["never"], languageOptions: { ecmaVersion: 6 } },
 
         // https://github.com/eslint/eslint/issues/1338
         "if(a) {}else{}",
         { code: "if(a){}else {}", options: neverArgs },
         { code: "try {}catch(a){}", options: functionsOnlyArgs },
-        { code: "export default class{}", options: classesOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default class{}", options: classesOnlyArgs, languageOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // https://github.com/eslint/eslint/issues/15082
         { code: "switch(x) { case 9:{ break; } }", options: alwaysArgs },
@@ -208,12 +208,12 @@ ruleTester.run("space-before-blocks", rule, {
         {
             code: "(class{ static{} })",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "(class { static {} })",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -430,76 +430,76 @@ ruleTester.run("space-before-blocks", rule, {
             code: "export function a() { if(b) {} }",
             output: "export function a() { if(b){} }",
             options: functionsOnlyArgs,
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedNoSpacingError]
         },
         {
             code: "export function a(){ if(b){} }",
             output: "export function a(){ if(b) {} }",
             options: keywordOnlyArgs,
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedSpacingError]
         },
         {
             code: "export function a(){}",
             output: "export function a() {}",
             options: functionsOnlyArgs,
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedSpacingError]
         },
         {
             code: "export default function (a) {}",
             output: "export default function (a){}",
             options: keywordOnlyArgs,
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedNoSpacingError]
         },
         {
             code: "export function a() {}",
             output: "export function a(){}",
             options: keywordOnlyArgs,
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedNoSpacingError]
         },
         {
             code: "class test{}",
             output: "class test {}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedSpacingError]
         },
         {
             code: "class test{}",
             output: "class test {}",
             options: classesOnlyArgs,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedSpacingError]
         },
         {
             code: "class test{ constructor(){} }",
             output: "class test{ constructor() {} }",
             options: functionsOnlyArgs,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedSpacingError]
         },
         {
             code: "class test { constructor() {} }",
             output: "class test { constructor(){} }",
             options: classesOnlyArgs,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedNoSpacingError]
         },
         {
             code: "class test {}",
             output: "class test{}",
             options: functionsOnlyArgs,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedNoSpacingError]
         },
         {
             code: "class test {}",
             output: "class test{}",
             options: neverArgs,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedNoSpacingError]
         },
         {
@@ -530,14 +530,14 @@ ruleTester.run("space-before-blocks", rule, {
             code: "class test{ constructor(){} }",
             output: "class test { constructor(){} }",
             options: classesAlwaysOthersOffArgs,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedSpacingError]
         },
         {
             code: "class test{ constructor() {} }",
             output: "class test { constructor() {} }",
             options: classesAlwaysOthersOffArgs,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedSpacingError]
         },
         {
@@ -568,14 +568,14 @@ ruleTester.run("space-before-blocks", rule, {
             code: "class test { constructor(){} }",
             output: "class test{ constructor(){} }",
             options: classesNeverOthersOffArgs,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedNoSpacingError]
         },
         {
             code: "class test { constructor() {} }",
             output: "class test{ constructor() {} }",
             options: classesNeverOthersOffArgs,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedNoSpacingError]
         },
 
@@ -583,14 +583,18 @@ ruleTester.run("space-before-blocks", rule, {
         {
             code: "class A { foo(bar: string): void{} }",
             output: "class A { foo(bar: string): void {} }",
-            parser: fixtureParser("space-before-blocks", "return-type-keyword-1"),
+            languageOptions: {
+                parser: require(fixtureParser("space-before-blocks", "return-type-keyword-1"))
+            },
             errors: [expectedSpacingError]
         },
         {
             code: "function foo(): null {}",
             output: "function foo(): null{}",
             options: neverArgs,
-            parser: fixtureParser("space-before-blocks", "return-type-keyword-2"),
+            languageOptions: {
+                parser: require(fixtureParser("space-before-blocks", "return-type-keyword-2"))
+            },
             errors: [expectedNoSpacingError]
         },
 

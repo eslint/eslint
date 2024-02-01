@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 const rule = require("../../../lib/rules/consistent-this"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -25,8 +25,7 @@ function destructuringTest(code) {
     return {
         code,
         options: ["self"],
-        env: { es6: true },
-        parserOptions: { ecmaVersion: 6 }
+        languageOptions: { ecmaVersion: 6 }
     };
 }
 
@@ -34,7 +33,12 @@ function destructuringTest(code) {
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("consistent-this", rule, {
     valid: [

@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/quotes"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("quotes", rule, {
     valid: [
@@ -27,71 +32,71 @@ ruleTester.run("quotes", rule, {
         { code: "var foo = 1;", options: ["double"] },
         { code: "var foo = \"'\";", options: ["single", { avoidEscape: true }] },
         { code: "var foo = '\"';", options: ["double", { avoidEscape: true }] },
-        { code: "var foo = <>Hello world</>;", options: ["single"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "var foo = <>Hello world</>;", options: ["double"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "var foo = <>Hello world</>;", options: ["double", { avoidEscape: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "var foo = <>Hello world</>;", options: ["backtick"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "var foo = <div>Hello world</div>;", options: ["single"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "var foo = <div id=\"foo\"></div>;", options: ["single"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "var foo = <div>Hello world</div>;", options: ["double"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "var foo = <div>Hello world</div>;", options: ["double", { avoidEscape: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "var foo = `bar`;", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `bar 'baz'`;", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `bar \"baz\"`;", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = <>Hello world</>;", options: ["single"], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "var foo = <>Hello world</>;", options: ["double"], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "var foo = <>Hello world</>;", options: ["double", { avoidEscape: true }], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "var foo = <>Hello world</>;", options: ["backtick"], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "var foo = <div>Hello world</div>;", options: ["single"], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "var foo = <div id=\"foo\"></div>;", options: ["single"], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "var foo = <div>Hello world</div>;", options: ["double"], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "var foo = <div>Hello world</div>;", options: ["double", { avoidEscape: true }], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "var foo = `bar`;", options: ["backtick"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `bar 'baz'`;", options: ["backtick"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `bar \"baz\"`;", options: ["backtick"], languageOptions: { ecmaVersion: 6 } },
         { code: "var foo = 1;", options: ["backtick"] },
         { code: "var foo = \"a string containing `backtick` quotes\";", options: ["backtick", { avoidEscape: true }] },
-        { code: "var foo = <div id=\"foo\"></div>;", options: ["backtick"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "var foo = <div>Hello world</div>;", options: ["backtick"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "class C { \"f\"; \"m\"() {} }", options: ["double"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C { 'f'; 'm'() {} }", options: ["single"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "var foo = <div id=\"foo\"></div>;", options: ["backtick"], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "var foo = <div>Hello world</div>;", options: ["backtick"], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "class C { \"f\"; \"m\"() {} }", options: ["double"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C { 'f'; 'm'() {} }", options: ["single"], languageOptions: { ecmaVersion: 2022 } },
 
         // Backticks are only okay if they have substitutions, contain a line break, or are tagged
-        { code: "var foo = `back\ntick`;", options: ["single"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `back\rtick`;", options: ["single"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `back\u2028tick`;", options: ["single"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `back\u2029tick`;", options: ["single"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `back\ntick`;", options: ["single"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `back\rtick`;", options: ["single"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `back\u2028tick`;", options: ["single"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `back\u2029tick`;", options: ["single"], languageOptions: { ecmaVersion: 6 } },
         {
             code: "var foo = `back\\\\\ntick`;", // 2 backslashes followed by a newline
             options: ["single"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
-        { code: "var foo = `back\\\\\\\\\ntick`;", options: ["single"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `\n`;", options: ["single"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `back${x}tick`;", options: ["double"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = tag`backtick`;", options: ["double"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `back\\\\\\\\\ntick`;", options: ["single"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\n`;", options: ["single"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `back${x}tick`;", options: ["double"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = tag`backtick`;", options: ["double"], languageOptions: { ecmaVersion: 6 } },
 
         // Backticks are also okay if allowTemplateLiterals
-        { code: "var foo = `bar 'foo' baz` + 'bar';", options: ["single", { allowTemplateLiterals: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `bar 'foo' baz` + \"bar\";", options: ["double", { allowTemplateLiterals: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `bar 'foo' baz` + `bar`;", options: ["backtick", { allowTemplateLiterals: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `bar 'foo' baz` + 'bar';", options: ["single", { allowTemplateLiterals: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `bar 'foo' baz` + \"bar\";", options: ["double", { allowTemplateLiterals: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `bar 'foo' baz` + `bar`;", options: ["backtick", { allowTemplateLiterals: true }], languageOptions: { ecmaVersion: 6 } },
 
         // `backtick` should not warn the directive prologues.
-        { code: "\"use strict\"; var foo = `backtick`;", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
-        { code: "\"use strict\"; 'use strong'; \"use asm\"; var foo = `backtick`;", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo() { \"use strict\"; \"use strong\"; \"use asm\"; var foo = `backtick`; }", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
-        { code: "(function() { 'use strict'; 'use strong'; 'use asm'; var foo = `backtick`; })();", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
-        { code: "(() => { \"use strict\"; \"use strong\"; \"use asm\"; var foo = `backtick`; })();", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
+        { code: "\"use strict\"; var foo = `backtick`;", options: ["backtick"], languageOptions: { ecmaVersion: 6 } },
+        { code: "\"use strict\"; 'use strong'; \"use asm\"; var foo = `backtick`;", options: ["backtick"], languageOptions: { ecmaVersion: 6 } },
+        { code: "function foo() { \"use strict\"; \"use strong\"; \"use asm\"; var foo = `backtick`; }", options: ["backtick"], languageOptions: { ecmaVersion: 6 } },
+        { code: "(function() { 'use strict'; 'use strong'; 'use asm'; var foo = `backtick`; })();", options: ["backtick"], languageOptions: { ecmaVersion: 6 } },
+        { code: "(() => { \"use strict\"; \"use strong\"; \"use asm\"; var foo = `backtick`; })();", options: ["backtick"], languageOptions: { ecmaVersion: 6 } },
 
         // `backtick` should not warn import/export sources.
-        { code: "import \"a\"; import 'b';", options: ["backtick"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import a from \"a\"; import b from 'b';", options: ["backtick"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export * from \"a\"; export * from 'b';", options: ["backtick"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import \"a\"; import 'b';", options: ["backtick"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import a from \"a\"; import b from 'b';", options: ["backtick"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export * from \"a\"; export * from 'b';", options: ["backtick"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // `backtick` should not warn module export names.
-        { code: "import { \"a\" as b, 'c' as d } from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "let a, c; export { a as \"b\", c as 'd' };", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export { \"a\", 'b' } from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export { a as \"b\", c as 'd' } from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export { \"a\" as b, 'c' as d } from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export { \"a\" as \"b\", 'c' as 'd' } from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export * as \"a\" from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export * as 'a' from 'mod';", options: ["backtick"], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import { \"a\" as b, 'c' as d } from 'mod';", options: ["backtick"], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a, c; export { a as \"b\", c as 'd' };", options: ["backtick"], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\", 'b' } from 'mod';", options: ["backtick"], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { a as \"b\", c as 'd' } from 'mod';", options: ["backtick"], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\" as b, 'c' as d } from 'mod';", options: ["backtick"], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\" as \"b\", 'c' as 'd' } from 'mod';", options: ["backtick"], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export * as \"a\" from 'mod';", options: ["backtick"], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export * as 'a' from 'mod';", options: ["backtick"], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
 
         // `backtick` should not warn property/method names (not computed).
-        { code: "var obj = {\"key0\": 0, 'key1': 1};", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
-        { code: "class Foo { 'bar'(){} }", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
-        { code: "class Foo { static ''(){} }", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
-        { code: "class C { \"double\"; 'single'; }", options: ["backtick"], parserOptions: { ecmaVersion: 2022 } }
+        { code: "var obj = {\"key0\": 0, 'key1': 1};", options: ["backtick"], languageOptions: { ecmaVersion: 6 } },
+        { code: "class Foo { 'bar'(){} }", options: ["backtick"], languageOptions: { ecmaVersion: 6 } },
+        { code: "class Foo { static ''(){} }", options: ["backtick"], languageOptions: { ecmaVersion: 6 } },
+        { code: "class C { \"double\"; 'single'; }", options: ["backtick"], languageOptions: { ecmaVersion: 2022 } }
     ],
     invalid: [
         {
@@ -117,7 +122,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = `bar`;",
             output: "var foo = 'bar';",
             options: ["single"],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             },
             errors: [{
@@ -168,7 +173,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = `bar`;",
             output: "var foo = \"bar\";",
             options: ["double"],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             },
             errors: [{
@@ -231,7 +236,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = 'bar';",
             output: "var foo = `bar`;",
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
@@ -242,7 +247,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = 'b${x}a$r';",
             output: "var foo = `b\\${x}a$r`;",
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
@@ -253,7 +258,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = \"bar\";",
             output: "var foo = `bar`;",
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
@@ -264,7 +269,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = \"bar\";",
             output: "var foo = `bar`;",
             options: ["backtick", { avoidEscape: true }],
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
@@ -275,7 +280,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = 'bar';",
             output: "var foo = `bar`;",
             options: ["backtick", { avoidEscape: true }],
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
@@ -288,7 +293,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = `backtick`; \"use strict\";",
             output: "var foo = `backtick`; `use strict`;",
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
@@ -299,7 +304,7 @@ ruleTester.run("quotes", rule, {
             code: "{ \"use strict\"; var foo = `backtick`; }",
             output: "{ `use strict`; var foo = `backtick`; }",
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
@@ -310,7 +315,7 @@ ruleTester.run("quotes", rule, {
             code: "if (1) { \"use strict\"; var foo = `backtick`; }",
             output: "if (1) { `use strict`; var foo = `backtick`; }",
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "backtick" },
@@ -323,7 +328,7 @@ ruleTester.run("quotes", rule, {
             code: "var obj = {[\"key0\"]: 0, ['key1']: 1};",
             output: "var obj = {[`key0`]: 0, [`key1`]: 1};",
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -341,7 +346,7 @@ ruleTester.run("quotes", rule, {
             code: "class Foo { ['a'](){} static ['b'](){} }",
             output: "class Foo { [`a`](){} static [`b`](){} }",
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -361,7 +366,7 @@ ruleTester.run("quotes", rule, {
             code: "<div blah={\"blah\"} />",
             output: "<div blah={'blah'} />",
             options: ["single"],
-            parserOptions: { ecmaFeatures: { jsx: true } },
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -374,7 +379,7 @@ ruleTester.run("quotes", rule, {
             code: "<div blah={'blah'} />",
             output: "<div blah={\"blah\"} />",
             options: ["double"],
-            parserOptions: { ecmaFeatures: { jsx: true } },
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -387,7 +392,7 @@ ruleTester.run("quotes", rule, {
             code: "<div blah={'blah'} />",
             output: "<div blah={`blah`} />",
             options: ["backtick"],
-            parserOptions: { ecmaFeatures: { jsx: true }, ecmaVersion: 2015 },
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } }, ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -401,7 +406,7 @@ ruleTester.run("quotes", rule, {
         {
             code: "`use strict`;",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
@@ -411,7 +416,7 @@ ruleTester.run("quotes", rule, {
         {
             code: "function foo() { `use strict`; foo(); }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
@@ -421,7 +426,7 @@ ruleTester.run("quotes", rule, {
         {
             code: "foo = function() { `use strict`; foo(); }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
@@ -431,7 +436,7 @@ ruleTester.run("quotes", rule, {
         {
             code: "() => { `use strict`; foo(); }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
@@ -440,8 +445,8 @@ ruleTester.run("quotes", rule, {
         },
         {
             code: "() => { foo(); `use strict`; }",
-            output: "() => { foo(); \"use strict\"; }",
-            parserOptions: { ecmaVersion: 6 },
+            output: null, // no autofix
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
@@ -450,8 +455,8 @@ ruleTester.run("quotes", rule, {
         },
         {
             code: "foo(); `use strict`;",
-            output: "foo(); \"use strict\";",
-            parserOptions: { ecmaVersion: 6 },
+            output: null, // no autofix
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
@@ -463,7 +468,7 @@ ruleTester.run("quotes", rule, {
         {
             code: "var foo = `foo\\nbar`;",
             output: "var foo = \"foo\\nbar\";",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
@@ -473,7 +478,7 @@ ruleTester.run("quotes", rule, {
         {
             code: "var foo = `foo\\\nbar`;", // 1 backslash followed by a newline
             output: "var foo = \"foo\\\nbar\";",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
@@ -483,7 +488,7 @@ ruleTester.run("quotes", rule, {
         {
             code: "var foo = `foo\\\\\\\nbar`;", // 3 backslashes followed by a newline
             output: "var foo = \"foo\\\\\\\nbar\";",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
@@ -493,7 +498,7 @@ ruleTester.run("quotes", rule, {
         {
             code: "````",
             output: "\"\"``",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
@@ -532,7 +537,7 @@ ruleTester.run("quotes", rule, {
             code: "var notoctal = '\\0'",
             output: "var notoctal = `\\0`",
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -545,7 +550,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = '\\1'",
             output: null,
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -558,7 +563,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = \"\\1\"",
             output: null,
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -571,7 +576,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = '\\01'",
             output: null,
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -584,7 +589,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = '\\0\\1'",
             output: null,
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -597,7 +602,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = '\\08'",
             output: null,
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -610,7 +615,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = 'prefix \\33'",
             output: null,
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -623,7 +628,7 @@ ruleTester.run("quotes", rule, {
             code: "var foo = 'prefix \\75 suffix'",
             output: null,
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -636,7 +641,7 @@ ruleTester.run("quotes", rule, {
             code: "var nonOctalDecimalEscape = '\\8'",
             output: null,
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -652,7 +657,7 @@ ruleTester.run("quotes", rule, {
             code: "class C { 'foo'; }",
             output: "class C { \"foo\"; }",
             options: ["double"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -665,7 +670,7 @@ ruleTester.run("quotes", rule, {
             code: "class C { 'foo'() {} }",
             output: "class C { \"foo\"() {} }",
             options: ["double"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -678,7 +683,7 @@ ruleTester.run("quotes", rule, {
             code: "class C { \"foo\"; }",
             output: "class C { 'foo'; }",
             options: ["single"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -691,7 +696,7 @@ ruleTester.run("quotes", rule, {
             code: "class C { \"foo\"() {} }",
             output: "class C { 'foo'() {} }",
             options: ["single"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -704,7 +709,7 @@ ruleTester.run("quotes", rule, {
             code: "class C { [\"foo\"]; }",
             output: "class C { [`foo`]; }",
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -717,7 +722,7 @@ ruleTester.run("quotes", rule, {
             code: "class C { foo = \"foo\"; }",
             output: "class C { foo = `foo`; }",
             options: ["backtick"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "wrongQuotes",
@@ -725,6 +730,62 @@ ruleTester.run("quotes", rule, {
                     type: "Literal"
                 }
             ]
+        },
+
+        // https://github.com/eslint/eslint/pull/17022
+        {
+            code: "() => { foo(); (`use strict`); }",
+            output: "() => { foo(); (\"use strict\"); }",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
+        },
+        {
+            code: "('foo'); \"bar\";",
+            output: "(`foo`); `bar`;",
+            options: ["backtick"],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "backtick" },
+                type: "Literal"
+            }, {
+                messageId: "wrongQuotes",
+                data: { description: "backtick" },
+                type: "Literal"
+            }]
+        },
+        {
+            code: "; 'use asm';",
+            output: "; \"use asm\";",
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "Literal"
+            }]
+        },
+        {
+            code: "{ `foobar`; }",
+            output: "{ \"foobar\"; }",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
+        },
+        {
+            code: "foo(() => `bar`);",
+            output: "foo(() => \"bar\");",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
         }
     ]
 });

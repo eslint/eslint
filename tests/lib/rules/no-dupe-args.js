@@ -10,21 +10,26 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-dupe-args"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-dupe-args", rule, {
     valid: [
         "function a(a, b, c){}",
         "var a = function(a, b, c){}",
-        { code: "function a({a, b}, {c, d}){}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function a([ , a]) {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo([[a, b], [c, d]]) {}", parserOptions: { ecmaVersion: 6 } }
+        { code: "function a({a, b}, {c, d}){}", languageOptions: { ecmaVersion: 6 } },
+        { code: "function a([ , a]) {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "function foo([[a, b], [c, d]]) {}", languageOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "function a(a, b, b) {}", errors: [{ messageId: "unexpected", data: { name: "b" } }] },

@@ -31,7 +31,7 @@ const STANDARD_ESQUERY_OPTION = { visitorKeys: vk.KEYS, fallback: Traverser.getK
 
 const expectedPattern = /\/\*expected\s+((?:.|[\r\n])+?)\s*\*\//gu;
 const lineEndingPattern = /\r?\n/gu;
-const linter = new Linter();
+const linter = new Linter({ configType: "eslintrc" });
 
 /**
  * Extracts the content of `/*expected` comments from a given source code.
@@ -137,37 +137,6 @@ describe("CodePathAnalyzer", () => {
             assert(actual[1].thrownSegments[0] instanceof CodePathSegment);
         });
 
-        it("should have `currentSegments` as CodePathSegment[]", () => {
-            assert(Array.isArray(actual[0].currentSegments));
-            assert(Array.isArray(actual[1].currentSegments));
-            assert(actual[0].currentSegments.length === 0);
-            assert(actual[1].currentSegments.length === 0);
-
-            // there is the current segment in progress.
-            linter.defineRule("test", {
-                create() {
-                    let codePath = null;
-
-                    return {
-                        onCodePathStart(cp) {
-                            codePath = cp;
-                        },
-                        ReturnStatement() {
-                            assert(codePath.currentSegments.length === 1);
-                            assert(codePath.currentSegments[0] instanceof CodePathSegment);
-                        },
-                        ThrowStatement() {
-                            assert(codePath.currentSegments.length === 1);
-                            assert(codePath.currentSegments[0] instanceof CodePathSegment);
-                        }
-                    };
-                }
-            });
-            linter.verify(
-                "function foo(a) { if (a) return 0; else throw new Error(); }",
-                { rules: { test: 2 } }
-            );
-        });
     });
 
     describe("interface of code path segments", () => {
@@ -432,6 +401,164 @@ describe("CodePathAnalyzer", () => {
             });
             linter.verify(
                 "foo(); function foo() {} var foo = function() {}; var foo = () => {};",
+                { rules: { test: 2 }, env: { es6: true } }
+            );
+
+            assert(count === 4);
+        });
+    });
+
+    describe("onUnreachableCodePathSegmentStart", () => {
+        it("should be fired after a throw", () => {
+            let lastCodePathNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentStart(segment, node) {
+                        lastCodePathNodeType = node.type;
+
+                        assert(segment instanceof CodePathSegment);
+                        assert.strictEqual(node.type, "ExpressionStatement");
+                    },
+                    ExpressionStatement() {
+                        assert.strictEqual(lastCodePathNodeType, "ExpressionStatement");
+                    }
+                })
+            });
+            linter.verify(
+                "throw 'boom'; foo();",
+                { rules: { test: 2 } }
+            );
+
+        });
+
+        it("should be fired after a return", () => {
+            let lastCodePathNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentStart(segment, node) {
+                        lastCodePathNodeType = node.type;
+
+                        assert(segment instanceof CodePathSegment);
+                        assert.strictEqual(node.type, "ExpressionStatement");
+                    },
+                    ExpressionStatement() {
+                        assert.strictEqual(lastCodePathNodeType, "ExpressionStatement");
+                    }
+                })
+            });
+            linter.verify(
+                "function foo() { return; foo(); }",
+                { rules: { test: 2 } }
+            );
+
+        });
+    });
+
+    describe("onUnreachableCodePathSegmentEnd", () => {
+        it("should be fired after a throw", () => {
+            let lastCodePathNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentEnd(segment, node) {
+                        lastCodePathNodeType = node.type;
+
+                        assert(segment instanceof CodePathSegment);
+                        assert.strictEqual(node.type, "Program");
+                    }
+                })
+            });
+            linter.verify(
+                "throw 'boom'; foo();",
+                { rules: { test: 2 } }
+            );
+
+            assert.strictEqual(lastCodePathNodeType, "Program");
+        });
+
+        it("should be fired after a return", () => {
+            let lastCodePathNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentEnd(segment, node) {
+                        lastCodePathNodeType = node.type;
+                        assert(segment instanceof CodePathSegment);
+                        assert.strictEqual(node.type, "FunctionDeclaration");
+                    },
+                    "Program:exit"() {
+                        assert.strictEqual(lastCodePathNodeType, "FunctionDeclaration");
+                    }
+                })
+            });
+            linter.verify(
+                "function foo() { return; foo(); }",
+                { rules: { test: 2 } }
+            );
+
+        });
+
+        it("should be fired after a return inside of function and if statement", () => {
+            let lastCodePathNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentEnd(segment, node) {
+                        lastCodePathNodeType = node.type;
+                        assert(segment instanceof CodePathSegment);
+                        assert.strictEqual(node.type, "BlockStatement");
+                    },
+                    "Program:exit"() {
+                        assert.strictEqual(lastCodePathNodeType, "BlockStatement");
+                    }
+                })
+            });
+            linter.verify(
+                "function foo() { if (bar) { return; foo(); } else {} }",
+                { rules: { test: 2 } }
+            );
+
+        });
+
+        it("should be fired at the end of programs/functions for the final segment", () => {
+            let count = 0;
+            let lastNodeType = null;
+
+            linter.defineRule("test", {
+                create: () => ({
+                    onUnreachableCodePathSegmentEnd(cp, node) {
+                        count += 1;
+
+                        assert(cp instanceof CodePathSegment);
+                        if (count === 4) {
+                            assert(node.type === "Program");
+                        } else if (count === 1) {
+                            assert(node.type === "FunctionDeclaration");
+                        } else if (count === 2) {
+                            assert(node.type === "FunctionExpression");
+                        } else if (count === 3) {
+                            assert(node.type === "ArrowFunctionExpression");
+                        }
+                        assert(node.type === lastNodeType);
+                    },
+                    "Program:exit"() {
+                        lastNodeType = "Program";
+                    },
+                    "FunctionDeclaration:exit"() {
+                        lastNodeType = "FunctionDeclaration";
+                    },
+                    "FunctionExpression:exit"() {
+                        lastNodeType = "FunctionExpression";
+                    },
+                    "ArrowFunctionExpression:exit"() {
+                        lastNodeType = "ArrowFunctionExpression";
+                    }
+                })
+            });
+            linter.verify(
+                "foo(); function foo() { return; } var foo = function() { return; }; var foo = () => { return; }; throw 'boom';",
                 { rules: { test: 2 }, env: { es6: true } }
             );
 

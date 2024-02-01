@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/valid-typeof"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -65,16 +65,16 @@ ruleTester.run("valid-typeof", rule, {
         {
             code: "typeof foo === `string`",
             options: [{ requireStringLiterals: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "`object` === typeof foo",
             options: [{ requireStringLiterals: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "typeof foo === `str${somethingElse}`",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -129,7 +129,7 @@ ruleTester.run("valid-typeof", rule, {
         },
         {
             code: "if (typeof bar === `umdefined`) {}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "invalidValue", type: "TemplateLiteral" }]
         },
         {
@@ -208,13 +208,13 @@ ruleTester.run("valid-typeof", rule, {
         {
             code: "typeof foo === `undefined${foo}`",
             options: [{ requireStringLiterals: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "notString", type: "TemplateLiteral" }]
         },
         {
             code: "typeof foo === `${string}`",
             options: [{ requireStringLiterals: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "notString", type: "TemplateLiteral" }]
         }
     ]

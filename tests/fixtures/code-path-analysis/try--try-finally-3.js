@@ -17,7 +17,7 @@ last();
 digraph {
     node[shape=box,style="rounded,filled",fillcolor=white];
     initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
-    thrown[label="✘",shape=circle,width=0.3,height=0.3,fixedsize];
+    thrown[label="✘",shape=circle,width=0.3,height=0.3,fixedsize=true];
     s1_1[label="Program\nTryStatement\nBlockStatement\nThrowStatement\nIdentifier (err)"];
     s1_2[label="ThrowStatement:exit"];
     s1_3[style="rounded,dashed,filled",fillcolor="#FF9800",label="<<unreachable>>\nBlockStatement:exit"];

@@ -1,17 +1,13 @@
 .docs-toc {
     margin: 2rem 0;
-}
-
-.docs-toc {
-    .docs-aside & {
-        display: none;
-    }
 
     @media all and (min-width: 1400px) {
         display: none;
     }
 
     .docs-aside & {
+        display: none;
+
         @media all and (min-width: 1400px) {
             display: block;
         }
@@ -124,7 +120,6 @@
     color: var(--color-neutral-400);
 
     [aria-expanded="true"] & {
-        -ms-transform: rotate(180deg);
         transform: rotate(180deg);
     }
 }

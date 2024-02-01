@@ -9,16 +9,20 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-inline-comments"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-        parserOptions: {
-            ecmaFeatures: {
-                jsx: true
+        languageOptions: {
+            ecmaVersion: 5,
+            sourceType: "script",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
             }
         }
     }),
@@ -99,7 +103,7 @@ ruleTester.run("no-inline-comments", rule, {
                     ignorePattern: "(?:webpackChunkName):\\s.+"
                 }
             ],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "var foo = 2; // Note: This comment is legal.",

@@ -1,6 +1,9 @@
 ---
 title: require-unicode-regexp
 rule_type: suggestion
+further_reading:
+- https://github.com/tc39/proposal-regexp-v-flag
+- https://v8.dev/features/regexp-v-flag
 ---
 
 
@@ -21,11 +24,39 @@ RegExp `u` flag has two effects:
 
     The `u` flag disables the recovering logic Annex B defined. As a result, you can find errors early. This is similar to [the strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode).
 
-Therefore, the `u` flag lets us work better with regular expressions.
+The RegExp `v` flag, introduced in ECMAScript 2024, is a superset of the `u` flag, and offers two more features:
+
+1. **Unicode properties of strings**
+
+    With the Unicode property escape, you can use properties of strings.
+
+    ```js
+    const re = /^\p{RGI_Emoji}$/v;
+
+    // Match an emoji that consists of just 1 code point:
+    re.test('⚽'); // '\u26BD'
+    // → true ✅
+
+    // Match an emoji that consists of multiple code points:
+    re.test('👨🏾‍⚕️'); // '\u{1F468}\u{1F3FE}\u200D\u2695\uFE0F'
+    // → true ✅
+    ```
+
+2. **Set notation**
+
+    It allows for set operations between character classes.
+
+    ```js
+    const re = /[\p{White_Space}&&\p{ASCII}]/v;
+    re.test('\n'); // → true
+    re.test('\u2028'); // → false
+    ```
+
+Therefore, the `u` and `v` flags let us work better with regular expressions.
 
 ## Rule Details
 
-This rule aims to enforce the use of `u` flag on regular expressions.
+This rule aims to enforce the use of `u` or `v` flag on regular expressions.
 
 Examples of **incorrect** code for this rule:
 
@@ -54,8 +85,13 @@ const b = /bbb/giu
 const c = new RegExp("ccc", "u")
 const d = new RegExp("ddd", "giu")
 
+const e = /aaa/v
+const f = /bbb/giv
+const g = new RegExp("ccc", "v")
+const h = new RegExp("ddd", "giv")
+
 // This rule ignores RegExp calls if the flags could not be evaluated to a static value.
-function f(flags) {
+function i(flags) {
     return new RegExp("eee", flags)
 }
 ```
@@ -64,4 +100,4 @@ function f(flags) {
 
 ## When Not To Use It
 
-If you don't want to notify regular expressions with no `u` flag, then it's safe to disable this rule.
+If you don't want to warn on regular expressions without either a `u` or a `v` flag, then it's safe to disable this rule.

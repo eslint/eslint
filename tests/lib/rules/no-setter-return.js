@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-setter-return");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -39,7 +39,7 @@ function error(column, type = "ReturnStatement") {
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022, sourceType: "script" } });
 
 ruleTester.run("no-setter-return", rule, {
     valid: [
@@ -67,19 +67,19 @@ ruleTester.run("no-setter-return", rule, {
         // does not report global return
         {
             code: "return 1;",
-            env: { node: true }
+            languageOptions: { sourceType: "commonjs" }
         },
         {
             code: "return 1;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } }
+            languageOptions: { sourceType: "script", parserOptions: { ecmaFeatures: { globalReturn: true } } }
         },
         {
             code: "return 1; function foo(){ return 1; } return 1;",
-            env: { node: true }
+            languageOptions: { sourceType: "commonjs" }
         },
         {
             code: "function foo(){} return 1; var bar = function*(){ return 1; }; return 1; var baz = () => {}; return 1;",
-            env: { node: true }
+            languageOptions: { sourceType: "commonjs" }
         },
 
         //------------------------------------------------------------------------------
@@ -144,7 +144,7 @@ ruleTester.run("no-setter-return", rule, {
         "Object.defineProperty(foo, 'bar', { set(val) { return; } })",
         {
             code: "Reflect.defineProperty(foo, 'bar', { set(val) { if (val) { return; } } })",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "Object.defineProperties(foo, { bar: { set(val) { try { return; } catch(e){} } } })",
         "Object.create(foo, { bar: { set: function(val) { return; } } })",
@@ -155,21 +155,21 @@ ruleTester.run("no-setter-return", rule, {
         "Object.defineProperty(foo, 'bar', { value(val) { return 1; } })",
         {
             code: "Reflect.defineProperty(foo, 'bar', { value: function set(val) { return 1; } })",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "Object.defineProperties(foo, { bar: { [set](val) { return 1; } } })",
         "Object.create(foo, { bar: { 'set ': function(val) { return 1; } } })",
         "Object.defineProperty(foo, 'bar', { [`set `]: (val) => { return 1; } })",
         {
             code: "Reflect.defineProperty(foo, 'bar', { Set(val) { return 1; } })",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "Object.defineProperties(foo, { bar: { value: (val) => 1 } })",
         "Object.create(foo, { set: { value: function(val) { return 1; } } })",
         "Object.defineProperty(foo, 'bar', { baz(val) { return 1; } })",
         {
             code: "Reflect.defineProperty(foo, 'bar', { get(val) { return 1; } })",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "Object.create(foo, { set: function(val) { return 1; } })",
         "Object.defineProperty(foo, { set: (val) => 1 })",
@@ -178,7 +178,7 @@ ruleTester.run("no-setter-return", rule, {
         "Object.defineProperty(foo, 'bar', { set(val) { function foo() { return 1; } } })",
         {
             code: "Reflect.defineProperty(foo, 'bar', { set(val) { var foo = function() { return 1; } } })",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "Object.defineProperties(foo, { bar: { set(val) { () => { return 1 }; } } })",
         "Object.create(foo, { bar: { set: (val) => { (val) => 1; } } })",
@@ -189,15 +189,15 @@ ruleTester.run("no-setter-return", rule, {
         "Object.defineProperty({ set(val) { return 1; } }, foo, 'bar')",
         {
             code: "Reflect.defineProperty(foo, 'bar', 'baz', { set(val) { return 1; } })",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "Reflect.defineProperty(foo, { set(val) { return 1; } }, 'bar')",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "Reflect.defineProperty({ set(val) { return 1; } }, foo, 'bar')",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "Object.defineProperties(foo, bar, { baz: { set(val) { return 1; } } })",
         "Object.defineProperties({ bar: { set(val) { return 1; } } }, foo)",
@@ -208,7 +208,7 @@ ruleTester.run("no-setter-return", rule, {
         "Object.DefineProperty(foo, 'bar', { set(val) { return 1; } })",
         {
             code: "Reflect.DefineProperty(foo, 'bar', { set(val) { if (val) { return 1; } } })",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "Object.DefineProperties(foo, { bar: { set(val) { try { return 1; } catch(e){} } } })",
         "Object.Create(foo, { bar: { set: function(val) { return 1; } } })",
@@ -217,27 +217,30 @@ ruleTester.run("no-setter-return", rule, {
         "object.defineProperty(foo, 'bar', { set(val) { return 1; } })",
         {
             code: "reflect.defineProperty(foo, 'bar', { set(val) { if (val) { return 1; } } })",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "Reflect.defineProperties(foo, { bar: { set(val) { try { return 1; } catch(e){} } } })",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "object.create(foo, { bar: { set: function(val) { return 1; } } })",
 
         // global object doesn't exist
-        "Reflect.defineProperty(foo, 'bar', { set(val) { if (val) { return 1; } } })",
+        {
+            code: "Reflect.defineProperty(foo, 'bar', { set(val) { if (val) { return 1; } } })",
+            languageOptions: { globals: { Reflect: "off" } }
+        },
         "/* globals Object:off */ Object.defineProperty(foo, 'bar', { set(val) { return 1; } })",
         {
             code: "Object.defineProperties(foo, { bar: { set(val) { try { return 1; } catch(e){} } } })",
-            globals: { Object: "off" }
+            languageOptions: { globals: { Object: "off" } }
         },
 
         // global object is shadowed
         "let Object; Object.defineProperty(foo, 'bar', { set(val) { return 1; } })",
         {
             code: "function f() { Reflect.defineProperty(foo, 'bar', { set(val) { if (val) { return 1; } } }); var Reflect;}",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "function f(Object) { Object.defineProperties(foo, { bar: { set(val) { try { return 1; } catch(e){} } } }) }",
         "if (x) { const Object = getObject(); Object.create(foo, { bar: { set: function(val) { return 1; } } }) }",
@@ -401,7 +404,7 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "return; ({ set a(val) { return 1; } }); return 2;",
-            env: { node: true },
+            languageOptions: { sourceType: "commonjs" },
             errors: [error(25)]
         },
 
@@ -416,7 +419,7 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { set(val) { return 1; } })",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [error()]
         },
         {
@@ -435,7 +438,7 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { set: val => f(val) })",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [error(50, "CallExpression")]
         },
         {
@@ -454,7 +457,7 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { set(val) { try { return f(val) } catch (e) { return e }; } })",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [error(55), error(83)]
         },
         {
@@ -486,7 +489,7 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { 'set'(val) { return 1; } })",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [error()]
         },
         {
@@ -511,12 +514,12 @@ ruleTester.run("no-setter-return", rule, {
         // Optional chaining
         {
             code: "Object?.defineProperty(foo, 'bar', { set(val) { return 1; } })",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [error()]
         },
         {
             code: "(Object?.defineProperty)(foo, 'bar', { set(val) { return 1; } })",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [error()]
         }
     ]

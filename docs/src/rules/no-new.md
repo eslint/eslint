@@ -43,7 +43,7 @@ Examples of **correct** code for this rule:
 
 var thing = new Thing();
 
-Thing();
+Foo();
 ```
 
 :::

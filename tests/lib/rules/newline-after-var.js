@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/newline-after-var"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Fixtures
@@ -24,8 +24,8 @@ const NO_VAR = "console.log(greet);",
     FOR_LOOP_WITH_VAR = "for(var a = 1; a < 1; a++){\n break;\n}",
     FOR_IN_LOOP_WITH_LET = "for(let a in obj){\n break;\n}",
     FOR_IN_LOOP_WITH_VAR = "for(var a in obj){\n break;\n}",
-    FOR_OF_LOOP_WITH_LET = "for(let a in obj){\n break;\n}",
-    FOR_OF_LOOP_WITH_VAR = "for(var a in obj){\n break;\n}",
+    FOR_OF_LOOP_WITH_LET = "for(let a of obj){\n break;\n}",
+    FOR_OF_LOOP_WITH_VAR = "for(var a of obj){\n break;\n}",
     EXPORT_WITH_LET = "export let a = 1;\nexport let b = 2;",
     EXPORT_WITH_VAR = "export var a = 1;\nexport var b = 2;",
     EXPORT_WITH_CONST = "export const a = 1;\nexport const b = 2;",
@@ -179,39 +179,39 @@ ruleTester.run("newline-after-var", rule, {
         { code: MULTI_LINE_NEXT_LINE_BLOCK_COMMENT, options: ["never"] },
 
         // should handle ES6 `let` block binding
-        { code: LET_ONE_BLANK, options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: LET_NO_BLANK, options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: LET_ONE_BLANK, options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        { code: LET_NO_BLANK, options: ["never"], languageOptions: { ecmaVersion: 6 } },
 
         // should handle ES6 `const` block binding
-        { code: CONST_ONE_BLANK, options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: CONST_NO_BLANK, options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: CONST_ONE_BLANK, options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        { code: CONST_NO_BLANK, options: ["never"], languageOptions: { ecmaVersion: 6 } },
 
         // should handle a mix of `var`, `let`, or `const`
-        { code: MIXED_LET_VAR, options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: MIXED_CONST_VAR, options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: MIXED_LET_CONST, options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: MIXED_LET_VAR, options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        { code: MIXED_CONST_VAR, options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        { code: MIXED_LET_CONST, options: ["always"], languageOptions: { ecmaVersion: 6 } },
 
         // should handle a mix of `var` or `let` inside for variations
-        { code: FOR_LOOP_WITH_LET, options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: FOR_LOOP_WITH_VAR, options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: FOR_LOOP_WITH_LET, options: ["never"], parserOptions: { ecmaVersion: 6 } },
-        { code: FOR_LOOP_WITH_VAR, options: ["never"], parserOptions: { ecmaVersion: 6 } },
-        { code: FOR_IN_LOOP_WITH_LET, options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: FOR_IN_LOOP_WITH_VAR, options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: FOR_IN_LOOP_WITH_LET, options: ["never"], parserOptions: { ecmaVersion: 6 } },
-        { code: FOR_IN_LOOP_WITH_VAR, options: ["never"], parserOptions: { ecmaVersion: 6 } },
-        { code: FOR_OF_LOOP_WITH_LET, options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: FOR_OF_LOOP_WITH_VAR, options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: FOR_OF_LOOP_WITH_LET, options: ["never"], parserOptions: { ecmaVersion: 6 } },
-        { code: FOR_OF_LOOP_WITH_VAR, options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: FOR_LOOP_WITH_LET, options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        { code: FOR_LOOP_WITH_VAR, options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        { code: FOR_LOOP_WITH_LET, options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        { code: FOR_LOOP_WITH_VAR, options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        { code: FOR_IN_LOOP_WITH_LET, options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        { code: FOR_IN_LOOP_WITH_VAR, options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        { code: FOR_IN_LOOP_WITH_LET, options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        { code: FOR_IN_LOOP_WITH_VAR, options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        { code: FOR_OF_LOOP_WITH_LET, options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        { code: FOR_OF_LOOP_WITH_VAR, options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        { code: FOR_OF_LOOP_WITH_LET, options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        { code: FOR_OF_LOOP_WITH_VAR, options: ["never"], languageOptions: { ecmaVersion: 6 } },
 
         // should handle export specifiers
-        { code: EXPORT_WITH_LET, options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: EXPORT_WITH_LET, options: ["always"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: EXPORT_WITH_VAR, options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: EXPORT_WITH_VAR, options: ["always"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: EXPORT_WITH_CONST, options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: EXPORT_WITH_CONST, options: ["always"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: EXPORT_WITH_LET, options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: EXPORT_WITH_LET, options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: EXPORT_WITH_VAR, options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: EXPORT_WITH_VAR, options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: EXPORT_WITH_CONST, options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: EXPORT_WITH_CONST, options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // should allow no blank line at end of block
         { code: END_OF_FUNCTION, options: ["always"] },
@@ -220,9 +220,9 @@ ruleTester.run("newline-after-var", rule, {
         { code: END_OF_FUNCTION_EXPRESSION, options: ["always"] },
         { code: END_OF_FUNCTION_EXPRESSION, options: ["never"] },
         { code: NOT_END_OF_FUNCTION_EXPRESSION, options: ["never"] },
-        { code: END_OF_ARROW_FUNCTION, options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: END_OF_ARROW_FUNCTION, options: ["never"], parserOptions: { ecmaVersion: 6 } },
-        { code: NOT_END_OF_ARROW_FUNCTION, options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: END_OF_ARROW_FUNCTION, options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        { code: END_OF_ARROW_FUNCTION, options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        { code: NOT_END_OF_ARROW_FUNCTION, options: ["never"], languageOptions: { ecmaVersion: 6 } },
         { code: END_OF_BLOCK, options: ["always"] },
         { code: END_OF_BLOCK, options: ["never"] },
         { code: END_OF_IF, options: ["always"] },
@@ -274,11 +274,11 @@ ruleTester.run("newline-after-var", rule, {
         { code: MULTI_VAR_NO_BLANK, output: MULTI_VAR_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: MULTI_DEC_NO_BLANK, output: MULTI_DEC_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: MULTI_LINE_NO_BLANK, output: MULTI_LINE_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: LET_NO_BLANK, output: LET_ONE_BLANK, options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
-        { code: CONST_NO_BLANK, output: CONST_ONE_BLANK, options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
+        { code: LET_NO_BLANK, output: LET_ONE_BLANK, options: ["always"], languageOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
+        { code: CONST_NO_BLANK, output: CONST_ONE_BLANK, options: ["always"], languageOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
         { code: NOT_END_OF_FUNCTION, output: NOT_END_OF_FUNCTION_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: NOT_END_OF_FUNCTION_EXPRESSION, output: NOT_END_OF_FUNCTION_EXPRESSION_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: NOT_END_OF_ARROW_FUNCTION, output: NOT_END_OF_ARROW_FUNCTION_ONE_BLANK, options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
+        { code: NOT_END_OF_ARROW_FUNCTION, output: NOT_END_OF_ARROW_FUNCTION_ONE_BLANK, options: ["always"], languageOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
         { code: NO_BLANK_BEFORE_CASE, output: ONE_BLANK_BEFORE_CASE, options: ["always"], errors: [ALWAYS_ERROR] },
 
         // should disallow blank lines in "never" mode
@@ -291,8 +291,8 @@ ruleTester.run("newline-after-var", rule, {
         { code: MULTI_DEC_ONE_BLANK, output: MULTI_DEC_NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
         { code: MULTI_LINE_ONE_BLANK, output: MULTI_LINE_NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
         { code: MULTI_LINE_ONE_BLANK_WITH_COMMENTS, output: MULTI_LINE_NO_BLANK_WITH_COMMENTS, options: ["never"], errors: [NEVER_ERROR] },
-        { code: LET_ONE_BLANK, output: LET_NO_BLANK, options: ["never"], parserOptions: { ecmaVersion: 6 }, errors: [NEVER_ERROR] },
-        { code: CONST_ONE_BLANK, output: CONST_NO_BLANK, options: ["never"], parserOptions: { ecmaVersion: 6 }, errors: [NEVER_ERROR] },
+        { code: LET_ONE_BLANK, output: LET_NO_BLANK, options: ["never"], languageOptions: { ecmaVersion: 6 }, errors: [NEVER_ERROR] },
+        { code: CONST_ONE_BLANK, output: CONST_NO_BLANK, options: ["never"], languageOptions: { ecmaVersion: 6 }, errors: [NEVER_ERROR] },
         { code: ONE_BLANK_BEFORE_CASE, output: NO_BLANK_BEFORE_CASE, options: ["never"], errors: [NEVER_ERROR] },
 
         // should disallow a comment on the next line that's not in turn followed by a blank in "always" mode

@@ -9,13 +9,17 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-void");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-void", rule, {
     valid: [

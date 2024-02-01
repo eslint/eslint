@@ -90,15 +90,22 @@ describe("bin/eslint.js", () => {
         });
 
         it("has exit code 0 if no linting errors are reported", () => {
-            const child = runESLint([
-                "--stdin",
-                "--no-config-lookup",
-                "--rule",
-                "{'no-extra-semi': 2}",
-                "--fix-dry-run",
-                "--format",
-                "json"
-            ]);
+            const child = runESLint(
+                [
+                    "--stdin",
+                    "--no-config-lookup",
+                    "--rule",
+                    "{'no-extra-semi': 2}",
+                    "--fix-dry-run",
+                    "--format",
+                    "json"
+                ],
+                {
+
+                    // Use the tests directory as the CWD to supress the ESLintIgnoreWarning
+                    cwd: path.resolve(__dirname, "../")
+                }
+            );
 
             const expectedOutput = JSON.stringify([
                 {
@@ -111,7 +118,12 @@ describe("bin/eslint.js", () => {
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     output: "var foo = bar;\n",
-                    usedDeprecatedRules: []
+                    usedDeprecatedRules: [
+                        {
+                            ruleId: "no-extra-semi",
+                            replacedBy: []
+                        }
+                    ]
                 }
             ]);
 
@@ -155,10 +167,8 @@ describe("bin/eslint.js", () => {
             "gives a detailed error message if no config file is found in /",
             () => {
                 if (
-                    fs.readdirSync("/").some(
-                        fileName =>
-                            /^\.eslintrc(?:\.(?:js|yaml|yml|json))?$/u
-                                .test(fileName)
+                    fs.readdirSync("/").includes(
+                        "eslint.config.js"
                     )
                 ) {
                     return Promise.resolve(true);
@@ -171,7 +181,7 @@ describe("bin/eslint.js", () => {
                 const stderrPromise = getOutput(child).then(output => {
                     assert.match(
                         output.stderr,
-                        /ESLint couldn't find a configuration file/u
+                        /Could not find config file/u
                     );
                 });
 
@@ -204,10 +214,10 @@ describe("bin/eslint.js", () => {
     });
 
     describe("running on files", () => {
-        it("has exit code 0 if no linting errors occur", () => assertExitCode(runESLint(["bin/eslint.js"]), 0));
+        it("has exit code 0 if no linting errors occur", () => assertExitCode(runESLint(["bin/eslint.js", "--no-config-lookup"]), 0));
         it("has exit code 0 if a linting warning is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--no-config-lookup", "--rule", "semi: [1, never]"]), 0));
         it("has exit code 1 if a linting error is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--no-config-lookup", "--rule", "semi: [2, never]"]), 1));
-        it("has exit code 1 if a syntax error is thrown", () => assertExitCode(runESLint(["tests/fixtures/exit-on-fatal-error/fatal-error.js", "--no-ignore"]), 1));
+        it("has exit code 1 if a syntax error is thrown", () => assertExitCode(runESLint(["tests/fixtures/exit-on-fatal-error/fatal-error.js", "--no-config-lookup"]), 1));
     });
 
     describe("automatically fixing files", () => {
@@ -359,7 +369,7 @@ describe("bin/eslint.js", () => {
 
     describe("handling crashes", () => {
         it("prints the error message to stderr in the event of a crash", () => {
-            const child = runESLint(["--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']", "Makefile.js"]);
+            const child = runESLint(["--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']", "--no-config-lookup", "Makefile.js"]);
             const exitCodeAssertion = assertExitCode(child, 2);
             const outputAssertion = getOutput(child).then(output => {
                 const expectedSubstring = "Syntax error in selector";
@@ -372,7 +382,7 @@ describe("bin/eslint.js", () => {
         });
 
         it("prints the error message exactly once to stderr in the event of a crash", () => {
-            const child = runESLint(["--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']", "Makefile.js"]);
+            const child = runESLint(["--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']", "--no-config-lookup", "Makefile.js"]);
             const exitCodeAssertion = assertExitCode(child, 2);
             const outputAssertion = getOutput(child).then(output => {
                 const expectedSubstring = "Syntax error in selector";
@@ -385,6 +395,69 @@ describe("bin/eslint.js", () => {
             });
 
             return Promise.all([exitCodeAssertion, outputAssertion]);
+        });
+
+        it("does not exit with zero when there is an error in the next tick", () => {
+            const config = path.join(__dirname, "../fixtures/bin/eslint.config-promise-tick-throws.js");
+            const file = path.join(__dirname, "../fixtures/bin/empty.js");
+            const child = runESLint(["--config", config, file]);
+            const exitCodeAssertion = assertExitCode(child, 2);
+            const outputAssertion = getOutput(child).then(output => {
+
+                // ensure the expected error was printed
+                assert.include(output.stderr, "test_error_stack");
+
+                // ensure that linting the file did not cause an error
+                assert.notInclude(output.stderr, "empty.js");
+                assert.notInclude(output.stdout, "empty.js");
+            });
+
+            return Promise.all([exitCodeAssertion, outputAssertion]);
+        });
+
+        // https://github.com/eslint/eslint/issues/17560
+        describe("does not print duplicate errors in the event of a crash", () => {
+
+            it("when there is an invalid config read from a config file", () => {
+                const config = path.join(__dirname, "../fixtures/bin/eslint.config-invalid.js");
+                const child = runESLint(["--config", config, "conf", "tools"]);
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+
+                    // The error text should appear exactly once in stderr
+                    assert.strictEqual(output.stderr.match(/A config object is using the "globals" key/gu).length, 1);
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+
+            it("when there is an error in the next tick", () => {
+                const config = path.join(__dirname, "../fixtures/bin/eslint.config-tick-throws.js");
+                const child = runESLint(["--config", config, "Makefile.js"]);
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+
+                    // The error text should appear exactly once in stderr
+                    assert.strictEqual(output.stderr.match(/test_error_stack/gu).length, 1);
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+        });
+
+        // https://github.com/eslint/eslint/issues/17960
+        it("should include key information in the error message when there is an invalid config", () => {
+
+            // The error message should include the key name
+            const config = path.join(__dirname, "../fixtures/bin/eslint.config-invalid-key.js");
+            const child = runESLint(["--config", config, "conf", "tools"]);
+            const exitCodeAssertion = assertExitCode(child, 2);
+            const outputAssertion = getOutput(child).then(output => {
+                assert.include(output.stderr, "Key \"linterOptions\": Key \"reportUnusedDisableDirectives\"");
+            });
+
+            return Promise.all([exitCodeAssertion, outputAssertion]);
+
         });
 
         it("prints the error message pointing to line of code", () => {

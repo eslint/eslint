@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/comma-spacing"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -60,11 +60,11 @@ ruleTester.run("comma-spacing", rule, {
         "var obj = {'foo':'bar', 'baz':\n'qur'};",
         "var obj = {'foo':\n'bar', 'baz':\n'qur'};",
         "function foo(a, b){}",
-        { code: "function foo(a, b = 1){}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo(a = 1, b, c){}", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = (a, b) => {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = (a=1, b) => {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = a => a + 2", parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo(a, b = 1){}", languageOptions: { ecmaVersion: 6 } },
+        { code: "function foo(a = 1, b, c){}", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = (a, b) => {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = (a=1, b) => {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = a => a + 2", languageOptions: { ecmaVersion: 6 } },
         "a, b",
         "var a = (1 + 2, 2);",
         "a(b, c)",
@@ -76,12 +76,12 @@ ruleTester.run("comma-spacing", rule, {
         "go.boom((a + b), 10, (4))",
         "var x = [ (a + c), (b + b) ]",
         "['  ,  ']",
-        { code: "[`  ,  `]", parserOptions: { ecmaVersion: 6 } },
-        { code: "`${[1, 2]}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "fn(a, b,)", parserOptions: { ecmaVersion: 2018 } }, // #11295
-        { code: "const fn = (a, b,) => {}", parserOptions: { ecmaVersion: 2018 } }, // #11295
-        { code: "const fn = function (a, b,) {}", parserOptions: { ecmaVersion: 2018 } }, // #11295
-        { code: "function fn(a, b,) {}", parserOptions: { ecmaVersion: 2018 } }, // #11295
+        { code: "[`  ,  `]", languageOptions: { ecmaVersion: 6 } },
+        { code: "`${[1, 2]}`", languageOptions: { ecmaVersion: 6 } },
+        { code: "fn(a, b,)", languageOptions: { ecmaVersion: 2018 } }, // #11295
+        { code: "const fn = (a, b,) => {}", languageOptions: { ecmaVersion: 2018 } }, // #11295
+        { code: "const fn = function (a, b,) {}", languageOptions: { ecmaVersion: 2018 } }, // #11295
+        { code: "function fn(a, b,) {}", languageOptions: { ecmaVersion: 2018 } }, // #11295
         "foo(/,/, 'a')",
         "var x = ',,,,,';",
         "var code = 'var foo = 1, bar = 3;'",
@@ -149,25 +149,25 @@ ruleTester.run("comma-spacing", rule, {
         { code: "var arr = [1,,3];", options: [{ before: false, after: false }] },
         { code: "var arr = [1,2,3];", options: [{ before: false, after: false }] },
         { code: "var a = (1 + 2,2)", options: [{ before: false, after: false }] },
-        { code: "var a; console.log(`${a}`, \"a\");", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a, b] = [1, 2];", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a, b, ] = [1, 2];", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a, b,] = [1, 2];", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a, , b] = [1, 2, 3];", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a,, b] = [1, 2, 3];", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [ , b] = a;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [, b] = a;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var { a,} = a;", parserOptions: { ecmaVersion: 6 } },
-        { code: "import { a,} from 'mod';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "<a>,</a>", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "<a>  ,  </a>", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "<a>Hello, world</a>", options: [{ before: true, after: false }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+        { code: "var a; console.log(`${a}`, \"a\");", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a, b] = [1, 2];", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a, b, ] = [1, 2];", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a, b,] = [1, 2];", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a, , b] = [1, 2, 3];", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a,, b] = [1, 2, 3];", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [ , b] = a;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [, b] = a;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var { a,} = a;", languageOptions: { ecmaVersion: 6 } },
+        { code: "import { a,} from 'mod';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "<a>,</a>", languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<a>  ,  </a>", languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<a>Hello, world</a>", options: [{ before: true, after: false }], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         // For backwards compatibility. Ignoring spacing between a comment and comma of a null element was possibly unintentional.
         { code: "[a, /**/ , ]", options: [{ before: false, after: true }] },
         { code: "[a , /**/, ]", options: [{ before: true, after: true }] },
-        { code: "[a, /**/ , ] = foo", options: [{ before: false, after: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "[a , /**/, ] = foo", options: [{ before: true, after: true }], parserOptions: { ecmaVersion: 6 } }
+        { code: "[a, /**/ , ] = foo", options: [{ before: false, after: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "[a , /**/, ] = foo", options: [{ before: true, after: true }], languageOptions: { ecmaVersion: 6 } }
     ],
 
     invalid: [
@@ -441,7 +441,7 @@ ruleTester.run("comma-spacing", rule, {
             code: "var foo = (a,b) => {}",
             output: "var foo = (a , b) => {}",
             options: [{ before: true, after: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missing",
@@ -459,7 +459,7 @@ ruleTester.run("comma-spacing", rule, {
             code: "var foo = (a = 1,b) => {}",
             output: "var foo = (a = 1 , b) => {}",
             options: [{ before: true, after: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missing",
@@ -477,7 +477,7 @@ ruleTester.run("comma-spacing", rule, {
             code: "function foo(a = 1 ,b = 2) {}",
             output: "function foo(a = 1, b = 2) {}",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "There should be no space before ','.",
@@ -493,7 +493,7 @@ ruleTester.run("comma-spacing", rule, {
         {
             code: "<a>{foo(1 ,2)}</a>",
             output: "<a>{foo(1, 2)}</a>",
-            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
+            languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } },
             errors: [
                 {
                     message: "There should be no space before ','.",

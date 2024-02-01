@@ -1,7 +1,6 @@
 /**
  * @fileoverview Prefers object spread property over Object.assign
  * @author Sharmila Jesupaul
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";
@@ -11,18 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/prefer-object-spread");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const parserOptions = {
+const languageOptions = {
     ecmaVersion: 2018,
     sourceType: "module"
 };
 
-const ruleTester = new RuleTester({ parserOptions });
+const ruleTester = new RuleTester({ languageOptions });
 
 ruleTester.run("prefer-object-spread", rule, {
     valid: [
@@ -70,22 +69,22 @@ ruleTester.run("prefer-object-spread", rule, {
         "globalThis.Object.assign({}, foo)",
         {
             code: "globalThis.Object.assign({}, { foo: 'bar' })",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "globalThis.Object.assign({}, baz, { foo: 'bar' })",
-            env: { es2017: true }
+            languageOptions: { ecmaVersion: 2017 }
         },
         {
             code: `
                 var globalThis = foo;
                 globalThis.Object.assign({}, foo)
                 `,
-            env: { es2020: true }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "class C { #assign; foo() { Object.#assign({}, foo); } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // ignore Object.assign() with > 1 arguments if any of the arguments is an object expression with a getter/setter
@@ -348,7 +347,7 @@ ruleTester.run("prefer-object-spread", rule, {
                 baz: "cats"
                 --> weird
             }`,
-            parserOptions: {
+            languageOptions: {
                 sourceType: "script"
             },
             errors: [
@@ -900,7 +899,7 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code: "globalThis.Object.assign({ });",
             output: "({});",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -913,7 +912,7 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code: "globalThis.Object.assign({\n});",
             output: "({});",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -932,7 +931,7 @@ ruleTester.run("prefer-object-spread", rule, {
                 function foo () { var globalThis = bar; }
                 ({});
             `,
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -951,7 +950,7 @@ ruleTester.run("prefer-object-spread", rule, {
                 const Foo = require('foo');
                 ({foo: Foo});
             `,
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -980,7 +979,9 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code: "const obj = Object.assign<{}, Record<string, string[]>>({}, getObject());",
             output: "const obj = { ...getObject()};",
-            parser: require.resolve("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-1"),
+            languageOptions: {
+                parser: require("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-1")
+            },
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -993,7 +994,9 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code: "Object.assign<{}, A>({}, foo);",
             output: "({ ...foo});",
-            parser: require.resolve("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-2"),
+            languageOptions: {
+                parser: require("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-2")
+            },
             errors: [
                 {
                     messageId: "useSpreadMessage",

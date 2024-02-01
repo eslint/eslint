@@ -47,7 +47,7 @@ In **ECMAScript** modules, which always have strict mode semantics, the directiv
 
 This rule requires or disallows strict mode directives.
 
-This rule disallows strict mode directives, no matter which option is specified, if ESLint configuration specifies either of the following as [parser options](../use/configure/language-options#specifying-parser-options):
+This rule disallows strict mode directives, no matter which option is specified, if ESLint configuration specifies either of the following as [parser options](../use/configure/language-options#specifying-javascript-options):
 
 * `"sourceType": "module"` that is, files are **ECMAScript** modules
 * `"impliedStrict": true` property in the `ecmaFeatures` object
@@ -73,7 +73,6 @@ This rule has a string option:
 
 The `"safe"` option corresponds to the `"global"` option if ESLint considers a file to be a **Node.js** or **CommonJS** module because the configuration specifies either of the following:
 
-* `node` or `commonjs` [environments](../use/configure/language-options#specifying-environments)
 * `"globalReturn": true` property in the `ecmaFeatures` object of [parser options](../use/configure/language-options#specifying-parser-options)
 
 Otherwise the `"safe"` option corresponds to the `"function"` option. Note that if `"globalReturn": false` is explicitly specified in the configuration, the `"safe"` option will correspond to the `"function"` option regardless of the specified environment.
@@ -82,7 +81,7 @@ Otherwise the `"safe"` option corresponds to the `"function"` option. Note that 
 
 Examples of **incorrect** code for this rule with the `"global"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "global"]*/
@@ -93,7 +92,7 @@ function foo() {
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "global"]*/
@@ -105,7 +104,7 @@ function foo() {
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "global"]*/
@@ -121,7 +120,7 @@ function foo() {
 
 Examples of **correct** code for this rule with the `"global"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "global"]*/
@@ -140,7 +139,7 @@ This option ensures that all function bodies are strict mode code, while global 
 
 Examples of **incorrect** code for this rule with the `"function"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "function"]*/
@@ -153,7 +152,7 @@ function foo() {
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "function"]*/
@@ -170,7 +169,7 @@ function foo() {
 
 :::
 
-::: incorrect
+::: incorrect { "ecmaVersion": 6, "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "function"]*/
@@ -192,7 +191,7 @@ function foo(a = 1) {
 
 Examples of **correct** code for this rule with the `"function"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "function"]*/
@@ -225,7 +224,7 @@ var foo = (function() {
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "never"]*/
@@ -238,7 +237,7 @@ function foo() {
 
 :::
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "never"]*/
@@ -252,7 +251,7 @@ function foo() {
 
 Examples of **correct** code for this rule with the `"never"` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "never"]*/
@@ -271,18 +270,12 @@ This option ensures that all functions are executed in strict mode. A strict mod
 
 Examples of **incorrect** code for this rule with the earlier default option which has been removed:
 
-::: incorrect
-
 ```js
 // "strict": "error"
 
 function foo() {
 }
 ```
-
-:::
-
-::: incorrect
 
 ```js
 // "strict": "error"
@@ -294,11 +287,7 @@ function foo() {
 }());
 ```
 
-:::
-
 Examples of **correct** code for this rule with the earlier default option which has been removed:
-
-::: correct
 
 ```js
 // "strict": "error"
@@ -309,10 +298,6 @@ function foo() {
 }
 ```
 
-:::
-
-::: correct
-
 ```js
 // "strict": "error"
 
@@ -320,10 +305,6 @@ function foo() {
     "use strict";
 }
 ```
-
-:::
-
-::: correct
 
 ```js
 // "strict": "error"
@@ -335,8 +316,6 @@ function foo() {
     }
 }());
 ```
-
-:::
 
 ## When Not To Use It
 

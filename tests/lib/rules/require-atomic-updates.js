@@ -9,13 +9,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/require-atomic-updates");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022, sourceType: "script" } });
 
 const VARIABLE_ERROR = {
     messageId: "nonAtomicUpdate",
@@ -365,7 +365,7 @@ ruleTester.run("require-atomic-updates", rule, {
                     }
               };
             `,
-            env: { node: true },
+            languageOptions: { sourceType: "commonjs", globals: { process: "readonly" } },
             errors: [
                 {
                     messageId: "nonAtomicObjectUpdate",

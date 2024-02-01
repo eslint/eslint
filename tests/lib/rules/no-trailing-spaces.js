@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-trailing-spaces"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -60,12 +60,12 @@ ruleTester.run("no-trailing-spaces", rule, {
         },
         {
             code: "let str = `${a}\n   \n${b}`;",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "let str = `${a}\n   \n${b}`;\n   \n   ",
             options: [{ skipBlankLines: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "// Trailing comment test. ",
@@ -173,7 +173,7 @@ ruleTester.run("no-trailing-spaces", rule, {
             "  short,\n" +
             "  short2\n" +
             "}\n",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "trailingSpace",
                 type: "Program"
@@ -366,7 +366,7 @@ ruleTester.run("no-trailing-spaces", rule, {
         {
             code: "let str = `${a}\n  \n${b}`;  \n",
             output: "let str = `${a}\n  \n${b}`;\n",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "trailingSpace",
                 type: "Program",
@@ -379,7 +379,7 @@ ruleTester.run("no-trailing-spaces", rule, {
         {
             code: "let str = `\n${a}\n  \n${b}`;  \n\t",
             output: "let str = `\n${a}\n  \n${b}`;\n",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "trailingSpace",
@@ -402,7 +402,7 @@ ruleTester.run("no-trailing-spaces", rule, {
         {
             code: "let str = `  \n  ${a}\n  \n${b}`;  \n",
             output: "let str = `  \n  ${a}\n  \n${b}`;\n",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "trailingSpace",
@@ -420,7 +420,7 @@ ruleTester.run("no-trailing-spaces", rule, {
             options: [{
                 skipBlankLines: true
             }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "trailingSpace",

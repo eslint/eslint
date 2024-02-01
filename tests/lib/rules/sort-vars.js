@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/sort-vars"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -35,61 +35,61 @@ ruleTester.run("sort-vars", rule, {
         { code: "var A, a;", options: ignoreCaseArgs },
         { code: "var a, B, c;", options: ignoreCaseArgs },
         { code: "var A, b, C;", options: ignoreCaseArgs },
-        { code: "var {a, b, c} = x;", options: ignoreCaseArgs, parserOptions: { ecmaVersion: 6 } },
-        { code: "var {A, b, C} = x;", options: ignoreCaseArgs, parserOptions: { ecmaVersion: 6 } },
-        { code: "var test = [1,2,3];", parserOptions: { ecmaVersion: 6 } },
-        { code: "var {a,b} = [1,2];", parserOptions: { ecmaVersion: 6 } },
+        { code: "var {a, b, c} = x;", options: ignoreCaseArgs, languageOptions: { ecmaVersion: 6 } },
+        { code: "var {A, b, C} = x;", options: ignoreCaseArgs, languageOptions: { ecmaVersion: 6 } },
+        { code: "var test = [1,2,3];", languageOptions: { ecmaVersion: 6 } },
+        { code: "var {a,b} = [1,2];", languageOptions: { ecmaVersion: 6 } },
         {
             code: "var [a, B, c] = [1, 2, 3];",
             options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [A, B, c] = [1, 2, 3];",
             options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [A, b, C] = [1, 2, 3];",
             options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
-        { code: "let {a, b, c} = x;", parserOptions: { ecmaVersion: 6 } },
+        { code: "let {a, b, c} = x;", languageOptions: { ecmaVersion: 6 } },
         {
             code: "let [a, b, c] = [1, 2, 3];",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const {a, b, c} = {a: 1, b: true, c: \"Moo\"};",
             options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const [a, b, c] = [1, true, \"Moo\"];",
             options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const [c, a, b] = [1, true, \"Moo\"];",
             options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
-        { code: "var {a, x: {b, c}} = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var {c, x: {a, c}} = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var {a, x: [b, c]} = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a, {b, c}] = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a, {x: {b, c}}] = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var a = 42, {b, c } = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var b = 42, {a, c } = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [b, {x: {a, c}}] = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [b, d, a, c] = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var e, [a, c, d] = {};", parserOptions: { ecmaVersion: 6 } },
+        { code: "var {a, x: {b, c}} = {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "var {c, x: {a, c}} = {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "var {a, x: [b, c]} = {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a, {b, c}] = {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a, {x: {b, c}}] = {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "var a = 42, {b, c } = {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "var b = 42, {a, c } = {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [b, {x: {a, c}}] = {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [b, d, a, c] = {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "var e, [a, c, d] = {};", languageOptions: { ecmaVersion: 6 } },
         {
             code: "var a, [E, c, D] = [];",
             options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
-        { code: "var a, f, [e, c, d] = [1,2,3];", parserOptions: { ecmaVersion: 6 } },
+        { code: "var a, f, [e, c, d] = [1,2,3];", languageOptions: { ecmaVersion: 6 } },
         {
             code: [
                 "export default class {",
@@ -102,14 +102,13 @@ ruleTester.run("sort-vars", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
 
         {
             code: "var {} = 1, a",
             options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -190,21 +189,21 @@ ruleTester.run("sort-vars", rule, {
             code: "var d, a, [b, c] = {};",
             output: "var a, d, [b, c] = {};",
             options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedError]
         },
         {
             code: "var d, a, [b, {x: {c, e}}] = {};",
             output: "var a, d, [b, {x: {c, e}}] = {};",
             options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedError]
         },
         {
             code: "var {} = 1, b, a",
             output: "var {} = 1, a, b",
             options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedError]
         },
         {
@@ -220,13 +219,13 @@ ruleTester.run("sort-vars", rule, {
         {
             code: "var b = 0, a = `${b}`;",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedError]
         },
         {
             code: "var b = 0, a = `${f()}`",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedError]
         },
         {
@@ -247,7 +246,7 @@ ruleTester.run("sort-vars", rule, {
         {
             code: "var b = `${f()}`, c, d, a;",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [expectedError]
         },
         {

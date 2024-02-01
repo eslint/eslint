@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/wrap-iife"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 const wrapInvocationError = { messageId: "wrapInvocation", type: "CallExpression" };
 const wrapExpressionError = { messageId: "wrapExpression", type: "CallExpression" };
@@ -107,7 +112,7 @@ ruleTester.run("wrap-iife", rule, {
         {
             code: "import(function (){}());",
             options: ["any"],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "if ((function (){})()) {}",
@@ -148,7 +153,7 @@ ruleTester.run("wrap-iife", rule, {
         {
             code: "import(function (){}());",
             options: ["outside"],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "if ((function (){})()) {}",
@@ -189,7 +194,7 @@ ruleTester.run("wrap-iife", rule, {
         {
             code: "import((function (){})());",
             options: ["inside"],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "while (((function (){})())) {}",
@@ -286,7 +291,7 @@ ruleTester.run("wrap-iife", rule, {
         {
             code: "import(function (){}.call())",
             options: ["any", { functionPrototypeMethods: true }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "if ((function (){}).call()) {}",
@@ -327,7 +332,7 @@ ruleTester.run("wrap-iife", rule, {
         {
             code: "import(function (){}.call())",
             options: ["outside", { functionPrototypeMethods: true }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "if ((function (){}).call()) {}",
@@ -368,7 +373,7 @@ ruleTester.run("wrap-iife", rule, {
         {
             code: "import((function (){}).call())",
             options: ["inside", { functionPrototypeMethods: true }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "if (((function (){}).call())) {}",
@@ -478,7 +483,7 @@ ruleTester.run("wrap-iife", rule, {
             code: "import(function (){}())",
             output: "import((function (){})())", // wrap function expression, but don't remove mandatory parens
             options: ["inside"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [wrapExpressionError]
         },
         {
@@ -601,7 +606,7 @@ ruleTester.run("wrap-iife", rule, {
             code: "import(function (){}.call())",
             output: "import((function (){}).call())", // wrap function expression, but don't remove mandatory parens
             options: ["inside", { functionPrototypeMethods: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [wrapExpressionError]
         },
 
@@ -610,28 +615,28 @@ ruleTester.run("wrap-iife", rule, {
             code: "window.bar = function() { return 3; }.call?.(this, arg1);",
             output: "window.bar = (function() { return 3; }).call?.(this, arg1);",
             options: ["inside", { functionPrototypeMethods: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [wrapInvocationError]
         },
         {
             code: "window.bar = function() { return 3; }?.call(this, arg1);",
             output: "window.bar = (function() { return 3; })?.call(this, arg1);",
             options: ["inside", { functionPrototypeMethods: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [wrapInvocationError]
         },
         {
             code: "window.bar = (function() { return 3; }?.call)(this, arg1);",
             output: "window.bar = ((function() { return 3; })?.call)(this, arg1);",
             options: ["inside", { functionPrototypeMethods: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [wrapInvocationError]
         },
         {
             code: "new (function () {} ?.());",
             output: "new ((function () {}) ?.());",
             options: ["inside"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [wrapExpressionError]
         }
     ]

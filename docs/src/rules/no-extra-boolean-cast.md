@@ -75,7 +75,7 @@ Examples of **correct** code for this rule:
 var foo = !!bar;
 var foo = Boolean(bar);
 
-function foo() {
+function qux() {
     return !!bar;
 }
 

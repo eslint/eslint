@@ -47,7 +47,7 @@ shared:
 #------------------------------------------------------------------------------
 # Navigation
 #------------------------------------------------------------------------------
-  
+
 navigation:
 - text: 团队
   link: team
@@ -73,7 +73,6 @@ footer:
     title: 社交媒体
     twitter: Twitter
     chat: Discord
-    mailing_list: Google Group
     github: GitHub
   theme_switcher:
     title: 主题切换
@@ -84,8 +83,9 @@ footer:
     description: 切换到你所选择语言版本对应的 ESLint 网站。
     change_language: 更改语言
     language: 语言
+    latest: 最新
   copyright: >
-    &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>
+    &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>. Content licensed under <a href="https://github.com/eslint/eslint/blob/main/LICENSE">MIT License</a>.
   links:
     open_jsf: OpenJS 基金会
     terms: 使用条款

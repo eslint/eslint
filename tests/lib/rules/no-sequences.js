@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-sequences"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -30,7 +30,12 @@ function errors(column) {
     }];
 }
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-sequences", rule, {
 
@@ -49,7 +54,7 @@ ruleTester.run("no-sequences", rule, {
         "switch ((doSomething(), val)) {}",
         "while ((doSomething(), !!test));",
         "with ((doSomething(), val)) {}",
-        { code: "a => ((doSomething(), a))", env: { es6: true } },
+        { code: "a => ((doSomething(), a))", languageOptions: { ecmaVersion: 6 } },
 
         // options object without "allowInParentheses" property
         { code: "var foo = (1, 2);", options: [{}] },
@@ -62,8 +67,8 @@ ruleTester.run("no-sequences", rule, {
         { code: "for (; test; (i++, j++));", options: [{ allowInParentheses: false }] },
 
         // https://github.com/eslint/eslint/issues/14572
-        { code: "const foo = () => { return ((bar = 123), 10) }", env: { es6: true } },
-        { code: "const foo = () => (((bar = 123), 10));", env: { es6: true } }
+        { code: "const foo = () => { return ((bar = 123), 10) }", languageOptions: { ecmaVersion: 6 } },
+        { code: "const foo = () => (((bar = 123), 10));", languageOptions: { ecmaVersion: 6 } }
     ],
 
     // Examples of code that should trigger the rule
@@ -86,7 +91,7 @@ ruleTester.run("no-sequences", rule, {
         { code: "switch (doSomething(), val) {}", errors: errors(22) },
         { code: "while (doSomething(), !!test);", errors: errors(21) },
         { code: "with (doSomething(), val) {}", errors: errors(20) },
-        { code: "a => (doSomething(), a)", env: { es6: true }, errors: errors(20) },
+        { code: "a => (doSomething(), a)", languageOptions: { ecmaVersion: 6 }, errors: errors(20) },
         { code: "(1), 2", errors: errors(4) },
         { code: "((1)) , (2)", errors: errors(7) },
         { code: "while((1) , 2);", errors: errors(11) },
@@ -101,6 +106,6 @@ ruleTester.run("no-sequences", rule, {
         { code: "switch ((doSomething(), val)) {}", options: [{ allowInParentheses: false }], errors: errors(23) },
         { code: "while ((doSomething(), !!test));", options: [{ allowInParentheses: false }], errors: errors(22) },
         { code: "with ((doSomething(), val)) {}", options: [{ allowInParentheses: false }], errors: errors(21) },
-        { code: "a => ((doSomething(), a))", options: [{ allowInParentheses: false }], env: { es6: true }, errors: errors(21) }
+        { code: "a => ((doSomething(), a))", options: [{ allowInParentheses: false }], languageOptions: { ecmaVersion: 6 }, errors: errors(21) }
     ]
 });

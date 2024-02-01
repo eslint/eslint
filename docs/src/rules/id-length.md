@@ -41,16 +41,16 @@ try {
 }
 var myObj = { a: 1 };
 (a) => { a * a };
-class x { }
+class y { }
 class Foo { x() {} }
-class Foo { #x() {} }
-class Foo { x = 1 }
-class Foo { #x = 1 }
-function foo(...x) { }
-function foo([x]) { }
+class Bar { #x() {} }
+class Baz { x = 1 }
+class Qux { #x = 1 }
+function bar(...x) { }
+function baz([x]) { }
 var [x] = arr;
 var { prop: [x]} = {};
-function foo({x}) { }
+function qux({x}) { }
 var { x } = {};
 var { prop: a} = {};
 ({ prop: obj.x } = {});
@@ -78,19 +78,19 @@ try {
 }
 var myObj = { apple: 1 };
 (num) => { num * num };
-function foo(num = 0) { }
+function bar(num = 0) { }
 class MyClass { }
 class Foo { method() {} }
-class Foo { #method() {} }
-class Foo { field = 1 }
-class Foo { #field = 1 }
-function foo(...args) { }
-function foo([longName]) { }
+class Bar { #method() {} }
+class Baz { field = 1 }
+class Qux { #field = 1 }
+function baz(...args) { }
+function qux([longName]) { }
 var { prop } = {};
 var { prop: [longName] } = {};
 var [longName] = arr;
-function foo({ prop }) { }
-function foo({ a: prop }) { }
+function foobar({ prop }) { }
+function foobaz({ a: prop }) { }
 var { prop } = {};
 var { a: prop } = {};
 ({ prop: obj.longName } = {});
@@ -129,9 +129,9 @@ try {
 }
 var myObj = { a: 1 };
 (val) => { val * val };
-class x { }
+class y { }
 class Foo { x() {} }
-function foo(...x) { }
+function bar(...x) { }
 var { x } = {};
 var { prop: a} = {};
 var [x] = arr;
@@ -151,7 +151,7 @@ Examples of **correct** code for this rule with the `{ "min": 4 }` option:
 
 var value = 5;
 function func() { return 42; }
-obj.element = document.body;
+object.element = document.body;
 var foobar = function (event) { /* do stuff */ };
 try {
     dangerousStuff();
@@ -160,15 +160,15 @@ try {
 }
 var myObj = { apple: 1 };
 (value) => { value * value };
-function foobar(value = 0) { }
+function foobaz(value = 0) { }
 class MyClass { }
 class Foobar { method() {} }
-function foobar(...args) { }
+function barbaz(...args) { }
 var { prop } = {};
 var [longName] = foo;
 var { a: [prop] } = {};
 var { a: longName } = {};
-({ prop: obj.name } = {});
+({ prop: object.name } = {});
 var data = { "x": 1 };  // excused because of quotes
 data["y"] = 3;  // excused because of calculated property access
 ```
@@ -242,16 +242,16 @@ var myObj = { a: 1 };
 
 ### exceptions
 
-Examples of additional **correct** code for this rule with the `{ "exceptions": ["x"] }` option:
+Examples of additional **correct** code for this rule with the `{ "exceptions": ["x", "y", "z", "ζ"] }` option:
 
 ::: correct
 
 ```js
-/*eslint id-length: ["error", { "exceptions": ["x"] }]*/
+/*eslint id-length: ["error", { "exceptions": ["x", "y", "z", "ζ"] }]*/
 /*eslint-env es6*/
 
 var x = 5;
-function x() { return 42; }
+function y() { return 42; }
 obj.x = document.body;
 var foo = function (x) { /* do stuff */ };
 try {
@@ -261,8 +261,8 @@ try {
 }
 (x) => { return x * x; };
 var [x] = arr;
-const { x } = foo;
-const { a: x } = foo;
+const { z } = foo;
+const { a: ζ } = foo;
 ```
 
 :::

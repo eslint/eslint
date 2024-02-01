@@ -6,7 +6,6 @@
 
 [ ] Warns about a potential problem
 [ ] Suggests an alternate way of doing something
-[ ] Enforces a formatting/stylistic preference
 
 **Please provide some example JavaScript code that this rule will warn about:**
 

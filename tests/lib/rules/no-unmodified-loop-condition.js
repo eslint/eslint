@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-unmodified-loop-condition"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -21,7 +21,7 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-unmodified-loop-condition", rule, {
     valid: [
         "var foo = 0; while (foo) { ++foo; }",
-        { code: "let foo = 0; while (foo) { ++foo; }", env: { es6: true } },
+        { code: "let foo = 0; while (foo) { ++foo; }", languageOptions: { ecmaVersion: 6 } },
         "var foo = 0; while (foo) { foo += 1; }",
         "var foo = 0; while (foo++) { }",
         "var foo = 0; while (foo = next()) { }",
@@ -30,9 +30,9 @@ ruleTester.run("no-unmodified-loop-condition", rule, {
         "var foo = 0, obj = {}; while (foo === obj.bar) { }",
         "var foo = 0, f = {}, bar = {}; while (foo === f(bar)) { }",
         "var foo = 0, f = {}; while (foo === f()) { }",
-        { code: "var foo = 0, tag = 0; while (foo === tag`abc`) { }", env: { es6: true } },
-        { code: "function* foo() { var foo = 0; while (yield foo) { } }", env: { es6: true } },
-        { code: "function* foo() { var foo = 0; while (foo === (yield)) { } }", env: { es6: true } },
+        { code: "var foo = 0, tag = 0; while (foo === tag`abc`) { }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { var foo = 0; while (yield foo) { } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { var foo = 0; while (foo === (yield)) { } }", languageOptions: { ecmaVersion: 6 } },
         "var foo = 0; while (foo.ok) { }",
         "var foo = 0; while (foo) { update(); } function update() { ++foo; }",
         "var foo = 0, bar = 9; while (foo < bar) { foo += 1; }",

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-regex-spaces"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -62,9 +62,18 @@ ruleTester.run("no-regex-spaces", rule, {
         "var foo = new RegExp(' \\[   ');",
         "var foo = new RegExp(' \\[   \\] ');",
 
+        // ES2024
+        { code: "var foo = /  {2}/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[\\q{    }]/v;", languageOptions: { ecmaVersion: 2024 } },
+
         // don't report invalid regex
         "var foo = new RegExp('[  ');",
-        "var foo = new RegExp('{  ', 'u');"
+        "var foo = new RegExp('{  ', 'u');",
+
+        // don't report if flags cannot be determined
+        "new RegExp('  ', flags)",
+        "new RegExp('[[abc]  ]', flags + 'v')",
+        "new RegExp('[[abc]\\\\q{  }]', flags + 'v')"
     ],
 
     invalid: [
@@ -139,7 +148,7 @@ ruleTester.run("no-regex-spaces", rule, {
             // `RegExp` is not shadowed in the scope where it's called
             code: "{ let RegExp = function() {}; } var foo = RegExp('bar    baz');",
             output: "{ let RegExp = function() {}; } var foo = RegExp('bar {4}baz');",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "multipleSpaces",
@@ -368,6 +377,33 @@ ruleTester.run("no-regex-spaces", rule, {
                 {
                     messageId: "multipleSpaces",
                     data: { length: "2" },
+                    type: "NewExpression"
+                }
+            ]
+        },
+
+        // ES2024
+        {
+            code: "var foo = /[[    ]    ]    /v;",
+            output: "var foo = /[[    ]    ] {4}/v;",
+            languageOptions: {
+                ecmaVersion: 2024
+            },
+            errors: [
+                {
+                    messageId: "multipleSpaces",
+                    data: { length: "4" },
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "var foo = new RegExp('[[    ]    ]    ', 'v');",
+            output: "var foo = new RegExp('[[    ]    ] {4}', 'v');",
+            errors: [
+                {
+                    messageId: "multipleSpaces",
+                    data: { length: "4" },
                     type: "NewExpression"
                 }
             ]

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-catch-shadow"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -35,15 +35,12 @@ ruleTester.run("no-catch-shadow", rule, {
                 "",
                 "module.exports = broken;"
             ].join("\n"),
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
-        {
-            code: "try {} catch (error) {}",
-            env: { shelljs: false }
-        },
+        "try {} catch (error) {}",
         {
             code: "try {} catch {}",
-            parserOptions: { ecmaVersion: 2019 }
+            languageOptions: { ecmaVersion: 2019 }
         }
     ],
     invalid: [

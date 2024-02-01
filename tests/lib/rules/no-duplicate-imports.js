@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-duplicate-imports"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 12, sourceType: "module" } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 12, sourceType: "module" } });
 
 ruleTester.run("no-duplicate-imports", rule, {
     valid: [

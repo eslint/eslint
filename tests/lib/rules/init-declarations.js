@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/init-declarations"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -28,71 +28,71 @@ ruleTester.run("init-declarations", rule, {
         "var foo = bar = 2;",
         "for (var i = 0; i < 1; i++) {}",
         "for (var foo in []) {}",
-        { code: "for (var foo of []) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "for (var foo of []) {}", languageOptions: { ecmaVersion: 6 } },
         {
             code: "let a = true;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const a = {};",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { let a = 1, b = false; if (a) { let c = 3, d = null; } }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { const a = 1, b = true; if (a) { const c = 3, d = null; } }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { let a = 1; const b = false; var c = true; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo;",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo, bar, baz;",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { var foo; var bar; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "let a;",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const a = 1;",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { let a, b; if (a) { let c, d; } }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { const a = 1, b = true; if (a) { const c = 3, d = null; } }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { let a; const b = false; var c; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "for(var i = 0; i < 1; i++){}",
@@ -105,7 +105,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "for (var foo of []) {}",
             options: ["never", { ignoreForLoopInit: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -134,7 +134,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "var foo, bar = false, baz;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "initialized",
@@ -151,7 +151,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "function foo() { var foo = 0; var bar; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "initialized",
@@ -163,7 +163,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "function foo() { var foo; var bar = foo; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "initialized",
@@ -175,7 +175,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "let a;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "initialized",
@@ -187,7 +187,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "function foo() { let a = 1, b; if (a) { let c = 3, d = null; } }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "initialized",
@@ -199,7 +199,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "function foo() { let a; const b = false; var c; }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "initialized",
@@ -216,7 +216,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "var foo = bar = 2;",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notInitialized",
@@ -228,7 +228,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "var foo = true;",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notInitialized",
@@ -240,7 +240,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "var foo, bar = 5, baz = 3;",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notInitialized",
@@ -257,7 +257,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "function foo() { var foo; var bar = foo; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notInitialized",
@@ -270,7 +270,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "let a = 1;",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notInitialized",
@@ -282,7 +282,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "function foo() { let a = 'foo', b; if (a) { let c, d; } }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notInitialized",
@@ -294,7 +294,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "function foo() { let a; const b = false; var c = 1; }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notInitialized",
@@ -328,7 +328,7 @@ ruleTester.run("init-declarations", rule, {
         {
             code: "for (var foo of []) {}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notInitialized",

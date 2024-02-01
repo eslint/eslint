@@ -16,8 +16,8 @@
 [Report Bugs](https://eslint.org/docs/latest/contribute/report-bugs) |
 [Code of Conduct](https://eslint.org/conduct) |
 [Twitter](https://twitter.com/geteslint) |
-[Mailing List](https://groups.google.com/group/eslint) |
-[Chat Room](https://eslint.org/chat)
+[Discord](https://eslint.org/chat) |
+[Mastodon](https://fosstodon.org/@eslint)
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
 
@@ -43,7 +43,7 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 
 ## Installation and Usage
 
-Prerequisites: [Node.js](https://nodejs.org/) (`^12.22.0`, `^14.17.0`, or `>=16.0.0`) built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
+Prerequisites: [Node.js](https://nodejs.org/) (`^18.18.0`, `^20.9.0`, or `>=21.1.0`) built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
 
 You can install and configure ESLint using this command:
 
@@ -103,7 +103,7 @@ We are now at or near 100% compatibility with JSCS. If you try ESLint and believ
 
 ### Does Prettier replace ESLint?
 
-No, ESLint does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use ESLint for everything, or you can combine both using Prettier to format your code and ESLint to catch possible errors.
+No, ESLint and Prettier have diffent jobs: ESLint is a linter (looking for problematic patterns) and Prettier is a code formatter. Using both tools is common, refer to [Prettier's documentation](https://prettier.io/docs/en/install#eslint-and-other-linters) to learn how to configure them to work well with each other.
 
 ### Why can't ESLint find my plugins?
 
@@ -117,7 +117,7 @@ Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [confi
 
 ### What ECMAScript versions does ESLint support?
 
-ESLint has full support for ECMAScript 3, 5 (default), 2015, 2016, 2017, 2018, 2019, 2020, 2021 and 2022. You can set your desired ECMAScript syntax (and other settings, like global variables or your target environments) through [configuration](https://eslint.org/docs/latest/use/configure).
+ESLint has full support for ECMAScript 3, 5, and every year from 2015 up until the most recent stage 4 specification (the default). You can set your desired ECMAScript syntax and other settings (like global variables) through [configuration](https://eslint.org/docs/latest/use/configure).
 
 ### What about experimental features?
 
@@ -129,7 +129,7 @@ Once a language feature has been adopted into the ECMAScript standard (stage 4 a
 
 ### Where to ask for help?
 
-Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://eslint.org/chat).
+Open a [discussion](https://github.com/eslint/eslint/discussions) or stop by our [Discord server](https://eslint.org/chat).
 
 ### Why doesn't ESLint lock dependency versions?
 
@@ -209,17 +209,12 @@ The people who manage releases, review feature requests, and meet regularly to e
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
 <a href="https://github.com/nzakas">
-<img src="https://github.com/nzakas.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/nzakas.png?s=75" width="75" height="75" alt="Nicholas C. Zakas's Avatar"><br />
 Nicholas C. Zakas
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/btmills">
-<img src="https://github.com/btmills.png?s=75" width="75" height="75"><br />
-Brandon Mills
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/mdjermanovic">
-<img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75" alt="Milos Djermanovic's Avatar"><br />
 Milos Djermanovic
 </a>
 </td></tr></tbody></table>
@@ -230,12 +225,12 @@ The people who review and implement new features.
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
 <a href="https://github.com/aladdin-add">
-<img src="https://github.com/aladdin-add.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/aladdin-add.png?s=75" width="75" height="75" alt="唯然's Avatar"><br />
 唯然
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/snitin315">
-<img src="https://github.com/snitin315.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/snitin315.png?s=75" width="75" height="75" alt="Nitin Kumar's Avatar"><br />
 Nitin Kumar
 </a>
 </td></tr></tbody></table>
@@ -246,18 +241,23 @@ The people who review and fix bugs and help triage issues.
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
 <a href="https://github.com/bmish">
-<img src="https://github.com/bmish.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/bmish.png?s=75" width="75" height="75" alt="Bryan Mishkin's Avatar"><br />
 Bryan Mishkin
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/SaraSoueidan">
-<img src="https://github.com/SaraSoueidan.png?s=75" width="75" height="75"><br />
-Sara Soueidan
+<a href="https://github.com/JoshuaKGoldberg">
+<img src="https://github.com/JoshuaKGoldberg.png?s=75" width="75" height="75" alt="Josh Goldberg ✨'s Avatar"><br />
+Josh Goldberg ✨
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/yeonjuan">
-<img src="https://github.com/yeonjuan.png?s=75" width="75" height="75"><br />
-YeonJuan
+<a href="https://github.com/fasttime">
+<img src="https://github.com/fasttime.png?s=75" width="75" height="75" alt="Francesco Trotta's Avatar"><br />
+Francesco Trotta
+</a>
+</td><td align="center" valign="top" width="11%">
+<a href="https://github.com/Tanujkanti4441">
+<img src="https://github.com/Tanujkanti4441.png?s=75" width="75" height="75" alt="Tanuj Kanti's Avatar"><br />
+Tanuj Kanti
 </a>
 </td></tr></tbody></table>
 
@@ -267,17 +267,17 @@ Team members who focus specifically on eslint.org
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
 <a href="https://github.com/amareshsm">
-<img src="https://github.com/amareshsm.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/amareshsm.png?s=75" width="75" height="75" alt="Amaresh  S M's Avatar"><br />
 Amaresh  S M
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/harish-sethuraman">
-<img src="https://github.com/harish-sethuraman.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/harish-sethuraman.png?s=75" width="75" height="75" alt="Strek's Avatar"><br />
 Strek
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/kecrily">
-<img src="https://github.com/kecrily.png?s=75" width="75" height="75"><br />
+<img src="https://github.com/kecrily.png?s=75" width="75" height="75" alt="Percy Ma's Avatar"><br />
 Percy Ma
 </a>
 </td></tr></tbody></table>
@@ -292,9 +292,9 @@ The following companies, organizations, and individuals support ESLint's ongoing
 <!--sponsorsstart-->
 <h3>Platinum Sponsors</h3>
 <p><a href="#"><img src="https://images.opencollective.com/2021-frameworks-fund/logo.png" alt="Chrome Frameworks Fund" height="undefined"></a> <a href="https://automattic.com"><img src="https://images.opencollective.com/automattic/d0ef3e1/logo.png" alt="Automattic" height="undefined"></a></p><h3>Gold Sponsors</h3>
-<p><a href="https://ridicorp.com/career/"><img src="https://images.opencollective.com/ridi-corporation/175dcf3/logo.png" alt="RIDI" height="96"></a> <a href="https://engineering.salesforce.com"><img src="https://images.opencollective.com/salesforce/ca8f997/logo.png" alt="Salesforce" height="96"></a> <a href="https://www.airbnb.com/"><img src="https://images.opencollective.com/airbnb/d327d66/logo.png" alt="Airbnb" height="96"></a></p><h3>Silver Sponsors</h3>
-<p><a href="https://sentry.io"><img src="https://avatars.githubusercontent.com/u/1396951?v=4" alt="Sentry" height="64"></a> <a href="https://liftoff.io/"><img src="https://images.opencollective.com/liftoff/5c4fa84/logo.png" alt="Liftoff" height="64"></a></p><h3>Bronze Sponsors</h3>
-<p><a href="https://paydaysay.com/"><img src="https://images.opencollective.com/payday-say-organization/9cd2467/logo.png" alt="PayDay Say" height="32"></a> <a href="https://themeisle.com"><img src="https://images.opencollective.com/themeisle/d5592fe/logo.png" alt="ThemeIsle" height="32"></a> <a href="https://nx.dev"><img src="https://images.opencollective.com/nx/0efbe42/logo.png" alt="Nx (by Nrwl)" height="32"></a> <a href="https://www.crosswordsolver.org/anagram-solver/"><img src="https://images.opencollective.com/anagram-solver/2666271/logo.png" alt="Anagram Solver" height="32"></a> <a href="https://icons8.com"><img src="https://images.opencollective.com/icons8/7fa1641/logo.png" alt="Icons8: free icons, photos, illustrations, and music" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/f9645d9/logo.png" alt="Discord" height="32"></a> <a href="https://transloadit.com/"><img src="https://avatars.githubusercontent.com/u/125754?v=4" alt="Transloadit" height="32"></a> <a href="https://www.ignitionapp.com"><img src="https://avatars.githubusercontent.com/u/5753491?v=4" alt="Ignition" height="32"></a> <a href="https://herocoders.com"><img src="https://avatars.githubusercontent.com/u/37549774?v=4" alt="HeroCoders" height="32"></a> <a href="https://quickbookstoolhub.com"><img src="https://avatars.githubusercontent.com/u/95090305?u=e5bc398ef775c9ed19f955c675cdc1fb6abf01df&v=4" alt="QuickBooks Tool hub" height="32"></a></p>
+<p><a href="https://engineering.salesforce.com"><img src="https://images.opencollective.com/salesforce/ca8f997/logo.png" alt="Salesforce" height="96"></a> <a href="https://www.airbnb.com/"><img src="https://images.opencollective.com/airbnb/d327d66/logo.png" alt="Airbnb" height="96"></a></p><h3>Silver Sponsors</h3>
+<p><a href="https://www.jetbrains.com/"><img src="https://images.opencollective.com/jetbrains/eb04ddc/logo.png" alt="JetBrains" height="64"></a> <a href="https://liftoff.io/"><img src="https://images.opencollective.com/liftoff/5c4fa84/logo.png" alt="Liftoff" height="64"></a> <a href="https://americanexpress.io"><img src="https://avatars.githubusercontent.com/u/3853301?v=4" alt="American Express" height="64"></a> <a href="https://www.workleap.com"><img src="https://avatars.githubusercontent.com/u/53535748?u=d1e55d7661d724bf2281c1bfd33cb8f99fe2465f&v=4" alt="Workleap" height="64"></a></p><h3>Bronze Sponsors</h3>
+<p><a href="https://themeisle.com"><img src="https://images.opencollective.com/themeisle/d5592fe/logo.png" alt="ThemeIsle" height="32"></a> <a href="https://www.crosswordsolver.org/anagram-solver/"><img src="https://images.opencollective.com/anagram-solver/2666271/logo.png" alt="Anagram Solver" height="32"></a> <a href="https://icons8.com/"><img src="https://images.opencollective.com/icons8/7fa1641/logo.png" alt="Icons8" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/f9645d9/logo.png" alt="Discord" height="32"></a> <a href="https://transloadit.com/"><img src="https://avatars.githubusercontent.com/u/125754?v=4" alt="Transloadit" height="32"></a> <a href="https://www.ignitionapp.com"><img src="https://avatars.githubusercontent.com/u/5753491?v=4" alt="Ignition" height="32"></a> <a href="https://nx.dev"><img src="https://avatars.githubusercontent.com/u/23692104?v=4" alt="Nx" height="32"></a> <a href="https://herocoders.com"><img src="https://avatars.githubusercontent.com/u/37549774?v=4" alt="HeroCoders" height="32"></a> <a href="https://usenextbase.com"><img src="https://avatars.githubusercontent.com/u/145838380?v=4" alt="Nextbase Starter Kit" height="32"></a></p>
 <!--sponsorsend-->
 
 ## Technology Sponsors

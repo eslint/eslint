@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/semi-style"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -33,8 +33,8 @@ ruleTester.run("semi-style", rule, {
         { code: "for(a;b;c);", options: ["last"] },
         { code: "for(a;\nb;\nc);", options: ["last"] },
         { code: "for((a\n);\n(b\n);\n(c));", options: ["last"] },
-        { code: "class C { a; b; }", options: ["last"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C {\na;\nb;\n}", options: ["last"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { a; b; }", options: ["last"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C {\na;\nb;\n}", options: ["last"], languageOptions: { ecmaVersion: 2022 } },
         { code: "if(a)foo;\nbar", options: ["last"] },
         { code: ";", options: ["first"] },
         { code: ";foo;bar;baz;", options: ["first"] },
@@ -42,8 +42,8 @@ ruleTester.run("semi-style", rule, {
         { code: "for(a;b;c);", options: ["first"] },
         { code: "for(a;\nb;\nc);", options: ["first"] },
         { code: "for((a\n);\n(b\n);\n(c));", options: ["first"] },
-        { code: "class C { a ;b }", options: ["first"], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C {\na\n;b\n}", options: ["first"], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { a ;b }", options: ["first"], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C {\na\n;b\n}", options: ["first"], languageOptions: { ecmaVersion: 2022 } },
 
         // edge cases
         {
@@ -137,7 +137,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["last"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -148,7 +148,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["last"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -160,7 +160,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["last"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -171,7 +171,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["last"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -182,7 +182,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["last"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -194,7 +194,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["last"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -207,7 +207,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["last"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -216,7 +216,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["first"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -227,7 +227,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["first"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -239,7 +239,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["first"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -250,7 +250,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["first"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -261,7 +261,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["first"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -272,7 +272,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["first"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -284,7 +284,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["first"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -296,7 +296,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["first"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -309,7 +309,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["first"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: `
@@ -322,7 +322,7 @@ ruleTester.run("semi-style", rule, {
                 }
             `,
             options: ["first"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -591,7 +591,7 @@ ruleTester.run("semi-style", rule, {
             code: "class C { foo\n;bar }",
             output: "class C { foo;\nbar }",
             options: ["last"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {
@@ -603,7 +603,7 @@ ruleTester.run("semi-style", rule, {
             code: "class C { foo;\nbar }",
             output: "class C { foo\n;bar }",
             options: ["first"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {
@@ -617,7 +617,7 @@ ruleTester.run("semi-style", rule, {
             code: "class C { static { foo\n; } }",
             output: "class C { static { foo;\n} }",
             options: ["last"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {
@@ -629,7 +629,7 @@ ruleTester.run("semi-style", rule, {
             code: "class C { static { foo\n ;bar } }",
             output: "class C { static { foo;\nbar } }",
             options: ["last"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {
@@ -641,7 +641,7 @@ ruleTester.run("semi-style", rule, {
             code: "class C { static { foo;\nbar\n ; } }",
             output: "class C { static { foo;\nbar;\n} }",
             options: ["last"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {
@@ -653,7 +653,7 @@ ruleTester.run("semi-style", rule, {
             code: "class C { static { foo;\nbar } }",
             output: "class C { static { foo\n;bar } }",
             options: ["first"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "expectedSemiColon",
                 data: {

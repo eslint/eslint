@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/new-cap"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -76,33 +76,33 @@ ruleTester.run("new-cap", rule, {
         // Optional chaining
         {
             code: "foo?.bar();",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(foo?.bar)();",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "new (foo?.Bar)();",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(foo?.Bar)();",
             options: [{ properties: false }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "new (foo?.bar)();",
             options: [{ properties: false }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "Date?.UTC();",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "(Date?.UTC)();",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -272,7 +272,7 @@ ruleTester.run("new-cap", rule, {
         },
         {
             code: "var a = new b[ ( 'foo' ) ]();",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "lower",
@@ -286,7 +286,7 @@ ruleTester.run("new-cap", rule, {
         },
         {
             code: "var a = new b[`foo`];",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "lower",
@@ -300,7 +300,7 @@ ruleTester.run("new-cap", rule, {
         },
         {
             code: "var a = b[`\\\nFoo`]();",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "upper",
@@ -339,17 +339,17 @@ ruleTester.run("new-cap", rule, {
         // Optional chaining
         {
             code: "new (foo?.bar)();",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "lower", column: 11, endColumn: 14 }]
         },
         {
             code: "foo?.Bar();",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "upper", column: 6, endColumn: 9 }]
         },
         {
             code: "(foo?.Bar)();",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "upper", column: 7, endColumn: 10 }]
         }
     ]

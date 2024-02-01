@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/space-unary-ops"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -156,58 +156,58 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "function *foo () { yield (0) }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function *foo() { yield +1 }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function *foo() { yield* 0 }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function *foo() { yield * 0 }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function *foo() { (yield)*0 }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function *foo() { (yield) * 0 }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function *foo() { yield*0 }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function *foo() { yield *0 }",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "async function foo() { await {foo: 1} }",
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "async function foo() { await {bar: 2} }",
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "async function foo() { await{baz: 3} }",
             options: [{ words: false }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "async function foo() { await {qux: 4} }",
             options: [{ words: false, overrides: { await: true } }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "async function foo() { await{foo: 5} }",
             options: [{ words: true, overrides: { await: false } }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo++",
@@ -244,17 +244,17 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "function *foo () { yield(0) }",
             options: [{ words: true, overrides: { yield: false } }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function *foo () { yield(0) }",
             options: [{ words: false, overrides: { yield: false } }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class C { #x; *foo(bar) { yield#x in bar; } }",
             options: [{ words: false }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
 
@@ -628,7 +628,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "function *foo() { yield(0) }",
             output: "function *foo() { yield (0) }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wordOperator",
                 data: { word: "yield" },
@@ -641,7 +641,7 @@ ruleTester.run("space-unary-ops", rule, {
             code: "function *foo() { yield (0) }",
             output: "function *foo() { yield(0) }",
             options: [{ words: false }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpectedAfterWord",
                 data: { word: "yield" },
@@ -653,7 +653,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "function *foo() { yield+0 }",
             output: "function *foo() { yield +0 }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wordOperator",
                 data: { word: "yield" },
@@ -738,7 +738,7 @@ ruleTester.run("space-unary-ops", rule, {
             code: "function *foo() { yield(0) }",
             output: "function *foo() { yield (0) }",
             options: [{ words: true, overrides: { yield: true } }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wordOperator",
                 data: { word: "yield" },
@@ -751,7 +751,7 @@ ruleTester.run("space-unary-ops", rule, {
             code: "function *foo() { yield(0) }",
             output: "function *foo() { yield (0) }",
             options: [{ words: false, overrides: { yield: true } }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "wordOperator",
                 data: { word: "yield" },
@@ -763,7 +763,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "async function foo() { await{foo: 'bar'} }",
             output: "async function foo() { await {foo: 'bar'} }",
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "wordOperator",
                 data: { word: "await" },
@@ -776,7 +776,7 @@ ruleTester.run("space-unary-ops", rule, {
             code: "async function foo() { await{baz: 'qux'} }",
             output: "async function foo() { await {baz: 'qux'} }",
             options: [{ words: false, overrides: { await: true } }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "wordOperator",
                 data: { word: "await" },
@@ -789,7 +789,7 @@ ruleTester.run("space-unary-ops", rule, {
             code: "async function foo() { await {foo: 1} }",
             output: "async function foo() { await{foo: 1} }",
             options: [{ words: false }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unexpectedAfterWord",
                 data: { word: "await" },
@@ -802,7 +802,7 @@ ruleTester.run("space-unary-ops", rule, {
             code: "async function foo() { await {bar: 2} }",
             output: "async function foo() { await{bar: 2} }",
             options: [{ words: true, overrides: { await: false } }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unexpectedAfterWord",
                 data: { word: "await" },
@@ -815,7 +815,7 @@ ruleTester.run("space-unary-ops", rule, {
             code: "class C { #x; *foo(bar) { yield #x in bar; } }",
             output: "class C { #x; *foo(bar) { yield#x in bar; } }",
             options: [{ words: false }],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "unexpectedAfterWord",
                 data: { word: "yield" },

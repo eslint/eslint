@@ -11,15 +11,22 @@
 
 const baseParser = require("../../fixtures/fixture-parser"),
     rule = require("../../../lib/rules/arrow-parens"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
-const parser = baseParser.bind(null, "arrow-parens");
+/**
+ * Loads a parser.
+ * @param {string} name The name of the parser to load.
+ * @returns {Object} The parser object.
+ */
+function parser(name) {
+    return require(baseParser("arrow-parens", name));
+}
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
 const valid = [
 
@@ -36,7 +43,7 @@ const valid = [
     "const f = (//\na) => a + a;",
     "const f = (/*\n */a//\n) => a + a;",
     "const f = (/** @type {number} */a/**hello*/) => a + a;",
-    { code: "a.then(async (foo) => { if (true) {}; });", parserOptions: { ecmaVersion: 8 } },
+    { code: "a.then(async (foo) => { if (true) {}; });", languageOptions: { ecmaVersion: 8 } },
 
     // "always" (explicit)
     { code: "() => {}", options: ["always"] },
@@ -45,9 +52,9 @@ const valid = [
     { code: "(a) => {\n}", options: ["always"] },
     { code: "a.then((foo) => {});", options: ["always"] },
     { code: "a.then((foo) => { if (true) {}; });", options: ["always"] },
-    { code: "a.then(async (foo) => { if (true) {}; });", options: ["always"], parserOptions: { ecmaVersion: 8 } },
-    { code: "(a: T) => a", options: ["always"], parser: parser("identifier-type") },
-    { code: "(a): T => a", options: ["always"], parser: parser("return-type") },
+    { code: "a.then(async (foo) => { if (true) {}; });", options: ["always"], languageOptions: { ecmaVersion: 8 } },
+    { code: "(a: T) => a", options: ["always"], languageOptions: { parser: parser("identifier-type") } },
+    { code: "(a): T => a", options: ["always"], languageOptions: { parser: parser("return-type") } },
 
     // "as-needed"
     { code: "() => {}", options: ["as-needed"] },
@@ -61,11 +68,11 @@ const valid = [
     { code: "(a = 10) => {}", options: ["as-needed"] },
     { code: "(...a) => a[0]", options: ["as-needed"] },
     { code: "(a, b) => {}", options: ["as-needed"] },
-    { code: "async a => a", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
-    { code: "async ([a, b]) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
-    { code: "async (a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
-    { code: "(a: T) => a", options: ["as-needed"], parser: parser("identifier-type") },
-    { code: "(a): T => a", options: ["as-needed"], parser: parser("return-type") },
+    { code: "async a => a", options: ["as-needed"], languageOptions: { ecmaVersion: 8 } },
+    { code: "async ([a, b]) => {}", options: ["as-needed"], languageOptions: { ecmaVersion: 8 } },
+    { code: "async (a, b) => {}", options: ["as-needed"], languageOptions: { ecmaVersion: 8 } },
+    { code: "(a: T) => a", options: ["as-needed"], languageOptions: { parser: parser("identifier-type") } },
+    { code: "(a): T => a", options: ["as-needed"], languageOptions: { parser: parser("return-type") } },
 
     // "as-needed", { "requireForBlockBody": true }
     { code: "() => {}", options: ["as-needed", { requireForBlockBody: true }] },
@@ -81,10 +88,10 @@ const valid = [
     { code: "(...a) => a[0]", options: ["as-needed", { requireForBlockBody: true }] },
     { code: "(a, b) => {}", options: ["as-needed", { requireForBlockBody: true }] },
     { code: "a => ({})", options: ["as-needed", { requireForBlockBody: true }] },
-    { code: "async a => ({})", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
-    { code: "async a => a", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
-    { code: "(a: T) => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("identifier-type") },
-    { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") },
+    { code: "async a => ({})", options: ["as-needed", { requireForBlockBody: true }], languageOptions: { ecmaVersion: 8 } },
+    { code: "async a => a", options: ["as-needed", { requireForBlockBody: true }], languageOptions: { ecmaVersion: 8 } },
+    { code: "(a: T) => a", options: ["as-needed", { requireForBlockBody: true }], languageOptions: { parser: parser("identifier-type") } },
+    { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], languageOptions: { parser: parser("return-type") } },
     {
         code: "const f = (/** @type {number} */a/**hello*/) => a + a;",
         options: ["as-needed"]
@@ -111,32 +118,32 @@ const valid = [
     },
     {
         code: "var foo = (a,/**/) => b;",
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
         options: ["as-needed"]
     },
     {
         code: "var foo = (a , /**/) => b;",
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
         options: ["as-needed"]
     },
     {
         code: "var foo = (a\n,\n/**/) => b;",
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
         options: ["as-needed"]
     },
     {
         code: "var foo = (a,//\n) => b;",
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
         options: ["as-needed"]
     },
     {
         code: "const i = (a/**/,) => a + a;",
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
         options: ["as-needed"]
     },
     {
         code: "const i = (a \n /**/,) => a + a;",
-        parserOptions: { ecmaVersion: 2017 },
+        languageOptions: { ecmaVersion: 2017 },
         options: ["as-needed"]
     },
     {
@@ -152,77 +159,77 @@ const valid = [
     {
         code: "<T>(a) => b",
         options: ["always"],
-        parser: parser("generics-simple")
+        languageOptions: { parser: parser("generics-simple") }
     },
     {
         code: "<T>(a) => b",
         options: ["as-needed"],
-        parser: parser("generics-simple")
+        languageOptions: { parser: parser("generics-simple") }
     },
     {
         code: "<T>(a) => b",
         options: ["as-needed", { requireForBlockBody: true }],
-        parser: parser("generics-simple")
+        languageOptions: { parser: parser("generics-simple") }
     },
     {
         code: "async <T>(a) => b",
         options: ["always"],
-        parser: parser("generics-simple-async")
+        languageOptions: { parser: parser("generics-simple-async") }
     },
     {
         code: "async <T>(a) => b",
         options: ["as-needed"],
-        parser: parser("generics-simple-async")
+        languageOptions: { parser: parser("generics-simple-async") }
     },
     {
         code: "async <T>(a) => b",
         options: ["as-needed", { requireForBlockBody: true }],
-        parser: parser("generics-simple-async")
+        languageOptions: { parser: parser("generics-simple-async") }
     },
     {
         code: "<T>() => b",
         options: ["always"],
-        parser: parser("generics-simple-no-params")
+        languageOptions: { parser: parser("generics-simple-no-params") }
     },
     {
         code: "<T>() => b",
         options: ["as-needed"],
-        parser: parser("generics-simple-no-params")
+        languageOptions: { parser: parser("generics-simple-no-params") }
     },
     {
         code: "<T>() => b",
         options: ["as-needed", { requireForBlockBody: true }],
-        parser: parser("generics-simple-no-params")
+        languageOptions: { parser: parser("generics-simple-no-params") }
     },
     {
         code: "<T extends A>(a) => b",
         options: ["always"],
-        parser: parser("generics-extends")
+        languageOptions: { parser: parser("generics-extends") }
     },
     {
         code: "<T extends A>(a) => b",
         options: ["as-needed"],
-        parser: parser("generics-extends")
+        languageOptions: { parser: parser("generics-extends") }
     },
     {
         code: "<T extends A>(a) => b",
         options: ["as-needed", { requireForBlockBody: true }],
-        parser: parser("generics-extends")
+        languageOptions: { parser: parser("generics-extends") }
     },
     {
         code: "<T extends (A | B) & C>(a) => b",
         options: ["always"],
-        parser: parser("generics-extends-complex")
+        languageOptions: { parser: parser("generics-extends-complex") }
     },
     {
         code: "<T extends (A | B) & C>(a) => b",
         options: ["as-needed"],
-        parser: parser("generics-extends-complex")
+        languageOptions: { parser: parser("generics-extends-complex") }
     },
     {
         code: "<T extends (A | B) & C>(a) => b",
         options: ["as-needed", { requireForBlockBody: true }],
-        parser: parser("generics-extends-complex")
+        languageOptions: { parser: parser("generics-extends-complex") }
     }
 ];
 
@@ -300,7 +307,7 @@ const invalid = [
     {
         code: "a(async foo => { if (true) {}; });",
         output: "a(async (foo) => { if (true) {}; });",
-        parserOptions: { ecmaVersion: 8 },
+        languageOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
             column: 9,
@@ -351,7 +358,7 @@ const invalid = [
         code: "(a,) => a",
         output: "a => a",
         options: ["as-needed"],
-        parserOptions: { ecmaVersion: 8 },
+        languageOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
             column: 2,
@@ -364,7 +371,7 @@ const invalid = [
         code: "async (a) => a",
         output: "async a => a",
         options: ["as-needed"],
-        parserOptions: { ecmaVersion: 8 },
+        languageOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
             column: 8,
@@ -377,7 +384,7 @@ const invalid = [
         code: "async(a) => a",
         output: "async a => a",
         options: ["as-needed"],
-        parserOptions: { ecmaVersion: 8 },
+        languageOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
             column: 7,
@@ -440,7 +447,7 @@ const invalid = [
         code: "async a => {}",
         output: "async (a) => {}",
         options: ["as-needed", { requireForBlockBody: true }],
-        parserOptions: { ecmaVersion: 8 },
+        languageOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
             column: 7,
@@ -453,7 +460,7 @@ const invalid = [
         code: "async (a) => a",
         output: "async a => a",
         options: ["as-needed", { requireForBlockBody: true }],
-        parserOptions: { ecmaVersion: 8 },
+        languageOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
             column: 8,
@@ -466,7 +473,7 @@ const invalid = [
         code: "async(a) => a",
         output: "async a => a",
         options: ["as-needed", { requireForBlockBody: true }],
-        parserOptions: { ecmaVersion: 8 },
+        languageOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
             column: 7,

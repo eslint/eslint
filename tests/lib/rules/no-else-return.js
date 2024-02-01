@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-else-return"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-else-return", rule, {
     valid: [
@@ -198,109 +203,109 @@ ruleTester.run("no-else-return", rule, {
         {
             code: "function foo() { var a; if (bar) { return true; } else { var a; } }",
             output: "function foo() { var a; if (bar) { return true; }  var a;  }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { var a; if (baz) { return true; } else { var a; } } }",
             output: "function foo() { if (bar) { var a; if (baz) { return true; }  var a;  } }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { let a; if (bar) { return true; } else { let a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "class foo { bar() { let a; if (baz) { return true; } else { let a; } } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { let a; if (baz) { return true; } else { let a; } } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() {let a; if (bar) { if (baz) { return true; } else { let a; } } }",
             output: "function foo() {let a; if (bar) { if (baz) { return true; }  let a;  } }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { const a = 1; if (bar) { return true; } else { let a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { const a = 1; if (baz) { return true; } else { let a; } } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { let a; if (bar) { return true; } else { const a = 1 } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { let a; if (baz) { return true; } else { const a = 1; } } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { class a {}; if (bar) { return true; } else { const a = 1; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { class a {}; if (baz) { return true; } else { const a = 1; } } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { const a = 1; if (bar) { return true; } else { class a {} } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { const a = 1; if (baz) { return true; } else { class a {} } } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { var a; if (bar) { return true; } else { let a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { var a; return true; } else { let a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { return true; } else { let a; }  while (baz) { var a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo(a) { if (bar) { return true; } else { let a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpected", type: "BlockStatement" }
             ]
@@ -308,13 +313,13 @@ ruleTester.run("no-else-return", rule, {
         {
             code: "function foo(a = 1) { if (bar) { return true; } else { let a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo(a, b = a) { if (bar) { return true; } else { let a; }  if (bar) { return true; } else { let b; }}",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpected", type: "BlockStatement" },
                 { messageId: "unexpected", type: "BlockStatement" }
@@ -323,181 +328,181 @@ ruleTester.run("no-else-return", rule, {
         {
             code: "function foo(...args) { if (bar) { return true; } else { let args; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { try {} catch (a) { if (bar) { return true; } else { let a; } } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { try {} catch (a) { if (bar) { if (baz) { return true; } else { let a; } } } }",
             output: "function foo() { try {} catch (a) { if (bar) { if (baz) { return true; }  let a;  } } }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { try {} catch ({bar, a = 1}) { if (baz) { return true; } else { let a; } } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { return true; } else { let arguments; } }",
             output: "function foo() { if (bar) { return true; }  let arguments;  }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { return true; } else { let arguments; } return arguments[0]; }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { return true; } else { let arguments; } if (baz) { return arguments[0]; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { if (baz) { return true; } else { let arguments; } } }",
             output: "function foo() { if (bar) { if (baz) { return true; }  let arguments;  } }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { return true; } else { let a; } a; }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { return true; } else { let a; } if (baz) { a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { if (baz) { return true; } else { let a; } } a; }",
             output: "function foo() { if (bar) { if (baz) { return true; }  let a;  } a; }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { if (baz) { return true; } else { let a; } a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { if (baz) { return true; } else { let a; } if (quux) { a; } } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function a() { if (foo) { return true; } else { let a; } a(); }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function a() { if (a) { return true; } else { let a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function a() { if (foo) { return a; } else { let a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { return true; } else { let a; } function baz() { a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { if (baz) { return true; } else { let a; } (() => a) } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { return true; } else { let a; } var a; }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { if (baz) { return true; } else { let a; } var a; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { if (baz) { return true; } else { let a; } var { a } = {}; } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { if (baz) { return true; } else { let a; } if (quux) { var a; } } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { if (baz) { return true; } else { let a; } } if (quux) { var a; } }",
             output: "function foo() { if (bar) { if (baz) { return true; }  let a;  } if (quux) { var a; } }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (quux) { var a; } if (bar) { if (baz) { return true; } else { let a; } } }",
             output: "function foo() { if (quux) { var a; } if (bar) { if (baz) { return true; }  let a;  } }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { return true; } else { let a; } function a(){} }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (baz) { if (bar) { return true; } else { let a; } function a(){} } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { if (baz) { return true; } else { let a; } } if (quux) { function a(){}  } }",
             output: "function foo() { if (bar) { if (baz) { return true; }  let a;  } if (quux) { function a(){}  } }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { if (bar) { if (baz) { return true; } else { let a; } } function a(){} }",
             output: "function foo() { if (bar) { if (baz) { return true; }  let a;  } function a(){} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { let a; if (bar) { return true; } else { function a(){} } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo() { var a; if (bar) { return true; } else { function a(){} } }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
@@ -508,15 +513,13 @@ ruleTester.run("no-else-return", rule, {
         {
             code: "if (foo) { return true; } else { let a; }",
             output: "if (foo) { return true; }  let a; ",
-            parserOptions: { ecmaVersion: 6 },
-            env: { node: true },
+            languageOptions: { ecmaVersion: 6, sourceType: "commonjs" },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "let a; if (foo) { return true; } else { let a; }",
             output: null,
-            parserOptions: { ecmaVersion: 6 },
-            env: { node: true },
+            languageOptions: { ecmaVersion: 6, sourceType: "commonjs" },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         }
     ]

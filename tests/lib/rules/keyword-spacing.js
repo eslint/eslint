@@ -11,7 +11,7 @@
 
 const parser = require("../../fixtures/fixture-parser"),
     rule = require("../../../lib/rules/keyword-spacing"),
-    { RuleTester } = require("../../../lib/rule-tester"),
+    RuleTester = require("../../../lib/rule-tester/rule-tester"),
     fixtureParser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
@@ -117,7 +117,12 @@ function unexpectedBeforeAndAfter(keyword) {
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("keyword-spacing", rule, {
     valid: [
@@ -127,196 +132,196 @@ ruleTester.run("keyword-spacing", rule, {
         //----------------------------------------------------------------------
 
         // import { a as b }
-        { code: "import { a } from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import { a as b } from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import { \"a\" as b } from \"foo\"", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "import{ a }from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import{ a as b }from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import{ \"a\"as b }from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "import{ \"a\" as b }from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "import { a as b } from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "import { \"a\"as b } from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import { a } from \"foo\"", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { a as b } from \"foo\"", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { \"a\" as b } from \"foo\"", languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import{ a }from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import{ a as b }from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import{ \"a\"as b }from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import{ \"a\" as b }from\"foo\"", options: [override("as", BOTH)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import { a as b } from \"foo\"", options: [override("as", NEITHER)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import { \"a\"as b } from \"foo\"", options: [override("as", NEITHER)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
 
         // export { a as b }
-        { code: "let a; export { a };", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export { \"a\" } from \"foo\";", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "let a; export { a as b };", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "let a; export { a as \"b\" };", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export { \"a\" as b } from \"foo\";", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export { \"a\" as \"b\" } from \"foo\";", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "let a; export{ a };", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export{ \"a\" }from\"foo\";", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "let a; export{ a as b };", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "let a; export{ a as\"b\" };", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export{ \"a\"as b }from\"foo\";", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export{ \"a\"as\"b\" }from\"foo\";", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "let a; export{ a as \"b\" };", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export{ \"a\" as b }from\"foo\";", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export{ \"a\" as \"b\" }from\"foo\";", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "let a; export { a as b };", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "let a; export { a as\"b\" };", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export { \"a\"as b } from \"foo\";", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export { \"a\"as\"b\" } from \"foo\";", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a; export { a };", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export { \"a\" } from \"foo\";", languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a; export { a as b };", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "let a; export { a as \"b\" };", languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\" as b } from \"foo\";", languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\" as \"b\" } from \"foo\";", languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a; export{ a };", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export{ \"a\" }from\"foo\";", options: [NEITHER], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a; export{ a as b };", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "let a; export{ a as\"b\" };", options: [NEITHER], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export{ \"a\"as b }from\"foo\";", options: [NEITHER], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export{ \"a\"as\"b\" }from\"foo\";", options: [NEITHER], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a; export{ a as \"b\" };", options: [override("as", BOTH)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export{ \"a\" as b }from\"foo\";", options: [override("as", BOTH)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export{ \"a\" as \"b\" }from\"foo\";", options: [override("as", BOTH)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "let a; export { a as b };", options: [override("as", NEITHER)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "let a; export { a as\"b\" };", options: [override("as", NEITHER)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\"as b } from \"foo\";", options: [override("as", NEITHER)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export { \"a\"as\"b\" } from \"foo\";", options: [override("as", NEITHER)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
 
         // import * as a
-        { code: "import * as a from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import*as a from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import* as a from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import *as a from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import * as a from \"foo\"", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import*as a from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import* as a from\"foo\"", options: [override("as", BOTH)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import *as a from \"foo\"", options: [override("as", NEITHER)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // export * as a
-        { code: "export * as a from \"foo\"", parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
-        { code: "export * as \"a\" from \"foo\"", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export*as a from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
-        { code: "export*as\"a\"from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export* as a from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
-        { code: "export* as \"a\"from\"foo\"", options: [override("as", BOTH)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "export *as a from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
-        { code: "export *as\"a\" from \"foo\"", options: [override("as", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export * as a from \"foo\"", languageOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export * as \"a\" from \"foo\"", languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export*as a from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export*as\"a\"from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export* as a from\"foo\"", options: [override("as", BOTH)], languageOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export* as \"a\"from\"foo\"", options: [override("as", BOTH)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "export *as a from \"foo\"", options: [override("as", NEITHER)], languageOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export *as\"a\" from \"foo\"", options: [override("as", NEITHER)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
 
         //----------------------------------------------------------------------
         // async
         //----------------------------------------------------------------------
 
-        { code: "{} async function foo() {}", parserOptions: { ecmaVersion: 8 } },
-        { code: "{}async function foo() {}", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
-        { code: "{} async function foo() {}", options: [override("async", BOTH)], parserOptions: { ecmaVersion: 8 } },
-        { code: "{}async function foo() {}", options: [override("async", NEITHER)], parserOptions: { ecmaVersion: 8 } },
-        { code: "{} async () => {}", parserOptions: { ecmaVersion: 8 } },
-        { code: "{}async () => {}", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
-        { code: "{} async () => {}", options: [override("async", BOTH)], parserOptions: { ecmaVersion: 8 } },
-        { code: "{}async () => {}", options: [override("async", NEITHER)], parserOptions: { ecmaVersion: 8 } },
-        { code: "({async [b]() {}})", parserOptions: { ecmaVersion: 8 } },
-        { code: "({async[b]() {}})", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
-        { code: "({async [b]() {}})", options: [override("async", BOTH)], parserOptions: { ecmaVersion: 8 } },
-        { code: "({async[b]() {}})", options: [override("async", NEITHER)], parserOptions: { ecmaVersion: 8 } },
-        { code: "class A {a(){} async [b]() {}}", parserOptions: { ecmaVersion: 8 } },
-        { code: "class A {a(){}async[b]() {}}", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
-        { code: "class A {a(){} async [b]() {}}", options: [override("async", BOTH)], parserOptions: { ecmaVersion: 8 } },
-        { code: "class A {a(){}async[b]() {}}", options: [override("async", NEITHER)], parserOptions: { ecmaVersion: 8 } },
+        { code: "{} async function foo() {}", languageOptions: { ecmaVersion: 8 } },
+        { code: "{}async function foo() {}", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
+        { code: "{} async function foo() {}", options: [override("async", BOTH)], languageOptions: { ecmaVersion: 8 } },
+        { code: "{}async function foo() {}", options: [override("async", NEITHER)], languageOptions: { ecmaVersion: 8 } },
+        { code: "{} async () => {}", languageOptions: { ecmaVersion: 8 } },
+        { code: "{}async () => {}", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
+        { code: "{} async () => {}", options: [override("async", BOTH)], languageOptions: { ecmaVersion: 8 } },
+        { code: "{}async () => {}", options: [override("async", NEITHER)], languageOptions: { ecmaVersion: 8 } },
+        { code: "({async [b]() {}})", languageOptions: { ecmaVersion: 8 } },
+        { code: "({async[b]() {}})", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
+        { code: "({async [b]() {}})", options: [override("async", BOTH)], languageOptions: { ecmaVersion: 8 } },
+        { code: "({async[b]() {}})", options: [override("async", NEITHER)], languageOptions: { ecmaVersion: 8 } },
+        { code: "class A {a(){} async [b]() {}}", languageOptions: { ecmaVersion: 8 } },
+        { code: "class A {a(){}async[b]() {}}", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
+        { code: "class A {a(){} async [b]() {}}", options: [override("async", BOTH)], languageOptions: { ecmaVersion: 8 } },
+        { code: "class A {a(){}async[b]() {}}", options: [override("async", NEITHER)], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `array-bracket-spacing`
-        { code: "[async function foo() {}]", parserOptions: { ecmaVersion: 8 } },
-        { code: "[ async function foo() {}]", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "[async function foo() {}]", languageOptions: { ecmaVersion: 8 } },
+        { code: "[ async function foo() {}]", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `arrow-spacing`
-        { code: "() =>async function foo() {}", parserOptions: { ecmaVersion: 8 } },
-        { code: "() => async function foo() {}", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "() =>async function foo() {}", languageOptions: { ecmaVersion: 8 } },
+        { code: "() => async function foo() {}", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `block-spacing`
-        { code: "{async function foo() {} }", parserOptions: { ecmaVersion: 8 } },
-        { code: "{ async function foo() {} }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "{async function foo() {} }", languageOptions: { ecmaVersion: 8 } },
+        { code: "{ async function foo() {} }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `comma-spacing`
-        { code: "(0,async function foo() {})", parserOptions: { ecmaVersion: 8 } },
-        { code: "(0, async function foo() {})", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "(0,async function foo() {})", languageOptions: { ecmaVersion: 8 } },
+        { code: "(0, async function foo() {})", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `computed-property-spacing`
-        { code: "a[async function foo() {}]", parserOptions: { ecmaVersion: 8 } },
-        { code: "({[async function foo() {}]: 0})", parserOptions: { ecmaVersion: 8 } },
-        { code: "a[ async function foo() {}]", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
-        { code: "({[ async function foo() {}]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "a[async function foo() {}]", languageOptions: { ecmaVersion: 8 } },
+        { code: "({[async function foo() {}]: 0})", languageOptions: { ecmaVersion: 8 } },
+        { code: "a[ async function foo() {}]", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
+        { code: "({[ async function foo() {}]: 0})", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `generator-star-spacing`
-        { code: "({ async* foo() {} })", parserOptions: { ecmaVersion: 2018 } },
-        { code: "({ async *foo() {} })", options: [NEITHER], parserOptions: { ecmaVersion: 2018 } },
+        { code: "({ async* foo() {} })", languageOptions: { ecmaVersion: 2018 } },
+        { code: "({ async *foo() {} })", options: [NEITHER], languageOptions: { ecmaVersion: 2018 } },
 
         // not conflict with `key-spacing`
-        { code: "({a:async function foo() {} })", parserOptions: { ecmaVersion: 8 } },
-        { code: "({a: async function foo() {} })", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "({a:async function foo() {} })", languageOptions: { ecmaVersion: 8 } },
+        { code: "({a: async function foo() {} })", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `semi-spacing`
-        { code: ";async function foo() {};", parserOptions: { ecmaVersion: 8 } },
-        { code: "; async function foo() {} ;", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: ";async function foo() {};", languageOptions: { ecmaVersion: 8 } },
+        { code: "; async function foo() {} ;", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `space-before-function-paren`
-        { code: "async() => {}", parserOptions: { ecmaVersion: 8 } },
-        { code: "async () => {}", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async() => {}", languageOptions: { ecmaVersion: 8 } },
+        { code: "async () => {}", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `space-in-parens`
-        { code: "(async function foo() {})", parserOptions: { ecmaVersion: 8 } },
-        { code: "( async function foo() {})", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "(async function foo() {})", languageOptions: { ecmaVersion: 8 } },
+        { code: "( async function foo() {})", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `space-infix-ops`
-        { code: "a =async function foo() {}", parserOptions: { ecmaVersion: 8 } },
-        { code: "a = async function foo() {}", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "a =async function foo() {}", languageOptions: { ecmaVersion: 8 } },
+        { code: "a = async function foo() {}", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `space-unary-ops`
-        { code: "!async function foo() {}", parserOptions: { ecmaVersion: 8 } },
-        { code: "! async function foo() {}", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "!async function foo() {}", languageOptions: { ecmaVersion: 8 } },
+        { code: "! async function foo() {}", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `template-curly-spacing`
-        { code: "`${async function foo() {}}`", parserOptions: { ecmaVersion: 8 } },
-        { code: "`${ async function foo() {}}`", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "`${async function foo() {}}`", languageOptions: { ecmaVersion: 8 } },
+        { code: "`${ async function foo() {}}`", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "<Foo onClick={async function foo() {}} />", parserOptions: { ecmaVersion: 8, ecmaFeatures: { jsx: true } } },
-        { code: "<Foo onClick={ async function foo() {}} />", options: [NEITHER], parserOptions: { ecmaVersion: 8, ecmaFeatures: { jsx: true } } },
+        { code: "<Foo onClick={async function foo() {}} />", languageOptions: { ecmaVersion: 8, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<Foo onClick={ async function foo() {}} />", options: [NEITHER], languageOptions: { ecmaVersion: 8, parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         //----------------------------------------------------------------------
         // await
         //----------------------------------------------------------------------
 
-        { code: "async function wrap() { {} await +1 }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { {}await +1 }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { {} await +1 }", options: [override("await", BOTH)], parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { {}await +1 }", options: [override("await", NEITHER)], parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { {} await +1 }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { {}await +1 }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { {} await +1 }", options: [override("await", BOTH)], languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { {}await +1 }", options: [override("await", NEITHER)], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `array-bracket-spacing`
-        { code: "async function wrap() { [await a] }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { [ await a] }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { [await a] }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { [ await a] }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `arrow-spacing`
-        { code: "async () =>await a", parserOptions: { ecmaVersion: 8 } },
-        { code: "async () => await a", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async () =>await a", languageOptions: { ecmaVersion: 8 } },
+        { code: "async () => await a", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `block-spacing`
-        { code: "async function wrap() { {await a } }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { { await a } }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { {await a } }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { { await a } }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `comma-spacing`
-        { code: "async function wrap() { (0,await a) }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { (0, await a) }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { (0,await a) }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { (0, await a) }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `computed-property-spacing`
-        { code: "async function wrap() { a[await a] }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { ({[await a]: 0}) }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { a[ await a] }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { ({[ await a]: 0}) }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { a[await a] }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { ({[await a]: 0}) }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { a[ await a] }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { ({[ await a]: 0}) }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `key-spacing`
-        { code: "async function wrap() { ({a:await a }) }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { ({a: await a }) }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { ({a:await a }) }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { ({a: await a }) }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `semi-spacing`
-        { code: "async function wrap() { ;await a; }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { ; await a ; }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { ;await a; }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { ; await a ; }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `space-in-parens`
-        { code: "async function wrap() { (await a) }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { ( await a) }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { (await a) }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { ( await a) }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `space-infix-ops`
-        { code: "async function wrap() { a =await a }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { a = await a }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { a+await a }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { a + await a }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { a<await a }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { a < await a }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { a>await a }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { a > await a }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { a =await a }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { a = await a }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { a+await a }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { a + await a }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { a<await a }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { a < await a }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { a>await a }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { a > await a }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `space-unary-ops`
-        { code: "async function wrap() { !await'a' }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { ! await 'a' }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { !await'a' }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { ! await 'a' }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `template-curly-spacing`
-        { code: "async function wrap() { `${await a}` }", parserOptions: { ecmaVersion: 8 } },
-        { code: "async function wrap() { `${ await a}` }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { `${await a}` }", languageOptions: { ecmaVersion: 8 } },
+        { code: "async function wrap() { `${ await a}` }", options: [NEITHER], languageOptions: { ecmaVersion: 8 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "async function wrap() { <Foo onClick={await a} /> }", parserOptions: { ecmaVersion: 8, ecmaFeatures: { jsx: true } } },
-        { code: "async function wrap() { <Foo onClick={ await a} /> }", options: [NEITHER], parserOptions: { ecmaVersion: 8, ecmaFeatures: { jsx: true } } },
+        { code: "async function wrap() { <Foo onClick={await a} /> }", languageOptions: { ecmaVersion: 8, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "async function wrap() { <Foo onClick={ await a} /> }", options: [NEITHER], languageOptions: { ecmaVersion: 8, parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         //----------------------------------------------------------------------
         // break
@@ -369,92 +374,92 @@ ruleTester.run("keyword-spacing", rule, {
         // class
         //----------------------------------------------------------------------
 
-        { code: "{} class Bar {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "(class {})", parserOptions: { ecmaVersion: 6 } },
-        { code: "{}class Bar {}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "(class{})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "{} class Bar {}", options: [override("class", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "{}class Bar {}", options: [override("class", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "{} class Bar {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "(class {})", languageOptions: { ecmaVersion: 6 } },
+        { code: "{}class Bar {}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "(class{})", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "{} class Bar {}", options: [override("class", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "{}class Bar {}", options: [override("class", NEITHER)], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `array-bracket-spacing`
-        { code: "[class {}]", parserOptions: { ecmaVersion: 6 } },
-        { code: "[ class{}]", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "[class {}]", languageOptions: { ecmaVersion: 6 } },
+        { code: "[ class{}]", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `arrow-spacing`
-        { code: "() =>class {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "() => class{}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "() =>class {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "() => class{}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "{class Bar {} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "{ class Bar {} }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "{class Bar {} }", languageOptions: { ecmaVersion: 6 } },
+        { code: "{ class Bar {} }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `comma-spacing`
-        { code: "(0,class {})", parserOptions: { ecmaVersion: 6 } },
-        { code: "(0, class{})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "(0,class {})", languageOptions: { ecmaVersion: 6 } },
+        { code: "(0, class{})", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `computed-property-spacing`
-        { code: "a[class {}]", parserOptions: { ecmaVersion: 6 } },
-        { code: "({[class {}]: 0})", parserOptions: { ecmaVersion: 6 } },
-        { code: "a[ class{}]", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "({[ class{}]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "a[class {}]", languageOptions: { ecmaVersion: 6 } },
+        { code: "({[class {}]: 0})", languageOptions: { ecmaVersion: 6 } },
+        { code: "a[ class{}]", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "({[ class{}]: 0})", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
-        { code: "({a:class {} })", parserOptions: { ecmaVersion: 6 } },
-        { code: "({a: class{} })", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "({a:class {} })", languageOptions: { ecmaVersion: 6 } },
+        { code: "({a: class{} })", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
-        { code: ";class Bar {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "; class Bar {} ;", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: ";class Bar {};", languageOptions: { ecmaVersion: 6 } },
+        { code: "; class Bar {} ;", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-in-parens`
-        { code: "( class{})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "( class{})", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-infix-ops`
-        { code: "a =class {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "a = class{}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "a+class {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "a + class{}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "a<class {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "a < class{}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "a>class {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "a > class{}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "a =class {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "a = class{}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "a+class {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "a + class{}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "a<class {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "a < class{}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "a>class {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "a > class{}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-unary-ops`
-        { code: "!class {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "! class{}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "!class {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "! class{}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `template-curly-spacing`
-        { code: "`${class {}}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "`${ class{}}`", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${class {}}`", languageOptions: { ecmaVersion: 6 } },
+        { code: "`${ class{}}`", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "<Foo onClick={class {}} />", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "<Foo onClick={ class{}} />", options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+        { code: "<Foo onClick={class {}} />", languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<Foo onClick={ class{}} />", options: [NEITHER], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         // private names
-        { code: "class C {\n#x;\nfoo() {\nfor (this.#x of bar){}}}", options: [{ before: false }], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class C {\n#x;\nfoo() {\nfor (this.#x in bar){}}}", options: [{ before: false }], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C {\n#x;\nfoo() {\nfor (this.#x of bar){}}}", options: [{ before: false }], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class C {\n#x;\nfoo() {\nfor (this.#x in bar){}}}", options: [{ before: false }], languageOptions: { ecmaVersion: 2022 } },
 
         //----------------------------------------------------------------------
         // const
         //----------------------------------------------------------------------
 
-        { code: "{} const [a] = b", parserOptions: { ecmaVersion: 6 } },
-        { code: "{} const {a} = b", parserOptions: { ecmaVersion: 6 } },
-        { code: "{}const[a] = b", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "{}const{a} = b", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "{} const [a] = b", options: [override("const", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "{} const {a} = b", options: [override("const", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "{}const[a] = b", options: [override("const", NEITHER)], parserOptions: { ecmaVersion: 6 } },
-        { code: "{}const{a} = b", options: [override("const", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "{} const [a] = b", languageOptions: { ecmaVersion: 6 } },
+        { code: "{} const {a} = b", languageOptions: { ecmaVersion: 6 } },
+        { code: "{}const[a] = b", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "{}const{a} = b", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "{} const [a] = b", options: [override("const", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "{} const {a} = b", options: [override("const", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "{}const[a] = b", options: [override("const", NEITHER)], languageOptions: { ecmaVersion: 6 } },
+        { code: "{}const{a} = b", options: [override("const", NEITHER)], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "{const a = b}", parserOptions: { ecmaVersion: 6 } },
-        { code: "{ const a = b}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "{const a = b}", languageOptions: { ecmaVersion: 6 } },
+        { code: "{ const a = b}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
-        { code: ";const a = b;", parserOptions: { ecmaVersion: 6 } },
-        { code: "; const a = b ;", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: ";const a = b;", languageOptions: { ecmaVersion: 6 } },
+        { code: "; const a = b ;", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         //----------------------------------------------------------------------
         // continue
@@ -521,8 +526,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "[ delete foo.a]", options: [NEITHER] },
 
         // not conflict with `arrow-spacing`
-        { code: "(() =>delete foo.a)", parserOptions: { ecmaVersion: 6 } },
-        { code: "(() => delete foo.a)", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "(() =>delete foo.a)", languageOptions: { ecmaVersion: 6 } },
+        { code: "(() => delete foo.a)", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
         "{delete foo.a }",
@@ -534,9 +539,9 @@ ruleTester.run("keyword-spacing", rule, {
 
         // not conflict with `computed-property-spacing`
         "a[delete foo.a]",
-        { code: "({[delete foo.a]: 0})", parserOptions: { ecmaVersion: 6 } },
+        { code: "({[delete foo.a]: 0})", languageOptions: { ecmaVersion: 6 } },
         { code: "a[ delete foo.a]", options: [NEITHER] },
-        { code: "({[ delete foo.a]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "({[ delete foo.a]: 0})", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
         "({a:delete foo.a })",
@@ -565,12 +570,12 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "! delete (foo.a)", options: [NEITHER] },
 
         // not conflict with `template-curly-spacing`
-        { code: "`${delete foo.a}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "`${ delete foo.a}`", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${delete foo.a}`", languageOptions: { ecmaVersion: 6 } },
+        { code: "`${ delete foo.a}`", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "<Foo onClick={delete foo.a} />", parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<Foo onClick={ delete foo.a} />", options: [NEITHER], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<Foo onClick={delete foo.a} />", languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<Foo onClick={ delete foo.a} />", options: [NEITHER], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         //----------------------------------------------------------------------
         // do
@@ -622,25 +627,25 @@ ruleTester.run("keyword-spacing", rule, {
         // export
         //----------------------------------------------------------------------
 
-        { code: "var a = 0; {} export {a}", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "{} export default a", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "{} export * from \"a\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var a = 0; {}export{a}", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var a = 0; {} export {a}", options: [override("export", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var a = 0; {}export{a}", options: [override("export", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var a = 0; {} export {a}", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "{} export default a", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "{} export * from \"a\"", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var a = 0; {}export{a}", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var a = 0; {} export {a}", options: [override("export", BOTH)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var a = 0; {}export{a}", options: [override("export", NEITHER)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // not conflict with `semi-spacing`
-        { code: "var a = 0;\n;export {a}", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var a = 0;\n; export{a}", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var a = 0;\n;export {a}", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var a = 0;\n; export{a}", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         //----------------------------------------------------------------------
         // extends
         //----------------------------------------------------------------------
 
-        { code: "class Bar extends [] {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "class Bar extends[] {}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class Bar extends [] {}", options: [override("extends", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class Bar extends[] {}", options: [override("extends", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "class Bar extends [] {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "class Bar extends[] {}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "class Bar extends [] {}", options: [override("extends", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "class Bar extends[] {}", options: [override("extends", NEITHER)], languageOptions: { ecmaVersion: 6 } },
 
         //----------------------------------------------------------------------
         // finally
@@ -659,55 +664,55 @@ ruleTester.run("keyword-spacing", rule, {
 
         "{} for (;;) {}",
         "{} for (var foo in obj) {}",
-        { code: "{} for (var foo of list) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "{} for (var foo of list) {}", languageOptions: { ecmaVersion: 6 } },
         { code: "{}for(;;) {}", options: [NEITHER] },
         { code: "{}for(var foo in obj) {}", options: [NEITHER] },
-        { code: "{}for(var foo of list) {}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "{}for(var foo of list) {}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
         { code: "{} for (;;) {}", options: [override("for", BOTH)] },
         { code: "{} for (var foo in obj) {}", options: [override("for", BOTH)] },
-        { code: "{} for (var foo of list) {}", options: [override("for", BOTH)], parserOptions: { ecmaVersion: 6 } },
+        { code: "{} for (var foo of list) {}", options: [override("for", BOTH)], languageOptions: { ecmaVersion: 6 } },
         { code: "{}for(;;) {}", options: [override("for", NEITHER)] },
         { code: "{}for(var foo in obj) {}", options: [override("for", NEITHER)] },
-        { code: "{}for(var foo of list) {}", options: [override("for", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "{}for(var foo of list) {}", options: [override("for", NEITHER)], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
         "{for (;;) {} }",
         "{for (var foo in obj) {} }",
-        { code: "{for (var foo of list) {} }", parserOptions: { ecmaVersion: 6 } },
+        { code: "{for (var foo of list) {} }", languageOptions: { ecmaVersion: 6 } },
         { code: "{ for(;;) {} }", options: [NEITHER] },
         { code: "{ for(var foo in obj) {} }", options: [NEITHER] },
-        { code: "{ for(var foo of list) {} }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "{ for(var foo of list) {} }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
         ";for (;;) {}",
         ";for (var foo in obj) {}",
-        { code: ";for (var foo of list) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: ";for (var foo of list) {}", languageOptions: { ecmaVersion: 6 } },
         { code: "; for(;;) {}", options: [NEITHER] },
         { code: "; for(var foo in obj) {}", options: [NEITHER] },
-        { code: "; for(var foo of list) {}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "; for(var foo of list) {}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         //----------------------------------------------------------------------
         // from
         //----------------------------------------------------------------------
 
-        { code: "import {foo} from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {foo} from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export * from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export * as \"x\" from \"foo\"", parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "import{foo}from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export{foo}from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export*from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export*as x from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
-        { code: "export*as\"x\"from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "import{foo} from \"foo\"", options: [override("from", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export{foo} from \"foo\"", options: [override("from", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export* from \"foo\"", options: [override("from", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export*as\"x\" from \"foo\"", options: [override("from", BOTH)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
-        { code: "import {foo}from\"foo\"", options: [override("from", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {foo}from\"foo\"", options: [override("from", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export *from\"foo\"", options: [override("from", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export * as x from\"foo\"", options: [override("from", NEITHER)], parserOptions: { ecmaVersion: 2020, sourceType: "module" } },
-        { code: "export * as \"x\"from\"foo\"", options: [override("from", NEITHER)], parserOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import {foo} from \"foo\"", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export {foo} from \"foo\"", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export * from \"foo\"", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export * as \"x\" from \"foo\"", languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import{foo}from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export{foo}from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export*from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export*as x from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export*as\"x\"from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import{foo} from \"foo\"", options: [override("from", BOTH)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export{foo} from \"foo\"", options: [override("from", BOTH)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export* from \"foo\"", options: [override("from", BOTH)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export*as\"x\" from \"foo\"", options: [override("from", BOTH)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import {foo}from\"foo\"", options: [override("from", NEITHER)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export {foo}from\"foo\"", options: [override("from", NEITHER)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export *from\"foo\"", options: [override("from", NEITHER)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export * as x from\"foo\"", options: [override("from", NEITHER)], languageOptions: { ecmaVersion: 2020, sourceType: "module" } },
+        { code: "export * as \"x\"from\"foo\"", options: [override("from", NEITHER)], languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
 
         //----------------------------------------------------------------------
         // function
@@ -723,8 +728,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "[ function() {}]", options: [NEITHER] },
 
         // not conflict with `arrow-spacing`
-        { code: "(() =>function() {})", parserOptions: { ecmaVersion: 6 } },
-        { code: "(() => function() {})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "(() =>function() {})", languageOptions: { ecmaVersion: 6 } },
+        { code: "(() => function() {})", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
         "{function foo() {} }",
@@ -736,13 +741,13 @@ ruleTester.run("keyword-spacing", rule, {
 
         // not conflict with `computed-property-spacing`
         "a[function() {}]",
-        { code: "({[function() {}]: 0})", parserOptions: { ecmaVersion: 6 } },
+        { code: "({[function() {}]: 0})", languageOptions: { ecmaVersion: 6 } },
         { code: "a[ function() {}]", options: [NEITHER] },
-        { code: "({[ function(){}]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "({[ function(){}]: 0})", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `generator-star-spacing`
-        { code: "function* foo() {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function *foo() {}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "function *foo() {}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
         "({a:function() {} })",
@@ -774,37 +779,37 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "! function() {}", options: [NEITHER] },
 
         // not conflict with `template-curly-spacing`
-        { code: "`${function() {}}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "`${ function() {}}`", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${function() {}}`", languageOptions: { ecmaVersion: 6 } },
+        { code: "`${ function() {}}`", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "<Foo onClick={function() {}} />", parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<Foo onClick={ function() {}} />", options: [NEITHER], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<Foo onClick={function() {}} />", languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<Foo onClick={ function() {}} />", options: [NEITHER], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         //----------------------------------------------------------------------
         // get
         //----------------------------------------------------------------------
 
-        { code: "({ get [b]() {} })", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {} get [b]() {} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {} static get [b]() {} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "({ get[b]() {} })", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {}get[b]() {} }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {}static get[b]() {} }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "({ get [b]() {} })", options: [override("get", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {} get [b]() {} }", options: [override("get", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "({ get[b]() {} })", options: [override("get", NEITHER)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {}get[b]() {} }", options: [override("get", NEITHER)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a; get #b() {} }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { a;get#b() {} }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
+        { code: "({ get [b]() {} })", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {} get [b]() {} }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {} static get [b]() {} }", languageOptions: { ecmaVersion: 6 } },
+        { code: "({ get[b]() {} })", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {}get[b]() {} }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {}static get[b]() {} }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ get [b]() {} })", options: [override("get", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {} get [b]() {} }", options: [override("get", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ get[b]() {} })", options: [override("get", NEITHER)], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {}get[b]() {} }", options: [override("get", NEITHER)], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a; get #b() {} }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a;get#b() {} }", options: [NEITHER], languageOptions: { ecmaVersion: 2022 } },
 
         // not conflict with `comma-spacing`
-        { code: "({ a,get [b]() {} })", parserOptions: { ecmaVersion: 6 } },
-        { code: "({ a, get[b]() {} })", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "({ a,get [b]() {} })", languageOptions: { ecmaVersion: 6 } },
+        { code: "({ a, get[b]() {} })", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
-        { code: "class A { ;get #b() {} }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { ; get#b() {} }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { ;get #b() {} }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { ; get#b() {} }", options: [NEITHER], languageOptions: { ecmaVersion: 2022 } },
 
         //----------------------------------------------------------------------
         // if
@@ -831,29 +836,29 @@ ruleTester.run("keyword-spacing", rule, {
         // import
         //----------------------------------------------------------------------
 
-        { code: "{} import {a} from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "{} import a from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "{} import * as a from \"a\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "{}import{a}from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "{}import*as a from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "{} import {a}from\"foo\"", options: [override("import", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "{} import *as a from\"foo\"", options: [override("import", BOTH)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "{}import{a} from \"foo\"", options: [override("import", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "{}import* as a from \"foo\"", options: [override("import", NEITHER)], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "{} import {a} from \"foo\"", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "{} import a from \"foo\"", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "{} import * as a from \"a\"", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "{}import{a}from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "{}import*as a from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "{} import {a}from\"foo\"", options: [override("import", BOTH)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "{} import *as a from\"foo\"", options: [override("import", BOTH)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "{}import{a} from \"foo\"", options: [override("import", NEITHER)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "{}import* as a from \"foo\"", options: [override("import", NEITHER)], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // not conflict with `semi-spacing`
-        { code: ";import {a} from \"foo\"", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "; import{a}from\"foo\"", options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: ";import {a} from \"foo\"", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "; import{a}from\"foo\"", options: [NEITHER], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         //----------------------------------------------------------------------
         // in
         //----------------------------------------------------------------------
 
-        { code: "for ([foo] in {foo: 0}) {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "for([foo]in{foo: 0}) {}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "for([foo] in {foo: 0}) {}", options: [override("in", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "for ([foo]in{foo: 0}) {}", options: [override("in", NEITHER)], parserOptions: { ecmaVersion: 6 } },
-        { code: "for ([foo] in ({foo: 0})) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "for ([foo] in {foo: 0}) {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "for([foo]in{foo: 0}) {}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "for([foo] in {foo: 0}) {}", options: [override("in", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "for ([foo]in{foo: 0}) {}", options: [override("in", NEITHER)], languageOptions: { ecmaVersion: 6 } },
+        { code: "for ([foo] in ({foo: 0})) {}", languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-infix-ops`
         "if (\"foo\"in{foo: 0}) {}",
@@ -871,18 +876,18 @@ ruleTester.run("keyword-spacing", rule, {
         // let
         //----------------------------------------------------------------------
 
-        { code: "{} let [a] = b", parserOptions: { ecmaVersion: 6 } },
-        { code: "{}let[a] = b", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "{} let [a] = b", options: [override("let", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "{}let[a] = b", options: [override("let", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "{} let [a] = b", languageOptions: { ecmaVersion: 6 } },
+        { code: "{}let[a] = b", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "{} let [a] = b", options: [override("let", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "{}let[a] = b", options: [override("let", NEITHER)], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "{let [a] = b }", parserOptions: { ecmaVersion: 6 } },
-        { code: "{ let[a] = b }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "{let [a] = b }", languageOptions: { ecmaVersion: 6 } },
+        { code: "{ let[a] = b }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
-        { code: ";let [a] = b", parserOptions: { ecmaVersion: 6 } },
-        { code: "; let[a] = b", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: ";let [a] = b", languageOptions: { ecmaVersion: 6 } },
+        { code: "; let[a] = b", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         //----------------------------------------------------------------------
         // new
@@ -898,8 +903,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "[ new foo()]", options: [NEITHER] },
 
         // not conflict with `arrow-spacing`
-        { code: "(() =>new foo())", parserOptions: { ecmaVersion: 6 } },
-        { code: "(() => new foo())", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "(() =>new foo())", languageOptions: { ecmaVersion: 6 } },
+        { code: "(() => new foo())", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
         "{new foo() }",
@@ -911,9 +916,9 @@ ruleTester.run("keyword-spacing", rule, {
 
         // not conflict with `computed-property-spacing`
         "a[new foo()]",
-        { code: "({[new foo()]: 0})", parserOptions: { ecmaVersion: 6 } },
+        { code: "({[new foo()]: 0})", languageOptions: { ecmaVersion: 6 } },
         { code: "a[ new foo()]", options: [NEITHER] },
-        { code: "({[ new foo()]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "({[ new foo()]: 0})", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
         "({a:new foo() })",
@@ -942,22 +947,22 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "! new (foo)()", options: [NEITHER] },
 
         // not conflict with `template-curly-spacing`
-        { code: "`${new foo()}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "`${ new foo()}`", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${new foo()}`", languageOptions: { ecmaVersion: 6 } },
+        { code: "`${ new foo()}`", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "<Foo onClick={new foo()} />", parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<Foo onClick={ new foo()} />", options: [NEITHER], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<Foo onClick={new foo()} />", languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<Foo onClick={ new foo()} />", options: [NEITHER], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         //----------------------------------------------------------------------
         // of
         //----------------------------------------------------------------------
 
-        { code: "for ([foo] of {foo: 0}) {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "for([foo]of{foo: 0}) {}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "for([foo] of {foo: 0}) {}", options: [override("of", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "for ([foo]of{foo: 0}) {}", options: [override("of", NEITHER)], parserOptions: { ecmaVersion: 6 } },
-        { code: "for ([foo] of ({foo: 0})) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "for ([foo] of {foo: 0}) {}", languageOptions: { ecmaVersion: 6 } },
+        { code: "for([foo]of{foo: 0}) {}", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "for([foo] of {foo: 0}) {}", options: [override("of", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "for ([foo]of{foo: 0}) {}", options: [override("of", NEITHER)], languageOptions: { ecmaVersion: 6 } },
+        { code: "for ([foo] of ({foo: 0})) {}", languageOptions: { ecmaVersion: 6 } },
 
         //----------------------------------------------------------------------
         // return
@@ -966,13 +971,13 @@ ruleTester.run("keyword-spacing", rule, {
         "function foo() { {} return +a }",
         {
             code: "function foo() { return <p/>; }",
-            parserOptions: { ecmaFeatures: { jsx: true } }
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
         },
         { code: "function foo() { {}return+a }", options: [NEITHER] },
         {
             code: "function foo() { return<p/>; }",
             options: [{ after: false }],
-            parserOptions: { ecmaFeatures: { jsx: true } }
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
         },
         { code: "function foo() { {} return +a }", options: [override("return", BOTH)] },
         { code: "function foo() { {}return+a }", options: [override("return", NEITHER)] },
@@ -991,122 +996,122 @@ ruleTester.run("keyword-spacing", rule, {
         // set
         //----------------------------------------------------------------------
 
-        { code: "({ set [b](value) {} })", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {} set [b](value) {} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {} static set [b](value) {} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "({ set[b](value) {} })", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {}set[b](value) {} }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "({ set [b](value) {} })", options: [override("set", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {} set [b](value) {} }", options: [override("set", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "({ set[b](value) {} })", options: [override("set", NEITHER)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {}set[b](value) {} }", options: [override("set", NEITHER)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a; set #b(value) {} }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { a;set#b(value) {} }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
+        { code: "({ set [b](value) {} })", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {} set [b](value) {} }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {} static set [b](value) {} }", languageOptions: { ecmaVersion: 6 } },
+        { code: "({ set[b](value) {} })", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {}set[b](value) {} }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ set [b](value) {} })", options: [override("set", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {} set [b](value) {} }", options: [override("set", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ set[b](value) {} })", options: [override("set", NEITHER)], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {}set[b](value) {} }", options: [override("set", NEITHER)], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a; set #b(value) {} }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a;set#b(value) {} }", options: [NEITHER], languageOptions: { ecmaVersion: 2022 } },
 
         // not conflict with `comma-spacing`
-        { code: "({ a,set [b](value) {} })", parserOptions: { ecmaVersion: 6 } },
-        { code: "({ a, set[b](value) {} })", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "({ a,set [b](value) {} })", languageOptions: { ecmaVersion: 6 } },
+        { code: "({ a, set[b](value) {} })", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
-        { code: "class A { ;set #b(value) {} }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { ; set#b(value) {} }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { ;set #b(value) {} }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { ; set#b(value) {} }", options: [NEITHER], languageOptions: { ecmaVersion: 2022 } },
 
         //----------------------------------------------------------------------
         // static
         //----------------------------------------------------------------------
 
-        { code: "class A { a() {} static [b]() {} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {}static[b]() {} }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {} static [b]() {} }", options: [override("static", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() {}static[b]() {} }", options: [override("static", NEITHER)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a; static [b]; }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { a;static[b]; }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { a; static #b; }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { a;static#b; }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { a() {} static {} }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { a() {}static{} }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { a() {} static {} }", options: [override("static", BOTH)], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { a() {}static{} }", options: [override("static", NEITHER)], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { a() {}\nstatic\n{} }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a() {} static [b]() {} }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {}static[b]() {} }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {} static [b]() {} }", options: [override("static", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() {}static[b]() {} }", options: [override("static", NEITHER)], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a; static [b]; }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a;static[b]; }", options: [NEITHER], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a; static #b; }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a;static#b; }", options: [NEITHER], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a() {} static {} }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a() {}static{} }", options: [NEITHER], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a() {} static {} }", options: [override("static", BOTH)], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a() {}static{} }", options: [override("static", NEITHER)], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { a() {}\nstatic\n{} }", options: [NEITHER], languageOptions: { ecmaVersion: 2022 } },
 
         // not conflict with `generator-star-spacing`
-        { code: "class A { static* [a]() {} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { static *[a]() {} }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A { static* [a]() {} }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { static *[a]() {} }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
-        { code: "class A { ;static a() {} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { ; static a() {} }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { ;static a; }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { ; static a ; }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { ;static {} }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { ; static{} }", options: [NEITHER], parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { ;static a() {} }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { ; static a() {} }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { ;static a; }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { ; static a ; }", options: [NEITHER], languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { ;static {} }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { ; static{} }", options: [NEITHER], languageOptions: { ecmaVersion: 2022 } },
 
         //----------------------------------------------------------------------
         // super
         //----------------------------------------------------------------------
 
-        { code: "class A extends B { a() { {} super[b](); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { a() { {}super[b](); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { a() { {} super[b](); } }", options: [override("super", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { a() { {}super[b](); } }", options: [override("super", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {} super[b](); } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {}super[b](); } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {} super[b](); } }", options: [override("super", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {}super[b](); } }", options: [override("super", NEITHER)], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `array-bracket-spacing`
-        { code: "class A extends B { constructor() { [super()]; } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { [ super() ]; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { [super()]; } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { [ super() ]; } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `arrow-spacing`
-        { code: "class A extends B { constructor() { () =>super(); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { () => super(); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { () =>super(); } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { () => super(); } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "class A extends B { constructor() {super()} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() {super()} }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super() } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `comma-spacing`
-        { code: "class A extends B { constructor() { (0,super()) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { (0, super()) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { (0,super()) } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { (0, super()) } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `computed-property-spacing`
-        { code: "class A extends B { constructor() { ({[super()]: 0}) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { ({[ super() ]: 0}) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({[super()]: 0}) } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({[ super() ]: 0}) } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
-        { code: "class A extends B { constructor() { ({a:super() }) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { ({a: super() }) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({a:super() }) } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({a: super() }) } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `func-call-spacing`
-        { code: "class A extends B { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { super (); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super(); } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super (); } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
-        { code: "class A extends B { constructor() { ;super(); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { ; super() ; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ;super(); } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ; super() ; } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-in-parens`
-        { code: "class A extends B { constructor() { (super()) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { ( super() ) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { (super()) } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ( super() ) } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-infix-ops`
-        { code: "class A extends B { constructor() { b =super() } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { b = super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { b+super() } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { b + super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { b<super() } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { b < super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { b>super() } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { b > super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b =super() } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b = super() } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b+super() } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b + super() } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b<super() } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b < super() } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b>super() } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b > super() } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-unary-ops`
-        { code: "class A extends B { constructor() { !super() } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { ! super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { !super() } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ! super() } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `template-curly-spacing`
-        { code: "class A extends B { constructor() { `${super()}` } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { `${ super() }` } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { `${super()}` } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { `${ super() }` } }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "class A extends B { constructor() { <Foo onClick={super()} /> } }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "class A extends B { constructor() { <Foo onClick={ super() } /> } }", options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+        { code: "class A extends B { constructor() { <Foo onClick={super()} /> } }", languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "class A extends B { constructor() { <Foo onClick={ super() } /> } }", options: [NEITHER], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         //----------------------------------------------------------------------
         // switch
@@ -1136,12 +1141,16 @@ ruleTester.run("keyword-spacing", rule, {
 
         {
             code: "<Thing> this.blah",
-            parser: fixtureParser("keyword-spacing", "prefix-cast-operator-space")
+            languageOptions: {
+                parser: require(fixtureParser("keyword-spacing", "prefix-cast-operator-space"))
+            }
         },
         {
             code: "<Thing>this.blah",
             options: [override("this", { before: false })],
-            parser: fixtureParser("keyword-spacing", "prefix-cast-operator-no-space")
+            languageOptions: {
+                parser: require(fixtureParser("keyword-spacing", "prefix-cast-operator-no-space"))
+            }
         },
 
         // not conflict with `array-bracket-spacing`
@@ -1149,8 +1158,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "[ this ]", options: [NEITHER] },
 
         // not conflict with `arrow-spacing`
-        { code: "(() =>this)", parserOptions: { ecmaVersion: 6 } },
-        { code: "(() => this)", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "(() =>this)", languageOptions: { ecmaVersion: 6 } },
+        { code: "(() => this)", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
         "{this}",
@@ -1162,9 +1171,9 @@ ruleTester.run("keyword-spacing", rule, {
 
         // not conflict with `computed-property-spacing`
         "a[this]",
-        { code: "({[this]: 0})", parserOptions: { ecmaVersion: 6 } },
+        { code: "({[this]: 0})", languageOptions: { ecmaVersion: 6 } },
         { code: "a[ this ]", options: [NEITHER] },
-        { code: "({[ this ]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "({[ this ]: 0})", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
         "({a:this })",
@@ -1199,12 +1208,12 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "! this", options: [NEITHER] },
 
         // not conflict with `template-curly-spacing`
-        { code: "`${this}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "`${ this }`", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${this}`", languageOptions: { ecmaVersion: 6 } },
+        { code: "`${ this }`", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "<Foo onClick={this} />", parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<Foo onClick={ this } />", options: [NEITHER], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<Foo onClick={this} />", languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<Foo onClick={ this } />", options: [NEITHER], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         //----------------------------------------------------------------------
         // throw
@@ -1256,8 +1265,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "[ typeof foo]", options: [NEITHER] },
 
         // not conflict with `arrow-spacing`
-        { code: "(() =>typeof foo)", parserOptions: { ecmaVersion: 6 } },
-        { code: "(() => typeof foo)", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "(() =>typeof foo)", languageOptions: { ecmaVersion: 6 } },
+        { code: "(() => typeof foo)", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
         "{typeof foo }",
@@ -1269,9 +1278,9 @@ ruleTester.run("keyword-spacing", rule, {
 
         // not conflict with `computed-property-spacing`
         "a[typeof foo]",
-        { code: "({[typeof foo]: 0})", parserOptions: { ecmaVersion: 6 } },
+        { code: "({[typeof foo]: 0})", languageOptions: { ecmaVersion: 6 } },
         { code: "a[ typeof foo]", options: [NEITHER] },
-        { code: "({[ typeof foo]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "({[ typeof foo]: 0})", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
         "({a:typeof foo })",
@@ -1300,21 +1309,21 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "! typeof +foo", options: [NEITHER] },
 
         // not conflict with `template-curly-spacing`
-        { code: "`${typeof foo}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "`${ typeof foo}`", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${typeof foo}`", languageOptions: { ecmaVersion: 6 } },
+        { code: "`${ typeof foo}`", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "<Foo onClick={typeof foo} />", parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<Foo onClick={ typeof foo} />", options: [NEITHER], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<Foo onClick={typeof foo} />", languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<Foo onClick={ typeof foo} />", options: [NEITHER], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         //----------------------------------------------------------------------
         // var
         //----------------------------------------------------------------------
 
-        { code: "{} var [a] = b", parserOptions: { ecmaVersion: 6 } },
-        { code: "{}var[a] = b", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "{} var [a] = b", options: [override("var", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "{}var[a] = b", options: [override("var", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "{} var [a] = b", languageOptions: { ecmaVersion: 6 } },
+        { code: "{}var[a] = b", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "{} var [a] = b", options: [override("var", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "{}var[a] = b", options: [override("var", NEITHER)], languageOptions: { ecmaVersion: 6 } },
         "for (var foo in [1, 2, 3]) {}",
 
         // not conflict with `block-spacing`
@@ -1339,8 +1348,8 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "[ void foo]", options: [NEITHER] },
 
         // not conflict with `arrow-spacing`
-        { code: "(() =>void foo)", parserOptions: { ecmaVersion: 6 } },
-        { code: "(() => void foo)", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "(() =>void foo)", languageOptions: { ecmaVersion: 6 } },
+        { code: "(() => void foo)", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
         "{void foo }",
@@ -1352,9 +1361,9 @@ ruleTester.run("keyword-spacing", rule, {
 
         // not conflict with `computed-property-spacing`
         "a[void foo]",
-        { code: "({[void foo]: 0})", parserOptions: { ecmaVersion: 6 } },
+        { code: "({[void foo]: 0})", languageOptions: { ecmaVersion: 6 } },
         { code: "a[ void foo]", options: [NEITHER] },
-        { code: "({[ void foo]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "({[ void foo]: 0})", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
         "({a:void foo })",
@@ -1383,12 +1392,12 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "! void +foo", options: [NEITHER] },
 
         // not conflict with `template-curly-spacing`
-        { code: "`${void foo}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "`${ void foo}`", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${void foo}`", languageOptions: { ecmaVersion: 6 } },
+        { code: "`${ void foo}`", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "<Foo onClick={void foo} />", parserOptions: { ecmaFeatures: { jsx: true } } },
-        { code: "<Foo onClick={ void foo} />", options: [NEITHER], parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<Foo onClick={void foo} />", languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "<Foo onClick={ void foo} />", options: [NEITHER], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         //----------------------------------------------------------------------
         // while
@@ -1436,76 +1445,76 @@ ruleTester.run("keyword-spacing", rule, {
         // yield
         //----------------------------------------------------------------------
 
-        { code: "function* foo() { {} yield foo }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { {}yield foo }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { {} yield foo }", options: [override("yield", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { {}yield foo }", options: [override("yield", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { {} yield foo }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { {}yield foo }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { {} yield foo }", options: [override("yield", BOTH)], languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { {}yield foo }", options: [override("yield", NEITHER)], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `array-bracket-spacing`
-        { code: "function* foo() { [yield] }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { [ yield ] }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { [yield] }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { [ yield ] }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         /*
          * This is invalid syntax: https://github.com/eslint/eslint/issues/5405
          * not conflict with `arrow-spacing`
-         * {code: "function* foo() { (() =>yield foo) }", parserOptions: {ecmaVersion: 6}},
-         * {code: "function* foo() { (() => yield foo) }", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
+         * {code: "function* foo() { (() =>yield foo) }", languageOptions: {ecmaVersion: 6}},
+         * {code: "function* foo() { (() => yield foo) }", options: [NEITHER], languageOptions: {ecmaVersion: 6}},
          * not conflict with `block-spacing`
          */
-        { code: "function* foo() {yield}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { yield }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() {yield}", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { yield }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `comma-spacing`
-        { code: "function* foo() { (0,yield foo) }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { (0, yield foo) }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { (0,yield foo) }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { (0, yield foo) }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `computed-property-spacing`
-        { code: "function* foo() { a[yield] }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { ({[yield]: 0}) }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { a[ yield ] }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { ({[ yield ]: 0}) }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { a[yield] }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { ({[yield]: 0}) }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { a[ yield ] }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { ({[ yield ]: 0}) }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
-        { code: "function* foo() { ({a:yield foo }) }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { ({a: yield foo }) }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { ({a:yield foo }) }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { ({a: yield foo }) }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
-        { code: "function* foo() { ;yield; }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { ; yield ; }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { ;yield; }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { ; yield ; }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-in-parens`
-        { code: "function* foo() { (yield) }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { ( yield ) }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { (yield) }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { ( yield ) }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-infix-ops`
-        { code: "function* foo() { a =yield foo }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { a = yield foo }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { a =yield foo }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { a = yield foo }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-unary-ops`
-        { code: "function* foo() { yield+foo }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() { yield +foo }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { yield+foo }", languageOptions: { ecmaVersion: 6 } },
+        { code: "function* foo() { yield +foo }", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `template-curly-spacing`
-        { code: "`${yield}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "`${ yield}`", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "`${yield}`", languageOptions: { ecmaVersion: 6 } },
+        { code: "`${ yield}`", options: [NEITHER], languageOptions: { ecmaVersion: 6 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "function* foo() { <Foo onClick={yield} /> }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "function* foo() { <Foo onClick={ yield } /> }", options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+        { code: "function* foo() { <Foo onClick={yield} /> }", languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
+        { code: "function* foo() { <Foo onClick={ yield } /> }", options: [NEITHER], languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } } },
 
         //----------------------------------------------------------------------
         // typescript parser
         //----------------------------------------------------------------------
 
         // class declaration don't error with decorator
-        { code: "@dec class Foo {}", parser: parser("typescript-parsers/decorator-with-class") },
+        { code: "@dec class Foo {}", languageOptions: { parser: require(parser("typescript-parsers/decorator-with-class")) } },
 
         // get, set, async methods don't error with decorator
-        { code: "class Foo { @dec get bar() {} @dec set baz() {} @dec async baw() {} }", parser: parser("typescript-parsers/decorator-with-class-methods") },
-        { code: "class Foo { @dec static qux() {} @dec static get bar() {} @dec static set baz() {} @dec static async baw() {} }", parser: parser("typescript-parsers/decorator-with-static-class-methods") },
+        { code: "class Foo { @dec get bar() {} @dec set baz() {} @dec async baw() {} }", languageOptions: { parser: require(parser("typescript-parsers/decorator-with-class-methods")) } },
+        { code: "class Foo { @dec static qux() {} @dec static get bar() {} @dec static set baz() {} @dec static async baw() {} }", languageOptions: { parser: require(parser("typescript-parsers/decorator-with-static-class-methods")) } },
 
         // type keywords can be used as parameters in arrow functions
-        { code: "symbol => 4;", parser: parser("typescript-parsers/keyword-with-arrow-function") }
+        { code: "symbol => 4;", languageOptions: { parser: require(parser("typescript-parsers/keyword-with-arrow-function")) } }
     ],
 
     invalid: [
@@ -1518,28 +1527,28 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "import { \"a\"as b } from \"foo\"",
             output: "import { \"a\" as b } from \"foo\"",
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: expectedBefore("as")
         },
         {
             code: "import{ \"a\" as b }from\"foo\"",
             output: "import{ \"a\"as b }from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedBefore("as")
         },
         {
             code: "import{ \"a\"as b }from\"foo\"",
             output: "import{ \"a\" as b }from\"foo\"",
             options: [override("as", BOTH)],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: expectedBefore("as")
         },
         {
             code: "import { \"a\" as b } from \"foo\"",
             output: "import { \"a\"as b } from \"foo\"",
             options: [override("as", NEITHER)],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedBefore("as")
         },
 
@@ -1547,82 +1556,82 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "let a; export { a as\"b\" };",
             output: "let a; export { a as \"b\" };",
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: expectedAfter("as")
         },
         {
             code: "export { \"a\"as b } from \"foo\";",
             output: "export { \"a\" as b } from \"foo\";",
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: expectedBefore("as")
         },
         {
             code: "export { \"a\"as\"b\" } from \"foo\";",
             output: "export { \"a\" as \"b\" } from \"foo\";",
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: expectedBeforeAndAfter("as")
         },
         {
             code: "let a; export{ a as \"b\" };",
             output: "let a; export{ a as\"b\" };",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedAfter("as")
         },
         {
             code: "export{ \"a\" as b }from\"foo\";",
             output: "export{ \"a\"as b }from\"foo\";",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedBefore("as")
         },
         {
             code: "export{ \"a\" as \"b\" }from\"foo\";",
             output: "export{ \"a\"as\"b\" }from\"foo\";",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("as")
         },
         {
             code: "let a; export{ a as\"b\" };",
             output: "let a; export{ a as \"b\" };",
             options: [override("as", BOTH)],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: expectedAfter("as")
         },
         {
             code: "export{ \"a\"as b }from\"foo\";",
             output: "export{ \"a\" as b }from\"foo\";",
             options: [override("as", BOTH)],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: expectedBefore("as")
         },
         {
             code: "export{ \"a\"as\"b\" }from\"foo\";",
             output: "export{ \"a\" as \"b\" }from\"foo\";",
             options: [override("as", BOTH)],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: expectedBeforeAndAfter("as")
         },
         {
             code: "let a; export { a as \"b\" };",
             output: "let a; export { a as\"b\" };",
             options: [override("as", NEITHER)],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedAfter("as")
         },
         {
             code: "export { \"a\" as b } from \"foo\";",
             output: "export { \"a\"as b } from \"foo\";",
             options: [override("as", NEITHER)],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedBefore("as")
         },
         {
             code: "export { \"a\" as \"b\" } from \"foo\";",
             output: "export { \"a\"as\"b\" } from \"foo\";",
             options: [override("as", NEITHER)],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("as")
         },
 
@@ -1630,7 +1639,7 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "import *as a from \"foo\"",
             output: "import * as a from \"foo\"",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "expectedBefore",
                 data: { value: "as" },
@@ -1644,7 +1653,7 @@ ruleTester.run("keyword-spacing", rule, {
             code: "import* as a from\"foo\"",
             output: "import*as a from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "unexpectedBefore",
                 data: { value: "as" },
@@ -1658,7 +1667,7 @@ ruleTester.run("keyword-spacing", rule, {
             code: "import*   as a from\"foo\"",
             output: "import*as a from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "unexpectedBefore",
                 data: { value: "as" },
@@ -1672,14 +1681,14 @@ ruleTester.run("keyword-spacing", rule, {
             code: "import*as a from\"foo\"",
             output: "import* as a from\"foo\"",
             options: [override("as", BOTH)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBefore("as")
         },
         {
             code: "import * as a from \"foo\"",
             output: "import *as a from \"foo\"",
             options: [override("as", NEITHER)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBefore("as")
         },
 
@@ -1687,55 +1696,55 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "export *as a from \"foo\"",
             output: "export * as a from \"foo\"",
-            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: expectedBefore("as")
         },
         {
             code: "export *as\"a\" from \"foo\"",
             output: "export * as \"a\" from \"foo\"",
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: expectedBeforeAndAfter("as")
         },
         {
             code: "export* as a from\"foo\"",
             output: "export*as a from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: unexpectedBefore("as")
         },
         {
             code: "export* as \"a\"from\"foo\"",
             output: "export*as\"a\"from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("as")
         },
         {
             code: "export*as a from\"foo\"",
             output: "export* as a from\"foo\"",
             options: [override("as", BOTH)],
-            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: expectedBefore("as")
         },
         {
             code: "export*as\"a\"from\"foo\"",
             output: "export* as \"a\"from\"foo\"",
             options: [override("as", BOTH)],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: expectedBeforeAndAfter("as")
         },
         {
             code: "export * as a from \"foo\"",
             output: "export *as a from \"foo\"",
             options: [override("as", NEITHER)],
-            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: unexpectedBefore("as")
         },
         {
             code: "export * as \"a\" from \"foo\"",
             output: "export *as\"a\" from \"foo\"",
             options: [override("as", NEITHER)],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("as")
         },
 
@@ -1746,109 +1755,109 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}async function foo() {}",
             output: "{} async function foo() {}",
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: expectedBefore("async")
         },
         {
             code: "{} async function foo() {}",
             output: "{}async function foo() {}",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: unexpectedBefore("async")
         },
         {
             code: "{}async function foo() {}",
             output: "{} async function foo() {}",
             options: [override("async", BOTH)],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: expectedBefore("async")
         },
         {
             code: "{} async function foo() {}",
             output: "{}async function foo() {}",
             options: [override("async", NEITHER)],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: unexpectedBefore("async")
         },
         {
             code: "{}async () => {}",
             output: "{} async () => {}",
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: expectedBefore("async")
         },
         {
             code: "{} async () => {}",
             output: "{}async () => {}",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: unexpectedBefore("async")
         },
         {
             code: "{}async () => {}",
             output: "{} async () => {}",
             options: [override("async", BOTH)],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: expectedBefore("async")
         },
         {
             code: "{} async () => {}",
             output: "{}async () => {}",
             options: [override("async", NEITHER)],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: unexpectedBefore("async")
         },
         {
             code: "({async[b]() {}})",
             output: "({async [b]() {}})",
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: expectedAfter("async")
         },
         {
             code: "({async [b]() {}})",
             output: "({async[b]() {}})",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: unexpectedAfter("async")
         },
         {
             code: "({async[b]() {}})",
             output: "({async [b]() {}})",
             options: [override("async", BOTH)],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: expectedAfter("async")
         },
         {
             code: "({async [b]() {}})",
             output: "({async[b]() {}})",
             options: [override("async", NEITHER)],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: unexpectedAfter("async")
         },
         {
             code: "class A {a(){}async[b]() {}}",
             output: "class A {a(){} async [b]() {}}",
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: expectedBeforeAndAfter("async")
         },
         {
             code: "class A {a(){} async [b]() {}}",
             output: "class A {a(){}async[b]() {}}",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: unexpectedBeforeAndAfter("async")
         },
         {
             code: "class A {a(){}async[b]() {}}",
             output: "class A {a(){} async [b]() {}}",
             options: [override("async", BOTH)],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: expectedBeforeAndAfter("async")
         },
         {
             code: "class A {a(){} async [b]() {}}",
             output: "class A {a(){}async[b]() {}}",
             options: [override("async", NEITHER)],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: unexpectedBeforeAndAfter("async")
         },
 
@@ -1859,56 +1868,56 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "async function wrap() { {}await a }",
             output: "async function wrap() { {} await a }",
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: expectedBefore("await")
         },
         {
             code: "async function wrap() { {} await a }",
             output: "async function wrap() { {}await a }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: unexpectedBefore("await")
         },
         {
             code: "async function wrap() { {}await a }",
             output: "async function wrap() { {} await a }",
             options: [override("await", BOTH)],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: expectedBefore("await")
         },
         {
             code: "async function wrap() { {} await a }",
             output: "async function wrap() { {}await a }",
             options: [override("await", NEITHER)],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: unexpectedBefore("await")
         },
 
         {
             code: "async function wrap() { for await(x of xs); }",
             output: "async function wrap() { for await (x of xs); }",
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: expectedAfter("await")
         },
         {
             code: "async function wrap() { for await (x of xs); }",
             output: "async function wrap() { for await(x of xs); }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: unexpectedAfter("await")
         },
         {
             code: "async function wrap() { for await(x of xs); }",
             output: "async function wrap() { for await (x of xs); }",
             options: [override("await", BOTH)],
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: expectedAfter("await")
         },
         {
             code: "async function wrap() { for await (x of xs); }",
             output: "async function wrap() { for await(x of xs); }",
             options: [override("await", NEITHER)],
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: unexpectedAfter("await")
         },
 
@@ -2014,41 +2023,41 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}class Bar {}",
             output: "{} class Bar {}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBefore("class")
         },
         {
             code: "(class{})",
             output: "(class {})",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedAfter("class")
         },
         {
             code: "{} class Bar {}",
             output: "{}class Bar {}",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBefore("class")
         },
         {
             code: "(class {})",
             output: "(class{})",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedAfter("class")
         },
         {
             code: "{}class Bar {}",
             output: "{} class Bar {}",
             options: [override("class", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBefore("class")
         },
         {
             code: "{} class Bar {}",
             output: "{}class Bar {}",
             options: [override("class", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBefore("class")
         },
 
@@ -2059,55 +2068,55 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}const[a] = b",
             output: "{} const [a] = b",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("const")
         },
         {
             code: "{}const{a} = b",
             output: "{} const {a} = b",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("const")
         },
         {
             code: "{} const [a] = b",
             output: "{}const[a] = b",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("const")
         },
         {
             code: "{} const {a} = b",
             output: "{}const{a} = b",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("const")
         },
         {
             code: "{}const[a] = b",
             output: "{} const [a] = b",
             options: [override("const", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("const")
         },
         {
             code: "{}const{a} = b",
             output: "{} const {a} = b",
             options: [override("const", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("const")
         },
         {
             code: "{} const [a] = b",
             output: "{}const[a] = b",
             options: [override("const", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("const")
         },
         {
             code: "{} const {a} = b",
             output: "{}const{a} = b",
             options: [override("const", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("const")
         },
 
@@ -2364,46 +2373,46 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "var a = 0; {}export{a}",
             output: "var a = 0; {} export {a}",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("export")
         },
         {
             code: "var a = 0; {}export default a",
             output: "var a = 0; {} export default a",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBefore("export")
         },
         {
             code: "var a = 0; export default{a}",
             output: "var a = 0; export default {a}",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedAfter("default")
         },
         {
             code: "{}export* from \"a\"",
             output: "{} export * from \"a\"",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("export")
         },
         {
             code: "var a = 0; {} export {a}",
             output: "var a = 0; {}export{a}",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("export")
         },
         {
             code: "var a = 0; {}export{a}",
             output: "var a = 0; {} export {a}",
             options: [override("export", BOTH)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("export")
         },
         {
             code: "var a = 0; {} export {a}",
             output: "var a = 0; {}export{a}",
             options: [override("export", NEITHER)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("export")
         },
 
@@ -2414,47 +2423,47 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "class Bar extends[] {}",
             output: "class Bar extends [] {}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedAfter("extends")
         },
         {
             code: "(class extends[] {})",
             output: "(class extends [] {})",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedAfter("extends")
         },
         {
             code: "class Bar extends [] {}",
             output: "class Bar extends[] {}",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedAfter("extends")
         },
         {
             code: "(class extends [] {})",
             output: "(class extends[] {})",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedAfter("extends")
         },
         {
             code: "class Bar extends[] {}",
             output: "class Bar extends [] {}",
             options: [override("extends", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedAfter("extends")
         },
         {
             code: "class Bar extends [] {}",
             output: "class Bar extends[] {}",
             options: [override("extends", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedAfter("extends")
         },
         {
             code: "class Bar extends`}` {}",
             output: "class Bar extends `}` {}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedAfter("extends")
         },
 
@@ -2503,7 +2512,7 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}for(var foo of list) {}",
             output: "{} for (var foo of list) {}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("for")
         },
         {
@@ -2522,7 +2531,7 @@ ruleTester.run("keyword-spacing", rule, {
             code: "{} for (var foo of list) {}",
             output: "{}for(var foo of list) {}",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("for")
         },
         {
@@ -2541,7 +2550,7 @@ ruleTester.run("keyword-spacing", rule, {
             code: "{}for(var foo of list) {}",
             output: "{} for (var foo of list) {}",
             options: [override("for", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("for")
         },
         {
@@ -2560,7 +2569,7 @@ ruleTester.run("keyword-spacing", rule, {
             code: "{} for (var foo of list) {}",
             output: "{}for(var foo of list) {}",
             options: [override("for", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("for")
         },
 
@@ -2571,123 +2580,123 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "import {foo}from\"foo\"",
             output: "import {foo} from \"foo\"",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("from")
         },
         {
             code: "export {foo}from\"foo\"",
             output: "export {foo} from \"foo\"",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("from")
         },
         {
             code: "export *from\"foo\"",
             output: "export * from \"foo\"",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("from")
         },
         {
             code: "export * as \"a\"from\"foo\"",
             output: "export * as \"a\" from \"foo\"",
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: expectedBeforeAndAfter("from")
         },
         {
             code: "import{foo} from \"foo\"",
             output: "import{foo}from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("from")
         },
         {
             code: "export{foo} from \"foo\"",
             output: "export{foo}from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("from")
         },
         {
             code: "export* from \"foo\"",
             output: "export*from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("from")
         },
         {
             code: "export*as x from \"foo\"",
             output: "export*as x from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: unexpectedAfter("from")
         },
         {
             code: "export*as\"x\" from \"foo\"",
             output: "export*as\"x\"from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("from")
         },
         {
             code: "import{foo}from\"foo\"",
             output: "import{foo} from \"foo\"",
             options: [override("from", BOTH)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("from")
         },
         {
             code: "export{foo}from\"foo\"",
             output: "export{foo} from \"foo\"",
             options: [override("from", BOTH)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("from")
         },
         {
             code: "export*from\"foo\"",
             output: "export* from \"foo\"",
             options: [override("from", BOTH)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("from")
         },
         {
             code: "export*as\"x\"from\"foo\"",
             output: "export*as\"x\" from \"foo\"",
             options: [override("from", BOTH)],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: expectedBeforeAndAfter("from")
         },
         {
             code: "import {foo} from \"foo\"",
             output: "import {foo}from\"foo\"",
             options: [override("from", NEITHER)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("from")
         },
         {
             code: "export {foo} from \"foo\"",
             output: "export {foo}from\"foo\"",
             options: [override("from", NEITHER)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("from")
         },
         {
             code: "export * from \"foo\"",
             output: "export *from\"foo\"",
             options: [override("from", NEITHER)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("from")
         },
         {
             code: "export * as x from \"foo\"",
             output: "export * as x from\"foo\"",
             options: [override("from", NEITHER)],
-            parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2020, sourceType: "module" },
             errors: unexpectedAfter("from")
         },
         {
             code: "export * as \"x\" from \"foo\"",
             output: "export * as \"x\"from\"foo\"",
             options: [override("from", NEITHER)],
-            parserOptions: { ecmaVersion: 2022, sourceType: "module" },
+            languageOptions: { ecmaVersion: 2022, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("from")
         },
 
@@ -2726,81 +2735,81 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "({ get[b]() {} })",
             output: "({ get [b]() {} })",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedAfter("get")
         },
         {
             code: "class A { a() {}get[b]() {} }",
             output: "class A { a() {} get [b]() {} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("get")
         },
         {
             code: "class A { a() {} static get[b]() {} }",
             output: "class A { a() {} static get [b]() {} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedAfter("get")
         },
         {
             code: "({ get [b]() {} })",
             output: "({ get[b]() {} })",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedAfter("get")
         },
         {
             code: "class A { a() {} get [b]() {} }",
             output: "class A { a() {}get[b]() {} }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("get")
         },
         {
             code: "class A { a() {}static get [b]() {} }",
             output: "class A { a() {}static get[b]() {} }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedAfter("get")
         },
         {
             code: "({ get[b]() {} })",
             output: "({ get [b]() {} })",
             options: [override("get", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedAfter("get")
         },
         {
             code: "class A { a() {}get[b]() {} }",
             output: "class A { a() {} get [b]() {} }",
             options: [override("get", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("get")
         },
         {
             code: "({ get [b]() {} })",
             output: "({ get[b]() {} })",
             options: [override("get", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedAfter("get")
         },
         {
             code: "class A { a() {} get [b]() {} }",
             output: "class A { a() {}get[b]() {} }",
             options: [override("get", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("get")
         },
         {
             code: "class A { a;get#b() {} }",
             output: "class A { a;get #b() {} }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: expectedAfter("get")
         },
         {
             code: "class A { a; get #b() {} }",
             output: "class A { a; get#b() {} }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: unexpectedAfter("get")
         },
 
@@ -2862,7 +2871,7 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "import* as a from \"foo\"",
             output: "import * as a from \"foo\"",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "expectedAfter",
                 data: { value: "import" },
@@ -2876,7 +2885,7 @@ ruleTester.run("keyword-spacing", rule, {
             code: "import *as a from\"foo\"",
             output: "import*as a from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "unexpectedAfter",
                 data: { value: "import" },
@@ -2890,7 +2899,7 @@ ruleTester.run("keyword-spacing", rule, {
             code: "import   *as a from\"foo\"",
             output: "import*as a from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 messageId: "unexpectedAfter",
                 data: { value: "import" },
@@ -2903,61 +2912,61 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}import{a} from \"foo\"",
             output: "{} import {a} from \"foo\"",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("import")
         },
         {
             code: "{}import a from \"foo\"",
             output: "{} import a from \"foo\"",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBefore("import")
         },
         {
             code: "{}import* as a from \"a\"",
             output: "{} import * as a from \"a\"",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("import")
         },
         {
             code: "{} import {a}from\"foo\"",
             output: "{}import{a}from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("import")
         },
         {
             code: "{} import *as a from\"foo\"",
             output: "{}import*as a from\"foo\"",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("import")
         },
         {
             code: "{}import{a}from\"foo\"",
             output: "{} import {a}from\"foo\"",
             options: [override("import", BOTH)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("import")
         },
         {
             code: "{}import*as a from\"foo\"",
             output: "{} import *as a from\"foo\"",
             options: [override("import", BOTH)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedBeforeAndAfter("import")
         },
         {
             code: "{} import {a} from \"foo\"",
             output: "{}import{a} from \"foo\"",
             options: [override("import", NEITHER)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("import")
         },
         {
             code: "{} import * as a from \"foo\"",
             output: "{}import* as a from \"foo\"",
             options: [override("import", NEITHER)],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: unexpectedBeforeAndAfter("import")
         },
 
@@ -2968,28 +2977,28 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "for ([foo]in{foo: 0}) {}",
             output: "for ([foo] in {foo: 0}) {}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("in")
         },
         {
             code: "for([foo] in {foo: 0}) {}",
             output: "for([foo]in{foo: 0}) {}",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("in")
         },
         {
             code: "for([foo]in{foo: 0}) {}",
             output: "for([foo] in {foo: 0}) {}",
             options: [override("in", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("in")
         },
         {
             code: "for ([foo] in {foo: 0}) {}",
             output: "for ([foo]in{foo: 0}) {}",
             options: [override("in", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("in")
         },
 
@@ -3006,28 +3015,28 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}let[a] = b",
             output: "{} let [a] = b",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("let")
         },
         {
             code: "{} let [a] = b",
             output: "{}let[a] = b",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("let")
         },
         {
             code: "{}let[a] = b",
             output: "{} let [a] = b",
             options: [override("let", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("let")
         },
         {
             code: "{} let [a] = b",
             output: "{}let[a] = b",
             options: [override("let", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("let")
         },
 
@@ -3066,28 +3075,28 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "for ([foo]of{foo: 0}) {}",
             output: "for ([foo] of {foo: 0}) {}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("of")
         },
         {
             code: "for([foo] of {foo: 0}) {}",
             output: "for([foo]of{foo: 0}) {}",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("of")
         },
         {
             code: "for([foo]of{foo: 0}) {}",
             output: "for([foo] of {foo: 0}) {}",
             options: [override("of", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("of")
         },
         {
             code: "for ([foo] of {foo: 0}) {}",
             output: "for ([foo]of{foo: 0}) {}",
             options: [override("of", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("of")
         },
 
@@ -3103,7 +3112,7 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "function foo() { return<p/>; }",
             output: "function foo() { return <p/>; }",
-            parserOptions: { ecmaFeatures: { jsx: true } },
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
             errors: expectedAfter("return")
         },
         {
@@ -3116,7 +3125,7 @@ ruleTester.run("keyword-spacing", rule, {
             code: "function foo() { return <p/>; }",
             output: "function foo() { return<p/>; }",
             options: [{ after: false }],
-            parserOptions: { ecmaFeatures: { jsx: true } },
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
             errors: unexpectedAfter("return")
         },
         {
@@ -3139,74 +3148,74 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "({ set[b](value) {} })",
             output: "({ set [b](value) {} })",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedAfter("set")
         },
         {
             code: "class A { a() {}set[b](value) {} }",
             output: "class A { a() {} set [b](value) {} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("set")
         },
         {
             code: "class A { a() {} static set[b](value) {} }",
             output: "class A { a() {} static set [b](value) {} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedAfter("set")
         },
         {
             code: "({ set [b](value) {} })",
             output: "({ set[b](value) {} })",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedAfter("set")
         },
         {
             code: "class A { a() {} set [b](value) {} }",
             output: "class A { a() {}set[b](value) {} }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("set")
         },
         {
             code: "({ set[b](value) {} })",
             output: "({ set [b](value) {} })",
             options: [override("set", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedAfter("set")
         },
         {
             code: "class A { a() {}set[b](value) {} }",
             output: "class A { a() {} set [b](value) {} }",
             options: [override("set", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("set")
         },
         {
             code: "({ set [b](value) {} })",
             output: "({ set[b](value) {} })",
             options: [override("set", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedAfter("set")
         },
         {
             code: "class A { a() {} set [b](value) {} }",
             output: "class A { a() {}set[b](value) {} }",
             options: [override("set", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("set")
         },
         {
             code: "class A { a;set#b(x) {} }",
             output: "class A { a;set #b(x) {} }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: expectedAfter("set")
         },
         {
             code: "class A { a; set #b(x) {} }",
             output: "class A { a; set#b(x) {} }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: unexpectedAfter("set")
         },
 
@@ -3217,120 +3226,120 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "class A { a() {}static[b]() {} }",
             output: "class A { a() {} static [b]() {} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("static")
         },
         {
             code: "class A { a() {}static get [b]() {} }",
             output: "class A { a() {} static get [b]() {} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBefore("static")
         },
         {
             code: "class A { a() {} static [b]() {} }",
             output: "class A { a() {}static[b]() {} }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("static")
         },
         {
             code: "class A { a() {} static get[b]() {} }",
             output: "class A { a() {}static get[b]() {} }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBefore("static")
         },
         {
             code: "class A { a() {}static[b]() {} }",
             output: "class A { a() {} static [b]() {} }",
             options: [override("static", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("static")
         },
         {
             code: "class A { a() {} static [b]() {} }",
             output: "class A { a() {}static[b]() {} }",
             options: [override("static", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("static")
         },
         {
             code: "class A { a;static[b]; }",
             output: "class A { a;static [b]; }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: expectedAfter("static")
         },
         {
             code: "class A { a; static [b]; }",
             output: "class A { a; static[b]; }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: unexpectedAfter("static")
         },
         {
             code: "class A { a;static#b; }",
             output: "class A { a;static #b; }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: expectedAfter("static")
         },
         {
             code: "class A { a; static #b; }",
             output: "class A { a; static#b; }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: unexpectedAfter("static")
         },
         {
             code: "class A { a() {}static{} }",
             output: "class A { a() {} static {} }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: expectedBeforeAndAfter("static")
         },
         {
             code: "class A { a() {}static{} }",
             output: "class A { a() {} static {} }",
             options: [override("static", BOTH)],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: expectedBeforeAndAfter("static")
         },
         {
             code: "class A {  a() {}static {} }",
             output: "class A {  a() {} static {} }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: expectedBefore("static")
         },
         {
             code: "class A {  a() {} static{} }",
             output: "class A {  a() {} static {} }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: expectedAfter("static")
         },
         {
             code: "class A { a() {} static {} }",
             output: "class A { a() {}static{} }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: unexpectedBeforeAndAfter("static")
         },
         {
             code: "class A { a() {} static {} }",
             output: "class A { a() {}static{} }",
             options: [override("static", NEITHER)],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: unexpectedBeforeAndAfter("static")
         },
         {
             code: "class A { a() {} static{} }",
             output: "class A { a() {}static{} }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: unexpectedBefore("static")
         },
         {
             code: "class A { a() {}static {} }",
             output: "class A { a() {}static{} }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: unexpectedAfter("static")
         },
 
@@ -3341,28 +3350,28 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "class A { a() { {}super[b]; } }",
             output: "class A { a() { {} super[b]; } }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBefore("super")
         },
         {
             code: "class A { a() { {} super[b]; } }",
             output: "class A { a() { {}super[b]; } }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBefore("super")
         },
         {
             code: "class A { a() { {}super[b]; } }",
             output: "class A { a() { {} super[b]; } }",
             options: [override("super", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBefore("super")
         },
         {
             code: "class A { a() { {} super[b]; } }",
             output: "class A { a() { {}super[b]; } }",
             options: [override("super", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBefore("super")
         },
 
@@ -3425,13 +3434,17 @@ ruleTester.run("keyword-spacing", rule, {
             code: "<Thing> this.blah",
             output: "<Thing>this.blah",
             options: [override("this", { before: false })],
-            parser: fixtureParser("keyword-spacing", "prefix-cast-operator-space"),
+            languageOptions: {
+                parser: require(fixtureParser("keyword-spacing", "prefix-cast-operator-space"))
+            },
             errors: unexpectedBefore("this")
         },
         {
             code: "<Thing>this.blah",
             output: "<Thing> this.blah",
-            parser: fixtureParser("keyword-spacing", "prefix-cast-operator-no-space"),
+            languageOptions: {
+                parser: require(fixtureParser("keyword-spacing", "prefix-cast-operator-no-space"))
+            },
             errors: expectedBefore("this")
         },
 
@@ -3526,28 +3539,28 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}var[a] = b",
             output: "{} var [a] = b",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("var")
         },
         {
             code: "{} var [a] = b",
             output: "{}var[a] = b",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("var")
         },
         {
             code: "{}var[a] = b",
             output: "{} var [a] = b",
             options: [override("var", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBeforeAndAfter("var")
         },
         {
             code: "{} var [a] = b",
             output: "{}var[a] = b",
             options: [override("var", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBeforeAndAfter("var")
         },
 
@@ -3665,28 +3678,28 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "function* foo() { {}yield foo }",
             output: "function* foo() { {} yield foo }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBefore("yield")
         },
         {
             code: "function* foo() { {} yield foo }",
             output: "function* foo() { {}yield foo }",
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBefore("yield")
         },
         {
             code: "function* foo() { {}yield foo }",
             output: "function* foo() { {} yield foo }",
             options: [override("yield", BOTH)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: expectedBefore("yield")
         },
         {
             code: "function* foo() { {} yield foo }",
             output: "function* foo() { {}yield foo }",
             options: [override("yield", NEITHER)],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: unexpectedBefore("yield")
         },
 
@@ -3698,7 +3711,7 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "class Foo { @desc({set a(value) {}, get a() {}, async c() {}}) async[foo]() {} }",
             output: "class Foo { @desc({set a(value) {}, get a() {}, async c() {}}) async [foo]() {} }",
-            parser: parser("typescript-parsers/decorator-with-keywords-class-method"),
+            languageOptions: { parser: require(parser("typescript-parsers/decorator-with-keywords-class-method")) },
             errors: expectedAfter("async")
         }
     ]

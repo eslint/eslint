@@ -10,13 +10,20 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/jsx-quotes"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 6,
+        parserOptions: {
+            ecmaFeatures: { jsx: true }
+        }
+    }
+});
 
 ruleTester.run("jsx-quotes", rule, {
     valid: [

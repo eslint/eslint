@@ -14,6 +14,8 @@ const { highlighter, lineNumberPlugin } = require("./src/_plugins/md-syntax-high
 const {
     DateTime
 } = require("luxon");
+const markdownIt = require("markdown-it");
+const markdownItRuleExample = require("./tools/markdown-it-rule-example");
 
 module.exports = function(eleventyConfig) {
 
@@ -54,6 +56,7 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addGlobalData("GIT_BRANCH", process.env.BRANCH);
     eleventyConfig.addGlobalData("HEAD", process.env.BRANCH === "main");
     eleventyConfig.addGlobalData("NOINDEX", process.env.BRANCH !== "latest");
+    eleventyConfig.addGlobalData("PATH_PREFIX", pathPrefix);
     eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
     //------------------------------------------------------------------------------
@@ -64,23 +67,12 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addFilter("jsonify", variable => JSON.stringify(variable));
 
-    /**
-     * Takes in a string and converts to a slug
-     * @param {string} text text to be converted into slug
-     * @returns {string} slug to be used as anchors
-     */
-    function slugify(text) {
-        return slug(text.replace(/[<>()[\]{}]/gu, ""))
-        // eslint-disable-next-line no-control-regex -- used regex from https://github.com/eslint/archive-website/blob/master/_11ty/plugins/markdown-plugins.js#L37
-            .replace(/[^\u{00}-\u{FF}]/gu, "");
-    }
-
     eleventyConfig.addFilter("slugify", str => {
         if (!str) {
             return "";
         }
 
-        return slugify(str);
+        return slug(str);
     });
 
     eleventyConfig.addFilter("URIencode", str => {
@@ -123,7 +115,7 @@ module.exports = function(eleventyConfig) {
      * Source: https://github.com/11ty/eleventy/issues/658
      */
     eleventyConfig.addFilter("markdown", value => {
-        const markdown = require("markdown-it")({
+        const markdown = markdownIt({
             html: true
         });
 
@@ -190,14 +182,54 @@ module.exports = function(eleventyConfig) {
         `.trim();
     }
 
-    const markdownIt = require("markdown-it");
+    /**
+     * Encodes text in the base 64 format used in playground URL params.
+     * @param {string} text Text to be encoded to base 64.
+     * @see https://github.com/eslint/eslint.org/blob/1b2f2aabeac2955a076d61788da8a0008bca6fb6/src/playground/utils/unicode.js
+     * @returns {string} The base 64 encoded equivalent of the text.
+     */
+    function encodeToBase64(text) {
+        return btoa(unescape(encodeURIComponent(text)));
+    }
+
+    // markdown-it plugin options for playground-linked code blocks in rule examples.
+    const ruleExampleOptions = markdownItRuleExample({
+        open({ type, code, parserOptions, env }) {
+            const isRuleRemoved = !Object.hasOwn(env.rules_meta, env.title);
+
+            if (isRuleRemoved) {
+                return `<div class="${type}">`;
+            }
+
+            // See https://github.com/eslint/eslint.org/blob/ac38ab41f99b89a8798d374f74e2cce01171be8b/src/playground/App.js#L44
+            const state = encodeToBase64(
+                JSON.stringify({
+                    options: { parserOptions },
+                    text: code
+                })
+            );
+            const prefix = process.env.CONTEXT && process.env.CONTEXT !== "deploy-preview"
+                ? ""
+                : "https://eslint.org";
+
+            return `
+                        <div class="${type}">
+                            <a class="c-btn c-btn--secondary c-btn--playground" href="${prefix}/play#${state}" target="_blank">
+                                Open in Playground
+                            </a>
+            `.trim();
+        },
+        close() {
+            return "</div>";
+        }
+    });
+
     const md = markdownIt({ html: true, linkify: true, typographer: true, highlight: (str, lang) => highlighter(md, str, lang) })
         .use(markdownItAnchor, {
-            slugify
+            slugify: s => slug(s)
         })
         .use(markdownItContainer, "img-container", {})
-        .use(markdownItContainer, "correct", {})
-        .use(markdownItContainer, "incorrect", {})
+        .use(markdownItContainer, "rule-example", ruleExampleOptions)
         .use(markdownItContainer, "warning", {
             render(tokens, idx) {
                 return generateAlertMarkup("warning", tokens, idx);
@@ -449,25 +481,6 @@ module.exports = function(eleventyConfig) {
     //------------------------------------------------------------------------------
 
     /*
-     * When we run `eleventy --serve`, Eleventy 1.x uses browser-sync to serve the content.
-     * By default, browser-sync (more precisely, underlying serve-static) will not serve
-     * `foo/bar.html` when we request `foo/bar`. Thus, we need to rewrite URLs to append `.html`
-     * so that pretty links without `.html` can work in a local development environment.
-     *
-     * There's no need to rewrite URLs that end with `/`, because that already works well
-     * (server will return the content of `index.html` in the directory).
-     * URLs with a file extension, like main.css, main.js, sitemap.xml, etc. should not be rewritten
-     */
-    eleventyConfig.setBrowserSyncConfig({
-        middleware(req, res, next) {
-            if (!/(?:\.[a-zA-Z][^/]*|\/)$/u.test(req.url)) {
-                req.url += ".html";
-            }
-            return next();
-        }
-    });
-
-    /*
      * Generate the sitemap only in certain contexts to prevent unwanted discovery of sitemaps that
      * contain URLs we'd prefer not to appear in search results (URLs in sitemaps are considered important).
      * In particular, we don't want to deploy https://eslint.org/docs/head/sitemap.xml
@@ -486,14 +499,12 @@ module.exports = function(eleventyConfig) {
         eleventyConfig.ignores.add("src/static/sitemap.njk"); // ... then don't generate the sitemap.
     }
 
-
     return {
         passthroughFileCopy: true,
 
         pathPrefix,
 
         markdownTemplateEngine: "njk",
-        dataTemplateEngine: "njk",
         htmlTemplateEngine: "njk",
 
         dir: {

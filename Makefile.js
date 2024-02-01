@@ -16,7 +16,6 @@ const checker = require("npm-license"),
     glob = require("glob"),
     marked = require("marked"),
     matter = require("gray-matter"),
-    markdownlint = require("markdownlint"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
@@ -49,7 +48,8 @@ const { cat, cd, echo, exec, exit, find, ls, mkdir, pwd, test } = require("shell
 const PERF_MULTIPLIER = 13e6;
 
 const OPEN_SOURCE_LICENSES = [
-    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u, /Public Domain/u, /LGPL/u, /Python/u
+    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u,
+    /Public Domain/u, /LGPL/u, /Python/u, /BlueOak/u
 ];
 
 //------------------------------------------------------------------------------
@@ -69,7 +69,7 @@ const NODE = "node ", // intentional extra space
 
     // Utilities - intentional extra space at the end of each string
     MOCHA = `${NODE_MODULES}mocha/bin/_mocha `,
-    ESLINT = `${NODE} bin/eslint.js --report-unused-disable-directives `,
+    ESLINT = `${NODE} bin/eslint.js `,
 
     // Files
     RULE_FILES = glob.sync("lib/rules/*.js").filter(filePath => path.basename(filePath) !== "index.js"),
@@ -214,9 +214,11 @@ function generateRuleIndexPage() {
             };
 
             if (rule.meta.deprecated) {
-                ruleTypesData.deprecated.rules.push({
+                ruleTypesData.deprecated.push({
                     name: basename,
-                    replacedBy: rule.meta.replacedBy || []
+                    replacedBy: rule.meta.replacedBy || [],
+                    fixable: !!rule.meta.fixable,
+                    hasSuggestions: !!rule.meta.hasSuggestions
                 });
             } else {
                 const output = {
@@ -226,22 +228,18 @@ function generateRuleIndexPage() {
                         fixable: !!rule.meta.fixable,
                         hasSuggestions: !!rule.meta.hasSuggestions
                     },
-                    ruleType = ruleTypesData.types.find(c => c.name === rule.meta.type);
+                    ruleType = ruleTypesData.types[rule.meta.type];
 
-                if (!ruleType.rules) {
-                    ruleType.rules = [];
-                }
-
-                ruleType.rules.push(output);
+                ruleType.push(output);
             }
         });
 
-    // `.rules` will be `undefined` if all rules in category are deprecated.
-    ruleTypesData.types = ruleTypesData.types.filter(ruleType => !!ruleType.rules);
+    ruleTypesData.types = Object.fromEntries(
+        Object.entries(ruleTypesData.types).filter(([, value]) => value && value.length > 0)
+    );
 
     JSON.stringify(ruleTypesData, null, 4).to(docsSiteOutputFile);
     JSON.stringify(meta, null, 4).to(docsSiteMetaOutputFile);
-
 }
 
 /**
@@ -277,15 +275,17 @@ function publishSite() {
 /**
  * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
  * and generates the site in an adjacent `website` folder.
+ * @param {string} [prereleaseId] The prerelease identifier (alpha, beta, etc.). If `undefined`, this is
+ *      a regular release.
  * @returns {void}
  */
-function generateRelease() {
-    ReleaseOps.generateRelease();
+function generateRelease(prereleaseId) {
+    ReleaseOps.generateRelease(prereleaseId);
     const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
 
     echo("Generating site");
     target.gensite();
-    generateBlogPost(releaseInfo);
+    generateBlogPost(releaseInfo, prereleaseId ? semver.inc(releaseInfo.version, "major") : void 0);
     commitSiteToGit(`v${releaseInfo.version}`);
 
     echo("Updating version in docs package");
@@ -298,44 +298,6 @@ function generateRelease() {
     echo("Updating commit with docs data");
     exec("git add docs/ && git commit --amend --no-edit");
     exec(`git tag -a -f v${releaseInfo.version} -m ${releaseInfo.version}`);
-}
-
-/**
- * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
- * and generates the site in an adjacent `website` folder.
- * @param {string} prereleaseId The prerelease identifier (alpha, beta, etc.)
- * @returns {void}
- */
-function generatePrerelease(prereleaseId) {
-    ReleaseOps.generateRelease(prereleaseId);
-    const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
-    const nextMajor = semver.inc(releaseInfo.version, "major");
-
-    echo("Generating site");
-
-    // always write docs into the next major directory (so 2.0.0-alpha.0 writes to 2.0.0)
-    target.gensite(nextMajor);
-
-    /*
-     * Premajor release should have identical "next major version".
-     * Preminor and prepatch release will not.
-     * 5.0.0-alpha.0 --> next major = 5, current major = 5
-     * 4.4.0-alpha.0 --> next major = 5, current major = 4
-     * 4.0.1-alpha.0 --> next major = 5, current major = 4
-     */
-    if (semver.major(releaseInfo.version) === semver.major(nextMajor)) {
-
-        /*
-         * This prerelease is for a major release (not preminor/prepatch).
-         * Blog post generation logic needs to be aware of this (as well as
-         * know what the next major version is actually supposed to be).
-         */
-        generateBlogPost(releaseInfo, nextMajor);
-    } else {
-        generateBlogPost(releaseInfo);
-    }
-
-    commitSiteToGit(`v${releaseInfo.version}`);
 }
 
 /**
@@ -379,7 +341,7 @@ function getFirstCommitOfFile(filePath) {
     let commits = execSilent(`git rev-list HEAD -- ${filePath}`);
 
     commits = splitCommandResultToLines(commits);
-    return commits[commits.length - 1].trim();
+    return commits.at(-1).trim();
 }
 
 /**
@@ -435,6 +397,7 @@ function getFirstVersionOfDeletion(filePath) {
  * @private
  */
 function lintMarkdown(files) {
+    const markdownlint = require("markdownlint");
     const config = yaml.load(fs.readFileSync(path.join(__dirname, "./.markdownlint.yml"), "utf8")),
         result = markdownlint.sync({
             files,
@@ -628,12 +591,10 @@ target.mocha = () => {
     }
 };
 
-target.karma = () => {
+target.wdio = () => {
     echo("Running unit tests on browsers");
-
     target.webpack("production");
-
-    const lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
+    const lastReturn = exec(`${getBinFile("wdio")} run wdio.conf.js`);
 
     if (lastReturn.code !== 0) {
         exit(1);
@@ -643,7 +604,9 @@ target.karma = () => {
 target.test = function() {
     target.checkRuleFiles();
     target.mocha();
-    target.karma();
+
+    // target.wdio(); // Temporarily disabled due to problems on Jenkins
+
     target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
     target.checkLicenses();
 };
@@ -729,7 +692,7 @@ target.checkRuleFiles = function() {
          * @private
          */
         function isInRuleTypes() {
-            return Object.prototype.hasOwnProperty.call(ruleTypes, basename);
+            return Object.hasOwn(ruleTypes, basename);
         }
 
         /**
@@ -830,21 +793,21 @@ target.checkRuleFiles = function() {
 
             // check deprecated
             if (ruleDef.meta.deprecated && !hasDeprecatedInfo()) {
-                console.error(`Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code or 「This rule was deprecated in ESLint ...」 in README.md.`);
+                console.error(`Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code and「This rule was deprecated in ESLint ...」 in README.md.`);
                 errors++;
             }
 
             // check eslint:recommended
-            const recommended = require("./conf/eslint-recommended");
+            const recommended = require("./packages/js").configs.recommended;
 
             if (ruleDef.meta.docs.recommended) {
                 if (recommended.rules[basename] !== "error") {
-                    console.error(`Missing rule from eslint:recommended (./conf/eslint-recommended.js): ${basename}. If you just made a rule recommended then add an entry for it in this file.`);
+                    console.error(`Missing rule from eslint:recommended (./packages/js/src/configs/eslint-recommended.js): ${basename}. If you just made a rule recommended then add an entry for it in this file.`);
                     errors++;
                 }
             } else {
                 if (basename in recommended.rules) {
-                    console.error(`Extra rule in eslint:recommended (./conf/eslint-recommended.js): ${basename}. If you just added a rule then don't add an entry for it in this file.`);
+                    console.error(`Extra rule in eslint:recommended (./packages/js/src/configs/eslint-recommended.js): ${basename}. If you just added a rule then don't add an entry for it in this file.`);
                     errors++;
                 }
             }
@@ -867,6 +830,17 @@ target.checkRuleFiles = function() {
         exit(1);
     }
 
+};
+
+target.checkRuleExamples = function() {
+    const { execFileSync } = require("child_process");
+
+    // We don't need the stack trace of execFileSync if the command fails.
+    try {
+        execFileSync(process.execPath, ["tools/check-rule-examples.js", "docs/src/rules/*.md"], { stdio: "inherit" });
+    } catch {
+        exit(1);
+    }
 };
 
 target.checkLicenses = function() {
@@ -1096,6 +1070,6 @@ target.perf = function() {
     });
 };
 
-target.generateRelease = generateRelease;
-target.generatePrerelease = ([prereleaseType]) => generatePrerelease(prereleaseType);
+target.generateRelease = () => generateRelease();
+target.generatePrerelease = ([prereleaseType]) => generateRelease(prereleaseType);
 target.publishRelease = publishRelease;

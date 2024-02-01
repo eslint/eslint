@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/handle-callback-err"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -39,11 +39,11 @@ ruleTester.run("handle-callback-err", rule, {
         "function userHandler(err) {process.nextTick(function() {if (err) {}})}",
         "function help() { function userHandler(err) {function tester() { err; process.nextTick(function() { err; }); } } }",
         "function help(done) { var err = new Error('error'); done(); }",
-        { code: "var test = err => err;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var test = err => !err;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var test = err => err.message;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var test = err => err;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var test = err => !err;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var test = err => err.message;", languageOptions: { ecmaVersion: 6 } },
         { code: "var test = function(error) {if(error){/* do nothing */}};", options: ["error"] },
-        { code: "var test = (error) => {if(error){/* do nothing */}};", options: ["error"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var test = (error) => {if(error){/* do nothing */}};", options: ["error"], languageOptions: { ecmaVersion: 6 } },
         { code: "var test = function(error) {if(! error){doSomethingHere();}};", options: ["error"] },
         { code: "var test = function(err) { console.log(err); };", options: ["^(err|error)$"] },
         { code: "var test = function(error) { console.log(error); };", options: ["^(err|error)$"] },
@@ -57,7 +57,7 @@ ruleTester.run("handle-callback-err", rule, {
         { code: "function test(err) {errorLookingWord();}", errors: [expectedFunctionDeclarationError] },
         { code: "function test(err) {try{} catch(err) {}}", errors: [expectedFunctionDeclarationError] },
         { code: "function test(err, callback) { foo(function(err, callback) {}); }", errors: [expectedFunctionDeclarationError, expectedFunctionExpressionError] },
-        { code: "var test = (err) => {};", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expected" }] },
+        { code: "var test = (err) => {};", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expected" }] },
         { code: "var test = function(err) {};", errors: [expectedFunctionExpressionError] },
         { code: "var test = function test(err, data) {};", errors: [expectedFunctionExpressionError] },
         { code: "var test = function test(err) {/* if(err){} */};", errors: [expectedFunctionExpressionError] },

@@ -23,7 +23,7 @@ describe("eslint-fuzzer", function() {
      */
     this.timeout(15000); // eslint-disable-line no-invalid-this -- Mocha timeout
 
-    const linter = new eslint.Linter();
+    const linter = new eslint.Linter({ configType: "eslintrc" });
     const coreRules = linter.getRules();
     const fixableRuleNames = Array.from(coreRules)
         .filter(rulePair => rulePair[1].meta && rulePair[1].meta.fixable)
@@ -52,7 +52,7 @@ describe("eslint-fuzzer", function() {
                 linter.defineRule("test-fuzzer-rule", {
                     create: context => ({
                         Program() {
-                            if (context.getSourceCode().text === "foo") {
+                            if (context.sourceCode.text === "foo") {
                                 throw CRASH_BUG;
                             }
                         }
@@ -93,7 +93,7 @@ describe("eslint-fuzzer", function() {
                 linter.defineRule("test-fuzzer-rule", {
                     create: context => ({
                         Program() {
-                            if (context.getSourceCode().text === "foo") {
+                            if (context.sourceCode.text === "foo") {
                                 throw CRASH_BUG;
                             }
                         }
@@ -118,7 +118,7 @@ describe("eslint-fuzzer", function() {
                     meta: { fixable: "code" },
                     create: context => ({
                         Program(node) {
-                            if (context.getSourceCode().text === `foo ${disableFixableRulesComment}`) {
+                            if (context.sourceCode.text === `foo ${disableFixableRulesComment}`) {
                                 context.report({
                                     node,
                                     message: "no foos allowed",
@@ -153,7 +153,7 @@ describe("eslint-fuzzer", function() {
                     meta: { fixable: "code" },
                     create: context => ({
                         Program(node) {
-                            const sourceCode = context.getSourceCode();
+                            const sourceCode = context.sourceCode;
 
                             if (sourceCode.text === `foo ${disableFixableRulesComment}`) {
                                 context.report({
@@ -183,7 +183,8 @@ describe("eslint-fuzzer", function() {
                     severity: 2,
                     message: `Parsing error: ${expectedSyntaxError.message}`,
                     line: expectedSyntaxError.lineNumber,
-                    column: expectedSyntaxError.column
+                    column: expectedSyntaxError.column,
+                    nodeType: null
                 });
             });
         });
@@ -197,7 +198,7 @@ describe("eslint-fuzzer", function() {
                     meta: { fixable: "code" },
                     create: context => ({
                         Program(node) {
-                            const sourceCode = context.getSourceCode();
+                            const sourceCode = context.sourceCode;
 
                             if (sourceCode.text.startsWith("foo") || sourceCode.text === intermediateCode) {
                                 context.report({
@@ -232,7 +233,8 @@ describe("eslint-fuzzer", function() {
                     severity: 2,
                     message: `Parsing error: ${expectedSyntaxError.message}`,
                     line: expectedSyntaxError.lineNumber,
-                    column: expectedSyntaxError.column
+                    column: expectedSyntaxError.column,
+                    nodeType: null
                 });
             });
         });
@@ -245,7 +247,7 @@ describe("eslint-fuzzer", function() {
                     meta: { fixable: "code" },
                     create: context => ({
                         Program(node) {
-                            const sourceCode = context.getSourceCode();
+                            const sourceCode = context.sourceCode;
 
                             if (sourceCode.text.startsWith("foo")) {
                                 context.report({

@@ -6,7 +6,7 @@ further_reading:
 ---
 
 
-Assignment to variables declared as function parameters can be misleading and lead to confusing behavior, as modifying function parameters will also mutate the `arguments` object. Often, assignment to function parameters is unintended and indicative of a mistake or programmer error.
+Assignment to variables declared as function parameters can be misleading and lead to confusing behavior, as modifying function parameters will also mutate the `arguments` object when not in strict mode (see [When Not To Use It](#when-not-to-use-it) below). Often, assignment to function parameters is unintended and indicative of a mistake or programmer error.
 
 This rule can be also configured to fail when function parameters are modified. Side effects on parameters can cause counter-intuitive execution flow and make errors difficult to track down.
 
@@ -21,19 +21,19 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-param-reassign: "error"*/
 
-function foo(bar) {
+var foo = function(bar) {
     bar = 13;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     bar++;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar in baz) {}
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar of baz) {}
 }
 ```
@@ -47,7 +47,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-param-reassign: "error"*/
 
-function foo(bar) {
+var foo = function(bar) {
     var baz = bar;
 }
 ```
@@ -67,23 +67,23 @@ Examples of **correct** code for the default `{ "props": false }` option:
 ```js
 /*eslint no-param-reassign: ["error", { "props": false }]*/
 
-function foo(bar) {
+var foo = function(bar) {
     bar.prop = "value";
 }
 
-function foo(bar) {
+var foo = function(bar) {
     delete bar.aaa;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     bar.aaa++;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar.aaa in baz) {}
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar.aaa of baz) {}
 }
 ```
@@ -97,23 +97,23 @@ Examples of **incorrect** code for the `{ "props": true }` option:
 ```js
 /*eslint no-param-reassign: ["error", { "props": true }]*/
 
-function foo(bar) {
+var foo = function(bar) {
     bar.prop = "value";
 }
 
-function foo(bar) {
+var foo = function(bar) {
     delete bar.aaa;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     bar.aaa++;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar.aaa in baz) {}
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar.aaa of baz) {}
 }
 ```
@@ -127,23 +127,23 @@ Examples of **correct** code for the `{ "props": true }` option with `"ignorePro
 ```js
 /*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["bar"] }]*/
 
-function foo(bar) {
+var foo = function(bar) {
     bar.prop = "value";
 }
 
-function foo(bar) {
+var foo = function(bar) {
     delete bar.aaa;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     bar.aaa++;
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar.aaa in baz) {}
 }
 
-function foo(bar) {
+var foo = function(bar) {
     for (bar.aaa of baz) {}
 }
 ```
@@ -157,23 +157,23 @@ Examples of **correct** code for the `{ "props": true }` option with `"ignorePro
 ```js
 /*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsForRegex": ["^bar"] }]*/
 
-function foo(barVar) {
+var foo = function(barVar) {
     barVar.prop = "value";
 }
 
-function foo(barrito) {
+var foo = function(barrito) {
     delete barrito.aaa;
 }
 
-function foo(bar_) {
+var foo = function(bar_) {
     bar_.aaa++;
 }
 
-function foo(barBaz) {
+var foo = function(barBaz) {
     for (barBaz.aaa in baz) {}
 }
 
-function foo(barBaz) {
+var foo = function(barBaz) {
     for (barBaz.aaa of baz) {}
 }
 ```
@@ -183,3 +183,5 @@ function foo(barBaz) {
 ## When Not To Use It
 
 If you want to allow assignment to function parameters, then you can safely disable this rule.
+
+Strict mode code doesn't sync indices of the arguments object with each parameter binding. Therefore, this rule is not necessary to protect against arguments object mutation in ESM modules or other strict mode functions.

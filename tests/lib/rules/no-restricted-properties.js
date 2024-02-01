@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-restricted-properties"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -100,79 +100,79 @@ ruleTester.run("no-restricted-properties", rule, {
             options: [{
                 property: "null"
             }],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         }, {
             code: "let bar = foo;",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "let {baz: bar} = foo;",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "let {unrelated} = foo;",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "let {baz: {bar: qux}} = foo;",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "let {bar} = foo.baz;",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "let {baz: bar} = foo;",
             options: [{ property: "bar" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "let baz; ({baz: bar} = foo)",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "let bar;",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "let bar; ([bar = 5] = foo);",
             options: [{ object: "foo", property: "1" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "function qux({baz: bar} = foo) {}",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "let [bar, baz] = foo;",
             options: [{ object: "foo", property: "1" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "let [, bar] = foo;",
             options: [{ object: "foo", property: "0" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "let [, bar = 5] = foo;",
             options: [{ object: "foo", property: "1" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "let bar; ([bar = 5] = foo);",
             options: [{ object: "foo", property: "0" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "function qux([bar] = foo) {}",
             options: [{ object: "foo", property: "0" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "function qux([, bar] = foo) {}",
             options: [{ object: "foo", property: "0" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "function qux([, bar] = foo) {}",
             options: [{ object: "foo", property: "1" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }, {
             code: "class C { #foo; foo() { this.#foo; } }",
             options: [{ property: "#foo" }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
 
@@ -339,7 +339,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "foo[/(?<zero>0)/]",
             options: [{ property: "/(?<zero>0)/" }],
-            parserOptions: { ecmaVersion: 2018 },
+            languageOptions: { ecmaVersion: 2018 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
@@ -381,7 +381,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "let {bar} = foo;",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -394,7 +394,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "let {bar: baz} = foo;",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -407,7 +407,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "let {'bar': baz} = foo;",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -420,7 +420,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "let {bar: {baz: qux}} = foo;",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -433,7 +433,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "let {bar} = foo;",
             options: [{ object: "foo" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -446,7 +446,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "let {bar: baz} = foo;",
             options: [{ object: "foo" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -459,7 +459,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "let {bar} = foo;",
             options: [{ property: "bar" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedProperty",
                 data: {
@@ -472,7 +472,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "let bar; ({bar} = foo);",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -485,7 +485,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "let bar; ({bar: baz = 1} = foo);",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -498,7 +498,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "function qux({bar} = foo) {}",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -511,7 +511,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "function qux({bar: baz} = foo) {}",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -524,7 +524,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "var {['foo']: qux, bar} = baz",
             options: [{ object: "baz", property: "foo" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "restrictedObjectProperty",
                 data: {
@@ -545,6 +545,138 @@ ruleTester.run("no-restricted-properties", rule, {
                     message: ""
                 },
                 type: "MemberExpression"
+            }]
+        }, {
+            code: "const { bar: { bad } = {} } = foo;",
+            options: [{ property: "bad" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    propertyName: "bad",
+                    message: ""
+                }
+            }]
+        }, {
+            code: "const { bar: { bad } } = foo;",
+            options: [{ property: "bad" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    propertyName: "bad",
+                    message: ""
+                }
+            }]
+        }, {
+            code: "const { bad } = foo();",
+            options: [{ property: "bad" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    propertyName: "bad",
+                    message: ""
+                }
+            }]
+        }, {
+            code: "({ bad } = foo());",
+            options: [{ property: "bad" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    propertyName: "bad",
+                    message: ""
+                }
+            }]
+        }, {
+            code: "({ bar: { bad } } = foo);",
+            options: [{ property: "bad" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    propertyName: "bad",
+                    message: ""
+                }
+            }]
+        }, {
+            code: "({ bar: { bad } = {} } = foo);",
+            options: [{ property: "bad" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    propertyName: "bad",
+                    message: ""
+                }
+            }]
+        }, {
+            code: "({ bad }) => {};",
+            options: [{ property: "bad" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    propertyName: "bad",
+                    message: ""
+                }
+            }]
+        }, {
+            code: "({ bad } = {}) => {};",
+            options: [{ property: "bad" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    propertyName: "bad",
+                    message: ""
+                }
+            }]
+        }, {
+            code: "({ bad: bar }) => {};",
+            options: [{ property: "bad" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    propertyName: "bad",
+                    message: ""
+                }
+            }]
+        }, {
+            code: "({ bar: { bad } = {} }) => {};",
+            options: [{ property: "bad" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    propertyName: "bad",
+                    message: ""
+                }
+            }]
+        }, {
+            code: "[{ bad }] = foo;",
+            options: [{ property: "bad" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    propertyName: "bad",
+                    message: ""
+                }
+            }]
+        }, {
+            code: "const [{ bad }] = foo;",
+            options: [{ property: "bad" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "restrictedProperty",
+                data: {
+                    propertyName: "bad",
+                    message: ""
+                }
             }]
         }
     ]

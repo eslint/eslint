@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-multiple-empty-lines"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -129,22 +129,22 @@ ruleTester.run("no-multiple-empty-lines", rule, {
         {
             code: "// valid 12\nx = `\n\n\n\nhi\n\n\n\n`",
             options: [{ max: 2 }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "// valid 13\n`\n\n`",
             options: [{ max: 0 }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "// valid 14\nvar a = 5;`\n\n\n\n\n`",
             options: [{ max: 0, maxEOF: 0 }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "`\n\n\n\n\n`\n// valid 15\nvar a = 5;",
             options: [{ max: 0, maxBOF: 0 }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "\n\n\n\n// valid 16\nvar a = 5;\n",
@@ -301,14 +301,14 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             "`bar`;\n" +
             "`baz`;",
             options: [{ max: 1 }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [getExpectedError(1)]
         },
         {
             code: "`template ${foo\n\n\n} literal`;",
             output: "`template ${foo\n\n} literal`;",
             options: [{ max: 1 }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [getExpectedError(1)]
         },
         {

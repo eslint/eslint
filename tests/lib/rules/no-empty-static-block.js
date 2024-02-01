@@ -9,14 +9,14 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-empty-static-block"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-    parserOptions: { ecmaVersion: 2022 }
+    languageOptions: { ecmaVersion: 2022 }
 });
 
 ruleTester.run("no-empty-static-block", rule, {

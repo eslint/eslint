@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-constructor");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 const error = { messageId: "noUselessConstructor", type: "MethodDefinition" };
 
 ruleTester.run("no-useless-constructor", rule, {
@@ -39,7 +39,9 @@ ruleTester.run("no-useless-constructor", rule, {
         "class A extends B { constructor(foo, bar) { super(bar); } }",
         {
             code: "declare class A { constructor(options: any); }",
-            parser: require.resolve("../../fixtures/parsers/typescript-parsers/declare-class")
+            languageOptions: {
+                parser: require("../../fixtures/parsers/typescript-parsers/declare-class")
+            }
         }
     ],
     invalid: [

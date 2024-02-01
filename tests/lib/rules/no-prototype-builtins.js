@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-prototype-builtins"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -40,15 +40,15 @@ ruleTester.run("no-prototype-builtins", rule, {
         "({}.propertyIsEnumerable.apply(foo, ['bar']))",
         "foo[hasOwnProperty]('bar')",
         "foo['HasOwnProperty']('bar')",
-        { code: "foo[`isPrototypeOff`]('bar')", parserOptions: { ecmaVersion: 2015 } },
-        { code: "foo?.['propertyIsEnumerabl']('bar')", parserOptions: { ecmaVersion: 2020 } },
+        { code: "foo[`isPrototypeOff`]('bar')", languageOptions: { ecmaVersion: 2015 } },
+        { code: "foo?.['propertyIsEnumerabl']('bar')", languageOptions: { ecmaVersion: 2020 } },
         "foo[1]('bar')",
         "foo[null]('bar')",
-        { code: "class C { #hasOwnProperty; foo() { obj.#hasOwnProperty('bar'); } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class C { #hasOwnProperty; foo() { obj.#hasOwnProperty('bar'); } }", languageOptions: { ecmaVersion: 2022 } },
 
         // out of scope for this rule
         "foo['hasOwn' + 'Property']('bar')",
-        { code: "foo[`hasOwnProperty${''}`]('bar')", parserOptions: { ecmaVersion: 2015 } }
+        { code: "foo[`hasOwnProperty${''}`]('bar')", languageOptions: { ecmaVersion: 2015 } }
     ],
 
     invalid: [
@@ -61,6 +61,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 19,
                 messageId: "prototypeBuildIn",
                 data: { prop: "hasOwnProperty" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.hasOwnProperty.call(foo, 'bar')"
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
@@ -73,6 +79,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 18,
                 messageId: "prototypeBuildIn",
                 data: { prop: "isPrototypeOf" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.isPrototypeOf.call(foo, 'bar')"
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
@@ -84,6 +96,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endLine: 1,
                 endColumn: 25,
                 messageId: "prototypeBuildIn",
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.propertyIsEnumerable.call(foo, 'bar')"
+                    }
+                ],
                 data: { prop: "propertyIsEnumerable" }
             }]
         },
@@ -96,6 +114,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 23,
                 messageId: "prototypeBuildIn",
                 data: { prop: "hasOwnProperty" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.hasOwnProperty.call(foo.bar, 'bar')"
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
@@ -108,6 +132,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 26,
                 messageId: "prototypeBuildIn",
                 data: { prop: "isPrototypeOf" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.isPrototypeOf.call(foo.bar.baz, 'bar')"
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
@@ -120,12 +150,18 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 21,
                 messageId: "prototypeBuildIn",
                 data: { prop: "hasOwnProperty" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.hasOwnProperty.call(foo, 'bar')"
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
         {
             code: "foo[`isPrototypeOf`]('bar').baz",
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 line: 1,
                 column: 5,
@@ -133,6 +169,12 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 20,
                 messageId: "prototypeBuildIn",
                 data: { prop: "isPrototypeOf" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.isPrototypeOf.call(foo, 'bar').baz"
+                    }
+                ],
                 type: "CallExpression"
             }]
         },
@@ -145,30 +187,118 @@ ruleTester.run("no-prototype-builtins", rule, {
                 endColumn: 31,
                 messageId: "prototypeBuildIn",
                 data: { prop: "propertyIsEnumerable" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: String.raw`Object.prototype.propertyIsEnumerable.call(foo.bar, 'baz')`
+                    }
+                ],
                 type: "CallExpression"
             }]
+        },
+        {
+
+            // Can't suggest Object.prototype when Object is shadowed
+            code: "(function(Object) {return foo.hasOwnProperty('bar');})",
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
+        },
+        {
+            name: "Can't suggest Object.prototype when there is no Object global variable",
+            code: "foo.hasOwnProperty('bar')",
+            languageOptions: {
+                globals: {
+                    Object: "off"
+                }
+            },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
 
         // Optional chaining
         {
             code: "foo?.hasOwnProperty('bar')",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" } }]
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
+            code: "foo?.bar.hasOwnProperty('baz')",
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
+        },
+        {
+            code: "foo.hasOwnProperty?.('bar')",
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
+        },
+        {
+
+            /*
+             * If hasOwnProperty is part of a ChainExpresion
+             * and the optional part is before it, then don't suggest the fix
+             */
+            code: "foo?.hasOwnProperty('bar').baz",
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
+        },
+        {
+
+            /*
+             * If hasOwnProperty is part of a ChainExpresion
+             * but the optional part is after it, then the fix is safe
+             */
+            code: "foo.hasOwnProperty('bar')?.baz",
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{
+                messageId: "prototypeBuildIn",
+                data: { prop: "hasOwnProperty" },
+                suggestions: [
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.hasOwnProperty.call(foo, 'bar')?.baz"
+                    }
+                ]
+            }]
+        },
+        {
+
+            code: "(a,b).hasOwnProperty('bar')",
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{
+                messageId: "prototypeBuildIn",
+                data: { prop: "hasOwnProperty" },
+                suggestions: [
+
+                    // Make sure the SequenceExpression has parentheses before other arguments
+                    {
+                        messageId: "callObjectPrototype",
+                        output: "Object.prototype.hasOwnProperty.call((a,b), 'bar')"
+                    }
+                ]
+            }]
+        },
+        {
+
+            // No suggestion where no-unsafe-optional-chaining is reported on the call
             code: "(foo?.hasOwnProperty)('bar')",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" } }]
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
+
+        },
+        {
+            code: "(foo?.hasOwnProperty)?.('bar')",
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
             code: "foo?.['hasOwnProperty']('bar')",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" } }]
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         },
         {
+
+            // No suggestion where no-unsafe-optional-chaining is reported on the call
             code: "(foo?.[`hasOwnProperty`])('bar')",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" } }]
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "prototypeBuildIn", data: { prop: "hasOwnProperty" }, suggestions: [] }]
         }
     ]
 });

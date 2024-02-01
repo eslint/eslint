@@ -42,17 +42,13 @@ function do_something() {
     // ...
 }
 
-obj.do_something = function() {
-    // ...
-};
-
 class My_Class {}
 
 class myClass {
     do_something() {}
 }
 
-class myClass {
+class anotherClass {
     #do_something() {}
 }
 ```
@@ -76,11 +72,11 @@ var obj = {
 
 class myClass {}
 
-class myClass {
+class anotherClass {
     doSomething() {}
 }
 
-class myClass {
+class oneMoreClass {
     #doSomething() {}
 }
 ```
@@ -91,10 +87,10 @@ This rule has an object option:
 
 * `"properties": false` (default) does not check object properties
 * `"properties": true` requires object literal properties and member expression assignment properties to match the specified regular expression
-* `"classFields": false` (default) does not class field names
+* `"classFields": false` (default) does not check class field names
 * `"classFields": true` requires class field names to match the specified regular expression
 * `"onlyDeclarations": false` (default) requires all variable names to match the specified regular expression
-* `"onlyDeclarations": true` requires only `var`, `function`, and `class` declarations to match the specified regular expression
+* `"onlyDeclarations": true` requires only `var`, `const`, `let`, `function`, and `class` declarations to match the specified regular expression
 * `"ignoreDestructuring": false` (default) enforces `id-match` for destructured identifiers
 * `"ignoreDestructuring": true` does not check destructured identifiers
 
@@ -110,6 +106,10 @@ Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$",
 var obj = {
     my_pref: 1
 };
+
+obj.do_something = function() {
+    // ...
+};
 ```
 
 :::
@@ -121,13 +121,13 @@ Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$",
 ::: incorrect
 
 ```js
-/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$", { "properties": true }]*/
+/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$", { "classFields": true }]*/
 
 class myClass {
     my_pref = 1;
 }
 
-class myClass {
+class anotherClass {
     #my_pref = 1;
 }
 ```
@@ -143,7 +143,7 @@ Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$", {
 ```js
 /*eslint id-match: [2, "^[a-z]+([A-Z][a-z]+)*$", { "onlyDeclarations": true }]*/
 
-do_something(__dirname);
+foo = __dirname;
 ```
 
 :::

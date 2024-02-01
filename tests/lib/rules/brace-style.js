@@ -10,14 +10,14 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/brace-style"),
-    { RuleTester } = require("../../../lib/rule-tester"),
+    RuleTester = require("../../../lib/rule-tester/rule-tester"),
     { unIndent } = require("../../_utils");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6, sourceType: "script" } });
 
 ruleTester.run("brace-style", rule, {
     valid: [
@@ -79,10 +79,10 @@ ruleTester.run("brace-style", rule, {
         { code: "switch(0) {}", options: ["1tbs", { allowSingleLine: true }] },
         { code: "if (foo) {}\nelse {}", options: ["stroustrup", { allowSingleLine: true }] },
         { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["stroustrup", { allowSingleLine: true }] },
-        { code: "var foo = () => { return; }", options: ["stroustrup", { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => { return; }", options: ["stroustrup", { allowSingleLine: true }], languageOptions: { ecmaVersion: 6 } },
         { code: "if (foo) {}\nelse {}", options: ["allman", { allowSingleLine: true }] },
         { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["allman", { allowSingleLine: true }] },
-        { code: "var foo = () => { return; }", options: ["allman", { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => { return; }", options: ["allman", { allowSingleLine: true }], languageOptions: { ecmaVersion: 6 } },
         {
             code: "if (foo) { baz(); } else {\n  boom();\n}",
             options: ["1tbs", { allowSingleLine: true }]
@@ -217,7 +217,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -229,7 +229,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -238,7 +238,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs", { allowSingleLine: true }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -249,7 +249,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -261,7 +261,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -270,7 +270,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup", { allowSingleLine: true }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -283,7 +283,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -294,7 +294,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -309,7 +309,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman", { allowSingleLine: true }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: unIndent`
@@ -322,7 +322,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
 
@@ -335,7 +335,7 @@ ruleTester.run("brace-style", rule, {
         {
             code: "var foo = () => { return; }",
             output: "var foo = () => {\n return; \n}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "blockSameLine", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
         },
         {
@@ -411,7 +411,7 @@ ruleTester.run("brace-style", rule, {
         {
             code: "for (foo of bar) \n { \n baz(); \n }",
             output: "for (foo of bar) { \n baz(); \n }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "nextLineOpen", type: "Punctuator" }]
         },
         {
@@ -809,7 +809,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" }
             ]
@@ -829,7 +829,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "blockSameLine", type: "Punctuator" }
             ]
@@ -849,7 +849,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "singleLineClose", type: "Punctuator" }
             ]
@@ -869,7 +869,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" },
                 { messageId: "blockSameLine", type: "Punctuator" },
@@ -889,7 +889,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["1tbs"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" }
             ]
@@ -911,7 +911,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" }
             ]
@@ -931,7 +931,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "blockSameLine", type: "Punctuator" }
             ]
@@ -951,7 +951,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "singleLineClose", type: "Punctuator" }
             ]
@@ -971,7 +971,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" },
                 { messageId: "blockSameLine", type: "Punctuator" },
@@ -991,7 +991,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["stroustrup"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "nextLineOpen", type: "Punctuator" }
             ]
@@ -1015,7 +1015,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "sameLineOpen", type: "Punctuator" }
             ]
@@ -1039,7 +1039,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "blockSameLine", type: "Punctuator" }
             ]
@@ -1063,7 +1063,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "singleLineClose", type: "Punctuator" }
             ]
@@ -1085,7 +1085,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "sameLineOpen", type: "Punctuator" },
                 { messageId: "blockSameLine", type: "Punctuator" },
@@ -1107,7 +1107,7 @@ ruleTester.run("brace-style", rule, {
                 }
             `,
             options: ["allman"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 { messageId: "sameLineOpen", type: "Punctuator" }
             ]

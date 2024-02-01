@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extra-label"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -34,7 +34,7 @@ ruleTester.run("no-extra-label", rule, {
         "A: for (;;) { while (b) { break A; } }",
         "A: do { switch (b) { case 0: break A; break; } } while (a);",
         "A: for (a in obj) { while (b) { break A; } }",
-        { code: "A: for (a of ary) { switch (b) { case 0: break A; } }", parserOptions: { ecmaVersion: 6 } }
+        { code: "A: for (a of ary) { switch (b) { case 0: break A; } }", languageOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
@@ -70,7 +70,7 @@ ruleTester.run("no-extra-label", rule, {
         {
             code: "A: for (a of ary) { break A; }",
             output: "A: for (a of ary) { break; }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", data: { name: "A" } }]
         },
         {

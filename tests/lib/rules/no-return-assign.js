@@ -10,19 +10,19 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-return-assign"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-return-assign", rule, {
     valid: [
         {
             code: "module.exports = {'a': 1};",
-            parserOptions: {
+            languageOptions: {
                 sourceType: "module"
             }
         },
@@ -64,7 +64,7 @@ ruleTester.run("no-return-assign", rule, {
         }`,
         {
             code: "const foo = (a) => (b) => (a = b)",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -138,7 +138,7 @@ ruleTester.run("no-return-assign", rule, {
             code: `function doSomething() {
                 return foo = () => a
             }`,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "returnAssignment",
@@ -150,7 +150,7 @@ ruleTester.run("no-return-assign", rule, {
             code: `function doSomething() {
                 return () => a = () => b
             }`,
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "arrowAssignment",
@@ -168,7 +168,7 @@ ruleTester.run("no-return-assign", rule, {
         },
         {
             code: "const foo = (a) => (b) => a = b",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "arrowAssignment",

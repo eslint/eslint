@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-restricted-syntax"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -25,7 +25,7 @@ ruleTester.run("no-restricted-syntax", rule, {
         { code: "var foo = 42;", options: ["ConditionalExpression"] },
         { code: "foo += 42;", options: ["VariableDeclaration", "FunctionExpression"] },
         { code: "foo;", options: ["Identifier[name=\"bar\"]"] },
-        { code: "() => 5", options: ["ArrowFunctionExpression > BlockStatement"], parserOptions: { ecmaVersion: 6 } },
+        { code: "() => 5", options: ["ArrowFunctionExpression > BlockStatement"], languageOptions: { ecmaVersion: 6 } },
         { code: "({ foo: 1, bar: 2 })", options: ["Property > Literal.key"] },
         { code: "A: for (;;) break;", options: ["BreakStatement[label]"] },
         { code: "function foo(bar, baz) {}", options: ["FunctionDeclaration[params.length>2]"] },
@@ -80,7 +80,7 @@ ruleTester.run("no-restricted-syntax", rule, {
         {
             code: "() => {}",
             options: ["ArrowFunctionExpression > BlockStatement"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "restrictedSyntax", data: { message: "Using 'ArrowFunctionExpression > BlockStatement' is not allowed." }, type: "BlockStatement" }]
         },
         {
@@ -134,13 +134,13 @@ ruleTester.run("no-restricted-syntax", rule, {
         {
             code: "var foo = foo?.bar?.();",
             options: ["ChainExpression"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "restrictedSyntax", data: { message: "Using 'ChainExpression' is not allowed." }, type: "ChainExpression" }]
         },
         {
             code: "var foo = foo?.bar?.();",
             options: ["[optional=true]"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "restrictedSyntax", data: { message: "Using '[optional=true]' is not allowed." }, type: "CallExpression" },
                 { messageId: "restrictedSyntax", data: { message: "Using '[optional=true]' is not allowed." }, type: "MemberExpression" }
@@ -151,7 +151,7 @@ ruleTester.run("no-restricted-syntax", rule, {
         {
             code: "a?.b",
             options: [":nth-child(1)"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "restrictedSyntax", data: { message: "Using ':nth-child(1)' is not allowed." }, type: "ExpressionStatement" }
             ]
@@ -161,7 +161,7 @@ ruleTester.run("no-restricted-syntax", rule, {
         {
             code: "const foo = [<div/>, <div/>]",
             options: ["* ~ *"],
-            parserOptions: { ecmaVersion: 2020, ecmaFeatures: { jsx: true } },
+            languageOptions: { ecmaVersion: 2020, parserOptions: { ecmaFeatures: { jsx: true } } },
             errors: [
                 { messageId: "restrictedSyntax", data: { message: "Using '* ~ *' is not allowed." }, type: "JSXElement" }
             ]

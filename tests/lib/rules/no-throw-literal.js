@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-throw-literal"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -30,20 +30,20 @@ ruleTester.run("no-throw-literal", rule, {
         "throw new foo();", // NewExpression
         "throw foo.bar;", // MemberExpression
         "throw foo[bar];", // MemberExpression
-        { code: "class C { #field; foo() { throw foo.#field; } }", parserOptions: { ecmaVersion: 2022 } }, // MemberExpression
+        { code: "class C { #field; foo() { throw foo.#field; } }", languageOptions: { ecmaVersion: 2022 } }, // MemberExpression
         "throw foo = new Error();", // AssignmentExpression with the `=` operator
-        { code: "throw foo.bar ||= 'literal'", parserOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
-        { code: "throw foo[bar] ??= 'literal'", parserOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
+        { code: "throw foo.bar ||= 'literal'", languageOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
+        { code: "throw foo[bar] ??= 'literal'", languageOptions: { ecmaVersion: 2021 } }, // AssignmentExpression with a logical operator
         "throw 1, 2, new Error();", // SequenceExpression
         "throw 'literal' && new Error();", // LogicalExpression (right)
         "throw new Error() || 'literal';", // LogicalExpression (left)
         "throw foo ? new Error() : 'literal';", // ConditionalExpression (consequent)
         "throw foo ? 'literal' : new Error();", // ConditionalExpression (alternate)
-        { code: "throw tag `${foo}`;", parserOptions: { ecmaVersion: 6 } }, // TaggedTemplateExpression
-        { code: "function* foo() { var index = 0; throw yield index++; }", parserOptions: { ecmaVersion: 6 } }, // YieldExpression
-        { code: "async function foo() { throw await bar; }", parserOptions: { ecmaVersion: 8 } }, // AwaitExpression
-        { code: "throw obj?.foo", parserOptions: { ecmaVersion: 2020 } }, // ChainExpression
-        { code: "throw obj?.foo()", parserOptions: { ecmaVersion: 2020 } } // ChainExpression
+        { code: "throw tag `${foo}`;", languageOptions: { ecmaVersion: 6 } }, // TaggedTemplateExpression
+        { code: "function* foo() { var index = 0; throw yield index++; }", languageOptions: { ecmaVersion: 6 } }, // YieldExpression
+        { code: "async function foo() { throw await bar; }", languageOptions: { ecmaVersion: 8 } }, // AwaitExpression
+        { code: "throw obj?.foo", languageOptions: { ecmaVersion: 2020 } }, // ChainExpression
+        { code: "throw obj?.foo()", languageOptions: { ecmaVersion: 2020 } } // ChainExpression
     ],
     invalid: [
         {
@@ -129,7 +129,7 @@ ruleTester.run("no-throw-literal", rule, {
         },
         {
             code: "throw foo &&= 'literal'", // evaluates either to a falsy value of `foo` (which, then, cannot be an Error object), or to 'literal'
-            parserOptions: { ecmaVersion: 2021 },
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{
                 messageId: "object",
                 type: "ThrowStatement"
@@ -173,7 +173,7 @@ ruleTester.run("no-throw-literal", rule, {
         // TemplateLiteral
         {
             code: "throw `${err}`;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "object",
                 type: "ThrowStatement"

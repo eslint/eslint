@@ -3,7 +3,7 @@ title: Contribute to ESLint
 eleventyNavigation:
     key: contribute to eslint
     title: Contribute to ESLint
-    order: 3
+    order: 4
 ---
 
 One of the great things about open source projects is that anyone can contribute in any number of meaningful ways. ESLint couldn't exist without the help of the many contributors it's had since the project began, and we want you to feel like you can contribute and make a difference as well.
@@ -49,6 +49,10 @@ Have some extra time and want to contribute? This section talks about the proces
 ## [Submit a Pull Request](pull-requests)
 
 We're always looking for contributions from the community. This section explains the requirements for pull requests and the process of contributing code.
+
+## [Contribute to Core Rules](core-rules)
+
+This section explains how to add to the core rules of ESLint.
 
 ## [Governance](governance)
 

@@ -48,15 +48,21 @@ for (var i=10; i; i--) {
     (function() { return i; })();
 }
 
-while(i) {
+var i = 0;
+while(i < 5) {
     var a = function() { return i; };
     a();
+
+    i++;
 }
 
+var i = 0;
 do {
     function a() { return i; };
     a();
-} while (i);
+
+    i++
+} while (i < 5);
 
 let foo = 0;
 for (let i = 0; i < 10; ++i) {
