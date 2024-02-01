@@ -132,12 +132,12 @@ var global_var = 42;
 
 This rule takes one argument which can be a string or an object. The string settings are the same as those of the `vars` property (explained below).
 
-By default this rule is enabled with `all` option for variables and `after-used` for arguments.
+By default this rule is enabled with `all` option for caught errors and variables, and `after-used` for arguments.
 
 ```json
 {
     "rules": {
-        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "caughtErrors": "none", "ignoreRestSiblings": false }]
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "caughtErrors": "all", "ignoreRestSiblings": false }]
     }
 }
 ```
@@ -283,30 +283,12 @@ The `caughtErrors` option is used for `catch` block arguments validation.
 
 It has two settings:
 
-* `none` - do not check error objects. This is the default setting.
-* `all` - all named arguments must be used.
-
-#### caughtErrors: none
-
-Not specifying this rule is equivalent of assigning it to `none`.
-
-Examples of **correct** code for the `{ "caughtErrors": "none" }` option:
-
-::: correct
-
-```js
-/*eslint no-unused-vars: ["error", { "caughtErrors": "none" }]*/
-
-try {
-    //...
-} catch (err) {
-    console.error("errors");
-}
-```
-
-:::
+* `all` - all named arguments must be used. This is the default setting.
+* `none` - do not check error objects.
 
 #### caughtErrors: all
+
+Not specifying this option is equivalent of assigning it to `all`.
 
 Examples of **incorrect** code for the `{ "caughtErrors": "all" }` option:
 
@@ -317,6 +299,24 @@ Examples of **incorrect** code for the `{ "caughtErrors": "all" }` option:
 
 // 1 error
 // "err" is defined but never used
+try {
+    //...
+} catch (err) {
+    console.error("errors");
+}
+```
+
+:::
+
+#### caughtErrors: none
+
+Examples of **correct** code for the `{ "caughtErrors": "none" }` option:
+
+::: correct
+
+```js
+/*eslint no-unused-vars: ["error", { "caughtErrors": "none" }]*/
+
 try {
     //...
 } catch (err) {
