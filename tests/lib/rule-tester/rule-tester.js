@@ -1897,6 +1897,7 @@ describe("RuleTester", () => {
             invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
         });
     });
+
     it("should assert match between resulting message output if messageId and data provided in both test and result", () => {
         assert.throws(() => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMetaWithData, {
@@ -1904,6 +1905,15 @@ describe("RuleTester", () => {
                 invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo", data: { name: "notFoo" } }] }]
             });
         }, "Hydrated message \"Avoid using variables named 'notFoo'.\" does not match \"Avoid using variables named 'foo'.\"");
+    });
+
+    it("should assert match between resulting message output if messageId and data provided in both test and result", () => {
+        assert.throws(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMissingData, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
+            });
+        }, "The reported message has missing placeholders: name. Please provide them via the 'data' property in the context.report call");
     });
 
     // messageId/message misconfiguration cases
@@ -2155,6 +2165,24 @@ describe("RuleTester", () => {
                     }]
                 }]
             });
+        });
+
+        it("should pass with valid suggestions (tested using messageIds and data)", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMissingPlaceholderData, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            messageId: "avoidFoo",
+                            suggestions: [{
+                                messageId: "renameFoo",
+                                output: "var bar;"
+                            }]
+                        }]
+                    }]
+                });
+            }, "The message of the suggestion has missing placeholders: newName. Please provide them via the 'data' property for the suggestion in the context.report call");
         });
 
 

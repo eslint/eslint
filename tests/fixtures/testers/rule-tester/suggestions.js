@@ -198,3 +198,32 @@ module.exports.withFailingFixer = {
         };
     }
 };
+
+module.exports.withMissingPlaceholderData = {
+    meta: {
+        messages: {
+            avoidFoo: "Avoid using identifiers named '{{ name }}'.",
+            renameFoo: "Rename identifier 'foo' to '{{ newName }}'"
+        },
+        hasSuggestions: true
+    },
+    create(context) {
+        return {
+            Identifier(node) {
+                if (node.name === "foo") {
+                    context.report({
+                        node,
+                        messageId: "avoidFoo",
+                        data: {
+                            name: "foo"
+                        },
+                        suggest: [{
+                            messageId: "renameFoo",
+                            fix: fixer => fixer.replaceText(node, "bar")
+                        }]
+                    });
+                }
+            }
+        };
+    }
+};
