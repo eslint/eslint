@@ -6760,6 +6760,49 @@ var a = "test2";
         });
     });
 
+    describe("options", () => {
+        it("rules should apply meta.defaultOptions and ignore schema defaults", () => {
+            linter.defineRule("my-rule", {
+                meta: {
+                    defaultOptions: [{
+                        inBoth: "from-default-options",
+                        inDefaultOptions: "from-default-options"
+                    }],
+                    schema: {
+                        type: "object",
+                        properties: {
+                            inBoth: { default: "from-schema", type: "string" },
+                            inDefaultOptions: { type: "string" },
+                            inSchema: { default: "from-schema", type: "string" }
+                        },
+                        additionalProperties: false
+                    }
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: JSON.stringify(context.options[0]) });
+                        }
+                    };
+                }
+            });
+
+            const config = {
+                rules: {
+                    "my-rule": "error"
+                }
+            };
+
+            const code = "";
+            const messages = linter.verify(code, config);
+
+            assert.deepStrictEqual(
+                JSON.parse(messages[0].message),
+                { inBoth: "from-default-options", inDefaultOptions: "from-default-options" }
+            );
+        });
+    });
+
     describe("processors", () => {
         let receivedFilenames = [];
         let receivedPhysicalFilenames = [];
