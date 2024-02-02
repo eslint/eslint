@@ -26,11 +26,6 @@
             background: var(--body-background-color);
         }
 
-        .algolia-docsearch-suggestion--highlight {
-            background-color: var(--link-color);
-            color: var(--color-neutral-900);
-        }
-
         .alert {
             &.alert--warning {
                 color: var(--color-rose-300);
