@@ -45,6 +45,8 @@ describe("deepMerge", () => {
         [[["abc"]], ["def"], ["def"]],
         [[["abc"]], [{ a: 0 }], [{ a: 0 }]],
         [[{ abc: true }], ["def"], ["def"]],
+        [[{ abc: true }], [["def"]], [["def"]]],
+        [[null], [{ abc: true }], [{ abc: true }]],
         [[{ a: undefined }], [{ a: 0 }], [{ a: 0 }]],
         [[{ a: null }], [{ a: 0 }], [{ a: 0 }]],
         [[{ a: null }], [{ a: { b: 0 } }], [{ a: { b: 0 } }]],
@@ -78,6 +80,36 @@ describe("deepMerge", () => {
             [{ a: { b: "c" } }, { d: true }],
             [{ a: { e: "f" } }, { f: 123 }],
             [{ a: { b: "c", e: "f" } }, { d: true, f: 123 }]
+        ],
+        [
+            [{ hasOwnProperty: true }],
+            [{}],
+            [{ hasOwnProperty: true }]
+        ],
+        [
+            [{ hasOwnProperty: false }],
+            [{}],
+            [{ hasOwnProperty: false }]
+        ],
+        [
+            [{ hasOwnProperty: null }],
+            [{}],
+            [{ hasOwnProperty: null }]
+        ],
+        [
+            [{ hasOwnProperty: undefined }],
+            [{}],
+            [{ hasOwnProperty: undefined }]
+        ],
+        [
+            [{}],
+            [{ hasOwnProperty: null }],
+            [{ hasOwnProperty: null }]
+        ],
+        [
+            [{}],
+            [{ hasOwnProperty: undefined }],
+            [{ hasOwnProperty: undefined }]
         ],
         [
             [{
