@@ -90,15 +90,22 @@ describe("bin/eslint.js", () => {
         });
 
         it("has exit code 0 if no linting errors are reported", () => {
-            const child = runESLint([
-                "--stdin",
-                "--no-config-lookup",
-                "--rule",
-                "{'no-extra-semi': 2}",
-                "--fix-dry-run",
-                "--format",
-                "json"
-            ]);
+            const child = runESLint(
+                [
+                    "--stdin",
+                    "--no-config-lookup",
+                    "--rule",
+                    "{'no-extra-semi': 2}",
+                    "--fix-dry-run",
+                    "--format",
+                    "json"
+                ],
+                {
+
+                    // Use the tests directory as the CWD to supress the ESLintIgnoreWarning
+                    cwd: path.resolve(__dirname, "../")
+                }
+            );
 
             const expectedOutput = JSON.stringify([
                 {
@@ -436,6 +443,21 @@ describe("bin/eslint.js", () => {
 
                 return Promise.all([exitCodeAssertion, outputAssertion]);
             });
+        });
+
+        // https://github.com/eslint/eslint/issues/17960
+        it("should include key information in the error message when there is an invalid config", () => {
+
+            // The error message should include the key name
+            const config = path.join(__dirname, "../fixtures/bin/eslint.config-invalid-key.js");
+            const child = runESLint(["--config", config, "conf", "tools"]);
+            const exitCodeAssertion = assertExitCode(child, 2);
+            const outputAssertion = getOutput(child).then(output => {
+                assert.include(output.stderr, "Key \"linterOptions\": Key \"reportUnusedDisableDirectives\"");
+            });
+
+            return Promise.all([exitCodeAssertion, outputAssertion]);
+
         });
 
         it("prints the error message pointing to line of code", () => {

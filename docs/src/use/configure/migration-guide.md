@@ -524,7 +524,7 @@ config/*
 # ...other ignored files
 ```
 
-`ignorePatterns` example:
+Here are the same patterns represented as `ignorePatterns` in a `.eslintrc.js` file:
 
 ```javascript
 // .eslintrc.js
@@ -534,7 +534,7 @@ module.exports = {
 };
 ```
 
-Here are the same files ignore patterns in flat config:
+The equivalent ignore patterns in flat config look like this:
 
 ```javascript
 export default [
@@ -545,7 +545,11 @@ export default [
 ];
 ```
 
-Also, with flat config, dotfiles (e.g. `.dotfile.js`) are no longer ignored by default. If you want to ignore dotfiles, add files ignore pattern `"**/.*"`.
+In `.eslintignore`, `temp.js` ignores all files named `temp.js`, whereas in flat config, you need to specify this as `**/temp.js`. The pattern `temp.js` in flat config only ignores a file named `temp.js` in the same directory as the configuration file.
+
+::: important
+In flat config , dotfiles (e.g. `.dotfile.js`) are no longer ignored by default. If you want to ignore dotfiles, add an ignore pattern of `"**/.*"`.
+:::
 
 ### Linter Options
 

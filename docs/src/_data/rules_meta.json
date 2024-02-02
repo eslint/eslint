@@ -1159,6 +1159,7 @@
         }
     },
     "no-implicit-coercion": {
+        "hasSuggestions": true,
         "type": "suggestion",
         "docs": {
             "description": "Disallow shorthand type conversions",
@@ -1960,6 +1961,14 @@
             "description": "Disallow the use of variables before they are defined",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-use-before-define"
+        }
+    },
+    "no-useless-assignment": {
+        "type": "problem",
+        "docs": {
+            "description": "Disallow variable assignments when the value is not used",
+            "recommended": false,
+            "url": "https://eslint.org/docs/latest/rules/no-useless-assignment"
         }
     },
     "no-useless-backreference": {

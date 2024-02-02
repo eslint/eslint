@@ -150,7 +150,10 @@ const patterns = [
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
 
-    // Just functions.
+    /*
+     * Just functions.
+     * https://github.com/eslint/eslint/issues/3254
+     */
     {
         code: "function foo() { console.log(this); z(x => console.log(x, this)); }",
         languageOptions: { ecmaVersion: 6 },
@@ -586,15 +589,6 @@ const patterns = [
         errors,
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
-    },
-
-    // https://github.com/eslint/eslint/issues/3254
-    {
-        code: "function foo() { console.log(this); z(x => console.log(x, this)); }",
-        languageOptions: { ecmaVersion: 6 },
-        errors,
-        valid: [NORMAL],
-        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
 
     // https://github.com/eslint/eslint/issues/3287
