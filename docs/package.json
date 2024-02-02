@@ -20,8 +20,7 @@
         "lint:scss": "stylelint \"**/*.{scss,html}\"",
         "lint:fix:scss": "npm run lint:scss -- --fix",
         "build:minify-images": "imagemin '_site/assets/images' --out-dir='_site/assets/images'",
-        "start": "npm-run-all build:sass build:postcss --parallel *:*:watch",
-        "postinstall": "cd .. && npm install -f"
+        "start": "npm-run-all build:sass build:postcss --parallel *:*:watch"
     },
     "devDependencies": {
         "@11ty/eleventy": "^2.0.1",
