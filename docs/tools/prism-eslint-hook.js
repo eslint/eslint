@@ -227,7 +227,7 @@ function installPrismESLintMarkerHook() {
                 [buildToken(mark)],
                 [getMessageIdFromMessage(message)]
             );
-            const after = range[1] - tokenStart < token.length ? buildToken(content.slice(range[1] - tokenStart)) : null;
+            const after = range[1] - tokenStart < content.length ? buildToken(content.slice(range[1] - tokenStart)) : null;
 
             return { before, marked: { token: marked, canBeMerged: true }, after };
         }
