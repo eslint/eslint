@@ -231,7 +231,7 @@ ruleTester.run("no-useless-return", rule, {
         },
         {
             code: "function foo() { if (foo) return; }",
-            output: "function foo() { if (foo) return; }"
+            output: null
         },
         {
             code: "function foo() { bar(); return/**/; }",

@@ -34,6 +34,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
 * [`no-inner-declarations` has a new default behavior with a new option](#no-inner-declarations)
 * [`no-unused-vars` now defaults `caughtErrors` to `"all"`](#no-unused-vars)
+* [`no-useless-computed-key` flags unnecessary computed member names in classes by default](#no-useless-computed-key)
 
 ### Breaking changes for plugin developers
 
@@ -389,6 +390,23 @@ catch {
 ```
 
 **Related issue(s):** [#17974](https://github.com/eslint/eslint/issues/17974)
+
+## <a name="no-useless-computed-key"></a> `no-useless-computed-key` flags unnecessary computed member names in classes by default
+
+In ESLint v9.0.0, the default value of the `enforceForClassMembers` option of the `no-useless-computed-key` rule was changed from `false` to `true`.
+The effect of this change is that unnecessary computed member names in classes will be flagged by default.
+
+```js
+/*eslint no-useless-computed-key: "error"*/
+
+class SomeClass {
+    ["someMethod"]() {} // ok in ESLint v8, error in ESLint v9.
+}
+```
+
+**To address:** Fix the problems reported by the rule or revert to the previous behavior by setting the `enforceForClassMembers` option to `false`.
+
+**Related issue(s):** [#18042](https://github.com/eslint/eslint/issues/18042)
 
 ## <a name="removed-context-methods"></a> Removed multiple `context` methods
 
