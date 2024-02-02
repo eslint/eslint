@@ -830,6 +830,10 @@ Each element of the options array is merged according to the following rules:
 
 Option defaults will also be validated against the rule's `meta.schema`.
 
+**Note:** ESLint internally uses [Ajv](https://ajv.js.org) for schema validation with its [`useDefaults` option](https://ajv.js.org/guide/modifying-data.html#assigning-defaults) enabled.
+Both user-provided and `meta.defaultOptions` options will override any defaults specified in a rule's schema.
+ESLint may disable Ajv's `useDefaults` in a future major version.
+
 ### Accessing Shebangs
 
 [Shebangs (#!)](https://en.wikipedia.org/wiki/Shebang_(Unix)) are represented by the unique tokens of type `"Shebang"`. They are treated as comments and can be accessed by the methods outlined in the [Accessing Comments](#accessing-comments) section, such as `sourceCode.getAllComments()`.
