@@ -33,10 +33,10 @@ ruleTester.run("no-useless-computed-key", rule, {
         { code: "(class { [x]() {} })", options: [{ enforceForClassMembers: true }] },
         { code: "(class { ['constructor']() {} })", options: [{ enforceForClassMembers: true }] },
         { code: "(class { static ['prototype']() {} })", options: [{ enforceForClassMembers: true }] },
-        "class Foo { ['x']() {} }",
-        "(class { ['x']() {} })",
-        "class Foo { static ['constructor']() {} }",
-        "class Foo { ['prototype']() {} }",
+        "class Foo { 'x'() {} }",
+        "(class { [x]() {} })",
+        "class Foo { static constructor() {} }",
+        "class Foo { prototype() {} }",
         { code: "class Foo { ['x']() {} }", options: [{ enforceForClassMembers: false }] },
         { code: "(class { ['x']() {} })", options: [{ enforceForClassMembers: false }] },
         { code: "class Foo { static ['constructor']() {} }", options: [{ enforceForClassMembers: false }] },
@@ -272,7 +272,7 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { ['0+1,234']() {} }",
             output: "class Foo { '0+1,234'() {} }",
-            options: [{ enforceForClassMembers: true }],
+            options: [{ }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'0+1,234'" },
@@ -281,7 +281,7 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { ['x']() {} }",
             output: "class Foo { 'x'() {} }",
-            options: [{ enforceForClassMembers: true }],
+            options: [{ enforceForClassMembers: void 0 }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'x'" },
@@ -290,7 +290,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { [/* this comment prevents a fix */ 'x']() {} }",
             output: null,
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'x'" },
@@ -299,7 +298,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { ['x' /* this comment also prevents a fix */]() {} }",
             output: null,
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'x'" },
@@ -308,7 +306,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { [('x')]() {} }",
             output: "class Foo { 'x'() {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'x'" },
@@ -317,7 +314,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { *['x']() {} }",
             output: "class Foo { *'x'() {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'x'" },
@@ -326,7 +322,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { async ['x']() {} }",
             output: "class Foo { async 'x'() {} }",
-            options: [{ enforceForClassMembers: true }],
             languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
@@ -336,7 +331,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { get[.2]() {} }",
             output: "class Foo { get.2() {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: ".2" },
@@ -345,7 +339,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { set[.2](value) {} }",
             output: "class Foo { set.2(value) {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: ".2" },
@@ -354,7 +347,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { async[.2]() {} }",
             output: "class Foo { async.2() {} }",
-            options: [{ enforceForClassMembers: true }],
             languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
@@ -364,7 +356,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { [2]() {} }",
             output: "class Foo { 2() {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "2" },
@@ -373,7 +364,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { get [2]() {} }",
             output: "class Foo { get 2() {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "2" },
@@ -382,7 +372,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { set [2](value) {} }",
             output: "class Foo { set 2(value) {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "2" },
@@ -391,7 +380,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { async [2]() {} }",
             output: "class Foo { async 2() {} }",
-            options: [{ enforceForClassMembers: true }],
             languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
@@ -401,7 +389,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { get[2]() {} }",
             output: "class Foo { get 2() {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "2" },
@@ -410,7 +397,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { set[2](value) {} }",
             output: "class Foo { set 2(value) {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "2" },
@@ -419,7 +405,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { async[2]() {} }",
             output: "class Foo { async 2() {} }",
-            options: [{ enforceForClassMembers: true }],
             languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
@@ -429,7 +414,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { get['foo']() {} }",
             output: "class Foo { get'foo'() {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'foo'" },
@@ -438,7 +422,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { *[2]() {} }",
             output: "class Foo { *2() {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "2" },
@@ -447,7 +430,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { async*[2]() {} }",
             output: "class Foo { async*2() {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "2" },
@@ -456,7 +438,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { static ['constructor']() {} }",
             output: "class Foo { static 'constructor'() {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'constructor'" },
@@ -465,7 +446,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { ['prototype']() {} }",
             output: "class Foo { 'prototype'() {} }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'prototype'" },
@@ -474,7 +454,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "(class { ['x']() {} })",
             output: "(class { 'x'() {} })",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'x'" },
@@ -483,7 +462,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "(class { ['__proto__']() {} })",
             output: "(class { '__proto__'() {} })",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'__proto__'" },
@@ -492,7 +470,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "(class { static ['__proto__']() {} })",
             output: "(class { static '__proto__'() {} })",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'__proto__'" },
@@ -501,7 +478,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "(class { static ['constructor']() {} })",
             output: "(class { static 'constructor'() {} })",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'constructor'" },
@@ -510,7 +486,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "(class { ['prototype']() {} })",
             output: "(class { 'prototype'() {} })",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'prototype'" },
@@ -519,7 +494,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { ['0'] }",
             output: "class Foo { '0' }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'0'" },
@@ -528,7 +502,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { ['0'] = 0 }",
             output: "class Foo { '0' = 0 }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'0'" },
@@ -537,7 +510,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { static[0] }",
             output: "class Foo { static 0 }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "0" },
@@ -546,7 +518,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { ['#foo'] }",
             output: "class Foo { '#foo' }",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'#foo'" },
@@ -555,7 +526,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "(class { ['__proto__'] })",
             output: "(class { '__proto__' })",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'__proto__'" },
@@ -564,7 +534,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "(class { static ['__proto__'] })",
             output: "(class { static '__proto__' })",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'__proto__'" },
@@ -573,7 +542,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "(class { ['prototype'] })",
             output: "(class { 'prototype' })",
-            options: [{ enforceForClassMembers: true }],
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'prototype'" },
