@@ -155,7 +155,7 @@
     "regenerator-runtime": "^0.14.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "semver": "^7.5.3",
-    "shelljs": "^0.8.2",
+    "shelljs": "^0.8.5",
     "sinon": "^11.0.0",
     "vite-plugin-commonjs": "^0.10.0",
     "webdriverio": "^8.14.6",
