@@ -327,7 +327,7 @@ npx eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js
 
 #### `--fix`
 
-This option instructs ESLint to try to fix as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output.
+This option instructs ESLint to try to [fix](https://eslint.org/docs/latest/use/core-concepts#rule-fixes) as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output.
 
 * **Argument Type**: No argument.
 
