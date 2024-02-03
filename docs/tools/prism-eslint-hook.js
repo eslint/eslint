@@ -43,9 +43,9 @@ function installPrismESLintMarkerHook() {
     const TOKEN_TYPE_ESLINT_MARKED = "eslint-marked";
 
     /**
-     * Use in the class attribute of `<span>` when an error is displayed only in the line-feed code.
+     * Use in the class attribute of `<span>` when an error is displayed in the line-feed, or BOM code.
      */
-    const CLASS_ESLINT_MARKED_ON_LINE_FEED = "eslint-marked-line-feed";
+    const CLASS_ESLINT_MARKED_ON_ZERO_WIDTH = "eslint-marked-on-zero-width";
 
     /**
      * A Map that holds message IDs and messages.
@@ -319,8 +319,12 @@ function installPrismESLintMarkerHook() {
                 env.attributes.title = messageMap.get(messageId);
             }
 
-            if (env.content === "\n") {
-                env.classes.push(CLASS_ESLINT_MARKED_ON_LINE_FEED);
+            if (
+                env.content === "\n" ||
+                env.content === "\r\n" ||
+                env.content === "\ufeff"
+            ) {
+                env.classes.push(CLASS_ESLINT_MARKED_ON_ZERO_WIDTH);
             }
         }
     });
