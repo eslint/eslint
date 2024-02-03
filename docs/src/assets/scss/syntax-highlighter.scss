@@ -33,11 +33,7 @@ pre[class*="language-"] {
     overflow: auto;
     border-radius: var(--border-radius);
     background-color: var(--lightest-background-color);
-    color: var(--color-neutral-900);
-
-    [data-theme="dark"] & {
-        color: var(--color-neutral-100);
-    }
+    color: var(--code-color);
 
     &.line-numbers-mode {
         padding-left: calc(1.5rem + 2.4em + 1.2rem);
@@ -60,11 +56,7 @@ pre[class*="language-"] {
 .token.prolog,
 .token.doctype,
 .token.cdata {
-    color: #6e7f8e;
-
-    [data-theme="dark"] & {
-        color: #8e9fae;
-    }
+    color: var(--code-token-color);
 }
 
 .token.namespace {

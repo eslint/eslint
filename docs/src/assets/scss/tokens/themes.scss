@@ -61,6 +61,9 @@
     --color-rose-800: #a11043;
     --color-rose-900: #89123e;
 
+    --color-slate-grey: #6e7f8e;
+    --color-cadet-grey: #8e9fae;
+
     /* Tier 2 variables */
     --primary-button-background-color: var(--color-primary-800);
     --primary-button-hover-color: var(--color-primary-900);
@@ -89,6 +92,10 @@
     --hero-background-color: var(--color-neutral-25);
     --footer-background-color: var(--color-neutral-25);
     --outline-color: var(--color-brand);
+
+    --logo-fill-color: var(--color-primary-800);
+    --code-color: var(--color-neutral-900);
+    --code-token-color: var(--color-slate-grey);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -110,6 +117,11 @@
         --hero-background-color: var(--color-neutral-800);
         --footer-background-color: var(--color-neutral-800);
         --outline-color: #fff;
+        --img-background-color: var(--color-neutral-300);
+
+        --logo-fill-color: #fff;
+        --code-color: var(--color-neutral-100);
+        --code-token-color: var(--color-cadet-grey);
     }
 }
 
@@ -132,6 +144,10 @@ html[data-theme="light"] {
     --footer-background-color: var(--color-neutral-25);
     --outline-color: var(--color-brand);
     --img-background-color: #fff;
+
+    --logo-fill-color: var(--color-primary-800);
+    --code-color: var(--color-neutral-900);
+    --code-token-color: var(--color-slate-grey);
 }
 
 html[data-theme="dark"] {
@@ -155,4 +171,8 @@ html[data-theme="dark"] {
     --footer-background-color: var(--color-neutral-800);
     --outline-color: #fff;
     --img-background-color: var(--color-neutral-300);
+
+    --logo-fill-color: #fff;
+    --code-color: var(--color-neutral-100);
+    --code-token-color: var(--color-cadet-grey);
 }
