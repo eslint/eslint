@@ -233,7 +233,7 @@ class C {
 switch (foo) {
   /* what a great and wonderful day */
 
-  case 1:    
+  case 1:
     bar();
     break;
 }
@@ -317,7 +317,7 @@ class C {
 }
 
 switch (foo) {
-  case 1:    
+  case 1:
     bar();
     break;
 
@@ -663,7 +663,7 @@ Examples of **correct** code for the `ignorePattern` option:
 /*eslint lines-around-comment: ["error"]*/
 
 foo();
-/* eslint mentioned in this comment */
+/* jshint mentioned in this comment */
 bar();
 
 /*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
@@ -712,7 +712,7 @@ Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }`
 /*eslint lines-around-comment: ["error", { "applyDefaultIgnorePatterns": false }] */
 
 foo();
-/* eslint mentioned in comment */
+/* jshint mentioned in comment */
 
 ```
 

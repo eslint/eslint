@@ -38,7 +38,7 @@ const commentParser = new ConfigCommentParser();
  */
 function tryParseForPlayground(code, parserOptions) {
     try {
-        const ast = parse(code, { ecmaVersion: "latest", ...parserOptions, comment: true });
+        const ast = parse(code, { ecmaVersion: "latest", ...parserOptions, comment: true, loc: true });
 
         return { ast };
     } catch (error) {
@@ -81,20 +81,26 @@ async function findProblems(filename) {
 
             const { ast, error } = tryParseForPlayground(code, parserOptions);
 
-            if (ast && !isRuleRemoved) {
-                const hasRuleConfigComment = ast.comments.some(
-                    comment => {
-                        if (comment.type !== "Block" || !/^\s*eslint(?!\S)/u.test(comment.value)) {
-                            return false;
-                        }
-                        const { directiveValue } = commentParser.parseDirective(comment);
-                        const parseResult = commentParser.parseJsonConfig(directiveValue, comment.loc);
+            if (ast) {
+                let hasRuleConfigComment = false;
 
-                        return parseResult.success && Object.hasOwn(parseResult.config, title);
+                for (const comment of ast.comments) {
+                    if (comment.type !== "Block" || !/^\s*eslint(?!\S)/u.test(comment.value)) {
+                        continue;
                     }
-                );
+                    const { directiveValue } = commentParser.parseDirective(comment);
+                    const parseResult = commentParser.parseJsonConfig(directiveValue, comment.loc);
+                    const parseError = parseResult.error;
 
-                if (!hasRuleConfigComment) {
+                    if (parseError) {
+                        parseError.line += codeBlockToken.map[0] + 1;
+                        problems.push(parseError);
+                    } else if (Object.hasOwn(parseResult.config, title)) {
+                        hasRuleConfigComment = true;
+                    }
+                }
+
+                if (!isRuleRemoved && !hasRuleConfigComment) {
                     const message = `Example code should contain a configuration comment like /* eslint ${title}: "error" */`;
 
                     problems.push({
