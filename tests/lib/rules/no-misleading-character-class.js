@@ -1427,9 +1427,6 @@ ruleTester.run("no-misleading-character-class", rule, {
                 suggestions: null
             }]
         },
-
-        /* eslint-disable lines-around-comment -- see https://github.com/eslint/eslint/issues/18081 */
-
         {
             code: String.raw`
 
@@ -1440,6 +1437,25 @@ ruleTester.run("no-misleading-character-class", rule, {
             errors: [{
                 column: 26,
                 endColumn: 38,
+                messageId: "zwj",
+                suggestions: null
+            }]
+        },
+
+        /* eslint-disable lines-around-comment -- see https://github.com/eslint/eslint/issues/18081 */
+
+        {
+            code: String.raw`
+
+            // unescaped <CR> <LF> counts as a single character
+            new RegExp(<backtick>[<crlf>\\u200D.]<backtick>)
+
+            `.replaceAll("<backtick>", "`").replace("<crlf>", "\n"),
+            errors: [{
+                line: 4,
+                column: 26,
+                endLine: 5,
+                endColumn: 9,
                 messageId: "zwj",
                 suggestions: null
             }]
