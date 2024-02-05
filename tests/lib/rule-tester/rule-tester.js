@@ -1907,11 +1907,20 @@ describe("RuleTester", () => {
         }, "Hydrated message \"Avoid using variables named 'notFoo'.\" does not match \"Avoid using variables named 'foo'.\"");
     });
 
-    it("should throw if the message has a single missing placeholders when data is not specified", () => {
+    it("should throw if the message has a single missing placeholder when data is not specified", () => {
         assert.throws(() => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMissingData, {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
+            });
+        }, "The reported message has a missing placeholder 'name'. Please provide them via the 'data' property in the context.report() call.");
+    });
+
+    it("should throw if the message has a single missing placeholders when data is specified", () => {
+        assert.throws(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMissingData, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo", data: { name: "name" } }] }]
             });
         }, "The reported message has a missing placeholder 'name'. Please provide them via the 'data' property in the context.report() call.");
     });
@@ -2195,6 +2204,25 @@ describe("RuleTester", () => {
                             messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "renameFoo",
+                                output: "var bar;"
+                            }]
+                        }]
+                    }]
+                });
+            }, "The message of the suggestion has a missing placeholder 'newName'. Please provide them via the 'data' property for the suggestion in the context.report() call.");
+        });
+
+        it("should fail with a single missing data placeholder when data is specified", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMissingPlaceholderData, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            messageId: "avoidFoo",
+                            suggestions: [{
+                                messageId: "renameFoo",
+                                data: { other: "name" },
                                 output: "var bar;"
                             }]
                         }]
