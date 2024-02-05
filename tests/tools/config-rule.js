@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    { generateConfigsFromSchema } = require("../../tools/config-rule"),
+    { createCoreRuleConfigs, generateConfigsFromSchema } = require("../../tools/config-rule"),
     builtInRules = require("../../lib/rules"),
     schema = require("../fixtures/config-rule/schemas");
 
@@ -291,7 +291,7 @@ describe("ConfigRule", () => {
 
     describe("createCoreRuleConfigs()", () => {
 
-        const rulesConfig = ConfigRule.createCoreRuleConfigs();
+        const rulesConfig = createCoreRuleConfigs();
 
         it("should create a rulesConfig containing all core rules", () => {
             const
@@ -309,7 +309,7 @@ describe("ConfigRule", () => {
                         return !isDeprecated;
                     })
                     .map(([id]) => id),
-                actualRules = Object.keys(ConfigRule.createCoreRuleConfigs(true));
+                actualRules = Object.keys(createCoreRuleConfigs(true));
 
             assert.sameMembers(actualRules, expectedRules);
 
