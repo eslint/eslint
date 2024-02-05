@@ -194,10 +194,6 @@ ruleTester.run("use-isnan", rule, {
         "foo.lastIndexOf(NaN)",
         "foo.indexOf(Number.NaN)",
         "foo.lastIndexOf(Number.NaN)",
-        "foo.indexOf((NaN, 1))",
-        "foo.lastIndexOf((NaN, 1))",
-        "foo.indexOf((Number.NaN, 1))",
-        "foo.lastIndexOf((Number.NaN, 1))",
         {
             code: "foo.indexOf(NaN)",
             options: [{}]
@@ -358,6 +354,22 @@ ruleTester.run("use-isnan", rule, {
         },
         {
             code: "foo.lastIndexOf(Number.NaN())",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.indexOf((NaN, 1))",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.lastIndexOf((NaN, 1))",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.indexOf((Number.NaN, 1))",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.lastIndexOf((Number.NaN, 1))",
             options: [{ enforceForIndexOf: true }]
         }
     ],
