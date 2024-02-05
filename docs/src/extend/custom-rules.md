@@ -128,8 +128,14 @@ The `context` object has the following properties:
 * `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
 * `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
 * `settings`: (`object`) The [shared settings](../use/configure/configuration-files#configuring-shared-settings) from the configuration.
-* `parserPath`: (`string`) The name of the `parser` from the configuration.
-* `parserOptions`: The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
+* `languageOptions`: (`object`) more details for each property [here](../use/configure/language-options)
+    * `sourceType`: (`'script' | 'module' | 'commonjs'`) The mode for the current file.
+    * `ecmaVersion`: (`number`) The ECMA version used to parse the current file.
+    * `parser`: (`object`|`string`): Either the parser used to parse the current file for flat config or its name for legacy config.
+    * `parserOptions`: (`object`) The parser options configured for this file.
+    * `globals`: (`object`) The specified globals.
+* `parserPath`: (`string`, **Removed** Use `context.languageOptions.parser` instead.) The name of the `parser` from the configuration.
+* `parserOptions`: (**Deprecated** Use `context.languageOptions.parserOptions` instead.) The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
 
 Additionally, the `context` object has the following methods:
 

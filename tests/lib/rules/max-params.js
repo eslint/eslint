@@ -118,6 +118,7 @@ ruleTester.run("max-params", rule, {
             }`,
             options: [{ max: 2 }],
             errors: [{
+                messageId: "exceed",
                 line: 1,
                 column: 1,
                 endLine: 1,
