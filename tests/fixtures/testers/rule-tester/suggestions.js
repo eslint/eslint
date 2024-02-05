@@ -227,3 +227,32 @@ module.exports.withMissingPlaceholderData = {
         };
     }
 };
+
+module.exports.withMultipleMissingPlaceholderDataProperties = {
+    meta: {
+        messages: {
+            avoidFoo: "Avoid using identifiers named '{{ name }}'.",
+            rename: "Rename identifier '{{ currentName }}' to '{{ newName }}'"
+        },
+        hasSuggestions: true
+    },
+    create(context) {
+        return {
+            Identifier(node) {
+                if (node.name === "foo") {
+                    context.report({
+                        node,
+                        messageId: "avoidFoo",
+                        data: {
+                            name: "foo"
+                        },
+                        suggest: [{
+                            messageId: "rename",
+                            fix: fixer => fixer.replaceText(node, "bar")
+                        }]
+                    });
+                }
+            }
+        };
+    }
+};

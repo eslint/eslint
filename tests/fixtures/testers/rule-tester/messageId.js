@@ -56,6 +56,27 @@ module.exports.withMissingData = {
     }
 };
 
+module.exports.withMultipleMissingDataProperties = {
+    meta: {
+        messages: {
+            avoidFoo: "Avoid using {{ type }} named '{{ name }}'.",
+            unused: "An unused key"
+        }
+    },
+    create(context) {
+        return {
+            Identifier(node) {
+                if (node.name === "foo") {
+                    context.report({
+                        node,
+                        messageId: "avoidFoo",
+                    });
+                }
+            }
+        };
+    }
+};
+
 module.exports.withPlaceholdersInData = {
     meta: {
         messages: {

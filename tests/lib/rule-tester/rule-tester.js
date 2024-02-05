@@ -1907,13 +1907,22 @@ describe("RuleTester", () => {
         }, "Hydrated message \"Avoid using variables named 'notFoo'.\" does not match \"Avoid using variables named 'foo'.\"");
     });
 
-    it("should throw if the message has missing placeholders when data is not specified", () => {
+    it("should throw if the message has a single missing placeholders when data is not specified", () => {
         assert.throws(() => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMissingData, {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
             });
-        }, "The reported message has missing placeholders: name. Please provide them via the 'data' property in the context.report call");
+        }, "The reported message has a missing placeholder 'name'. Please provide them via the 'data' property in the context.report() call.");
+    });
+
+    it("should throw if the message has multiple missing placeholders when data is not specified", () => {
+        assert.throws(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMultipleMissingDataProperties, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
+            });
+        }, "The reported message has the missing placeholders: 'type', 'name'. Please provide them via the 'data' property in the context.report() call.");
     });
 
     it("should throw if the data in the message contains placeholders", () => {
@@ -1922,7 +1931,7 @@ describe("RuleTester", () => {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
             });
-        }, "The reported message has missing placeholders: placeholder. Please provide them via the 'data' property in the context.report call");
+        }, "The reported message has a missing placeholder 'placeholder'. Please provide them via the 'data' property in the context.report() call.");
     });
 
     // messageId/message misconfiguration cases
@@ -2176,7 +2185,7 @@ describe("RuleTester", () => {
             });
         });
 
-        it("should fail with missing data placeholders when data is not specified", () => {
+        it("should fail with a single missing data placeholder when data is not specified", () => {
             assert.throws(() => {
                 ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMissingPlaceholderData, {
                     valid: [],
@@ -2191,7 +2200,25 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "The message of the suggestion has missing placeholders: newName. Please provide them via the 'data' property for the suggestion in the context.report call");
+            }, "The message of the suggestion has a missing placeholder 'newName'. Please provide them via the 'data' property for the suggestion in the context.report() call.");
+        });
+
+        it("should fail with multiple missing data placeholders when data is not specified", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMultipleMissingPlaceholderDataProperties, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            messageId: "avoidFoo",
+                            suggestions: [{
+                                messageId: "rename",
+                                output: "var bar;"
+                            }]
+                        }]
+                    }]
+                });
+            }, "The message of the suggestion has the missing placeholders: 'currentName', 'newName'. Please provide them via the 'data' property for the suggestion in the context.report() call.");
         });
 
         it("should fail when tested using empty suggestion test objects even if the array length is correct", () => {
