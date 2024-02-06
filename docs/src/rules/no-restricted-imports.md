@@ -250,7 +250,7 @@ Examples of **incorrect** code of `allowImportNames` option in `paths`:
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
-    allowImportNames: ["AllowedObject"]"
+    allowImportNames: ["AllowedObject"]
 }]}]*/
 
 import { AnyOtherObject } from "foo";
@@ -265,7 +265,7 @@ Examples of **correct** code of `allowImportNames` option in `paths`:
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
-    allowImportNames: ["AllowedObject"]"
+    allowImportNames: ["AllowedObject"]
 }]}]*/
 
 import { AllowedObject } from "foo";
@@ -581,7 +581,7 @@ Examples of **incorrect** code of `allowImportNames` option in `patterns`:
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["module/*"],
-    allowImportNames: ["AllowedObject"]"
+    allowImportNames: ["AllowedObject"]
 }]}]*/
 
 import { AnyOtherObject } from "module/import";
@@ -596,7 +596,7 @@ Examples of **correct** code of `allowImportNames` option in `patterns`:
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["module/*"],
-    allowImportNames: ["AllowedObject"]"
+    allowImportNames: ["AllowedObject"]
 }]}]*/
 
 import { AllowedObject } from "module/import";
