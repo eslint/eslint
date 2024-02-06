@@ -230,6 +230,49 @@ import { AllowedObject as DisallowedObject } from "foo";
 
 :::
 
+#### allowImportNames
+
+This option in `paths` is an array that helps you to specify some import names that you want to allow for a particular module other than specified imports will be restricted. `allowImportNames` cannot be used with `importNames` in `paths` this will cause an error.
+
+```json
+"no-restricted-imports": ["error", {
+  "paths": [{
+    "name": "import-foo",
+    "allowImportNames": ["Foo"],
+  }]
+}]
+```
+
+Examples of **incorrect** code of `allowImportNames` option in `paths`:
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    allowImportNames: ["AllowedObject"]"
+}]}]*/
+
+import { AnyOtherObject } from "foo";
+```
+
+:::
+
+Examples of **correct** code of `allowImportNames` option in `paths`:
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    allowImportNames: ["AllowedObject"]"
+}]}]*/
+
+import { AllowedObject } from "foo";
+```
+
+:::
+
 ### patterns
 
 This is also an object option whose value is an array. This option allows you to specify multiple modules to restrict using `gitignore`-style patterns.
@@ -514,6 +557,49 @@ Examples of **correct** code for `importNamePattern` option:
 }]}]*/
 
 import isEmpty, { hasValue } from 'utils/collection-utils';
+```
+
+:::
+
+#### allowImportNames
+
+You can also specify `allowImportNames` option inside `patterns` object to allow certain imports. In `patterns`, `allowImportNames` cannot be used with `importNames` and `importNamePattern` this will cause an error.
+
+```json
+"no-restricted-imports": ["error", {
+  "patterns": [{
+    "group": ["import-foo/*"],
+    "allowImportNames": ["Foo"],
+  }]
+}]
+```
+
+Examples of **incorrect** code of `allowImportNames` option in `patterns`:
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["module/*"],
+    allowImportNames: ["AllowedObject"]"
+}]}]*/
+
+import { AnyOtherObject } from "module/import";
+```
+
+:::
+
+Examples of **correct** code of `allowImportNames` option in `patterns`:
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["module/*"],
+    allowImportNames: ["AllowedObject"]"
+}]}]*/
+
+import { AllowedObject } from "module/import";
 ```
 
 :::

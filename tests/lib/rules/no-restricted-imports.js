@@ -375,6 +375,42 @@ ruleTester.run("no-restricted-imports", rule, {
                     importNamePattern: "^Foo"
                 }]
             }]
+        },
+        {
+            code: "import { foo } from 'foo';",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    allowImportNames: ["foo"]
+                }]
+            }]
+        },
+        {
+            code: "import { foo } from 'foo';",
+            options: [{
+                patterns: [{
+                    group: ["foo"],
+                    allowImportNames: ["foo"]
+                }]
+            }]
+        },
+        {
+            code: "export { bar } from 'foo';",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    allowImportNames: ["bar"]
+                }]
+            }]
+        },
+        {
+            code: "export { bar } from 'foo';",
+            options: [{
+                patterns: [{
+                    group: ["foo"],
+                    allowImportNames: ["bar"]
+                }]
+            }]
         }
     ],
     invalid: [{
@@ -1953,6 +1989,70 @@ ruleTester.run("no-restricted-imports", rule, {
             endColumn: 9,
             message: "* import is invalid because import name matching '/^Foo/u' pattern from 'foo' is restricted from being used."
         }]
-    }
+    },
+    {
+        code: "import { AllowedObject, DisallowedObject } from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                allowImportNames: ["AllowedObject"]
+            }]
+        }],
+        errors: [{
+            message: "only 'AllowedObject' import from 'foo' is allowed other than that are restricted.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 25,
+            endColumn: 41
+        }]
+    },
+    {
+        code: "import { AllowedObject, DisallowedObject } from \"foo\";",
+        options: [{
+            patterns: [{
+                group: ["foo"],
+                allowImportNames: ["AllowedObject"]
+            }]
+        }],
+        errors: [{
+            message: "only 'AllowedObject' import from 'foo' is allowed other than that are restricted.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 25,
+            endColumn: 41
+        }]
+    },
+    {
+        code: "import * as AllowedObject from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                allowImportNames: ["AllowedObject"]
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because only 'AllowedObject' from 'foo' is/are allowed.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 26
+        }]
+    },
+    {
+        code: "import * as AllowedObject from \"foo\";",
+        options: [{
+            patterns: [{
+                group: ["foo"],
+                allowImportNames: ["AllowedObject"]
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because only 'AllowedObject' from 'foo' is/are allowed.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 26
+        }]
+    },
     ]
 });
