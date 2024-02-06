@@ -2053,6 +2053,6 @@ ruleTester.run("no-restricted-imports", rule, {
             column: 8,
             endColumn: 26
         }]
-    },
+    }
     ]
 });
