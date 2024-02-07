@@ -4,6 +4,15 @@
     }
 }
 
+.docs-ad {
+    height: 290px;
+}
+
+/*
+ * Carbon Ads
+ * https://www.carbonads.net/
+ */
+
 #carbonads * {
     margin: initial;
     padding: initial;
@@ -113,3 +122,39 @@
         font-size: 8px;
     }
 }
+
+/*
+ * Ethical Ads
+ */
+
+ [data-ea-publisher].loaded .ea-content,
+ [data-ea-type].loaded .ea-content {
+     background-color: var(--body-background-color) !important;
+     border: 1px solid var(--border-color) !important;
+ }
+ 
+ // [data-ea-publisher].loaded .ea-content a:hover,
+ // [data-ea-type].loaded .ea-content a:hover {
+ //     text-decoration: none;
+ //     color: var(--link-color);
+ // }
+ 
+ [data-ea-publisher].loaded .ea-content a:link,
+ [data-ea-type].loaded .ea-content a:link {
+     color: var(--body-text-color) !important;
+ }
+ 
+ [data-ea-publisher].loaded .ea-callout a:link,
+ [data-ea-type].loaded .ea-callout a:link {
+     color: var(--body-text-color) !important;
+ }
+ 
+ .jumbotron [data-ea-publisher].loaded .ea-content a,
+ .jumbotron [data-ea-type].loaded .ea-content a {
+     color: #eee;
+ }
+ 
+ .jumbotron [data-ea-publisher].loaded .ea-content a:hover,
+ .jumbotron [data-ea-type].loaded .ea-content a:hover {
+     color: #ccc;
+ }
