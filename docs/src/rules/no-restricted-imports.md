@@ -216,6 +216,60 @@ import DisallowedObject from "foo"
 
 :::
 
+#### ignoreFilenamesPatterns
+
+This option in `path` is an array of filename patterns where current restricted import should be allowed.
+It might be useful when there is a need to forbid some imports across all codebase except specific places.
+
+```json
+"no-restricted-imports": ["error", {
+  "paths": [{
+    "name": "import-foo",
+    "importNames": ["Bar"],
+    "message": "Please use Bar from /import-bar/baz/ instead.",
+    "ignoreFilenamesPatterns": ["**/directory/where/import-foo/is/allowed/**"]
+  }]
+}]
+```
+
+Examples of **incorrect** code for `ignoreFilenamesPatterns` in `paths`:
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    importNames: ["DisallowedObject"],
+    ignoreFilenamesPatterns: ["**\/directory/where/importfoo/is/allowed/**"]
+}]}]*/
+
+// filePath: "src/js/some-module/file.js"
+
+import { DisallowedObject } from "foo";
+```
+
+:::
+
+Examples of **correct** code for `ignoreFilenamesPatterns` in `paths`:
+
+If the filePath of the linted file is matched by one of the ignoreFilenamesPatterns then error will not be produced
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    importNames: ["DisallowedObject"],
+    ignoreFilenamesPatterns: ["**\/directory/where/importfoo/is/allowed/**"]
+ }]}]*/
+
+// filePath: "src/js/directory/where/import-foo/is/allowed/file.js"
+
+import { DisallowedObject } from "foo"
+```
+
+:::
+
 ::: correct { "sourceType": "module" }
 
 ```js
@@ -514,6 +568,47 @@ Examples of **correct** code for `importNamePattern` option:
 }]}]*/
 
 import isEmpty, { hasValue } from 'utils/collection-utils';
+```
+
+:::
+
+#### ignoreFilenamesPatterns
+
+This option in `patterns` is an array of filename patterns where current restricted import should be allowed.
+It might be useful when there is a need to forbid some imports across all codebase except specific places.
+
+Examples of **incorrect** code for `ignoreFilenamesPatterns` option:
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["lodash/*"],
+    message: "Please use the default import from 'lodash' instead.",
+    ignoreFilenamesPatterns: ["**\/directory/where/lodash/is/allowed/**"]
+}]}]*/
+
+//  filePath: "src/js/some-module/file.js"
+
+import pick from 'lodash/pick';
+```
+
+:::
+
+Examples of **correct** code for this `ignoreFilenamesPatterns` option:
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["lodash/*"],
+    message: "Please use the default import from 'lodash' instead.",
+    ignoreFilenamesPatterns: ["**\/directory/where/lodash/is/allowed/**"]
+}]}]*/
+
+//  filePath: "src/js/directory/where/lodash/is/allowed/file.js"
+
+import pick from 'lodash/pick';
 ```
 
 :::

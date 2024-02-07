@@ -375,6 +375,111 @@ ruleTester.run("no-restricted-imports", rule, {
                     importNamePattern: "^Foo"
                 }]
             }]
+        },
+        {
+            filename:
+                "/Users/user.name/project/client/js/allow-evil/evil-module.js",
+            code: 'import EvilImport from "@some-evil-company/evil-import";',
+            options: [
+                {
+                    paths: [
+                        {
+                            name: "@some-evil-company/evil-import",
+                            ignoreFilenamesPatterns: ["**/js/allow-evil/evil-module.js"]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            filename:
+                "/Users/user.name/project/client/js/allow-evil/evil-module.js",
+            code: 'import { EvilImport } from "@some-evil-company/evil-import";',
+            options: [
+                {
+                    paths: [
+                        {
+                            name: "@some-evil-company/evil-import",
+                            ignoreFilenamesPatterns: ["**/allow-evil/**"]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            filename: "./js/allow-evil/whatever-here.js",
+            code: 'import EvilImport from "@some-evil-company/evil-import";',
+            options: [
+                {
+                    paths: [
+                        {
+                            name: "@some-evil-company/evil-import",
+                            ignoreFilenamesPatterns: ["**/js/allow-evil/whatever-here.js"]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            filename: "./js/allow-evil/evil-module.js",
+            code: 'import { EvilImport } from "@some-evil-company/evil-import/inner-module";',
+            options: [
+                {
+                    paths: [
+                        {
+                            name: "@some-evil-company/evil-import",
+                            ignoreFilenamesPatterns: ["**/js/allow-evil/**"]
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            filename: "/Users/user.name/project/js/module/module.js",
+            code: "import Foo from 'foo';",
+            options: [
+                {
+                    patterns: [
+                        {
+                            group: ["foo"],
+                            importNamePattern: "^Foo",
+                            ignoreFilenamesPatterns: ["**/module/**"]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            filename: "/Users/user.name/project/js/module",
+            code: "import Foo from 'foo';",
+            options: [
+                {
+                    patterns: [
+                        {
+                            importNames: ["Foo"],
+                            group: ["foo"],
+                            importNamePattern: "^Foo",
+                            ignoreFilenamesPatterns: ["**/module/**"]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            filename: "./js/module/index.js",
+            code: "import { Bar } from '../../my/relative-module';",
+            options: [
+                {
+                    patterns: [
+                        {
+                            group: ["**/my/relative-module"],
+                            importNames: ["Foo"],
+                            ignoreFilenamesPatterns: ["**/module/**"]
+                        }
+                    ]
+                }
+            ]
         }
     ],
     invalid: [{
@@ -1953,6 +2058,104 @@ ruleTester.run("no-restricted-imports", rule, {
             endColumn: 9,
             message: "* import is invalid because import name matching '/^Foo/u' pattern from 'foo' is restricted from being used."
         }]
+    },
+    {
+        filename: "/Users/user.name/project/js/module/file.js",
+        code: "import { bar } from 'mod'",
+        options: [
+            {
+                paths: [
+
+                    // restricts importing anything from the module
+                    {
+                        name: "mod",
+                        ignoreFilenamesPatterns: ["**/module/**"]
+                    },
+
+                    // message for a specific import name
+                    {
+                        name: "mod",
+                        importNames: ["bar"],
+                        message: "Import bar from qux instead."
+                    }
+                ]
+            }
+        ],
+        errors: [
+            {
+                message:
+                        "'bar' import from 'mod' is restricted. Import bar from qux instead.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 10,
+                endColumn: 13
+            }
+        ]
+    },
+    {
+        filename: "/Users/user.name/project/js/module/file.js",
+        code: 'export * as ns from "fs";',
+        options: [
+            {
+                paths: [
+                    {
+                        name: "fs",
+                        importNames: ["foo"],
+                        message: "Don't import 'foo'.",
+                        ignoreFilenamesPatterns: ["**/module-2/**"]
+                    }
+                ]
+            }
+        ],
+        errors: [
+            {
+                message:
+                        "* import is invalid because 'foo' from 'fs' is restricted. Don't import 'foo'.",
+                type: "ExportAllDeclaration",
+                line: 1,
+                column: 8,
+                endColumn: 9
+            }
+        ]
+    },
+    {
+        filename: "/Users/user.name/project/js/module/file.js",
+        code: 'import withPatterns from "foo/bar";',
+        options: [{ patterns: ["foo"] }],
+        errors: [
+            {
+                message:
+                        "'foo/bar' import is restricted from being used by a pattern.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 1,
+                endColumn: 36
+            }
+        ]
+    },
+    {
+        filename: "/Users/user.name/project/js/module/file.js",
+        code: 'import withPatterns from "foo/bar";',
+        options: [
+            {
+                patterns: [
+                    {
+                        group: ["foo"],
+                        ignoreFilenamesPatterns: ["**/module-2/**"]
+                    }
+                ]
+            }
+        ],
+        errors: [
+            {
+                message:
+                        "'foo/bar' import is restricted from being used by a pattern.",
+                type: "ImportDeclaration",
+                line: 1,
+                column: 1,
+                endColumn: 36
+            }
+        ]
     }
     ]
 });
