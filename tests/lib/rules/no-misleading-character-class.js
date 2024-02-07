@@ -72,6 +72,9 @@ ruleTester.run("no-misleading-character-class", rule, {
         { code: "var r = new globalThis.RegExp('[Á] [ ');", languageOptions: { ecmaVersion: 2020 } },
         { code: "var r = globalThis.RegExp('{ [Á]', 'u');", languageOptions: { ecmaVersion: 2020 } },
 
+        // don't report on templates with expressions
+        "var r = RegExp(`${x}[👍]`)",
+
         // ES2024
         { code: "var r = /[👍]/v", languageOptions: { ecmaVersion: 2024 } },
         { code: String.raw`var r = /^[\q{👶🏻}]$/v`, languageOptions: { ecmaVersion: 2024 } },
