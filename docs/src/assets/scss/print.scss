@@ -1,11 +1,11 @@
 *,
-*:before,
-*:after,
-*:first-letter,
-p:first-line,
-div:first-line,
-blockquote:first-line,
-li:first-line {
+*::before,
+*::after,
+*::first-letter,
+p::first-line,
+div::first-line,
+blockquote::first-line,
+li::first-line {
     background: transparent !important;
     color: #000 !important;
     box-shadow: none !important;
@@ -64,7 +64,6 @@ h6 {
     font-size: 14pt;
 }
 
-
 p,
 h2,
 h3 {
@@ -110,7 +109,7 @@ a:visited {
 //     font-size: 90%;
 // }
 
-abbr[title]:after {
+abbr[title]::after {
     content: " ("attr(title) ")";
 }
 
@@ -119,17 +118,17 @@ a[href^="http://"] {
     color: #000;
 }
 
-a[href$=".jpg"]:after,
-a[href$=".jpeg"]:after,
-a[href$=".gif"]:after,
-a[href$=".png"]:after {
+a[href$=".jpg"]::after,
+a[href$=".jpeg"]::after,
+a[href$=".gif"]::after,
+a[href$=".png"]::after {
     content: " ("attr(href) ") ";
     display: none;
 }
 
 /* Don't show links that are fragment identifiers, or use the `javascript:` pseudo protocol .. taken from html5boilerplate */
-a[href^="#"]:after,
-a[href^="javascript:"]:after {
+a[href^="#"]::after,
+a[href^="javascript:"]::after {
     content: "";
 }
 
@@ -172,7 +171,7 @@ tr {
     page-break-inside: avoid;
 }
 
-body>*:not(main),
+body > *:not(main),
 aside,
 *[class*="sidebar"] {
     display: none;
@@ -184,8 +183,8 @@ button,
     display: none;
 }
 
-a[href^='http']:not([href*='mywebsite.com'])::after {
-    content: ' ('attr(href) ')';
+a[href^="http"]:not([href*="eslint.org"])::after {
+    content: " ("attr(href) ")";
 }
 
 .resource a::after {
@@ -196,7 +195,10 @@ ul {
     page-break-inside: avoid;
 }
 
-.docs-toc, .docs-index, .docs-aside, #skip-link{
+.docs-toc,
+.docs-index,
+.docs-aside,
+#skip-link {
     display: none;
 }
 
@@ -204,4 +206,8 @@ ul {
     @page {
         margin: 1cm;
     }
+}
+
+#scroll-up-btn {
+    display: none;
 }

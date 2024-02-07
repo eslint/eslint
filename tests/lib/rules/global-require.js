@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/global-require"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 const valid = [
     { code: "var x = require('y');" },
@@ -36,7 +41,7 @@ const valid = [
     // Optional chaining
     {
         code: "var x = require('y')?.foo;",
-        parserOptions: { ecmaVersion: 2020 }
+        languageOptions: { ecmaVersion: 2020 }
     }
 ];
 
@@ -69,12 +74,12 @@ const invalid = [
     // non-block statements
     {
         code: "var getModule = x => require(x);",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors: [error]
     },
     {
         code: "var x = (x => require(x))('weird')",
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors: [error]
     },
     {

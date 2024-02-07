@@ -1,6 +1,5 @@
 ---
 title: no-compare-neg-zero
-layout: doc
 rule_type: problem
 ---
 

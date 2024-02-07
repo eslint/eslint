@@ -27,11 +27,7 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
-
-    transition: background-color .2s linear,
-    border-color .2s linear;
-
-
+    transition: background-color .2s linear, border-color .2s linear;
 
     &:hover {
         color: var(--link-color);
@@ -54,7 +50,6 @@
         margin-block-end: 0;
     }
 }
-
 
 .c-tabs__tabpanel__title {
     margin-bottom: 1.5rem;

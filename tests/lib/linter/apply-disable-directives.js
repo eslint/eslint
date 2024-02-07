@@ -680,7 +680,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [
                         { parentComment: createParentComment([0, 31]), type: "disable-next-line", line: 1, column: 1, ruleId: null, justification: "j1" },
-                        { type: "enable", line: 1, column: 5, ruleId: null, justification: "j2" }
+                        { parentComment: createParentComment([31, 50]), type: "enable", line: 1, column: 31, ruleId: null, justification: "j2" }
                     ],
                     problems: [{ line: 2, column: 2, ruleId: "foo" }]
                 }),
@@ -1365,6 +1365,767 @@ describe("apply-disable-directives", () => {
             );
         });
 
+        it("Adds a problem for /* eslint-enable */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [{
+                        parentComment: createParentComment([0, 20]),
+                        type: "enable",
+                        line: 1,
+                        column: 1,
+                        justification: "justification"
+                    }],
+                    problems: [],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [{
+                    ruleId: null,
+                    message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
+                    line: 1,
+                    column: 1,
+                    fix: {
+                        range: [0, 20],
+                        text: " "
+                    },
+                    severity: 2,
+                    nodeType: null
+                }]
+            );
+        });
+
+        it("Does not fix a problem for /* eslint-enable */ when disableFixes is enabled", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [{
+                        parentComment: createParentComment([0, 20]),
+                        type: "enable",
+                        line: 1,
+                        column: 1,
+                        justification: "justification"
+                    }],
+                    disableFixes: true,
+                    problems: [],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [{
+                    ruleId: null,
+                    message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
+                    line: 1,
+                    column: 1,
+                    severity: 2,
+                    nodeType: null
+                }]
+            );
+        });
+
+        it("Does not add a problem for /* eslint-disable */ /* (problem) */ /* eslint-enable */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        { type: "disable", line: 1, column: 1, ruleId: null, justification: "justification" },
+                        { type: "enable", line: 3, column: 1, ruleId: null, justification: "justification" }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [{ line: 2, column: 1, ruleId: "foo", suppressions: [{ kind: "directive", justification: "justification" }] }]
+            );
+        });
+
+        it("Adds a problem for /* eslint-enable foo */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [{
+                        parentComment: createParentComment([0, 21]),
+                        type: "enable",
+                        line: 1,
+                        column: 1,
+                        ruleId: "foo",
+                        justification: "justification"
+                    }],
+                    problems: [],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [{
+                    ruleId: null,
+                    message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
+                    line: 1,
+                    column: 1,
+                    fix: {
+                        range: [0, 21],
+                        text: " "
+                    },
+                    severity: 2,
+                    nodeType: null
+                }]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable not-foo */ /* (problem from not-foo) */ /* eslint-enable foo */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 24]),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: "not-foo",
+                            justification: "justification"
+                        },
+                        {
+                            parentComment: createParentComment([48, 72]),
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "justification"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "not-foo" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        ruleId: "not-foo",
+                        line: 2,
+                        column: 1,
+                        suppressions: [{ justification: "justification", kind: "directive" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
+                        line: 3,
+                        column: 1,
+                        fix: {
+                            range: [48, 72],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable */ /* eslint-enable */ /* eslint-enable foo */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 21]),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([42, 63]),
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([63, 84]),
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([84, 105]),
+                            type: "enable",
+                            line: 5,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j2"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        ruleId: "foo",
+                        line: 2,
+                        column: 1,
+                        suppressions: [{ justification: "j1", kind: "directive" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
+                        fix: {
+                            range: [63, 84],
+                            text: " "
+                        },
+                        line: 4,
+                        column: 1,
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
+                        fix: {
+                            range: [84, 105],
+                            text: " "
+                        },
+                        line: 5,
+                        column: 1,
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable */ /* eslint-enable */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 21]),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([42, 63]),
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([63, 84]),
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j1"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        ruleId: "foo",
+                        line: 2,
+                        column: 1,
+                        suppressions: [{ justification: "j1", kind: "directive" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
+                        fix: {
+                            range: [63, 84],
+                            text: " "
+                        },
+                        line: 4,
+                        column: 1,
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds two problems for /* eslint-enable */ /* eslint-enable */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 21]),
+                            type: "enable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([21, 42]),
+                            type: "enable",
+                            line: 2,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j2"
+                        }
+                    ],
+                    problems: [],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
+                        line: 1,
+                        column: 1,
+                        fix: {
+                            range: [0, 21],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
+                        line: 2,
+                        column: 1,
+                        fix: {
+                            range: [21, 42],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-enable */ /* eslint-disable */  /* (problem) */ /* eslint-enable */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 21]),
+                            type: "enable",
+                            line: 1,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([21, 42]),
+                            type: "disable",
+                            line: 2,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j2"
+                        },
+                        {
+                            parentComment: createParentComment([63, 84]),
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j3"
+                        }
+                    ],
+                    problems: [{ line: 3, column: 1, ruleId: "foo" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
+                        line: 1,
+                        column: 1,
+                        fix: {
+                            range: [0, 21],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        line: 3,
+                        column: 1,
+                        ruleId: "foo",
+                        suppressions: [{ kind: "directive", justification: "j2" }]
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable */ /* eslint-enable foo */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 21]),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([42, 63]),
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j2"
+                        },
+                        {
+                            parentComment: createParentComment([63, 84]),
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j3"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        line: 2,
+                        column: 1,
+                        ruleId: "foo",
+                        suppressions: [{ kind: "directive", justification: "j1" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
+                        line: 4,
+                        column: 1,
+                        fix: {
+                            range: [63, 84],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Does not add a problem for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable foo */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        { type: "disable", line: 1, column: 1, ruleId: "foo", justification: "j1" },
+                        { type: "enable", line: 3, column: 1, ruleId: "foo", justification: "j2" }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [{ line: 2, column: 1, ruleId: "foo", suppressions: [{ kind: "directive", justification: "j1" }] }]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable foo */ /* eslint-enable */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 21]),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([42, 63]),
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j2"
+                        },
+                        {
+                            parentComment: createParentComment([63, 84]),
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j3"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        line: 2,
+                        column: 1,
+                        ruleId: "foo",
+                        suppressions: [
+                            { kind: "directive", justification: "j1" }
+                        ]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
+                        line: 4,
+                        column: 1,
+                        fix: {
+                            range: [63, 84],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable bar */ /* (problem from bar) */ /* eslint-enable foo */ /* eslint-enable */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 20]),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: "bar",
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([60, 80]),
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j2"
+                        },
+                        {
+                            parentComment: createParentComment([80, 100]),
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j3"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "bar" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        line: 2,
+                        column: 1,
+                        ruleId: "bar",
+                        suppressions: [{ kind: "directive", justification: "j1" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
+                        line: 3,
+                        column: 1,
+                        fix: {
+                            range: [60, 80],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable foo */ /* eslint-enable */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 20]),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([60, 80]),
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j2"
+                        },
+                        {
+                            parentComment: createParentComment([80, 100]),
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j3"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        line: 2,
+                        column: 1,
+                        ruleId: "foo",
+                        suppressions: [{ kind: "directive", justification: "j1" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
+                        line: 4,
+                        column: 1,
+                        fix: {
+                            range: [80, 100],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds two problems for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable foo */ /* eslint-enable foo */ /* eslint-enable */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 20]),
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([40, 60]),
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j2"
+                        },
+                        {
+                            parentComment: createParentComment([60, 80]),
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            ruleId: "foo",
+                            justification: "j3"
+                        },
+                        {
+                            parentComment: createParentComment([80, 100]),
+                            type: "enable",
+                            line: 5,
+                            column: 1,
+                            ruleId: null,
+                            justification: "j4"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        ruleId: "foo",
+                        line: 2,
+                        column: 1,
+                        suppressions: [{ kind: "directive", justification: "j1" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'foo').",
+                        line: 4,
+                        column: 1,
+                        fix: {
+                            range: [60, 80],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
+                        line: 5,
+                        column: 1,
+                        fix: {
+                            range: [80, 100],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-disable used */ /* (problem from used) */ /* eslint-enable used */ /* eslint-enable */", () => {
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 20]),
+                            ruleId: "used",
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment: createParentComment([40, 60]),
+                            ruleId: "used",
+                            type: "disable",
+                            line: 3,
+                            column: 1,
+                            justification: "j2"
+                        },
+                        {
+                            parentComment: createParentComment([80, 100]),
+                            ruleId: "used",
+                            type: "enable",
+                            line: 5,
+                            column: 1,
+                            justification: "j3"
+                        },
+                        {
+                            parentComment: createParentComment([100, 120]),
+                            ruleId: null,
+                            type: "enable",
+                            line: 6,
+                            column: 1,
+                            justification: "j4"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "used" }, { line: 4, column: 1, ruleId: "used" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        line: 2,
+                        column: 1,
+                        ruleId: "used",
+                        suppressions: [{ kind: "directive", justification: "j1" }]
+                    },
+                    {
+                        line: 4,
+                        column: 1,
+                        ruleId: "used",
+                        suppressions: [{ kind: "directive", justification: "j1" }, { kind: "directive", justification: "j2" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found).",
+                        line: 6,
+                        column: 1,
+                        fix: {
+                            range: [100, 120],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
         it("Adds a problem for // eslint-disable-line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
@@ -2012,6 +2773,498 @@ describe("apply-disable-directives", () => {
                         fix: {
                             range: [64, 69],
                             text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-enable used, unused */", () => {
+            const parentComment = createParentComment([0, 32], " eslint-enable used, unused ", ["used", "unused"]);
+
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 29], " eslint-disable foo ", ["foo"]),
+                            ruleId: "used",
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "used",
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            justification: "j2"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "unused",
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            justification: "j3"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "used" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        line: 2,
+                        column: 1,
+                        ruleId: "used",
+                        suppressions: [{ kind: "directive", justification: "j1" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused').",
+                        line: 4,
+                        column: 1,
+                        fix: {
+                            range: [21, 29],
+                            text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+        it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-enable used , unused , -- unused and used are ok */", () => {
+            const parentComment = createParentComment([0, 62], " eslint-enable used , unused , -- unused and used are ok ", ["used", "unused"]);
+
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 29], " eslint-disable foo ", ["foo"]),
+                            ruleId: "used",
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "used",
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            justification: "j2"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "unused",
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            justification: "j3"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "used" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        line: 2,
+                        column: 1,
+                        ruleId: "used",
+                        suppressions: [{ kind: "directive", justification: "j1" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused').",
+                        line: 4,
+                        column: 1,
+                        fix: {
+                            range: [22, 31],
+                            text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-enable unused, used */", () => {
+            const parentComment = createParentComment([0, 32], " eslint-enable unused, used ", ["unused", "used"]);
+
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 29], " eslint-disable foo ", ["foo"]),
+                            ruleId: "used",
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "unused",
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            justification: "j2"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "used",
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            justification: "j3"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "used" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        line: 2,
+                        column: 1,
+                        ruleId: "used",
+                        suppressions: [{ kind: "directive", justification: "j1" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused').",
+                        line: 3,
+                        column: 1,
+                        fix: {
+                            range: [17, 25],
+                            text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-enable unused,, ,, used */", () => {
+            const parentComment = createParentComment([0, 37], " eslint-enable unused,, ,, used ", ["unused", "used"]);
+
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 29], " eslint-disable foo ", ["foo"]),
+                            ruleId: "used",
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "unused",
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            justification: "j2"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "used",
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            justification: "j3"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "used" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        line: 2,
+                        column: 1,
+                        ruleId: "used",
+                        suppressions: [{ kind: "directive", justification: "j1" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused').",
+                        line: 3,
+                        column: 1,
+                        fix: {
+                            range: [17, 24],
+                            text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-enable unused-1, unused-2, used */", () => {
+            const parentComment = createParentComment([0, 45], " eslint-enable unused-1, unused-2, used ", ["unused-1", "unused-2", "used"]);
+
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 29], " eslint-disable foo ", ["foo"]),
+                            ruleId: "used",
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "unused-1",
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            justification: "j2"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "unused-2",
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            justification: "j3"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "used",
+                            type: "enable",
+                            line: 5,
+                            column: 1,
+                            justification: "j4"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "used" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        line: 2,
+                        column: 1,
+                        ruleId: "used",
+                        suppressions: [{ kind: "directive", justification: "j1" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-1').",
+                        line: 3,
+                        column: 1,
+                        fix: {
+                            range: [17, 27],
+                            text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-2').",
+                        line: 4,
+                        column: 1,
+                        fix: {
+                            range: [25, 35],
+                            text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-enable unused-1, unused-2, used, unused-3 */", () => {
+            const parentComment = createParentComment([0, 55], " eslint-enable unused-1, unused-2, used, unused-3 ", ["unused-1", "unused-2", "used", "unused-3"]);
+
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment: createParentComment([0, 29], " eslint-disable foo ", ["foo"]),
+                            ruleId: "used",
+                            type: "disable",
+                            line: 1,
+                            column: 1,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "unused-1",
+                            type: "enable",
+                            line: 3,
+                            column: 1,
+                            justification: "j2"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "unused-2",
+                            type: "enable",
+                            line: 4,
+                            column: 1,
+                            justification: "j3"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "used",
+                            type: "enable",
+                            line: 5,
+                            column: 1,
+                            justification: "j4"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "unused-3",
+                            type: "enable",
+                            line: 6,
+                            column: 1,
+                            justification: "j5"
+                        }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "used" }],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        line: 2,
+                        column: 1,
+                        ruleId: "used",
+                        suppressions: [{ kind: "directive", justification: "j1" }]
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-1').",
+                        line: 3,
+                        column: 1,
+                        fix: {
+                            range: [17, 27],
+                            text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-2').",
+                        line: 4,
+                        column: 1,
+                        fix: {
+                            range: [25, 35],
+                            text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    },
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-3').",
+                        line: 6,
+                        column: 1,
+                        fix: {
+                            range: [41, 51],
+                            text: ""
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-enable unused-1, unused-2 */", () => {
+            const parentComment = createParentComment([0, 39], " eslint-enable unused-1, unused-2 ", ["unused-1", "unused-2"]);
+
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment,
+                            ruleId: "unused-1",
+                            type: "enable",
+                            line: 1,
+                            column: 18,
+                            justification: "j1"
+                        },
+                        {
+                            parentComment,
+                            ruleId: "unused-2",
+                            type: "enable",
+                            line: 1,
+                            column: 28,
+                            justification: "j2"
+                        }
+                    ],
+                    problems: [],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-1' or 'unused-2').",
+                        line: 1,
+                        column: 18,
+                        fix: {
+                            range: [0, 39],
+                            text: " "
+                        },
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("Adds a problem for /* eslint-enable unused-1, unused-2, unused-3 */", () => {
+            const parentComment = createParentComment([0, 49], " eslint-enable unused-1, unused-2, unused-3 ", ["unused-1", "unused-2", "unused-3"]);
+
+            assert.deepStrictEqual(
+                applyDisableDirectives({
+                    directives: [
+                        {
+                            parentComment,
+                            ruleId: "unused-1",
+                            type: "enable",
+                            line: 1,
+                            column: 18
+                        },
+                        {
+                            parentComment,
+                            ruleId: "unused-2",
+                            type: "enable",
+                            line: 1,
+                            column: 28
+                        },
+                        {
+                            parentComment,
+                            ruleId: "unused-3",
+                            type: "enable",
+                            line: 1,
+                            column: 38
+                        }
+                    ],
+                    problems: [],
+                    reportUnusedDisableDirectives: "error"
+                }),
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-1', 'unused-2', or 'unused-3').",
+                        line: 1,
+                        column: 18,
+                        fix: {
+                            range: [0, 49],
+                            text: " "
                         },
                         severity: 2,
                         nodeType: null

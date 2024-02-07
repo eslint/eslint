@@ -1,6 +1,5 @@
 ---
 title: space-before-keywords
-layout: doc
 
 related_rules:
 - space-after-keywords
@@ -12,9 +11,11 @@ related_rules:
 
 Enforces consistent spacing before keywords.
 
-(removed) This rule was **removed** in ESLint v2.0 and **replaced** by the [keyword-spacing](keyword-spacing) rule.
+::: important
+This rule was removed in ESLint v2.0.0 and replaced by the [keyword-spacing](keyword-spacing) rule.
+:::
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#--fix) automatically fixed problems reported by this rule.
+(fixable) The `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixed problems reported by this rule.
 
 Keywords are syntax elements of JavaScript, such as `function` and `if`. These identifiers have special meaning to the language and so often appear in a different color in code editors. As an important part of the language, style guides often refer to the spacing that should be used around keywords. For example, you might have a style guide that says keywords should be always be preceded by spaces, which would mean `if-else` statements must look like this:
 
@@ -56,7 +57,7 @@ if (foo) {
 
 const foo = 'bar';let baz = 'qux';
 
-var foo =function bar () {}
+var qux =function bar () {}
 
 function bar() {
     if (foo) {return; }
@@ -67,7 +68,7 @@ function bar() {
 
 Examples of **correct** code for this rule with the default `"always"` option:
 
-::: correct
+::: correct { "ecmaFeatures": { "jsx": true } }
 
 ```js
 /*eslint space-before-keywords: ["error", "always"]*/
@@ -77,7 +78,7 @@ if (foo) {
     // ...
 } else {}
 
-(function() {})()
+(function() {})();
 
 <Foo onClick={function bar() {}} />
 

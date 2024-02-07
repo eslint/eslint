@@ -1,6 +1,5 @@
 ---
 title: no-ternary
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-nested-ternary

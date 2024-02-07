@@ -15,9 +15,12 @@ module.exports = {
         schema: [],
     },
     create(context) {
+
+        const sourceCode = context.sourceCode;
+
         return {
-            "Program": function(node) {
-                var globals = context.getScope().variables.map(function (variable) {
+            "Program"(node) {
+                var globals = sourceCode.getScope(node).variables.map(function (variable) {
                     return variable.name;
                 });
 

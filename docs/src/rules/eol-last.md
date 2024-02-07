@@ -1,10 +1,9 @@
 ---
 title: eol-last
-layout: doc
 rule_type: layout
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/eol-last) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Trailing newlines in non-empty files are a common UNIX idiom. Benefits of
 trailing newlines include the ability to concatenate or append to files as well
@@ -43,7 +42,8 @@ Examples of **correct** code for this rule:
 
 function doSomething() {
   var foo = 2;
-}\n
+}
+
 ```
 
 :::

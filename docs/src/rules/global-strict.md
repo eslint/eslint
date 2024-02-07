@@ -1,12 +1,13 @@
 ---
 title: global-strict
-layout: doc
 
 ---
 
 Requires or disallows strict mode directives in the global scope.
 
-(removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [strict](strict) rule. The `"global"` option in the new rule is most similar to the removed rule.
+::: important
+This rule was removed in ESLint v1.0.0 and replaced by the [strict](strict) rule. The `"global"` option in the new rule is most similar to the removed rule.
+:::
 
 Strict mode is enabled by using the following pragma in your code:
 

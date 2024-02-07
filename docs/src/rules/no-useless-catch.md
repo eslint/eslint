@@ -1,6 +1,5 @@
 ---
 title: no-useless-catch
-layout: doc
 rule_type: suggestion
 ---
 

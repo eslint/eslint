@@ -1,13 +1,12 @@
 ---
 title: padded-blocks
-layout: doc
 rule_type: layout
 related_rules:
 - lines-between-class-members
 - padding-line-between-statements
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/padded-blocks) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Some style guides require block statements to start and end with blank lines. The goal is
 to improve readability by visually separating the block content and the surrounding code.

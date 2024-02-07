@@ -1,6 +1,5 @@
 ---
 title: no-new-func
-layout: doc
 rule_type: suggestion
 ---
 

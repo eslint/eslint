@@ -1,6 +1,5 @@
 ---
 title: no-div-regex
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-control-regex
@@ -9,7 +8,7 @@ related_rules:
 
 
 
-Require regex literals to escape division operators.
+Characters `/=` at the beginning of a regular expression literal can be confused with a division assignment operator.
 
 ```js
 function bar() { return /=foo/; }
@@ -17,7 +16,7 @@ function bar() { return /=foo/; }
 
 ## Rule Details
 
-This is used to disambiguate the division operator to not confuse users.
+This rule forbids equal signs (`=`) after the slash (`/`) at the beginning of a regular expression literal, because the characters `/=` can be confused with a division assignment operator.
 
 Examples of **incorrect** code for this rule:
 

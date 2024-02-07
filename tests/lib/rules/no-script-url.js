@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-script-url"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -25,15 +25,15 @@ ruleTester.run("no-script-url", rule, {
         "var url = 'xjavascript:'",
         {
             code: "var url = `xjavascript:`",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var url = `${foo}javascript:`",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var a = foo`javaScript:`;",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -51,14 +51,14 @@ ruleTester.run("no-script-url", rule, {
         },
         {
             code: "var a = `javascript:`;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpectedScriptURL", type: "TemplateLiteral" }
             ]
         },
         {
             code: "var a = `JavaScript:`;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpectedScriptURL", type: "TemplateLiteral" }
             ]

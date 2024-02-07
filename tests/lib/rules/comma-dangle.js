@@ -12,7 +12,7 @@
 const path = require("path"),
     { unIndent } = require("../../_utils"),
     rule = require("../../../lib/rules/comma-dangle"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -21,43 +21,54 @@ const path = require("path"),
 /**
  * Gets the path to the parser of the given name.
  * @param {string} name The name of a parser to get.
- * @returns {string} The path to the specified parser.
+ * @returns {Object} The parser object.
  */
 function parser(name) {
-    return path.resolve(
+    return require(path.resolve(
         __dirname,
         `../../fixtures/parsers/comma-dangle/${name}.js`
-    );
+    ));
 }
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    plugins: {
+        custom: {
+            rules: {
+                "add-named-import": {
+                    meta: {
+                        fixable: "code"
+                    },
+                    create(context) {
+                        return {
+                            ImportDeclaration(node) {
+                                const sourceCode = context.sourceCode;
+                                const closingBrace = sourceCode.getLastToken(node, token => token.value === "}");
+                                const addComma = sourceCode.getTokenBefore(closingBrace).value !== ",";
 
-ruleTester.defineRule("add-named-import", {
-    meta: {
-        fixable: "code"
-    },
-    create(context) {
-        return {
-            ImportDeclaration(node) {
-                const sourceCode = context.getSourceCode();
-                const closingBrace = sourceCode.getLastToken(node, token => token.value === "}");
-                const addComma = sourceCode.getTokenBefore(closingBrace).value !== ",";
-
-                context.report({
-                    message: "Add I18nManager.",
-                    node,
-                    fix(fixer) {
-                        return fixer.insertTextBefore(closingBrace, `${addComma ? "," : ""}I18nManager`);
+                                context.report({
+                                    message: "Add I18nManager.",
+                                    node,
+                                    fix(fixer) {
+                                        return fixer.insertTextBefore(closingBrace, `${addComma ? "," : ""}I18nManager`);
+                                    }
+                                });
+                            }
+                        };
                     }
-                });
+                }
             }
-        };
+        }
+    },
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
     }
 });
+
 
 ruleTester.run("comma-dangle", rule, {
     valid: [
@@ -75,10 +86,10 @@ ruleTester.run("comma-dangle", rule, {
         { code: "var foo = { bar: 'baz' }", options: ["never"] },
         { code: "var foo = {\nbar: 'baz'\n}", options: ["never"] },
         { code: "var foo = [ 'baz' ]", options: ["never"] },
-        { code: "var { a, b } = foo;", options: ["never"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var [ a, b ] = foo;", options: ["never"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var { a,\n b, \n} = foo;", options: ["only-multiline"], parserOptions: { ecmaVersion: 6 } },
-        { code: "var [ a,\n b, \n] = foo;", options: ["only-multiline"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var { a, b } = foo;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var [ a, b ] = foo;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var { a,\n b, \n} = foo;", options: ["only-multiline"], languageOptions: { ecmaVersion: 6 } },
+        { code: "var [ a,\n b, \n] = foo;", options: ["only-multiline"], languageOptions: { ecmaVersion: 6 } },
 
         { code: "[(1),]", options: ["always"] },
         { code: "var x = { foo: (1),};", options: ["always"] },
@@ -118,146 +129,146 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var [a, ...rest] = [];",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\n    a,\n    ...rest\n] = [];",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\n    a,\n    ...rest\n] = [];",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\n    a,\n    ...rest\n] = [];",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "[a, ...rest] = [];",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "for ([a, ...rest] of []);",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var a = [b, ...spread,];",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // https://github.com/eslint/eslint/issues/7297
         {
             code: "var {foo, ...bar} = baz",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
 
         // https://github.com/eslint/eslint/issues/3794
         {
             code: "import {foo,} from 'foo';",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import foo from 'foo';",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import foo, {abc,} from 'foo';",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import * as foo from 'foo';",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export {foo,} from 'foo';",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {foo} from 'foo';",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import foo from 'foo';",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import foo, {abc} from 'foo';",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import * as foo from 'foo';",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export {foo} from 'foo';",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {foo} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {foo} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export {foo} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export {foo} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {\n  foo,\n} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {\n  foo,\n} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export {\n  foo,\n} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export {\n  foo,\n} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {foo} from \n'foo';",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {foo} from \n'foo';",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "function foo(a) {}",
@@ -280,6 +291,14 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always-multiline"]
         },
         {
+            code: "foo(a,\nb\n)",
+            options: ["always-multiline"]
+        },
+        {
+            code: "function foo(a,\nb\n) {}",
+            options: ["always-multiline"]
+        },
+        {
             code: "foo(a,\nb)",
             options: ["always-multiline"]
         },
@@ -294,222 +313,273 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "function foo(a) {}",
             options: ["always"],
-            parserOptions: { ecmaVersion: 7 }
+            languageOptions: { ecmaVersion: 7 }
         },
         {
             code: "foo(a)",
             options: ["always"],
-            parserOptions: { ecmaVersion: 7 }
+            languageOptions: { ecmaVersion: 7 }
         },
         {
             code: "function foo(a) {}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 7 }
+            languageOptions: { ecmaVersion: 7 }
         },
         {
             code: "foo(a)",
             options: ["never"],
-            parserOptions: { ecmaVersion: 7 }
+            languageOptions: { ecmaVersion: 7 }
         },
         {
             code: "function foo(a,\nb) {}",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 7 }
+            languageOptions: { ecmaVersion: 7 }
         },
         {
             code: "foo(a,\nb)",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 7 }
+            languageOptions: { ecmaVersion: 7 }
+        },
+        {
+            code: "function foo(a,\nb\n) {}",
+            options: ["always-multiline"],
+            languageOptions: { ecmaVersion: 7 }
+        },
+        {
+            code: "foo(a,\nb\n)",
+            options: ["always-multiline"],
+            languageOptions: { ecmaVersion: 7 }
         },
         {
             code: "function foo(a,\nb) {}",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 7 }
+            languageOptions: { ecmaVersion: 7 }
         },
         {
             code: "foo(a,\nb)",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 7 }
+            languageOptions: { ecmaVersion: 7 }
         },
         {
             code: "function foo(a) {}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(a)",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function foo(a,) {}",
             options: ["always"],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(a,)",
             options: ["always"],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function foo(\na,\nb,\n) {}",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(\na,b)",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function foo(a,b) {}",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(a,b)",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function foo(a,b) {}",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(a,b)",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
 
         // trailing comma in functions
         {
             code: "function foo(a) {} ",
             options: [{}],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(a)",
             options: [{}],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function foo(a) {} ",
             options: [{ functions: "never" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(a)",
             options: [{ functions: "never" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function foo(a,) {}",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function bar(a, ...b) {}",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(a,)",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(a,)",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 9 }
+            languageOptions: { ecmaVersion: 9 }
         },
         {
             code: "bar(...a,)",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function foo(a) {} ",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(a)",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function foo(\na,\nb,\n) {} ",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function foo(\na,\n...b\n) {} ",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(\na,\nb,\n)",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(\na,\n...b,\n)",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function foo(a) {} ",
             options: [{ functions: "only-multiline" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(a)",
             options: [{ functions: "only-multiline" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function foo(\na,\nb,\n) {} ",
             options: [{ functions: "only-multiline" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(\na,\nb,\n)",
             options: [{ functions: "only-multiline" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "function foo(\na,\nb\n) {} ",
             options: [{ functions: "only-multiline" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo(\na,\nb\n)",
             options: [{ functions: "only-multiline" }],
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
 
         // https://github.com/eslint/eslint/issues/7370
         {
             code: "function foo({a}: {a: string,}) {}",
             options: ["never"],
-            parser: parser("object-pattern-1")
+            languageOptions: {
+                parser: parser("object-pattern-1")
+            }
         },
         {
             code: "function foo({a,}: {a: string}) {}",
             options: ["always"],
-            parser: parser("object-pattern-2")
+            languageOptions: {
+                parser: parser("object-pattern-2")
+            }
         },
         {
             code: "function foo(a): {b: boolean,} {}",
             options: [{ functions: "never" }],
-            parser: parser("return-type-1")
+            languageOptions: {
+                parser: parser("return-type-1")
+            }
         },
         {
             code: "function foo(a,): {b: boolean} {}",
             options: [{ functions: "always" }],
-            parser: parser("return-type-2")
+            languageOptions: {
+                parser: parser("return-type-2")
+            }
+        },
+
+        // https://github.com/eslint/eslint/issues/16442
+        {
+            code: "function f(\n a,\n b\n) {}",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: 5,
+                sourceType: "script"
+            }
+        },
+        {
+            code: "f(\n a,\n b\n);",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: 5,
+                sourceType: "script"
+            }
+        },
+        {
+            code: "function f(\n a,\n b\n) {}",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: 2016
+            }
+        },
+        {
+            code: "f(\n a,\n b\n);",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: 2016
+            }
         }
+
     ],
     invalid: [
         {
@@ -1020,7 +1090,7 @@ ruleTester.run("comma-dangle", rule, {
             code: "var { a, b, } = foo;",
             output: "var { a, b } = foo;",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpected",
@@ -1034,7 +1104,7 @@ ruleTester.run("comma-dangle", rule, {
             code: "var { a, b, } = foo;",
             output: "var { a, b } = foo;",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpected",
@@ -1048,7 +1118,7 @@ ruleTester.run("comma-dangle", rule, {
             code: "var [ a, b, ] = foo;",
             output: "var [ a, b ] = foo;",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpected",
@@ -1062,7 +1132,7 @@ ruleTester.run("comma-dangle", rule, {
             code: "var [ a, b, ] = foo;",
             output: "var [ a, b ] = foo;",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpected",
@@ -1130,91 +1200,91 @@ ruleTester.run("comma-dangle", rule, {
             code: "import {foo} from 'foo';",
             output: "import {foo,} from 'foo';",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "missing", type: "ImportSpecifier" }]
         },
         {
             code: "import foo, {abc} from 'foo';",
             output: "import foo, {abc,} from 'foo';",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "missing", type: "ImportSpecifier" }]
         },
         {
             code: "export {foo} from 'foo';",
             output: "export {foo,} from 'foo';",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "missing", type: "ExportSpecifier" }]
         },
         {
             code: "import {foo,} from 'foo';",
             output: "import {foo} from 'foo';",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "import {foo,} from 'foo';",
             output: "import {foo} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "import foo, {abc,} from 'foo';",
             output: "import foo, {abc} from 'foo';",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "import foo, {abc,} from 'foo';",
             output: "import foo, {abc} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "export {foo,} from 'foo';",
             output: "export {foo} from 'foo';",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ExportSpecifier" }]
         },
         {
             code: "export {foo,} from 'foo';",
             output: "export {foo} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ExportSpecifier" }]
         },
         {
             code: "import {foo,} from 'foo';",
             output: "import {foo} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "export {foo,} from 'foo';",
             output: "export {foo} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ExportSpecifier" }]
         },
         {
             code: "import {\n  foo\n} from 'foo';",
             output: "import {\n  foo,\n} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "missing", type: "ImportSpecifier" }]
         },
         {
             code: "export {\n  foo\n} from 'foo';",
             output: "export {\n  foo,\n} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "missing", type: "ExportSpecifier" }]
         },
 
@@ -1243,56 +1313,56 @@ ruleTester.run("comma-dangle", rule, {
             code: "function foo(a,) {}",
             output: "function foo(a) {}",
             options: [{ functions: "never" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(function foo(a,) {})",
             output: "(function foo(a) {})",
             options: [{ functions: "never" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(a,) => a",
             output: "(a) => a",
             options: [{ functions: "never" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(a,) => (a)",
             output: "(a) => (a)",
             options: [{ functions: "never" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "({foo(a,) {}})",
             output: "({foo(a) {}})",
             options: [{ functions: "never" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "class A {foo(a,) {}}",
             output: "class A {foo(a) {}}",
             options: [{ functions: "never" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(a,)",
             output: "foo(a)",
             options: [{ functions: "never" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(...a,)",
             output: "foo(...a)",
             options: [{ functions: "never" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "SpreadElement" }]
         },
 
@@ -1300,56 +1370,56 @@ ruleTester.run("comma-dangle", rule, {
             code: "function foo(a) {}",
             output: "function foo(a,) {}",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "(function foo(a) {})",
             output: "(function foo(a,) {})",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "(a) => a",
             output: "(a,) => a",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "(a) => (a)",
             output: "(a,) => (a)",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "({foo(a) {}})",
             output: "({foo(a,) {}})",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "class A {foo(a) {}}",
             output: "class A {foo(a,) {}}",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "foo(a)",
             output: "foo(a,)",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "foo(...a)",
             output: "foo(...a,)",
             options: [{ functions: "always" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "SpreadElement" }]
         },
 
@@ -1357,49 +1427,49 @@ ruleTester.run("comma-dangle", rule, {
             code: "function foo(a,) {}",
             output: "function foo(a) {}",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(function foo(a,) {})",
             output: "(function foo(a) {})",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(a,)",
             output: "foo(a)",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(...a,)",
             output: "foo(...a)",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "SpreadElement" }]
         },
         {
             code: "function foo(\na,\nb\n) {}",
             output: "function foo(\na,\nb,\n) {}",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "foo(\na,\nb\n)",
             output: "foo(\na,\nb,\n)",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "foo(\n...a,\n...b\n)",
             output: "foo(\n...a,\n...b,\n)",
             options: [{ functions: "always-multiline" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "SpreadElement" }]
         },
 
@@ -1407,84 +1477,84 @@ ruleTester.run("comma-dangle", rule, {
             code: "function foo(a,) {}",
             output: "function foo(a) {}",
             options: [{ functions: "only-multiline" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(function foo(a,) {})",
             output: "(function foo(a) {})",
             options: [{ functions: "only-multiline" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(a,)",
             output: "foo(a)",
             options: [{ functions: "only-multiline" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(...a,)",
             output: "foo(...a)",
             options: [{ functions: "only-multiline" }],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "SpreadElement" }]
         },
         {
             code: "function foo(a,) {}",
             output: "function foo(a) {}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(function foo(a,) {})",
             output: "(function foo(a) {})",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(a,) => a",
             output: "(a) => a",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(a,) => (a)",
             output: "(a) => (a)",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "({foo(a,) {}})",
             output: "({foo(a) {}})",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "class A {foo(a,) {}}",
             output: "class A {foo(a) {}}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(a,)",
             output: "foo(a)",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(...a,)",
             output: "foo(...a)",
             options: ["never"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "SpreadElement" }]
         },
 
@@ -1492,35 +1562,35 @@ ruleTester.run("comma-dangle", rule, {
             code: "function foo(a) {}",
             output: "function foo(a,) {}",
             options: ["always"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "(function foo(a) {})",
             output: "(function foo(a,) {})",
             options: ["always"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "(a) => a",
             output: "(a,) => a",
             options: ["always"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "(a) => (a)",
             output: "(a,) => (a)",
             options: ["always"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "({foo(a) {}})",
             output: "({foo(a,) {},})",
             options: ["always"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [
                 { messageId: "missing", type: "Identifier" },
                 { messageId: "missing", type: "Property" }
@@ -1530,21 +1600,21 @@ ruleTester.run("comma-dangle", rule, {
             code: "class A {foo(a) {}}",
             output: "class A {foo(a,) {}}",
             options: ["always"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "foo(a)",
             output: "foo(a,)",
             options: ["always"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "foo(...a)",
             output: "foo(...a,)",
             options: ["always"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "SpreadElement" }]
         },
 
@@ -1552,49 +1622,49 @@ ruleTester.run("comma-dangle", rule, {
             code: "function foo(a,) {}",
             output: "function foo(a) {}",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(function foo(a,) {})",
             output: "(function foo(a) {})",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(a,)",
             output: "foo(a)",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(...a,)",
             output: "foo(...a)",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "SpreadElement" }]
         },
         {
             code: "function foo(\na,\nb\n) {}",
             output: "function foo(\na,\nb,\n) {}",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "foo(\na,\nb\n)",
             output: "foo(\na,\nb,\n)",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "foo(\n...a,\n...b\n)",
             output: "foo(\n...a,\n...b,\n)",
             options: ["always-multiline"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing", type: "SpreadElement" }]
         },
 
@@ -1602,35 +1672,35 @@ ruleTester.run("comma-dangle", rule, {
             code: "function foo(a,) {}",
             output: "function foo(a) {}",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(function foo(a,) {})",
             output: "(function foo(a) {})",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(a,)",
             output: "foo(a)",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(...a,)",
             output: "foo(...a)",
             options: ["only-multiline"],
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected", type: "SpreadElement" }]
         },
         {
             code: "function foo(a) {}",
             output: "function foo(a,) {}",
             options: ["always"],
-            parserOptions: { ecmaVersion: 9 },
+            languageOptions: { ecmaVersion: 9 },
             errors: [{ messageId: "missing", type: "Identifier" }]
         },
 
@@ -1653,7 +1723,7 @@ let d = 0;export {d,};
                 exports: "ignore",
                 functions: "ignore"
             }],
-            parserOptions: { ecmaVersion: 8, sourceType: "module" },
+            languageOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
                 { messageId: "unexpected", line: 1 },
                 { messageId: "unexpected", line: 1 }
@@ -1677,7 +1747,7 @@ let d = 0;export {d,};
                 exports: "ignore",
                 functions: "ignore"
             }],
-            parserOptions: { ecmaVersion: 8, sourceType: "module" },
+            languageOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
                 { messageId: "unexpected", line: 2 },
                 { messageId: "unexpected", line: 2 }
@@ -1701,7 +1771,7 @@ let d = 0;export {d,};
                 exports: "ignore",
                 functions: "ignore"
             }],
-            parserOptions: { ecmaVersion: 8, sourceType: "module" },
+            languageOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
                 { messageId: "unexpected", line: 3 }
             ]
@@ -1724,7 +1794,7 @@ let d = 0;export {d};
                 exports: "never",
                 functions: "ignore"
             }],
-            parserOptions: { ecmaVersion: 8, sourceType: "module" },
+            languageOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
                 { messageId: "unexpected", line: 4 }
             ]
@@ -1747,7 +1817,7 @@ let d = 0;export {d,};
                 exports: "ignore",
                 functions: "never"
             }],
-            parserOptions: { ecmaVersion: 8, sourceType: "module" },
+            languageOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
                 { messageId: "unexpected", line: 5 },
                 { messageId: "unexpected", line: 5 }
@@ -1759,28 +1829,36 @@ let d = 0;export {d,};
             code: "function foo({a}: {a: string,}) {}",
             output: "function foo({a,}: {a: string,}) {}",
             options: ["always"],
-            parser: parser("object-pattern-1"),
+            languageOptions: {
+                parser: parser("object-pattern-1")
+            },
             errors: [{ messageId: "missing" }]
         },
         {
             code: "function foo({a,}: {a: string}) {}",
             output: "function foo({a}: {a: string}) {}",
             options: ["never"],
-            parser: parser("object-pattern-2"),
+            languageOptions: {
+                parser: parser("object-pattern-2")
+            },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "function foo(a): {b: boolean,} {}",
             output: "function foo(a,): {b: boolean,} {}",
             options: [{ functions: "always" }],
-            parser: parser("return-type-1"),
+            languageOptions: {
+                parser: parser("return-type-1")
+            },
             errors: [{ messageId: "missing" }]
         },
         {
             code: "function foo(a,): {b: boolean} {}",
             output: "function foo(a): {b: boolean} {}",
             options: [{ functions: "never" }],
-            parser: parser("return-type-2"),
+            languageOptions: {
+                parser: parser("return-type-2")
+            },
             errors: [{ messageId: "unexpected" }]
         },
 
@@ -1788,14 +1866,14 @@ let d = 0;export {d,};
         {
             code: "foo(a,)",
             output: "foo(a)",
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected" }]
         },
 
         // https://github.com/eslint/eslint/issues/15660
         {
             code: unIndent`
-                /*eslint add-named-import:1*/
+                /*eslint custom/add-named-import:1*/
                 import {
                     StyleSheet,
                     View,
@@ -1807,7 +1885,7 @@ let d = 0;export {d,};
                 } from 'react-native';
             `,
             output: unIndent`
-                /*eslint add-named-import:1*/
+                /*eslint custom/add-named-import:1*/
                 import {
                     StyleSheet,
                     View,
@@ -1819,12 +1897,12 @@ let d = 0;export {d,};
                 } from 'react-native';
             `,
             options: [{ imports: "always-multiline" }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: 2
         },
         {
             code: unIndent`
-                /*eslint add-named-import:1*/
+                /*eslint custom/add-named-import:1*/
                 import {
                     StyleSheet,
                     View,
@@ -1836,7 +1914,7 @@ let d = 0;export {d,};
                 } from 'react-native';
             `,
             output: unIndent`
-                /*eslint add-named-import:1*/
+                /*eslint custom/add-named-import:1*/
                 import {
                     StyleSheet,
                     View,
@@ -1848,8 +1926,66 @@ let d = 0;export {d,};
                 } from 'react-native';
             `,
             options: [{ imports: "never" }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: 2
+        },
+
+        // https://github.com/eslint/eslint/issues/16442
+        {
+            code: "function f(\n a,\n b\n) {}",
+            output: "function f(\n a,\n b,\n) {}",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: 2017
+            },
+            errors: [{
+                messageId: "missing",
+                type: "Identifier",
+                line: 3,
+                column: 3
+            }]
+        },
+        {
+            code: "f(\n a,\n b\n);",
+            output: "f(\n a,\n b,\n);",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: 2017
+            },
+            errors: [{
+                messageId: "missing",
+                type: "Identifier",
+                line: 3,
+                column: 3
+            }]
+        },
+        {
+            code: "function f(\n a,\n b\n) {}",
+            output: "function f(\n a,\n b,\n) {}",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: "latest"
+            },
+            errors: [{
+                messageId: "missing",
+                type: "Identifier",
+                line: 3,
+                column: 3
+            }]
+        },
+        {
+            code: "f(\n a,\n b\n);",
+            output: "f(\n a,\n b,\n);",
+            options: ["always-multiline"],
+            languageOptions: {
+                ecmaVersion: "latest"
+            },
+            errors: [{
+                messageId: "missing",
+                type: "Identifier",
+                line: 3,
+                column: 3
+            }]
         }
     ]
 });

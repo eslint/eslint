@@ -1,6 +1,5 @@
 ---
 title: no-var
-layout: doc
 rule_type: suggestion
 ---
 

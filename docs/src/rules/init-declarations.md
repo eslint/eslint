@@ -1,6 +1,5 @@
 ---
 title: init-declarations
-layout: doc
 rule_type: suggestion
 ---
 

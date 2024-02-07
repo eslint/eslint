@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/vars-on-top"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -143,7 +143,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   i = i + 1;",
                 "}"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
@@ -151,21 +151,21 @@ ruleTester.run("vars-on-top", rule, {
         "'use strict'; 'directive'; var x; var y; f();",
         "function f() { 'use strict'; var x; f(); }",
         "function f() { 'use strict'; 'directive'; var x; var y; f(); }",
-        { code: "import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "'use strict'; import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import React from 'react'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import * as foo from 'mod.js'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import { square, diag } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import { default as foo } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import theDefault, { named1, named2 } from 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "'use strict'; import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import React from 'react'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import * as foo from 'mod.js'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { square, diag } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { default as foo } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import theDefault, { named1, named2 } from 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         {
             code: [
                 "export var x;",
                 "var y;",
                 "var z;"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
             }
@@ -176,7 +176,7 @@ ruleTester.run("vars-on-top", rule, {
                 "export var y;",
                 "var z;"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
             }
@@ -187,7 +187,7 @@ ruleTester.run("vars-on-top", rule, {
                 "var y;",
                 "export var z;"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
             }
@@ -200,7 +200,7 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
@@ -213,7 +213,7 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
@@ -226,7 +226,7 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
@@ -240,7 +240,7 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
@@ -253,7 +253,7 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
@@ -266,7 +266,7 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         }
@@ -430,7 +430,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   }",
                 "}"
             ].join("\n"),
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [error]
         },
         {
@@ -454,7 +454,7 @@ ruleTester.run("vars-on-top", rule, {
                 "export function f() {}",
                 "var x;"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
             },
@@ -466,7 +466,7 @@ ruleTester.run("vars-on-top", rule, {
                 "export function f() {}",
                 "var y;"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
             },
@@ -478,7 +478,7 @@ ruleTester.run("vars-on-top", rule, {
                 "export {foo};",
                 "var test = 1;"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
             },
@@ -489,7 +489,7 @@ ruleTester.run("vars-on-top", rule, {
                 "export {foo} from 'foo';",
                 "var test = 1;"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
             },
@@ -500,7 +500,7 @@ ruleTester.run("vars-on-top", rule, {
                 "export * from 'foo';",
                 "var test = 1;"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
             },
@@ -515,7 +515,7 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             },
             errors: [error]
@@ -529,7 +529,7 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             },
             errors: [error]
@@ -544,7 +544,7 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             },
             errors: [{ ...error, line: 5 }]
@@ -559,7 +559,7 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             },
             errors: [error]
@@ -573,7 +573,7 @@ ruleTester.run("vars-on-top", rule, {
                 "    }",
                 "}"
             ].join("\n"),
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             },
             errors: [error]

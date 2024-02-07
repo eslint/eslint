@@ -1,6 +1,5 @@
 ---
 title: default-param-last
-layout: doc
 rule_type: suggestion
 ---
 
@@ -29,7 +28,7 @@ Examples of **incorrect** code for this rule:
 
 function f(a = 0, b) {}
 
-function f(a, b = 0, c) {}
+function g(a, b = 0, c) {}
 ```
 
 :::

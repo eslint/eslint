@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/prefer-numeric-literals"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2021 } });
 
 ruleTester.run("prefer-numeric-literals", rule, {
     valid: [
@@ -41,27 +41,27 @@ ruleTester.run("prefer-numeric-literals", rule, {
         "parseInt(`11${foo}`, 2);",
         {
             code: "parseInt('11', 2n);",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "Number.parseInt('11', 8n);",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "parseInt('11', 16n);",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "parseInt(`11`, 16n);",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "parseInt(1n, 2);",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "class C { #parseInt; foo() { Number.#parseInt(\"111110111\", 2); } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -178,37 +178,37 @@ ruleTester.run("prefer-numeric-literals", rule, {
         {
             code: "function *f(){ yield(Number).parseInt('11', 2) }",
             output: "function *f(){ yield 0b11 }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ message: "Use binary literals instead of (Number).parseInt()." }]
         },
         {
             code: "function *f(){ yield(Number.parseInt)('67', 8) }",
             output: "function *f(){ yield 0o67 }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ message: "Use octal literals instead of Number.parseInt()." }]
         },
         {
             code: "function *f(){ yield(parseInt)('A', 16) }",
             output: "function *f(){ yield 0xA }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
         },
         {
             code: "function *f(){ yield Number.parseInt('11', 2) }",
             output: "function *f(){ yield 0b11 }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ message: "Use binary literals instead of Number.parseInt()." }]
         },
         {
             code: "function *f(){ yield/**/Number.parseInt('67', 8) }",
             output: "function *f(){ yield/**/0o67 }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ message: "Use octal literals instead of Number.parseInt()." }]
         },
         {
             code: "function *f(){ yield(parseInt('A', 16)) }",
             output: "function *f(){ yield(0xA) }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
         },
         {

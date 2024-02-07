@@ -1,6 +1,5 @@
 ---
 title: require-yield
-layout: doc
 rule_type: suggestion
 related_rules:
 - require-await
@@ -42,12 +41,12 @@ function* foo() {
   return 10;
 }
 
-function foo() {
+function bar() {
   return 10;
 }
 
 // This rule does not warn on empty generator functions.
-function* foo() { }
+function* baz() { }
 ```
 
 :::

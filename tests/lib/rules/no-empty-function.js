@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-empty-function"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -39,28 +39,28 @@ const ALLOW_OPTIONS = Object.freeze([
 function toValidInvalid(patterns, item) {
 
     const ecmaVersion =
-        item.parserOptions && item.parserOptions.ecmaVersion
-            ? item.parserOptions.ecmaVersion
+        item.languageOptions && item.languageOptions.ecmaVersion
+            ? item.languageOptions.ecmaVersion
             : 6;
 
     // Valid Patterns
     patterns.valid.push(
         {
             code: item.code.replace("{}", "{ bar(); }"),
-            parserOptions: { ecmaVersion }
+            languageOptions: { ecmaVersion }
         },
         {
             code: item.code.replace("{}", "{ /* empty */ }"),
-            parserOptions: { ecmaVersion }
+            languageOptions: { ecmaVersion }
         },
         {
             code: item.code.replace("{}", "{\n    // empty\n}"),
-            parserOptions: { ecmaVersion }
+            languageOptions: { ecmaVersion }
         },
         {
             code: `${item.code} // allow: ${item.allow}`,
             options: [{ allow: [item.allow] }],
-            parserOptions: { ecmaVersion }
+            languageOptions: { ecmaVersion }
         }
     );
 
@@ -70,7 +70,7 @@ function toValidInvalid(patterns, item) {
     patterns.invalid.push({
         code: item.code,
         errors: [error],
-        parserOptions: { ecmaVersion }
+        languageOptions: { ecmaVersion }
     });
     ALLOW_OPTIONS
         .filter(allow => allow !== item.allow)
@@ -81,7 +81,7 @@ function toValidInvalid(patterns, item) {
                 code: `${item.code} // allow: ${allow}`,
                 errors: [error],
                 options: [{ allow: [allow] }],
-                parserOptions: { ecmaVersion }
+                languageOptions: { ecmaVersion }
             });
         });
 
@@ -274,41 +274,41 @@ ruleTester.run("no-empty-function", rule, [
         allow: "asyncMethods",
         messageId: "unexpected",
         data: { name: "async method 'method'" },
-        parserOptions: { ecmaVersion: 8 }
+        languageOptions: { ecmaVersion: 8 }
     },
     {
         code: "async function a(){}",
         allow: "asyncFunctions",
         messageId: "unexpected",
         data: { name: "async function 'a'" },
-        parserOptions: { ecmaVersion: 8 }
+        languageOptions: { ecmaVersion: 8 }
     },
     {
         code: "const foo = async function () {}",
         messageId: "unexpected",
         data: { name: "async function" },
         allow: "asyncFunctions",
-        parserOptions: { ecmaVersion: 8 }
+        languageOptions: { ecmaVersion: 8 }
     },
     {
         code: "class Foo { async bar() {} }",
         messageId: "unexpected",
         data: { name: "async method 'bar'" },
         allow: "asyncMethods",
-        parserOptions: { ecmaVersion: 8 }
+        languageOptions: { ecmaVersion: 8 }
     },
     {
         code: "const foo = async () => {};",
         messageId: "unexpected",
         data: { name: "async arrow function" },
         allow: "arrowFunctions",
-        parserOptions: { ecmaVersion: 8 }
+        languageOptions: { ecmaVersion: 8 }
     }
 ].reduce(toValidInvalid, {
     valid: [
         {
             code: "var foo = () => 0;",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }
 
     ],
@@ -339,7 +339,7 @@ ruleTester.run("no-empty-function", rule, [
         },
         {
             code: "var foo = () => { \n\n  }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { name: "arrow function" },
@@ -351,7 +351,7 @@ ruleTester.run("no-empty-function", rule, [
         },
         {
             code: "var obj = {\n\tfoo() {\n\t}\n}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { name: "method 'foo'" },
@@ -363,7 +363,7 @@ ruleTester.run("no-empty-function", rule, [
         },
         {
             code: "class A { foo() { } }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpected",
                 data: { name: "method 'foo'" },

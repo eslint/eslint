@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/eqeqeq"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -50,10 +50,10 @@ ruleTester.run("eqeqeq", rule, {
         { code: "null != null", options: ["always", { null: "never" }] },
 
         // https://github.com/eslint/eslint/issues/8020
-        { code: "foo === /abc/u", options: ["always", { null: "never" }], parserOptions: { ecmaVersion: 2015 } },
+        { code: "foo === /abc/u", options: ["always", { null: "never" }], languageOptions: { ecmaVersion: 2015 } },
 
         // bigint
-        { code: "foo === 1n", options: ["always", { null: "never" }], parserOptions: { ecmaVersion: 2020 } }
+        { code: "foo === 1n", options: ["always", { null: "never" }], languageOptions: { ecmaVersion: 2020 } }
     ],
     invalid: [
         { code: "a == b", errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },

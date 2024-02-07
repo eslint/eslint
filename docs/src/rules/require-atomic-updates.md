@@ -1,6 +1,5 @@
 ---
 title: require-atomic-updates
-layout: doc
 rule_type: problem
 ---
 

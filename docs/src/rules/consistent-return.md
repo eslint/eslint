@@ -1,6 +1,5 @@
 ---
 title: consistent-return
-layout: doc
 rule_type: suggestion
 ---
 
@@ -49,7 +48,7 @@ function doSomething(condition) {
     }
 }
 
-function doSomething(condition) {
+function doSomethingElse(condition) {
     if (condition) {
         return true;
     }

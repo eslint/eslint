@@ -1,13 +1,13 @@
-**Please describe what the rule should do:**
+**What should the new rule do?**
+
+**What new ECMAScript feature does this rule relate to? Note that we only accept new core rules related to new ECMAScript features.**
 
 **What category of rule is this (place an "X" next to just one item)?**
 
-[ ] Enforces code style
-[ ] Warns about a potential error
+[ ] Warns about a potential problem
 [ ] Suggests an alternate way of doing something
-[ ] Other (please specify:)
 
-**Provide 2-3 code examples that this rule will warn about:**
+**Please provide some example JavaScript code that this rule will warn about:**
 
 ```js
 <!-- put your code examples here -->

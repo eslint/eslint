@@ -1,6 +1,5 @@
 ---
 title: comma-style
-layout: doc
 rule_type: layout
 related_rules:
 - operator-linebreak
@@ -8,7 +7,7 @@ further_reading:
 - https://gist.github.com/isaacs/357981
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/comma-style) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 The Comma Style rule enforces styles for comma-separated lists. There are two comma styles primarily used in JavaScript:
 
@@ -70,7 +69,7 @@ var foo = 1
 var foo = ["apples"
            , "oranges"];
 
-function bar() {
+function baz() {
     return {
         "a": 1
         ,"b:": 2
@@ -95,7 +94,7 @@ var foo = 1,
 var foo = ["apples",
            "oranges"];
 
-function bar() {
+function baz() {
     return {
         "a": 1,
         "b:": 2
@@ -120,7 +119,7 @@ var foo = 1,
 var foo = ["apples",
            "oranges"];
 
-function bar() {
+function baz() {
     return {
         "a": 1,
         "b:": 2
@@ -145,7 +144,7 @@ var foo = 1
 var foo = ["apples"
           ,"oranges"];
 
-function bar() {
+function baz() {
     return {
         "a": 1
         ,"b:": 2

@@ -1,6 +1,5 @@
 ---
 title: use-isnan
-layout: doc
 rule_type: problem
 ---
 
@@ -225,6 +224,8 @@ var hasNaN = myArray.indexOf(NaN) >= 0;
 var firstIndex = myArray.indexOf(NaN);
 
 var lastIndex = myArray.lastIndexOf(NaN);
+
+var indexWithSequenceExpression = myArray.indexOf((doStuff(), NaN));
 ```
 
 :::

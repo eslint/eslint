@@ -1,6 +1,5 @@
 ---
 title: no-extend-native
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-global-assign

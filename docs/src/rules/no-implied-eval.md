@@ -1,6 +1,5 @@
 ---
 title: no-implied-eval
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-eval
@@ -36,6 +35,7 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-implied-eval: "error"*/
+/*eslint-env browser*/
 
 setTimeout("alert('Hi!');", 100);
 

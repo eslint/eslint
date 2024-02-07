@@ -1,12 +1,11 @@
 ---
 title: implicit-arrow-linebreak
-layout: doc
 rule_type: layout
 related_rules:
 - brace-style
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/implicit-arrow-linebreak) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 An arrow function body can contain an implicit return as an expression instead of a block body. It can be useful to enforce a consistent location for the implicitly returned expression.
 

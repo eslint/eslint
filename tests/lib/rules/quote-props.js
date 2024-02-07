@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/quote-props"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -29,14 +29,14 @@ ruleTester.run("quote-props", rule, {
         "({ 'if': 0 })",
         "({ '@': 0 })",
 
-        { code: "({ 'a': 0, b(){} })", parserOptions: { ecmaVersion: 6 } },
-        { code: "({ [x]: 0 });", env: { es6: true } },
-        { code: "({ x });", env: { es6: true } },
-        { code: "({ a: 0, b(){} })", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
-        { code: "({ a: 0, [x]: 1 })", options: ["as-needed"], env: { es6: true } },
-        { code: "({ a: 0, x })", options: ["as-needed"], env: { es6: true } },
-        { code: "({ '@': 0, [x]: 1 })", options: ["as-needed"], env: { es6: true } },
-        { code: "({ '@': 0, x })", options: ["as-needed"], env: { es6: true } },
+        { code: "({ 'a': 0, b(){} })", languageOptions: { ecmaVersion: 6 } },
+        { code: "({ [x]: 0 });", languageOptions: { ecmaVersion: 6 } },
+        { code: "({ x });", languageOptions: { ecmaVersion: 6 } },
+        { code: "({ a: 0, b(){} })", options: ["as-needed"], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ a: 0, [x]: 1 })", options: ["as-needed"], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ a: 0, x })", options: ["as-needed"], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ '@': 0, [x]: 1 })", options: ["as-needed"], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ '@': 0, x })", options: ["as-needed"], languageOptions: { ecmaVersion: 6 } },
         { code: "({ a: 0, b: 0 })", options: ["as-needed"] },
         { code: "({ a: 0, 0: 0 })", options: ["as-needed"] },
         { code: "({ a: 0, true: 0 })", options: ["as-needed"] },
@@ -56,18 +56,18 @@ ruleTester.run("quote-props", rule, {
         { code: "({ 'true': 0, 'b': 0 })", options: ["consistent"] },
         { code: "({ null: 0, a: 0 })", options: ["consistent"] },
         { code: "({ a: 0, b: 0 })", options: ["consistent"] },
-        { code: "({ 'a': 1, [x]: 0 });", options: ["consistent"], env: { es6: true } },
-        { code: "({ 'a': 1, x });", options: ["consistent"], env: { es6: true } },
+        { code: "({ 'a': 1, [x]: 0 });", options: ["consistent"], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ 'a': 1, x });", options: ["consistent"], languageOptions: { ecmaVersion: 6 } },
         { code: "({ a: 0, b: 0 })", options: ["consistent-as-needed"] },
         { code: "({ a: 0, null: 0 })", options: ["consistent-as-needed"] },
         { code: "({ 'a': 0, '-b': 0 })", options: ["consistent-as-needed"] },
         { code: "({ '@': 0, 'B': 0 })", options: ["consistent-as-needed"] },
         { code: "({ 'while': 0, 'B': 0 })", options: ["consistent-as-needed", { keywords: true }] },
         { code: "({ '@': 0, 'B': 0 })", options: ["consistent-as-needed", { keywords: true }] },
-        { code: "({ '@': 1, [x]: 0 });", options: ["consistent-as-needed"], env: { es6: true } },
-        { code: "({ '@': 1, x });", options: ["consistent-as-needed"], env: { es6: true } },
-        { code: "({ a: 1, [x]: 0 });", options: ["consistent-as-needed"], env: { es6: true } },
-        { code: "({ a: 1, x });", options: ["consistent-as-needed"], env: { es6: true } },
+        { code: "({ '@': 1, [x]: 0 });", options: ["consistent-as-needed"], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ '@': 1, x });", options: ["consistent-as-needed"], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ a: 1, [x]: 0 });", options: ["consistent-as-needed"], languageOptions: { ecmaVersion: 6 } },
+        { code: "({ a: 1, x });", options: ["consistent-as-needed"], languageOptions: { ecmaVersion: 6 } },
         { code: "({ a: 0, 'if': 0 })", options: ["as-needed", { keywords: true }] },
         { code: "({ a: 0, 'while': 0 })", options: ["as-needed", { keywords: true }] },
         { code: "({ a: 0, 'volatile': 0 })", options: ["as-needed", { keywords: true }] },
@@ -75,21 +75,21 @@ ruleTester.run("quote-props", rule, {
         { code: "({'1': 1})", options: ["as-needed", { numbers: true }] },
         { code: "({1: 1, x: 2})", options: ["consistent", { numbers: true }] },
         { code: "({1: 1, x: 2})", options: ["consistent-as-needed", { numbers: true }] },
-        { code: "({ ...x })", options: ["as-needed"], parserOptions: { ecmaVersion: 2018 } },
-        { code: "({ ...x })", options: ["consistent"], parserOptions: { ecmaVersion: 2018 } },
-        { code: "({ ...x })", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 2018 } },
-        { code: "({ 1n: 1 })", options: ["as-needed"], parserOptions: { ecmaVersion: 2020 } },
-        { code: "({ 1n: 1 })", options: ["as-needed", { numbers: false }], parserOptions: { ecmaVersion: 2020 } },
-        { code: "({ 1n: 1 })", options: ["consistent"], parserOptions: { ecmaVersion: 2020 } },
-        { code: "({ 1n: 1 })", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 2020 } },
-        { code: "({ '99999999999999999': 1 })", options: ["as-needed"], parserOptions: { ecmaVersion: 2020 } },
-        { code: "({ '1n': 1 })", options: ["as-needed"], parserOptions: { ecmaVersion: 2020 } },
-        { code: "({ 1_0: 1 })", options: ["as-needed"], parserOptions: { ecmaVersion: 2021 } },
-        { code: "({ 1_0: 1 })", options: ["as-needed", { numbers: false }], parserOptions: { ecmaVersion: 2021 } },
-        { code: "({ '1_0': 1 })", options: ["as-needed"], parserOptions: { ecmaVersion: 2021 } },
-        { code: "({ '1_0': 1 })", options: ["as-needed", { numbers: false }], parserOptions: { ecmaVersion: 2021 } },
-        { code: "({ '1_0': 1 })", options: ["as-needed", { numbers: true }], parserOptions: { ecmaVersion: 2021 } },
-        { code: "({ 1_0: 1, 1: 1 })", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 2021 } }
+        { code: "({ ...x })", options: ["as-needed"], languageOptions: { ecmaVersion: 2018 } },
+        { code: "({ ...x })", options: ["consistent"], languageOptions: { ecmaVersion: 2018 } },
+        { code: "({ ...x })", options: ["consistent-as-needed"], languageOptions: { ecmaVersion: 2018 } },
+        { code: "({ 1n: 1 })", options: ["as-needed"], languageOptions: { ecmaVersion: 2020 } },
+        { code: "({ 1n: 1 })", options: ["as-needed", { numbers: false }], languageOptions: { ecmaVersion: 2020 } },
+        { code: "({ 1n: 1 })", options: ["consistent"], languageOptions: { ecmaVersion: 2020 } },
+        { code: "({ 1n: 1 })", options: ["consistent-as-needed"], languageOptions: { ecmaVersion: 2020 } },
+        { code: "({ '99999999999999999': 1 })", options: ["as-needed"], languageOptions: { ecmaVersion: 2020 } },
+        { code: "({ '1n': 1 })", options: ["as-needed"], languageOptions: { ecmaVersion: 2020 } },
+        { code: "({ 1_0: 1 })", options: ["as-needed"], languageOptions: { ecmaVersion: 2021 } },
+        { code: "({ 1_0: 1 })", options: ["as-needed", { numbers: false }], languageOptions: { ecmaVersion: 2021 } },
+        { code: "({ '1_0': 1 })", options: ["as-needed"], languageOptions: { ecmaVersion: 2021 } },
+        { code: "({ '1_0': 1 })", options: ["as-needed", { numbers: false }], languageOptions: { ecmaVersion: 2021 } },
+        { code: "({ '1_0': 1 })", options: ["as-needed", { numbers: true }], languageOptions: { ecmaVersion: 2021 } },
+        { code: "({ 1_0: 1, 1: 1 })", options: ["consistent-as-needed"], languageOptions: { ecmaVersion: 2021 } }
     ],
     invalid: [{
         code: "({ a: 0 })",
@@ -182,7 +182,7 @@ ruleTester.run("quote-props", rule, {
         code: "({ 'a': 0, [x]: 0 })",
         output: "({ a: 0, [x]: 0 })",
         options: ["consistent-as-needed"],
-        env: { es6: true },
+        languageOptions: { ecmaVersion: 6 },
         errors: [
             { messageId: "redundantQuoting", type: "Property" }
         ]
@@ -190,7 +190,7 @@ ruleTester.run("quote-props", rule, {
         code: "({ 'a': 0, x })",
         output: "({ a: 0, x })",
         options: ["consistent-as-needed"],
-        env: { es6: true },
+        languageOptions: { ecmaVersion: 6 },
         errors: [{
             messageId: "redundantQuoting", type: "Property"
         }]
@@ -375,7 +375,7 @@ ruleTester.run("quote-props", rule, {
         code: "({ 1n: 1 })",
         output: "({ \"1\": 1 })",
         options: ["always"],
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         errors: [{
             messageId: "unquotedPropertyFound",
             data: { property: "1" }
@@ -385,7 +385,7 @@ ruleTester.run("quote-props", rule, {
         code: "({ 1n: 1 })",
         output: "({ \"1\": 1 })",
         options: ["as-needed", { numbers: true }],
-        parserOptions: { ecmaVersion: 2020 },
+        languageOptions: { ecmaVersion: 2020 },
         errors: [{
             messageId: "unquotedNumericProperty",
             data: { property: "1" }
@@ -394,7 +394,7 @@ ruleTester.run("quote-props", rule, {
         code: "({ 1_0: 1 })",
         output: "({ \"10\": 1 })",
         options: ["as-needed", { numbers: true }],
-        parserOptions: { ecmaVersion: 2021 },
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{
             messageId: "unquotedNumericProperty",
             data: { property: "10" }
@@ -403,7 +403,7 @@ ruleTester.run("quote-props", rule, {
         code: "({ 1_2.3_4e0_2: 1 })",
         output: "({ \"1234\": 1 })",
         options: ["always"],
-        parserOptions: { ecmaVersion: 2021 },
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{
             messageId: "unquotedPropertyFound",
             data: { property: "1234" }
@@ -412,7 +412,7 @@ ruleTester.run("quote-props", rule, {
         code: "({ 0b1_000: 1 })",
         output: "({ \"8\": 1 })",
         options: ["always"],
-        parserOptions: { ecmaVersion: 2021 },
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{
             messageId: "unquotedPropertyFound",
             data: { property: "8" }
@@ -421,7 +421,7 @@ ruleTester.run("quote-props", rule, {
         code: "({ 1_000: a, '1_000': b })",
         output: "({ \"1000\": a, '1_000': b })",
         options: ["consistent-as-needed"],
-        parserOptions: { ecmaVersion: 2021 },
+        languageOptions: { ecmaVersion: 2021 },
         errors: [{
             messageId: "inconsistentlyQuotedProperty",
             data: { key: "1000" }

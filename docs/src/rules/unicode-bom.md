@@ -1,6 +1,5 @@
 ---
 title: unicode-bom
-layout: doc
 rule_type: layout
 ---
 
@@ -32,9 +31,10 @@ Example of **correct** code for this rule with the `"always"` option:
 ::: correct
 
 ```js
+﻿// U+FEFF at the beginning
+
 /*eslint unicode-bom: ["error", "always"]*/
 
-U+FEFF
 var abc;
 ```
 
@@ -71,9 +71,10 @@ Example of **incorrect** code for this rule with the `"never"` option:
 ::: incorrect
 
 ```js
+﻿// U+FEFF at the beginning
+
 /*eslint unicode-bom: ["error", "never"]*/
 
-U+FEFF
 var abc;
 ```
 

@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-alert"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-alert", rule, {
     valid: [
@@ -36,10 +41,10 @@ ruleTester.run("no-alert", rule, {
         "function foo() { this.alert(); }",
         "function foo() { var window = bar; window.alert(); }",
         "globalThis.alert();",
-        { code: "globalThis['alert']();", env: { es6: true } },
-        { code: "globalThis.alert();", env: { es2017: true } },
-        { code: "var globalThis = foo; globalThis.alert();", env: { es2020: true } },
-        { code: "function foo() { var globalThis = foo; globalThis.alert(); }", env: { es2020: true } }
+        { code: "globalThis['alert']();", languageOptions: { ecmaVersion: 6 } },
+        { code: "globalThis.alert();", languageOptions: { ecmaVersion: 2017 } },
+        { code: "var globalThis = foo; globalThis.alert();", languageOptions: { ecmaVersion: 2020 } },
+        { code: "function foo() { var globalThis = foo; globalThis.alert(); }", languageOptions: { ecmaVersion: 2020 } }
     ],
     invalid: [
         {
@@ -112,29 +117,29 @@ ruleTester.run("no-alert", rule, {
         },
         {
             code: "globalThis['alert'](foo)",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "globalThis.alert();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "function foo() { var globalThis = bar; globalThis.alert(); }\nglobalThis.alert();",
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected", data: { name: "alert" }, type: "CallExpression", line: 2, column: 1 }]
         },
 
         // Optional chaining
         {
             code: "window?.alert(foo)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected", data: { name: "alert" } }]
         },
         {
             code: "(window?.alert)(foo)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected", data: { name: "alert" } }]
         }
     ]

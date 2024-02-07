@@ -1,6 +1,5 @@
 ---
 title: yoda
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://en.wikipedia.org/wiki/Yoda_conditions

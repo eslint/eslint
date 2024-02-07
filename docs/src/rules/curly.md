@@ -1,6 +1,5 @@
 ---
 title: curly
-layout: doc
 rule_type: suggestion
 ---
 

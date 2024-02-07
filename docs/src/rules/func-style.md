@@ -1,6 +1,5 @@
 ---
 title: func-style
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html

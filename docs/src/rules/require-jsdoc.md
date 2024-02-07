@@ -1,13 +1,13 @@
 ---
 title: require-jsdoc
-layout: doc
 rule_type: suggestion
 related_rules:
 - valid-jsdoc
 ---
 
-
-This rule was [**deprecated**](https://eslint.org/blog/2018/11/jsdoc-end-of-life) in ESLint v5.10.0.
+:::important
+This rule was removed in ESLint v9.0.0 and replaced by the [`eslint-plugin-jsdoc`](https://github.com/gajus/eslint-plugin-jsdoc) equivalent.
+:::
 
 [JSDoc](http://usejsdoc.org) is a JavaScript API documentation generator. It uses specially-formatted comments inside of code to generate API documentation automatically. For example, this is what a JSDoc comment looks like for a function:
 
@@ -78,7 +78,7 @@ function foo() {
     return 10;
 }
 
-var foo = () => {
+var bar = () => {
     return 10;
 };
 
@@ -88,11 +88,11 @@ class Foo {
     }
 }
 
-var foo = function() {
+var bar = function() {
     return 10;
 };
 
-var foo = {
+var bar = {
     bar: function() {
         return 10;
     },
@@ -132,21 +132,21 @@ function foo() {
  * @params {int} test - some number
  * @returns {int} sum of test and 10
  */
-var foo = (test) => {
+var bar = (test) => {
     return test + 10;
 }
 
 /**
  * It returns 10
  */
-var foo = () => {
+var bar = () => {
     return 10;
 }
 
 /**
  * It returns 10
  */
-var foo = function() {
+var bar = function() {
     return 10;
 }
 
@@ -170,11 +170,11 @@ class Foo {
 /**
  * It returns 10
  */
-var foo = function() {
+var bar = function() {
     return 10;
 };
 
-var foo = {
+var bar = {
     /**
     * It returns 10
     */

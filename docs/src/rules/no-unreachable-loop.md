@@ -1,6 +1,5 @@
 ---
 title: no-unreachable-loop
-layout: doc
 rule_type: problem
 related_rules:
 - no-unreachable

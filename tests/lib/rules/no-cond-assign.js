@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-cond-assign"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -36,8 +36,8 @@ ruleTester.run("no-cond-assign", rule, {
         "for (;someNode || (someNode = parentNode););",
         { code: "if ((function(node) { return node = parentNode; })(someNode)) { }", options: ["except-parens"] },
         { code: "if ((function(node) { return node = parentNode; })(someNode)) { }", options: ["always"] },
-        { code: "if ((node => node = parentNode)(someNode)) { }", options: ["except-parens"], parserOptions: { ecmaVersion: 6 } },
-        { code: "if ((node => node = parentNode)(someNode)) { }", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "if ((node => node = parentNode)(someNode)) { }", options: ["except-parens"], languageOptions: { ecmaVersion: 6 } },
+        { code: "if ((node => node = parentNode)(someNode)) { }", options: ["always"], languageOptions: { ecmaVersion: 6 } },
         { code: "if (function(node) { return node = parentNode; }) { }", options: ["except-parens"] },
         { code: "if (function(node) { return node = parentNode; }) { }", options: ["always"] },
         { code: "x = 0;", options: ["always"] },

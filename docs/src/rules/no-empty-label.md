@@ -1,6 +1,5 @@
 ---
 title: no-empty-label
-layout: doc
 
 related_rules:
 - no-labels
@@ -10,7 +9,9 @@ related_rules:
 
 Disallows labels for anything other than loops and switches.
 
-(removed) This rule was **removed** in ESLint v2.0 and **replaced** by the [no-labels](no-labels) rule.
+::: important
+This rule was removed in ESLint v2.0.0 and replaced by the [no-labels](no-labels) rule.
+:::
 
 Labeled statements are only used in conjunction with labeled break and continue statements. ECMAScript has no goto statement.
 

@@ -1,6 +1,5 @@
 ---
 title: no-shadow-restricted-names
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-shadow
@@ -23,7 +22,7 @@ Then any code used within the same scope would not get the global `undefined`, b
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-shadow-restricted-names: "error"*/
@@ -41,7 +40,7 @@ try {} catch(eval){}
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-shadow-restricted-names: "error"*/

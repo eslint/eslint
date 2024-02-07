@@ -1,6 +1,5 @@
 ---
 title: no-restricted-syntax
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-alert
@@ -14,7 +13,7 @@ JavaScript has a lot of language features, and not everyone likes all of them. A
 
 Rather than creating separate rules for every language feature you want to turn off, this rule allows you to configure the syntax elements you want to restrict use of. These elements are represented by their [ESTree](https://github.com/estree/estree) node types. For example, a function declaration is represented by `FunctionDeclaration` and the `with` statement is represented by `WithStatement`. You may find the full list of AST node names you can use [on GitHub](https://github.com/eslint/eslint-visitor-keys/blob/main/lib/visitor-keys.js) and use [AST Explorer](https://astexplorer.net/) with the espree parser to see what type of nodes your code consists of.
 
-You can also specify [AST selectors](../developer-guide/selectors) to restrict, allowing much more precise control over syntax patterns.
+You can also specify [AST selectors](../extend/selectors) to restrict, allowing much more precise control over syntax patterns.
 
 ## Rule Details
 
@@ -58,7 +57,7 @@ The string and object formats can be freely mixed in the configuration as needed
 
 Examples of **incorrect** code for this rule with the `"FunctionExpression", "WithStatement", BinaryExpression[operator='in']` options:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"] */
@@ -76,7 +75,7 @@ foo in bar;
 
 Examples of **correct** code for this rule with the `"FunctionExpression", "WithStatement", BinaryExpression[operator='in']` options:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"] */

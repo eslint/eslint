@@ -1,12 +1,11 @@
 ---
 title: spaced-comment
-layout: doc
 rule_type: suggestion
 related_rules:
 - spaced-line-comment
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/spaced-comment) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Some style guides require or disallow a whitespace immediately after the initial `//` or `/*` of a comment.
 Whitespace after the `//` or `/*` makes it easier to read text in comments.

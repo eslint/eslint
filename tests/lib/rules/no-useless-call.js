@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-call");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -49,13 +49,13 @@ ruleTester.run("no-useless-call", rule, {
         // Optional chaining
         {
             code: "obj?.foo.bar.call(obj.foo, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // Private members
         {
             code: "class C { #call; wrap(foo) { foo.#call(undefined, 1, 2); } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -187,22 +187,22 @@ ruleTester.run("no-useless-call", rule, {
         // Optional chaining
         {
             code: "foo.call?.(undefined, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }]
         },
         {
             code: "foo?.call(undefined, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }]
         },
         {
             code: "(foo?.call)(undefined, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unnecessaryCall", data: { name: "call" } }]
         },
         {
             code: "obj.foo.call?.(obj, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
@@ -211,7 +211,7 @@ ruleTester.run("no-useless-call", rule, {
         },
         {
             code: "obj?.foo.call(obj, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
@@ -220,7 +220,7 @@ ruleTester.run("no-useless-call", rule, {
         },
         {
             code: "(obj?.foo).call(obj, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
@@ -229,7 +229,7 @@ ruleTester.run("no-useless-call", rule, {
         },
         {
             code: "(obj?.foo.call)(obj, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
@@ -238,7 +238,7 @@ ruleTester.run("no-useless-call", rule, {
         },
         {
             code: "obj?.foo.bar.call(obj?.foo, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
@@ -247,7 +247,7 @@ ruleTester.run("no-useless-call", rule, {
         },
         {
             code: "(obj?.foo).bar.call(obj?.foo, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },
@@ -256,7 +256,7 @@ ruleTester.run("no-useless-call", rule, {
         },
         {
             code: "obj.foo?.bar.call(obj.foo, 1, 2);",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "unnecessaryCall",
                 data: { name: "call" },

@@ -1,6 +1,5 @@
 ---
 title: no-unused-labels
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-extra-label
@@ -30,6 +29,8 @@ Such labels take up space in the code and can lead to confusion by readers.
 ## Rule Details
 
 This rule is aimed at eliminating unused labels.
+
+Problems reported by this rule can be fixed automatically, except when there are any comments between the label and the following statement, or when removing a label would cause the following statement to become a directive such as `"use strict"`.
 
 Examples of **incorrect** code for this rule:
 

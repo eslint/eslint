@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-redeclare");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
+const globals = require("globals");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-redeclare", rule, {
     valid: [
@@ -24,89 +29,88 @@ ruleTester.run("no-redeclare", rule, {
         "var a = 3; a = 10;",
         {
             code: "if (true) {\n    let b = 2;\n} else {    \nlet b = 3;\n}",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "var a; class C { static { var a; } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "class C { static { var a; } } var a; ",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "function a(){} class C { static { var a; } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "var a; class C { static { function a(){} } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "class C { static { var a; } static { var a; } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "class C { static { function a(){} } static { function a(){} } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "class C { static { var a; { function a(){} } } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "class C { static { function a(){}; { function a(){} } } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "class C { static { var a; { let a; } } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "class C { static { let a; { let a; } } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         {
             code: "class C { static { { let a; } { let a; } } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             }
         },
         { code: "var Object = 0;", options: [{ builtinGlobals: false }] },
-        { code: "var Object = 0;", options: [{ builtinGlobals: true }], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var Object = 0;", options: [{ builtinGlobals: true }], parserOptions: { ecmaFeatures: { globalReturn: true } } },
+        { code: "var Object = 0;", options: [{ builtinGlobals: true }], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var Object = 0;", options: [{ builtinGlobals: true }], languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } } },
         { code: "var top = 0;", options: [{ builtinGlobals: true }] },
-        { code: "var top = 0;", options: [{ builtinGlobals: true }], parserOptions: { ecmaFeatures: { globalReturn: true } }, env: { browser: true } },
-        { code: "var top = 0;", options: [{ builtinGlobals: true }], parserOptions: { ecmaVersion: 6, sourceType: "module" }, env: { browser: true } },
+        { code: "var top = 0;", options: [{ builtinGlobals: true }], languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } }, globals: globals.browser } },
+        { code: "var top = 0;", options: [{ builtinGlobals: true }], languageOptions: { ecmaVersion: 6, sourceType: "module", globals: globals.browser } },
         {
             code: "var self = 1",
-            options: [{ builtinGlobals: true }],
-            env: { browser: false }
+            options: [{ builtinGlobals: true }]
         },
-        { code: "var globalThis = foo", options: [{ builtinGlobals: true }], env: { es6: true } },
-        { code: "var globalThis = foo", options: [{ builtinGlobals: true }], env: { es2017: true } },
+        { code: "var globalThis = foo", options: [{ builtinGlobals: true }], languageOptions: { ecmaVersion: 6 } },
+        { code: "var globalThis = foo", options: [{ builtinGlobals: true }], languageOptions: { ecmaVersion: 2017 } },
 
         // Comments and built-ins.
         {
@@ -116,26 +120,34 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "/*globals a */",
             options: [{ builtinGlobals: false }],
-            globals: { a: "readonly" }
+            languageOptions: {
+                globals: { a: "readonly" }
+            }
         },
         {
             code: "/*globals a */",
             options: [{ builtinGlobals: false }],
-            globals: { a: "writable" }
+            languageOptions: {
+                globals: { a: "writable" }
+            }
         },
         {
             code: "/*globals a:off */",
             options: [{ builtinGlobals: true }],
-            globals: { a: "readonly" }
+            languageOptions: {
+                globals: { a: "readonly" }
+            }
         },
         {
             code: "/*globals a */",
             options: [{ builtinGlobals: true }],
-            globals: { a: "off" }
+            languageOptions: {
+                globals: { a: "off" }
+            }
         }
     ],
     invalid: [
-        { code: "var a = 3; var a = 10;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
+        { code: "var a = 3; var a = 10;", languageOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
         { code: "switch(foo) { case a: var b = 3;\ncase b: var b = 4}", errors: [{ message: "'b' is already defined.", type: "Identifier" }] },
         { code: "var a = 3; var a = 10;", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
         { code: "var a = {}; var a = [];", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
@@ -144,34 +156,34 @@ ruleTester.run("no-redeclare", rule, {
         { code: "var a = function() { }; var a = function() { }", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
         { code: "var a = function() { }; var a = new Date();", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
         { code: "var a = 3; var a = 10; var a = 15;", errors: [{ message: "'a' is already defined.", type: "Identifier" }, { message: "'a' is already defined.", type: "Identifier" }] },
-        { code: "var a; var a;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
-        { code: "export var a; var a;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
+        { code: "var a; var a;", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
+        { code: "export var a; var a;", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
 
         // `var` redeclaration in class static blocks. Redeclaration of functions is not allowed in class static blocks.
         {
             code: "class C { static { var a; var a; } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             },
             errors: [{ message: "'a' is already defined.", type: "Identifier" }]
         },
         {
             code: "class C { static { var a; { var a; } } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             },
             errors: [{ message: "'a' is already defined.", type: "Identifier" }]
         },
         {
             code: "class C { static { { var a; } var a; } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             },
             errors: [{ message: "'a' is already defined.", type: "Identifier" }]
         },
         {
             code: "class C { static { { var a; } { var a; } } }",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2022
             },
             errors: [{ message: "'a' is already defined.", type: "Identifier" }]
@@ -185,13 +197,13 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
-            env: { browser: true },
+            languageOptions: { globals: globals.browser },
             errors: [{ message: "'top' is already defined as a built-in global variable.", type: "Identifier" }]
         },
         {
             code: "var a; var {a = 0, b: Object = 0} = {};",
             options: [{ builtinGlobals: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" },
                 { message: "'Object' is already defined as a built-in global variable.", type: "Identifier" }
@@ -200,7 +212,7 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "var a; var {a = 0, b: Object = 0} = {};",
             options: [{ builtinGlobals: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" }
             ]
@@ -208,7 +220,7 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "var a; var {a = 0, b: Object = 0} = {};",
             options: [{ builtinGlobals: true }],
-            parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } },
+            languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { globalReturn: true } } },
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" }
             ]
@@ -216,7 +228,7 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "var a; var {a = 0, b: Object = 0} = {};",
             options: [{ builtinGlobals: false }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" }
             ]
@@ -224,14 +236,13 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "var globalThis = 0;",
             options: [{ builtinGlobals: true }],
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ message: "'globalThis' is already defined as a built-in global variable.", type: "Identifier" }]
         },
         {
             code: "var a; var {a = 0, b: globalThis = 0} = {};",
             options: [{ builtinGlobals: true }],
-            parserOptions: { ecmaVersion: 6 },
-            env: { es2020: true },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" },
                 { message: "'globalThis' is already defined as a built-in global variable.", type: "Identifier" }
@@ -294,7 +305,7 @@ ruleTester.run("no-redeclare", rule, {
         },
         {
             code: "var top = 0;",
-            env: { browser: true },
+            languageOptions: { globals: globals.browser },
             errors: [
                 { message: "'top' is already defined as a built-in global variable.", type: "Identifier" }
             ]
@@ -448,7 +459,7 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "/*globals a */",
             options: [{ builtinGlobals: true }],
-            globals: { a: "readonly" },
+            languageOptions: { globals: { a: "readonly" } },
             errors: [{
                 message: "'a' is already defined as a built-in global variable.",
                 type: "Block",
@@ -461,7 +472,7 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "/*globals a */",
             options: [{ builtinGlobals: true }],
-            globals: { a: "writable" },
+            languageOptions: { globals: { a: "writable" } },
             errors: [{
                 message: "'a' is already defined as a built-in global variable.",
                 type: "Block",
@@ -485,7 +496,7 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "/*globals a */ /*globals a */ var a = 0",
             options: [{ builtinGlobals: true }],
-            globals: { a: "writable" },
+            languageOptions: { globals: { a: "writable" } },
             errors: [
                 {
                     message: "'a' is already defined as a built-in global variable.",

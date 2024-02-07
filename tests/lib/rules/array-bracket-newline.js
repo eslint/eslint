@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/array-bracket-newline");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 
 //------------------------------------------------------------------------------
@@ -281,160 +281,160 @@ ruleTester.run("array-bracket-newline", rule, {
          * ArrayPattern
          * default { multiline: true }
          */
-        { code: "var [] = foo", parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a] = foo;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var [] = foo", languageOptions: { ecmaVersion: 6 } },
+        { code: "var [a] = foo;", languageOptions: { ecmaVersion: 6 } },
         {
             code: "var /* any comment */[a] = foo;",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var /* any comment */\n[a] = foo;",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
-        { code: "var [a, b] = foo;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var [a, b] = foo;", languageOptions: { ecmaVersion: 6 } },
         {
             code: "var [ // any comment\na, b\n] = foo;",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\n// any comment\na, b\n] = foo;",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\na, b\n// any comment\n] = foo;",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
-        { code: "var [\na,\nb\n] = foo;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\na,\nb\n] = foo;", languageOptions: { ecmaVersion: 6 } },
 
         // "always"
         {
             code: "var [\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\na\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\n// any\na\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\n/* any */\na\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\na, b\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\na, b // any comment\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\na, b /* any comment */\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\na,\nb\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // "consistent"
         {
             code: "var [] = foo",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\n] = foo",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [a] = foo",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\na\n] = foo",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [//\na\n] = foo",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [/**/\na\n] = foo",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [/*\n*/a\n] = foo",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [//\n] = foo",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // { multiline: true }
         {
             code: "var [] = foo;",
             options: [{ multiline: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [a] = foo;",
             options: [{ multiline: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var /* any comment */[a] = foo;",
             options: [{ multiline: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var /* any comment */\n[a] = foo;",
             options: [{ multiline: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [a, b] = foo;",
             options: [{ multiline: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [ // any comment\na, b\n] = foo;",
             options: [{ multiline: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\n// any comment\na, b\n] = foo;",
             options: [{ multiline: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\na, b\n// any comment\n] = foo;",
             options: [{ multiline: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var [\na,\nb\n] = foo;",
             options: [{ multiline: true }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -1736,7 +1736,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [] = foo;",
             output: "var [\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingOpeningLinebreak",
@@ -1756,7 +1756,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [a] = foo;",
             output: "var [\na\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingOpeningLinebreak",
@@ -1776,7 +1776,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [ // any comment\na] = foo;",
             output: "var [ // any comment\na\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingClosingLinebreak",
@@ -1790,7 +1790,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [ /* any comment */\na] = foo;",
             output: "var [ /* any comment */\na\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingClosingLinebreak",
@@ -1804,7 +1804,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [a, b] = foo;",
             output: "var [\na, b\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingOpeningLinebreak",
@@ -1824,7 +1824,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [a, b // any comment\n] = foo;",
             output: "var [\na, b // any comment\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingOpeningLinebreak",
@@ -1838,7 +1838,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [a, b /* any comment */] = foo;",
             output: "var [\na, b /* any comment */\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingOpeningLinebreak",
@@ -1858,7 +1858,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [a,\nb] = foo;",
             output: "var [\na,\nb\n] = foo;",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingOpeningLinebreak",
@@ -1880,7 +1880,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [\na] = foo",
             output: "var [\na\n] = foo",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingClosingLinebreak",
@@ -1896,7 +1896,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [a\n] = foo",
             output: "var [a] = foo",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedClosingLinebreak",
@@ -1912,7 +1912,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [//\na] = foo",
             output: "var [//\na\n] = foo",
             options: ["consistent"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingClosingLinebreak",
@@ -1930,7 +1930,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [\n] = foo;",
             output: "var [] = foo;",
             options: [{ minItems: 2 }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedOpeningLinebreak",
@@ -1950,7 +1950,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [\na\n] = foo;",
             output: "var [a] = foo;",
             options: [{ minItems: 2 }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedOpeningLinebreak",
@@ -1970,7 +1970,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [a, b] = foo;",
             output: "var [\na, b\n] = foo;",
             options: [{ minItems: 2 }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingOpeningLinebreak",
@@ -1990,7 +1990,7 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var [a,\nb] = foo;",
             output: "var [\na,\nb\n] = foo;",
             options: [{ minItems: 2 }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "missingOpeningLinebreak",

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ config.lang }}" class="no-js">
+<html lang="{{ config.lang }}" class="no-js" id="site_top">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,18 +13,26 @@
         {% set page_title = site[hook].title %}
     {% endif %}
 
+    {% set rule_meta = rules_meta[title] %}
     {% set page_title = site.shared.title_format | replace("PAGE_TITLE", page_title) %}
-    {% set cover_image = ["https://", site.hostname, "/icon-512.png" ] | join %}
-    {% set cover_image_alt = site.shared.eslint_logo_alt %}
     {% set page_desc = site.shared.description %}
     {% set relative_page_url = page.url | url | prettyURL %}
+    {% set cover_image = [
+        "https://", site.hostname, "/og",
+        "?title=", title | urlencode, "&summary=", page_desc | urlencode,
+        "&is_rule=", rule_meta !== undefined,
+        "&recommended=", rule_meta.docs.recommended,
+        "&fixable=", rule_meta.fixable,
+        "&suggestions=", rule_meta.hasSuggestions
+    ] | join %}
+    {% set cover_image_alt = site.shared.eslint_logo_alt %}
     {% set page_url = ["https://", site.hostname, relative_page_url ] | join %}
 
     <!-- SEO -->
     <title>{{ page_title }}</title>
     <meta name="description" content="{{ page_desc }}">
     <link rel="canonical" href="{{ page_url }}">
-    
+
     <!-- https://github.com/eslint/eslint/issues/15844 -->
     <base href="{{ relative_page_url }}">
 
@@ -76,7 +84,6 @@
 
 
     <style>
-    
         /* Overrides for funky punctuators */
         @font-face {
             font-family: "Mono Punctuators";
@@ -85,12 +92,13 @@
             unicode-range: U+40, U+7B, U+7D, U+28, U+29;
             font-display: swap;
         }
-        
+
         /* Space Grotesk for headings */
         @font-face {
             font-family: "Space Grotesk";
-            src: url("{{ '/assets/fonts/SpaceGrotesk-Medium-subset.woff2' | url }}") format("woff2"),
-            url("{{ '/assets/fonts/SpaceGrotesk-Medium-subset.zopfli.woff' | url }}") format("woff");
+            src:
+                url("{{ '/assets/fonts/SpaceGrotesk-Medium-subset.woff2' | url }}") format("woff2"),
+                url("{{ '/assets/fonts/SpaceGrotesk-Medium-subset.zopfli.woff' | url }}") format("woff");
             font-weight: 500;
             font-display: swap;
         }
@@ -98,9 +106,10 @@
         /* Inter for body text */
 
         @font-face {
-            font-family: "Inter";
-            src: url("{{ '/assets/fonts/Inter-Regular-subset.woff2' | url }}") format("woff2"),
-            url("{{ '/assets/fonts/Inter-Regular-subset.zopfli.woff' | url }}") format("woff");
+            font-family: Inter;
+            src:
+                url("{{ '/assets/fonts/Inter-Regular-subset.woff2' | url }}") format("woff2"),
+                url("{{ '/assets/fonts/Inter-Regular-subset.zopfli.woff' | url }}") format("woff");
             font-weight: 400;
             font-display: swap;
         }
@@ -109,10 +118,18 @@
 
         @font-face {
             font-family: "Space Mono";
-            src: url("{{ '/assets/fonts/SpaceMono-Regular-subset.woff2' | url }}") format("woff2"),
-            url("{{ '/assets/fonts/SpaceMono-Regular-subset.zopfli.woff' | url }}") format("woff");
+            src:
+                url("{{ '/assets/fonts/SpaceMono-Regular-subset.woff2' | url }}") format("woff2"),
+                url("{{ '/assets/fonts/SpaceMono-Regular-subset.zopfli.woff' | url }}") format("woff");
             font-weight: 400;
             font-display: swap;
+        }
+
+        /* Country Flags for Windows */
+        @font-face {
+            font-family: "Twemoji Country Flags";
+            unicode-range: U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067, U+E006C, U+E006E, U+E0073-E0074, U+E0077, U+E007F;
+            src: url("https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1/dist/TwemojiCountryFlags.woff2") format("woff2");
         }
     </style>
     <script>
@@ -136,7 +153,7 @@
     <script src="https://unpkg.com/anchor-js@4.3.1/anchor.min.js"></script>
 </head>
 
-<body class="{{ hook }} docs">
+<body class="{{ hook }}">
     <a href="#main" class="c-btn c-btn--primary" id="skip-link">Skip to main content</a>
 
     {{ content | safe }}
@@ -145,6 +162,7 @@
     <script src="{{ '/assets/js/focus-visible.js' | url }}"></script>
     <script src="{{ '/assets/js/main.js' | url }}"></script>
     <script src="{{ '/assets/js/tabs.js' | url }}"></script>
+    <script src="{{ '/assets/js/scroll-up-btn.js' | url }}"></script>
     {% include 'partials/analytics.html' %}
 
     {%- if hook == "component-library" -%}

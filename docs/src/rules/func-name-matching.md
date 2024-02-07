@@ -1,6 +1,5 @@
 ---
 title: func-name-matching
-layout: doc
 rule_type: suggestion
 ---
 
@@ -146,7 +145,7 @@ module['exports'] = function foo(name) {};
 
 ## Options
 
-This rule takes an optional string of "always" or "never" (when omitted, it defaults to "always"), and an optional options object with two properties `considerPropertyDescriptor` and `includeCommonJSModuleExports`.
+This rule takes an optional string of `"always"` or `"never"` (when omitted, it defaults to `"always"`), and an optional options object with two properties `considerPropertyDescriptor` and `includeCommonJSModuleExports`.
 
 ### considerPropertyDescriptor
 

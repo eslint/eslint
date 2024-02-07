@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-dupe-class-members");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("no-dupe-class-members", rule, {
     valid: [
@@ -187,7 +187,7 @@ ruleTester.run("no-dupe-class-members", rule, {
         },
         {
             code: "class A { [123n]() {} 123() {} }",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { type: "MethodDefinition", line: 1, column: 23, messageId: "unexpected", data: { name: "123" } }
             ]

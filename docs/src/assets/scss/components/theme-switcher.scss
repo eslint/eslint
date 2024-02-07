@@ -6,7 +6,6 @@
 }
 
 .theme-switcher-label.theme-switcher-label {
-    font-size: inherit;
     color: inherit;
     font: inherit;
     font-family: var(--text-font);
@@ -21,7 +20,7 @@
 }
 
 .theme-switcher__button {
-    flex: 0;
+    flex-wrap: wrap;
     box-shadow: var(--shadow-xs);
     padding: .625rem .875rem;
     display: inline-flex;
@@ -74,11 +73,5 @@
         .theme-switcher__icon {
             color: var(--link-color);
         }
-    }
-}
-
-.theme-switcher__button:hover {
-    .theme-switcher__icon {
-        color: var(--link-color);
     }
 }

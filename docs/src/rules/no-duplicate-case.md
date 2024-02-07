@@ -1,6 +1,5 @@
 ---
 title: no-duplicate-case
-layout: doc
 rule_type: problem
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: no-proto
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://johnresig.com/blog/objectgetprototypeof/

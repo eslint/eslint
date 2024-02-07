@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert;
-const eslintAll = require("../../conf/eslint-all");
+const eslintAll = require("../../packages/js").configs.all;
 const rules = eslintAll.rules;
 
 //------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ describe("eslint-all", () => {
         const someRule = "yoda";
 
         assert.include(ruleNames, someRule);
-        assert.isAbove(count, 200);
+        assert.isBelow(count, 200);
     });
 
     it("should configure all rules as errors", () => {

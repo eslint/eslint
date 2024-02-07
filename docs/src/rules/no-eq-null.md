@@ -1,6 +1,5 @@
 ---
 title: no-eq-null
-layout: doc
 rule_type: suggestion
 ---
 

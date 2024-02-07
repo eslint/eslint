@@ -1,6 +1,5 @@
 ---
 title: no-extra-parens
-layout: doc
 rule_type: layout
 related_rules:
 - arrow-parens
@@ -10,7 +9,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/no-extra-parens) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 This rule restricts the use of parentheses to only where they are necessary.
 
@@ -21,6 +20,25 @@ This rule always ignores extra parentheses around the following:
 * RegExp literals such as `(/abc/).test(var)` to avoid conflicts with the [wrap-regex](wrap-regex) rule
 * immediately-invoked function expressions (also known as IIFEs) such as `var x = (function () {})();` and `var x = (function () {}());` to avoid conflicts with the [wrap-iife](wrap-iife) rule
 * arrow function arguments to avoid conflicts with the [arrow-parens](arrow-parens) rule
+
+Problems reported by this rule can be fixed automatically, except when removing the parentheses would create a new directive, because that could change the semantics of the code.
+For example, the following script prints `object` to the console, but if the parentheses around `"use strict"` were removed, it would print `undefined` instead.
+
+```js
+<!--
+// this is a script
+// -->
+
+("use strict");
+
+function test() {
+    console.log(typeof this);
+}
+
+test();
+```
+
+In this case, the rule will not try to remove the parentheses around `"use strict"` but will still report them as a problem.
 
 ## Options
 
@@ -34,11 +52,13 @@ This rule has an object option for exceptions to the `"all"` option:
 * `"conditionalAssign": false` allows extra parentheses around assignments in conditional test expressions
 * `"returnAssign": false` allows extra parentheses around assignments in `return` statements
 * `"nestedBinaryExpressions": false` allows extra parentheses in nested binary expressions
+* `"ternaryOperandBinaryExpressions": false` allows extra parentheses around binary expressions that are operands of ternary `?:`
 * `"ignoreJSX": "none|all|multi-line|single-line"` allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to `none`.
 * `"enforceForArrowConditionals": false` allows extra parentheses around ternary expressions which are the body of an arrow function
 * `"enforceForSequenceExpressions": false` allows extra parentheses around sequence expressions
 * `"enforceForNewInMemberExpressions": false` allows extra parentheses around `new` expressions in member expressions
 * `"enforceForFunctionPrototypeMethods": false` allows extra parentheses around immediate `.call` and `.apply` method calls on function expressions and around function expressions in the same context.
+* `"allowParensAfterCommentPattern": "any-string-pattern"` allows extra parentheses preceded by a comment that matches a regular expression.
 
 ### all
 
@@ -61,7 +81,7 @@ for (a of (b));
 
 typeof (a);
 
-(function(){} ? a() : b());
+(Object.prototype.toString.call());
 
 class A {
     [(x)] = 1;
@@ -82,8 +102,6 @@ Examples of **correct** code for this rule with the default `"all"` option:
 /* eslint no-extra-parens: "error" */
 
 (0).toString();
-
-(Object.prototype.toString.call());
 
 ({}.toString.call());
 
@@ -139,11 +157,11 @@ Examples of **correct** code for this rule with the `"all"` and `{ "returnAssign
 ```js
 /* eslint no-extra-parens: ["error", "all", { "returnAssign": false }] */
 
-function a(b) {
+function a1(b) {
   return (b = 1);
 }
 
-function a(b) {
+function a2(b) {
   return b ? (c = d) : (c = e);
 }
 
@@ -170,16 +188,36 @@ x = (a * b) / c;
 
 :::
 
-### ignoreJSX
+### ternaryOperandBinaryExpressions
 
-Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "all" }` options:
+Examples of **correct** code for this rule with the `"all"` and `{ "ternaryOperandBinaryExpressions": false }` options:
 
 ::: correct
 
 ```js
+/* eslint no-extra-parens: ["error", "all", { "ternaryOperandBinaryExpressions": false }] */
+
+(a && b) ? foo : bar;
+
+(a - b > a) ? foo : bar;
+
+foo ? (bar || baz) : qux;
+
+foo ? bar : (baz || qux);
+```
+
+:::
+
+### ignoreJSX
+
+Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "all" }` options:
+
+::: correct { "ecmaFeatures": { "jsx": true } }
+
+```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "all" }] */
-const Component = (<div />)
-const Component = (
+const ThisComponent = (<div />)
+const ThatComponent = (
     <div
         prop={true}
     />
@@ -190,28 +228,28 @@ const Component = (
 
 Examples of **incorrect** code for this rule with the `all` and `{ "ignoreJSX": "multi-line" }` options:
 
-::: incorrect
+::: incorrect { "ecmaFeatures": { "jsx": true } }
 
-```js
+```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "multi-line" }] */
-const Component = (<div />)
-const Component = (<div><p /></div>)
+const ThisComponent = (<div />)
+const ThatComponent = (<div><p /></div>)
 ```
 
 :::
 
 Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "multi-line" }` options:
 
-::: correct
+::: correct { "ecmaFeatures": { "jsx": true } }
 
-```js
+```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "multi-line" }] */
-const Component = (
+const ThisComponent = (
     <div>
         <p />
     </div>
 )
-const Component = (
+const ThatComponent = (
     <div
         prop={true}
     />
@@ -222,16 +260,16 @@ const Component = (
 
 Examples of **incorrect** code for this rule with the `all` and `{ "ignoreJSX": "single-line" }` options:
 
-::: incorrect
+::: incorrect { "ecmaFeatures": { "jsx": true } }
 
-```js
+```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
-const Component = (
+const ThisComponent = (
     <div>
         <p />
     </div>
 )
-const Component = (
+const ThatComponent = (
     <div
         prop={true}
     />
@@ -242,12 +280,12 @@ const Component = (
 
 Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "single-line" }` options:
 
-::: correct
+::: correct { "ecmaFeatures": { "jsx": true } }
 
-```js
+```jsx
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
-const Component = (<div />)
-const Component = (<div><p /></div>)
+const ThisComponent = (<div />)
+const ThatComponent = (<div><p /></div>)
 ```
 
 :::
@@ -319,6 +357,34 @@ const bar = (function () {}).apply();
 const baz = (function () {}.call());
 
 const quux = (function () {}.apply());
+```
+
+:::
+
+### allowParensAfterCommentPattern
+
+To make this rule allow extra parentheses preceded by specific comments, set this option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
+
+Examples of **correct** code for this rule with the `"all"` and `{ "allowParensAfterCommentPattern": "@type" }` options:
+
+::: correct
+
+```js
+/* eslint no-extra-parens: ["error", "all", { "allowParensAfterCommentPattern": "@type" }] */
+
+const span = /**@type {HTMLSpanElement}*/(event.currentTarget);
+
+if (/** @type {Foo | Bar} */(options).baz) console.log('Lint free');
+
+foo(/** @type {Bar} */ (bar), options, {
+    name: "name",
+    path: "path",
+});
+
+if (foo) {
+    /** @type {Bar} */
+    (bar).prop = false;
+}
 ```
 
 :::

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/max-nested-callbacks"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -46,7 +46,7 @@ ruleTester.run("max-nested-callbacks", rule, {
         { code: "foo(function() { bar(thing, function(data) {}); });", options: [3] },
         { code: "var foo = function() {}; bar(function(){ baz(function() { qux(foo); }) });", options: [2] },
         { code: "fn(function(){}, function(){}, function(){});", options: [2] },
-        { code: "fn(() => {}, function(){}, function(){});", options: [2], parserOptions: { ecmaVersion: 6 } },
+        { code: "fn(() => {}, function(){}, function(){});", options: [2], languageOptions: { ecmaVersion: 6 } },
         nestFunctions(10),
 
         // object property options
@@ -61,13 +61,13 @@ ruleTester.run("max-nested-callbacks", rule, {
         {
             code: "foo(function() { bar(thing, (data) => { baz(function() {}); }); });",
             options: [2],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "FunctionExpression" }]
         },
         {
             code: "foo(() => { bar(thing, (data) => { baz( () => {}); }); });",
             options: [2],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "ArrowFunctionExpression" }]
         },
         {

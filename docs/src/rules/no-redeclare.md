@@ -1,7 +1,8 @@
 ---
 title: no-redeclare
-layout: doc
 rule_type: suggestion
+handled_by_typescript: true
+extra_typescript_info: Note that while TypeScript will catch `let` redeclares and `const` redeclares, it will not catch `var` redeclares. Thus, if you use the legacy `var` keyword in your TypeScript codebase, this rule will still provide some value.
 related_rules:
 - no-shadow
 ---
@@ -76,7 +77,7 @@ The `"builtinGlobals"` option will check for redeclaration of built-in globals i
 
 Examples of **incorrect** code for the `{ "builtinGlobals": true }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-redeclare: ["error", { "builtinGlobals": true }]*/
@@ -88,7 +89,7 @@ var Object = 0;
 
 Examples of **incorrect** code for the `{ "builtinGlobals": true }` option and the `browser` environment:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-redeclare: ["error", { "builtinGlobals": true }]*/

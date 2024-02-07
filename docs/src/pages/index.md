@@ -1,21 +1,27 @@
 ---
 title: Documentation
-layout: doc
 permalink: /index.html
 ---
 
 Welcome to our documentation pages! What would you like to view?
 
-## [User Guide](user-guide/)
+## [Use ESLint in Your Project](use/)
 
 Intended for end users of ESLint. Contains information about core rules, configuration, command line options, formatters, and integrations,
 as well as guides for migrating from earlier versions of ESLint.
 
-## [Developer Guide](developer-guide/)
+## [Extend ESLint](extend/)
 
-Intended for contributors to ESLint and people who wish to extend ESLint. Contains information about contributing to ESLint; creating custom
-rules, configurations, plugins, and formatters; and information about our architecture and Node.js API.
+Intended for people who wish to extend ESLint. Contains information about creating custom rules, configurations, plugins, and formatters.
 
-## [Maintainer Guide](maintainer-guide/)
+## [Integrate ESLint](integrate/)
+
+Intended for people who wish to create integrations with ESLint. Contains information about creating integrations and using the Node.js API.
+
+## [Contribute to ESLint](contribute/)
+
+Intended for people who wish to contribute to the ESLint project. Contains information about ways you can contribute, the project structure, and setting up the development environment.
+
+## [Maintain ESLint](maintain/)
 
 Intended for maintainers of ESLint.

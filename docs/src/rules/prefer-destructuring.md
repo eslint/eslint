@@ -1,6 +1,5 @@
 ---
 title: prefer-destructuring
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
@@ -8,7 +7,7 @@ further_reading:
 ---
 
 
-
+<!-- markdownlint-disable-next-line MD051 -->
 With JavaScript ES6, a new syntax was added for creating variables from an array index or object property, called [destructuring](#further-reading).  This rule enforces usage of destructuring instead of accessing a property through a member expression.
 
 ## Rule Details
@@ -37,8 +36,11 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```javascript
+/* eslint prefer-destructuring: "error" */
+
 // With `array` enabled
 var foo = array[0];
+bar.baz = array[0];
 
 // With `object` enabled
 var foo = object.foo;
@@ -52,17 +54,21 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```javascript
+/* eslint prefer-destructuring: "error" */
+
 // With `array` enabled
 var [ foo ] = array;
 var foo = array[someIndex];
+[bar.baz] = array;
+
 
 // With `object` enabled
 var { foo } = object;
 
 var foo = object.bar;
 
-let foo;
-({ foo } = object);
+let bar;
+({ bar } = object);
 ```
 
 :::
@@ -72,6 +78,7 @@ Examples of **incorrect** code when `enforceForRenamedProperties` is enabled:
 ::: incorrect
 
 ```javascript
+/* eslint "prefer-destructuring": ["error", { "object": true }, { "enforceForRenamedProperties": true }] */
 var foo = object.bar;
 ```
 
@@ -82,6 +89,7 @@ Examples of **correct** code when `enforceForRenamedProperties` is enabled:
 ::: correct
 
 ```javascript
+/* eslint "prefer-destructuring": ["error", { "object": true }, { "enforceForRenamedProperties": true }] */
 var { bar: foo } = object;
 ```
 
@@ -92,6 +100,7 @@ Examples of additional **correct** code when `enforceForRenamedProperties` is en
 ::: correct
 
 ```javascript
+/* eslint "prefer-destructuring": ["error", { "object": true }, { "enforceForRenamedProperties": true }] */
 class C {
     #x;
     foo() {

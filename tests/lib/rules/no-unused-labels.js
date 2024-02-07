@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-unused-labels"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -72,6 +72,69 @@ ruleTester.run("no-unused-labels", rule, {
         {
             code: "A /* comment */: foo",
             output: null,
+            errors: [{ messageId: "unused" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/16988
+        {
+            code: 'A: "use strict"',
+            output: null,
+            errors: [{ messageId: "unused" }]
+        },
+        {
+            code: '"use strict"; foo: "bar"',
+            output: null,
+            errors: [{ messageId: "unused" }]
+        },
+        {
+            code: 'A: ("use strict")', // Parentheses may be removed by another rule.
+            output: null,
+            errors: [{ messageId: "unused" }]
+        },
+        {
+            code: "A: `use strict`", // `use strict` may be changed to "use strict" by another rule.
+            output: null,
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unused" }]
+        },
+        {
+            code: "if (foo) { bar: 'baz' }",
+            output: "if (foo) { 'baz' }",
+            errors: [{ messageId: "unused" }]
+        },
+        {
+            code: "A: B: 'foo'",
+            output: "B: 'foo'",
+            errors: [{ messageId: "unused" }, { messageId: "unused" }]
+        },
+        {
+            code: "A: B: C: 'foo'",
+            output: "B: C: 'foo'", // Becomes "C: 'foo'" on the second pass.
+            errors: [{ messageId: "unused" }, { messageId: "unused" }, { messageId: "unused" }]
+        },
+        {
+            code: "A: B: C: D: 'foo'",
+            output: "B: D: 'foo'", // Becomes "D: 'foo'" on the second pass.
+            errors: [
+                { messageId: "unused" },
+                { messageId: "unused" },
+                { messageId: "unused" },
+                { messageId: "unused" }]
+        },
+        {
+            code: "A: B: C: D: E: 'foo'",
+            output: "B: D: E: 'foo'", // Becomes "E: 'foo'" on the third pass.
+            errors: [
+                { messageId: "unused" },
+                { messageId: "unused" },
+                { messageId: "unused" },
+                { messageId: "unused" },
+                { messageId: "unused" }
+            ]
+        },
+        {
+            code: "A: 42",
+            output: "42",
             errors: [{ messageId: "unused" }]
         }
 

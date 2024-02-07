@@ -1,6 +1,5 @@
 ---
 title: no-new
-layout: doc
 rule_type: suggestion
 ---
 
@@ -44,7 +43,7 @@ Examples of **correct** code for this rule:
 
 var thing = new Thing();
 
-Thing();
+Foo();
 ```
 
 :::

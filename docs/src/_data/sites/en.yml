@@ -74,8 +74,8 @@ footer:
     title: Social Media
     twitter: Twitter
     chat: Discord
-    mailing_list: Google Group
     github: GitHub
+    mastodon: Mastodon
   theme_switcher:
     title: Theme Switcher
     light: Light
@@ -85,8 +85,9 @@ footer:
     description: Selecting a language will take you to the ESLint website in that language.
     change_language: Change Language
     language: Language
+    latest: Latest
   copyright: >
-    &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>
+    &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>. Content licensed under <a href="https://github.com/eslint/eslint/blob/main/LICENSE">MIT License</a>.
   links:
     open_jsf: The OpenJS Foundation
     terms: Terms of Use

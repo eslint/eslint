@@ -1,6 +1,5 @@
 ---
 title: no-unmodified-loop-condition
-layout: doc
 rule_type: problem
 ---
 
@@ -45,8 +44,8 @@ while (node) {
 }
 node = other;
 
-for (var j = 0; j < items.length; ++i) {
-    doSomething(items[j]);
+for (var j = 0; j < 5;) {
+    doSomething(j);
 }
 
 while (node !== root) {

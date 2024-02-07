@@ -1,10 +1,9 @@
 ---
 title: space-infix-ops
-layout: doc
 rule_type: layout
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/space-infix-ops) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 While formatting preferences are very personal, a number of style guides require spaces around operators, such as:
 
@@ -58,7 +57,7 @@ a?b:c
 
 const a={b:1};
 
-var {a=0}=bar;
+var {b=0}=bar;
 
 function foo(a=0) { }
 ```
@@ -81,7 +80,7 @@ a ? b : c
 
 const a = {b:1};
 
-var {a = 0} = bar;
+var {b = 0} = bar;
 
 function foo(a = 0) { }
 ```

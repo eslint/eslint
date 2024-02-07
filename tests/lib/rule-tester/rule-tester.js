@@ -11,8 +11,11 @@ const sinon = require("sinon"),
     EventEmitter = require("events"),
     { RuleTester } = require("../../../lib/rule-tester"),
     assert = require("chai").assert,
-    nodeAssert = require("assert"),
-    espree = require("espree");
+    nodeAssert = require("assert");
+
+//-----------------------------------------------------------------------------
+// Helpers
+//-----------------------------------------------------------------------------
 
 const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     try {
@@ -22,6 +25,23 @@ const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
     }
     throw new Error("unexpected successful assertion");
 })();
+
+/**
+ * A helper function to verify Node.js core error messages.
+ * @param {string} actual The actual input
+ * @param {string} expected The expected input
+ * @returns {Function} Error callback to verify that the message is correct
+ *                     for the actual and expected input.
+ */
+function assertErrorMatches(actual, expected) {
+    const err = new nodeAssert.AssertionError({
+        actual,
+        expected,
+        operator: NODE_ASSERT_STRICT_EQUAL_OPERATOR
+    });
+
+    return err.message;
+}
 
 /**
  * Do nothing.
@@ -58,6 +78,8 @@ const ruleTesterTestEmitter = new EventEmitter();
 
 describe("RuleTester", () => {
 
+    let ruleTester;
+
     // Stub `describe()` and `it()` while this test suite.
     before(() => {
         RuleTester.describe = function(text, method) {
@@ -69,33 +91,116 @@ describe("RuleTester", () => {
             return method.call(this);
         };
     });
+
     after(() => {
         RuleTester.describe = null;
         RuleTester.it = null;
     });
 
-    let ruleTester;
+    beforeEach(() => {
+        ruleTester = new RuleTester();
+    });
 
-    /**
-     * A helper function to verify Node.js core error messages.
-     * @param {string} actual The actual input
-     * @param {string} expected The expected input
-     * @returns {Function} Error callback to verify that the message is correct
-     *                     for the actual and expected input.
-     */
-    function assertErrorMatches(actual, expected) {
-        const err = new nodeAssert.AssertionError({
-            actual,
-            expected,
-            operator: NODE_ASSERT_STRICT_EQUAL_OPERATOR
+    describe("Default Config", () => {
+
+        afterEach(() => {
+            RuleTester.resetDefaultConfig();
         });
 
-        return err.message;
-    }
+        it("should correctly set the globals configuration", () => {
+            const config = { languageOptions: { globals: { test: true } } };
 
-    beforeEach(() => {
-        RuleTester.resetDefaultConfig();
-        ruleTester = new RuleTester();
+            RuleTester.setDefaultConfig(config);
+            assert(
+                RuleTester.getDefaultConfig().languageOptions.globals.test,
+                "The default config object is incorrect"
+            );
+        });
+
+        it("should correctly reset the global configuration", () => {
+            const config = { languageOptions: { globals: { test: true } } };
+
+            RuleTester.setDefaultConfig(config);
+            RuleTester.resetDefaultConfig();
+            assert.deepStrictEqual(
+                RuleTester.getDefaultConfig(),
+                { rules: {} },
+                "The default configuration has not reset correctly"
+            );
+        });
+
+        it("should enforce the global configuration to be an object", () => {
+
+            /**
+             * Set the default config for the rules tester
+             * @param {Object} config configuration object
+             * @returns {Function} Function to be executed
+             * @private
+             */
+            function setConfig(config) {
+                return function() {
+                    RuleTester.setDefaultConfig(config);
+                };
+            }
+            const errorMessage = "RuleTester.setDefaultConfig: config must be an object";
+
+            assert.throw(setConfig(), errorMessage);
+            assert.throw(setConfig(1), errorMessage);
+            assert.throw(setConfig(3.14), errorMessage);
+            assert.throw(setConfig("foo"), errorMessage);
+            assert.throw(setConfig(null), errorMessage);
+            assert.throw(setConfig(true), errorMessage);
+        });
+
+        it("should pass-through the globals config to the tester then to the to rule", () => {
+            const config = { languageOptions: { sourceType: "script", globals: { test: true } } };
+
+            RuleTester.setDefaultConfig(config);
+            ruleTester = new RuleTester();
+
+            ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
+                valid: [
+                    "var test = 'foo'",
+                    "var test2 = test"
+                ],
+                invalid: [{ code: "bar", errors: 1, languageOptions: { globals: { foo: true } } }]
+            });
+        });
+
+        it("should throw an error if node.start is accessed with parser in default config", () => {
+            const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
+
+            RuleTester.setDefaultConfig({
+                languageOptions: {
+                    parser: enhancedParser
+                }
+            });
+            ruleTester = new RuleTester();
+
+            /*
+             * Note: More robust test for start/end found later in file.
+             * This one is just for checking the default config has a
+             * parser that is wrapped.
+             */
+            const usesStartEndRule = {
+                create() {
+
+                    return {
+                        CallExpression(node) {
+                            noop(node.arguments[1].start);
+                        }
+                    };
+                }
+            };
+
+            assert.throws(() => {
+                ruleTester.run("uses-start-end", usesStartEndRule, {
+                    valid: ["foo(a, b)"],
+                    invalid: []
+                });
+            }, "Use node.range[0] instead of node.start");
+        });
+
     });
 
     describe("only", () => {
@@ -369,6 +474,20 @@ describe("RuleTester", () => {
         });
     });
 
+    it("should throw correct error when valid code is invalid and enables other core rule", () => {
+
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    "/*eslint semi: 2*/ eval(foo);"
+                ],
+                invalid: [
+                    { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression" }] }
+                ]
+            });
+        }, /Should have no errors but had 1/u);
+    });
+
     it("should throw an error when valid code is invalid", () => {
 
         assert.throws(() => {
@@ -461,7 +580,7 @@ describe("RuleTester", () => {
                     "bar = baz;"
                 ],
                 invalid: [
-                    { code: "var foo = bar; var baz = quux", errors: [{ type: "VariableDeclaration" }, null] }
+                    { code: "var foo = bar; var baz = quux", errors: [{ message: "Bad var.", type: "VariableDeclaration" }, null] }
                 ]
             });
         }, /Error should be a string, object, or RegExp/u);
@@ -515,6 +634,26 @@ describe("RuleTester", () => {
                 { code: "var foo = bar;", output: " foo = bar;", errors: [/^Bad var/u] }
             ]
         });
+    });
+
+    it("should not throw an error when the error is a string and the suggestion fixer is failing", () => {
+        ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/suggestions").withFailingFixer, {
+            valid: [],
+            invalid: [
+                { code: "foo", errors: ["some message"] }
+            ]
+        });
+    });
+
+    it("throws an error when the error is a string and the suggestion fixer provides a fix", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                valid: [],
+                invalid: [
+                    { code: "foo", errors: ["Avoid using identifiers named 'foo'."] }
+                ]
+            });
+        }, "Error at index 0 has suggestions. Please convert the test error into an object and specify 'suggestions' property on it to test suggestions.");
     });
 
     it("should throw an error when the error is an object with an unknown property name", () => {
@@ -664,6 +803,17 @@ describe("RuleTester", () => {
                 ]
             });
         }, /Expected no autofixes to be suggested/u);
+    });
+
+    it("should throw an error when the expected output is not null and the output does not differ from the code", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [],
+                invalid: [
+                    { code: "eval('')", output: "eval('')", errors: 1 }
+                ]
+            });
+        }, "Test property 'output' matches 'code'. If no autofix is expected, then omit the 'output' property or set it to null.");
     });
 
     it("should throw an error when the expected output isn't specified and problems produce output", () => {
@@ -895,46 +1045,80 @@ describe("RuleTester", () => {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [],
                 invalid: [
-                    { code: "eval(`foo`)", output: "eval(`foo`);", errors: [{}] }
+                    { code: "eval(`foo`", output: "eval(`foo`);", errors: [{}] }
                 ]
             });
         }, /fatal parsing error/iu);
     });
 
-    it("should not throw an error if invalid code has at least an expected empty error object", () => {
-        ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
-            valid: ["Eval(foo)"],
-            invalid: [{
-                code: "eval(foo)",
-                errors: [{}]
-            }]
-        });
+    it("should throw an error if an error object has no properties", () => {
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: ["Eval(foo)"],
+                invalid: [{
+                    code: "eval(foo)",
+                    errors: [{}]
+                }]
+            });
+        }, "Test error must specify either a 'messageId' or 'message'.");
+    });
+
+    it("should throw an error if an error has a property besides message or messageId", () => {
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: ["Eval(foo)"],
+                invalid: [{
+                    code: "eval(foo)",
+                    errors: [{ line: 1 }]
+                }]
+            });
+        }, "Test error must specify either a 'messageId' or 'message'.");
     });
 
     it("should pass-through the globals config of valid tests to the to rule", () => {
         ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
             valid: [
-                "var test = 'foo'",
+                {
+                    code: "var test = 'foo'",
+                    languageOptions: {
+                        sourceType: "script"
+                    }
+                },
                 {
                     code: "var test2 = 'bar'",
-                    globals: { test: true }
+                    languageOptions: {
+                        globals: { test: true }
+                    }
                 }
             ],
             invalid: [{ code: "bar", errors: 1 }]
         });
     });
 
-    it("should pass-through the globals config of invalid tests to the to rule", () => {
+    it("should pass-through the globals config of invalid tests to the rule", () => {
         ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
-            valid: ["var test = 'foo'"],
+            valid: [
+                {
+                    code: "var test = 'foo'",
+                    languageOptions: {
+                        sourceType: "script"
+                    }
+                }
+            ],
             invalid: [
                 {
                     code: "var test = 'foo'; var foo = 'bar'",
+                    languageOptions: {
+                        sourceType: "script"
+                    },
                     errors: 1
                 },
                 {
                     code: "var test = 'foo'",
-                    globals: { foo: true },
+                    languageOptions: {
+                        sourceType: "script",
+                        globals: { foo: true }
+                    },
                     errors: [{ message: "Global variable foo should not be used." }]
                 }
             ]
@@ -975,6 +1159,84 @@ describe("RuleTester", () => {
                 ]
             });
         }());
+    });
+
+    it("should allow setting the filename to a non-JavaScript file", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile.ts"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path without extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path with extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile.js"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "src/somefile.ts"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "components/Component.vue"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should allow setting the filename to a file path without extension", () => {
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "path/to/somefile"
+                },
+                {
+                    code: "var foo = 'bar'",
+                    filename: "src/somefile"
+                }
+            ],
+            invalid: []
+        });
+    });
+
+    it("should keep allowing non-JavaScript files if the default config does not specify files", () => {
+        RuleTester.setDefaultConfig({ rules: {} });
+        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
+            valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile.ts"
+                }
+            ],
+            invalid: []
+        });
+        RuleTester.resetDefaultConfig();
     });
 
     it("should pass-through the options to the rule", () => {
@@ -1023,255 +1285,114 @@ describe("RuleTester", () => {
         }, /options must be an array/u);
     });
 
-    it("should pass-through the parser to the rule", () => {
-        const spy = sinon.spy(ruleTester.linter, "verify");
+    describe("Parsers", () => {
 
-        ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
-            valid: [
-                {
-                    code: "Eval(foo)"
-                }
-            ],
-            invalid: [
-                {
-                    code: "eval(foo)",
-                    parser: require.resolve("esprima"),
-                    errors: [{ line: 1 }]
-                }
-            ]
-        });
-        assert.strictEqual(spy.args[1][1].parser, require.resolve("esprima"));
-    });
+        it("should pass-through the parser to the rule", () => {
+            const spy = sinon.spy(ruleTester.linter, "verify");
+            const esprima = require("esprima");
 
-    it("should pass normalized ecmaVersion to the rule", () => {
-        const reportEcmaVersionRule = {
-            meta: {
-                messages: {
-                    ecmaVersionMessage: "context.parserOptions.ecmaVersion is {{type}} {{ecmaVersion}}."
-                }
-            },
-            create: context => ({
-                Program(node) {
-                    const { ecmaVersion } = context.parserOptions;
-
-                    context.report({
-                        node,
-                        messageId: "ecmaVersionMessage",
-                        data: { type: typeof ecmaVersion, ecmaVersion }
-                    });
-                }
-            })
-        };
-
-        const notEspree = require.resolve("../../fixtures/parsers/empty-program-parser");
-
-        ruleTester.run("report-ecma-version", reportEcmaVersionRule, {
-            valid: [],
-            invalid: [
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }]
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    parserOptions: {}
-                },
-                {
-                    code: "<div/>",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    parserOptions: { ecmaFeatures: { jsx: true } }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    parser: require.resolve("espree")
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                    parserOptions: { ecmaVersion: 6 }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                    parserOptions: { ecmaVersion: 2015 }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    env: { browser: true }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    env: { es6: false }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                    env: { es6: true }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "8" } }],
-                    env: { es6: false, es2017: true }
-                },
-                {
-                    code: "let x",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                    env: { es6: "truthy" }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "8" } }],
-                    env: { es2017: true }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "11" } }],
-                    env: { es2020: true }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "12" } }],
-                    env: { es2021: true }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
-                    parserOptions: { ecmaVersion: "latest" }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
-                    parser: require.resolve("espree"),
-                    parserOptions: { ecmaVersion: "latest" }
-                },
-                {
-                    code: "<div/>",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
-                    parserOptions: { ecmaVersion: "latest", ecmaFeatures: { jsx: true } }
-                },
-                {
-                    code: "import 'foo'",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
-                    parserOptions: { ecmaVersion: "latest", sourceType: "module" }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
-                    parserOptions: { ecmaVersion: "latest" },
-                    env: { es6: true }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: String(espree.latestEcmaVersion) } }],
-                    parserOptions: { ecmaVersion: "latest" },
-                    env: { es2020: true }
-                },
-
-                // Non-Espree parsers normalize ecmaVersion if it's not "latest"
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    parser: notEspree
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }],
-                    parser: notEspree,
-                    parserOptions: {}
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "5" } }],
-                    parser: notEspree,
-                    parserOptions: { ecmaVersion: 5 }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }],
-                    parser: notEspree,
-                    parserOptions: { ecmaVersion: 6 }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: 6 } }],
-                    parser: notEspree,
-                    parserOptions: { ecmaVersion: 2015 }
-                },
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "string", ecmaVersion: "latest" } }],
-                    parser: notEspree,
-                    parserOptions: { ecmaVersion: "latest" }
-                }
-            ]
-        });
-
-        [{ parserOptions: { ecmaVersion: 6 } }, { env: { es6: true } }].forEach(options => {
-            new RuleTester(options).run("report-ecma-version", reportEcmaVersionRule, {
-                valid: [],
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    {
+                        code: "Eval(foo)"
+                    }
+                ],
                 invalid: [
                     {
-                        code: "",
-                        errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }]
-                    },
+                        code: "eval(foo)",
+                        languageOptions: {
+                            parser: esprima
+                        },
+                        errors: [{ message: "eval sucks.", line: 1 }]
+                    }
+                ]
+            });
+
+            const configs = spy.args[1][1];
+            const config = configs.getConfig("test.js");
+
+            assert.strictEqual(
+                config.languageOptions.parser[Symbol.for("eslint.RuleTester.parser")],
+                esprima
+            );
+        });
+
+        it("should pass-through services from parseForESLint to the rule", () => {
+            const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
+            const disallowHiRule = {
+                create: context => ({
+                    Literal(node) {
+
+                        const disallowed = context.sourceCode.parserServices.test.getMessage(); // returns "Hi!"
+
+                        if (node.value === disallowed) {
+                            context.report({ node, message: `Don't use '${disallowed}'` });
+                        }
+                    }
+                })
+            };
+
+            ruleTester.run("no-hi", disallowHiRule, {
+                valid: [
                     {
-                        code: "",
-                        parserOptions: {},
-                        errors: [{ messageId: "ecmaVersionMessage", data: { type: "number", ecmaVersion: "6" } }]
+                        code: "'Hello!'",
+                        languageOptions: {
+                            parser: enhancedParser
+                        }
+                    }
+                ],
+                invalid: [
+                    {
+                        code: "'Hi!'",
+                        languageOptions: {
+                            parser: enhancedParser
+                        },
+                        errors: [{ message: "Don't use 'Hi!'" }]
                     }
                 ]
             });
         });
 
-        new RuleTester({ parser: notEspree }).run("report-ecma-version", reportEcmaVersionRule, {
-            valid: [],
-            invalid: [
-                {
-                    code: "",
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "undefined", ecmaVersion: "undefined" } }]
-                },
-                {
-                    code: "",
-                    parserOptions: { ecmaVersion: "latest" },
-                    errors: [{ messageId: "ecmaVersionMessage", data: { type: "string", ecmaVersion: "latest" } }]
-                }
-            ]
+        it("should throw an error when the parser is not an object", () => {
+            assert.throws(() => {
+                ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        languageOptions: {
+                            parser: "esprima"
+                        },
+                        errors: 1
+                    }]
+                });
+            }, /Parser must be an object with a parse\(\) or parseForESLint\(\) method/u);
+
         });
+
     });
 
-    it("should pass-through services from parseForESLint to the rule", () => {
-        const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
-        const disallowHiRule = {
-            create: context => ({
-                Literal(node) {
-                    const disallowed = context.parserServices.test.getMessage(); // returns "Hi!"
-
-                    if (node.value === disallowed) {
-                        context.report({ node, message: `Don't use '${disallowed}'` });
+    it("should throw an error with the original message and an additional description if rule has `meta.schema` of an invalid type", () => {
+        const rule = {
+            meta: {
+                schema: true
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
                     }
-                }
-            })
+                };
+            }
         };
 
-        ruleTester.run("no-hi", disallowHiRule, {
-            valid: [
-                {
-                    code: "'Hello!'",
-                    parser: enhancedParserPath
-                }
-            ],
-            invalid: [
-                {
-                    code: "'Hi!'",
-                    parser: enhancedParserPath,
-                    errors: [{ message: "Don't use 'Hi!'" }]
-                }
-            ]
-        });
+        assert.throws(() => {
+            ruleTester.run("rule-with-invalid-schema-type", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, /Rule's `meta.schema` must be an array or object.*set `meta.schema` to an array or non-empty object to enable options validation/us);
     });
 
     it("should prevent invalid options schemas", () => {
@@ -1287,6 +1408,92 @@ describe("RuleTester", () => {
             });
         }, "Schema for rule no-invalid-schema is invalid:,\titems: should be object\n\titems[0].enum: should NOT have fewer than 1 items\n\titems: should match some schema in anyOf");
 
+    });
+
+    it("should throw an error if rule schema is `{}`", () => {
+        const rule = {
+            meta: {
+                schema: {}
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("rule-with-empty-object-schema", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, /`schema: \{\}` is a no-op.*set `meta.schema` to an array or non-empty object to enable options validation/us);
+    });
+
+    it("should throw an error if rule schema has only non-enumerable properties", () => {
+        const rule = {
+            meta: {
+                schema: Object.create(null, {
+                    type: {
+                        value: "array",
+                        enumerable: false
+                    },
+                    items: {
+                        value: [{ enum: ["foo"] }],
+                        enumerable: false
+                    }
+                })
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("rule-with-empty-object-schema", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, /`schema: \{\}` is a no-op.*set `meta.schema` to an array or non-empty object to enable options validation/us);
+    });
+
+    it("should throw an error if rule schema has only inherited enumerable properties", () => {
+        const rule = {
+            meta: {
+                schema: {
+                    __proto__: {
+                        type: "array",
+                        items: [{ enum: ["foo"] }]
+                    }
+                }
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("rule-with-empty-object-schema", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, /`schema: \{\}` is a no-op.*set `meta.schema` to an array or non-empty object to enable options validation/us);
     });
 
     it("should prevent schema violations in options", () => {
@@ -1352,7 +1559,7 @@ describe("RuleTester", () => {
         }, /ESLint configuration in rule-tester is invalid./u);
     });
 
-    it("throw an error when an invalid config value is included", () => {
+    it("throw an error when env is included in config", () => {
         assert.throws(() => {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
@@ -1360,12 +1567,14 @@ describe("RuleTester", () => {
                 ],
                 invalid: []
             });
-        }, /Property "env" is the wrong type./u);
+        }, /Key "env": This appears to be in eslintrc format rather than flat config format/u);
     });
 
     it("should pass-through the tester config to the rule", () => {
         ruleTester = new RuleTester({
-            globals: { test: true }
+            languageOptions: {
+                globals: { test: true }
+            }
         });
 
         ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
@@ -1373,65 +1582,7 @@ describe("RuleTester", () => {
                 "var test = 'foo'",
                 "var test2 = test"
             ],
-            invalid: [{ code: "bar", errors: 1, globals: { foo: true } }]
-        });
-    });
-
-    it("should correctly set the globals configuration", () => {
-        const config = { globals: { test: true } };
-
-        RuleTester.setDefaultConfig(config);
-        assert(
-            RuleTester.getDefaultConfig().globals.test,
-            "The default config object is incorrect"
-        );
-    });
-
-    it("should correctly reset the global configuration", () => {
-        const config = { globals: { test: true } };
-
-        RuleTester.setDefaultConfig(config);
-        RuleTester.resetDefaultConfig();
-        assert.deepStrictEqual(
-            RuleTester.getDefaultConfig(),
-            { rules: {} },
-            "The default configuration has not reset correctly"
-        );
-    });
-
-    it("should enforce the global configuration to be an object", () => {
-
-        /**
-         * Set the default config for the rules tester
-         * @param {Object} config configuration object
-         * @returns {Function} Function to be executed
-         * @private
-         */
-        function setConfig(config) {
-            return function() {
-                RuleTester.setDefaultConfig(config);
-            };
-        }
-        assert.throw(setConfig());
-        assert.throw(setConfig(1));
-        assert.throw(setConfig(3.14));
-        assert.throw(setConfig("foo"));
-        assert.throw(setConfig(null));
-        assert.throw(setConfig(true));
-    });
-
-    it("should pass-through the globals config to the tester then to the to rule", () => {
-        const config = { globals: { test: true } };
-
-        RuleTester.setDefaultConfig(config);
-        ruleTester = new RuleTester();
-
-        ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
-            valid: [
-                "var test = 'foo'",
-                "var test2 = test"
-            ],
-            invalid: [{ code: "bar", errors: 1, globals: { foo: true } }]
+            invalid: [{ code: "bar", errors: 1, languageOptions: { globals: { foo: true } } }]
         });
     });
 
@@ -1452,6 +1603,39 @@ describe("RuleTester", () => {
                 ]
             });
         }, "Rule should not modify AST.");
+    });
+
+    it("should throw an error node.start is accessed with custom parser", () => {
+        const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
+
+        ruleTester = new RuleTester({
+            languageOptions: {
+                parser: enhancedParser
+            }
+        });
+
+        /*
+         * Note: More robust test for start/end found later in file.
+         * This one is just for checking the custom config has a
+         * parser that is wrapped.
+         */
+        const usesStartEndRule = {
+            create() {
+
+                return {
+                    CallExpression(node) {
+                        noop(node.arguments[1].start);
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("uses-start-end", usesStartEndRule, {
+                valid: ["foo(a, b)"],
+                invalid: []
+            });
+        }, "Use node.range[0] instead of node.start");
     });
 
     it("should throw an error if AST was modified (at Program)", () => {
@@ -1496,7 +1680,7 @@ describe("RuleTester", () => {
         const usesStartEndRule = {
             create(context) {
 
-                const sourceCode = context.getSourceCode();
+                const sourceCode = context.sourceCode;
 
                 return {
                     CallExpression(node) {
@@ -1561,51 +1745,97 @@ describe("RuleTester", () => {
             });
         }, "Use token.range[1] instead of token.end");
 
-        const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
+        const enhancedParser = require("../../fixtures/parsers/enhanced-parser");
 
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
-                valid: [{ code: "foo(a, b)", parser: enhancedParserPath }],
+                valid: [{ code: "foo(a, b)", languageOptions: { parser: enhancedParser } }],
                 invalid: []
             });
         }, "Use node.range[0] instead of node.start");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
                 valid: [],
-                invalid: [{ code: "var a = b * (c + d) / e;", parser: enhancedParserPath, errors: 1 }]
+                invalid: [{ code: "var a = b * (c + d) / e;", languageOptions: { parser: enhancedParser }, errors: 1 }]
             });
         }, "Use node.range[1] instead of node.end");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
                 valid: [],
-                invalid: [{ code: "var a = -b * c;", parser: enhancedParserPath, errors: 1 }]
+                invalid: [{ code: "var a = -b * c;", languageOptions: { parser: enhancedParser }, errors: 1 }]
             });
         }, "Use token.range[0] instead of token.start");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
-                valid: [{ code: "var a = b ? c : d;", parser: enhancedParserPath }],
+                valid: [{ code: "var a = b ? c : d;", languageOptions: { parser: enhancedParser } }],
                 invalid: []
             });
         }, "Use token.range[1] instead of token.end");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
-                valid: [{ code: "function f() { /* comment */ }", parser: enhancedParserPath }],
+                valid: [{ code: "function f() { /* comment */ }", languageOptions: { parser: enhancedParser } }],
                 invalid: []
             });
         }, "Use token.range[0] instead of token.start");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
                 valid: [],
-                invalid: [{ code: "var x = //\n {\n //comment\n //\n}", parser: enhancedParserPath, errors: 1 }]
+                invalid: [{ code: "var x = //\n {\n //comment\n //\n}", languageOptions: { parser: enhancedParser }, errors: 1 }]
             });
         }, "Use token.range[1] instead of token.end");
 
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
-                valid: [{ code: "@foo class A {}", parser: require.resolve("../../fixtures/parsers/enhanced-parser2") }],
+                valid: [{ code: "@foo class A {}", languageOptions: { parser: require("../../fixtures/parsers/enhanced-parser2") } }],
                 invalid: []
             });
         }, "Use node.range[0] instead of node.start");
+    });
+
+    it("should throw an error if rule is a function", () => {
+
+        /**
+         * Legacy-format rule (a function instead of an object with `create` method).
+         * @param {RuleContext} context The ESLint rule context object.
+         * @returns {Object} Listeners.
+         */
+        function functionStyleRule(context) {
+            return {
+                Program(node) {
+                    context.report({ node, message: "bad" });
+                }
+            };
+        }
+
+        assert.throws(() => {
+            ruleTester.run("function-style-rule", functionStyleRule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, "Rule must be an object with a `create` method");
+    });
+
+    it("should throw an error if rule is an object without 'create' method", () => {
+        const rule = {
+            create_(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad" });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("object-rule-without-create", rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: 1 }
+                ]
+            });
+        }, "Rule must be an object with a `create` method");
     });
 
     it("should throw an error if no test scenarios given", () => {
@@ -1707,10 +1937,83 @@ describe("RuleTester", () => {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ data: "something" }] }]
             });
-        }, "Error must specify 'messageId' if 'data' is used.");
+        }, "Test error must specify either a 'messageId' or 'message'.");
+    });
+
+    // fixable rules with or without `meta` property
+    it("should not throw an error if a rule that has `meta.fixable` produces fixes", () => {
+        const replaceProgramWith5Rule = {
+            meta: {
+                fixable: "code"
+            },
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
+                    }
+                };
+            }
+        };
+
+        ruleTester.run("replaceProgramWith5", replaceProgramWith5Rule, {
+            valid: [],
+            invalid: [
+                { code: "var foo = bar;", output: "5", errors: 1 }
+            ]
+        });
+    });
+    it("should throw an error if a new-format rule that doesn't have `meta` produces fixes", () => {
+        const replaceProgramWith5Rule = {
+            create(context) {
+                return {
+                    Program(node) {
+                        context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
+                    }
+                };
+            }
+        };
+
+        assert.throws(() => {
+            ruleTester.run("replaceProgramWith5", replaceProgramWith5Rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", output: "5", errors: 1 }
+                ]
+            });
+        }, /Fixable rules must set the `meta\.fixable` property/u);
+    });
+
+    // https://github.com/eslint/eslint/issues/17962
+    it("should not throw an error in case of absolute paths", () => {
+        ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+            valid: [
+                "Eval(foo)"
+            ],
+            invalid: [
+                {
+                    code: "eval(foo)",
+                    filename: "/an-absolute-path/foo.js",
+                    errors: [{ message: "eval sucks.", type: "CallExpression" }]
+                }
+            ]
+        });
     });
 
     describe("suggestions", () => {
+        it("should throw if suggestions are available but not specified", () => {
+            assert.throw(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [
+                        "var boo;"
+                    ],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{ message: "Avoid using identifiers named 'foo'." }]
+                    }]
+                });
+            }, "Error at index 0 has suggestions. Please specify 'suggestions' property on the test error object.");
+        });
+
         it("should pass with valid suggestions (tested using desc)", () => {
             ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
                 valid: [
@@ -1719,6 +2022,7 @@ describe("RuleTester", () => {
                 invalid: [{
                     code: "var foo;",
                     errors: [{
+                        message: "Avoid using identifiers named 'foo'.",
                         suggestions: [{
                             desc: "Rename identifier 'foo' to 'bar'",
                             output: "var bar;"
@@ -1735,11 +2039,13 @@ describe("RuleTester", () => {
                     {
                         code: "function foo() {\n  var foo = 1;\n}",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 desc: "Rename identifier 'foo' to 'bar'",
                                 output: "function bar() {\n  var foo = 1;\n}"
                             }]
                         }, {
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 desc: "Rename identifier 'foo' to 'bar'",
                                 output: "function foo() {\n  var bar = 1;\n}"
@@ -1756,6 +2062,7 @@ describe("RuleTester", () => {
                 invalid: [{
                     code: "var foo;",
                     errors: [{
+                        messageId: "avoidFoo",
                         suggestions: [{
                             messageId: "renameFoo",
                             output: "var bar;"
@@ -1774,6 +2081,7 @@ describe("RuleTester", () => {
                 invalid: [{
                     code: "var foo;",
                     errors: [{
+                        messageId: "avoidFoo",
                         suggestions: [{
                             messageId: "renameFoo",
                             output: "var bar;"
@@ -1786,24 +2094,27 @@ describe("RuleTester", () => {
             });
         });
 
-        it("should pass with valid suggestions (tested using both desc and messageIds for the same suggestion)", () => {
-            ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
-                valid: [],
-                invalid: [{
-                    code: "var foo;",
-                    errors: [{
-                        suggestions: [{
-                            desc: "Rename identifier 'foo' to 'bar'",
-                            messageId: "renameFoo",
-                            output: "var bar;"
-                        }, {
-                            desc: "Rename identifier 'foo' to 'baz'",
-                            messageId: "renameFoo",
-                            output: "var baz;"
+        it("should fail with valid suggestions when testing using both desc and messageIds for the same suggestion", () => {
+            assert.throw(() => {
+                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            messageId: "avoidFoo",
+                            suggestions: [{
+                                desc: "Rename identifier 'foo' to 'bar'",
+                                messageId: "renameFoo",
+                                output: "var bar;"
+                            }, {
+                                desc: "Rename identifier 'foo' to 'baz'",
+                                messageId: "renameFoo",
+                                output: "var baz;"
+                            }]
                         }]
                     }]
-                }]
-            });
+                });
+            }, "Error Suggestion at index 0: Test should not specify both 'desc' and 'messageId'.");
         });
 
         it("should pass with valid suggestions (tested using only desc on a rule that utilizes meta.messages)", () => {
@@ -1812,6 +2123,7 @@ describe("RuleTester", () => {
                 invalid: [{
                     code: "var foo;",
                     errors: [{
+                        messageId: "avoidFoo",
                         suggestions: [{
                             desc: "Rename identifier 'foo' to 'bar'",
                             output: "var bar;"
@@ -1830,6 +2142,7 @@ describe("RuleTester", () => {
                 invalid: [{
                     code: "var foo;",
                     errors: [{
+                        messageId: "avoidFoo",
                         suggestions: [{
                             messageId: "renameFoo",
                             data: { newName: "bar" },
@@ -1845,16 +2158,34 @@ describe("RuleTester", () => {
         });
 
 
-        it("should pass when tested using empty suggestion test objects if the array length is correct", () => {
-            ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
-                valid: [],
-                invalid: [{
-                    code: "var foo;",
-                    errors: [{
-                        suggestions: [{}, {}]
+        it("should fail when tested using empty suggestion test objects even if the array length is correct", () => {
+            assert.throw(() => {
+                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            messageId: "avoidFoo",
+                            suggestions: [{}, {}]
+                        }]
                     }]
-                }]
-            });
+                });
+            }, "Error Suggestion at index 0: Test must specify either 'messageId' or 'desc'");
+        });
+
+        it("should fail when tested using non-empty suggestion test objects without an output property", () => {
+            assert.throw(() => {
+                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            messageId: "avoidFoo",
+                            suggestions: [{ messageId: "renameFoo" }, {}]
+                        }]
+                    }]
+                });
+            }, 'Error Suggestion at index 0: The "output" property is required.');
         });
 
         it("should support explicitly expecting no suggestions", () => {
@@ -1864,6 +2195,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "eval('var foo');",
                         errors: [{
+                            message: "eval sucks.",
                             suggestions
                         }]
                     }]
@@ -1879,6 +2211,7 @@ describe("RuleTester", () => {
                         invalid: [{
                             code: "var foo;",
                             errors: [{
+                                message: "Avoid using identifiers named 'foo'.",
                                 suggestions
                             }]
                         }]
@@ -1894,13 +2227,27 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Bad var.",
                             suggestions: [{
                                 messageId: "this-does-not-exist"
                             }]
                         }]
                     }]
                 });
-            }, "Error should have an array of suggestions. Instead received \"undefined\" on error with message: \"Bad var.\"");
+            }, 'Error should have suggestions on error with message: "Bad var."');
+        });
+
+        it("should support specifying only the amount of suggestions", () => {
+            ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                valid: [],
+                invalid: [{
+                    code: "var foo;",
+                    errors: [{
+                        message: "Avoid using identifiers named 'foo'.",
+                        suggestions: 1
+                    }]
+                }]
+            });
         });
 
         it("should fail when there are a different number of suggestions", () => {
@@ -1910,6 +2257,22 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
+                            suggestions: 2
+                        }]
+                    }]
+                });
+            }, "Error should have 2 suggestions. Instead found 1 suggestions");
+        });
+
+        it("should fail when there are a different number of suggestions for arrays", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 desc: "Rename identifier 'foo' to 'bar'",
                                 output: "var bar;"
@@ -1923,6 +2286,63 @@ describe("RuleTester", () => {
             }, "Error should have 2 suggestions. Instead found 1 suggestions");
         });
 
+        it("should fail when the suggestion property is neither a number nor an array", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
+                            suggestions: "1"
+                        }]
+                    }]
+                });
+            }, "Test error object property 'suggestions' should be an array or a number");
+        });
+
+        it("should throw if suggestion fix made a syntax error.", () => {
+            assert.throw(() => {
+                ruleTester.run(
+                    "foo",
+                    {
+                        meta: { hasSuggestions: true },
+                        create(context) {
+                            return {
+                                Identifier(node) {
+                                    context.report({
+                                        node,
+                                        message: "make a syntax error",
+                                        suggest: [
+                                            {
+                                                desc: "make a syntax error",
+                                                fix(fixer) {
+                                                    return fixer.replaceText(node, "one two");
+                                                }
+                                            }
+                                        ]
+                                    });
+                                }
+                            };
+                        }
+                    },
+                    {
+                        valid: [""],
+                        invalid: [{
+                            code: "one()",
+                            errors: [{
+                                message: "make a syntax error",
+                                suggestions: [{
+                                    desc: "make a syntax error",
+                                    output: "one two()"
+                                }]
+                            }]
+                        }]
+                    }
+                );
+            }, /A fatal parsing error occurred in suggestion fix\.\nError: .+\nSuggestion output:\n.+/u);
+        });
+
         it("should throw if the suggestion description doesn't match", () => {
             assert.throws(() => {
                 ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
@@ -1930,6 +2350,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 desc: "not right",
                                 output: "var baz;"
@@ -1937,29 +2358,27 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 0 : desc should be \"not right\" but got \"Rename identifier 'foo' to 'bar'\" instead.");
+            }, "Error Suggestion at index 0: desc should be \"not right\" but got \"Rename identifier 'foo' to 'bar'\" instead.");
         });
 
-        it("should throw if the suggestion description doesn't match (although messageIds match)", () => {
-            assert.throws(() => {
-                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
-                    valid: [],
-                    invalid: [{
-                        code: "var foo;",
-                        errors: [{
-                            suggestions: [{
-                                desc: "Rename identifier 'foo' to 'bar'",
-                                messageId: "renameFoo",
-                                output: "var bar;"
-                            }, {
-                                desc: "Rename id 'foo' to 'baz'",
-                                messageId: "renameFoo",
-                                output: "var baz;"
-                            }]
+
+        it("should pass when different suggestion matchers use desc and messageId", () => {
+            ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                valid: [],
+                invalid: [{
+                    code: "var foo;",
+                    errors: [{
+                        messageId: "avoidFoo",
+                        suggestions: [{
+                            desc: "Rename identifier 'foo' to 'bar'",
+                            output: "var bar;"
+                        }, {
+                            messageId: "renameFoo",
+                            output: "var baz;"
                         }]
                     }]
-                });
-            }, "Error Suggestion at index 1 : desc should be \"Rename id 'foo' to 'baz'\" but got \"Rename identifier 'foo' to 'baz'\" instead.");
+                }]
+            });
         });
 
         it("should throw if the suggestion messageId doesn't match", () => {
@@ -1969,6 +2388,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "unused",
                                 output: "var bar;"
@@ -1979,29 +2399,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 0 : messageId should be 'unused' but got 'renameFoo' instead.");
-        });
-
-        it("should throw if the suggestion messageId doesn't match (although descriptions match)", () => {
-            assert.throws(() => {
-                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
-                    valid: [],
-                    invalid: [{
-                        code: "var foo;",
-                        errors: [{
-                            suggestions: [{
-                                desc: "Rename identifier 'foo' to 'bar'",
-                                messageId: "renameFoo",
-                                output: "var bar;"
-                            }, {
-                                desc: "Rename identifier 'foo' to 'baz'",
-                                messageId: "avoidFoo",
-                                output: "var baz;"
-                            }]
-                        }]
-                    }]
-                });
-            }, "Error Suggestion at index 1 : messageId should be 'avoidFoo' but got 'renameFoo' instead.");
+            }, "Error Suggestion at index 0: messageId should be 'unused' but got 'renameFoo' instead.");
         });
 
         it("should throw if test specifies messageId for a rule that doesn't have meta.messages", () => {
@@ -2011,6 +2409,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 messageId: "renameFoo",
                                 output: "var bar;"
@@ -2018,7 +2417,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 0 : Test can not use 'messageId' if rule under test doesn't define 'meta.messages'.");
+            }, "Error Suggestion at index 0: Test can not use 'messageId' if rule under test doesn't define 'meta.messages'.");
         });
 
         it("should throw if test specifies messageId that doesn't exist in the rule's meta.messages", () => {
@@ -2028,6 +2427,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "renameFoo",
                                 output: "var bar;"
@@ -2038,7 +2438,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 1 : Test has invalid messageId 'removeFoo', the rule under test allows only one of ['avoidFoo', 'unused', 'renameFoo'].");
+            }, "Error Suggestion at index 1: Test has invalid messageId 'removeFoo', the rule under test allows only one of ['avoidFoo', 'unused', 'renameFoo'].");
         });
 
         it("should throw if hydrated desc doesn't match (wrong data value)", () => {
@@ -2048,6 +2448,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "renameFoo",
                                 data: { newName: "car" },
@@ -2060,7 +2461,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 0 : Hydrated test desc \"Rename identifier 'foo' to 'car'\" does not match received desc \"Rename identifier 'foo' to 'bar'\".");
+            }, "Error Suggestion at index 0: Hydrated test desc \"Rename identifier 'foo' to 'car'\" does not match received desc \"Rename identifier 'foo' to 'bar'\".");
         });
 
         it("should throw if hydrated desc doesn't match (wrong data key)", () => {
@@ -2070,6 +2471,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "renameFoo",
                                 data: { newName: "bar" },
@@ -2082,7 +2484,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 1 : Hydrated test desc \"Rename identifier 'foo' to '{{ newName }}'\" does not match received desc \"Rename identifier 'foo' to 'baz'\".");
+            }, "Error Suggestion at index 1: Hydrated test desc \"Rename identifier 'foo' to '{{ newName }}'\" does not match received desc \"Rename identifier 'foo' to 'baz'\".");
         });
 
         it("should throw if test specifies both desc and data", () => {
@@ -2092,6 +2494,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 desc: "Rename identifier 'foo' to 'bar'",
                                 messageId: "renameFoo",
@@ -2105,7 +2508,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 0 : Test should not specify both 'desc' and 'data'.");
+            }, "Error Suggestion at index 0: Test should not specify both 'desc' and 'data'.");
         });
 
         it("should throw if test uses data but doesn't specify messageId", () => {
@@ -2115,6 +2518,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "renameFoo",
                                 data: { newName: "bar" },
@@ -2126,7 +2530,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error Suggestion at index 1 : Test must specify 'messageId' if 'data' is used.");
+            }, "Error Suggestion at index 1: Test must specify 'messageId' if 'data' is used.");
         });
 
         it("should throw if the resulting suggestion output doesn't match", () => {
@@ -2136,6 +2540,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 desc: "Rename identifier 'foo' to 'bar'",
                                 output: "var baz;"
@@ -2146,6 +2551,24 @@ describe("RuleTester", () => {
             }, "Expected the applied suggestion fix to match the test suggestion output");
         });
 
+        it("should throw if the resulting suggestion output is the same as the original source code", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").withFixerWithoutChanges, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
+                            suggestions: [{
+                                desc: "Rename identifier 'foo' to 'bar'",
+                                output: "var foo;"
+                            }]
+                        }]
+                    }]
+                });
+            }, "The output of a suggestion should differ from the original source code for suggestion at index: 0 on error with message: \"Avoid using identifiers named 'foo'.\"");
+        });
+
         it("should fail when specified suggestion isn't an object", () => {
             assert.throws(() => {
                 ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
@@ -2153,6 +2576,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [null]
                         }]
                     }]
@@ -2165,6 +2589,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [
                                 {
                                     messageId: "renameFoo",
@@ -2187,6 +2612,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            message: "Avoid using identifiers named 'foo'.",
                             suggestions: [{
                                 message: "Rename identifier 'foo' to 'bar'"
                             }]
@@ -2203,6 +2629,7 @@ describe("RuleTester", () => {
                     invalid: [{
                         code: "var foo;",
                         errors: [{
+                            messageId: "avoidFoo",
                             suggestions: [{
                                 messageId: "renameFoo",
                                 output: "var bar;"
@@ -2216,6 +2643,39 @@ describe("RuleTester", () => {
             }, /Invalid suggestion property name 'outpt'/u);
         });
 
+        it("should fail if a rule produces two suggestions with the same description", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-with-duplicate-descriptions", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateDescriptions, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", errors: 1 }
+                    ]
+                });
+            }, "Suggestion message 'Rename 'foo' to 'bar'' reported from suggestion 1 was previously reported by suggestion 0. Suggestion messages should be unique within an error.");
+        });
+
+        it("should fail if a rule produces two suggestions with the same messageId without data", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-with-duplicate-messageids-no-data", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateMessageIdsNoData, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", errors: 1 }
+                    ]
+                });
+            }, "Suggestion message 'Rename identifier' reported from suggestion 1 was previously reported by suggestion 0. Suggestion messages should be unique within an error.");
+        });
+
+        it("should fail if a rule produces two suggestions with the same messageId with data", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-with-duplicate-messageids-with-data", require("../../fixtures/testers/rule-tester/suggestions").withDuplicateMessageIdsWithData, {
+                    valid: [],
+                    invalid: [
+                        { code: "var foo = bar;", errors: 1 }
+                    ]
+                });
+            }, "Suggestion message 'Rename identifier 'foo' to 'bar'' reported from suggestion 1 was previously reported by suggestion 0. Suggestion messages should be unique within an error.");
+        });
+
         it("should throw an error if a rule that doesn't have `meta.hasSuggestions` enabled produces suggestions", () => {
             assert.throws(() => {
                 ruleTester.run("suggestions-missing-hasSuggestions-property", require("../../fixtures/testers/rule-tester/suggestions").withoutHasSuggestionsProperty, {
@@ -2225,265 +2685,6 @@ describe("RuleTester", () => {
                     ]
                 });
             }, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`.");
-        });
-    });
-
-    describe("deprecations", () => {
-        let processStub;
-        const ruleWithNoSchema = {
-            meta: {
-                type: "suggestion"
-            },
-            create(context) {
-                return {
-                    Program(node) {
-                        context.report({ node, message: "bad" });
-                    }
-                };
-            }
-        };
-        const ruleWithNoMeta = {
-            create(context) {
-                return {
-                    Program(node) {
-                        context.report({ node, message: "bad" });
-                    }
-                };
-            }
-        };
-
-        beforeEach(() => {
-            processStub = sinon.stub(process, "emitWarning");
-        });
-
-        afterEach(() => {
-            processStub.restore();
-        });
-
-        it("should log a deprecation warning when using the legacy function-style API for rule", () => {
-
-            /**
-             * Legacy-format rule (a function instead of an object with `create` method).
-             * @param {RuleContext} context The ESLint rule context object.
-             * @returns {Object} Listeners.
-             */
-            function functionStyleRule(context) {
-                return {
-                    Program(node) {
-                        context.report({ node, message: "bad" });
-                    }
-                };
-            }
-
-            ruleTester.run("function-style-rule", functionStyleRule, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", errors: 1 }
-                ]
-            });
-
-            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
-            assert.deepStrictEqual(
-                processStub.getCall(0).args,
-                [
-                    "\"function-style-rule\" rule is using the deprecated function-style format and will stop working in ESLint v9. Please use object-style format: https://eslint.org/docs/developer-guide/working-with-rules",
-                    "DeprecationWarning"
-                ]
-            );
-        });
-
-        it("should log a deprecation warning when meta is not defined for the rule", () => {
-            ruleTester.run("rule-with-no-meta-1", ruleWithNoMeta, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
-                ]
-            });
-
-            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
-            assert.deepStrictEqual(
-                processStub.getCall(0).args,
-                [
-                    "\"rule-with-no-meta-1\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas",
-                    "DeprecationWarning"
-                ]
-            );
-        });
-
-        it("should log a deprecation warning when schema is not defined for the rule", () => {
-            ruleTester.run("rule-with-no-schema-1", ruleWithNoSchema, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
-                ]
-            });
-
-            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
-            assert.deepStrictEqual(
-                processStub.getCall(0).args,
-                [
-                    "\"rule-with-no-schema-1\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas",
-                    "DeprecationWarning"
-                ]
-            );
-        });
-
-        it("should log a deprecation warning when schema is `undefined`", () => {
-            const ruleWithUndefinedSchema = {
-                meta: {
-                    type: "problem",
-                    // eslint-disable-next-line no-undefined -- intentionally added for test case
-                    schema: undefined
-                },
-                create(context) {
-                    return {
-                        Program(node) {
-                            context.report({ node, message: "bad" });
-                        }
-                    };
-                }
-            };
-
-            ruleTester.run("rule-with-undefined-schema", ruleWithUndefinedSchema, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
-                ]
-            });
-
-            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
-            assert.deepStrictEqual(
-                processStub.getCall(0).args,
-                [
-                    "\"rule-with-undefined-schema\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas",
-                    "DeprecationWarning"
-                ]
-            );
-        });
-
-        it("should log a deprecation warning when schema is `null`", () => {
-            const ruleWithNullSchema = {
-                meta: {
-                    type: "problem",
-                    schema: null
-                },
-                create(context) {
-                    return {
-                        Program(node) {
-                            context.report({ node, message: "bad" });
-                        }
-                    };
-                }
-            };
-
-            ruleTester.run("rule-with-null-schema", ruleWithNullSchema, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", options: [{ foo: true }], errors: 1 }
-                ]
-            });
-
-            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
-            assert.deepStrictEqual(
-                processStub.getCall(0).args,
-                [
-                    "\"rule-with-null-schema\" rule has options but is missing the \"meta.schema\" property and will stop working in ESLint v9. Please add a schema: https://eslint.org/docs/developer-guide/working-with-rules#options-schemas",
-                    "DeprecationWarning"
-                ]
-            );
-        });
-
-        it("should not log a deprecation warning when schema is an empty array", () => {
-            const ruleWithEmptySchema = {
-                meta: {
-                    type: "suggestion",
-                    schema: []
-                },
-                create(context) {
-                    return {
-                        Program(node) {
-                            context.report({ node, message: "bad" });
-                        }
-                    };
-                }
-            };
-
-            ruleTester.run("rule-with-no-options", ruleWithEmptySchema, {
-                valid: [],
-                invalid: [{ code: "var foo = bar;", errors: 1 }]
-            });
-
-            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
-        });
-
-        it("When the rule is an object-style rule, the legacy rule API warning is not emitted", () => {
-            ruleTester.run("rule-with-no-schema-2", ruleWithNoSchema, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", errors: 1 }
-                ]
-            });
-
-            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
-        });
-
-        it("When the rule has meta.schema and there are test cases with options, the missing schema warning is not emitted", () => {
-            const ruleWithSchema = {
-                meta: {
-                    type: "suggestion",
-                    schema: [{
-                        type: "boolean"
-                    }]
-                },
-                create(context) {
-                    return {
-                        Program(node) {
-                            context.report({ node, message: "bad" });
-                        }
-                    };
-                }
-            };
-
-            ruleTester.run("rule-with-schema", ruleWithSchema, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", options: [true], errors: 1 }
-                ]
-            });
-
-            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
-        });
-
-        it("When the rule does not have meta, but there are no test cases with options, the missing schema warning is not emitted", () => {
-            ruleTester.run("rule-with-no-meta-2", ruleWithNoMeta, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", errors: 1 }
-                ]
-            });
-
-            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
-        });
-
-        it("When the rule has meta without meta.schema, but there are no test cases with options, the missing schema warning is not emitted", () => {
-            ruleTester.run("rule-with-no-schema-3", ruleWithNoSchema, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", errors: 1 }
-                ]
-            });
-
-            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
-        });
-        it("When the rule has meta without meta.schema, and some test cases have options property but it's an empty array, the missing schema warning is not emitted", () => {
-            ruleTester.run("rule-with-no-schema-4", ruleWithNoSchema, {
-                valid: [],
-                invalid: [
-                    { code: "var foo = bar;", options: [], errors: 1 }
-                ]
-            });
-
-            assert.strictEqual(processStub.callCount, 0, "never calls `process.emitWarning()`");
         });
     });
 
@@ -2725,6 +2926,43 @@ describe("RuleTester", () => {
         }, /A fatal parsing error occurred in autofix.\nError: .+\nAutofix output:\n.+/u);
     });
 
+    describe("type checking", () => {
+        it('should throw if "only" property is not a boolean', () => {
+
+            // "only" has to be falsy as itOnly is not mocked for all test cases
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [{ code: "foo", only: "" }],
+                    invalid: []
+                });
+            }, /Optional test case property 'only' must be a boolean/u);
+
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [],
+                    invalid: [{ code: "foo", only: 0, errors: 1 }]
+                });
+            }, /Optional test case property 'only' must be a boolean/u);
+        });
+
+        it('should throw if "filename" property is not a string', () => {
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [{ code: "foo", filename: false }],
+                    invalid: []
+
+                });
+            }, /Optional test case property 'filename' must be a string/u);
+
+            assert.throws(() => {
+                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: ["foo"],
+                    invalid: [{ code: "foo", errors: 1, filename: 0 }]
+                });
+            }, /Optional test case property 'filename' must be a string/u);
+        });
+    });
+
     describe("sanitize test cases", () => {
         let originalRuleTesterIt;
         let spyRuleTesterIt;
@@ -2787,41 +3025,244 @@ describe("RuleTester", () => {
 
     });
 
-    describe("SourceCode#getComments()", () => {
-        const useGetCommentsRule = {
-            create: context => ({
-                Program(node) {
-                    const sourceCode = context.getSourceCode();
+    describe("duplicate test cases", () => {
+        describe("valid test cases", () => {
+            it("throws with duplicate string test cases", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: {},
+                        create() {
+                            return {};
+                        }
+                    }, {
+                        valid: ["foo", "foo"],
+                        invalid: [{ code: "foo", errors: [{ message: "foo bar" }] }]
+                    });
+                }, "detected duplicate test case");
+            });
 
-                    sourceCode.getComments(node);
-                }
-            })
-        };
-
-        it("should throw if called from a valid test case", () => {
-            assert.throws(() => {
-                ruleTester.run("use-get-comments", useGetCommentsRule, {
-                    valid: [""],
-                    invalid: []
-                });
-            }, /`SourceCode#getComments\(\)` is deprecated/u);
+            it("throws with duplicate object test cases", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: {},
+                        create() {
+                            return {};
+                        }
+                    }, {
+                        valid: [{ code: "foo" }, { code: "foo" }],
+                        invalid: [{ code: "foo", errors: [{ message: "foo bar" }] }]
+                    });
+                }, "detected duplicate test case");
+            });
         });
 
-        it("should throw if called from an invalid test case", () => {
-            assert.throws(() => {
-                ruleTester.run("use-get-comments", useGetCommentsRule, {
-                    valid: [],
-                    invalid: [{
-                        code: "",
-                        errors: [{}]
-                    }]
+        describe("invalid test cases", () => {
+            it("throws with duplicate object test cases", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: {},
+                        create(context) {
+                            return {
+                                VariableDeclaration(node) {
+                                    context.report(node, "foo bar");
+                                }
+                            };
+                        }
+                    }, {
+                        valid: ["foo"],
+                        invalid: [
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }] },
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }] }
+                        ]
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("throws with duplicate object test cases when options is a primitive", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: { schema: false },
+                        create(context) {
+                            return {
+                                VariableDeclaration(node) {
+                                    context.report(node, "foo bar");
+                                }
+                            };
+                        }
+                    }, {
+                        valid: ["foo"],
+                        invalid: [
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }], options: ["abc"] },
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }], options: ["abc"] }
+                        ]
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("throws with duplicate object test cases when options is a nested serializable object", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: { schema: false },
+                        create(context) {
+                            return {
+                                VariableDeclaration(node) {
+                                    context.report(node, "foo bar");
+                                }
+                            };
+                        }
+                    }, {
+                        valid: ["foo"],
+                        invalid: [
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }], options: [{ foo: [{ a: true, b: [1, 2, 3] }] }] },
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }], options: [{ foo: [{ a: true, b: [1, 2, 3] }] }] }
+                        ]
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("throws with duplicate object test cases even when property order differs", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: {},
+                        create(context) {
+                            return {
+                                VariableDeclaration(node) {
+                                    context.report(node, "foo bar");
+                                }
+                            };
+                        }
+                    }, {
+                        valid: ["foo"],
+                        invalid: [
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }] },
+                            { errors: [{ message: "foo bar" }], code: "const x = 123;" }
+                        ]
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("ignores duplicate test case when non-serializable property present (settings)", () => {
+                ruleTester.run("foo", {
+                    meta: {},
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], settings: { foo: /abc/u } },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], settings: { foo: /abc/u } }
+                    ]
                 });
-            }, /`SourceCode#getComments\(\)` is deprecated/u);
+            });
+
+            it("ignores duplicate test case when non-serializable property present (languageOptions.parserOptions)", () => {
+                ruleTester.run("foo", {
+                    meta: {},
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], languageOptions: { parserOptions: { foo: /abc/u } } },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], languageOptions: { parserOptions: { foo: /abc/u } } }
+                    ]
+                });
+            });
+
+            it("ignores duplicate test case when non-serializable property present (plugins)", () => {
+                ruleTester.run("foo", {
+                    meta: {},
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], plugins: { foo: /abc/u } },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], plugins: { foo: /abc/u } }
+                    ]
+                });
+            });
+
+            it("ignores duplicate test case when non-serializable property present (options)", () => {
+                ruleTester.run("foo", {
+                    meta: { schema: false },
+                    create(context) {
+                        return {
+                            VariableDeclaration(node) {
+                                context.report(node, "foo bar");
+                            }
+                        };
+                    }
+                }, {
+                    valid: ["foo"],
+                    invalid: [
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], options: [{ foo: /abc/u }] },
+                        { code: "const x = 123;", errors: [{ message: "foo bar" }], options: [{ foo: /abc/u }] }
+                    ]
+                });
+            });
         });
     });
 
-    describe("Subclassing", () => {
+    describe("SourceCode forbidden methods", () => {
 
+        [
+            "applyInlineConfig",
+            "applyLanguageOptions",
+            "finalize"
+        ].forEach(methodName => {
+
+            const useForbiddenMethodRule = {
+                create: context => ({
+                    Program() {
+                        const sourceCode = context.sourceCode;
+
+                        sourceCode[methodName]();
+                    }
+                })
+            };
+
+            it(`should throw if ${methodName} is called from a valid test case`, () => {
+                assert.throws(() => {
+                    ruleTester.run("use-forbidden-method", useForbiddenMethodRule, {
+                        valid: [""],
+                        invalid: []
+                    });
+                }, `\`SourceCode#${methodName}()\` cannot be called inside a rule.`);
+            });
+
+            it(`should throw if ${methodName} is called from an invalid test case`, () => {
+                assert.throws(() => {
+                    ruleTester.run("use-forbidden-method", useForbiddenMethodRule, {
+                        valid: [],
+                        invalid: [{
+                            code: "",
+                            errors: [{}]
+                        }]
+                    });
+                }, `\`SourceCode#${methodName}()\` cannot be called inside a rule.`);
+            });
+
+        });
+
+    });
+
+    describe("Subclassing", () => {
         it("should allow subclasses to set the describe/it/itOnly statics and should correctly use those values", () => {
             const assertionDescribe = assertEmitted(ruleTesterTestEmitter, "custom describe", "this-is-a-rule-name");
             const assertionIt = assertEmitted(ruleTesterTestEmitter, "custom it", "valid(code);");
@@ -2866,4 +3307,73 @@ describe("RuleTester", () => {
 
     });
 
+    describe("Optional Test Suites", () => {
+        let originalRuleTesterDescribe;
+        let spyRuleTesterDescribe;
+
+        before(() => {
+            originalRuleTesterDescribe = RuleTester.describe;
+            spyRuleTesterDescribe = sinon.spy((title, callback) => callback());
+            RuleTester.describe = spyRuleTesterDescribe;
+        });
+        after(() => {
+            RuleTester.describe = originalRuleTesterDescribe;
+        });
+        beforeEach(() => {
+            spyRuleTesterDescribe.resetHistory();
+            ruleTester = new RuleTester();
+        });
+
+        it("should create a test suite with the rule name even if there are no test cases", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: []
+            });
+            sinon.assert.calledWith(spyRuleTesterDescribe, "no-var");
+        });
+
+        it("should create a valid test suite if there is a valid test case", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: ["value = 0;"],
+                invalid: []
+            });
+            sinon.assert.calledWith(spyRuleTesterDescribe, "valid");
+        });
+
+        it("should not create a valid test suite if there are no valid test cases", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        code: "var value = 0;",
+                        errors: [/^Bad var/u],
+                        output: " value = 0;"
+                    }
+                ]
+            });
+            sinon.assert.neverCalledWith(spyRuleTesterDescribe, "valid");
+        });
+
+        it("should create an invalid test suite if there is an invalid test case", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        code: "var value = 0;",
+                        errors: [/^Bad var/u],
+                        output: " value = 0;"
+                    }
+                ]
+            });
+            sinon.assert.calledWith(spyRuleTesterDescribe, "invalid");
+        });
+
+        it("should not create an invalid test suite if there are no invalid test cases", () => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: ["value = 0;"],
+                invalid: []
+            });
+            sinon.assert.neverCalledWith(spyRuleTesterDescribe, "invalid");
+        });
+    });
 });

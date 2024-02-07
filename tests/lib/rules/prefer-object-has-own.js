@@ -11,17 +11,17 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/prefer-object-has-own");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const parserOptions = {
+const languageOptions = {
     ecmaVersion: 2022
 };
 
-const ruleTester = new RuleTester({ parserOptions });
+const ruleTester = new RuleTester({ languageOptions });
 
 ruleTester.run("prefer-object-has-own", rule, {
     valid: [

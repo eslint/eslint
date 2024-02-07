@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-iterator"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -22,8 +22,8 @@ ruleTester.run("no-iterator", rule, {
     valid: [
         "var a = test[__iterator__];",
         "var __iterator__ = null;",
-        { code: "foo[`__iterator`] = null;", parserOptions: { ecmaVersion: 6 } },
-        { code: "foo[`__iterator__\n`] = null;", parserOptions: { ecmaVersion: 6 } }
+        { code: "foo[`__iterator`] = null;", languageOptions: { ecmaVersion: 6 } },
+        { code: "foo[`__iterator__\n`] = null;", languageOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
@@ -49,7 +49,7 @@ ruleTester.run("no-iterator", rule, {
         },
         {
             code: "var a = test[`__iterator__`];",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noIterator",
                 type: "MemberExpression"
@@ -57,7 +57,7 @@ ruleTester.run("no-iterator", rule, {
         },
         {
             code: "test[`__iterator__`] = function () {};",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "noIterator",
                 type: "MemberExpression"

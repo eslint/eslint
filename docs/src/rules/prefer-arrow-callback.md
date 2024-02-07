@@ -1,6 +1,5 @@
 ---
 title: prefer-arrow-callback
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
@@ -24,6 +23,8 @@ This rule locates function expressions used as callbacks or function arguments. 
 
 The following examples **will** be flagged:
 
+::: incorrect
+
 ```js
 /* eslint prefer-arrow-callback: "error" */
 
@@ -34,9 +35,13 @@ foo(function() { return this.a; }.bind(this)); // ERROR
 // prefer: foo(() => this.a)
 ```
 
+:::
+
 Instances where an arrow function would not produce identical results will be ignored.
 
 The following examples **will not** be flagged:
+
+::: correct
 
 ```js
 /* eslint prefer-arrow-callback: "error" */
@@ -58,6 +63,8 @@ foo(function() { return this.a; }); // OK
 foo(function bar(n) { return n && n + bar(n - 1); }); // OK
 ```
 
+:::
+
 ## Options
 
 Access further control over this rule's behavior via an options object.
@@ -72,11 +79,15 @@ Changing this value to `true` will reverse this option's behavior by allowing us
 
 `{ "allowNamedFunctions": true }` **will not** flag the following example:
 
+::: correct
+
 ```js
 /* eslint prefer-arrow-callback: [ "error", { "allowNamedFunctions": true } ] */
 
 foo(function bar() {});
 ```
+
+:::
 
 ### allowUnboundThis
 
@@ -85,6 +96,8 @@ By default `{ "allowUnboundThis": true }`, this `boolean` option allows function
 When set to `false` this option prohibits the use of function expressions as callbacks or function arguments entirely, without exception.
 
 `{ "allowUnboundThis": false }` **will** flag the following examples:
+
+::: incorrect
 
 ```js
 /* eslint prefer-arrow-callback: [ "error", { "allowUnboundThis": false } ] */
@@ -96,6 +109,8 @@ foo(function() { (() => this); });
 
 someArray.map(function(item) { return this.doSomething(item); }, someObject);
 ```
+
+:::
 
 ## When Not To Use It
 

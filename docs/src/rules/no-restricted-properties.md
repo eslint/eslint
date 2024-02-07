@@ -1,6 +1,5 @@
 ---
 title: no-restricted-properties
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-restricted-globals
@@ -12,7 +11,7 @@ Certain properties on objects may be disallowed in a codebase. This is useful fo
 
 ## Rule Details
 
-This rule looks for accessing a given property key on a given object name, either when reading the property's value or invoking it as a function. You may specify an optional message to indicate an alternative API or a reason for the restriction.
+This rule looks for accessing a given property key on a given object name, either when reading the property's value or invoking it as a function. You may specify an optional message to indicate an alternative API or a reason for the restriction. This rule applies to both properties accessed by dot notation and destructuring.
 
 ### Options
 
@@ -97,6 +96,10 @@ disallowedObjectName.disallowedPropertyName(); /*error Disallowed object propert
 }] */
 
 foo.__defineGetter__(bar, baz);
+
+const { __defineGetter__ } = qux();
+
+({ __defineGetter__ }) => {};
 ```
 
 :::

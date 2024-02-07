@@ -1,6 +1,5 @@
 ---
 title: camelcase
-layout: doc
 rule_type: suggestion
 ---
 
@@ -50,11 +49,11 @@ function foo({ no_camelcased }) {
     // ...
 };
 
-function foo({ isCamelcased: no_camelcased }) {
+function bar({ isCamelcased: no_camelcased }) {
     // ...
 }
 
-function foo({ no_camelcased = 'default value' }) {
+function baz({ no_camelcased = 'default value' }) {
     // ...
 };
 
@@ -64,7 +63,7 @@ var obj = {
 
 var { category_id = 1 } = query;
 
-var { foo: no_camelcased } = bar;
+var { foo: snake_cased } = bar;
 
 var { foo: bar_baz = 1 } = quz;
 ```
@@ -84,8 +83,8 @@ var myFavoriteColor   = "#112C85";
 var _myFavoriteColor  = "#112C85";
 var myFavoriteColor_  = "#112C85";
 var MY_FAVORITE_COLOR = "#112C85";
-var foo = bar.baz_boom;
-var foo = { qux: bar.baz_boom };
+var foo1 = bar.baz_boom;
+var foo2 = { qux: bar.baz_boom };
 
 obj.do_something();
 do_something();
@@ -97,11 +96,11 @@ function foo({ isCamelCased }) {
     // ...
 };
 
-function foo({ isCamelCased: isAlsoCamelCased }) {
+function bar({ isCamelCased: isAlsoCamelCased }) {
     // ...
 }
 
-function foo({ isCamelCased = 'default value' }) {
+function baz({ isCamelCased = 'default value' }) {
     // ...
 };
 
@@ -127,6 +126,8 @@ Examples of **correct** code for this rule with the `{ "properties": "never" }` 
 var obj = {
     my_pref: 1
 };
+
+obj.foo_bar = "baz";
 ```
 
 :::
@@ -142,9 +143,9 @@ Examples of **incorrect** code for this rule with the default `{ "ignoreDestruct
 
 var { category_id } = query;
 
-var { category_id = 1 } = query;
+var { category_name = 1 } = query;
 
-var { category_id: category_id } = query;
+var { category_id: category_title } = query;
 
 var { category_id: category_alias } = query;
 
@@ -327,7 +328,7 @@ function UNSAFE_componentWillMount() {
     // ...
 }
 
-function UNSAFE_componentWillMount() {
+function UNSAFE_componentWillReceiveProps() {
     // ...
 }
 ```

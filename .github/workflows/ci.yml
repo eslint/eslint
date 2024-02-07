@@ -13,43 +13,52 @@ jobs:
     name: Verify Files
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: '16.x'
+        node-version: 'lts/*'
     - name: Install Packages
-      run: npm install
-    - name: Lint Files
-      run: node Makefile lint
-    - name: Check Rule Files
-      run: node Makefile checkRuleFiles
-    - name: Check Licenses
-      run: node Makefile checkLicenses
+      run: npm install --force
+
     - name: Install Docs Packages
       working-directory: docs
       run: npm install
+
+    - name: Lint Files
+      run: node Makefile lint
+
+    - name: Check Rule Files
+      run: node Makefile checkRuleFiles
+
+    - name: Check Licenses
+      run: node Makefile checkLicenses
+
     - name: Lint Docs JS Files
       run: node Makefile lintDocsJS
+
+    - name: Check Rule Examples
+      run: node Makefile checkRuleExamples
+
 
   test_on_node:
     name: Test
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [19.x, 18.x, 17.x, 16.x, 14.x, 12.x, "12.22.0"]
+        node: [21.x, 20.x, 18.x, "18.18.0"]
         include:
         - os: windows-latest
-          node: "16.x"
+          node: "lts/*"
         - os: macOS-latest
-          node: "16.x"
+          node: "lts/*"
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node }}
     - name: Install Packages
-      run: npm install
+      run: npm install --force
     - name: Test
       run: node Makefile mocha
     - name: Fuzz Test
@@ -59,13 +68,19 @@ jobs:
     name: Browser Test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: '16'
+        node-version: '20' # Should be the same as the version used on Netlify to build the ESLint Playground
     - name: Install Packages
-      run: npm install
+      run: npm install --force
     - name: Test
-      run: node Makefile karma
+      run: node Makefile wdio
     - name: Fuzz Test
       run: node Makefile fuzz
+    - uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: logs
+        path: |
+          wdio-logs/*.log

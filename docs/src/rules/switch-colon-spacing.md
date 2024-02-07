@@ -1,10 +1,9 @@
 ---
 title: switch-colon-spacing
-layout: doc
 rule_type: layout
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/switch-colon-spacing) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Spacing around colons improves readability of `case`/`default` clauses.
 

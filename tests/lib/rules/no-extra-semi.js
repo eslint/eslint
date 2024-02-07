@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extra-semi"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-extra-semi", rule, {
     valid: [
@@ -26,25 +31,25 @@ ruleTester.run("no-extra-semi", rule, {
         "while(0);",
         "do;while(0);",
         "for(a in b);",
-        { code: "for(a of b);", parserOptions: { ecmaVersion: 6 } },
+        { code: "for(a of b);", languageOptions: { ecmaVersion: 6 } },
         "if(true);",
         "if(true); else;",
         "foo: ;",
         "with(foo);",
 
         // Class body.
-        { code: "class A { }", parserOptions: { ecmaVersion: 6 } },
-        { code: "var A = class { };", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { this; } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "var A = class { a() { this; } };", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { } a;", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { field; }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { field = 0; }", parserOptions: { ecmaVersion: 2022 } },
-        { code: "class A { static { foo; } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "class A { }", languageOptions: { ecmaVersion: 6 } },
+        { code: "var A = class { };", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { a() { this; } }", languageOptions: { ecmaVersion: 6 } },
+        { code: "var A = class { a() { this; } };", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { } a;", languageOptions: { ecmaVersion: 6 } },
+        { code: "class A { field; }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { field = 0; }", languageOptions: { ecmaVersion: 2022 } },
+        { code: "class A { static { foo; } }", languageOptions: { ecmaVersion: 2022 } },
 
         // modules
-        { code: "export const x = 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export default 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } }
+        { code: "export const x = 42;", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default 42;", languageOptions: { ecmaVersion: 6, sourceType: "module" } }
     ],
     invalid: [
         {
@@ -80,7 +85,7 @@ ruleTester.run("no-extra-semi", rule, {
         {
             code: "for(a of b);;",
             output: "for(a of b);",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
         },
         {
@@ -116,13 +121,13 @@ ruleTester.run("no-extra-semi", rule, {
         {
             code: "class A { static { ; } }",
             output: "class A { static {  } }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected", type: "EmptyStatement", column: 20 }]
         },
         {
             code: "class A { static { a;; } }",
             output: "class A { static { a; } }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected", type: "EmptyStatement", column: 22 }]
         },
 
@@ -130,37 +135,37 @@ ruleTester.run("no-extra-semi", rule, {
         {
             code: "class A { ; }",
             output: "class A {  }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "Punctuator", column: 11 }]
         },
         {
             code: "class A { /*a*/; }",
             output: "class A { /*a*/ }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "Punctuator", column: 16 }]
         },
         {
             code: "class A { ; a() {} }",
             output: "class A {  a() {} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "Punctuator", column: 11 }]
         },
         {
             code: "class A { a() {}; }",
             output: "class A { a() {} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }]
         },
         {
             code: "class A { a() {}; b() {} }",
             output: "class A { a() {} b() {} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }]
         },
         {
             code: "class A {; a() {}; b() {}; }",
             output: "class A { a() {} b() {} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpected", type: "Punctuator", column: 10 },
                 { messageId: "unexpected", type: "Punctuator", column: 18 },
@@ -170,26 +175,63 @@ ruleTester.run("no-extra-semi", rule, {
         {
             code: "class A { a() {}; get b() {} }",
             output: "class A { a() {} get b() {} }",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }]
         },
         {
             code: "class A { field;; }",
             output: "class A { field; }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected", type: "Punctuator", column: 17 }]
         },
         {
             code: "class A { static {}; }",
             output: "class A { static {} }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected", type: "Punctuator", column: 20 }]
         },
         {
             code: "class A { static { a; }; foo(){} }",
             output: "class A { static { a; } foo(){} }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "unexpected", type: "Punctuator", column: 24 }]
+        },
+
+        // https://github.com/eslint/eslint/issues/16988
+        {
+            code: "; 'use strict'",
+            output: null,
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
+        },
+        {
+            code: "; ; 'use strict'",
+            output: " ; 'use strict'",
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }, { messageId: "unexpected", type: "EmptyStatement" }]
+        },
+        {
+            code: "debugger;\n;\n'use strict'",
+            output: null,
+            errors: [{ messageId: "unexpected", type: "EmptyStatement", line: 2 }]
+        },
+        {
+            code: "function foo() { ; 'bar'; }",
+            output: null,
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
+        },
+        {
+            code: "{ ; 'foo'; }",
+            output: "{  'foo'; }",
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
+        },
+        {
+            code: "; ('use strict');",
+            output: " ('use strict');",
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
+        },
+        {
+            code: "; 1;",
+            output: " 1;",
+            errors: [{ messageId: "unexpected", type: "EmptyStatement" }]
         }
     ]
 });

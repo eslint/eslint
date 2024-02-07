@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/grouped-accessor-pairs");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("grouped-accessor-pairs", rule, {
     valid: [
@@ -438,7 +438,7 @@ ruleTester.run("grouped-accessor-pairs", rule, {
         },
         {
             code: "class A { get a(){} a; set a(foo){} }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "notGrouped", data: { formerName: "getter 'a'", latterName: "setter 'a'" }, type: "MethodDefinition", column: 24 }]
         },
 

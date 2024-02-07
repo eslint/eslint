@@ -1,6 +1,5 @@
 ---
 title: no-useless-call
-layout: doc
 rule_type: suggestion
 related_rules:
 - prefer-spread

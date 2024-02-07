@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-multi-str"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -21,7 +21,15 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-multi-str", rule, {
     valid: [
         "var a = 'Line 1 Line 2';",
-        { code: "var a = <div>\n<h1>Wat</h1>\n</div>;", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }
+        {
+            code: "var a = <div>\n<h1>Wat</h1>\n</div>;",
+            languageOptions: {
+                ecmaVersion: 6,
+                parserOptions: {
+                    ecmaFeatures: { jsx: true }
+                }
+            }
+        }
     ],
     invalid: [
         {

@@ -1,6 +1,5 @@
 ---
 title: valid-typeof
-layout: doc
 rule_type: problem
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof
@@ -15,12 +14,6 @@ For a vast majority of use cases, the result of the `typeof` operator is one of 
 ## Rule Details
 
 This rule enforces comparing `typeof` expressions to valid string literals.
-
-## Options
-
-This rule has an object option:
-
-* `"requireStringLiterals": true` requires `typeof` expressions to only be compared to string literals or other `typeof` expressions, and disallows comparisons to any other value.
 
 Examples of **incorrect** code for this rule:
 
@@ -51,6 +44,14 @@ typeof bar === typeof qux
 ```
 
 :::
+
+## Options
+
+This rule has an object option:
+
+* `"requireStringLiterals": true` allows the comparison of `typeof` expressions with only string literals or other `typeof` expressions, and disallows comparisons to any other value. Default is `false`.
+
+### requireStringLiterals
 
 Examples of **incorrect** code with the `{ "requireStringLiterals": true }` option:
 

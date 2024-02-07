@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/multiline-comment-style");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -630,6 +630,20 @@ ruleTester.run("multiline-comment-style", rule, {
         },
         {
             code: `
+                /**
+                 * JSDoc
+                 * Comment
+                 */
+            `,
+            output: `
+                // JSDoc
+                // Comment
+            `,
+            options: ["separate-lines", { checkJSDoc: true }],
+            errors: [{ messageId: "expectedLines", line: 2 }]
+        },
+        {
+            code: `
                 /* foo
                  *bar
                  baz
@@ -1246,20 +1260,6 @@ ${"                   "}
                  */
             `,
             options: ["starred-block"],
-            errors: [{ messageId: "expectedBlock", line: 2 }]
-        },
-        {
-            code: `
-                // foo
-                //
-                // bar
-            `,
-            output: `
-                /* foo
-${"                   "}
-                   bar */
-            `,
-            options: ["bare-block"],
             errors: [{ messageId: "expectedBlock", line: 2 }]
         },
         {

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/func-names"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -21,18 +21,18 @@ const ruleTester = new RuleTester();
 ruleTester.run("func-names", rule, {
     valid: [
         "Foo.prototype.bar = function bar(){};",
-        { code: "Foo.prototype.bar = () => {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "Foo.prototype.bar = () => {}", languageOptions: { ecmaVersion: 6 } },
         "function foo(){}",
         "function test(d, e, f) {}",
         "new function bar(){}",
         "exports = { get foo() { return 1; }, set bar(val) { return val; } };",
         {
             code: "({ foo() { return 1; } });",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { constructor(){} foo(){} get bar(){} set baz(value){} static qux(){}}",
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() {}",
@@ -45,12 +45,12 @@ ruleTester.run("func-names", rule, {
         {
             code: "class A { constructor(){} foo(){} get bar(){} set baz(value){} static qux(){}}",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({ foo() {} });",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function(){};",
@@ -67,22 +67,22 @@ ruleTester.run("func-names", rule, {
         {
             code: "({foo = function(){}} = {});",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({key: foo = function(){}} = {});",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "[foo = function(){}] = [];",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function fn(foo = function(){}) {}",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() {}",
@@ -111,174 +111,174 @@ ruleTester.run("func-names", rule, {
         {
             code: "class A { constructor(){} foo(){} get bar(){} set baz(value){} static qux(){}}",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "({ foo() {} });",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // export default
         {
             code: "export default function foo() {}",
             options: ["always"],
-            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+            languageOptions: { sourceType: "module", ecmaVersion: 6 }
         },
         {
             code: "export default function foo() {}",
             options: ["as-needed"],
-            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+            languageOptions: { sourceType: "module", ecmaVersion: 6 }
         },
         {
             code: "export default function foo() {}",
             options: ["never"],
-            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+            languageOptions: { sourceType: "module", ecmaVersion: 6 }
         },
         {
             code: "export default function() {}",
             options: ["never"],
-            parserOptions: { sourceType: "module", ecmaVersion: 6 }
+            languageOptions: { sourceType: "module", ecmaVersion: 6 }
         },
 
         // generators
         {
             code: "var foo = bar(function *baz() {});",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["always", { generators: "always" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["always", { generators: "as-needed" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function*() {};",
             options: ["always", { generators: "as-needed" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function*() {};",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["as-needed", { generators: "always" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["as-needed", { generators: "as-needed" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function*() {};",
             options: ["as-needed", { generators: "as-needed" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["never", { generators: "always" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["never", { generators: "as-needed" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function*() {};",
             options: ["never", { generators: "as-needed" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         {
             code: "var foo = bar(function *() {});",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function*() {};",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "(function*() {}())",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["never", { generators: "never" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function*() {};",
             options: ["never", { generators: "never" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "(function*() {}())",
             options: ["never", { generators: "never" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["always", { generators: "never" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function*() {};",
             options: ["always", { generators: "never" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "(function*() {}())",
             options: ["always", { generators: "never" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["as-needed", { generators: "never" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function*() {};",
             options: ["as-needed", { generators: "never" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "(function*() {}())",
             options: ["as-needed", { generators: "never" }],
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // class fields
         {
             code: "class C { foo = function() {}; }",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { [foo] = function() {}; }",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { #foo = function() {}; }",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -400,7 +400,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var {foo} = function(){};",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -412,7 +412,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "({ a: obj.prop = function(){} } = foo);",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -424,7 +424,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "[obj.prop = function(){}] = foo;",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -436,7 +436,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var { a: [b] = function(){} } = foo;",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -448,7 +448,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "function foo({ a } = function(){}) {};",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -498,7 +498,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "export default function() {}",
             options: ["always"],
-            parserOptions: { sourceType: "module", ecmaVersion: 6 },
+            languageOptions: { sourceType: "module", ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionDeclaration",
@@ -509,7 +509,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "export default function() {}",
             options: ["as-needed"],
-            parserOptions: { sourceType: "module", ecmaVersion: 6 },
+            languageOptions: { sourceType: "module", ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionDeclaration",
@@ -520,7 +520,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "export default (function(){});",
             options: ["as-needed"],
-            parserOptions: { sourceType: "module", ecmaVersion: 6 },
+            languageOptions: { sourceType: "module", ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -533,7 +533,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = bar(function *() {});",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -545,7 +545,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = function*() {};",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -557,7 +557,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "(function*() {}())",
             options: ["always"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -569,7 +569,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = bar(function *() {});",
             options: ["always", { generators: "always" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -581,7 +581,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = function*() {};",
             options: ["always", { generators: "always" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -593,7 +593,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "(function*() {}())",
             options: ["always", { generators: "always" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -605,7 +605,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = bar(function *() {});",
             options: ["always", { generators: "as-needed" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -617,7 +617,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "(function*() {}())",
             options: ["always", { generators: "as-needed" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -629,7 +629,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = bar(function *() {});",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -641,7 +641,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "(function*() {}())",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -653,7 +653,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = bar(function *() {});",
             options: ["as-needed", { generators: "always" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -665,7 +665,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = function*() {};",
             options: ["as-needed", { generators: "always" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -677,7 +677,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "(function*() {}())",
             options: ["as-needed", { generators: "always" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -689,7 +689,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = bar(function *() {});",
             options: ["as-needed", { generators: "as-needed" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -701,7 +701,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "(function*() {}())",
             options: ["as-needed", { generators: "as-needed" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -713,7 +713,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = bar(function *() {});",
             options: ["never", { generators: "always" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -725,7 +725,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = function*() {};",
             options: ["never", { generators: "always" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -737,7 +737,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "(function*() {}())",
             options: ["never", { generators: "always" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -749,7 +749,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = bar(function *() {});",
             options: ["never", { generators: "as-needed" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -761,7 +761,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "(function*() {}())",
             options: ["never", { generators: "as-needed" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unnamed",
                 type: "FunctionExpression",
@@ -774,7 +774,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = bar(function *baz() {});",
             options: ["never"],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "named",
                 data: { name: "generator function 'baz'" },
@@ -787,7 +787,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = bar(function *baz() {});",
             options: ["never", { generators: "never" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "named",
                 data: { name: "generator function 'baz'" },
@@ -800,7 +800,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = bar(function *baz() {});",
             options: ["always", { generators: "never" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "named",
                 data: { name: "generator function 'baz'" },
@@ -813,7 +813,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "var foo = bar(function *baz() {});",
             options: ["as-needed", { generators: "never" }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "named",
                 data: { name: "generator function 'baz'" },
@@ -828,7 +828,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "class C { foo = function() {} }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "unnamed",
                 data: { name: "method 'foo'" },
@@ -839,7 +839,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "class C { [foo] = function() {} }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "unnamed",
                 data: { name: "method" },
@@ -850,7 +850,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "class C { #foo = function() {} }",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "unnamed",
                 data: { name: "private method #foo" },
@@ -861,7 +861,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "class C { foo = bar(function() {}) }",
             options: ["as-needed"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "unnamed",
                 data: { name: "function" },
@@ -872,7 +872,7 @@ ruleTester.run("func-names", rule, {
         {
             code: "class C { foo = function bar() {} }",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "named",
                 data: { name: "method 'foo'" },

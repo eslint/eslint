@@ -10,12 +10,15 @@
         align-items: start;
         padding-top: 0;
         padding-bottom: 0;
-
         padding-block-start: 0;
         padding-block-end: 0;
+        max-width: 1700px;
 
         @media all and (min-width: 1024px) {
             justify-content: space-between;
+        }
+        @media all and (min-width: 1700px) {
+            margin: auto;
         }
     }
 }

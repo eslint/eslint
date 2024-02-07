@@ -1,6 +1,5 @@
 ---
 title: radix
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://davidwalsh.name/parseint-radix

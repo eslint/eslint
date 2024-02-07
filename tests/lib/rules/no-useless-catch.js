@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-catch"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -79,7 +79,7 @@ ruleTester.run("no-useless-catch", rule, {
                     throw err;
                 }
             `,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: `
@@ -89,7 +89,7 @@ ruleTester.run("no-useless-catch", rule, {
                     throw err;
                 }
             `,
-            parserOptions: { ecmaVersion: 6 }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: `
@@ -102,7 +102,7 @@ ruleTester.run("no-useless-catch", rule, {
                     }
                 }
             `,
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: `
@@ -112,7 +112,7 @@ ruleTester.run("no-useless-catch", rule, {
                     throw new Error('foo');
                 }
             `,
-            parserOptions: { ecmaVersion: 2019 }
+            languageOptions: { ecmaVersion: 2019 }
         }
 
     ],
@@ -185,7 +185,7 @@ ruleTester.run("no-useless-catch", rule, {
                     }
                 }
             `,
-            parserOptions: { ecmaVersion: 8 },
+            languageOptions: { ecmaVersion: 8 },
             errors: [{
                 messageId: "unnecessaryCatch",
                 type: "TryStatement"

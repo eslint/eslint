@@ -1,6 +1,5 @@
 ---
 title: no-eval
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-implied-eval
@@ -105,6 +104,8 @@ class A {
 
 ## Options
 
+### allowIndirect
+
 This rule has an option to allow indirect calls to `eval`.
 Indirect calls to `eval` are less dangerous than direct calls to `eval` because they cannot dynamically change the scope. Because of this, they also will not negatively impact performance to the degree of direct `eval`.
 
@@ -119,7 +120,7 @@ Example of **incorrect** code for this rule with the `{"allowIndirect": true}` o
 ::: incorrect
 
 ```js
-/*eslint no-eval: "error"*/
+/*eslint no-eval: ["error", {"allowIndirect": true} ]*/
 
 var obj = { x: "foo" },
     key = "x",
@@ -130,10 +131,10 @@ var obj = { x: "foo" },
 
 Examples of **correct** code for this rule with the `{"allowIndirect": true}` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
-/*eslint no-eval: "error"*/
+/*eslint no-eval: ["error", {"allowIndirect": true} ]*/
 
 (0, eval)("var a = 0");
 
@@ -148,7 +149,7 @@ this.eval("var a = 0");
 ::: correct
 
 ```js
-/*eslint no-eval: "error"*/
+/*eslint no-eval: ["error", {"allowIndirect": true} ]*/
 /*eslint-env browser*/
 
 window.eval("var a = 0");
@@ -159,7 +160,7 @@ window.eval("var a = 0");
 ::: correct
 
 ```js
-/*eslint no-eval: "error"*/
+/*eslint no-eval: ["error", {"allowIndirect": true} ]*/
 /*eslint-env node*/
 
 global.eval("var a = 0");

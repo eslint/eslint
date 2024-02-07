@@ -1,6 +1,5 @@
 ---
 title: operator-assignment
-layout: doc
 rule_type: suggestion
 ---
 

@@ -18,11 +18,10 @@
     flex: 1 0 10ch;
 }
 
-
-.switcher--language  .switcher__select {
+.switcher--language .switcher__select {
     flex: 1 0 12rem;
 
-    @media all and (max-width: 800px) {
+    @media all and (max-width: 799px) {
         max-width: 250px;
     }
 }

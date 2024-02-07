@@ -1,10 +1,9 @@
 ---
 title: no-new-wrappers
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-array-constructor
-- no-new-object
+- no-object-constructor
 further_reading:
 - https://www.inkling.com/read/javascript-definitive-guide-david-flanagan-6th/chapter-3/wrapper-objects
 ---

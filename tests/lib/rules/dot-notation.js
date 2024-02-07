@@ -10,13 +10,18 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/dot-notation"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 /**
  * Quote a string in "double quotes" because it’s painful
@@ -54,20 +59,20 @@ ruleTester.run("dot-notation", rule, {
         { code: "a.null;", options: [{ allowKeywords: true }] },
         { code: "a['snake_case'];", options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }] },
         { code: "a['lots_of_snake_case'];", options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }] },
-        { code: "a[`time${range}`];", parserOptions: { ecmaVersion: 6 } },
-        { code: "a[`while`];", options: [{ allowKeywords: false }], parserOptions: { ecmaVersion: 6 } },
-        { code: "a[`time range`];", parserOptions: { ecmaVersion: 6 } },
+        { code: "a[`time${range}`];", languageOptions: { ecmaVersion: 6 } },
+        { code: "a[`while`];", options: [{ allowKeywords: false }], languageOptions: { ecmaVersion: 6 } },
+        { code: "a[`time range`];", languageOptions: { ecmaVersion: 6 } },
         "a.true;",
         "a.null;",
         "a[undefined];",
         "a[void 0];",
         "a[b()];",
-        { code: "a[/(?<zero>0)/];", parserOptions: { ecmaVersion: 2018 } },
-        { code: "class C { foo() { this['#a'] } }", parserOptions: { ecmaVersion: 2022 } },
+        { code: "a[/(?<zero>0)/];", languageOptions: { ecmaVersion: 2018 } },
+        { code: "class C { foo() { this['#a'] } }", languageOptions: { ecmaVersion: 2022 } },
         {
             code: "class C { #in; foo() { this.#in; } }",
             options: [{ allowKeywords: false }],
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -85,7 +90,7 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "a[`time`];",
             output: "a.time;",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "useDot", data: { key: "`time`" } }]
         },
         {
@@ -267,25 +272,25 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "5_000['prop']",
             output: "5_000 .prop",
-            parserOptions: { ecmaVersion: 2021 },
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
         {
             code: "5_000_00['prop']",
             output: "5_000_00 .prop",
-            parserOptions: { ecmaVersion: 2021 },
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
         {
             code: "5.000_000['prop']",
             output: "5.000_000.prop",
-            parserOptions: { ecmaVersion: 2021 },
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
         {
             code: "0b1010_1010['prop']",
             output: "0b1010_1010.prop",
-            parserOptions: { ecmaVersion: 2021 },
+            languageOptions: { ecmaVersion: 2021 },
             errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
 
@@ -293,27 +298,27 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "obj?.['prop']",
             output: "obj?.prop",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
         {
             code: "0?.['prop']",
             output: "0?.prop",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "useDot", data: { key: q("prop") } }]
         },
         {
             code: "obj?.true",
             output: "obj?.[\"true\"]",
             options: [{ allowKeywords: false }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "useBrackets", data: { key: "true" } }]
         },
         {
             code: "let?.true",
             output: "let?.[\"true\"]",
             options: [{ allowKeywords: false }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "useBrackets", data: { key: "true" } }]
         }
     ]

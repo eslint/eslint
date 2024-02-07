@@ -698,5 +698,89 @@
         "logo": "https://eslint.org/apple-touch-icon.png",
         "title": "Interesting bugs caught by no-constant-binary-expression - ESLint - Pluggable JavaScript Linter",
         "description": "A pluggable and configurable linter tool for identifying and reporting on patterns in JavaScript. Maintain your code quality with ease."
+    },
+    "https://github.com/tc39/proposal-class-static-block": {
+        "domain": "github.com",
+        "url": "https://github.com/tc39/proposal-class-static-block",
+        "logo": "https://github.com/fluidicon.png",
+        "title": "GitHub - tc39/proposal-class-static-block: ECMAScript class static initialization blocks",
+        "description": "ECMAScript class static initialization blocks. Contribute to tc39/proposal-class-static-block development by creating an account on GitHub."
+    },
+    "https://tc39.es/ecma262/#sec-symbol-constructor": {
+        "domain": "tc39.es",
+        "url": "https://tc39.es/ecma262/#sec-symbol-constructor",
+        "logo": "https://tc39.es/ecma262/img/favicon.ico",
+        "title": "ECMAScript® 2023 Language Specification",
+        "description": null
+    },
+    "https://tc39.es/ecma262/#sec-bigint-constructor": {
+        "domain": "tc39.es",
+        "url": "https://tc39.es/ecma262/#sec-bigint-constructor",
+        "logo": "https://tc39.es/ecma262/img/favicon.ico",
+        "title": "ECMAScript® 2023 Language Specification",
+        "description": null
+    },
+    "https://v8.dev/blog/fast-async": {
+        "domain": "v8.dev",
+        "url": "https://v8.dev/blog/fast-async",
+        "logo": "https://v8.dev/favicon.ico",
+        "title": "Faster async functions and promises · V8",
+        "description": "Faster and easier-to-debug async functions and promises are coming to V8 v7.2 / Chrome 72."
+    },
+    "https://github.com/tc39/proposal-regexp-v-flag": {
+        "domain": "github.com",
+        "url": "https://github.com/tc39/proposal-regexp-v-flag",
+        "logo": "https://github.com/fluidicon.png",
+        "title": "GitHub - tc39/proposal-regexp-v-flag: UTS18 set notation in regular expressions",
+        "description": "UTS18 set notation in regular expressions. Contribute to tc39/proposal-regexp-v-flag development by creating an account on GitHub."
+    },
+    "https://v8.dev/features/regexp-v-flag": {
+        "domain": "v8.dev",
+        "url": "https://v8.dev/features/regexp-v-flag",
+        "logo": "https://v8.dev/favicon.ico",
+        "title": "RegExp v flag with set notation and properties of strings · V8",
+        "description": "The new RegExp `v` flag enables `unicodeSets` mode, unlocking support for extended character classes, including Unicode properties of strings, set notation, and improved case-insensitive matching."
+    },
+    "https://codepoints.net/U+1680": {
+        "domain": "codepoints.net",
+        "url": "https://codepoints.net/U+1680",
+        "logo": "https://codepoints.net/favicon.ico",
+        "title": "U+1680 OGHAM SPACE MARK:   – Unicode – Codepoints",
+        "description": " , codepoint U+1680 OGHAM SPACE MARK in Unicode, is located in the block “Ogham”. It belongs to the Ogham script and is a Space Separator."
+    },
+    "https://en.wikipedia.org/wiki/Dead_store": {
+        "domain": "en.wikipedia.org",
+        "url": "https://en.wikipedia.org/wiki/Dead_store",
+        "logo": "https://en.wikipedia.org/static/apple-touch/wikipedia.png",
+        "title": "Dead store - Wikipedia",
+        "description": null
+    },
+    "https://rules.sonarsource.com/javascript/RSPEC-1854/": {
+        "domain": "rules.sonarsource.com",
+        "url": "https://rules.sonarsource.com/javascript/RSPEC-1854/",
+        "logo": "https://rules.sonarsource.com/favicon.ico",
+        "title": "JavaScript static code analysis: Unused assignments should be removed",
+        "description": "Dead stores refer to assignments made to local variables that are subsequently never used or immediately overwritten. Such assignments are\nunnecessary and don’t contribute to the functionality or clarity of the code. They may even negatively impact performance. Removing them enhances code\ncleanlines…"
+    },
+    "https://cwe.mitre.org/data/definitions/563.html": {
+        "domain": "cwe.mitre.org",
+        "url": "https://cwe.mitre.org/data/definitions/563.html",
+        "logo": "https://cwe.mitre.org/favicon.ico",
+        "title": "CWE - CWE-563: Assignment to Variable without Use (4.13)",
+        "description": "Common Weakness Enumeration (CWE) is a list of software weaknesses."
+    },
+    "https://wiki.sei.cmu.edu/confluence/display/c/MSC13-C.+Detect+and+remove+unused+values": {
+        "domain": "wiki.sei.cmu.edu",
+        "url": "https://wiki.sei.cmu.edu/confluence/display/c/MSC13-C.+Detect+and+remove+unused+values",
+        "logo": "https://wiki.sei.cmu.edu/confluence/s/-ctumb3/9012/tu5x00/7/_/favicon.ico",
+        "title": "MSC13-C. Detect and remove unused values - SEI CERT C Coding Standard - Confluence",
+        "description": null
+    },
+    "https://wiki.sei.cmu.edu/confluence/display/java/MSC56-J.+Detect+and+remove+superfluous+code+and+values": {
+        "domain": "wiki.sei.cmu.edu",
+        "url": "https://wiki.sei.cmu.edu/confluence/display/java/MSC56-J.+Detect+and+remove+superfluous+code+and+values",
+        "logo": "https://wiki.sei.cmu.edu/confluence/s/-ctumb3/9012/tu5x00/7/_/favicon.ico",
+        "title": "MSC56-J. Detect and remove superfluous code and values - SEI CERT Oracle Coding Standard for Java - Confluence",
+        "description": null
     }
 }

@@ -1,6 +1,5 @@
 ---
 title: no-useless-escape
-layout: doc
 rule_type: suggestion
 ---
 
@@ -44,7 +43,7 @@ Examples of **incorrect** code for this rule:
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-useless-escape: "error"*/

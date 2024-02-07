@@ -1,11 +1,10 @@
 ---
 title: global-require
-layout: doc
 rule_type: suggestion
 ---
 
 
-This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
+This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 
 In Node.js, module dependencies are included using the `require()` function, such as:
 
@@ -33,7 +32,7 @@ This rule requires all calls to `require()` to be at the top level of the module
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint global-require: "error"*/
@@ -77,7 +76,7 @@ try {
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint global-require: "error"*/

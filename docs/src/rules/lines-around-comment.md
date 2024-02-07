@@ -1,13 +1,12 @@
 ---
 title: lines-around-comment
-layout: doc
 rule_type: layout
 related_rules:
 - space-before-blocks
 - spaced-comment
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/lines-around-comment) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Many style guides require empty lines before or after comments. The primary goal
 of these rules is to make the comments easier to read and improve readability of the code.
@@ -34,6 +33,7 @@ This rule has an object option:
 * `"allowClassEnd": true` allows comments to appear at the end of classes
 * `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
 * `"ignorePattern"` custom patterns to be ignored by the rule
+* `"afterHashbangComment": true` requires an empty line after hashbang comments
 
 ### beforeBlockComment
 
@@ -233,7 +233,7 @@ class C {
 switch (foo) {
   /* what a great and wonderful day */
 
-  case 1:    
+  case 1:
     bar();
     break;
 }
@@ -317,7 +317,7 @@ class C {
 }
 
 switch (foo) {
-  case 1:    
+  case 1:
     bar();
     break;
 
@@ -663,7 +663,7 @@ Examples of **correct** code for the `ignorePattern` option:
 /*eslint lines-around-comment: ["error"]*/
 
 foo();
-/* eslint mentioned in this comment */,
+/* jshint mentioned in this comment */
 bar();
 
 /*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
@@ -712,8 +712,37 @@ Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }`
 /*eslint lines-around-comment: ["error", { "applyDefaultIgnorePatterns": false }] */
 
 foo();
-/* eslint mentioned in comment */
+/* jshint mentioned in comment */
 
+```
+
+:::
+
+### afterHashbangComment
+
+Examples of **incorrect** code for this rule with the `{ "afterHashbangComment": true }` option:
+
+::: incorrect
+
+```js
+#!foo
+var day = "great"
+
+/*eslint lines-around-comment: ["error", { "afterHashbangComment": true }] */
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "afterHashbangComment": true }` option:
+
+::: correct
+
+```js
+#!foo
+
+var day = "great"
+
+/*eslint lines-around-comment: ["error", { "afterHashbangComment": true }] */
 ```
 
 :::

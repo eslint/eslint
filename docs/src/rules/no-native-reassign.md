@@ -1,6 +1,5 @@
 ---
 title: no-native-reassign
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-extend-native
@@ -25,8 +24,8 @@ This rule disallows modifications to read-only global variables.
 
 ESLint has the capability to configure global variables as read-only.
 
-* [Specifying Environments](../user-guide/configuring#specifying-environments)
-* [Specifying Globals](../user-guide/configuring#specifying-globals)
+* [Specifying Environments](../use/configure#specifying-environments)
+* [Specifying Globals](../use/configure#specifying-globals)
 
 Examples of **incorrect** code for this rule:
 

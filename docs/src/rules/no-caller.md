@@ -1,6 +1,5 @@
 ---
 title: no-caller
-layout: doc
 rule_type: suggestion
 ---
 

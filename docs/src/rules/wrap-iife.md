@@ -1,10 +1,9 @@
 ---
 title: wrap-iife
-layout: doc
 rule_type: layout
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/wrap-iife) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 You can immediately invoke function expressions, but not function declarations. A common technique to create an immediately-invoked function expression (IIFE) is to wrap a function declaration in parentheses. The opening parentheses causes the contained function to be parsed as an expression, rather than a declaration.
 

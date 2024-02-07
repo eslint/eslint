@@ -1,7 +1,7 @@
 ---
 title: no-unsafe-negation
-layout: doc
 rule_type: problem
+handled_by_typescript: true
 ---
 
 

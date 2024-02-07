@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/generator-star-spacing"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2018 } });
 
 const missingBeforeError = { messageId: "missingBefore", type: "Punctuator" };
 const missingAfterError = { messageId: "missingAfter", type: "Punctuator" };
@@ -462,27 +462,27 @@ ruleTester.run("generator-star-spacing", rule, {
         // https://github.com/eslint/eslint/issues/7101#issuecomment-246080531
         {
             code: "async function foo() { }",
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "(async function() { })",
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "async () => { }",
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "({async foo() { }})",
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "class A {async foo() { }}",
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         },
         {
             code: "(class {async foo() { }})",
-            parserOptions: { ecmaVersion: 8 }
+            languageOptions: { ecmaVersion: 8 }
         }
     ],
 

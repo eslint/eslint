@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-restricted-modules"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -31,8 +31,8 @@ ruleTester.run("no-restricted-modules", rule, {
         { code: "var withPatterns = require(\"foo/bar\");", options: [{ patterns: ["foo/c*"] }] },
         { code: "var withPatternsAndPaths = require(\"foo/bar\");", options: [{ paths: ["foo"], patterns: ["foo/c*"] }] },
         { code: "var withGitignores = require(\"foo/bar\");", options: [{ paths: ["foo"], patterns: ["foo/*", "!foo/bar"] }] },
-        { code: "require(`fs`)", options: ["crypto"], parserOptions: { ecmaVersion: 6 } },
-        { code: "require(`foo${bar}`)", options: ["foo"], parserOptions: { ecmaVersion: 6 } },
+        { code: "require(`fs`)", options: ["crypto"], languageOptions: { ecmaVersion: 6 } },
+        { code: "require(`foo${bar}`)", options: ["foo"], languageOptions: { ecmaVersion: 6 } },
         { code: "var foo = require('foo');", options: ["../foo"] },
         { code: "var foo = require('foo');", options: [{ paths: ["../foo"] }] },
         { code: "var foo = require('foo');", options: [{ patterns: ["../foo"] }] },
@@ -117,12 +117,12 @@ ruleTester.run("no-restricted-modules", rule, {
     }, {
         code: "require(`fs`)",
         options: ["fs"],
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors: [{ messageId: "defaultMessage", data: { name: "fs" }, type: "CallExpression" }]
     }, {
         code: "require(`crypt\\o`);",
         options: ["crypto"],
-        parserOptions: { ecmaVersion: 6 },
+        languageOptions: { ecmaVersion: 6 },
         errors: [{ messageId: "defaultMessage", data: { name: "crypto" }, type: "CallExpression" }]
     },
     {

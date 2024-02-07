@@ -27,8 +27,20 @@ describe("unsupported-api", () => {
         assert.isFunction(api.FlatESLint);
     });
 
-    it("should have FlatRuleTester exposed", () => {
-        assert.isFunction(api.FlatRuleTester);
+    it("should have LegacyESLint exposed", () => {
+        assert.isFunction(api.LegacyESLint);
+    });
+
+    it("should not have ESLint exposed", () => {
+        assert.isUndefined(api.ESLint);
+    });
+
+    it("should have shouldUseFlatConfig exposed", () => {
+        assert.isFunction(api.shouldUseFlatConfig);
+    });
+
+    it("should not have FlatRuleTester exposed", () => {
+        assert.isUndefined(api.FlatRuleTester);
     });
 
     it("should have builtinRules exposed", () => {

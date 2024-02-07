@@ -1,13 +1,14 @@
 ---
 title: generator-star
-layout: doc
 further_reading:
 - https://leanpub.com/understandinges6/read/#leanpub-auto-generators
 ---
 
 Enforces consistent spacing around the asterisk in generator functions.
 
-(removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [generator-star-spacing](generator-star-spacing) rule.
+::: important
+This rule was removed in ESLint v1.0.0 and replaced by the [generator-star-spacing](generator-star-spacing) rule.
+:::
 
 Generators are a new type of function in ECMAScript 6 that can return multiple values over time.
 These special functions are indicated by placing an `*` after the `function` keyword.

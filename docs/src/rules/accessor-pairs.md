@@ -1,6 +1,5 @@
 ---
 title: accessor-pairs
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-dupe-keys

@@ -1,6 +1,5 @@
 ---
 title: no-with
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://web.archive.org/web/20200717110117/https://yuiblog.com/blog/2006/04/11/with-statement-considered-harmful/
@@ -18,7 +17,7 @@ If ESLint parses code in strict mode, the parser (instead of this rule) reports 
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-with: "error"*/
@@ -32,7 +31,7 @@ with (point) {
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-with: "error"*/

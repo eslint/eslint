@@ -1,11 +1,11 @@
 ---
 title: no-mixed-operators
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-extra-parens
 ---
 
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/no-mixed-operators) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Enclosing complex expressions by parentheses clarifies the developer's intention, which makes the code more readable.
 This rule warns when different operators are used consecutively without parentheses in an expression.

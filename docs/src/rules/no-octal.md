@@ -1,6 +1,5 @@
 ---
 title: no-octal
-layout: doc
 rule_type: suggestion
 ---
 
@@ -22,7 +21,7 @@ If ESLint parses code in strict mode, the parser (instead of this rule) reports 
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-octal: "error"*/
@@ -35,7 +34,7 @@ var result = 5 + 07;
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-octal: "error"*/

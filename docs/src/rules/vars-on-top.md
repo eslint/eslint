@@ -1,6 +1,5 @@
 ---
 title: vars-on-top
-layout: doc
 rule_type: suggestion
 further_reading:
 - https://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html
@@ -35,7 +34,7 @@ function doSomething() {
 }
 
 // Variable declaration in for initializer:
-function doSomething() {
+function doSomethingElse() {
     for (var i=0; i<10; i++) {}
 }
 ```
@@ -96,7 +95,7 @@ function doSomething() {
     }
 }
 
-function doSomething() {
+function doSomethingElse() {
     var i;
     for (i=0; i<10; i++) {}
 }

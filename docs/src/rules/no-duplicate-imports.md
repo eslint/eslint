@@ -1,6 +1,5 @@
 ---
 title: no-duplicate-imports
-layout: doc
 rule_type: problem
 ---
 

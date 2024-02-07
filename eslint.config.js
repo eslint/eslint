@@ -27,17 +27,15 @@
 
 const path = require("path");
 const internalPlugin = require("eslint-plugin-internal-rules");
-const eslintPlugin = require("eslint-plugin-eslint-plugin");
-const { FlatCompat } = require("@eslint/eslintrc");
+const eslintPluginRulesRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/rules-recommended");
+const eslintPluginTestsRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/tests-recommended");
 const globals = require("globals");
+const merge = require("lodash.merge");
+const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
-
-const compat = new FlatCompat({
-    baseDirectory: __dirname
-});
 
 const INTERNAL_FILES = {
     CLI_ENGINE_PATTERN: "lib/cli-engine/**/*",
@@ -77,13 +75,14 @@ function createInternalFilesPatterns(pattern = null) {
 }
 
 module.exports = [
-    ...compat.extends("eslint"),
+    ...eslintConfigESLintCJS,
     {
         ignores: [
             "build/**",
             "coverage/**",
-            "docs/**",
-            "!docs/.eleventy.js",
+            "docs/*",
+            "!docs/*.js",
+            "!docs/tools/",
             "jsdoc/**",
             "templates/**",
             "tests/bench/**",
@@ -91,68 +90,66 @@ module.exports = [
             "tests/performance/**",
             "tmp/**",
             "tools/internal-rules/node_modules/**",
-            "**/test.js",
-            "!.eslintrc.js"
+            "**/test.js"
         ]
     },
     {
         plugins: {
-            "internal-rules": internalPlugin,
-            "eslint-plugin": eslintPlugin
+            "internal-rules": internalPlugin
         },
         languageOptions: {
             ecmaVersion: "latest"
-        },
-
-        /*
-         * it fixes eslint-plugin-jsdoc's reports: "Invalid JSDoc tag name "template" jsdoc/check-tag-names"
-         * refs: https://github.com/gajus/eslint-plugin-jsdoc#check-tag-names
-         */
-        settings: {
-            jsdoc: {
-                mode: "typescript"
-            }
         },
         rules: {
             "internal-rules/multiline-comment-style": "error"
         }
     },
     {
-        files: ["tools/*.js"],
+        files: ["tools/*.js", "docs/tools/*.js"],
         rules: {
-            "no-console": "off"
+            "no-console": "off",
+            "n/no-process-exit": "off"
         }
     },
     {
         files: ["lib/rules/*", "tools/internal-rules/*"],
         ignores: ["**/index.js"],
-        rules: {
-            ...eslintPlugin.configs["rules-recommended"].rules,
-            "eslint-plugin/no-missing-message-ids": "error",
-            "eslint-plugin/no-unused-message-ids": "error",
-            "eslint-plugin/prefer-message-ids": "error",
-            "eslint-plugin/prefer-placeholders": "error",
-            "eslint-plugin/prefer-replace-text": "error",
-            "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
-            "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow)" }],
-            "internal-rules/no-invalid-meta": "error"
-        }
+        ...merge({}, eslintPluginRulesRecommendedConfig, {
+            rules: {
+                "eslint-plugin/prefer-placeholders": "error",
+                "eslint-plugin/prefer-replace-text": "error",
+                "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
+                "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow) .+[^. ]$" }],
+                "internal-rules/no-invalid-meta": "error"
+            }
+        })
     },
     {
         files: ["lib/rules/*"],
-        ignores: ["index.js"],
+        ignores: ["**/index.js"],
         rules: {
-            "eslint-plugin/require-meta-docs-url": ["error", { pattern: "https://eslint.org/docs/rules/{{name}}" }]
+            "eslint-plugin/require-meta-docs-url": ["error", { pattern: "https://eslint.org/docs/latest/rules/{{name}}" }]
         }
     },
     {
         files: ["tests/lib/rules/*", "tests/tools/internal-rules/*"],
-        rules: {
-            ...eslintPlugin.configs["tests-recommended"].rules,
-            "eslint-plugin/prefer-output-null": "error",
-            "eslint-plugin/test-case-property-ordering": "error",
-            "eslint-plugin/test-case-shorthand-strings": "error"
-        }
+        ...merge({}, eslintPluginTestsRecommendedConfig, {
+            rules: {
+                "eslint-plugin/test-case-property-ordering": [
+                    "error",
+                    [
+                        "name",
+                        "filename",
+                        "code",
+                        "output",
+                        "options",
+                        "languageOptions",
+                        "errors"
+                    ]
+                ],
+                "eslint-plugin/test-case-shorthand-strings": "error"
+            }
+        })
     },
     {
         files: ["tests/**/*.js"],
@@ -240,7 +237,6 @@ module.exports = [
         files: [INTERNAL_FILES.RULE_TESTER_PATTERN],
         rules: {
             "n/no-restricted-require": ["error", [
-                ...createInternalFilesPatterns(INTERNAL_FILES.RULE_TESTER_PATTERN),
                 resolveAbsolutePath("lib/cli-engine/index.js")
             ]]
         }

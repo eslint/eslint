@@ -1,10 +1,9 @@
 ---
 title: arrow-spacing
-layout: doc
 rule_type: layout
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/arrow-spacing) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 This rule normalize style of spacing before/after an arrow function's arrow(`=>`).
 

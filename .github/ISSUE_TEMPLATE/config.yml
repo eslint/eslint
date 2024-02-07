@@ -6,3 +6,6 @@ contact_links:
   - name: 📝 Help with VS Code ESLint
     url: https://github.com/microsoft/vscode-eslint/issues/
     about: Bugs and feature requests for the VS Code ESLint plugin
+  - name: Discord Server
+    url: https://eslint.org/chat
+    about: Talk with the team

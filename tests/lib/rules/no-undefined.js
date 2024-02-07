@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-undefined"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -25,7 +25,7 @@ const ES6_MODULE = { ecmaVersion: 6, sourceType: "module" };
 
 const errors = [{ messageId: "unexpectedUndefined", type: "Identifier" }];
 
-const ruleTester = new RuleTester({ parserOptions: ES6_SCRIPT });
+const ruleTester = new RuleTester({ languageOptions: ES6_SCRIPT });
 
 ruleTester.run("no-undefined", rule, {
     valid: [
@@ -46,10 +46,10 @@ ruleTester.run("no-undefined", rule, {
         "({ undefined() {} })",
         "class Foo { undefined() {} }",
         "(class { undefined() {} })",
-        { code: "import { undefined as a } from 'foo'", parserOptions: ES6_MODULE },
-        { code: "export { undefined } from 'foo'", parserOptions: ES6_MODULE },
-        { code: "export { undefined as a } from 'foo'", parserOptions: ES6_MODULE },
-        { code: "export { a as undefined } from 'foo'", parserOptions: ES6_MODULE }
+        { code: "import { undefined as a } from 'foo'", languageOptions: ES6_MODULE },
+        { code: "export { undefined } from 'foo'", languageOptions: ES6_MODULE },
+        { code: "export { undefined as a } from 'foo'", languageOptions: ES6_MODULE },
+        { code: "export { a as undefined } from 'foo'", languageOptions: ES6_MODULE }
     ],
     invalid: [
         { code: "undefined", errors },
@@ -93,22 +93,22 @@ ruleTester.run("no-undefined", rule, {
         },
         {
             code: "import undefined from 'foo'",
-            parserOptions: ES6_MODULE,
+            languageOptions: ES6_MODULE,
             errors
         },
         {
             code: "import * as undefined from 'foo'",
-            parserOptions: ES6_MODULE,
+            languageOptions: ES6_MODULE,
             errors
         },
         {
             code: "import { undefined } from 'foo'",
-            parserOptions: ES6_MODULE,
+            languageOptions: ES6_MODULE,
             errors
         },
         {
             code: "import { a as undefined } from 'foo'",
-            parserOptions: ES6_MODULE,
+            languageOptions: ES6_MODULE,
             errors
         },
 
@@ -116,7 +116,7 @@ ruleTester.run("no-undefined", rule, {
          * it will be warned "Parsing error: Export 'undefined' is not defined" (acorn@>=6.0.7)
          * {
          *     code: "export { undefined }",
-         *     parserOptions: ES6_MODULE,
+         *     languageOptions: ES6_MODULE,
          *     errors
          * },
          */

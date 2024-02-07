@@ -1,6 +1,5 @@
 ---
 title: prefer-promise-reject-errors
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-throw-literal

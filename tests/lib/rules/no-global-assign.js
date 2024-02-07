@@ -10,13 +10,19 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-global-assign"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester"),
+    globals = require("globals");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("no-global-assign", rule, {
     valid: [
@@ -24,9 +30,9 @@ ruleTester.run("no-global-assign", rule, {
         "var string;",
         { code: "Object = 0;", options: [{ exceptions: ["Object"] }] },
         "top = 0;",
-        { code: "onload = 0;", env: { browser: true } },
+        { code: "onload = 0;", languageOptions: { globals: globals.browser } },
         "require = 0;",
-        { code: "a = 1", globals: { a: true } },
+        { code: "a = 1", languageOptions: { globals: { a: true } } },
         "/*global a:true*/ a = 1"
     ],
     invalid: [
@@ -48,7 +54,7 @@ ruleTester.run("no-global-assign", rule, {
         },
         {
             code: "({Object = 0, String = 0} = {});",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "globalShouldNotBeModified",
@@ -64,7 +70,7 @@ ruleTester.run("no-global-assign", rule, {
         },
         {
             code: "top = 0;",
-            env: { browser: true },
+            languageOptions: { globals: globals.browser },
             errors: [{
                 messageId: "globalShouldNotBeModified",
                 data: { name: "top" },
@@ -73,7 +79,7 @@ ruleTester.run("no-global-assign", rule, {
         },
         {
             code: "require = 0;",
-            env: { node: true },
+            languageOptions: { sourceType: "commonjs" },
             errors: [{
                 messageId: "globalShouldNotBeModified",
                 data: { name: "require" },
@@ -92,7 +98,7 @@ ruleTester.run("no-global-assign", rule, {
         },
         {
             code: "function f() { b = 1; }",
-            globals: { b: false },
+            languageOptions: { globals: { b: false } },
             errors: [{
                 messageId: "globalShouldNotBeModified",
                 data: { name: "b" },

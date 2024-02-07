@@ -1,6 +1,5 @@
 ---
 title: space-before-function-parentheses
-layout: doc
 
 related_rules:
 - space-after-keywords
@@ -9,7 +8,9 @@ related_rules:
 
 Enforces consistent spacing before opening parenthesis in function definitions.
 
-(removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [space-before-function-paren](space-before-function-paren) rule. The name of the rule changed from "parentheses" to "paren" for consistency with the names of other rules.
+::: important
+This rule was removed in ESLint v1.0.0 and replaced by the [space-before-function-paren](space-before-function-paren) rule. The name of the rule changed from "parentheses" to "paren" for consistency with the names of other rules.
+:::
 
 When formatting a function, whitespace is allowed between the function name or `function` keyword and the opening paren. Named functions also require a space between the `function` keyword and the function name, but anonymous functions require no whitespace. For example:
 
@@ -60,7 +61,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -94,7 +95,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
@@ -128,7 +129,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
@@ -162,7 +163,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -192,7 +193,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
@@ -222,7 +223,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -252,7 +253,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -282,7 +283,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }

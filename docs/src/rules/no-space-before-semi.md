@@ -1,6 +1,5 @@
 ---
 title: no-space-before-semi
-layout: doc
 
 related_rules:
 - semi
@@ -9,7 +8,9 @@ related_rules:
 
 Disallows spaces before semicolons.
 
-(removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [semi-spacing](semi-spacing) rule.
+::: important
+This rule was removed in ESLint v1.0.0 and replaced by the [semi-spacing](semi-spacing) rule.
+:::
 
 JavaScript allows for placing unnecessary spaces between an expression and the closing semicolon.
 

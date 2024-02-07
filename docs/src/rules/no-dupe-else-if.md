@@ -1,6 +1,5 @@
 ---
 title: no-dupe-else-if
-layout: doc
 rule_type: problem
 related_rules:
 - no-duplicate-case

@@ -4,11 +4,6 @@ html {
     scroll-behavior: smooth;
 }
 
-.docs {
-    max-width: 1700px;
-    margin: 0 auto;
-}
-
 .docs-aside__content {
     flex: 1;
 }
@@ -18,11 +13,15 @@ html {
     flex: 1;
     display: flex;
     flex-direction: column;
+    max-width: 1700px;
 
     @media all and (min-width: 1024px) {
         display: grid;
         grid-template-columns: minmax(250px, 1fr) minmax(0, 3.5fr);
         align-items: stretch;
+    }
+    @media all and (min-width: 1700px) {
+        margin: auto;
     }
 }
 
@@ -31,8 +30,7 @@ html {
     grid-row: 1 / 2;
     padding-top: var(--space-l-xl);
     padding-block-start: var(--space-l-xl);
-    font-size: .875rem;
-
+    font-size: 0.875rem;
     display: grid;
     grid-auto-rows: max-content;
     align-items: start;
@@ -41,7 +39,6 @@ html {
         padding: var(--space-l-xl) 0;
         padding-right: var(--space-s-l);
         padding-inline-end: var(--space-s-l);
-
         border-right: 1px solid var(--divider-color);
         border-inline-end: 1px solid var(--divider-color);
     }
@@ -73,7 +70,6 @@ html {
     @media all and (min-width: 800px) {
         padding-right: var(--space-s-l);
         padding-inline-end: var(--space-s-l);
-
         border-right: 1px solid var(--divider-color);
         border-inline-end: 1px solid var(--divider-color);
     }
@@ -82,7 +78,6 @@ html {
         padding: var(--space-l-xl) var(--space-l-2xl);
     }
 }
-
 
 .docs-aside {
     grid-column: 2 / 3;
@@ -117,6 +112,11 @@ div.incorrect {
         offset-inline-end: -22px;
         offset-block-start: -22px;
     }
+
+    // Add space to the bottom if there is a Playground button.
+    .c-btn.c-btn--playground ~ pre.line-numbers-mode {
+        padding-bottom: 4.5rem;
+    }
 }
 
 div.correct {
@@ -131,6 +131,15 @@ div.incorrect {
     }
 }
 
+div.img-container {
+    background-color: var(--img-background-color);
+    border-radius: var(--border-radius);
+
+    img {
+        margin: 0 auto;
+    }
+}
+
 pre[class*="language-"] {
     position: relative;
 }
@@ -138,18 +147,70 @@ pre[class*="language-"] {
 .c-btn.c-btn--playground {
     position: absolute;
     font-size: var(--step--1);
-    bottom: .5rem;
-    right: .5rem;
-    offset-block-end: .5rem;
-    offset-inline-end: .5rem;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 1;
 
-    @media all and (max-width: 768px) {
-        display: none;
+    @media all and (min-width: 768px) {
+        bottom: 1.5rem;
     }
 }
 
 @media (hover: none) {
     .anchorjs-link {
         opacity: 1;
+    }
+}
+
+#scroll-up-btn {
+    width: 50px;
+    height: 50px;
+    display: none;
+    position: fixed;
+    right: 19.8vw;
+    bottom: 35px;
+    z-index: 1;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    color: var(--body-background-color);
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--link-color);
+
+    @media (max-width: 1299px) {
+        right: 18.99vw;
+    }
+
+    @media (max-width: 1100px) {
+        right: 19.4vw;
+    }
+
+    @media (max-width: 1060px) {
+        right: 19.9vw;
+    }
+
+    @media (max-width: 1024px) {
+        right: 22vw;
+    }
+
+    @media (max-width: 860px) {
+        right: 22.2vw;
+    }
+
+    @media (max-width: 850px) {
+        right: 22.6vw;
+    }
+
+    @media (max-width: 820px) {
+        right: 23.4vw;
+    }
+
+    @media (max-width: 799px) {
+        right: 35px;
+    }
+
+    @media (max-width: 600px) {
+        right: 25px;
     }
 }

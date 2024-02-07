@@ -49,7 +49,6 @@ function clearSearchResults() {
         resultsElement.removeChild(resultsElement.firstChild);
     }
     resultsElement.innerHTML = "";
-    searchClearBtn.setAttribute('hidden', '');
 }
 
 /**
@@ -80,13 +79,11 @@ function displaySearchResults(results) {
             `.trim();
             list.append(listItem);
         }
-        searchClearBtn.removeAttribute('hidden');
 
     } else {
         resultsLiveRegion.innerHTML = "No results found.";
         resultsElement.innerHTML = "No results found.";
         resultsElement.setAttribute('data-results', 'false');
-        searchClearBtn.setAttribute('hidden', '');
     }
 
 }
@@ -114,51 +111,74 @@ function maintainScrollVisibility(activeElement, scrollParent) {
 
 }
 
+/**
+ * Debounces the provided callback with a given delay.
+ * @param {Function} callback The callback that needs to be debounced.
+ * @param {Number} delay Time in ms that the timer should wait before the callback is executed.
+ * @returns {Function} Returns the new debounced function.
+ */
+function debounce(callback, delay) {
+    let timer;
+    return (...args) => {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => callback.apply(this, args), delay);
+    }
+}
+
+const debouncedFetchSearchResults = debounce((query) => {
+    fetchSearchResults(query)
+        .then(displaySearchResults)
+        .catch(clearSearchResults);
+}, 300);
 
 //-----------------------------------------------------------------------------
 // Event Handlers
 //-----------------------------------------------------------------------------
 
 // listen for input changes
-if(searchInput)
+if (searchInput)
     searchInput.addEventListener('keyup', function (e) {
         const query = searchInput.value;
 
-        if(query === searchQuery) return;
+        if (query === searchQuery) return;
 
-        if(query.length) searchClearBtn.removeAttribute('hidden');
+        if (query.length) searchClearBtn.removeAttribute('hidden');
         else searchClearBtn.setAttribute('hidden', '');
 
         if (query.length > 2) {
-            fetchSearchResults(query)
-                .then(displaySearchResults)
-                .catch(clearSearchResults);
 
-            document.addEventListener('click', function(e) {
-                if(e.target !== resultsElement) clearSearchResults();
+            debouncedFetchSearchResults(query);
+
+            document.addEventListener('click', function (e) {
+                if (e.target !== resultsElement) clearSearchResults();
             });
         } else {
             clearSearchResults();
         }
 
-    searchQuery = query
+        searchQuery = query
 
     });
 
 
-if(searchClearBtn)
-    searchClearBtn.addEventListener('click', function(e) {
+if (searchClearBtn)
+    searchClearBtn.addEventListener('click', function (e) {
         searchInput.value = '';
         searchInput.focus();
         clearSearchResults();
+        searchClearBtn.setAttribute('hidden', '');
     });
 
 document.addEventListener('keydown', function (e) {
 
+    const searchResults = Array.from(document.querySelectorAll('.search-results__item'));
+
     if (e.key === 'Escape') {
         e.preventDefault();
-        clearSearchResults();
-        searchInput.focus();
+        if (searchResults.length) {
+            clearSearchResults();
+            searchInput.focus();
+        }
     }
 
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -167,7 +187,6 @@ document.addEventListener('keydown', function (e) {
         document.querySelector('.search').scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    const searchResults = Array.from(document.querySelectorAll('.search-results__item'));
     if (!searchResults.length) return;
 
     switch (e.key) {

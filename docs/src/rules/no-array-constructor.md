@@ -1,10 +1,9 @@
 ---
 title: no-array-constructor
-layout: doc
 rule_type: suggestion
 related_rules:
-- no-new-object
 - no-new-wrappers
+- no-object-constructor
 ---
 
 
@@ -25,9 +24,13 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-array-constructor: "error"*/
 
-Array(0, 1, 2)
+Array();
 
-new Array(0, 1, 2)
+Array(0, 1, 2);
+
+new Array(0, 1, 2);
+
+Array(...args);
 ```
 
 :::
@@ -39,11 +42,13 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-array-constructor: "error"*/
 
-Array(500)
+Array(500);
 
-new Array(someOtherArray.length)
+new Array(someOtherArray.length);
 
-[0, 1, 2]
+[0, 1, 2];
+
+const createArray = Array => new Array();
 ```
 
 :::

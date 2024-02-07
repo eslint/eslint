@@ -305,7 +305,11 @@
         "wrap-regex": "0.1.0",
         "yield-star-spacing": "2.0.0-alpha-1",
         "yoda": "0.7.1",
-        "logical-assignment-operators": "8.24.0"
+        "logical-assignment-operators": "8.24.0",
+        "no-empty-static-block": "8.27.0",
+        "no-new-native-nonconstructor": "8.27.0",
+        "no-object-constructor": "8.50.0",
+        "no-useless-assignment": "9.0.0-alpha.1"
     },
     "removed": {
         "generator-star": "1.0.0-rc-1",
@@ -325,6 +329,8 @@
         "space-in-brackets": "1.0.0-rc-1",
         "space-return-throw-case": "2.0.0-beta.3",
         "space-unary-word-ops": "0.10.0",
-        "spaced-line-comment": "1.0.0-rc-1"
+        "spaced-line-comment": "1.0.0-rc-1",
+        "require-jsdoc": "9.0.0-alpha.0",
+        "valid-jsdoc": "9.0.0-alpha.0"
     }
 }

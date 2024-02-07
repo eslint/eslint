@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extra-parens"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester"),
+    parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -30,7 +31,7 @@ function invalid(code, output, type, line, config) {
     const result = {
         code,
         output,
-        parserOptions: config && config.parserOptions || {},
+        languageOptions: config && config.languageOptions || {},
         errors: [
             {
                 messageId: "unexpected",
@@ -51,10 +52,12 @@ function invalid(code, output, type, line, config) {
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-    parserOptions: {
-        ecmaVersion: 2022,
-        ecmaFeatures: {
-            jsx: true
+    languageOptions: {
+        sourceType: "script",
+        parserOptions: {
+            ecmaFeatures: {
+                jsx: true
+            }
         }
     }
 });
@@ -302,6 +305,14 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "var a = ((b = c)) ? foo : bar;", options: ["all", { conditionalAssign: false }] },
         { code: "while (((foo = bar()))) {}", options: ["all", { conditionalAssign: false }] },
         { code: "var a = (((b = c))) ? foo : bar;", options: ["all", { conditionalAssign: false }] },
+
+        // ["all", { ternaryOperandBinaryExpressions: false }] enables extra parens around conditional ternary
+        { code: "(a && b) ? foo : bar", options: ["all", { ternaryOperandBinaryExpressions: false }] },
+        { code: "(a - b > a) ? foo : bar", options: ["all", { ternaryOperandBinaryExpressions: false }] },
+        { code: "foo ? (bar || baz) : qux", options: ["all", { ternaryOperandBinaryExpressions: false }] },
+        { code: "foo ? bar : (baz || qux)", options: ["all", { ternaryOperandBinaryExpressions: false }] },
+        { code: "(a, b) ? (c, d) : (e, f)", options: ["all", { ternaryOperandBinaryExpressions: false }] },
+        { code: "(a = b) ? c : d", options: ["all", { ternaryOperandBinaryExpressions: false }] },
 
         // ["all", { nestedBinaryExpressions: false }] enables extra parens around conditional assignments
         { code: "a + (b * c)", options: ["all", { nestedBinaryExpressions: false }] },
@@ -581,13 +592,13 @@ ruleTester.run("no-extra-parens", rule, {
         "let a = { ...b }",
         {
             code: "let a = { ...b }",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         "let a = [ ...(b, c) ]",
         "let a = { ...(b, c) }",
         {
             code: "let a = { ...(b, c) }",
-            parserOptions: { ecmaVersion: 2018 }
+            languageOptions: { ecmaVersion: 2018 }
         },
         "var [x = (1, foo)] = bar",
         "class A extends B {}",
@@ -601,15 +612,15 @@ ruleTester.run("no-extra-parens", rule, {
         "() => ({ foo: 1 }.foo().bar + baz)",
         {
             code: "export default (a, b)",
-            parserOptions: { sourceType: "module" }
+            languageOptions: { sourceType: "module" }
         },
         {
             code: "export default (function(){}).foo",
-            parserOptions: { sourceType: "module" }
+            languageOptions: { sourceType: "module" }
         },
         {
             code: "export default (class{}).foo",
-            parserOptions: { sourceType: "module" }
+            languageOptions: { sourceType: "module" }
         },
         "({}).hasOwnProperty.call(foo, bar)",
         "({}) ? foo() : bar()",
@@ -703,38 +714,94 @@ ruleTester.run("no-extra-parens", rule, {
         "new (a.b()).c",
 
         // Nullish coalescing
-        { code: "var v = (a ?? b) || c", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = a ?? (b || c)", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (a ?? b) && c", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = a ?? (b && c)", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (a || b) ?? c", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = a || (b ?? c)", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (a && b) ?? c", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = a && (b ?? c)", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a ?? b) || c", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a ?? (b || c)", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a ?? b) && c", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a ?? (b && c)", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a || b) ?? c", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a || (b ?? c)", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (a && b) ?? c", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = a && (b ?? c)", languageOptions: { ecmaVersion: 2020 } },
 
         // Optional chaining
-        { code: "var v = (obj?.aaa).bbb", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (obj?.aaa)()", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = new (obj?.aaa)()", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = new (obj?.aaa)", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (obj?.aaa)`template`", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (obj?.()).bbb", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (obj?.())()", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = new (obj?.())()", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = new (obj?.())", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var v = (obj?.())`template`", parserOptions: { ecmaVersion: 2020 } },
-        { code: "(obj?.aaa).bbb = 0", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var foo = (function(){})?.()", parserOptions: { ecmaVersion: 2020 } },
-        { code: "var foo = (function(){}?.())", parserOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.aaa).bbb", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.aaa)()", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = new (obj?.aaa)()", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = new (obj?.aaa)", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.aaa)`template`", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.()).bbb", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.())()", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = new (obj?.())()", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = new (obj?.())", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var v = (obj?.())`template`", languageOptions: { ecmaVersion: 2020 } },
+        { code: "(obj?.aaa).bbb = 0", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var foo = (function(){})?.()", languageOptions: { ecmaVersion: 2020 } },
+        { code: "var foo = (function(){}?.())", languageOptions: { ecmaVersion: 2020 } },
         {
             code: "var foo = (function(){})?.call()",
             options: ["all", { enforceForFunctionPrototypeMethods: false }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "var foo = (function(){}?.call())",
             options: ["all", { enforceForFunctionPrototypeMethods: false }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "(Object.prototype.toString.call())",
+            options: ["functions"]
+        },
+
+        // "allowParensAfterCommentPattern" option
+        {
+            code: "const span = /**@type {HTMLSpanElement}*/(event.currentTarget);",
+            options: ["all", { allowParensAfterCommentPattern: "@type" }]
+        },
+        {
+            code: "if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log('good');",
+            options: ["all", { allowParensAfterCommentPattern: "@type" }]
+        },
+        {
+            code: `
+                validate(/** @type {Schema} */ (schema), options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "@type" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "@type" }]
+        },
+        {
+            code: "const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));",
+            options: ["all", { allowParensAfterCommentPattern: "@type" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/16850
+        "(a) = function () {};",
+        "(a) = () => {};",
+        "(a) = class {};",
+        "(a) ??= function () {};",
+        "(a) &&= class extends SuperClass {};",
+        "(a) ||= async () => {}",
+        {
+            code: "((a)) = function () {};",
+            options: ["functions"]
+        },
+
+        // https://github.com/eslint/eslint/issues/17173
+        {
+            code: "const x = (1 satisfies number).toFixed();",
+            languageOptions: {
+                parser: require(parser("typescript-parsers/member-call-expr-with-assertion"))
+            }
         }
     ],
 
@@ -867,6 +934,10 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("a ? b : (c = d)", "a ? b : c = d", "AssignmentExpression"),
         invalid("(c = d) ? (b) : c", "(c = d) ? b : c", "Identifier", null, { options: ["all", { conditionalAssign: false }] }),
         invalid("(c = d) ? b : (c)", "(c = d) ? b : c", "Identifier", null, { options: ["all", { conditionalAssign: false }] }),
+        invalid("(a) ? foo : bar", "a ? foo : bar", "Identifier", null, { options: ["all", { ternaryOperandBinaryExpressions: false }] }),
+        invalid("(a()) ? foo : bar", "a() ? foo : bar", "CallExpression", null, { options: ["all", { ternaryOperandBinaryExpressions: false }] }),
+        invalid("(a.b) ? foo : bar", "a.b ? foo : bar", "MemberExpression", null, { options: ["all", { ternaryOperandBinaryExpressions: false }] }),
+        invalid("(a || b) ? foo : (bar)", "(a || b) ? foo : bar", "Identifier", null, { options: ["all", { ternaryOperandBinaryExpressions: false }] }),
         invalid("f((a = b))", "f(a = b)", "AssignmentExpression"),
         invalid("a, (b = c)", "a, b = c", "AssignmentExpression"),
         invalid("a = (b * c)", "a = b * c", "BinaryExpression"),
@@ -1819,7 +1890,7 @@ ruleTester.run("no-extra-parens", rule, {
             "let a = {...b}",
             "Identifier",
             1,
-            { parserOptions: { ecmaVersion: 2018 } }
+            { languageOptions: { ecmaVersion: 2018 } }
         ),
         invalid(
             "let a = [...((b, c))]",
@@ -1838,7 +1909,7 @@ ruleTester.run("no-extra-parens", rule, {
             "let a = {...(b, c)}",
             "SequenceExpression",
             1,
-            { parserOptions: { ecmaVersion: 2018 } }
+            { languageOptions: { ecmaVersion: 2018 } }
         ),
         invalid(
             "class A extends (B) {}",
@@ -1875,49 +1946,49 @@ ruleTester.run("no-extra-parens", rule, {
             "export default (a, b)",
             "SequenceExpression",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "export default (() => {})",
             "export default () => {}",
             "ArrowFunctionExpression",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "export default ((a, b) => a + b)",
             "export default (a, b) => a + b",
             "ArrowFunctionExpression",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "export default (a => a)",
             "export default a => a",
             "ArrowFunctionExpression",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "export default (a = b)",
             "export default a = b",
             "AssignmentExpression",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "export default (a ? b : c)",
             "export default a ? b : c",
             "ConditionalExpression",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "export default (a)",
             "export default a",
             "Identifier",
             1,
-            { parserOptions: { sourceType: "module" } }
+            { languageOptions: { sourceType: "module" } }
         ),
         invalid(
             "for (foo of(bar));",
@@ -2995,21 +3066,21 @@ ruleTester.run("no-extra-parens", rule, {
             "import(source)",
             "Identifier",
             1,
-            { parserOptions: { ecmaVersion: 2020 } }
+            { languageOptions: { ecmaVersion: 2020 } }
         ),
         invalid(
             "import((source = 'foo.js'))",
             "import(source = 'foo.js')",
             "AssignmentExpression",
             1,
-            { parserOptions: { ecmaVersion: 2020 } }
+            { languageOptions: { ecmaVersion: 2020 } }
         ),
         invalid(
             "import(((s,t)))",
             "import((s,t))",
             "SequenceExpression",
             1,
-            { parserOptions: { ecmaVersion: 2020 } }
+            { languageOptions: { ecmaVersion: 2020 } }
         ),
 
         // https://github.com/eslint/eslint/issues/12127
@@ -3123,67 +3194,221 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "var v = ((a ?? b)) || c",
             output: "var v = (a ?? b) || c",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a ?? ((b || c))",
             output: "var v = a ?? (b || c)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = ((a ?? b)) && c",
             output: "var v = (a ?? b) && c",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a ?? ((b && c))",
             output: "var v = a ?? (b && c)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = ((a || b)) ?? c",
             output: "var v = (a || b) ?? c",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a || ((b ?? c))",
             output: "var v = a || (b ?? c)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = ((a && b)) ?? c",
             output: "var v = (a && b) ?? c",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a && ((b ?? c))",
             output: "var v = a && (b ?? c)",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = (a ?? b) ? b : c",
             output: "var v = a ?? b ? b : c",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = (a | b) ?? c | d",
             output: "var v = a | b ?? c | d",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = a | b ?? (c | d)",
             output: "var v = a | b ?? c | d",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+
+        // "allowParensAfterCommentPattern" option (off by default)
+        {
+            code: "const span = /**@type {HTMLSpanElement}*/(event.currentTarget);",
+            output: "const span = /**@type {HTMLSpanElement}*/event.currentTarget;",
+            options: ["all"],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log('good');",
+            output: "if (/** @type {Compiler | MultiCompiler} */options.hooks) console.log('good');",
+            options: ["all"],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                validate(/** @type {Schema} */ (schema), options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            output: `
+                validate(/** @type {Schema} */ schema, options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            options: ["all"],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            output: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    options.server.options.requestCert = false;
+                }
+            `,
+            options: ["all"],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));",
+            output: "const net = ipaddr.parseCIDR(/** @type {string} */ cidr);",
+            options: ["all"],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "const span = /**@type {HTMLSpanElement}*/(event.currentTarget);",
+            output: "const span = /**@type {HTMLSpanElement}*/event.currentTarget;",
+            options: ["all", { allowParensAfterCommentPattern: "invalid" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log('good');",
+            output: "if (/** @type {Compiler | MultiCompiler} */options.hooks) console.log('good');",
+            options: ["all", { allowParensAfterCommentPattern: "invalid" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                validate(/** @type {Schema} */ (schema), options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            output: `
+                validate(/** @type {Schema} */ schema, options, {
+                    name: "Dev Server",
+                    baseDataPath: "options",
+                });
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "invalid" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            output: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    options.server.options.requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "invalid" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    /** extra comment */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            output: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    /** extra comment */
+                    options.server.options.requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "@type" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    ((options.server.options)).requestCert = false;
+                }
+            `,
+            output: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "@type" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    let foo = "bar";
+                    (options.server.options).requestCert = false;
+                }
+            `,
+            output: `
+                if (condition) {
+                    /** @type {ServerOptions} */
+                    let foo = "bar";
+                    options.server.options.requestCert = false;
+                }
+            `,
+            options: ["all", { allowParensAfterCommentPattern: "@type" }],
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));",
+            output: "const net = ipaddr.parseCIDR(/** @type {string} */ cidr);",
+            options: ["all", { allowParensAfterCommentPattern: "invalid" }],
             errors: [{ messageId: "unexpected" }]
         },
 
@@ -3191,28 +3416,75 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "var v = (obj?.aaa)?.aaa",
             output: "var v = obj?.aaa?.aaa",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var v = (obj.aaa)?.aaa",
             output: "var v = obj.aaa?.aaa",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var foo = (function(){})?.call()",
             output: "var foo = function(){}?.call()",
             options: ["all", { enforceForFunctionPrototypeMethods: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
         },
         {
             code: "var foo = (function(){}?.call())",
             output: "var foo = function(){}?.call()",
             options: ["all", { enforceForFunctionPrototypeMethods: true }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpected" }]
-        }
+        },
+        {
+            code: "(Object.prototype.toString.call())",
+            output: "Object.prototype.toString.call()",
+            options: ["all"],
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/16850
+        invalid("(a) = function foo() {};", "a = function foo() {};", "Identifier"),
+        invalid("(a) = class Bar {};", "a = class Bar {};", "Identifier"),
+        invalid("(a.b) = function () {};", "a.b = function () {};", "MemberExpression"),
+        {
+            code: "(newClass) = [(one)] = class { static * [Symbol.iterator]() { yield 1; } };",
+            output: "newClass = [one] = class { static * [Symbol.iterator]() { yield 1; } };",
+            errors: [
+                { messageId: "unexpected", type: "Identifier" },
+                { messageId: "unexpected", type: "Identifier" }
+            ]
+        },
+        invalid("((a)) = () => {};", "(a) = () => {};", "Identifier"),
+        invalid("(a) = (function () {})();", "a = (function () {})();", "Identifier"),
+        ...["**=", "*=", "/=", "%=", "+=", "-=", "<<=", ">>=", ">>>=", "&=", "^=", "|="].map(
+            operator => invalid(
+                `(a) ${operator} function () {};`,
+                `a ${operator} function () {};`,
+                "Identifier"
+            )
+        ),
+
+        // Potential directives (no autofix)
+        invalid("('use strict');", null),
+        invalid("function f() { ('abc'); }", null),
+        invalid("(function () { ('abc'); })();", null),
+        invalid("_ = () => { ('abc'); };", null),
+        invalid("'use strict';(\"foobar\");", null),
+        invalid("foo(); ('bar');", null),
+        invalid("foo = { bar() { ; (\"baz\"); } };", null),
+
+        // Directive lookalikes
+        invalid("(12345);", "12345;"),
+        invalid("(('foobar'));", "('foobar');"),
+        invalid("(`foobar`);", "`foobar`;"),
+        invalid("void ('foobar');", "void 'foobar';"),
+        invalid("_ = () => ('abc');", "_ = () => 'abc';"),
+        invalid("if (foo) ('bar');", "if (foo) 'bar';"),
+        invalid("const foo = () => ('bar');", "const foo = () => 'bar';")
     ]
 });

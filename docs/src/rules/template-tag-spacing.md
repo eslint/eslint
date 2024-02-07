@@ -1,14 +1,13 @@
 ---
 title: template-tag-spacing
-layout: doc
 rule_type: layout
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals
 - https://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals
 ---
 
-
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/template-tag-spacing) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
+<!-- markdownlint-disable-next-line MD051 -->
 With ES6, it's possible to create functions called [tagged template literals](#further-reading) where the function parameters consist of a template literal's strings and expressions.
 
 When using tagged template literals, it's possible to insert whitespace between the tag function and the template literal. Since this whitespace is optional, the following lines are equivalent:

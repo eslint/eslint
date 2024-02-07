@@ -1,6 +1,5 @@
 ---
 title: callback-return
-layout: doc
 rule_type: suggestion
 related_rules:
 - handle-callback-err
@@ -10,7 +9,7 @@ further_reading:
 ---
 
 
-This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-node`](https://github.com/mysticatea/eslint-plugin-node).
+This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 
 The callback pattern is at the heart of most I/O and event-driven programming
  in JavaScript.

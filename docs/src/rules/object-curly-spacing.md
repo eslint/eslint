@@ -1,6 +1,5 @@
 ---
 title: object-curly-spacing
-layout: doc
 rule_type: layout
 related_rules:
 - array-bracket-spacing
@@ -9,7 +8,7 @@ related_rules:
 - space-in-parens
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/object-curly-spacing) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 While formatting preferences are very personal, a number of style guides require
 or disallow spaces between curly braces in the following situations:

@@ -1,12 +1,11 @@
 ---
 title: multiline-ternary
-layout: doc
 rule_type: layout
 related_rules:
 - operator-linebreak
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/multiline-ternary) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 JavaScript allows operands of ternary expressions to be separated by newlines, which can improve the readability of your program.
 
@@ -19,9 +18,14 @@ var foo = bar > baz ? value1 : value2;
 The above can be rewritten as the following to improve readability and more clearly delineate the operands:
 
 ```js
+
 var foo = bar > baz ?
     value1 :
     value2;
+
+var foo = bar > baz
+    ? value1
+    : value2;
 ```
 
 ## Rule Details
@@ -75,6 +79,12 @@ foo > bar ?
         value1 :
         value2) :
     value3;
+
+foo > bar
+    ? (baz > qux
+        ? value1
+        : value2)
+    : value3;
 ```
 
 :::
@@ -127,6 +137,12 @@ foo > bar &&
     bar > baz ?
         value1 :
         value2;
+
+foo > bar
+    ? baz > qux
+        ? value1
+        : value2
+    : value3;
 ```
 
 :::

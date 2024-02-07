@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-multi-spaces"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -69,7 +69,7 @@ ruleTester.run("no-multi-spaces", rule, {
         "var foo = \"hello     world\";",
         "function foo() {\n    return;\n}",
         "function foo() {\n    if (foo) {\n        return;\n    }\n}",
-        { code: "var foo = `hello     world`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `hello     world`;", languageOptions: { ecmaVersion: 6 } },
         "({ a:  b })",
         {
             code: "var  answer = 6 *  7;",
@@ -121,7 +121,7 @@ ruleTester.run("no-multi-spaces", rule, {
         {
             code: "var foo = (a,  b) => {}",
             output: "var foo = (a, b) => {}",
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "multipleSpaces",
                 data: { displayValue: "b" },

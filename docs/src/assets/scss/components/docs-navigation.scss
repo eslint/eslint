@@ -13,7 +13,6 @@
         margin-bottom: 2rem;
         margin-block-end: 2rem;
 
-
         @media all and (min-width: 1024px) {
             font-size: var(--step-0);
             margin-top: 0;
@@ -50,7 +49,6 @@
     }
 }
 
-
 .docs-nav-panel {
     @media all and (min-width: 1024px) {
         display: flex;
@@ -83,10 +81,8 @@
     align-items: center;
     margin-left: .5rem;
     margin-right: -10px;
-
     margin-inline-start: .5rem;
     margin-inline-end: -10px;
-
 
     svg {
         width: 40px;
@@ -118,7 +114,6 @@
         }
 
         #ham-top {
-
             transform: rotate(41deg);
         }
 
@@ -127,8 +122,6 @@
         }
     }
 }
-
-
 
 @media all and (min-width: 1024px) {
     .docs-site-nav {
@@ -151,5 +144,4 @@
             order: 1;
         }
     }
-
 }

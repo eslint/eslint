@@ -1,6 +1,5 @@
 ---
 title: no-unused-expressions
-layout: doc
 rule_type: suggestion
 ---
 
@@ -80,7 +79,7 @@ Examples of **correct** code for the default `{ "allowShortCircuit": false, "all
 
 {} // In this context, this is a block statement, not an object literal
 
-{myLabel: someVar} // In this context, this is a block statement with a label and expression, not an object literal
+{ myLabel: foo() } // In this context, this is a block statement with a label and expression, not an object literal
 
 function namedFunctionDeclaration () {}
 
@@ -252,7 +251,7 @@ JSX is most-commonly used in the React ecosystem, where it is compiled to `React
 
 Examples of **incorrect** code for the `{ "enforceForJSX": true }` option:
 
-::: incorrect
+::: incorrect { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
 /*eslint no-unused-expressions: ["error", { "enforceForJSX": true }]*/
@@ -266,7 +265,7 @@ Examples of **incorrect** code for the `{ "enforceForJSX": true }` option:
 
 Examples of **correct** code for the `{ "enforceForJSX": true }` option:
 
-::: correct
+::: correct { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
 /*eslint no-unused-expressions: ["error", { "enforceForJSX": true }]*/

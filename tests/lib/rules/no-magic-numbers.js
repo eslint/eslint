@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-magic-numbers"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -25,14 +25,14 @@ ruleTester.run("no-magic-numbers", rule, {
         "var x = Number.parseInt(y, 10);",
         {
             code: "const foo = 42;",
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = 42;",
             options: [{
                 enforceConst: false
             }],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         "var foo = -42;",
         {
@@ -113,14 +113,14 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "foo[0o71]",
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2015 }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "foo[0xABC]",
@@ -132,7 +132,10 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "foo[0123]",
             options: [{
                 ignoreArrayIndexes: true
-            }]
+            }],
+            languageOptions: {
+                sourceType: "script"
+            }
         },
         {
             code: "foo[5.0000000000000001]", // loses precision and evaluates to 5
@@ -151,112 +154,143 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "foo[-0n]", // Allowed. -0n evaluates to 0n which will be coerced to "0", so foo[-0n] refers to the element at index 0.
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "foo[1n]", // Allowed. 1n will be coerced to "1", so foo[1n] refers to the element at index 1.
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "foo[100n]", // Allowed. 100n will be coerced to "100", so foo[100n] refers to the element at index 100.
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "foo[0xABn]", // Allowed. 0xABn is evaluated to 171n and will be coerced to "171", so foo[0xABn] refers to the element at index 171.
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "foo[4294967294n]", // max array index
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "var a = <input maxLength={10} />;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
                 }
             }
         },
         {
             code: "var a = <div objectProp={{ test: 1}}></div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
                 }
             }
         },
         {
             code: "f(100n)",
             options: [{ ignore: ["100n"] }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "f(-100n)",
             options: [{ ignore: ["-100n"] }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "const { param = 123 } = sourceObject;",
             options: [{ ignoreDefaultValues: true }],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const func = (param = 123) => {}",
             options: [{ ignoreDefaultValues: true }],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const func = ({ param = 123 }) => {}",
             options: [{ ignoreDefaultValues: true }],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "const [one = 1, two = 2] = []",
             options: [{ ignoreDefaultValues: true }],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
         {
             code: "var one, two; [one = 1, two = 2] = []",
             options: [{ ignoreDefaultValues: true }],
-            env: { es6: true }
+            languageOptions: { ecmaVersion: 6 }
         },
 
         // Optional chaining
         {
             code: "var x = parseInt?.(y, 10);",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "var x = Number?.parseInt(y, 10);",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "var x = (Number?.parseInt)(y, 10);",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "foo?.[777]",
             options: [{ ignoreArrayIndexes: true }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
+        },
+
+        // ignoreClassFieldInitialValues
+        {
+            code: "class C { foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { foo = -2; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { #foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static #foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -265,7 +299,7 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 enforceConst: true
             }],
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "useConst" }]
         },
         {
@@ -280,14 +314,14 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 enforceConst: true
             }],
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2020
             },
             errors: [{ messageId: "useConst" }]
         },
         {
             code: "var foo = 0n + 1n;",
-            parserOptions: {
+            languageOptions: {
                 ecmaVersion: 2020
             },
             errors: [
@@ -335,6 +369,9 @@ ruleTester.run("no-magic-numbers", rule, {
             ]
         }, {
             code: "console.log(0x1A + 0x02); console.log(071);",
+            languageOptions: {
+                sourceType: "script"
+            },
             errors: [
                 { messageId: "noMagic", data: { raw: "0x1A" } },
                 { messageId: "noMagic", data: { raw: "0x02" } },
@@ -391,7 +428,7 @@ ruleTester.run("no-magic-numbers", rule, {
                 "function invokeInTen(func) {\n" +
                   "setTimeout(func, 10);\n" +
                 "}\n",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "10" }, line: 7 },
                 { messageId: "noMagic", data: { raw: "10" }, line: 7 },
@@ -464,7 +501,7 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "noMagic", data: { raw: "-0b110" }, line: 1
             }]
@@ -474,7 +511,7 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2015 },
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "noMagic", data: { raw: "-0o71" }, line: 1
             }]
@@ -493,6 +530,7 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }],
+            languageOptions: { sourceType: "script" },
             errors: [{
                 messageId: "noMagic", data: { raw: "-012" }, line: 1
             }]
@@ -601,7 +639,7 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "noMagic", data: { raw: "-1n" }, line: 1
             }]
@@ -611,7 +649,7 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "noMagic", data: { raw: "-100n" }, line: 1
             }]
@@ -621,7 +659,7 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "noMagic", data: { raw: "-0x12n" }, line: 1
             }]
@@ -631,7 +669,7 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "noMagic", data: { raw: "4294967295n" }, line: 1
             }]
@@ -668,7 +706,7 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "noMagic", data: { raw: "0n" }, line: 1
             }]
@@ -678,7 +716,7 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "noMagic", data: { raw: "1n" }, line: 1
             }]
@@ -688,7 +726,7 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{
                 messageId: "noMagic", data: { raw: "-1n" }, line: 1
             }]
@@ -713,9 +751,11 @@ ruleTester.run("no-magic-numbers", rule, {
         },
         {
             code: "var a = <div arrayProp={[1,2,3]}></div>;",
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
                 }
             },
             errors: [
@@ -736,7 +776,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "f(100n)",
             options: [{ ignore: [100] }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "noMagic", data: { raw: "100n" }, line: 1 }
             ]
@@ -744,7 +784,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "f(-100n)",
             options: [{ ignore: ["100n"] }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "noMagic", data: { raw: "-100n" }, line: 1 }
             ]
@@ -752,7 +792,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "f(100n)",
             options: [{ ignore: ["-100n"] }],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "noMagic", data: { raw: "100n" }, line: 1 }
             ]
@@ -767,7 +807,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "const func = (param = 123) => {}",
             options: [{ ignoreDefaultValues: false }],
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
             ]
@@ -775,14 +815,14 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "const { param = 123 } = sourceObject;",
             options: [{}],
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
             ]
         },
         {
             code: "const { param = 123 } = sourceObject;",
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
             ]
@@ -790,7 +830,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "const { param = 123 } = sourceObject;",
             options: [{ ignoreDefaultValues: false }],
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "123" }, line: 1 }
             ]
@@ -798,7 +838,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "const [one = 1, two = 2] = []",
             options: [{ ignoreDefaultValues: false }],
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "1" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "2" }, line: 1 }
@@ -807,10 +847,92 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "var one, two; [one = 1, two = 2] = []",
             options: [{ ignoreDefaultValues: false }],
-            env: { es6: true },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "noMagic", data: { raw: "1" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "2" }, line: 1 }
+            ]
+        },
+
+        // ignoreClassFieldInitialValues
+        {
+            code: "class C { foo = 2; }",
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 17 }
+            ]
+        },
+        {
+            code: "class C { foo = 2; }",
+            options: [{}],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 17 }
+            ]
+        },
+        {
+            code: "class C { foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: false }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 17 }
+            ]
+        },
+        {
+            code: "class C { foo = -2; }",
+            options: [{ ignoreClassFieldInitialValues: false }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "-2" }, line: 1, column: 17 }
+            ]
+        },
+        {
+            code: "class C { static foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: false }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 24 }
+            ]
+        },
+        {
+            code: "class C { #foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: false }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 18 }
+            ]
+        },
+        {
+            code: "class C { static #foo = 2; }",
+            options: [{ ignoreClassFieldInitialValues: false }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 25 }
+            ]
+        },
+        {
+            code: "class C { foo = 2 + 3; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 17 },
+                { messageId: "noMagic", data: { raw: "3" }, line: 1, column: 21 }
+            ]
+        },
+        {
+            code: "class C { 2; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 11 }
+            ]
+        },
+        {
+            code: "class C { [2]; }",
+            options: [{ ignoreClassFieldInitialValues: true }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "2" }, line: 1, column: 12 }
             ]
         }
     ]

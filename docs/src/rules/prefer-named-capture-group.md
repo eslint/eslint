@@ -1,6 +1,5 @@
 ---
 title: prefer-named-capture-group
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-invalid-regexp

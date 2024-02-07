@@ -1,19 +1,39 @@
 .docs-toc {
     margin: 2rem 0;
-}
-
-.docs-toc {
-    .docs-aside & {
-        display: none;
-    }
 
     @media all and (min-width: 1400px) {
         display: none;
     }
 
     .docs-aside & {
+        display: none;
+
         @media all and (min-width: 1400px) {
             display: block;
+        }
+    }
+}
+
+.docs-aside {
+    // for sticky table of contents in sidebar
+    .docs-toc.c-toc {
+        background-color: var(--body-background-color);
+        @media all and (min-width: 1400px) {
+            position: sticky;
+            top: 20px;
+            overflow-y: auto; // show scrollbar when toc is higher than viewport
+            padding-right: 5px; // push scrollbar away from content
+            max-height: calc(100vh - 32px); // minus element's margin-top
+            a.active {
+                color: var(--link-color);
+                font-weight: 500;
+            }
+        }
+    }
+
+    .c-toc ol li.active::before {
+        @media all and (min-width: 1400px) {
+            color: var(--link-color);
         }
     }
 }
@@ -100,12 +120,9 @@
     color: var(--color-neutral-400);
 
     [aria-expanded="true"] & {
-        -ms-transform: rotate(180deg);
         transform: rotate(180deg);
     }
 }
-
-
 
 .c-toc__panel {
     &[data-open="false"] {

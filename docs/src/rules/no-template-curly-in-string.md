@@ -1,6 +1,5 @@
 ---
 title: no-template-curly-in-string
-layout: doc
 rule_type: problem
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: no-constant-binary-expression
-layout: doc
 rule_type: problem
 related_rules:
 - no-constant-condition
@@ -54,6 +53,12 @@ const value4 = new Boolean(foo) === true;
 const objIsEmpty = someObj === {};
 
 const arrIsEmpty = someArr === [];
+
+const shortCircuit1 = condition1 && false && condition2;
+
+const shortCircuit2 = condition1 || true || condition2;
+
+const shortCircuit3 = condition1 ?? "non-nullish" ?? condition2;
 ```
 
 :::

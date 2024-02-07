@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-empty-character-class"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -25,15 +25,26 @@ ruleTester.run("no-empty-character-class", rule, {
         "var foo = /^abc/;",
         "var foo = /[\\[]/;",
         "var foo = /[\\]]/;",
+        "var foo = /\\[][\\]]/;",
         "var foo = /[a-zA-Z\\[]/;",
         "var foo = /[[]/;",
         "var foo = /[\\[a-z[]]/;",
         "var foo = /[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\^\\$\\|]/g;",
         "var foo = /\\s*:\\s*/gim;",
-        { code: "var foo = /[\\]]/uy;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = /[\\]]/s;", parserOptions: { ecmaVersion: 2018 } },
-        { code: "var foo = /[\\]]/d;", parserOptions: { ecmaVersion: 2022 } },
-        "var foo = /\\[]/"
+        "var foo = /[^]/;", // this rule allows negated empty character classes
+        "var foo = /\\[][^]/;",
+        { code: "var foo = /[\\]]/uy;", languageOptions: { ecmaVersion: 6 } },
+        { code: "var foo = /[\\]]/s;", languageOptions: { ecmaVersion: 2018 } },
+        { code: "var foo = /[\\]]/d;", languageOptions: { ecmaVersion: 2022 } },
+        "var foo = /\\[]/",
+        { code: "var foo = /[[^]]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[[\\]]]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[[\\[]]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[a--b]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[a&&b]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[[a][b]]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[\\q{}]/v;", languageOptions: { ecmaVersion: 2024 } },
+        { code: "var foo = /[[^]--\\p{ASCII}]/v;", languageOptions: { ecmaVersion: 2024 } }
     ],
     invalid: [
         { code: "var foo = /^abc[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
@@ -43,6 +54,15 @@ ruleTester.run("no-empty-character-class", rule, {
         { code: "var foo = /[]]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "var foo = /\\[[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "var foo = /\\[\\[\\]a-z[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
-        { code: "var foo = /[]]/d;", parserOptions: { ecmaVersion: 2022 }, errors: [{ messageId: "unexpected", type: "Literal" }] }
+        { code: "var foo = /[]]/d;", languageOptions: { ecmaVersion: 2022 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /[(]\\u{0}*[]/u;", languageOptions: { ecmaVersion: 2015 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /[]/v;", languageOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /[[]]/v;", languageOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /[[a][]]/v;", languageOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /[a[[b[]c]]d]/v;", languageOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /[a--[]]/v;", languageOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /[[]--b]/v;", languageOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /[a&&[]]/v;", languageOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /[[]&&b]/v;", languageOptions: { ecmaVersion: 2024 }, errors: [{ messageId: "unexpected", type: "Literal" }] }
     ]
 });

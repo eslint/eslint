@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/func-call-spacing"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -40,7 +40,7 @@ ruleTester.run("func-call-spacing", rule, {
         "new (foo())",
         {
             code: "import(source)",
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // "never"
@@ -111,7 +111,7 @@ ruleTester.run("func-call-spacing", rule, {
         {
             code: "import(source)",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // "always"
@@ -166,7 +166,7 @@ ruleTester.run("func-call-spacing", rule, {
         {
             code: "import (source)",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // "always", "allowNewlines": true
@@ -217,29 +217,29 @@ ruleTester.run("func-call-spacing", rule, {
         {
             code: "import\n(source)",
             options: ["always", { allowNewlines: true }],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
 
         // Optional chaining
         {
             code: "func?.()",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "func ?.()",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "func?. ()",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         },
         {
             code: "func ?. ()",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2020 }
+            languageOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -324,7 +324,7 @@ ruleTester.run("func-call-spacing", rule, {
         {
             code: "import (source);",
             output: "import(source);",
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedWhitespace", type: "ImportExpression" }]
         },
 
@@ -357,7 +357,7 @@ ruleTester.run("func-call-spacing", rule, {
         {
             code: "import\n(source);",
             output: null,
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedWhitespace", type: "ImportExpression" }]
         },
 
@@ -453,7 +453,7 @@ ruleTester.run("func-call-spacing", rule, {
             code: "import (source);",
             output: "import(source);",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedWhitespace", type: "ImportExpression" }]
         },
 
@@ -704,7 +704,7 @@ ruleTester.run("func-call-spacing", rule, {
             code: "import(source);",
             output: "import (source);",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "missing", type: "ImportExpression" }]
         },
         {
@@ -900,70 +900,70 @@ ruleTester.run("func-call-spacing", rule, {
             code: "func ?.()",
             output: "func?.()",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedWhitespace" }]
         },
         {
             code: "func?. ()",
             output: "func?.()",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedWhitespace" }]
         },
         {
             code: "func ?. ()",
             output: "func?.()",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedWhitespace" }]
         },
         {
             code: "func\n?.()",
             output: "func?.()",
             options: ["never"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedWhitespace" }]
         },
         {
             code: "func\n//comment\n?.()",
             output: null, // Don't remove comments
             options: ["never"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedWhitespace" }]
         },
         {
             code: "func?.()",
             output: null, // Not sure inserting a space into either before/after `?.`.
             options: ["always"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "missing" }]
         },
         {
             code: "func\n  ?.()",
             output: "func ?.()",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedNewline" }]
         },
         {
             code: "func?.\n  ()",
             output: "func?. ()",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedNewline" }]
         },
         {
             code: "func  ?.\n  ()",
             output: "func ?. ()",
             options: ["always"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedNewline" }]
         },
         {
             code: "func\n /*comment*/ ?.()",
             output: null, // Don't remove comments
             options: ["always"],
-            parserOptions: { ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedNewline" }]
         }
     ]

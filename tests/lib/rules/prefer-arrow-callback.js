@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/prefer-arrow-callback");
-const { RuleTester } = require("../../../lib/rule-tester");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -21,7 +21,7 @@ const errors = [{
     type: "FunctionExpression"
 }];
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
+const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2020, sourceType: "script" } });
 
 ruleTester.run("prefer-arrow-callback", rule, {
     valid: [
@@ -204,6 +204,46 @@ ruleTester.run("prefer-arrow-callback", rule, {
         {
             code: "foo((function() { return this; }?.bind)(this));",
             output: null,
+            errors
+        },
+
+        // https://github.com/eslint/eslint/issues/16718
+        {
+            code: `
+            test(
+                function ()
+                { }
+            );
+            `,
+            output: `
+            test(
+                () =>
+                { }
+            );
+            `,
+            errors
+        },
+        {
+            code: `
+            test(
+                function (
+                    ...args
+                ) /* Lorem ipsum
+                dolor sit amet. */ {
+                    return args;
+                }
+            );
+            `,
+            output: `
+            test(
+                (
+                    ...args
+                ) => /* Lorem ipsum
+                dolor sit amet. */ {
+                    return args;
+                }
+            );
+            `,
             errors
         }
     ]

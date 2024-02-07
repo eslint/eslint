@@ -1,6 +1,5 @@
 ---
 title: no-control-regex
-layout: doc
 rule_type: problem
 related_rules:
 - no-div-regex

@@ -1,6 +1,5 @@
 ---
 title: prefer-object-spread
-layout: doc
 rule_type: suggestion
 ---
 

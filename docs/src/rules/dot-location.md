@@ -1,13 +1,12 @@
 ---
 title: dot-location
-layout: doc
 rule_type: layout
 related_rules:
 - newline-after-var
 - dot-notation
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/dot-location) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 JavaScript allows you to place newlines before or after a dot in a member expression.
 

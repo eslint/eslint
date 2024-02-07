@@ -9,13 +9,19 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/logical-assignment-operators"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester"),
+    parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
+const ruleTester = new RuleTester({
+    languageOptions: {
+        ecmaVersion: 2021,
+        sourceType: "script"
+    }
+});
 
 ruleTester.run("logical-assignment-operators", rule, {
     valid: [
@@ -75,10 +81,10 @@ ruleTester.run("logical-assignment-operators", rule, {
         "a?.b || (a.b = b)",
         {
             code: "class Class { #prop; constructor() { this.#prop || (this.prop = value) } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }, {
             code: "class Class { #prop; constructor() { this.prop || (this.#prop = value) } }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // If
@@ -353,6 +359,28 @@ ruleTester.run("logical-assignment-operators", rule, {
         }, {
             code: "a.b = a.b || c",
             options: ["never"]
+        },
+
+        // 3 or more operands
+        {
+            code: "a = a && b || c",
+            options: ["always"]
+        },
+        {
+            code: "a = a && b && c || d",
+            options: ["always"]
+        },
+        {
+            code: "a = (a || b) || c", // Allow if parentheses are used.
+            options: ["always"]
+        },
+        {
+            code: "a = (a && b) && c", // Allow if parentheses are used.
+            options: ["always"]
+        },
+        {
+            code: "a = (a ?? b) ?? c", // Allow if parentheses are used.
+            options: ["always"]
         }
     ],
     invalid: [
@@ -728,7 +756,7 @@ ruleTester.run("logical-assignment-operators", rule, {
         }, {
             code: "class Class { #prop; constructor() { this.#prop || (this.#prop = value) } }",
             output: "class Class { #prop; constructor() { this.#prop ||= value } }",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{ messageId: "logical", type: "LogicalExpression", data: { operator: "||=" } }]
         }, {
             code: "a['b'] || (a['b'] = c)",
@@ -1456,5 +1484,213 @@ ruleTester.run("logical-assignment-operators", rule, {
             output: "a = a ?? b + c",
             options: ["never"],
             errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "??=" } }]
-        }]
+        },
+
+        // https://github.com/eslint/eslint/issues/17173
+        {
+            code: "a ||= b as number;",
+            output: "a = a || (b as number);",
+            options: ["never"],
+            languageOptions: {
+                parser: require(parser("typescript-parsers/logical-assignment-with-assertion"))
+            },
+            errors: [{ messageId: "unexpected", type: "AssignmentExpression", data: { operator: "||=" } }]
+        },
+        {
+            code: "a.b.c || (a.b.c = d as number)",
+            output: null,
+            languageOptions: {
+                parser: require(parser("typescript-parsers/logical-with-assignment-with-assertion-1"))
+            },
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||=" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    data: { operator: "||=" },
+                    output: "a.b.c ||= d as number"
+                }]
+            }]
+        },
+        {
+            code: "a.b.c || (a.b.c = (d as number))",
+            output: null,
+            languageOptions: {
+                parser: require(parser("typescript-parsers/logical-with-assignment-with-assertion-2"))
+            },
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||=" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    data: { operator: "||=" },
+                    output: "a.b.c ||= (d as number)"
+                }]
+            }]
+        },
+        {
+            code: "(a.b.c || (a.b.c = d)) as number",
+            output: null,
+            languageOptions: {
+                parser: require(parser("typescript-parsers/logical-with-assignment-with-assertion-3"))
+            },
+            errors: [{
+                messageId: "logical",
+                type: "LogicalExpression",
+                data: { operator: "||=" },
+                suggestions: [{
+                    messageId: "convertLogical",
+                    data: { operator: "||=" },
+                    output: "(a.b.c ||= d) as number"
+                }]
+            }]
+        },
+
+        // 3 or more operands
+        {
+            code: "a = a || b || c",
+            output: "a ||= b || c",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = a && b && c",
+            output: "a &&= b && c",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "&&=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = a ?? b ?? c",
+            output: "a ??= b ?? c",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "??=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = a || b && c",
+            output: "a ||= b && c",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = a || b || c || d",
+            output: "a ||= b || c || d",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = a && b && c && d",
+            output: "a &&= b && c && d",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "&&=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = a ?? b ?? c ?? d",
+            output: "a ??= b ?? c ?? d",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "??=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = a || b || c && d",
+            output: "a ||= b || c && d",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = a || b && c || d",
+            output: "a ||= b && c || d",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = (a) || b || c",
+            output: "a ||= b || c",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = a || (b || c) || d",
+            output: "a ||= (b || c) || d",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = (a || b || c)",
+            output: "a ||= (b || c)",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        },
+        {
+            code: "a = ((a) || (b || c) || d)",
+            output: "a ||= ((b || c) || d)",
+            options: ["always"],
+            errors: [{
+                messageId: "assignment",
+                type: "AssignmentExpression",
+                data: { operator: "||=" },
+                suggestions: []
+            }]
+        }
+    ]
 });

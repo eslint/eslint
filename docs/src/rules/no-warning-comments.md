@@ -1,6 +1,5 @@
 ---
 title: no-warning-comments
-layout: doc
 rule_type: suggestion
 ---
 

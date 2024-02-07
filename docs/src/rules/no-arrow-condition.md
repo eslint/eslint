@@ -1,6 +1,5 @@
 ---
 title: no-arrow-condition
-layout: doc
 
 related_rules:
 - arrow-parens
@@ -10,7 +9,9 @@ related_rules:
 
 Disallows arrow functions where test conditions are expected.
 
-(removed) This rule was **removed** in ESLint v2.0 and **replaced** by a combination of the [no-confusing-arrow](no-confusing-arrow) and [no-constant-condition](no-constant-condition) rules.
+::: important
+This rule was removed in ESLint v2.0.0 and replaced by a combination of the [no-confusing-arrow](no-confusing-arrow) and [no-constant-condition](no-constant-condition) rules.
+:::
 
 Arrow functions (`=>`) are similar in syntax to some comparison operators (`>`, `<`, `<=`, and `>=`). This rule warns against using the arrow function syntax in places where a condition is expected. Even if the arguments of the arrow function are wrapped with parens, this rule still warns about it.
 

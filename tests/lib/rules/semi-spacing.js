@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/semi-spacing"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -62,18 +62,18 @@ ruleTester.run("semi-spacing", rule, {
         // Class fields
         {
             code: "class C { foo; bar; method() {} }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
         {
             code: "class C { foo }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         },
 
         // Empty are ignored (`no-extra-semi` rule will remove those)
         "foo; ;;;;;;;;;",
         {
             code: "class C { foo; ;;;;;;;;;; }",
-            parserOptions: { ecmaVersion: 2022 }
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -280,7 +280,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "import Foo from 'bar' ;",
             output: "import Foo from 'bar';",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "unexpectedWhitespaceBefore", type: "ImportDeclaration", line: 1, column: 22 }
             ]
@@ -289,7 +289,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "import * as foo from 'bar' ;",
             output: "import * as foo from 'bar';",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "unexpectedWhitespaceBefore", type: "ImportDeclaration", line: 1, column: 27 }
             ]
@@ -298,7 +298,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "var foo = 0; export {foo} ;",
             output: "var foo = 0; export {foo};",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "unexpectedWhitespaceBefore", type: "ExportNamedDeclaration", line: 1, column: 26 }
             ]
@@ -307,7 +307,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "export * from 'foo' ;",
             output: "export * from 'foo';",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "unexpectedWhitespaceBefore", type: "ExportAllDeclaration", line: 1, column: 20 }
             ]
@@ -316,7 +316,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "export default foo ;",
             output: "export default foo;",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { messageId: "unexpectedWhitespaceBefore", type: "ExportDefaultDeclaration", line: 1, column: 19 }
             ]
@@ -325,7 +325,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "while(foo) {continue   ;}",
             output: "while(foo) {continue;}",
             options: [{ before: false, after: true }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedWhitespaceBefore",
@@ -341,7 +341,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "if(foo) {throw new Error()   ;  }",
             output: "if(foo) {throw new Error();  }",
             options: [{ before: false, after: false }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedWhitespaceBefore",
@@ -357,7 +357,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "for(a ; ; );",
             output: "for(a;; );",
             options: [{ before: false, after: false }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 type: "ForStatement",
                 messageId: "unexpectedWhitespaceBefore",
@@ -379,7 +379,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "for(a ; \n ; );",
             output: "for(a; \n ; );",
             options: [{ before: false, after: false }],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 type: "ForStatement",
                 messageId: "unexpectedWhitespaceBefore",
@@ -440,7 +440,7 @@ ruleTester.run("semi-spacing", rule, {
         {
             code: "class C { foo ;bar;}",
             output: "class C { foo; bar;}",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "unexpectedWhitespaceBefore",
@@ -464,7 +464,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "class C { foo; bar ; }",
             output: "class C { foo ;bar ; }",
             options: [{ before: true, after: false }],
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [
                 {
                     messageId: "missingWhitespaceBefore",
@@ -487,7 +487,7 @@ ruleTester.run("semi-spacing", rule, {
         {
             code: "class C { foo;static {}}",
             output: "class C { foo; static {}}",
-            parserOptions: { ecmaVersion: 2022 },
+            languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 messageId: "missingWhitespaceAfter",
                 type: "PropertyDefinition",

@@ -1,13 +1,11 @@
 ---
 title: space-before-function-paren
-layout: doc
 rule_type: layout
 related_rules:
-- space-after-keywords
-- space-return-throw-case
+- keyword-spacing
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/space-before-function-paren) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 When formatting a function, whitespace is allowed between the function name or `function` keyword and the opening paren. Named functions also require a space between the `function` keyword and the function name, but anonymous functions require no whitespace. For example:
 
@@ -87,13 +85,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
 };
 
-var foo = async() => 1
+var baz = async() => 1
 ```
 
 :::
@@ -124,13 +122,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
 };
 
-var foo = async () => 1
+var baz = async () => 1
 ```
 
 :::
@@ -163,13 +161,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
 };
 
-var foo = async () => 1
+var baz = async () => 1
 ```
 
 :::
@@ -200,13 +198,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
 };
 
-var foo = async() => 1
+var baz = async() => 1
 ```
 
 :::
@@ -235,13 +233,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
 };
 
-var foo = async(a) => await a
+var baz = async(a) => await a
 ```
 
 :::
@@ -268,13 +266,13 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
 };
 
-var foo = async (a) => await a
+var baz = async (a) => await a
 ```
 
 :::
@@ -303,7 +301,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -334,7 +332,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }
@@ -363,7 +361,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar() {
         // ...
     }
@@ -398,7 +396,7 @@ class Foo {
     }
 }
 
-var foo = {
+var baz = {
     bar () {
         // ...
     }

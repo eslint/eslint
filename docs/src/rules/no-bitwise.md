@@ -1,6 +1,5 @@
 ---
 title: no-bitwise
-layout: doc
 rule_type: suggestion
 ---
 

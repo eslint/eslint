@@ -1,6 +1,5 @@
 ---
 title: prefer-rest-params
-layout: doc
 rule_type: suggestion
 related_rules:
 - prefer-spread
@@ -20,7 +19,7 @@ This rule is aimed to flag usage of `arguments` variables.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint prefer-rest-params: "error"*/
@@ -44,7 +43,7 @@ function foo(action) {
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint prefer-rest-params: "error"*/

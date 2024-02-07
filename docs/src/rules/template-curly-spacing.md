@@ -1,10 +1,9 @@
 ---
 title: template-curly-spacing
-layout: doc
 rule_type: layout
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/template-curly-spacing) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 We can embed expressions in template strings with using a pair of `${` and `}`.
 

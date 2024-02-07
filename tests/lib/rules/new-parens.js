@@ -11,7 +11,7 @@
 
 const parser = require("../../fixtures/fixture-parser"),
     rule = require("../../../lib/rules/new-parens"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -35,7 +35,9 @@ ruleTester.run("new-parens", rule, {
         "var a = (new Foo()).bar;",
         {
             code: "new Storage<RootState>('state');",
-            parser: parser("typescript-parsers/new-parens")
+            languageOptions: {
+                parser: require(parser("typescript-parsers/new-parens"))
+            }
         },
 
         // Explicit Always

@@ -1,6 +1,5 @@
 ---
 title: id-blacklist
-layout: doc
 rule_type: suggestion
 ---
 

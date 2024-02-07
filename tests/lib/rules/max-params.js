@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/max-params"),
-    { RuleTester } = require("../../../lib/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -22,7 +22,7 @@ ruleTester.run("max-params", rule, {
     valid: [
         "function test(d, e, f) {}",
         { code: "var test = function(a, b, c) {};", options: [3] },
-        { code: "var test = (a, b, c) => {};", options: [3], parserOptions: { ecmaVersion: 6 } },
+        { code: "var test = (a, b, c) => {};", options: [3], languageOptions: { ecmaVersion: 6 } },
         { code: "var test = function test(a, b, c) {};", options: [3] },
 
         // object property options
@@ -58,7 +58,7 @@ ruleTester.run("max-params", rule, {
         {
             code: "var test = (a, b, c, d) => {};",
             options: [3],
-            parserOptions: { ecmaVersion: 6 },
+            languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "exceed",
                 data: { name: "Arrow function", count: 4, max: 3.0 },
@@ -118,6 +118,7 @@ ruleTester.run("max-params", rule, {
             }`,
             options: [{ max: 2 }],
             errors: [{
+                messageId: "exceed",
                 line: 1,
                 column: 1,
                 endLine: 1,

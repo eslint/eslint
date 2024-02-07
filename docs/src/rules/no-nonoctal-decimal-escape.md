@@ -1,6 +1,5 @@
 ---
 title: no-nonoctal-decimal-escape
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-octal-escape
@@ -31,7 +30,7 @@ This rule disallows `\8` and `\9` escape sequences in string literals.
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-nonoctal-decimal-escape: "error"*/
@@ -53,7 +52,7 @@ var quux = "\0\8";
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-nonoctal-decimal-escape: "error"*/

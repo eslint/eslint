@@ -1,6 +1,5 @@
 ---
 title: no-case-declarations
-layout: doc
 rule_type: suggestion
 related_rules:
 - no-fallthrough

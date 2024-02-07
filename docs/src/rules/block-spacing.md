@@ -1,13 +1,12 @@
 ---
 title: block-spacing
-layout: doc
 rule_type: layout
 related_rules:
 - space-before-blocks
 - brace-style
 ---
 
-
+This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/block-spacing) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 ## Rule Details
 

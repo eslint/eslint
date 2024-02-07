@@ -1,6 +1,5 @@
 ---
 title: require-await
-layout: doc
 rule_type: suggestion
 related_rules:
 - require-yield
@@ -64,7 +63,7 @@ bar(async () => {
     await doSomething();
 });
 
-function foo() {
+function baz() {
     doSomething();
 }
 

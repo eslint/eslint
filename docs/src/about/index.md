@@ -1,6 +1,5 @@
 ---
 title: About
-layout: doc
 
 ---
 

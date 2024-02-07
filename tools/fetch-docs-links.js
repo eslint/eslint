@@ -7,7 +7,7 @@
  *
  * To fetch info for just selected files (for use with lint-staged):
  *
- *      node tools/fetch-docs-links.js docs/src/user-guide/index.md
+ *      node tools/fetch-docs-links.js docs/src/use/index.md
  *
  * @author Nicholas C. Zakas
  */
@@ -99,7 +99,7 @@ async function fetchLinkMeta(url) {
                         console.error("Could not fetch data for", url);
                         console.error(ex.message);
                         console.error(ex.stack);
-                        process.exit(1); // eslint-disable-line n/no-process-exit -- used in tools
+                        process.exit(1);
                     }
                 }
             }

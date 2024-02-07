@@ -1,6 +1,5 @@
 ---
 title: no-use-before-define
-layout: doc
 rule_type: problem
 ---
 
