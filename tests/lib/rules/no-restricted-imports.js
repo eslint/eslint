@@ -732,7 +732,7 @@ ruleTester.run("no-restricted-imports", rule, {
         },
         {
             message: "'*' import from 'foo' is restricted. Only 'AllowedObject' is allowed to be imported from /foo/.",
-            type: 'ImportDeclaration',
+            type: "ImportDeclaration",
             line: 1,
             column: 8,
             endColumn: 16
