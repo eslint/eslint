@@ -26,9 +26,8 @@ google_analytics:
 # Ads
 #------------------------------------------------------------------------------
 
-carbon_ads:
-  serve: CESDV2QM
-  placement: eslintorg
+carbon_ads: false
+ethical_ads: true
 
 #------------------------------------------------------------------------------
 # Shared
