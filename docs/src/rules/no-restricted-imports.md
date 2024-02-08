@@ -244,9 +244,9 @@ import { AllowedObject as DisallowedObject } from "foo";
 
 :::
 
-::: correct { "sourceType": "module" }
-
 Disallowing all import names except 'AllowedObject'.
+
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
