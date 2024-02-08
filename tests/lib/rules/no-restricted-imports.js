@@ -333,6 +333,15 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         },
         {
+            code: "import { Foo } from 'foo';",
+            options: [{
+                patterns: [{
+                    group: ["foo"],
+                    allowImportNamePattern: "^Foo"
+                }]
+            }]
+        },
+        {
             code: "import { Bar } from '../../my/relative-module';",
             options: [{
                 patterns: [{
@@ -2032,6 +2041,22 @@ ruleTester.run("no-restricted-imports", rule, {
             column: 8,
             endColumn: 9,
             message: "* import is invalid because import name matching '/^Foo/u' pattern from 'foo' is restricted from being used."
+        }]
+    },
+    {
+        code: "export { Bar } from 'foo';",
+        options: [{
+            patterns: [{
+                group: ["foo"],
+                allowImportNamePattern: "^Foo"
+            }]
+        }],
+        errors: [{
+            type: "ExportNamedDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 13,
+            message: "'Bar' import from 'foo' is restricted from being used by a pattern."
         }]
     }
     ]
