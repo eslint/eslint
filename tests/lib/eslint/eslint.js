@@ -134,6 +134,11 @@ describe("ESLint", () => {
     });
 
     describe("ESLint constructor function", () => {
+
+        it("should have a static property indicating the configType being used", () => {
+            assert.strictEqual(ESLint.configType, "flat");
+        });
+
         it("the default value of 'options.cwd' should be the current working directory.", async () => {
             process.chdir(__dirname);
             try {
