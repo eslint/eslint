@@ -1934,13 +1934,36 @@ describe("RuleTester", () => {
         }, "The reported message has the missing placeholders: 'type', 'name'. Please provide them via the 'data' property in the context.report() call.");
     });
 
-    it("should throw if the data in the message contains placeholders", () => {
+    it("should not throw if the data in the message contains placeholders not present in the raw message", () => {
+        ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withPlaceholdersInData, {
+            valid: [],
+            invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
+        });
+    });
+
+    it("should throw if the data in the message contains the same placeholder and data is not specified", () => {
         assert.throws(() => {
-            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withPlaceholdersInData, {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withSamePlaceholdersInData, {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
             });
-        }, "The reported message has a missing placeholder 'placeholder'. Please provide them via the 'data' property in the context.report() call.");
+        }, "The reported message has a missing placeholder 'name'. Please provide them via the 'data' property in the context.report() call.");
+    });
+
+    it("should not throw if the data in the message contains the same placeholder and data is specified", () => {
+        ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withSamePlaceholdersInData, {
+            valid: [],
+            invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo", data: { name: "{{ name }}" } }] }]
+        });
+    });
+
+    it("should throw an error for only specifying ignored non-string data property values", () => {
+        assert.throws(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withSamePlaceholdersInData, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo", data: { name: 0 } }] }]
+            });
+        }, "The reported message has a missing placeholder 'name'. Please provide them via the 'data' property in the context.report() call.");
     });
 
     // messageId/message misconfiguration cases

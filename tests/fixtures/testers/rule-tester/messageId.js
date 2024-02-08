@@ -98,3 +98,25 @@ module.exports.withPlaceholdersInData = {
         };
     }
 };
+
+module.exports.withSamePlaceholdersInData = {
+    meta: {
+        messages: {
+            avoidFoo: "Avoid using variables named '{{ name }}'.",
+            unused: "An unused key"
+        }
+    },
+    create(context) {
+        return {
+            Identifier(node) {
+                if (node.name === "foo") {
+                    context.report({
+                        node,
+                        messageId: "avoidFoo",
+                        data:      { name: '{{ name }}' },
+                    });
+                }
+            }
+        };
+    }
+};
