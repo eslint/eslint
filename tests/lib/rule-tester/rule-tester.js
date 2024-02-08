@@ -1907,31 +1907,31 @@ describe("RuleTester", () => {
         }, "Hydrated message \"Avoid using variables named 'notFoo'.\" does not match \"Avoid using variables named 'foo'.\"");
     });
 
-    it("should throw if the message has a single missing placeholder when data is not specified", () => {
+    it("should throw if the message has a single unsubstituted placeholder when data is not specified", () => {
         assert.throws(() => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMissingData, {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
             });
-        }, "The reported message has a missing placeholder 'name'. Please provide them via the 'data' property in the context.report() call.");
+        }, "The reported message has a unsubstituted placeholder 'name'. Please provide them via the 'data' property in the context.report() call.");
     });
 
-    it("should throw if the message has a single missing placeholders when data is specified", () => {
+    it("should throw if the message has a single unsubstituted placeholders when data is specified", () => {
         assert.throws(() => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMissingData, {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo", data: { name: "name" } }] }]
             });
-        }, "The reported message has a missing placeholder 'name'. Please provide them via the 'data' property in the context.report() call.");
+        }, "Hydrated message \"Avoid using variables named 'name'.\" does not match \"Avoid using variables named '{{ name }}'.");
     });
 
-    it("should throw if the message has multiple missing placeholders when data is not specified", () => {
+    it("should throw if the message has multiple unsubstituted placeholders when data is not specified", () => {
         assert.throws(() => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMultipleMissingDataProperties, {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
             });
-        }, "The reported message has the missing placeholders: 'type', 'name'. Please provide them via the 'data' property in the context.report() call.");
+        }, "The reported message has the unsubstituted placeholders: 'type', 'name'. Please provide them via the 'data' property in the context.report() call.");
     });
 
     it("should not throw if the data in the message contains placeholders not present in the raw message", () => {
@@ -1947,7 +1947,7 @@ describe("RuleTester", () => {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
             });
-        }, "The reported message has a missing placeholder 'name'. Please provide them via the 'data' property in the context.report() call.");
+        }, "The reported message has a unsubstituted placeholder 'name'. Please provide them via the 'data' property in the context.report() call.");
     });
 
     it("should not throw if the data in the message contains the same placeholder and data is specified", () => {
@@ -1957,13 +1957,13 @@ describe("RuleTester", () => {
         });
     });
 
-    it("should throw an error for only specifying ignored non-string data property values", () => {
+    it("should not throw an error for specifying non-string data values", () => {
         assert.throws(() => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withSamePlaceholdersInData, {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo", data: { name: 0 } }] }]
             });
-        }, "The reported message has a missing placeholder 'name'. Please provide them via the 'data' property in the context.report() call.");
+        }, "Hydrated message \"Avoid using variables named '0'.\" does not match \"Avoid using variables named '{{ name }}'.\"");
     });
 
     // messageId/message misconfiguration cases
@@ -2232,7 +2232,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "The message of the suggestion has a missing placeholder 'newName'. Please provide them via the 'data' property for the suggestion in the context.report() call.");
+            }, "The message of the suggestion has a unsubstituted placeholder 'newName'. Please provide them via the 'data' property for the suggestion in the context.report() call.");
         });
 
         it("should fail with a single missing data placeholder when data is specified", () => {
@@ -2251,7 +2251,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "The message of the suggestion has a missing placeholder 'newName'. Please provide them via the 'data' property for the suggestion in the context.report() call.");
+            }, "The message of the suggestion has a unsubstituted placeholder 'newName'. Please provide them via the 'data' property for the suggestion in the context.report() call.");
         });
 
         it("should fail with multiple missing data placeholders when data is not specified", () => {
@@ -2269,7 +2269,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "The message of the suggestion has the missing placeholders: 'currentName', 'newName'. Please provide them via the 'data' property for the suggestion in the context.report() call.");
+            }, "The message of the suggestion has the unsubstituted placeholders: 'currentName', 'newName'. Please provide them via the 'data' property for the suggestion in the context.report() call.");
         });
 
         it("should fail when tested using empty suggestion test objects even if the array length is correct", () => {
