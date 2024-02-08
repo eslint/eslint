@@ -1240,25 +1240,41 @@ ruleTester.run("use-isnan", rule, {
             code: "foo.indexOf((1, NaN))",
             options: [{ enforceForIndexOf: true }],
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                data: { methodName: "indexOf" },
+                suggestions: []
+            }]
         },
         {
             code: "foo.indexOf((1, Number.NaN))",
             options: [{ enforceForIndexOf: true }],
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "indexOfNaN", data: { methodName: "indexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                data: { methodName: "indexOf" },
+                suggestions: []
+            }]
         },
         {
             code: "foo.lastIndexOf((1, NaN))",
             options: [{ enforceForIndexOf: true }],
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "indexOfNaN", data: { methodName: "lastIndexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                data: { methodName: "lastIndexOf" },
+                suggestions: []
+            }]
         },
         {
             code: "foo.lastIndexOf((1, Number.NaN))",
             options: [{ enforceForIndexOf: true }],
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "indexOfNaN", data: { methodName: "lastIndexOf" } }]
+            errors: [{
+                messageId: "indexOfNaN",
+                data: { methodName: "lastIndexOf" },
+                suggestions: []
+            }]
         }
     ]
 });
