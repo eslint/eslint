@@ -44,6 +44,11 @@ describe("api", () => {
     });
 
     describe("loadESLint", () => {
+
+        afterEach(() => {
+            delete process.env.ESLINT_USE_FLAT_CONFIG;
+        });
+
         it("should be a function", () => {
             assert.isFunction(api.loadESLint);
         });
@@ -69,6 +74,17 @@ describe("api", () => {
                 cwd: "./tests/fixtures/config-file/cjs"
             }), FlatESLint);
         });
+
+        it("should return ESLint when useFlatConfig is not provided and ESLINT_USE_FLAT_CONFIG is false", async () => {
+            process.env.ESLINT_USE_FLAT_CONFIG = "false";
+            assert.strictEqual(await api.loadESLint(), api.ESLint);
+        });
+
+        it("should return FlatESLint when useFlatConfig is not provided and ESLINT_USE_FLAT_CONFIG is true", async () => {
+            process.env.ESLINT_USE_FLAT_CONFIG = "true";
+            assert.strictEqual(await api.loadESLint(), FlatESLint);
+        });
+
     });
 
 });
