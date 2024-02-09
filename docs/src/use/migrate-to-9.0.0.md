@@ -495,7 +495,7 @@ As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the t
 
 **To address:** Update your rule tests to use the new `RuleTester`. To do so, here are some of the common changes you'll need to make:
 
-* **Be aware of new defaults for `ecmaVersion` and `sourceType`.** By default, `RuleTester` uses the flat config default of `ecmaVersion: "latest"` and `sourceType: "module"`. This may cause some tests to break if their values were expecting the old default of `ecmaVersion: 5` and `sourceType: "script"`. If you'd like to use the old default, you'll need to manually specify that in your `RuleTester` like this:
+* **Be aware of new defaults for `ecmaVersion` and `sourceType`.** By default, `RuleTester` uses the flat config default of `ecmaVersion: "latest"` and `sourceType: "module"`. This may cause some tests to break if they were expecting the old default of `ecmaVersion: 5` and `sourceType: "script"`. If you'd like to use the old default, you'll need to manually specify that in your `RuleTester` like this:
 
     ```js
     // use eslintrc defaults
