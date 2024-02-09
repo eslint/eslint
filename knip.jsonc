@@ -6,7 +6,9 @@
                 "lib/rules/index.js",
                 "tools/internal-rules/index.js",
                 "tools/update-rule-types.js",
-                "wdio.conf.js" // Remove when Knip has a wdio plugin
+                // https://github.com/webpro/knip/issues/464
+                // Remove when Knip has a wdio plugin
+                "wdio.conf.js" 
             ],
             "project": ["{conf,lib,tools}/**/*.js"],
             "mocha": {
