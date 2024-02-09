@@ -457,6 +457,49 @@ The `LoadedFormatter` value is the object to convert the [LintResult] objects to
 
 ---
 
+## loadESLint()
+
+The `loadESLint()` function is used for integrations that wish to support both the current configuration system (flat config) and the old configuration system (eslintrc). This function returns the correct `ESLint` class implementation based on the arguments provided:
+
+```js
+const { loadESLint } = require("eslint");
+
+// loads the default ESLint that the CLI would use based on process.cwd()
+const DefaultESLint = await loadESLint();
+
+// loads the default ESLint that the CLI would use based on the provided cwd
+const CwdDefaultESLint = await loadESLint({ cwd: "/foo/bar" });
+
+// loads the flat config version specifically
+const FlatESLint = await loadESLint({ useFlatConfig: true });
+
+// loads the legacy version specifically
+const LegacyESLint = await loadESLint({ useFlatConfig: false });
+```
+
+You can then use the returned constructor to instantiate a new `ESLint` instance, like this:
+
+```js
+// loads the default ESLint that the CLI would use based on process.cwd()
+const DefaultESLint = await loadESLint();
+const eslint = new DefaultESLint();
+```
+
+If you're ever unsure which config system the returned constructor uses, check the `configType` property, which is either `"flat"` or `"eslintrc"`:
+
+```js
+// loads the default ESLint that the CLI would use based on process.cwd()
+const DefaultESLint = await loadESLint();
+
+if (DefaultESLint.configType === "flat") {
+    // do something specific to flat config
+}
+```
+
+If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.
+
+---
+
 ## SourceCode
 
 The `SourceCode` type represents the parsed source code that ESLint executes on. It's used internally in ESLint and is also available so that already-parsed code can be used. You can create a new instance of `SourceCode` by passing in the text string representing the code and an abstract syntax tree (AST) in [ESTree](https://github.com/estree/estree) format (including location information, range information, comments, and tokens):
