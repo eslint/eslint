@@ -495,7 +495,7 @@ As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the t
 
 **To address:** Update your rule tests to use the new `RuleTester`. To do so, here are some of the common changes you'll need to make:
 
-* **Be aware of new defaults for `ecmaVersion` and `sourceType`.** By default, `RuleTester` uses the flat config default of `ecmaVersion: "latest"` and `sourceType: "module"`. This may cause some tests to break if they were expecting the old default of `ecmaVersion: 5` and `sourceType: "script"`. If you'd like to use the old default, you'll need to manually specify that in your `RuleTester` like this:
+* **Be aware of new defaults for `ecmaVersion` and `sourceType`.** By default, `RuleTester` uses the flat config default of `ecmaVersion: "latest"` and `sourceType: "module"`. This may cause some tests to break if their values were expecting the old default of `ecmaVersion: 5` and `sourceType: "script"`. If you'd like to use the old default, you'll need to manually specify that in your `RuleTester` like this:
 
     ```js
     // use eslintrc defaults
@@ -552,8 +552,8 @@ In order to aid in the development of high-quality custom rules that are free fr
 1. **Suggestions must change the code.** Suggestions are expected to fix the reported problem by changing the code. `RuleTester` now throws an error if the suggestion test `output` is the same as the test `code`.
 1. **Suggestions must generate valid syntax.** In order for rule suggestions to be helpful, they need to be valid syntax. `RuleTester` now parses the output of suggestions using the same language options as the `code` value and throws an error if parsing fails.
 1. **Test cases must be unique.** Identical test cases can cause confusion and be hard to detect manually in a long test file. Duplicates are now automatically detected and can be safely removed.
-1. **Messages cannot have unsubstituted placeholders.** The rule tester now checks if there are `{{ placeholder }}` still in the message as they were not passed via `data` in the respective `context.report`.
 1. **`filename` and `only` must be of the expected type.** `RuleTester` now checks the type of `filename` and `only` properties of test objects. If specified, `filename` must be a string value. If specified, `only` must be a boolean value.
+1. **Messages cannot have unsubstituted placeholders.** The rule tester now checks if there are `{{ placeholder }}` still in the message as their values were not passed via `data` in the respective `context.report`.
 
 **To address:** Run your rule tests using `RuleTester` and fix any errors that occur. The changes you'll need to make to satisfy `RuleTester` are compatible with ESLint v8.x.
 
