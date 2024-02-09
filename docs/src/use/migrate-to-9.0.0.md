@@ -553,10 +553,11 @@ In order to aid in the development of high-quality custom rules that are free fr
 1. **Suggestions must generate valid syntax.** In order for rule suggestions to be helpful, they need to be valid syntax. `RuleTester` now parses the output of suggestions using the same language options as the `code` value and throws an error if parsing fails.
 1. **Test cases must be unique.** Identical test cases can cause confusion and be hard to detect manually in a long test file. Duplicates are now automatically detected and can be safely removed.
 1. **`filename` and `only` must be of the expected type.** `RuleTester` now checks the type of `filename` and `only` properties of test objects. If specified, `filename` must be a string value. If specified, `only` must be a boolean value.
+1. **Messages cannot have unsubstituted placeholders.** The `RuleTester` now also checks if there are {% raw %}`{{ placeholder }}` {% endraw %} still in the message as their values were not passed via `data` in the respective `context.report()` call.
 
 **To address:** Run your rule tests using `RuleTester` and fix any errors that occur. The changes you'll need to make to satisfy `RuleTester` are compatible with ESLint v8.x.
 
-**Related Issues(s):** [#15104](https://github.com/eslint/eslint/issues/15104), [#15735](https://github.com/eslint/eslint/issues/15735), [#16908](https://github.com/eslint/eslint/issues/16908)
+**Related Issues(s):** [#15104](https://github.com/eslint/eslint/issues/15104), [#15735](https://github.com/eslint/eslint/issues/15735), [#16908](https://github.com/eslint/eslint/issues/16908), [#18016](https://github.com/eslint/eslint/issues/18016)
 
 ## <a name="flat-eslint"></a> `FlatESLint` is now `ESLint`
 
