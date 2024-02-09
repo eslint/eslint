@@ -152,18 +152,6 @@ Specifying `"default"` string inside the `importNames` array will restrict the d
 }]
 ```
 
-Or like this if you need to restrict all imports from a module, except specified allowed ones.
-
-```json
-"no-restricted-imports": ["error", {
-  "paths": [{
-    "name": "import-foo",
-    "allowImportNames": ["Bar"],
-    "message": "Please use Bar from /import-bar/baz/ instead."
-  }]
-}]
-```
-
 :::
 
 Examples of **incorrect** code when `importNames` in `paths` has `"default"`:
@@ -244,6 +232,40 @@ import { AllowedObject as DisallowedObject } from "foo";
 
 :::
 
+#### allowImportNames
+
+Inverse of importNames. Restricts all imports from a module, except specified allowed ones.
+
+```json
+"no-restricted-imports": ["error", {
+  "paths": [{
+    "name": "import-foo",
+    "allowImportNames": ["Bar"],
+    "message": "Please use Bar from /import-bar/baz/ instead."
+  }]
+}]
+```
+
+Examples of **incorrect** code for `allowImportNames` in `paths`:
+
+Disallowing all import names except 'AllowedObject'.
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    allowImportNames: ["AllowedObject"],
+    message: "Only 'AllowedObject' is allowed to be imported from 'foo'."
+}]}]*/
+
+import { DisallowedObject } from "foo";
+```
+
+:::
+
+Examples of **correct** code for `allowImportNames` in `paths`:
+
 Disallowing all import names except 'AllowedObject'.
 
 ::: correct { "sourceType": "module" }
@@ -255,7 +277,7 @@ Disallowing all import names except 'AllowedObject'.
     message: "Only 'AllowedObject' is allowed to be imported from 'foo'."
 }]}]*/
 
-import { DisallowedObject } from "foo";
+import { AllowedObject } from "foo";
 ```
 
 :::
@@ -372,20 +394,6 @@ import pick from 'lodash/pick';
 :::
 
 Examples of **correct** code for this `group` option:
-
-::: correct { "sourceType": "module" }
-
-```js
-/*eslint no-restricted-imports: ["error", { paths: [{
-    name: "foo",
-    allowImportNames: ["AllowedObject"],
-    message: "Only 'AllowedObject' is allowed to be imported from 'foo'."
-}]}]*/
-
-import { AllowedObject } from "foo";
-```
-
-:::
 
 ::: correct
 
@@ -558,6 +566,53 @@ Examples of **correct** code for `importNamePattern` option:
 }]}]*/
 
 import isEmpty, { hasValue } from 'utils/collection-utils';
+```
+
+:::
+
+#### allowImportNamePattern
+
+Inverse of importNamePattern. Restricts all imports from a module, except specified allowed patterns.
+
+```json
+"no-restricted-imports": ["error", {
+    "patterns": [{
+      "group": ["import-foo/*"],
+      "allowImportNamePattern": "^foo",
+    }]
+}]
+```
+
+Examples of **incorrect** code for `allowImportNamePattern` option:
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    allowImportNamePattern: '^has',
+    message: "Use 'has*' functions from lodash instead."
+}]}]*/
+
+import { isEmpty } from 'utils/collection-utils';
+```
+
+:::
+
+Examples of **correct** code for `allowImportNamePattern` option:
+
+Disallowing all import names except 'AllowedObject'.
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    allowImportNamePattern: '^is',
+    message: "Use 'is*' functions from lodash instead."
+}]}]*/
+
+import { isEmpty } from 'utils/collection-utils';
 ```
 
 :::
