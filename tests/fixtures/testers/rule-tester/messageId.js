@@ -120,3 +120,24 @@ module.exports.withSamePlaceholdersInData = {
         };
     }
 };
+
+module.exports.withNonStringData = {
+    meta: {
+        messages: {
+            avoid: "Avoid using the value '{{ value }}'.",
+        }
+    },
+    create(context) {
+        return {
+            Literal(node) {
+                if (node.value === 0) {
+                    context.report({
+                        node,
+                        messageId: "avoid",
+                        data:      { value: 0 },
+                    });
+                }
+            }
+        };
+    }
+};
