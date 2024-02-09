@@ -475,9 +475,8 @@ If you're ever unsure which config system the returned constructor uses, check t
 ```js
 // loads the default ESLint that the CLI would use based on process.cwd()
 const DefaultESLint = await loadESLint();
-const eslint = new DefaultESLint();
 
-if (eslint.configType === "flat") {
+if (DefaultESLint.configType === "flat") {
     // do something specific to flat config
 }
 ```
