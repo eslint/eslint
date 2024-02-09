@@ -133,12 +133,6 @@
     border: 1px solid var(--border-color) !important;
 }
 
-// [data-ea-publisher].loaded .ea-content a:hover,
-// [data-ea-type].loaded .ea-content a:hover {
-//     text-decoration: none;
-//     color: var(--link-color);
-// }
-
 [data-ea-publisher].loaded .ea-content a:link,
 [data-ea-type].loaded .ea-content a:link {
     color: var(--body-text-color) !important;
