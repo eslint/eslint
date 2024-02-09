@@ -63,6 +63,12 @@ describe("api", () => {
         it("should return FlatESLint when useFlatConfig is not provided because we have eslint.config.js", async () => {
             assert.strictEqual(await api.loadESLint(), FlatESLint);
         });
+
+        it("should return ESLint when useFlatConfig is not provided because we have .eslintrc.cjs", async () => {
+            assert.strictEqual(await api.loadESLint({
+                cwd: "./tests/fixtures/config-file/cjs"
+            }), FlatESLint);
+        });
     });
 
 });
