@@ -1,30 +1,29 @@
 documentation:
 - any:
   - changed-files:
-    - all-globs-to-all-files: ['docs/**']
-    - any-globs-to-any-files: ['docs/**', '!lib/rules/**']
+    - all-globs-to-all-files: ['docs/**', '!lib/rules/**']
 
 rule:
 - any:
   - changed-files:
-    - any-globs-to-any-files: ['lib/rules/**']
+    - any-glob-to-any-file: ['lib/rules/**']
 
 cli:
 - any:
   - changed-files:
-    - any-globs-to-any-files: ['lib/cli.js', 'lib/options.js', 'lib/cli-engine/**']
+    - any-glob-to-any-file: ['lib/cli.js', 'lib/options.js', 'lib/cli-engine/**']
 
 core:
 - any:
   - changed-files:
-    - any-globs-to-any-files: ['lib/{config,eslint,linter,rule-tester,source-code}/**', 'lib/api.js']
+    - any-glob-to-any-file: ['lib/{config,eslint,linter,rule-tester,source-code}/**', 'lib/api.js']
 
 formatter:
 - any:
   - changed-files:
-    - any-globs-to-any-files: ['lib/cli-engine/formatters/**']
+    - any-glob-to-any-file: ['lib/cli-engine/formatters/**']
 
 github_actions:
 - any:
   - changed-files:
-    - any-globs-to-any-files: ['.github/workflows/**']
+    - any-glob-to-any-file: ['.github/workflows/**']
