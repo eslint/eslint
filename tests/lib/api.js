@@ -69,10 +69,10 @@ describe("api", () => {
             assert.strictEqual(await api.loadESLint(), FlatESLint);
         });
 
-        it("should return ESLint when useFlatConfig is not provided because we have .eslintrc.cjs", async () => {
+        it("should return ESLint when useFlatConfig is not provided and there is no eslint.config.js", async () => {
             assert.strictEqual(await api.loadESLint({
-                cwd: "./tests/fixtures/config-file/cjs"
-            }), FlatESLint);
+                cwd: os.tmpdir()
+            }), api.ESLint);
         });
 
         it("should return ESLint when useFlatConfig is not provided and ESLINT_USE_FLAT_CONFIG is false", async () => {
