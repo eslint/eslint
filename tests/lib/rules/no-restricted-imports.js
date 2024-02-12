@@ -231,27 +231,6 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         },
         {
-            code: "import { AllowedObject } from \"foo\";",
-            options: [{
-                paths: [{
-                    name: "foo",
-                    allowImportNames: ["AllowedObject"],
-                    message: "Please import anything except 'AllowedObject' from /bar/ instead."
-                }]
-            }]
-        },
-        {
-            code: "import { AllowedObject } from \"foo\";",
-            options: [{
-                paths: [{
-                    name: "foo",
-                    importNames: ["DisallowedObject"],
-                    allowImportNames: ["AllowedObject"],
-                    message: "Please import 'DisallowedObject' from /bar/ instead."
-                }]
-            }]
-        },
-        {
             code: "import {\nAllowedObject,\nDisallowedObject, // eslint-disable-line\n} from \"foo\";",
             options: [{ paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]
         },
@@ -333,15 +312,6 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         },
         {
-            code: "import { Foo } from 'foo';",
-            options: [{
-                patterns: [{
-                    group: ["foo"],
-                    allowImportNamePattern: "^Foo"
-                }]
-            }]
-        },
-        {
             code: "import { Bar } from '../../my/relative-module';",
             options: [{
                 patterns: [{
@@ -403,6 +373,61 @@ ruleTester.run("no-restricted-imports", rule, {
                 patterns: [{
                     group: ["foo"],
                     importNamePattern: "^Foo"
+                }]
+            }]
+        },
+        {
+            code: "import { AllowedObject } from \"foo\";",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    allowImportNames: ["AllowedObject"],
+                    message: "Please import anything except 'AllowedObject' from /bar/ instead."
+                }]
+            }]
+        },
+        {
+            code: "import { foo } from 'foo';",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    allowImportNames: ["foo"]
+                }]
+            }]
+        },
+        {
+            code: "import { foo } from 'foo';",
+            options: [{
+                patterns: [{
+                    group: ["foo"],
+                    allowImportNames: ["foo"]
+                }]
+            }]
+        },
+        {
+            code: "export { bar } from 'foo';",
+            options: [{
+                paths: [{
+                    name: "foo",
+                    allowImportNames: ["bar"]
+                }]
+            }]
+        },
+        {
+            code: "export { bar } from 'foo';",
+            options: [{
+                patterns: [{
+                    group: ["foo"],
+                    allowImportNames: ["bar"]
+                }]
+            }]
+        },
+        {
+            code: "import { Foo } from 'foo';",
+            options: [{
+                patterns: [{
+                    group: ["foo"],
+                    allowImportNamePattern: "^Foo"
                 }]
             }]
         }
@@ -704,65 +729,6 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 8,
             endColumn: 24
-        }]
-    },
-    {
-        code: "import { DisallowedObject } from \"foo\";",
-        options: [{
-            paths: [{
-                name: "foo",
-                allowImportNames: ["AllowedObject"],
-                message: "Only 'AllowedObject' is allowed to be imported from /foo/."
-            }]
-        }],
-        errors: [{
-            message: "'DisallowedObject' import from 'foo' is restricted. Only 'AllowedObject' is allowed to be imported from /foo/.",
-            type: "ImportDeclaration",
-            line: 1,
-            column: 10,
-            endColumn: 26
-        }]
-    },
-    {
-        code: "import * as All from \"foo\";",
-        options: [{
-            paths: [{
-                name: "foo",
-                allowImportNames: ["AllowedObject"],
-                message: "Only 'AllowedObject' is allowed to be imported from /foo/."
-            }]
-        }],
-        errors: [{
-            message: "* import is invalid because '*' from 'foo' is restricted. Only 'AllowedObject' is allowed to be imported from /foo/.",
-            type: "ImportDeclaration",
-            line: 1,
-            column: 8,
-            endColumn: 16
-        },
-        {
-            message: "'*' import from 'foo' is restricted. Only 'AllowedObject' is allowed to be imported from /foo/.",
-            type: "ImportDeclaration",
-            line: 1,
-            column: 8,
-            endColumn: 16
-        }]
-    },
-    {
-        code: "import { DisallowedObject } from \"foo\";",
-        options: [{
-            paths: [{
-                name: "foo",
-                importNames: ["DisallowedObject"],
-                allowImportNames: ["DisallowedObject"],
-                message: "Please import from /bar/ instead."
-            }]
-        }],
-        errors: [{
-            message: "'DisallowedObject' import from 'foo' is restricted. Please import from /bar/ instead.",
-            type: "ImportDeclaration",
-            line: 1,
-            column: 10,
-            endColumn: 26
         }]
     },
     {
@@ -2056,7 +2022,87 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 10,
             endColumn: 13,
-            message: "'Bar' import from 'foo' is restricted from being used by a pattern."
+            message: "'Bar' import from 'foo' is restricted because only imports that matches the pattern '/^Foo/u' are allowed."
+        }]
+    },
+    {
+        code: "import { AllowedObject, DisallowedObject } from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                allowImportNames: ["AllowedObject"]
+            }]
+        }],
+        errors: [{
+            message: "'DisallowedObject' import from 'foo' is restricted only AllowedObject import(s) is/are allowed.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 25,
+            endColumn: 41
+        }]
+    },
+    {
+        code: "import { AllowedObject, DisallowedObject } from \"foo\";",
+        options: [{
+            patterns: [{
+                group: ["foo"],
+                allowImportNames: ["AllowedObject"]
+            }]
+        }],
+        errors: [{
+            message: "'DisallowedObject' import from 'foo' is restricted only AllowedObject import(s) is/are allowed.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 25,
+            endColumn: 41
+        }]
+    },
+    {
+        code: "import * as AllowedObject from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                allowImportNames: ["AllowedObject"]
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because only 'AllowedObject' from 'foo' is/are allowed.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 26
+        }]
+    },
+    {
+        code: "import * as AllowedObject from \"foo/bar\";",
+        options: [{
+            patterns: [{
+                group: ["foo/*"],
+                allowImportNames: ["AllowedObject"]
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because only 'AllowedObject' from 'foo/bar' is/are allowed.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 26
+        }]
+    },
+    {
+        code: "import * as AllowedObject from \"foo/bar\";",
+        options: [{
+            patterns: [{
+                group: ["foo/*"],
+                allowImportNamePattern: "^Allow"
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because only imports that matches the pattern '/^Allow/u' from 'foo/bar' are allowed.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 26
         }]
     }
     ]
