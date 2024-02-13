@@ -96,6 +96,15 @@ async function findProblems(filename) {
                         parseError.line += codeBlockToken.map[0] + 1;
                         problems.push(parseError);
                     } else if (Object.hasOwn(parseResult.config, title)) {
+                        if (hasRuleConfigComment) {
+                            problems.push({
+                                fatal: false,
+                                severity: 2,
+                                message: `Duplicate /* eslint ${title} */ configuration comment. Each example should contain only one. Split this example into multiple examples.`,
+                                line: codeBlockToken.map[0] + 1 + comment.loc.start.line,
+                                column: comment.loc.start.column + 1
+                            });
+                        }
                         hasRuleConfigComment = true;
                     }
                 }
