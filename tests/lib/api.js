@@ -11,7 +11,8 @@
 
 const assert = require("chai").assert,
     api = require("../../lib/api"),
-    { FlatESLint } = require("../../lib/eslint");
+    { FlatESLint } = require("../../lib/eslint"),
+    os = require("os");
 
 //-----------------------------------------------------------------------------
 // Tests
