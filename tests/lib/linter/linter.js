@@ -8969,6 +8969,43 @@ describe("Linter with FlatConfigArray", () => {
             assert.strictEqual(messages[2].ruleId, "test/test-rule-3");
         });
 
+        it("should expose session object in rule context", () => {
+            const rule = {
+                create(context) {
+                    return {
+                        Program(node) {
+                            assert.isDefined(context.session);
+                            assert.isFunction(context.session.isFileIgnored);
+                            assert.isFunction(context.session.isDirectoryIgnored);
+                            context.report({ node, message: "Success" });
+                        }
+                    };
+                }
+            };
+
+            const code = "foo";
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            "test-rule": rule
+                        }
+                    }
+                },
+                rules: {
+                    "test/test-rule": 2
+                }
+            };
+
+            const messages = linter.verify(code, config, "foo.js");
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Success");
+
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
         describe("Plugins", () => {
 
             it("should not load rule definition when rule isn't used", () => {
