@@ -1027,6 +1027,20 @@ ruleTester.run("use-isnan", rule, {
             }]
         },
         {
+            code: "foo[`indexOf`](NaN)",
+            options: [{ enforceForIndexOf: true }],
+            errors: [{
+                messageId: "indexOfNaN",
+                type: "CallExpression",
+                data: { methodName: "indexOf" },
+                suggestions: [{
+                    messageId: "replaceWithFindIndex",
+                    data: { methodName: "findIndex" },
+                    output: 'foo["findIndex"](Number.isNaN)'
+                }]
+            }]
+        },
+        {
             code: "foo['lastIndexOf'](NaN)",
             options: [{ enforceForIndexOf: true }],
             errors: [{
