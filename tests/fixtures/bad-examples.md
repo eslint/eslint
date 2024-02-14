@@ -42,3 +42,13 @@ const foo = "baz";
 ```
 
 :::
+
+:::correct
+
+```js
+/* eslint no-restricted-syntax: "error" */
+
+/* eslint no-restricted-syntax: ["error", "ArrayPattern"] */
+```
+
+:::

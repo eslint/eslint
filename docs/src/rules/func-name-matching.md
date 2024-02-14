@@ -54,8 +54,7 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint func-name-matching: "error"*/
-/*eslint func-name-matching: ["error", "always"]*/ // these are equivalent
-/*eslint-env es6*/
+// equivalent to /*eslint func-name-matching: ["error", "always"]*/
 
 var foo = function foo() {};
 var foo = function() {};
@@ -157,7 +156,7 @@ Examples of **correct** code for the `{ considerPropertyDescriptor: true }` opti
 
 ```js
 /*eslint func-name-matching: ["error", { "considerPropertyDescriptor": true }]*/
-/*eslint func-name-matching: ["error", "always", { "considerPropertyDescriptor": true }]*/ // these are equivalent
+// equivalent to /*eslint func-name-matching: ["error", "always", { "considerPropertyDescriptor": true }]*/
 var obj = {};
 Object.create(obj, {foo:{value: function foo() {}}});
 Object.defineProperty(obj, 'bar', {value: function bar() {}});
@@ -173,7 +172,7 @@ Examples of **incorrect** code for the `{ considerPropertyDescriptor: true }` op
 
 ```js
 /*eslint func-name-matching: ["error", { "considerPropertyDescriptor": true }]*/
-/*eslint func-name-matching: ["error", "always", { "considerPropertyDescriptor": true }]*/ // these are equivalent
+// equivalent to /*eslint func-name-matching: ["error", "always", { "considerPropertyDescriptor": true }]*/
 var obj = {};
 Object.create(obj, {foo:{value: function bar() {}}});
 Object.defineProperty(obj, 'bar', {value: function baz() {}});
@@ -193,7 +192,7 @@ Examples of **incorrect** code for the `{ includeCommonJSModuleExports: true }` 
 
 ```js
 /*eslint func-name-matching: ["error", { "includeCommonJSModuleExports": true }]*/
-/*eslint func-name-matching: ["error", "always", { "includeCommonJSModuleExports": true }]*/ // these are equivalent
+// equivalent to /*eslint func-name-matching: ["error", "always", { "includeCommonJSModuleExports": true }]*/
 
 module.exports = function foo(name) {};
 module['exports'] = function foo(name) {};
