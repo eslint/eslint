@@ -13,6 +13,11 @@ cli:
   - changed-files:
     - any-glob-to-any-file: ['lib/cli.js', 'lib/options.js', 'lib/cli-engine/**']
 
+ESLint:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['lib/eslint/**']
+
 core:
 - any:
   - changed-files:
