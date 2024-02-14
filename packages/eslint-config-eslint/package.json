@@ -6,8 +6,7 @@
   "exports": {
     "./package.json": "./package.json",
     ".": "./index.js",
-    "./cjs": "./cjs.js",
-    "./eslintrc": "./eslintrc.js"
+    "./cjs": "./cjs.js"
   },
   "scripts": {
     "test": "node ./index.js && node ./cjs.js",
