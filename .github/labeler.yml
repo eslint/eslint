@@ -28,7 +28,7 @@ formatter:
   - changed-files:
     - any-glob-to-any-file: ['lib/cli-engine/formatters/**']
 
-github_actions:
+"github actions":
 - any:
   - changed-files:
     - any-glob-to-any-file: ['.github/workflows/**']
