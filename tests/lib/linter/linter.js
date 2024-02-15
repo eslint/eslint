@@ -6763,7 +6763,7 @@ var a = "test2";
     });
 
     describe("options", () => {
-        it("rules should apply meta.defaultOptions on top of schema defaults", () => {
+        it("rules should apply meta.defaultOptions and ignore schema defaults", () => {
             linter.defineRule("my-rule", {
                 meta: {
                     defaultOptions: [{
@@ -6803,7 +6803,7 @@ var a = "test2";
 
             assert.deepStrictEqual(
                 JSON.parse(messages[0].message),
-                { inBoth: "from-default-options", inDefaultOptions: "from-default-options", inSchema: "from-schema" }
+                { inBoth: "from-default-options", inDefaultOptions: "from-default-options" }
             );
         });
     });
