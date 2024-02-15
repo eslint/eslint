@@ -6763,7 +6763,7 @@ var a = "test2";
     });
 
     describe("options", () => {
-        it("rules should apply meta.defaultOptions and ignore schema defaults", () => {
+        it("rules should apply meta.defaultOptions on top of schema defaults", () => {
             linter.defineRule("my-rule", {
                 meta: {
                     defaultOptions: [{
@@ -6783,7 +6783,10 @@ var a = "test2";
                 create(context) {
                     return {
                         Program(node) {
-                            context.report({ node, message: JSON.stringify(context.options[0]) });
+                            context.report({
+                                message: JSON.stringify(context.options[0]),
+                                node
+                            });
                         }
                     };
                 }
@@ -6800,7 +6803,7 @@ var a = "test2";
 
             assert.deepStrictEqual(
                 JSON.parse(messages[0].message),
-                { inBoth: "from-default-options", inDefaultOptions: "from-default-options" }
+                { inBoth: "from-default-options", inDefaultOptions: "from-default-options", inSchema: "from-schema" }
             );
         });
     });
@@ -15448,6 +15451,56 @@ var a = "test2";
             assert.throws(() => {
                 linter.verify("0", config);
             }, /Fixable rules must set the `meta\.fixable` property/u);
+        });
+    });
+
+    describe("options", () => {
+        it("rules should apply meta.defaultOptions on top of schema defaults", () => {
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: {
+                                meta: {
+                                    defaultOptions: [{
+                                        inBoth: "from-default-options",
+                                        inDefaultOptions: "from-default-options"
+                                    }],
+                                    schema: [{
+                                        type: "object",
+                                        properties: {
+                                            inBoth: { default: "from-schema", type: "string" },
+                                            inDefaultOptions: { type: "string" },
+                                            inSchema: { default: "from-schema", type: "string" }
+                                        },
+                                        additionalProperties: false
+                                    }]
+                                },
+                                create(context) {
+                                    return {
+                                        Program(node) {
+                                            context.report({
+                                                message: JSON.stringify(context.options[0]),
+                                                node
+                                            });
+                                        }
+                                    };
+                                }
+                            }
+                        }
+                    }
+                },
+                rules: {
+                    "test/checker": "error"
+                }
+            };
+
+            const messages = linter.verify("foo", config, filename);
+
+            assert.deepStrictEqual(
+                JSON.parse(messages[0].message),
+                { inBoth: "from-default-options", inDefaultOptions: "from-default-options", inSchema: "from-schema" }
+            );
         });
     });
 
