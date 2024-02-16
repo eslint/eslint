@@ -2034,7 +2034,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'DisallowedObject' import from 'foo' is restricted only AllowedObject import(s) is/are allowed.",
+            message: "'DisallowedObject' import from 'foo' is restricted only 'AllowedObject' import(s) is/are allowed.",
             type: "ImportDeclaration",
             line: 1,
             column: 25,
@@ -2050,7 +2050,24 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'DisallowedObject' import from 'foo' is restricted only AllowedObject import(s) is/are allowed.",
+            message: "'DisallowedObject' import from 'foo' is restricted only 'AllowedObject' import(s) is/are allowed.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 25,
+            endColumn: 41
+        }]
+    },
+    {
+        code: "import { AllowedObject, DisallowedObject } from \"foo\";",
+        options: [{
+            patterns: [{
+                group: ["foo"],
+                allowImportNames: ["AllowedObject"],
+                allowImportNamePattern: "^Allow"
+            }]
+        }],
+        errors: [{
+            message: "'DisallowedObject' import from 'foo' is restricted only 'AllowedObject' import(s) is/are allowed.",
             type: "ImportDeclaration",
             line: 1,
             column: 25,
