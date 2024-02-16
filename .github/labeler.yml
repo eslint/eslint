@@ -11,12 +11,7 @@ rule:
 cli:
 - any:
   - changed-files:
-    - any-glob-to-any-file: ['lib/cli.js', 'lib/options.js', 'lib/cli-engine/**']
-
-ESLint:
-- any:
-  - changed-files:
-    - any-glob-to-any-file: ['lib/eslint/**']
+    - any-glob-to-any-file: ['lib/cli.js', 'lib/options.js', 'lib/cli-engine/**', 'lib/eslint/**']
 
 core:
 - any:
