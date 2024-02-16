@@ -1,0 +1,29 @@
+documentation:
+- any:
+  - changed-files:
+    - all-globs-to-all-files: ['docs/**', '!lib/rules/**']
+
+rule:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['lib/rules/**']
+
+cli:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['lib/cli.js', 'lib/options.js', 'lib/cli-engine/**', 'lib/eslint/**']
+
+core:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['lib/{config,eslint,linter,rule-tester,source-code}/**', 'lib/api.js']
+
+formatter:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['lib/cli-engine/formatters/**']
+
+"github actions":
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ['.github/workflows/**']
