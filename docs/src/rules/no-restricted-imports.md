@@ -511,7 +511,7 @@ You can also specify `allowImportNames` on objects inside of `patterns`. In this
 }]
 ```
 
-Examples of **incorrect** code for `importNames` in `patterns`:
+Examples of **incorrect** code for `allowImportNames` in `patterns`:
 
 ::: incorrect { "sourceType": "module" }
 
@@ -527,7 +527,7 @@ import { hasValues } from 'utils/collection-utils';
 
 :::
 
-Examples of **correct** code for `importNames` in `patterns`:
+Examples of **correct** code for `allowImportNames` in `patterns`:
 
 ::: correct { "sourceType": "module" }
 
