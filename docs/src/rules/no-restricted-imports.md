@@ -527,7 +527,7 @@ import { hasValues } from 'utils/collection-utils';
 
 :::
 
-Examples of **correct** code for `importNames` in `patterns`:
+Examples of **correct** code for `allowImportNames` in `patterns`:
 
 ::: correct { "sourceType": "module" }
 
