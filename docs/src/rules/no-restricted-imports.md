@@ -497,6 +497,52 @@ import { hasValues } from 'utils/collection-utils';
 
 :::
 
+#### allowImportNames
+
+You can also specify `allowImportNames` on objects inside of `patterns`. In this case, the specified names are applied only to the specified `group`.
+
+```json
+"no-restricted-imports": ["error", {
+    "patterns": [{
+      "group": ["utils/*"],
+      "allowImportNames": ["isEmpty"],
+      "message": "Only 'isEmpty' is allowed from utils."
+    }]
+}]
+```
+
+Examples of **incorrect** code for `importNames` in `patterns`:
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    allowImportNames: ['isEmpty'],
+    message: "Only 'isEmpty' is allowed from utils."
+}]}]*/
+
+import { hasValues } from 'utils/collection-utils';
+```
+
+:::
+
+Examples of **correct** code for `importNames` in `patterns`:
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    allowImportNames: ['isEmpty'],
+    message: "Only 'isEmpty' is allowed from utils."
+}]}]*/
+
+import { isEmpty } from 'utils/collection-utils';
+```
+
+:::
+
 #### importNamePattern
 
 This option allows you to use regex patterns to restrict import names:
