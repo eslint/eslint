@@ -395,7 +395,7 @@ import pick from 'lodash/pick';
 
 Examples of **correct** code for this `group` option:
 
-::: correct
+::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -600,8 +600,6 @@ import { isEmpty } from 'utils/collection-utils';
 :::
 
 Examples of **correct** code for `allowImportNamePattern` option:
-
-Disallowing all import names except 'AllowedObject'.
 
 ::: correct { "sourceType": "module" }
 
