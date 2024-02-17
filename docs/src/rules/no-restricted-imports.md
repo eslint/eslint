@@ -236,6 +236,8 @@ import { AllowedObject as DisallowedObject } from "foo";
 
 This option is an array. Inverse of `importNames`, `allowImportNames` allows the imports that are specified inside this array. So it restricts all imports from a module, except specified allowed ones.
 
+Note: `allowImportNames` cannot be used in combination with `importNames`.
+
 ```json
 "no-restricted-imports": ["error", {
   "paths": [{
@@ -501,6 +503,8 @@ import { hasValues } from 'utils/collection-utils';
 
 You can also specify `allowImportNames` on objects inside of `patterns`. In this case, the specified names are applied only to the specified `group`.
 
+Note: `allowImportNames` cannot be used in combination with `importNames`.
+
 ```json
 "no-restricted-imports": ["error", {
     "patterns": [{
@@ -619,6 +623,8 @@ import isEmpty, { hasValue } from 'utils/collection-utils';
 #### allowImportNamePattern
 
 This is a string option. Inverse of `importNamePattern`, this option allows imports that matches the specified regex pattern . So it restricts all imports from a module, except specified allowed patterns.
+
+Note: `allowImportNamePattern` cannot be used in combination with `importNamePattern`.
 
 ```json
 "no-restricted-imports": ["error", {
