@@ -40,6 +40,7 @@ ruleTester.run("no-misleading-character-class", rule, {
         "var r = /🇯🇵/",
         "var r = /[JP]/",
         "var r = /👨‍👩‍👦/",
+        "var r = RegExp(/[👍]/u)",
 
         // Ignore solo lead/tail surrogate.
         "var r = /[\\uD83D]/",
@@ -74,6 +75,10 @@ ruleTester.run("no-misleading-character-class", rule, {
 
         // don't report on templates with expressions
         "var r = RegExp(`${x}[👍]`)",
+
+        // don't report on unknown flags
+        "var r = new RegExp('[🇯🇵]', `${foo}`)",
+        String.raw`var r = new RegExp("[👍]", flags)`,
 
         // ES2024
         { code: "var r = /[👍]/v", languageOptions: { ecmaVersion: 2024 } },
@@ -637,15 +642,6 @@ ruleTester.run("no-misleading-character-class", rule, {
             }]
         },
         {
-            code: String.raw`var r = new RegExp("[👍]", flags)`,
-            errors: [{
-                column: 22,
-                endColumn: 24,
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: null
-            }]
-        },
-        {
             code: String.raw`const flags = ""; var r = new RegExp("[👍]", flags)`,
             errors: [{
                 column: 40,
@@ -1005,23 +1001,6 @@ ruleTester.run("no-misleading-character-class", rule, {
             ]
         },
         {
-            code: "var r = new RegExp('[🇯🇵]', `${foo}`)",
-            errors: [
-                {
-                    column: 22,
-                    endColumn: 24,
-                    messageId: "surrogatePairWithoutUFlag",
-                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = new RegExp('[🇯🇵]', `${foo}u`)" }]
-                },
-                {
-                    column: 24,
-                    endColumn: 26,
-                    messageId: "surrogatePairWithoutUFlag",
-                    suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = new RegExp('[🇯🇵]', `${foo}u`)" }]
-                }
-            ]
-        },
-        {
             code: String.raw`var r = new RegExp("[🇯🇵]")`,
             errors: [
                 {
@@ -1343,6 +1322,46 @@ ruleTester.run("no-misleading-character-class", rule, {
                 suggestions: null
             }]
         },
+
+        // no granular reports on templates with expressions
+        {
+            code: 'new RegExp(`${"[👍🇯🇵]"}[😊]`);',
+            errors: [{
+                column: 12,
+                endColumn: 31,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{
+                    messageId: "suggestUnicodeFlag",
+                    output: 'new RegExp(`${"[👍🇯🇵]"}[😊]`, "u");'
+                }]
+            }]
+        },
+
+        // no granular reports on identifiers
+        {
+            code: 'const pattern = "[👍]"; new RegExp(pattern);',
+            errors: [{
+                column: 36,
+                endColumn: 43,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{
+                    messageId: "suggestUnicodeFlag",
+                    output: 'const pattern = "[👍]"; new RegExp(pattern, "u");'
+                }]
+            }]
+        },
+
+        // second argument in RegExp should override flags in regexp literal
+        {
+            code: "RegExp(/[a👍z]/u, '');",
+            errors: [{
+                column: 11,
+                endColumn: 13,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "RegExp(/[a👍z]/u, 'u');" }]
+            }]
+        },
+
         {
             code: String.raw`
 
