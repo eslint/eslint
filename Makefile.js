@@ -14,6 +14,8 @@ const checker = require("npm-license"),
     ReleaseOps = require("eslint-release"),
     fs = require("fs"),
     glob = require("glob"),
+    marked = require("marked"),
+    matter = require("gray-matter"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
@@ -666,6 +668,153 @@ target.generateRuleIndexPage = generateRuleIndexPage;
 
 target.webpack = function(mode = "none") {
     exec(`${getBinFile("webpack")} --mode=${mode} --output-path=${BUILD_DIR}`);
+};
+
+target.checkRuleFiles = function() {
+
+    echo("Validating rules");
+
+    let errors = 0;
+
+    RULE_FILES.forEach(filename => {
+        const basename = path.basename(filename, ".js");
+        const docFilename = `docs/src/rules/${basename}.md`;
+        const docText = cat(docFilename);
+        const docTextWithoutFrontmatter = matter(String(docText)).content;
+        const docMarkdown = marked.lexer(docTextWithoutFrontmatter, { gfm: true, silent: false });
+        const ruleCode = cat(filename);
+        const knownHeaders = ["Rule Details", "Options", "Environments", "Examples", "Known Limitations", "When Not To Use It", "Compatibility"];
+
+
+        /**
+         * Check if id is present in title
+         * @param {string} id id to check for
+         * @returns {boolean} true if present
+         * @private
+         * @todo Will remove this check when the main heading is automatically generated from rule metadata.
+         */
+        function hasIdInTitle(id) {
+            return new RegExp(`title: ${id}`, "u").test(docText);
+        }
+
+        /**
+         * Check if all H2 headers are known and in the expected order
+         * Only H2 headers are checked as H1 and H3 are variable and/or rule specific.
+         * @returns {boolean} true if all headers are known and in the right order
+         */
+        function hasKnownHeaders() {
+            const headers = docMarkdown.filter(token => token.type === "heading" && token.depth === 2).map(header => header.text);
+
+            for (const header of headers) {
+                if (!knownHeaders.includes(header)) {
+                    return false;
+                }
+            }
+
+            /*
+             * Check only the subset of used headers for the correct order
+             */
+            const presentHeaders = knownHeaders.filter(header => headers.includes(header));
+
+            for (let i = 0; i < presentHeaders.length; ++i) {
+                if (presentHeaders[i] !== headers[i]) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /**
+         * Check if deprecated information is in rule code and README.md.
+         * @returns {boolean} true if present
+         * @private
+         */
+        function hasDeprecatedInfo() {
+            const deprecatedTagRegExp = /@deprecated in ESLint/u;
+            const deprecatedInfoRegExp = /This rule was .+deprecated.+in ESLint/u;
+
+            return deprecatedTagRegExp.test(ruleCode) && deprecatedInfoRegExp.test(docText);
+        }
+
+        /**
+         * Check if the rule code has the jsdoc comment with the rule type annotation.
+         * @returns {boolean} true if present
+         * @private
+         */
+        function hasRuleTypeJSDocComment() {
+            const comment = "/** @type {import('../shared/types').Rule} */";
+
+            return ruleCode.includes(comment);
+        }
+
+        // check for docs
+        if (!test("-f", docFilename)) {
+            console.error("Missing documentation for rule %s", basename);
+            errors++;
+        } else {
+
+            // check for proper doc h1 format
+            if (!hasIdInTitle(basename)) {
+                console.error("Missing id in the doc page's title of rule %s", basename);
+                errors++;
+            }
+
+            // check for proper doc headers
+            if (!hasKnownHeaders()) {
+                console.error("Unknown or misplaced header in the doc page of rule %s, allowed headers (and their order) are: '%s'", basename, knownHeaders.join("', '"));
+                errors++;
+            }
+        }
+
+        // check parity between rules index file and rules directory
+        const ruleIdsInIndex = require("./lib/rules/index");
+        const ruleDef = ruleIdsInIndex.get(basename);
+
+        if (!ruleDef) {
+            console.error(`Missing rule from index (./lib/rules/index.js): ${basename}. If you just added a new rule then add an entry for it in this file.`);
+            errors++;
+        } else {
+
+            // check deprecated
+            if (ruleDef.meta.deprecated && !hasDeprecatedInfo()) {
+                console.error(`Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code and「This rule was deprecated in ESLint ...」 in README.md.`);
+                errors++;
+            }
+
+            // check eslint:recommended
+            const recommended = require("./packages/js").configs.recommended;
+
+            if (ruleDef.meta.docs.recommended) {
+                if (recommended.rules[basename] !== "error") {
+                    console.error(`Missing rule from eslint:recommended (./packages/js/src/configs/eslint-recommended.js): ${basename}. If you just made a rule recommended then add an entry for it in this file.`);
+                    errors++;
+                }
+            } else {
+                if (basename in recommended.rules) {
+                    console.error(`Extra rule in eslint:recommended (./packages/js/src/configs/eslint-recommended.js): ${basename}. If you just added a rule then don't add an entry for it in this file.`);
+                    errors++;
+                }
+            }
+
+            if (!hasRuleTypeJSDocComment()) {
+                console.error(`Missing rule type JSDoc comment from ${basename} rule code.`);
+                errors++;
+            }
+        }
+
+        // check for tests
+        if (!test("-f", `tests/lib/rules/${basename}.js`)) {
+            console.error("Missing tests for rule %s", basename);
+            errors++;
+        }
+
+    });
+
+    if (errors) {
+        exit(1);
+    }
+
 };
 
 target.checkRuleExamples = function() {

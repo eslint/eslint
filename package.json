@@ -137,6 +137,7 @@
     "markdown-it-container": "^3.0.0",
     "markdownlint": "^0.33.0",
     "markdownlint-cli": "^0.39.0",
+    "marked": "^4.0.8",
     "memfs": "^3.0.1",
     "metascraper": "^5.25.7",
     "metascraper-description": "^5.25.7",
