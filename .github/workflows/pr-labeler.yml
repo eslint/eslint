@@ -9,4 +9,4 @@ jobs:
     steps:
     - uses: actions/labeler@v5
       with:
-        sync-labels: .github/labeler.yml
+        sync-labels: true
