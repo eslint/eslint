@@ -1,9 +1,20 @@
 "use strict";
 
 const Prism = require("prismjs");
-const { Linter } = require("../../lib/api");
-const astUtils = require("../../lib/shared/ast-utils");
 const { docsExampleCodeToParsableCode } = require("./code-block-utils");
+
+let isAvailable = false;
+let Linter = null;
+let astUtils = null;
+
+try {
+    Linter = require("../../lib/api").Linter;
+    astUtils = require("../../lib/shared/ast-utils");
+    isAvailable = true;
+} catch {
+
+    // ignore
+}
 
 /** @typedef {import("../../lib/shared/types").ParserOptions} ParserOptions */
 
@@ -331,4 +342,7 @@ function installPrismESLintMarkerHook() {
 }
 
 
-module.exports = { installPrismESLintMarkerHook, addContentMustBeMarked };
+module.exports = {
+    installPrismESLintMarkerHook: isAvailable ? installPrismESLintMarkerHook : () => { /* noop */ },
+    addContentMustBeMarked: isAvailable ? addContentMustBeMarked : () => { /* noop */ }
+};
