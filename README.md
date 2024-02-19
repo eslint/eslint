@@ -103,7 +103,7 @@ We are now at or near 100% compatibility with JSCS. If you try ESLint and believ
 
 ### Does Prettier replace ESLint?
 
-No, ESLint and Prettier have diffent jobs: ESLint is a linter (looking for problematic patterns) and Prettier is a code formatter. Using both tools is common, refer to [Prettier's documentation](https://prettier.io/docs/en/install#eslint-and-other-linters) to learn how to configure them to work well with each other.
+No, ESLint and Prettier have different jobs: ESLint is a linter (looking for problematic patterns) and Prettier is a code formatter. Using both tools is common, refer to [Prettier's documentation](https://prettier.io/docs/en/install#eslint-and-other-linters) to learn how to configure them to work well with each other.
 
 ### Why can't ESLint find my plugins?
 
