@@ -100,7 +100,31 @@ Example output (formatted for easier reading):
                     "nodeType": "BinaryExpression",
                     "messageId": "comparisonWithNaN",
                     "endLine": 2,
-                    "endColumn": 17
+                    "endColumn": 17,
+                    "suggestions": [
+                        {
+                            "messageId": "replaceWithIsNaN",
+                            "fix": {
+                                "range": [
+                                    29,
+                                    37
+                                ],
+                                "text": "!Number.isNaN(i)"
+                            },
+                            "desc": "Replace with Number.isNaN."
+                        },
+                        {
+                            "messageId": "replaceWithCastingAndIsNaN",
+                            "fix": {
+                                "range": [
+                                    29,
+                                    37
+                                ],
+                                "text": "!Number.isNaN(Number(i))"
+                            },
+                            "desc": "Replace with Number.isNaN cast to a Number."
+                        }
+                    ]
                 },
                 {
                     "ruleId": "space-unary-ops",
@@ -684,7 +708,31 @@ Example output (formatted for easier reading):
                 "nodeType": "BinaryExpression",
                 "messageId": "comparisonWithNaN",
                 "endLine": 2,
-                "endColumn": 17
+                "endColumn": 17,
+                "suggestions": [
+                    {
+                        "messageId": "replaceWithIsNaN",
+                        "fix": {
+                            "range": [
+                                29,
+                                37
+                            ],
+                            "text": "!Number.isNaN(i)"
+                        },
+                        "desc": "Replace with Number.isNaN."
+                    },
+                    {
+                        "messageId": "replaceWithCastingAndIsNaN",
+                        "fix": {
+                            "range": [
+                                29,
+                                37
+                            ],
+                            "text": "!Number.isNaN(Number(i))"
+                        },
+                        "desc": "Replace with Number.isNaN cast to a Number."
+                    }
+                ]
             },
             {
                 "ruleId": "space-unary-ops",
