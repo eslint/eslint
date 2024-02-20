@@ -1,3 +1,7 @@
+/**
+ * @fileoverview A utility related to markdown code blocks.
+ * @author Yosuke Ota
+ */
 "use strict";
 
 /**

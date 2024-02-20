@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Use Prism hooks to draw linting errors with red markers on markdown code blocks.
+ * @author Yosuke Ota
+ */
 "use strict";
 
 const Prism = require("prismjs");
