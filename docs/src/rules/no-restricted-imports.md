@@ -152,8 +152,6 @@ Specifying `"default"` string inside the `importNames` array will restrict the d
 }]
 ```
 
-:::
-
 Examples of **incorrect** code when `importNames` in `paths` has `"default"`:
 
 ::: incorrect { "sourceType": "module" }
@@ -642,8 +640,7 @@ Examples of **incorrect** code for `allowImportNamePattern` option:
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["utils/*"],
-    allowImportNamePattern: '^has',
-    message: "Use 'has*' functions from lodash instead."
+    allowImportNamePattern: '^has'
 }]}]*/
 
 import { isEmpty } from 'utils/collection-utils';
@@ -658,8 +655,7 @@ Examples of **correct** code for `allowImportNamePattern` option:
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["utils/*"],
-    allowImportNamePattern: '^is',
-    message: "Use 'is*' functions from lodash instead."
+    allowImportNamePattern: '^is'
 }]}]*/
 
 import { isEmpty } from 'utils/collection-utils';
