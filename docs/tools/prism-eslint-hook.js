@@ -7,6 +7,13 @@ let isAvailable = false;
 let Linter = null;
 let astUtils = null;
 
+/*
+ * We can only do the syntax highlighting in the English-language
+ * site because we need the Linter and astUtils. This same
+ * code is run in translation sites where these utilities are
+ * not available, so check to see if they are before attempting
+ * to highlight the code.
+ */
 try {
     Linter = require("../../lib/api").Linter;
     astUtils = require("../../lib/shared/ast-utils");
