@@ -96,7 +96,8 @@
     "natural-compare": "^1.4.0",
     "optionator": "^0.9.3",
     "strip-ansi": "^6.0.1",
-    "text-table": "^0.2.0"
+    "text-table": "^0.2.0",
+    "tsx": "^4.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
