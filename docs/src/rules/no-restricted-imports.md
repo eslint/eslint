@@ -258,7 +258,7 @@ Disallowing all import names except 'AllowedObject'.
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
     allowImportNames: ["AllowedObject"],
-    message: "Only use 'AllowedObject' from 'foo'."
+    message: "Please use only 'AllowedObject' from 'foo'."
 }]}]*/
 
 import { DisallowedObject } from "foo";
