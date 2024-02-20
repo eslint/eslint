@@ -510,7 +510,7 @@ Note: `allowImportNames` cannot be used in combination with `importNames`.
     "patterns": [{
       "group": ["utils/*"],
       "allowImportNames": ["isEmpty"],
-      "message": "Only 'isEmpty' is allowed from utils."
+      "message": "Please use only 'isEmpty' from utils."
     }]
 }]
 ```
