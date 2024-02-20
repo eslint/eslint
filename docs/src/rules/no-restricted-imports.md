@@ -243,7 +243,7 @@ Note: `allowImportNames` cannot be used in combination with `importNames`.
   "paths": [{
     "name": "import-foo",
     "allowImportNames": ["Bar"],
-    "message": "Please use Bar from /import-bar/baz/ instead."
+    "message": "Please use only Bar from import-foo."
   }]
 }]
 ```
