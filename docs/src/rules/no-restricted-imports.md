@@ -539,7 +539,7 @@ Examples of **correct** code for `allowImportNames` in `patterns`:
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["utils/*"],
     allowImportNames: ['isEmpty'],
-    message: "Only 'isEmpty' is allowed from utils."
+    message: "Please use only 'isEmpty' from utils."
 }]}]*/
 
 import { isEmpty } from 'utils/collection-utils';
