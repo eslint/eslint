@@ -50,7 +50,7 @@ ruleTester.run("no-useless-return", rule, {
             }
           }
         `,
-        `
+        { code: `
           function foo() {
             switch (bar) {
               default:
@@ -60,7 +60,7 @@ ruleTester.run("no-useless-return", rule, {
                 doSomethingElse();
             }
           }
-        `,
+        `, only: true },
         `
           function foo() {
             switch (bar) {
@@ -581,7 +581,7 @@ ruleTester.run("no-useless-return", rule, {
             languageOptions: { ecmaVersion: 6 }
         },
         {
-            code: "function foo() { return; return; }",only: true,
+            code: "function foo() { return; return; }",
             output: "function foo() {  return; }",
             errors: [
                 {
