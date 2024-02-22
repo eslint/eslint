@@ -46,7 +46,9 @@ The following selectors are supported:
 * following sibling: `VariableDeclaration ~ VariableDeclaration`
 * adjacent sibling: `ArrayExpression > Literal + SpreadElement`
 * negation: `:not(ForStatement)`
+* has: `:has(ForStatement)`
 * matches-any: `:matches([attr] > :first-child, :last-child)`
+* subject indicator: `!ForStatement > [attr="foo"]`
 * class of AST node: `:statement`, `:expression`, `:declaration`, `:function`, or `:pattern`
 
 This syntax is very powerful, and can be used to precisely select many syntactic patterns in your code.
