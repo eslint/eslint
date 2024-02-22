@@ -16,7 +16,7 @@ const eleventyFetch  = require("@11ty/eleventy-fetch");
 module.exports = async function() {
 
     // if we're on the next branch, we can just read the package.json file
-    if (true && process.env.BRANCH === "next") {
+    if (process.env.BRANCH === "next") {
         return require("../../package.json").version;
     }
 
