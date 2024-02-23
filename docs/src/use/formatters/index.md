@@ -122,7 +122,7 @@ Example output (formatted for easier reading):
                                 ],
                                 "text": "!Number.isNaN(Number(i))"
                             },
-                            "desc": "Replace with Number.isNaN cast to a Number."
+                            "desc": "Replace with Number.isNaN and cast to a Number."
                         }
                     ]
                 },
@@ -730,7 +730,7 @@ Example output (formatted for easier reading):
                             ],
                             "text": "!Number.isNaN(Number(i))"
                         },
-                        "desc": "Replace with Number.isNaN cast to a Number."
+                        "desc": "Replace with Number.isNaN and cast to a Number."
                     }
                 ]
             },
