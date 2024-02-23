@@ -1,3 +1,19 @@
+v8.57.0 - February 23, 2024
+
+* [`1813aec`](https://github.com/eslint/eslint/commit/1813aecc4660582b0678cf32ba466eb9674266c4) chore: upgrade @eslint/js@8.57.0 (#18143) (Milos Djermanovic)
+* [`5c356bb`](https://github.com/eslint/eslint/commit/5c356bb0c6f53c570224f8e9f02c4baca8fc6d2f) chore: package.json update for @eslint/js release (Jenkins)
+* [`84922d0`](https://github.com/eslint/eslint/commit/84922d0bfa10689a34a447ab8e55975ff1c1c708) docs: Show prerelease version in dropdown (#18139) (Nicholas C. Zakas)
+* [`1120b9b`](https://github.com/eslint/eslint/commit/1120b9b7b97f10f059d8b7ede19de2572f892366) feat: Add loadESLint() API method for v8 (#18098) (Nicholas C. Zakas)
+* [`5b8c363`](https://github.com/eslint/eslint/commit/5b8c3636a3d7536535a6878eca0e5b773e4829d4) docs: Switch to Ethical Ads (#18117) (Milos Djermanovic)
+* [`2196d97`](https://github.com/eslint/eslint/commit/2196d97094ba94d6d750828879a29538d1600de5) fix: handle absolute file paths in `FlatRuleTester` (#18064) (Nitin Kumar)
+* [`f4a1fe2`](https://github.com/eslint/eslint/commit/f4a1fe2e45aa1089fe775290bf530de82f34bf16) test: add more tests for ignoring files and directories (#18068) (Nitin Kumar)
+* [`69dd1d1`](https://github.com/eslint/eslint/commit/69dd1d1387b7b53617548d1f9f2c149f179e6e17) fix: Ensure config keys are printed for config errors (#18067) (Nitin Kumar)
+* [`9852a31`](https://github.com/eslint/eslint/commit/9852a31edcf054bd5d15753ef18e2ad3216b1b71) fix: deep merge behavior in flat config (#18065) (Nitin Kumar)
+* [`dca7d0f`](https://github.com/eslint/eslint/commit/dca7d0f1c262bc72310147bcefe1d04ecf60acbc) feat: Enable `eslint.config.mjs` and `eslint.config.cjs` (#18066) (Nitin Kumar)
+* [`4c7e9b0`](https://github.com/eslint/eslint/commit/4c7e9b0b539ba879ac1799e81f3b6add2eed4b2f) fix: allow circular references in config (#18056) (Milos Djermanovic)
+* [`77dbfd9`](https://github.com/eslint/eslint/commit/77dbfd9887b201a46fc68631cbde50c08e1a8dbf) docs: show NEXT in version selectors (#18052) (Milos Djermanovic)
+* [`42c0aef`](https://github.com/eslint/eslint/commit/42c0aefaf6ea8b998b1c6db61906a79c046d301a) ci: Enable CI for `v8.x` branch (#18047) (Milos Djermanovic)
+
 v8.56.0 - December 15, 2023
 
 * [`ba6af85`](https://github.com/eslint/eslint/commit/ba6af85c7d8ba55d37f8663aee949d148e441c1a) chore: upgrade @eslint/js@8.56.0 (#17864) (Milos Djermanovic)
