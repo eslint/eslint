@@ -2022,7 +2022,7 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 10,
             endColumn: 13,
-            message: "'Bar' import from 'foo' is restricted because only imports that matches the pattern '/^Foo/u' are allowed."
+            message: "'Bar' import from 'foo' is restricted because only imports that match the pattern '/^Foo/u' are allowed."
         }]
     },
     {
@@ -2034,7 +2034,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'DisallowedObject' import from 'foo' is restricted only 'AllowedObject' import(s) is/are allowed.",
+            message: "'DisallowedObject' import from 'foo' is restricted because only 'AllowedObject' import(s) is/are allowed.",
             type: "ImportDeclaration",
             line: 1,
             column: 25,
@@ -2050,7 +2050,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'DisallowedObject' import from 'foo' is restricted only 'AllowedObject' import(s) is/are allowed.",
+            message: "'DisallowedObject' import from 'foo' is restricted because only 'AllowedObject' import(s) is/are allowed.",
             type: "ImportDeclaration",
             line: 1,
             column: 25,
@@ -2067,7 +2067,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'DisallowedObject' import from 'foo' is restricted only 'AllowedObject' import(s) is/are allowed.",
+            message: "'DisallowedObject' import from 'foo' is restricted because only 'AllowedObject' import(s) is/are allowed.",
             type: "ImportDeclaration",
             line: 1,
             column: 25,
@@ -2115,7 +2115,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "* import is invalid because only imports that matches the pattern '/^Allow/u' from 'foo/bar' are allowed.",
+            message: "* import is invalid because only imports that match the pattern '/^Allow/u' from 'foo/bar' are allowed.",
             type: "ImportDeclaration",
             line: 1,
             column: 8,
