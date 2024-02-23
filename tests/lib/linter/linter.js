@@ -1461,20 +1461,42 @@ describe("Linter", () => {
         describe("when the rule was already configured", () => {
 
             beforeEach(() => {
-                linter.defineRule("my-rule", {
-                    meta: {
-                        schema: [{
-                            type: "string"
-                        }]
-                    },
-                    create(context) {
-                        const message = context.options[0] ?? "option not provided";
+                linter.defineRules({
+                    "my-rule": {
+                        meta: {
+                            schema: [{
+                                type: "string"
+                            }]
+                        },
+                        create(context) {
+                            const message = context.options[0] ?? "option not provided";
 
-                        return {
-                            Program(node) {
-                                context.report({ node, message });
+                            return {
+                                Program(node) {
+                                    context.report({ node, message });
+                                }
+                            };
+                        }
+                    },
+                    "requires-option": {
+                        meta: {
+                            schema: {
+                                type: "array",
+                                items: [{
+                                    type: "string"
+                                }],
+                                minItems: 1
                             }
-                        };
+                        },
+                        create(context) {
+                            const message = context.options[0];
+
+                            return {
+                                Identifier(node) {
+                                    context.report({ node, message });
+                                }
+                            };
+                        }
                     }
                 });
             });
@@ -1539,6 +1561,27 @@ describe("Linter", () => {
                     assert.strictEqual(messages[0].message, "foo");
                     assert.strictEqual(suppressedMessages.length, 0);
                 });
+            });
+
+            it("should validate and use originally configured options when /*eslint*/ comment enables rule that was set to 'off' in the configuration", () => {
+                const code = "/*eslint my-rule: ['warn'], requires-option: 'warn' */ foo;";
+                const config = {
+                    rules: {
+                        "my-rule": ["off", true], // invalid options for this rule
+                        "requires-option": ["off", "Don't use identifier"] // valid options for this rule
+                    }
+                };
+                const messages = linter.verify(code, config);
+                const suppressedMessages = linter.getSuppressedMessages();
+
+                assert.strictEqual(messages.length, 2);
+                assert.strictEqual(messages[0].ruleId, "my-rule");
+                assert.strictEqual(messages[0].severity, 2);
+                assert.strictEqual(messages[0].message, "Configuration for rule \"my-rule\" is invalid:\n\tValue true should be string.\n");
+                assert.strictEqual(messages[1].ruleId, "requires-option");
+                assert.strictEqual(messages[1].severity, 1);
+                assert.strictEqual(messages[1].message, "Don't use identifier");
+                assert.strictEqual(suppressedMessages.length, 0);
             });
         });
     });
@@ -10730,6 +10773,26 @@ describe("Linter with FlatConfigArray", () => {
                                             }
                                         };
                                     }
+                                },
+                                "requires-option": {
+                                    meta: {
+                                        schema: {
+                                            type: "array",
+                                            items: [{
+                                                type: "string"
+                                            }],
+                                            minItems: 1
+                                        }
+                                    },
+                                    create(context) {
+                                        const message = context.options[0];
+
+                                        return {
+                                            Identifier(node) {
+                                                context.report({ node, message });
+                                            }
+                                        };
+                                    }
                                 }
                             }
                         };
@@ -10797,6 +10860,30 @@ describe("Linter with FlatConfigArray", () => {
                                 assert.strictEqual(messages[0].message, "foo");
                                 assert.strictEqual(suppressedMessages.length, 0);
                             });
+                        });
+
+                        it("should validate and use originally configured options when /*eslint*/ comment enables rule that was set to 'off' in the configuration", () => {
+                            const code = "/*eslint test/my-rule: ['warn'], test/requires-option: 'warn' */ foo;";
+                            const config = {
+                                plugins: {
+                                    test: plugin
+                                },
+                                rules: {
+                                    "test/my-rule": ["off", true], // invalid options for this rule
+                                    "test/requires-option": ["off", "Don't use identifier"] // valid options for this rule
+                                }
+                            };
+                            const messages = linter.verify(code, config);
+                            const suppressedMessages = linter.getSuppressedMessages();
+
+                            assert.strictEqual(messages.length, 2);
+                            assert.strictEqual(messages[0].ruleId, "test/my-rule");
+                            assert.strictEqual(messages[0].severity, 2);
+                            assert.strictEqual(messages[0].message, "Inline configuration for rule \"test/my-rule\" is invalid:\n\tValue true should be string.\n");
+                            assert.strictEqual(messages[1].ruleId, "test/requires-option");
+                            assert.strictEqual(messages[1].severity, 1);
+                            assert.strictEqual(messages[1].message, "Don't use identifier");
+                            assert.strictEqual(suppressedMessages.length, 0);
                         });
                     });
                 });

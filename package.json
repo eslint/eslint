@@ -122,7 +122,7 @@
     "eslint-plugin-jsdoc": "^46.9.0",
     "eslint-plugin-n": "^16.6.0",
     "eslint-plugin-unicorn": "^49.0.0",
-    "eslint-release": "^3.2.0",
+    "eslint-release": "^3.2.2",
     "eslump": "^3.0.0",
     "esprima": "^4.0.1",
     "fast-glob": "^3.2.11",
