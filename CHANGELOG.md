@@ -1,3 +1,40 @@
+v9.0.0-beta.1 - February 23, 2024
+
+* [`32ffdd1`](https://github.com/eslint/eslint/commit/32ffdd181aa673ccc596f714d10a2f879ec622a7) chore: upgrade @eslint/js@9.0.0-beta.1 (#18146) (Milos Djermanovic)
+* [`e41425b`](https://github.com/eslint/eslint/commit/e41425b5c3b4c885f2679a3663bd081911a8b570) chore: package.json update for @eslint/js release (Jenkins)
+* [`bb3b9c6`](https://github.com/eslint/eslint/commit/bb3b9c68fe714bb8aa305be5f019a7a42f4374ee) chore: upgrade @eslint/eslintrc@3.0.2 (#18145) (Milos Djermanovic)
+* [`c9f2f33`](https://github.com/eslint/eslint/commit/c9f2f3343e7c197e5e962c68ef202d6a1646866e) build: changelog update for 8.57.0 (#18144) (Milos Djermanovic)
+* [`5fe095c`](https://github.com/eslint/eslint/commit/5fe095cf718b063dc5e58089b0a6cbcd53da7925) docs: show v8.57.0 as latest version in dropdown (#18142) (Milos Djermanovic)
+* [`0cb4914`](https://github.com/eslint/eslint/commit/0cb4914ef93cd572ba368d390b1cf0b93f578a9d) fix: validate options when comment with just severity enables rule (#18133) (Milos Djermanovic)
+* [`7db5bb2`](https://github.com/eslint/eslint/commit/7db5bb270f95d1472de0bfed0e33ed5ab294942e) docs: Show prerelease version in dropdown (#18135) (Nicholas C. Zakas)
+* [`e462524`](https://github.com/eslint/eslint/commit/e462524cc318ffacecd266e6fe1038945a0b02e9) chore: upgrade eslint-release@3.2.2 (#18138) (Milos Djermanovic)
+* [`8e13a6b`](https://github.com/eslint/eslint/commit/8e13a6beb587e624cc95ae16eefe503ad024b11b) chore: fix spelling mistake in README.md (#18128) (Will Eastcott)
+* [`66f52e2`](https://github.com/eslint/eslint/commit/66f52e276c31487424bcf54e490c4ac7ef70f77f) chore: remove unused tools rule-types.json, update-rule-types.js (#18125) (Josh Goldberg ✨)
+* [`bf0c7ef`](https://github.com/eslint/eslint/commit/bf0c7effdba51c48b929d06ce1965408a912dc77) ci: fix sync-labels value of pr-labeler (#18124) (Tanuj Kanti)
+* [`cace6d0`](https://github.com/eslint/eslint/commit/cace6d0a3afa5c84b18abee4ef8c598125143461) ci: add PR labeler action (#18109) (Nitin Kumar)
+* [`73a5f06`](https://github.com/eslint/eslint/commit/73a5f0641b43e169247b0000f44a366ee6bbc4f2) docs: Update README (GitHub Actions Bot)
+* [`74124c2`](https://github.com/eslint/eslint/commit/74124c20287fac1995c3f4e553f0723c066f311d) feat: add suggestions to `use-isnan` in `indexOf` & `lastIndexOf` calls (#18063) (StyleShit)
+* [`1a65d3e`](https://github.com/eslint/eslint/commit/1a65d3e4a6ee16e3f607d69b998a08c3fed505ca) chore: export `base` config from `eslint-config-eslint` (#18119) (Milos Djermanovic)
+* [`f95cd27`](https://github.com/eslint/eslint/commit/f95cd27679eef228173e27e170429c9710c939b3) docs: Disallow multiple rule configuration comments in the same example (#18116) (Milos Djermanovic)
+* [`9aa4df3`](https://github.com/eslint/eslint/commit/9aa4df3f4d85960eee72923f3b9bfc88e62f04fb) refactor: remove `globals` dependency (#18115) (Milos Djermanovic)
+* [`d8068ec`](https://github.com/eslint/eslint/commit/d8068ec70fac050e900dc400510a4ad673e17633) docs: Update link for schema examples (#18112) (Svetlana)
+
+v8.57.0 - February 23, 2024
+
+* [`1813aec`](https://github.com/eslint/eslint/commit/1813aecc4660582b0678cf32ba466eb9674266c4) chore: upgrade @eslint/js@8.57.0 (#18143) (Milos Djermanovic)
+* [`5c356bb`](https://github.com/eslint/eslint/commit/5c356bb0c6f53c570224f8e9f02c4baca8fc6d2f) chore: package.json update for @eslint/js release (Jenkins)
+* [`84922d0`](https://github.com/eslint/eslint/commit/84922d0bfa10689a34a447ab8e55975ff1c1c708) docs: Show prerelease version in dropdown (#18139) (Nicholas C. Zakas)
+* [`1120b9b`](https://github.com/eslint/eslint/commit/1120b9b7b97f10f059d8b7ede19de2572f892366) feat: Add loadESLint() API method for v8 (#18098) (Nicholas C. Zakas)
+* [`5b8c363`](https://github.com/eslint/eslint/commit/5b8c3636a3d7536535a6878eca0e5b773e4829d4) docs: Switch to Ethical Ads (#18117) (Milos Djermanovic)
+* [`2196d97`](https://github.com/eslint/eslint/commit/2196d97094ba94d6d750828879a29538d1600de5) fix: handle absolute file paths in `FlatRuleTester` (#18064) (Nitin Kumar)
+* [`f4a1fe2`](https://github.com/eslint/eslint/commit/f4a1fe2e45aa1089fe775290bf530de82f34bf16) test: add more tests for ignoring files and directories (#18068) (Nitin Kumar)
+* [`69dd1d1`](https://github.com/eslint/eslint/commit/69dd1d1387b7b53617548d1f9f2c149f179e6e17) fix: Ensure config keys are printed for config errors (#18067) (Nitin Kumar)
+* [`9852a31`](https://github.com/eslint/eslint/commit/9852a31edcf054bd5d15753ef18e2ad3216b1b71) fix: deep merge behavior in flat config (#18065) (Nitin Kumar)
+* [`dca7d0f`](https://github.com/eslint/eslint/commit/dca7d0f1c262bc72310147bcefe1d04ecf60acbc) feat: Enable `eslint.config.mjs` and `eslint.config.cjs` (#18066) (Nitin Kumar)
+* [`4c7e9b0`](https://github.com/eslint/eslint/commit/4c7e9b0b539ba879ac1799e81f3b6add2eed4b2f) fix: allow circular references in config (#18056) (Milos Djermanovic)
+* [`77dbfd9`](https://github.com/eslint/eslint/commit/77dbfd9887b201a46fc68631cbde50c08e1a8dbf) docs: show NEXT in version selectors (#18052) (Milos Djermanovic)
+* [`42c0aef`](https://github.com/eslint/eslint/commit/42c0aefaf6ea8b998b1c6db61906a79c046d301a) ci: Enable CI for `v8.x` branch (#18047) (Milos Djermanovic)
+
 v9.0.0-beta.0 - February 9, 2024
 
 * [`e40d1d7`](https://github.com/eslint/eslint/commit/e40d1d74a5b9788cbec195f4e602b50249f26659) chore: upgrade @eslint/js@9.0.0-beta.0 (#18108) (Milos Djermanovic)
