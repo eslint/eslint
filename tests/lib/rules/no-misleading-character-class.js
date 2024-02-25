@@ -41,6 +41,11 @@ ruleTester.run("no-misleading-character-class", rule, {
         "var r = /[JP]/",
         "var r = /👨‍👩‍👦/",
         "var r = RegExp(/[👍]/u)",
+        "const regex = /[👍]/u; new RegExp(regex);",
+        {
+            code: "new RegExp('[👍]')",
+            languageOptions: { globals: { RegExp: "off" } }
+        },
 
         // Ignore solo lead/tail surrogate.
         "var r = /[\\uD83D]/",
@@ -79,6 +84,9 @@ ruleTester.run("no-misleading-character-class", rule, {
         // don't report on unknown flags
         "var r = new RegExp('[🇯🇵]', `${foo}`)",
         String.raw`var r = new RegExp("[👍]", flags)`,
+
+        // don't report on spread arguments
+        "const args = ['[👍]', 'i']; new RegExp(...args);",
 
         // ES2024
         { code: "var r = /[👍]/v", languageOptions: { ecmaVersion: 2024 } },
@@ -1351,14 +1359,83 @@ ruleTester.run("no-misleading-character-class", rule, {
             }]
         },
 
-        // second argument in RegExp should override flags in regexp literal
+        // second argument in RegExp should override flags in regex literal
         {
             code: "RegExp(/[a👍z]/u, '');",
             errors: [{
                 column: 11,
                 endColumn: 13,
                 messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: "RegExp(/[a👍z]/u, 'u');" }]
+                suggestions: [{
+                    messageId: "suggestUnicodeFlag",
+                    output: "RegExp(/[a👍z]/u, 'u');"
+                }]
+            }]
+        },
+        {
+            code: "const pattern = /[👍]/u; RegExp(pattern, '');",
+            errors: [{
+                column: 33,
+                endColumn: 40,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{
+                    messageId: "suggestUnicodeFlag",
+                    output: "const pattern = /[👍]/u; RegExp(pattern, 'u');"
+                }]
+            }]
+        },
+        {
+            code: "const pattern = /[👍]/g; RegExp(pattern, 'i');",
+            errors: [{
+                column: 19,
+                endColumn: 21,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{
+                    messageId: "suggestUnicodeFlag",
+                    output: "const pattern = /[👍]/gu; RegExp(pattern, 'i');"
+                }]
+            }, {
+                column: 33,
+                endColumn: 40,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{
+                    messageId: "suggestUnicodeFlag",
+                    output: "const pattern = /[👍]/g; RegExp(pattern, 'iu');"
+                }]
+            }]
+        },
+
+        // report only on regex literal if no flags are supplied
+        {
+            code: "RegExp(/[👍]/)",
+            errors: [{
+                column: 10,
+                endColumn: 12,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "RegExp(/[👍]/u)" }]
+            }]
+        },
+
+        // report only on RegExp call if a regex literal and flags are supplied
+        {
+            code: "RegExp(/[👍]/, 'i');",
+            errors: [{
+                column: 10,
+                endColumn: 12,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "RegExp(/[👍]/, 'iu');" }]
+            }]
+        },
+
+        // ignore RegExp if not built-in
+        {
+            code: "RegExp(/[👍]/, 'g');",
+            languageOptions: { globals: { RegExp: "off" } },
+            errors: [{
+                column: 10,
+                endColumn: 12,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "RegExp(/[👍]/u, 'g');" }]
             }]
         },
 
