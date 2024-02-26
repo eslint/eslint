@@ -77,8 +77,9 @@ describe("check-rule-examples", () => {
                 "\x1B[0m  \x1B[2m23:7\x1B[22m  \x1B[31merror\x1B[39m  Syntax error: Identifier 'foo' has already been declared\x1B[0m\n" +
                 "\x1B[0m  \x1B[2m31:1\x1B[22m  \x1B[31merror\x1B[39m  Example code should contain a configuration comment like /* eslint no-restricted-syntax: \"error\" */\x1B[0m\n" +
                 "\x1B[0m  \x1B[2m41:1\x1B[22m  \x1B[31merror\x1B[39m  Failed to parse JSON from ' doesn't allow this comment'\x1B[0m\n" +
+                "\x1B[0m  \x1B[2m51:1\x1B[22m  \x1B[31merror\x1B[39m  Duplicate /* eslint no-restricted-syntax */ configuration comment. Each example should contain only one. Split this example into multiple examples\x1B[0m\n" +
                 "\x1B[0m\x1B[0m\n" +
-                "\x1B[0m\x1B[31m\x1B[1m✖ 6 problems (6 errors, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
+                "\x1B[0m\x1B[31m\x1B[1m✖ 7 problems (7 errors, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
                 "\x1B[0m\x1B[31m\x1B[1m\x1B[22m\x1B[39m\x1B[0m\n";
 
                 assert.strictEqual(normalizedStderr, expectedStderr);
