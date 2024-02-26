@@ -234,7 +234,7 @@ import { AllowedObject as DisallowedObject } from "foo";
 
 This option is an array. Inverse of `importNames`, `allowImportNames` allows the imports that are specified inside this array. So it restricts all imports from a module, except specified allowed ones.
 
-Note: `allowImportNames` cannot be used in combination with `importNames` or `importNamePattern`.
+Note: `allowImportNames` cannot be used in combination with `importNames`.
 
 ```json
 "no-restricted-imports": ["error", {
