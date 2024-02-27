@@ -149,7 +149,8 @@ ${getErrorMessage(error)}`;
     }
 
     // Otherwise, call the CLI.
-    const exitCode = await require("../lib/cli").execute(
+    const cli = require("../lib/cli");
+    const exitCode = await cli.execute(
         process.argv,
         process.argv.includes("--stdin") ? await readStdin() : null,
         true

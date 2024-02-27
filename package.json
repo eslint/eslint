@@ -49,7 +49,7 @@
       "node tools/fetch-docs-links.js",
       "git add docs/src/_data/further_reading_links.json"
     ],
-    "docs/**/*.svg": "npx svgo -r --multipass"
+    "docs/**/*.svg": "npx -y svgo -r --multipass"
   },
   "files": [
     "LICENSE",
@@ -102,6 +102,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
+    "@types/estree": "^1.0.5",
     "@types/node": "^20.11.5",
     "@wdio/browser-runner": "^8.14.6",
     "@wdio/cli": "^8.14.6",
@@ -117,12 +118,8 @@
     "ejs": "^3.0.2",
     "eslint": "file:.",
     "eslint-config-eslint": "file:packages/eslint-config-eslint",
-    "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-eslint-plugin": "^5.2.1",
     "eslint-plugin-internal-rules": "file:tools/internal-rules",
-    "eslint-plugin-jsdoc": "^46.9.0",
-    "eslint-plugin-n": "^16.6.0",
-    "eslint-plugin-unicorn": "^49.0.0",
     "eslint-release": "^3.2.2",
     "eslump": "^3.0.0",
     "esprima": "^4.0.1",
@@ -141,7 +138,6 @@
     "markdownlint": "^0.33.0",
     "markdownlint-cli": "^0.39.0",
     "marked": "^4.0.8",
-    "memfs": "^3.0.1",
     "metascraper": "^5.25.7",
     "metascraper-description": "^5.25.7",
     "metascraper-image": "^5.29.3",
@@ -162,7 +158,6 @@
     "sinon": "^11.0.0",
     "typescript": "^5.3.3",
     "vite-plugin-commonjs": "^0.10.0",
-    "webdriverio": "^8.14.6",
     "webpack": "^5.23.0",
     "webpack-cli": "^4.5.0",
     "yorkie": "^2.0.0"
