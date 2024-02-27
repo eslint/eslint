@@ -501,7 +501,7 @@ import { hasValues } from 'utils/collection-utils';
 
 You can also specify `allowImportNames` on objects inside of `patterns`. In this case, the specified names are applied only to the specified `group`.
 
-Note: `allowImportNames` cannot be used in combination with `importNames` or `importNamePattern`.
+Note: `allowImportNames` cannot be used in combination with `importNames`, `importNamePattern` or `allowImportNamePattern`.
 
 ```json
 "no-restricted-imports": ["error", {
