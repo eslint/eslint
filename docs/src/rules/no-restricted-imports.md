@@ -622,7 +622,7 @@ import isEmpty, { hasValue } from 'utils/collection-utils';
 
 This is a string option. Inverse of `importNamePattern`, this option allows imports that matches the specified regex pattern. So it restricts all imports from a module, except specified allowed patterns.
 
-Note: `allowImportNamePattern` cannot be used in combination with `importNames` or `importNamePattern`.
+Note: `allowImportNamePattern` cannot be used in combination with `importNames`, `importNamePattern` or `allowImportNames`.
 
 ```json
 "no-restricted-imports": ["error", {
