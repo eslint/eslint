@@ -430,17 +430,6 @@ function getBinFile(command) {
 // Tasks
 //------------------------------------------------------------------------------
 
-target.lintDocsJS = function([fix = false, ci = false] = []) {
-    echo("Validating JavaScript files in the docs directory");
-    const lastReturn = exec(
-        `${getBinFile("trunk")} check --filter=eslint --force ${fix ? "--fix" : ""} ${ci ? "--ci" : ""} docs`
-    );
-
-    if (lastReturn.code !== 0) {
-        exit(1);
-    }
-};
-
 target.fuzz = function({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
     const fuzzerRunner = require("./tools/fuzzer-runner");
     const fuzzResults = fuzzerRunner.run({ amount, fuzzBrokenAutofixes });

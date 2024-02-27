@@ -33,9 +33,6 @@ jobs:
     - name: Check Licenses
       run: node Makefile checkLicenses
 
-    - name: Lint Docs JS Files
-      run: node Makefile lintDocsJS
-
     - name: Check Rule Examples
       run: node Makefile checkRuleExamples
 
