@@ -124,7 +124,25 @@ ruleTester.run("complexity", rule, {
         { code: "class C { static { if (a || b) c = d || e; } }", options: [4], languageOptions: { ecmaVersion: 2022 } },
 
         // object property options
-        { code: "function b(x) {}", options: [{ max: 1 }] }
+        { code: "function b(x) {}", options: [{ max: 1 }] },
+
+        // optional chaining
+        {
+            code: "function a(b) { b?.c; }", options: [{ max: 2 }]
+        },
+
+        // default function parameter values
+        {
+            code: "function a(b = '') {}", options: [{ max: 2 }]
+        },
+
+        // default destructuring values
+        {
+            code: "function a(b) { const { c = '' } = b; }", options: [{ max: 2 }]
+        },
+        {
+            code: "function a(b) { const [ c = '' ] = b; }", options: [{ max: 2 }]
+        }
     ],
     invalid: [
         { code: "function a(x) {}", options: [0], errors: [makeError("Function 'a'", 1, 0)] },
@@ -522,6 +540,77 @@ ruleTester.run("complexity", rule, {
         },
 
         // object property options
-        { code: "function a(x) {}", options: [{ max: 0 }], errors: [makeError("Function 'a'", 1, 0)] }
+        { code: "function a(x) {}", options: [{ max: 0 }], errors: [makeError("Function 'a'", 1, 0)] },
+
+        // optional chaining
+        {
+            code: "function a(b) { b?.c; }",
+            options: [{ max: 1 }],
+            errors: [makeError("Function 'a'", 2, 1)]
+        },
+        {
+            code: "function a(b) { b?.['c']; }",
+            options: [{ max: 1 }],
+            errors: [makeError("Function 'a'", 2, 1)]
+        },
+        {
+            code: "function a(b) { b?.c; d || e; }",
+            options: [{ max: 2 }],
+            errors: [makeError("Function 'a'", 3, 2)]
+        },
+        {
+            code: "function a(b) { b?.c?.d; }",
+            options: [{ max: 2 }],
+            errors: [makeError("Function 'a'", 3, 2)]
+        },
+        {
+            code: "function a(b) { b?.['c']?.['d']; }",
+            options: [{ max: 2 }],
+            errors: [makeError("Function 'a'", 3, 2)]
+        },
+        {
+            code: "function a(b) { b?.c?.['d']; }",
+            options: [{ max: 2 }],
+            errors: [makeError("Function 'a'", 3, 2)]
+        },
+        {
+            code: "function a(b) { b?.c.d?.e; }",
+            options: [{ max: 2 }],
+            errors: [makeError("Function 'a'", 3, 2)]
+        },
+        {
+            code: "function a(b) { b?.c?.(); }",
+            options: [{ max: 2 }],
+            errors: [makeError("Function 'a'", 3, 2)]
+        },
+        {
+            code: "function a(b) { b?.c?.()?.(); }",
+            options: [{ max: 3 }],
+            errors: [makeError("Function 'a'", 4, 3)]
+        },
+
+        // default function parameter values
+        {
+            code: "function a(b = '') {}",
+            options: [{ max: 1 }],
+            errors: [makeError("Function 'a'", 2, 1)]
+        },
+
+        // default destructuring values
+        {
+            code: "function a(b) { const { c = '' } = b; }",
+            options: [{ max: 1 }],
+            errors: [makeError("Function 'a'", 2, 1)]
+        },
+        {
+            code: "function a(b) { const [ c = '' ] = b; }",
+            options: [{ max: 1 }],
+            errors: [makeError("Function 'a'", 2, 1)]
+        },
+        {
+            code: "function a(b) { const [ { c: d = '' } = {} ] = b; }",
+            options: [{ max: 1 }],
+            errors: [makeError("Function 'a'", 3, 1)]
+        }
     ]
 });
