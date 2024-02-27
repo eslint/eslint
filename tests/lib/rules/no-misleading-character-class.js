@@ -1585,6 +1585,35 @@ ruleTester.run("no-misleading-character-class", rule, {
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👍]/u" }]
             }]
+        },
+        {
+            code: "new RegExp(/^[👍]$/v, '')",
+            languageOptions: {
+                ecmaVersion: 2024
+            },
+            errors: [{
+                column: 15,
+                endColumn: 17,
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{ messageId: "suggestUnicodeFlag", output: "new RegExp(/^[👍]$/v, 'u')" }]
+            }]
+        },
+        {
+            code: "var r = /[👶🏻]/v; RegExp(r, 'v');",
+            languageOptions: {
+                ecmaVersion: 2024
+            },
+            errors: [{
+                column: 11,
+                endColumn: 15,
+                messageId: "emojiModifier",
+                suggestions: null
+            }, {
+                column: 27,
+                endColumn: 28,
+                messageId: "emojiModifier",
+                suggestions: null
+            }]
         }
 
     ]
