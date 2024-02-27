@@ -39,6 +39,9 @@ jobs:
       - name: Check Rule Examples
         run: node Makefile checkRuleExamples
 
+      - name: Lint Files, Dependencies & Exports
+        run: npm run lint:imports
+
   test_on_node:
     name: Test
     strategy:
