@@ -163,7 +163,7 @@ function installPrismESLintMarkerHook() {
                 range: [
                     start,
                     typeof message.endLine === "undefined"
-                        ? start + 1
+                        ? start
                         : getIndexFromLoc({
                             line: message.endLine,
                             column: message.endColumn
@@ -246,7 +246,7 @@ function installPrismESLintMarkerHook() {
             const mark = content.slice(before ? range[0] - tokenStart : 0, range[1] - tokenStart);
             const marked = new Prism.Token(
                 TOKEN_TYPE_ESLINT_MARKED,
-                [buildToken(mark)],
+                mark ? [buildToken(mark)] : mark,
                 [getMessageIdFromMessage(message)]
             );
             const after = range[1] - tokenStart < content.length ? buildToken(content.slice(range[1] - tokenStart)) : null;
@@ -342,6 +342,7 @@ function installPrismESLintMarkerHook() {
             }
 
             if (
+                env.content === "" ||
                 env.content === "\n" ||
                 env.content === "\r\n" ||
                 env.content === "\ufeff"
