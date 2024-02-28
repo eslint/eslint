@@ -116,12 +116,19 @@ pre[class*="language-"] {
 }
 
 .token.eslint-marked-on-zero-width {
+    position: relative;
+    /* Delete the wavy line. */
+    background: none;
+}
+
+.token.eslint-marked-on-zero-width::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: -2px;
     border-left: 3px solid transparent;
     border-right: 3px solid transparent;
     border-bottom: 4px solid #d11;
-
-    /* Delete the wavy line. */
-    background: none;
 }
 
 .line-numbers-wrapper {
