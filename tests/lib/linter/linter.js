@@ -1877,6 +1877,156 @@ describe("Linter", () => {
         });
     });
 
+    describe("when evaluating code with multiple configuration comments for same rule", () => {
+
+        beforeEach(() => {
+            linter.defineRule("no-foo", {
+                meta: {
+                    schema: [{
+                        enum: ["bar", "baz", "qux"]
+                    }]
+                },
+                create(context) {
+                    const replacement = context.options[0] ?? "default";
+
+                    return {
+                        "Identifier[name='foo']"(node) {
+                            context.report(node, `Replace 'foo' with '${replacement}'.`);
+                        }
+                    };
+                }
+            });
+        });
+
+        it("should apply the first and report an error for the second when there are two", () => {
+            const code = "/*eslint no-foo: ['error', 'bar']*/ /*eslint no-foo: ['error', 'baz']*/ foo;";
+
+            const messages = linter.verify(code);
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.deepStrictEqual(messages, [
+                {
+                    ruleId: null,
+                    severity: 2,
+                    message: "Rule \"no-foo\" is already configured by another configuration comment in the preceding code.",
+                    line: 1,
+                    column: 37,
+                    endLine: 1,
+                    endColumn: 72,
+                    nodeType: null
+                },
+                {
+                    ruleId: "no-foo",
+                    severity: 2,
+                    message: "Replace 'foo' with 'bar'.",
+                    line: 1,
+                    column: 73,
+                    endLine: 1,
+                    endColumn: 76,
+                    nodeType: "Identifier"
+                }
+            ]);
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("should apply the first and report an error for each other when there are more than two", () => {
+            const code = "/*eslint no-foo: ['error', 'bar']*/ /*eslint no-foo: ['error', 'baz']*/ /*eslint no-foo: ['error', 'qux']*/ foo;";
+
+            const messages = linter.verify(code);
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.deepStrictEqual(messages, [
+                {
+                    ruleId: null,
+                    severity: 2,
+                    message: "Rule \"no-foo\" is already configured by another configuration comment in the preceding code.",
+                    line: 1,
+                    column: 37,
+                    endLine: 1,
+                    endColumn: 72,
+                    nodeType: null
+                },
+                {
+                    ruleId: null,
+                    severity: 2,
+                    message: "Rule \"no-foo\" is already configured by another configuration comment in the preceding code.",
+                    line: 1,
+                    column: 73,
+                    endLine: 1,
+                    endColumn: 108,
+                    nodeType: null
+                },
+                {
+                    ruleId: "no-foo",
+                    severity: 2,
+                    message: "Replace 'foo' with 'bar'.",
+                    line: 1,
+                    column: 109,
+                    endLine: 1,
+                    endColumn: 112,
+                    nodeType: "Identifier"
+                }
+            ]);
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("should apply the first and report an error for the second when both just override severity", () => {
+            const code = "/*eslint no-foo: 'warn'*/ /*eslint no-foo: 'error'*/ foo;";
+
+            const messages = linter.verify(code, { rules: { "no-foo": ["error", "bar"] } });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.deepStrictEqual(messages, [
+                {
+                    ruleId: null,
+                    severity: 2,
+                    message: "Rule \"no-foo\" is already configured by another configuration comment in the preceding code.",
+                    line: 1,
+                    column: 27,
+                    endLine: 1,
+                    endColumn: 53,
+                    nodeType: null
+                },
+                {
+                    ruleId: "no-foo",
+                    severity: 1,
+                    message: "Replace 'foo' with 'bar'.",
+                    line: 1,
+                    column: 54,
+                    endLine: 1,
+                    endColumn: 57,
+                    nodeType: "Identifier"
+                }
+            ]);
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("should apply the second if the first has an invalid configuration", () => {
+            const code = "/*eslint no-foo: ['error', 'quux']*/ /*eslint no-foo: ['error', 'bar']*/ foo;";
+
+            const messages = linter.verify(code);
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 2);
+            assert.include(messages[0].message, "Configuration for rule \"no-foo\" is invalid");
+            assert.strictEqual(messages[1].message, "Replace 'foo' with 'bar'.");
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("should apply configurations for other rules that are in the same comment as the duplicate", () => {
+            const code = "/*eslint no-foo: ['error', 'bar']*/ /*eslint no-foo: ['error', 'baz'], no-alert: ['error']*/ foo; alert();";
+
+            const messages = linter.verify(code);
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 3);
+            assert.include(messages[0].message, "Rule \"no-foo\" is already configured by another configuration comment in the preceding code.");
+            assert.strictEqual(messages[1].message, "Replace 'foo' with 'bar'.");
+            assert.strictEqual(messages[2].ruleId, "no-alert");
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+    });
+
     describe("when evaluating code with comments to enable and disable all reporting", () => {
         it("should report a violation", () => {
 
@@ -11221,6 +11371,166 @@ describe("Linter with FlatConfigArray", () => {
                         suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 1);
+                        assert.strictEqual(suppressedMessages.length, 0);
+                    });
+                });
+
+                describe("when evaluating code with multiple configuration comments for same rule", () => {
+
+                    let baseConfig;
+
+                    beforeEach(() => {
+                        baseConfig = {
+                            plugins: {
+                                "test-plugin": {
+                                    rules: {
+                                        "no-foo": {
+                                            meta: {
+                                                schema: [{
+                                                    enum: ["bar", "baz", "qux"]
+                                                }]
+                                            },
+                                            create(context) {
+                                                const replacement = context.options[0] ?? "default";
+
+                                                return {
+                                                    "Identifier[name='foo']"(node) {
+                                                        context.report(node, `Replace 'foo' with '${replacement}'.`);
+                                                    }
+                                                };
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        };
+                    });
+
+                    it("should apply the first and report an error for the second when there are two", () => {
+                        const code = "/*eslint test-plugin/no-foo: ['error', 'bar']*/ /*eslint test-plugin/no-foo: ['error', 'baz']*/ foo;";
+
+                        const messages = linter.verify(code, baseConfig);
+                        const suppressedMessages = linter.getSuppressedMessages();
+
+                        assert.deepStrictEqual(messages, [
+                            {
+                                ruleId: null,
+                                severity: 2,
+                                message: "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code.",
+                                line: 1,
+                                column: 49,
+                                endLine: 1,
+                                endColumn: 96,
+                                nodeType: null
+                            },
+                            {
+                                ruleId: "test-plugin/no-foo",
+                                severity: 2,
+                                message: "Replace 'foo' with 'bar'.",
+                                line: 1,
+                                column: 97,
+                                endLine: 1,
+                                endColumn: 100,
+                                nodeType: "Identifier"
+                            }
+                        ]);
+                        assert.strictEqual(suppressedMessages.length, 0);
+                    });
+
+                    it("should apply the first and report an error for each other when there are more than two", () => {
+                        const code = "/*eslint test-plugin/no-foo: ['error', 'bar']*/ /*eslint test-plugin/no-foo: ['error', 'baz']*/ /*eslint test-plugin/no-foo: ['error', 'qux']*/ foo;";
+
+                        const messages = linter.verify(code, baseConfig);
+                        const suppressedMessages = linter.getSuppressedMessages();
+
+                        assert.deepStrictEqual(messages, [
+                            {
+                                ruleId: null,
+                                severity: 2,
+                                message: "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code.",
+                                line: 1,
+                                column: 49,
+                                endLine: 1,
+                                endColumn: 96,
+                                nodeType: null
+                            },
+                            {
+                                ruleId: null,
+                                severity: 2,
+                                message: "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code.",
+                                line: 1,
+                                column: 97,
+                                endLine: 1,
+                                endColumn: 144,
+                                nodeType: null
+                            },
+                            {
+                                ruleId: "test-plugin/no-foo",
+                                severity: 2,
+                                message: "Replace 'foo' with 'bar'.",
+                                line: 1,
+                                column: 145,
+                                endLine: 1,
+                                endColumn: 148,
+                                nodeType: "Identifier"
+                            }
+                        ]);
+                        assert.strictEqual(suppressedMessages.length, 0);
+                    });
+
+                    it("should apply the first and report an error for the second when both just override severity", () => {
+                        const code = "/*eslint test-plugin/no-foo: 'warn'*/ /*eslint test-plugin/no-foo: 'error'*/ foo;";
+
+                        const messages = linter.verify(code, { ...baseConfig, rules: { "test-plugin/no-foo": ["error", "bar"] } });
+                        const suppressedMessages = linter.getSuppressedMessages();
+
+                        assert.deepStrictEqual(messages, [
+                            {
+                                ruleId: null,
+                                severity: 2,
+                                message: "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code.",
+                                line: 1,
+                                column: 39,
+                                endLine: 1,
+                                endColumn: 77,
+                                nodeType: null
+                            },
+                            {
+                                ruleId: "test-plugin/no-foo",
+                                severity: 1,
+                                message: "Replace 'foo' with 'bar'.",
+                                line: 1,
+                                column: 78,
+                                endLine: 1,
+                                endColumn: 81,
+                                nodeType: "Identifier"
+                            }
+                        ]);
+                        assert.strictEqual(suppressedMessages.length, 0);
+                    });
+
+                    it("should apply the second if the first has an invalid configuration", () => {
+                        const code = "/*eslint test-plugin/no-foo: ['error', 'quux']*/ /*eslint test-plugin/no-foo: ['error', 'bar']*/ foo;";
+
+                        const messages = linter.verify(code, baseConfig);
+                        const suppressedMessages = linter.getSuppressedMessages();
+
+                        assert.strictEqual(messages.length, 2);
+                        assert.include(messages[0].message, "Inline configuration for rule \"test-plugin/no-foo\" is invalid");
+                        assert.strictEqual(messages[1].message, "Replace 'foo' with 'bar'.");
+                        assert.strictEqual(suppressedMessages.length, 0);
+                    });
+
+                    it("should apply configurations for other rules that are in the same comment as the duplicate", () => {
+                        const code = "/*eslint test-plugin/no-foo: ['error', 'bar']*/ /*eslint test-plugin/no-foo: ['error', 'baz'], no-alert: ['error']*/ foo; alert();";
+
+                        const messages = linter.verify(code, baseConfig);
+                        const suppressedMessages = linter.getSuppressedMessages();
+
+                        assert.strictEqual(messages.length, 3);
+                        assert.include(messages[0].message, "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code.");
+                        assert.strictEqual(messages[1].message, "Replace 'foo' with 'bar'.");
+                        assert.strictEqual(messages[2].ruleId, "no-alert");
                         assert.strictEqual(suppressedMessages.length, 0);
                     });
                 });
