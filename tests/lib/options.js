@@ -437,4 +437,12 @@ describe("options", () => {
         });
     });
 
+    describe("--stats", () => {
+        it("should return true --stats is passed", () => {
+            const currentOptions = flatOptions.parse("--stats");
+
+            assert.isTrue(currentOptions.stats);
+        });
+    });
+
 });
