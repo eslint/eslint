@@ -1372,38 +1372,43 @@ ruleTester.run("no-misleading-character-class", rule, {
                 }]
             }]
         },
-        {
-            code: "const pattern = /[👍]/u; RegExp(pattern, '');",
-            errors: [{
-                column: 33,
-                endColumn: 40,
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{
-                    messageId: "suggestUnicodeFlag",
-                    output: "const pattern = /[👍]/u; RegExp(pattern, 'u');"
-                }]
-            }]
-        },
-        {
-            code: "const pattern = /[👍]/g; RegExp(pattern, 'i');",
-            errors: [{
-                column: 19,
-                endColumn: 21,
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{
-                    messageId: "suggestUnicodeFlag",
-                    output: "const pattern = /[👍]/gu; RegExp(pattern, 'i');"
-                }]
-            }, {
-                column: 33,
-                endColumn: 40,
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{
-                    messageId: "suggestUnicodeFlag",
-                    output: "const pattern = /[👍]/g; RegExp(pattern, 'iu');"
-                }]
-            }]
-        },
+
+        /*
+         * These test cases have been disabled because of a limitation in Node.js 18, see https://github.com/eslint/eslint/pull/18082#discussion_r1506142421.
+         *
+         * {
+         *     code: "const pattern = /[👍]/u; RegExp(pattern, '');",
+         *     errors: [{
+         *         column: 33,
+         *         endColumn: 40,
+         *         messageId: "surrogatePairWithoutUFlag",
+         *         suggestions: [{
+         *             messageId: "suggestUnicodeFlag",
+         *             output: "const pattern = /[👍]/u; RegExp(pattern, 'u');"
+         *         }]
+         *     }]
+         * },
+         * {
+         *     code: "const pattern = /[👍]/g; RegExp(pattern, 'i');",
+         *     errors: [{
+         *         column: 19,
+         *         endColumn: 21,
+         *         messageId: "surrogatePairWithoutUFlag",
+         *         suggestions: [{
+         *             messageId: "suggestUnicodeFlag",
+         *             output: "const pattern = /[👍]/gu; RegExp(pattern, 'i');"
+         *         }]
+         *     }, {
+         *         column: 33,
+         *         endColumn: 40,
+         *         messageId: "surrogatePairWithoutUFlag",
+         *         suggestions: [{
+         *             messageId: "suggestUnicodeFlag",
+         *             output: "const pattern = /[👍]/g; RegExp(pattern, 'iu');"
+         *         }]
+         *     }]
+         * },
+         */
 
         // report only on regex literal if no flags are supplied
         {
@@ -1541,7 +1546,7 @@ ruleTester.run("no-misleading-character-class", rule, {
             }]
         },
 
-        /* eslint-disable lines-around-comment -- see https://github.com/eslint/eslint/issues/18081 */
+        /* eslint-disable lines-around-comment, internal-rules/multiline-comment-style -- see https://github.com/eslint/eslint/issues/18081 */
 
         {
             code: String.raw`
@@ -1562,8 +1567,6 @@ ruleTester.run("no-misleading-character-class", rule, {
 
         // ES2024
 
-        /* eslint-enable lines-around-comment -- re-enable rule */
-
         {
             code: "var r = /[[👶🏻]]/v",
             languageOptions: { ecmaVersion: 2024 },
@@ -1572,18 +1575,6 @@ ruleTester.run("no-misleading-character-class", rule, {
                 endColumn: 16,
                 messageId: "emojiModifier",
                 suggestions: null
-            }]
-        },
-        {
-            code: "var r = /[👍]/",
-            languageOptions: {
-                ecmaVersion: 2015
-            },
-            errors: [{
-                column: 11,
-                endColumn: 13,
-                messageId: "surrogatePairWithoutUFlag",
-                suggestions: [{ messageId: "suggestUnicodeFlag", output: "var r = /[👍]/u" }]
             }]
         },
         {
@@ -1597,24 +1588,31 @@ ruleTester.run("no-misleading-character-class", rule, {
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "new RegExp(/^[👍]$/v, 'u')" }]
             }]
-        },
-        {
-            code: "var r = /[👶🏻]/v; RegExp(r, 'v');",
-            languageOptions: {
-                ecmaVersion: 2024
-            },
-            errors: [{
-                column: 11,
-                endColumn: 15,
-                messageId: "emojiModifier",
-                suggestions: null
-            }, {
-                column: 27,
-                endColumn: 28,
-                messageId: "emojiModifier",
-                suggestions: null
-            }]
         }
+
+        /*
+         * This test case has been disabled because of a limitation in Node.js 18, see https://github.com/eslint/eslint/pull/18082#discussion_r1506142421.
+         *
+         * {
+         *     code: "var r = /[👶🏻]/v; RegExp(r, 'v');",
+         *     languageOptions: {
+         *         ecmaVersion: 2024
+         *     },
+         *     errors: [{
+         *         column: 11,
+         *         endColumn: 15,
+         *         messageId: "emojiModifier",
+         *         suggestions: null
+         *     }, {
+         *         column: 27,
+         *         endColumn: 28,
+         *         messageId: "emojiModifier",
+         *         suggestions: null
+         *     }]
+         * }
+         */
+
+        /* eslint-enable lines-around-comment, internal-rules/multiline-comment-style -- re-enable rule */
 
     ]
 });
