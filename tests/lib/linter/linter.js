@@ -1908,7 +1908,7 @@ describe("Linter", () => {
                 {
                     ruleId: null,
                     severity: 2,
-                    message: "Rule \"no-foo\" is already configured by another configuration comment in the preceding code.",
+                    message: "Rule \"no-foo\" is already configured by another configuration comment in the preceding code. This configuration is ignored.",
                     line: 1,
                     column: 37,
                     endLine: 1,
@@ -1939,7 +1939,7 @@ describe("Linter", () => {
                 {
                     ruleId: null,
                     severity: 2,
-                    message: "Rule \"no-foo\" is already configured by another configuration comment in the preceding code.",
+                    message: "Rule \"no-foo\" is already configured by another configuration comment in the preceding code. This configuration is ignored.",
                     line: 1,
                     column: 37,
                     endLine: 1,
@@ -1949,7 +1949,7 @@ describe("Linter", () => {
                 {
                     ruleId: null,
                     severity: 2,
-                    message: "Rule \"no-foo\" is already configured by another configuration comment in the preceding code.",
+                    message: "Rule \"no-foo\" is already configured by another configuration comment in the preceding code. This configuration is ignored.",
                     line: 1,
                     column: 73,
                     endLine: 1,
@@ -1980,7 +1980,7 @@ describe("Linter", () => {
                 {
                     ruleId: null,
                     severity: 2,
-                    message: "Rule \"no-foo\" is already configured by another configuration comment in the preceding code.",
+                    message: "Rule \"no-foo\" is already configured by another configuration comment in the preceding code. This configuration is ignored.",
                     line: 1,
                     column: 27,
                     endLine: 1,
@@ -2020,7 +2020,7 @@ describe("Linter", () => {
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 3);
-            assert.include(messages[0].message, "Rule \"no-foo\" is already configured by another configuration comment in the preceding code.");
+            assert.strictEqual(messages[0].message, "Rule \"no-foo\" is already configured by another configuration comment in the preceding code. This configuration is ignored.");
             assert.strictEqual(messages[1].message, "Replace 'foo' with 'bar'.");
             assert.strictEqual(messages[2].ruleId, "no-alert");
             assert.strictEqual(suppressedMessages.length, 0);
@@ -11416,7 +11416,7 @@ describe("Linter with FlatConfigArray", () => {
                             {
                                 ruleId: null,
                                 severity: 2,
-                                message: "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code.",
+                                message: "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code. This configuration is ignored.",
                                 line: 1,
                                 column: 49,
                                 endLine: 1,
@@ -11447,7 +11447,7 @@ describe("Linter with FlatConfigArray", () => {
                             {
                                 ruleId: null,
                                 severity: 2,
-                                message: "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code.",
+                                message: "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code. This configuration is ignored.",
                                 line: 1,
                                 column: 49,
                                 endLine: 1,
@@ -11457,7 +11457,7 @@ describe("Linter with FlatConfigArray", () => {
                             {
                                 ruleId: null,
                                 severity: 2,
-                                message: "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code.",
+                                message: "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code. This configuration is ignored.",
                                 line: 1,
                                 column: 97,
                                 endLine: 1,
@@ -11488,7 +11488,7 @@ describe("Linter with FlatConfigArray", () => {
                             {
                                 ruleId: null,
                                 severity: 2,
-                                message: "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code.",
+                                message: "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code. This configuration is ignored.",
                                 line: 1,
                                 column: 39,
                                 endLine: 1,
@@ -11528,7 +11528,7 @@ describe("Linter with FlatConfigArray", () => {
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 3);
-                        assert.include(messages[0].message, "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code.");
+                        assert.strictEqual(messages[0].message, "Rule \"test-plugin/no-foo\" is already configured by another configuration comment in the preceding code. This configuration is ignored.");
                         assert.strictEqual(messages[1].message, "Replace 'foo' with 'bar'.");
                         assert.strictEqual(messages[2].ruleId, "no-alert");
                         assert.strictEqual(suppressedMessages.length, 0);

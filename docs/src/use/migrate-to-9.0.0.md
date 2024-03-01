@@ -206,7 +206,7 @@ In ESLint v9.0.0, the first one is applied, while the others are reported as lin
 
 ```js
 /* eslint semi: ["error", "always"] */
-/* eslint semi: ["error", "never"] */ // error: Rule "semi" is already configured by another configuration comment in the preceding code
+/* eslint semi: ["error", "never"] */ // error: Rule "semi" is already configured by another configuration comment in the preceding code. This configuration is ignored.
 
 foo() // error: Missing semicolon
 ```
