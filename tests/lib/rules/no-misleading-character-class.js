@@ -40,6 +40,7 @@ ruleTester.run("no-misleading-character-class", rule, {
         "var r = /🇯🇵/",
         "var r = /[JP]/",
         "var r = /👨‍👩‍👦/",
+        "new RegExp()",
         "var r = RegExp(/[👍]/u)",
         "const regex = /[👍]/u; new RegExp(regex);",
         {
