@@ -8,7 +8,6 @@
 
 /* eslint sort-keys: ["error", "asc"] -- Long, so make more readable */
 
-/** @type {import("../lib/shared/types").ConfigData} */
 module.exports = Object.freeze({
     rules: Object.freeze({
         "constructor-super": "error",
