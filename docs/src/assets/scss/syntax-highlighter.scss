@@ -122,7 +122,7 @@ pre[class*="language-"] {
     background: none;
 }
 
-.token.eslint-marked-on-zero-width::after {
+.token.eslint-marked-on-zero-width::before {
     content: "";
     position: absolute;
     bottom: 0;
