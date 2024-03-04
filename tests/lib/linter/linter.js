@@ -13944,7 +13944,7 @@ var a = "test2";
                     const code = "switch (foo) { case 0: a(); \n// eslint-disable-next-line no-fallthrough\n case 1: }";
                     const config = {
                         linterOptions: {
-                            reportUnusedDisableDirectives: true,
+                            reportUnusedDisableDirectives: true
                         },
                         rules: {
                             "no-fallthrough": 2
