@@ -115,6 +115,11 @@ pre[class*="language-"] {
     background-size: 4.4px auto;
 }
 
+.token.eslint-marked-on-line-feed {
+    /* Use `padding` to give it width so the marker is visible. */
+    padding-right: 8px;
+}
+
 .token.eslint-marked-on-zero-width {
     position: relative;
 

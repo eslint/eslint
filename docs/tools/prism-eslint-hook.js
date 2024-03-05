@@ -65,9 +65,14 @@ function installPrismESLintMarkerHook() {
     const TOKEN_TYPE_ESLINT_MARKED = "eslint-marked";
 
     /**
-     * Use in the class attribute of `<span>` when an error is displayed in the line-feed, or BOM code.
+     * Use in the class attribute of `<span>` when an error is displayed in the BOM code or empty string.
      */
     const CLASS_ESLINT_MARKED_ON_ZERO_WIDTH = "eslint-marked-on-zero-width";
+
+    /**
+     * Use in the class attribute of `<span>` when an error is displayed in the line-feed.
+     */
+    const CLASS_ESLINT_MARKED_ON_LINE_FEED = "eslint-marked-on-line-feed";
 
     /**
      * A Map that holds message IDs and messages.
@@ -255,6 +260,71 @@ function installPrismESLintMarkerHook() {
         }
 
         /**
+         * Splits the given ESLint marked tokens with line feed code.
+         * The line feed code is not displayed because there is no character width,
+         * so by making it a single character token, the "wrap hook" applies CLASS_ESLINT_MARKED_ON_LINE_FEED
+         * to each character and makes it visible.
+         * @param {Prism.Token} token Token to be split
+         * @returns {IterableIterator<Prism.Token>} Splitted tokens
+         */
+        function *splitMarkedTokenByLineFeed(token) {
+            for (const contentToken of [token.content].flat()) {
+                if (typeof contentToken !== "string") {
+                    const content = getTokenContent(contentToken);
+
+                    if (/[\r\n]/u.test(content)) {
+                        yield new Prism.Token(token.type, [...splitMarkedTokenByLineFeed(contentToken)], token.alias);
+                    } else {
+                        yield new Prism.Token(token.type, [contentToken], token.alias);
+                    }
+                    continue;
+                }
+                if (!/[\r\n]/u.test(contentToken)) {
+                    yield new Prism.Token(token.type, [contentToken], token.alias);
+                    continue;
+                }
+                const contents = [];
+                const reLineFeed = /\r\n?|\n/ug;
+                let startIndex = 0;
+                let matchLineFeed;
+
+                while ((matchLineFeed = reLineFeed.exec(contentToken))) {
+                    contents.push(contentToken.slice(startIndex, matchLineFeed.index));
+                    contents.push(matchLineFeed[0]);
+                    startIndex = reLineFeed.lastIndex;
+                }
+                contents.push(contentToken.slice(startIndex));
+                yield* contents.filter(Boolean).map(str => new Prism.Token(token.type, [str], token.alias));
+            }
+        }
+
+        /**
+         * Splits the given tokens by line feed code.
+         * @param {Prism.Token[]} tokens Token to be Separate
+         * @returns {IterableIterator<Prism.Token>} Splitted tokens
+         */
+        function *splitTokensByLineFeed(tokens) {
+            for (const token of tokens) {
+
+                const content = getTokenContent(token);
+
+                if (!/[\r\n]/u.test(content)) {
+                    yield token;
+                    continue;
+                }
+                if (token.type === TOKEN_TYPE_ESLINT_MARKED) {
+                    yield* splitMarkedTokenByLineFeed(token);
+                    continue;
+                }
+
+                if (Array.isArray(token.content) || typeof token.content !== "string") {
+                    token.content = [...splitTokensByLineFeed([token.content].flat())];
+                }
+                yield token;
+            }
+        }
+
+        /**
          * Generates a token stream with the `eslint-marked` class assigned to the error range.
          * @param {Object} params Parameters
          * @param {string | Prism.Token | (string | Prism.Token[])} params.tokens Tokens to be converted
@@ -294,7 +364,7 @@ function installPrismESLintMarkerHook() {
                 yield before;
             }
             if (after) {
-                yield marked.token;
+                yield* splitTokensByLineFeed([marked.token]);
                 yield after;
             } else {
 
@@ -310,7 +380,7 @@ function installPrismESLintMarkerHook() {
                     if (prevMarked.canBeMerged && next.marked.canBeMerged) {
                         prevMarked.token.content.push(...next.marked.token.content);
                     } else {
-                        yield prevMarked.token;
+                        yield* splitTokensByLineFeed([prevMarked.token]);
                         prevMarked = next.marked;
                     }
                     if (next.after) {
@@ -319,7 +389,7 @@ function installPrismESLintMarkerHook() {
                     nextTokenStartIndex += getTokenContent(nextToken).length;
                 }
 
-                yield prevMarked.token;
+                yield* splitTokensByLineFeed([prevMarked.token]);
                 if (nextAfter) {
                     yield nextAfter;
                 }
@@ -343,11 +413,15 @@ function installPrismESLintMarkerHook() {
 
             if (
                 env.content === "" ||
-                env.content === "\n" ||
-                env.content === "\r\n" ||
                 env.content === "\ufeff"
             ) {
                 env.classes.push(CLASS_ESLINT_MARKED_ON_ZERO_WIDTH);
+            } else if (
+                env.content === "\n" ||
+                env.content === "\r" ||
+                env.content === "\r\n"
+            ) {
+                env.classes.push(CLASS_ESLINT_MARKED_ON_LINE_FEED);
             }
         }
     });
