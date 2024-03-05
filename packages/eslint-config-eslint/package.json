@@ -6,6 +6,7 @@
   "exports": {
     "./package.json": "./package.json",
     ".": "./index.js",
+    "./base": "./base.js",
     "./cjs": "./cjs.js",
     "./eslintrc": "./eslintrc.js"
   },

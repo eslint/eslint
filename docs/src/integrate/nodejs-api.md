@@ -128,7 +128,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.globInputPaths` (`boolean`)<br>
   Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't interpret glob patterns.
 * `options.ignore` (`boolean`)<br>
-  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't respect `.eslintignore` files or `ignorePatterns` in your configuration.
+  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't respect `ignorePatterns` in your configuration.
 * `options.ignorePatterns` (`string[] | null`)<br>
   Default is `null`. Ignore file patterns to use in addition to config ignores. These patterns are relative to `cwd`.
 * `options.passOnNoPatterns` (`boolean`)<br>
@@ -439,6 +439,49 @@ The `LoadedFormatter` value is the object to convert the [LintResult] objects to
 
 * `format` (`(results: LintResult[], resultsMeta: ResultsMeta) => string | Promise<string>`)<br>
   The method to convert the [LintResult] objects to text. `resultsMeta` is an object that will contain a `maxWarningsExceeded` object if `--max-warnings` was set and the number of warnings exceeded the limit. The `maxWarningsExceeded` object will contain two properties: `maxWarnings`, the value of the `--max-warnings` option, and `foundWarnings`, the number of lint warnings.
+
+---
+
+## loadESLint()
+
+The `loadESLint()` function is used for integrations that wish to support both the current configuration system (flat config) and the old configuration system (eslintrc). This function returns the correct `ESLint` class implementation based on the arguments provided:
+
+```js
+const { loadESLint } = require("eslint");
+
+// loads the default ESLint that the CLI would use based on process.cwd()
+const DefaultESLint = await loadESLint();
+
+// loads the default ESLint that the CLI would use based on the provided cwd
+const CwdDefaultESLint = await loadESLint({ cwd: "/foo/bar" });
+
+// loads the flat config version specifically
+const FlatESLint = await loadESLint({ useFlatConfig: true });
+
+// loads the legacy version specifically
+const LegacyESLint = await loadESLint({ useFlatConfig: false });
+```
+
+You can then use the returned constructor to instantiate a new `ESLint` instance, like this:
+
+```js
+// loads the default ESLint that the CLI would use based on process.cwd()
+const DefaultESLint = await loadESLint();
+const eslint = new DefaultESLint();
+```
+
+If you're ever unsure which config system the returned constructor uses, check the `configType` property, which is either `"flat"` or `"eslintrc"`:
+
+```js
+// loads the default ESLint that the CLI would use based on process.cwd()
+const DefaultESLint = await loadESLint();
+
+if (DefaultESLint.configType === "flat") {
+    // do something specific to flat config
+}
+```
+
+If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.
 
 ---
 

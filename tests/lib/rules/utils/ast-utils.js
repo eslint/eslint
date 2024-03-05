@@ -59,6 +59,32 @@ describe("ast-utils", () => {
         });
     });
 
+    describe("ECMASCRIPT_GLOBALS", () => {
+        it("should contain es3 globals", () => {
+            assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { Object: false });
+        });
+
+        it("should contain es5 globals", () => {
+            assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { JSON: false });
+        });
+
+        it("should contain es2015 globals", () => {
+            assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { Promise: false });
+        });
+
+        it("should contain es2017 globals", () => {
+            assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { SharedArrayBuffer: false });
+        });
+
+        it("should contain es2020 globals", () => {
+            assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { BigInt: false });
+        });
+
+        it("should contain es2021 globals", () => {
+            assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { WeakRef: false });
+        });
+    });
+
     describe("isTokenOnSameLine", () => {
         it("should return false if the tokens are not on the same line", () => {
             linter.defineRule("checker", {

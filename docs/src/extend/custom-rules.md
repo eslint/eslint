@@ -796,7 +796,7 @@ module.exports = {
 
 **Note:** If your rule schema uses JSON schema [`$ref`](https://json-schema.org/understanding-json-schema/structuring.html#ref) properties, you must use the full JSON Schema object rather than the array of positional property schemas. This is because ESLint transforms the array shorthand into a single schema without updating references that makes them incorrect (they are ignored).
 
-To learn more about JSON Schema, we recommend looking at some examples on the [JSON Schema website](https://json-schema.org/learn/), or reading the free [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/) ebook.
+To learn more about JSON Schema, we recommend looking at some examples on the [JSON Schema website](https://json-schema.org/learn/miscellaneous-examples), or reading the free [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/) ebook.
 
 #### Option Defaults
 
