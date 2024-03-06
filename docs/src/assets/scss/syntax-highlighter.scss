@@ -116,8 +116,16 @@ pre[class*="language-"] {
 }
 
 .token.eslint-marked-on-line-feed {
-    /* Use `padding` to give it width so the marker is visible. */
+    /* Use `padding` to give it width so the marker on line feed code is visible. */
     padding-right: 8px;
+}
+
+.token.eslint-marked:not(.eslint-marked-on-line-feed) + .token.eslint-marked-on-line-feed {
+    /*
+     * If there is a marker before the same line,
+     * there is no need to make visible the marker on the line feed code.
+     */
+    padding-right: 0;
 }
 
 .token.eslint-marked-on-zero-width {
