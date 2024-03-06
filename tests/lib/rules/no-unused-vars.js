@@ -1601,7 +1601,14 @@ c = foo1`,
             errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
         },
         {
-            code: "class Foo { static bar }",
+            code: "class Foo { static bar; }",
+            options: [{ ignoreClassWithStaticInitBlock: true }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
+        },
+        {
+            code: "class Foo { static bar() {} }",
+            options: [{ ignoreClassWithStaticInitBlock: true }],
             languageOptions: { ecmaVersion: 2022 },
             errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
         }
