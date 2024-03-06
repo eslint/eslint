@@ -133,6 +133,8 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `null`. Ignore file patterns to use in addition to config ignores. These patterns are relative to `cwd`.
 * `options.passOnNoPatterns` (`boolean`)<br>
   Default is `false`. When set to `true`, missing patterns cause the linting operation to short circuit and not report any failures.
+* `options.stats` (`boolean`)<br>
+  Default is `false`. When set to `true`, additional statistics are added to the lint results.
 * `options.warnIgnored` (`boolean`)<br>
   Default is `true`. Show warnings when the file list includes ignored files.
 
@@ -365,6 +367,8 @@ The `LintResult` value is the information of the linting result of each file. Th
   The number of warnings. This includes fixable warnings.
 * `output` (`string | undefined`)<br>
   The modified source code text. This property is undefined if any fixable messages didn't exist.
+* `stats` (`Stats`)<br>
+  The [Stats] object. This contains the lint performance statistics collected with the `stats` option.
 * `source` (`string | undefined`)<br>
   The original source code text. This property is undefined if any messages didn't exist or the `output` property exists.
 * `usedDeprecatedRules` (`{ ruleId: string; replacedBy: string[] }[]`)<br>
@@ -394,6 +398,15 @@ The `LintMessage` value is the information of each linting error. The `messages`
   The [EditInfo] object of autofix. This property is undefined if this message is not fixable.
 * `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
   The list of suggestions. Each suggestion is the pair of a description and an [EditInfo] object to fix code. API users such as editor integrations can choose one of them to fix the problem of this message. This property is undefined if this message doesn't have any suggestions.
+
+## ◆ Stats type
+
+The `Stats` value is the timing information of each lint run. The `stats` property of the [LintResult] type contains it. It has the following properties:
+
+* `fixPasses` (`number`)<br>
+  The number of times ESLint has applied at least one fix after linting.
+* `times` (`({ fix: { total: nunber }; parse: { total: nunber }; rules: { string: { total: number } } }[] | undefined)`)<br>
+  The times spent on (parsing, fixing, linting) a file.
 
 ### ◆ SuppressedLintMessage type
 
