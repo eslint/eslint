@@ -405,7 +405,7 @@ The `Stats` value is the timing information of each lint run. The `stats` proper
 
 * `fixPasses` (`number`)<br>
   The number of times ESLint has applied at least one fix after linting.
-* `times` (`({ fix: { total: nunber }; parse: { total: nunber }; rules: { string: { total: number } } }[] | undefined)`)<br>
+* `times` (`({ passes: { fix: { total: nunber }; parse: { total: nunber }; rules: { string: { total: number } } }[] } | undefined)`)<br>
   The times spent on (parsing, fixing, linting) a file.
 
 ### ◆ SuppressedLintMessage type
