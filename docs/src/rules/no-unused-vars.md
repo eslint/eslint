@@ -410,6 +410,51 @@ var bar;
 
 :::
 
+### ignoreClassWithStaticInitBlock
+
+The `ignoreClassWithStaticInitBlock` option is a boolean (default: `false`). Static initialization blocks or Static blocks was introduced in ES2022. Static blocks lets us to initialize static variables and execute code during the evaluation of defined class. It means that one don't need to create an instance of class to run the code written inside the static block. This option ignore the classes with static initialization block when sets to `true`.
+
+Examples of **incorrect** code for the `{ "ignoreClassWithStaticInitBlock": true }` option
+
+::: incorrect
+
+```js
+/*eslint no-unused-vars: ["error", { "ignoreClassWithStaticInitBlock": true }]*/
+
+class Foo {
+    static myProperty = "some string";
+    static mymethod() {
+        return "some string";
+    }
+}
+
+class Bar {
+    static {
+        let baz; // unused variable
+    }
+}
+```
+
+:::
+
+Examples of **correct** code for the `{ "ignoreClassWithStaticInitBlock": true }` option
+
+::: correct
+
+```js
+/*eslint no-unused-vars: ["error", { "ignoreClassWithStaticInitBlock": true }]*/
+
+class Foo {
+    static {
+        let bar = "some string";
+
+        console.log(bar);
+    }
+}
+```
+
+:::
+
 ## When Not To Use It
 
 If you don't want to be notified about unused variables or function arguments, you can safely turn this rule off.
