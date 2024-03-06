@@ -63,5 +63,5 @@ The only real exception is if ESLint is completely unusable by most of the curre
 
 This typically happens due to a permission error related to the npm token.
 
-* `release-please` uses a granular access token that expires after a year. This token is tied to the `eslintbot` npm account and needs to be regenerated every year in March. If the access token is expired, `npm publish` returns a 404. 
+* `release-please` uses a granular access token that expires after a year. This token is tied to the `eslintbot` npm account and needs to be regenerated every year in March. If the access token is expired, `npm publish` returns a 404.
 * Jenkins uses a classic access token without an expiration date, but it does require a 2FA code to publish. If the 2FA code is incorrect, then `npm publish` returns a 404.
