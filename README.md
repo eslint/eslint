@@ -127,6 +127,18 @@ In other cases (including if rules need to warn on more or fewer cases due to ne
 
 Once a language feature has been adopted into the ECMAScript standard (stage 4 according to the [TC39 process](https://tc39.github.io/process-document/)), we will accept issues and pull requests related to the new feature, subject to our [contributing guidelines](https://eslint.org/docs/latest/contribute). Until then, please use the appropriate parser and plugin(s) for your experimental feature.
 
+### Which Node.js versions does ESLint support?
+
+ESLint updates the supported Node.js versions with each major release of ESLint. At that time, ESLint's supported Node.js versions are updated to be:
+
+1. The most recent maintenance release of Node.js
+1. The lowest minor version of the Node.js LTS release that includes the features the ESLint team wants to use.
+1. The Node.js Current release
+
+ESLint is also expected to work with Node.js versions released after the Node.js Current release.
+
+Refer to the [Quick Start Guide](https://eslint.org/docs/latest/use/getting-started#prerequisites) for the officially suported Node.js versions for a given ESLint release.
+
 ### Where to ask for help?
 
 Open a [discussion](https://github.com/eslint/eslint/discussions) or stop by our [Discord server](https://eslint.org/chat).
