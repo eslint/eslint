@@ -89,6 +89,7 @@
     "imurmurhash": "^0.1.4",
     "is-glob": "^4.0.0",
     "is-path-inside": "^3.0.3",
+    "jiti": "^1.21.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
     "levn": "^0.4.1",
     "lodash.merge": "^4.6.2",
@@ -96,8 +97,7 @@
     "natural-compare": "^1.4.0",
     "optionator": "^0.9.3",
     "strip-ansi": "^6.0.1",
-    "text-table": "^0.2.0",
-    "typescript": "^5.3.3"
+    "text-table": "^0.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
