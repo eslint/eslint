@@ -827,7 +827,7 @@ Please note that `data` in a test case does not assert `data` passed to `context
 
 ### Testing Fixes
 
-The result of applying fixes can be tested by using the `output` property of an error object in the `errors` array of an invalid test case. The `output` property should be used only when you expect a fix to be applied to the specified `code`; you can safely omit `output` if no changes are expected to the code.  Here's an example:
+The result of applying fixes can be tested by using the `output` property of an invalid test case. The `output` property should be used only when you expect a fix to be applied to the specified `code`; you can safely omit `output` if no changes are expected to the code.  Here's an example:
 
 ```js
 ruleTester.run("my-rule-for-no-foo", rule, {
