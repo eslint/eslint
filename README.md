@@ -137,7 +137,7 @@ ESLint updates the supported Node.js versions with each major release of ESLint.
 
 ESLint is also expected to work with Node.js versions released after the Node.js Current release.
 
-Refer to the [Quick Start Guide](https://eslint.org/docs/latest/use/getting-started#prerequisites) for the officially suported Node.js versions for a given ESLint release.
+Refer to the [Quick Start Guide](https://eslint.org/docs/latest/use/getting-started#prerequisites) for the officially supported Node.js versions for a given ESLint release.
 
 ### Where to ask for help?
 
