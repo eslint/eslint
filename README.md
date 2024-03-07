@@ -213,6 +213,11 @@ The people who manage releases, review feature requests, and meet regularly to e
 Nicholas C. Zakas
 </a>
 </td><td align="center" valign="top" width="11%">
+<a href="https://github.com/fasttime">
+<img src="https://github.com/fasttime.png?s=75" width="75" height="75" alt="Francesco Trotta's Avatar"><br />
+Francesco Trotta
+</a>
+</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/mdjermanovic">
 <img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75" alt="Milos Djermanovic's Avatar"><br />
 Milos Djermanovic
@@ -248,11 +253,6 @@ Bryan Mishkin
 <a href="https://github.com/JoshuaKGoldberg">
 <img src="https://github.com/JoshuaKGoldberg.png?s=75" width="75" height="75" alt="Josh Goldberg ✨'s Avatar"><br />
 Josh Goldberg ✨
-</a>
-</td><td align="center" valign="top" width="11%">
-<a href="https://github.com/fasttime">
-<img src="https://github.com/fasttime.png?s=75" width="75" height="75" alt="Francesco Trotta's Avatar"><br />
-Francesco Trotta
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/Tanujkanti4441">
@@ -293,7 +293,7 @@ The following companies, organizations, and individuals support ESLint's ongoing
 <h3>Platinum Sponsors</h3>
 <p><a href="#"><img src="https://images.opencollective.com/2021-frameworks-fund/logo.png" alt="Chrome Frameworks Fund" height="undefined"></a> <a href="https://automattic.com"><img src="https://images.opencollective.com/automattic/d0ef3e1/logo.png" alt="Automattic" height="undefined"></a></p><h3>Gold Sponsors</h3>
 <p><a href="https://engineering.salesforce.com"><img src="https://images.opencollective.com/salesforce/ca8f997/logo.png" alt="Salesforce" height="96"></a> <a href="https://www.airbnb.com/"><img src="https://images.opencollective.com/airbnb/d327d66/logo.png" alt="Airbnb" height="96"></a></p><h3>Silver Sponsors</h3>
-<p><a href="https://www.jetbrains.com/"><img src="https://images.opencollective.com/jetbrains/eb04ddc/logo.png" alt="JetBrains" height="64"></a> <a href="https://liftoff.io/"><img src="https://images.opencollective.com/liftoff/5c4fa84/logo.png" alt="Liftoff" height="64"></a> <a href="https://americanexpress.io"><img src="https://avatars.githubusercontent.com/u/3853301?v=4" alt="American Express" height="64"></a> <a href="https://www.workleap.com"><img src="https://avatars.githubusercontent.com/u/53535748?u=d1e55d7661d724bf2281c1bfd33cb8f99fe2465f&v=4" alt="Workleap" height="64"></a></p><h3>Bronze Sponsors</h3>
+<p><a href="https://www.jetbrains.com/"><img src="https://images.opencollective.com/jetbrains/eb04ddc/logo.png" alt="JetBrains" height="64"></a> <a href="https://liftoff.io/"><img src="https://images.opencollective.com/liftoff/5c4fa84/logo.png" alt="Liftoff" height="64"></a> <a href="https://www.workleap.com"><img src="https://avatars.githubusercontent.com/u/53535748?u=d1e55d7661d724bf2281c1bfd33cb8f99fe2465f&v=4" alt="Workleap" height="64"></a></p><h3>Bronze Sponsors</h3>
 <p><a href="https://www.notion.so"><img src="https://images.opencollective.com/notion/bf3b117/logo.png" alt="notion" height="32"></a> <a href="https://themeisle.com"><img src="https://images.opencollective.com/themeisle/d5592fe/logo.png" alt="ThemeIsle" height="32"></a> <a href="https://www.crosswordsolver.org/anagram-solver/"><img src="https://images.opencollective.com/anagram-solver/2666271/logo.png" alt="Anagram Solver" height="32"></a> <a href="https://icons8.com/"><img src="https://images.opencollective.com/icons8/7fa1641/logo.png" alt="Icons8" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/f9645d9/logo.png" alt="Discord" height="32"></a> <a href="https://transloadit.com/"><img src="https://avatars.githubusercontent.com/u/125754?v=4" alt="Transloadit" height="32"></a> <a href="https://www.ignitionapp.com"><img src="https://avatars.githubusercontent.com/u/5753491?v=4" alt="Ignition" height="32"></a> <a href="https://nx.dev"><img src="https://avatars.githubusercontent.com/u/23692104?v=4" alt="Nx" height="32"></a> <a href="https://herocoders.com"><img src="https://avatars.githubusercontent.com/u/37549774?v=4" alt="HeroCoders" height="32"></a> <a href="https://usenextbase.com"><img src="https://avatars.githubusercontent.com/u/145838380?v=4" alt="Nextbase Starter Kit" height="32"></a></p>
 <!--sponsorsend-->
 
