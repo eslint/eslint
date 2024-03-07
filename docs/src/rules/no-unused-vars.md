@@ -412,7 +412,7 @@ var bar;
 
 ### ignoreClassWithStaticInitBlock
 
-The `ignoreClassWithStaticInitBlock` option is a boolean (default: `false`). Static initialization blocks or Static blocks was introduced in ES2022. Static blocks lets us to initialize static variables and execute code during the evaluation of defined class. It means that one don't need to create an instance of class to run the code written inside the static block. This option ignore the classes with static initialization block when sets to `true`.
+The `ignoreClassWithStaticInitBlock` option is a boolean (default: `false`). Static initialization blocks allow you to initialize static variables and execute code during the evaluation of a class definition, meaning the static block code is executed without creating a new instance of the class. When set to `true`, this option ignores classes containing static initialization blocks.
 
 Examples of **incorrect** code for the `{ "ignoreClassWithStaticInitBlock": true }` option
 
