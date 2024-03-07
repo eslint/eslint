@@ -834,11 +834,11 @@ ruleTester.run("my-rule-for-no-foo", rule, {
     valid: [],
     invalid: [{
         code: "var foo;",
+        output: "var bar;",
         errors: [{
             messageId: "shouldBeBar",
             line: 1,
-            column: 5,
-            output: "var bar;"
+            column: 5
         }]
     }]
 })
