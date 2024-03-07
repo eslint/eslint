@@ -143,9 +143,9 @@ ${getErrorMessage(error)}`;
         console.warn("You can also run this command directly using 'npm init @eslint/config'.");
 
         const spawn = require("cross-spawn");
-        const npm_execpath = process.env.npm_execpath || "npm";
+        const npm = process.env.npm_execpath || "npm";
 
-        spawn.sync(npm_execpath, ["init", "@eslint/config"], { encoding: "utf8", stdio: "inherit" });
+        spawn.sync(npm, ["init", "@eslint/config"], { encoding: "utf8", stdio: "inherit" });
         return;
     }
 
