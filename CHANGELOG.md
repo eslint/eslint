@@ -1,3 +1,26 @@
+v9.0.0-beta.2 - March 8, 2024
+
+* [`7509276`](https://github.com/eslint/eslint/commit/75092764db117252067558bd3fbbf0c66ac081b7) chore: upgrade @eslint/js@9.0.0-beta.2 (#18180) (Milos Djermanovic)
+* [`96087b3`](https://github.com/eslint/eslint/commit/96087b33dc10311bba83e22cc968919c358a0188) chore: package.json update for @eslint/js release (Jenkins)
+* [`ba1c1bb`](https://github.com/eslint/eslint/commit/ba1c1bbc6ba9d57a83d04f450566337d3c3b0448) docs: Update README (GitHub Actions Bot)
+* [`337cdf9`](https://github.com/eslint/eslint/commit/337cdf9f7ad939df7bc55c23d953e12d847b6ecc) docs: Explain limitations of RuleTester fix testing (#18175) (Nicholas C. Zakas)
+* [`c7abd89`](https://github.com/eslint/eslint/commit/c7abd8936193a87be274174c47d6775e6220e354) docs: Explain Node.js version support (#18176) (Nicholas C. Zakas)
+* [`925afa2`](https://github.com/eslint/eslint/commit/925afa2b0c882f77f6b4411bdca3cb8ad6934b56) chore: Remove some uses of `lodash.merge` (#18179) (Milos Djermanovic)
+* [`1c173dc`](https://github.com/eslint/eslint/commit/1c173dc1f3d36a28cb2543e93675c2fbdb6fa9f1) feat: add `ignoreClassWithStaticInitBlock` option to `no-unused-vars` (#18170) (Tanuj Kanti)
+* [`d961eeb`](https://github.com/eslint/eslint/commit/d961eeb855b6dd9118a78165e358e454eb1d090d) docs: show red underlines in examples in rules docs (#18041) (Yosuke Ota)
+* [`558274a`](https://github.com/eslint/eslint/commit/558274abbd25ef269f4994cf258b2e44afbad548) docs: Update README (GitHub Actions Bot)
+* [`2908b9b`](https://github.com/eslint/eslint/commit/2908b9b96ab7a25fe8044a1755030b18186a75b0) docs: Update release documentation (#18174) (Nicholas C. Zakas)
+* [`a451b32`](https://github.com/eslint/eslint/commit/a451b32b33535a57b4b7e24291f30760f65460ba) feat: make `no-misleading-character-class` report more granular errors (#18082) (Francesco Trotta)
+* [`972ef15`](https://github.com/eslint/eslint/commit/972ef155a94ad2cc85db7d209ad869869222c14c) chore: remove invalid type in @eslint/js (#18164) (Nitin Kumar)
+* [`1f1260e`](https://github.com/eslint/eslint/commit/1f1260e863f53e2a5891163485a67c55d41993aa) docs: replace HackerOne link with GitHub advisory (#18165) (Francesco Trotta)
+* [`79a95eb`](https://github.com/eslint/eslint/commit/79a95eb7da7fe657b6448c225d4f8ac31117456a) feat!: disallow multiple configuration comments for same rule (#18157) (Milos Djermanovic)
+* [`e37153f`](https://github.com/eslint/eslint/commit/e37153f71f173e8667273d6298bef81e0d33f9ba) fix: improve error message for invalid rule config (#18147) (Nitin Kumar)
+* [`c49ed63`](https://github.com/eslint/eslint/commit/c49ed63265fc8e0cccea404810a4c5075d396a15) feat: update complexity rule for optional chaining & default values (#18152) (Mathias Schreck)
+* [`e5ef3cd`](https://github.com/eslint/eslint/commit/e5ef3cd6953bb40108556e0465653898ffed8420) docs: add inline cases condition in `no-fallthrough` (#18158) (Tanuj Kanti)
+* [`af6e170`](https://github.com/eslint/eslint/commit/af6e17081fa6c343474959712e7a4a20f8b304e2) fix: stop linting files after an error (#18155) (Francesco Trotta)
+* [`450d0f0`](https://github.com/eslint/eslint/commit/450d0f044023843b1790bd497dfca45dcbdb41e4) docs: fix `ignore` option docs (#18154) (Francesco Trotta)
+* [`11144a2`](https://github.com/eslint/eslint/commit/11144a2671b2404b293f656be111221557f3390f) feat: `no-restricted-imports` option added `allowImportNames` (#16196) (M Pater)
+
 v9.0.0-beta.1 - February 23, 2024
 
 * [`32ffdd1`](https://github.com/eslint/eslint/commit/32ffdd181aa673ccc596f714d10a2f879ec622a7) chore: upgrade @eslint/js@9.0.0-beta.1 (#18146) (Milos Djermanovic)
