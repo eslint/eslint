@@ -30,7 +30,6 @@ const internalPlugin = require("eslint-plugin-internal-rules");
 const eslintPluginRulesRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/rules-recommended");
 const eslintPluginTestsRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/tests-recommended");
 const globals = require("globals");
-const merge = require("lodash.merge");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 
 //-----------------------------------------------------------------------------
@@ -114,15 +113,15 @@ module.exports = [
     {
         files: ["lib/rules/*", "tools/internal-rules/*"],
         ignores: ["**/index.js"],
-        ...merge({}, eslintPluginRulesRecommendedConfig, {
-            rules: {
-                "eslint-plugin/prefer-placeholders": "error",
-                "eslint-plugin/prefer-replace-text": "error",
-                "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
-                "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow) .+[^. ]$" }],
-                "internal-rules/no-invalid-meta": "error"
-            }
-        })
+        ...eslintPluginRulesRecommendedConfig,
+        rules: {
+            ...eslintPluginRulesRecommendedConfig.rules,
+            "eslint-plugin/prefer-placeholders": "error",
+            "eslint-plugin/prefer-replace-text": "error",
+            "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
+            "eslint-plugin/require-meta-docs-description": ["error", { pattern: "^(Enforce|Require|Disallow) .+[^. ]$" }],
+            "internal-rules/no-invalid-meta": "error"
+        }
     },
     {
         files: ["lib/rules/*"],
@@ -133,23 +132,23 @@ module.exports = [
     },
     {
         files: ["tests/lib/rules/*", "tests/tools/internal-rules/*"],
-        ...merge({}, eslintPluginTestsRecommendedConfig, {
-            rules: {
-                "eslint-plugin/test-case-property-ordering": [
-                    "error",
-                    [
-                        "name",
-                        "filename",
-                        "code",
-                        "output",
-                        "options",
-                        "languageOptions",
-                        "errors"
-                    ]
-                ],
-                "eslint-plugin/test-case-shorthand-strings": "error"
-            }
-        })
+        ...eslintPluginTestsRecommendedConfig,
+        rules: {
+            ...eslintPluginTestsRecommendedConfig.rules,
+            "eslint-plugin/test-case-property-ordering": [
+                "error",
+                [
+                    "name",
+                    "filename",
+                    "code",
+                    "output",
+                    "options",
+                    "languageOptions",
+                    "errors"
+                ]
+            ],
+            "eslint-plugin/test-case-shorthand-strings": "error"
+        }
     },
     {
         files: ["tests/**/*.js"],
