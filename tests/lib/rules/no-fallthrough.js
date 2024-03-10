@@ -64,6 +64,27 @@ ruleTester.run("no-fallthrough", rule, {
         "switch (foo) { case 0: try { throw 0; } catch (err) { break; } default: b(); }",
         "switch (foo) { case 0: do { throw 0; } while(a); default: b(); }",
         "switch (foo) { case 0: a(); \n// eslint-disable-next-line rule-to-test/no-fallthrough\n case 1: }",
+        `
+            switch (foo) {
+                case 0:
+                    a();
+                    break;
+                    /* falls through */
+                case 1:
+                    b();
+            }
+        `,
+        `
+            switch (foo) {
+                case 0:
+                    a();
+                    break;
+                    // eslint-disable-next-line rule-to-test/no-fallthrough
+                    /* falls through */
+                case 1:
+                    b();
+            }
+        `,
         {
             code: "switch(foo) { case 0: a(); /* no break */ case 1: b(); }",
             options: [{
@@ -111,6 +132,7 @@ ruleTester.run("no-fallthrough", rule, {
             options: [{ allowEmptyCase: false }]
         }
     ],
+
     invalid: [
         {
             code: "switch(foo) { case 0: a();\ncase 1: b() }",
@@ -308,6 +330,83 @@ ruleTester.run("no-fallthrough", rule, {
                     type: "SwitchCase",
                     line: 3,
                     column: 2
+                }
+            ]
+        },
+        {
+            code: `
+switch (foo) {
+    case 0:
+        a();
+        break;
+        /* falls through */
+    case 1:
+        b();
+}`,
+            options: [{ reportUnusedFallthroughComment: true }],
+            errors: [
+                {
+                    line: 6,
+                    messageId: "unusedFallthroughComment"
+                }
+            ]
+        },
+        {
+            code: `
+switch (foo) {
+    default:
+        a();
+        break;
+        /* falls through */
+    case 1:
+        b();
+}`,
+            options: [{ reportUnusedFallthroughComment: true }],
+            errors: [
+                {
+                    line: 6,
+                    messageId: "unusedFallthroughComment"
+                }
+            ]
+        },
+        {
+            code: `
+switch(foo){
+    case 1:
+        doSomething();
+        break;
+        // falls through
+    case 2: doSomething();
+}`,
+            options: [{ reportUnusedFallthroughComment: true }],
+            errors: [
+                {
+                    line: 6,
+                    messageId: "unusedFallthroughComment"
+                }
+            ]
+        }, {
+            code: `
+function f() {
+    switch(foo){
+        case 1:
+            if (a) {
+                throw new Error();
+            } else if (b) {
+                break;
+            } else {
+                return;
+            }
+            // falls through
+        case 2:
+            break;
+    }
+}`,
+            options: [{ reportUnusedFallthroughComment: true }],
+            errors: [
+                {
+                    line: 12,
+                    messageId: "unusedFallthroughComment"
                 }
             ]
         }
