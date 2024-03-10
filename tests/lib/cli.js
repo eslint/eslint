@@ -1649,6 +1649,105 @@ describe("cli", () => {
             });
         });
 
+        describe("flat Only", () => {
+
+            describe("`--plugin` option", () => {
+
+                let originalCwd;
+
+                beforeEach(() => {
+                    originalCwd = process.cwd();
+                    process.chdir(getFixturePath("plugins"));
+                });
+
+                afterEach(() => {
+                    process.chdir(originalCwd);
+                    originalCwd = void 0;
+                });
+
+                it("should load a plugin from a CommonJS package", async () => {
+                    const code = "--plugin hello-cjs --rule 'hello-cjs/hello: error' ../files/*.js";
+
+                    const exitCode = await cli.execute(code, null, true);
+
+                    assert.strictEqual(exitCode, 1);
+                    assert.ok(log.info.calledOnce);
+                    assert.include(log.info.firstCall.firstArg, "Hello CommonJS!");
+                });
+
+                it("should load a plugin from an ESM package", async () => {
+                    const code = "--plugin hello-esm --rule 'hello-esm/hello: error' ../files/*.js";
+
+                    const exitCode = await cli.execute(code, null, true);
+
+                    assert.strictEqual(exitCode, 1);
+                    assert.ok(log.info.calledOnce);
+                    assert.include(log.info.firstCall.firstArg, "Hello ESM!");
+                });
+
+                it("should load multiple plugins", async () => {
+                    const code = "--plugin 'hello-cjs, hello-esm' --rule 'hello-cjs/hello: warn, hello-esm/hello: error' ../files/*.js";
+
+                    const exitCode = await cli.execute(code, null, true);
+
+                    assert.strictEqual(exitCode, 1);
+                    assert.ok(log.info.calledOnce);
+                    assert.include(log.info.firstCall.firstArg, "Hello CommonJS!");
+                    assert.include(log.info.firstCall.firstArg, "Hello ESM!");
+                });
+
+                it("should resolve plugins specified with 'eslint-plugin-'", async () => {
+                    const code = "--plugin 'eslint-plugin-schema-array, @scope/eslint-plugin-example' --rule 'schema-array/rule1: warn, @scope/example/test: warn' ../passing.js";
+
+                    const exitCode = await cli.execute(code, null, true);
+
+                    assert.strictEqual(exitCode, 0);
+                });
+
+                it("should resolve plugins in the parent directory's node_module subdirectory", async () => {
+                    process.chdir("subdir");
+                    const code = "--plugin 'example, @scope/example' file.js";
+
+                    const exitCode = await cli.execute(code, null, true);
+
+                    assert.strictEqual(exitCode, 0);
+                });
+
+                it("should fail if a plugin is not found", async () => {
+                    const code = "--plugin 'example, no-such-plugin' ../passing.js";
+
+                    await stdAssert.rejects(
+                        cli.execute(code, null, true),
+                        ({ message }) => {
+                            assert(
+                                message.startsWith("Cannot find module 'eslint-plugin-no-such-plugin'\n"),
+                                `Unexpected error message:\n${message}`
+                            );
+                            return true;
+                        }
+                    );
+                });
+
+                it("should fail if a plugin throws an error while loading", async () => {
+                    const code = "--plugin 'example, throws-on-load' ../passing.js";
+
+                    await stdAssert.rejects(
+                        cli.execute(code, null, true),
+                        { message: "error thrown while loading this module" }
+                    );
+                });
+
+                it("should fail to load a plugin from a package without a default export", async () => {
+                    const code = "--plugin 'example, no-default-export' ../passing.js";
+
+                    await stdAssert.rejects(
+                        cli.execute(code, null, true),
+                        { message: '"eslint-plugin-no-default-export" cannot be imported because it does not provide a default export' }
+                    );
+                });
+            });
+        });
+
         describe("when loading a custom rule", () => {
             it("should return an error when rule isn't found", async () => {
                 const rulesPath = getFixturePath("rules", "wrong");
