@@ -7,7 +7,7 @@
                 "tools/internal-rules/index.js",
                 // https://github.com/webpro/knip/issues/464
                 // Remove when Knip has a wdio plugin
-                "wdio.conf.js" 
+                "wdio.conf.js"
             ],
             "project": ["{conf,lib,tools}/**/*.js"],
             "mocha": {
@@ -30,6 +30,13 @@
             ],
             "ignoreDependencies": [
                 "c8",
+
+                // These will be removed in https://github.com/eslint/eslint/pull/18011
+                "eslint-plugin-eslint-comments",
+                "eslint-plugin-jsdoc",
+                "eslint-plugin-n",
+                "eslint-plugin-unicorn",
+
                 // Ignore until Knip has a wdio plugin:
                 "@wdio/*",
                 "rollup-plugin-node-polyfills"
