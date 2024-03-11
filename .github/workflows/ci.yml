@@ -13,32 +13,34 @@ jobs:
     name: Verify Files
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 'lts/*'
-    - name: Install Packages
-      run: npm install --force
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+      - name: Install Packages
+        run: npm install --force
 
-    - name: Install Docs Packages
-      working-directory: docs
-      run: npm install
+      - name: Install Docs Packages
+        working-directory: docs
+        run: npm install
 
-    - name: Lint Files
-      run: node Makefile lint
+      - name: Lint Files
+        run: node Makefile lint
 
-    - name: Check Rule Files
-      run: node Makefile checkRuleFiles
+      - name: Check Rule Files
+        run: node Makefile checkRuleFiles
 
-    - name: Check Licenses
-      run: node Makefile checkLicenses
+      - name: Check Licenses
+        run: node Makefile checkLicenses
 
-    - name: Lint Docs JS Files
-      run: node Makefile lintDocsJS
+      - name: Lint Docs JS Files
+        run: node Makefile lintDocsJS
 
-    - name: Check Rule Examples
-      run: node Makefile checkRuleExamples
+      - name: Check Rule Examples
+        run: node Makefile checkRuleExamples
 
+      - name: Lint Files, Dependencies, & Exports
+        run: npm run lint:unused
 
   test_on_node:
     name: Test
@@ -47,40 +49,40 @@ jobs:
         os: [ubuntu-latest]
         node: [21.x, 20.x, 18.x, "18.18.0"]
         include:
-        - os: windows-latest
-          node: "lts/*"
-        - os: macOS-latest
-          node: "lts/*"
+          - os: windows-latest
+            node: "lts/*"
+          - os: macOS-latest
+            node: "lts/*"
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node }}
-    - name: Install Packages
-      run: npm install --force
-    - name: Test
-      run: node Makefile mocha
-    - name: Fuzz Test
-      run: node Makefile fuzz
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install Packages
+        run: npm install --force
+      - name: Test
+        run: node Makefile mocha
+      - name: Fuzz Test
+        run: node Makefile fuzz
 
   test_on_browser:
     name: Browser Test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20' # Should be the same as the version used on Netlify to build the ESLint Playground
-    - name: Install Packages
-      run: npm install --force
-    - name: Test
-      run: node Makefile wdio
-    - name: Fuzz Test
-      run: node Makefile fuzz
-    - uses: actions/upload-artifact@v3
-      if: failure()
-      with:
-        name: logs
-        path: |
-          wdio-logs/*.log
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20" # Should be the same as the version used on Netlify to build the ESLint Playground
+      - name: Install Packages
+        run: npm install --force
+      - name: Test
+        run: node Makefile wdio
+      - name: Fuzz Test
+        run: node Makefile fuzz
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: logs
+          path: |
+            wdio-logs/*.log
