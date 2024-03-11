@@ -130,6 +130,48 @@ ruleTester.run("no-fallthrough", rule, {
         {
             code: "switch (a) {\n case 1: ; break; \n case 3: }",
             options: [{ allowEmptyCase: false }]
+        },
+        `
+switch (foo) {
+    case 0:
+        a();
+}
+switch (bar) {
+    case 1:
+        b();
+}
+            `,
+        {
+            code:
+        `
+switch (foo) {
+    case 0:
+        a();
+        break;
+        // falls through
+}
+switch (bar) {
+    case 1:
+        b();
+}
+            `,
+            options: [{ reportUnusedFallthroughComment: true }]
+        },
+        {
+            code:
+        `
+switch (foo) {
+    case 0:
+        a();
+        break;
+        /* falls through */
+}
+switch (bar) {
+    case 1:
+        b();
+}
+            `,
+            options: [{ reportUnusedFallthroughComment: true }]
         }
     ],
 
