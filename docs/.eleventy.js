@@ -16,7 +16,7 @@ const {
 } = require("luxon");
 const markdownIt = require("markdown-it");
 const markdownItRuleExample = require("./tools/markdown-it-rule-example");
-const { addContentMustBeMarked } = require("./tools/prism-eslint-hook");
+const prismESLintHook = require("./tools/prism-eslint-hook");
 
 module.exports = function(eleventyConfig) {
 
@@ -197,7 +197,7 @@ module.exports = function(eleventyConfig) {
     const ruleExampleOptions = markdownItRuleExample({
         open({ type, code, parserOptions, env, codeBlockToken }) {
 
-            addContentMustBeMarked(codeBlockToken.content, parserOptions);
+            prismESLintHook.addContentMustBeMarked(codeBlockToken.content, parserOptions);
 
             const isRuleRemoved = !Object.hasOwn(env.rules_meta, env.title);
 
