@@ -128,7 +128,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.globInputPaths` (`boolean`)<br>
   Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't interpret glob patterns.
 * `options.ignore` (`boolean`)<br>
-  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't respect `.eslintignore` files or `ignorePatterns` in your configuration.
+  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't respect `ignorePatterns` in your configuration.
 * `options.ignorePatterns` (`string[] | null`)<br>
   Default is `null`. Ignore file patterns to use in addition to config ignores. These patterns are relative to `cwd`.
 * `options.passOnNoPatterns` (`boolean`)<br>
@@ -803,7 +803,7 @@ Any additional properties of a test case will be passed directly to the linter a
 
 If a valid test case only uses the `code` property, it can optionally be provided as a string containing the code, rather than an object with a `code` key.
 
-### Testing errors with `messageId`
+### Testing Errors with `messageId`
 
 If the rule under test uses `messageId`s, you can use `messageId` property in a test case to assert reported error's `messageId` instead of its `message`.
 
@@ -824,6 +824,31 @@ For messages with placeholders, a test case can also use `data` property to addi
 ```
 
 Please note that `data` in a test case does not assert `data` passed to `context.report`. Instead, it is used to form the expected message text which is then compared with the received `message`.
+
+### Testing Fixes
+
+The result of applying fixes can be tested by using the `output` property of an invalid test case. The `output` property should be used only when you expect a fix to be applied to the specified `code`; you can safely omit `output` if no changes are expected to the code.  Here's an example:
+
+```js
+ruleTester.run("my-rule-for-no-foo", rule, {
+    valid: [],
+    invalid: [{
+        code: "var foo;",
+        output: "var bar;",
+        errors: [{
+            messageId: "shouldBeBar",
+            line: 1,
+            column: 5
+        }]
+    }]
+})
+```
+
+A the end of this invalid test case, `RuleTester` expects a fix to be applied that results in the code changing from `var foo;` to `var bar;`. If the output after applying the fix doesn't match, then the test fails.
+
+::: important
+ESLint makes its best attempt at applying all fixes, but there is no guarantee that all fixes will be applied. As such, you should aim for testing each type of fix in a separate `RuleTester` test case rather than one test case to test multiple fixes. When there is a conflict between two fixes (because they apply to the same section of code) `RuleTester` applies only the first fix.
+:::
 
 ### Testing Suggestions
 

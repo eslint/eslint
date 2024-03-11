@@ -16,6 +16,7 @@ const {
 } = require("luxon");
 const markdownIt = require("markdown-it");
 const markdownItRuleExample = require("./tools/markdown-it-rule-example");
+const { addContentMustBeMarked } = require("./tools/prism-eslint-hook");
 
 module.exports = function(eleventyConfig) {
 
@@ -194,7 +195,10 @@ module.exports = function(eleventyConfig) {
 
     // markdown-it plugin options for playground-linked code blocks in rule examples.
     const ruleExampleOptions = markdownItRuleExample({
-        open({ type, code, parserOptions, env }) {
+        open({ type, code, parserOptions, env, codeBlockToken }) {
+
+            addContentMustBeMarked(codeBlockToken.content, parserOptions);
+
             const isRuleRemoved = !Object.hasOwn(env.rules_meta, env.title);
 
             if (isRuleRemoved) {
