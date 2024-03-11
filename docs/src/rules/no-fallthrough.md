@@ -239,7 +239,7 @@ switch(foo){
 
 ### reportUnusedFallthroughComment
 
-Examples of **incorrect** code for the `{ "reportUnusedFallthroughComment": true}` option:
+Examples of **incorrect** code for the `{ "reportUnusedFallthroughComment": true }` option:
 
 ::: incorrect
 
