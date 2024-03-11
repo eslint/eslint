@@ -5,7 +5,6 @@
             "entry": [
                 "lib/rules/index.js",
                 "tools/internal-rules/index.js",
-                "tools/update-rule-types.js",
                 // https://github.com/webpro/knip/issues/464
                 // Remove when Knip has a wdio plugin
                 "wdio.conf.js" 
