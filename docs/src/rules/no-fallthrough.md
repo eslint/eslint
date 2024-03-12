@@ -250,7 +250,7 @@ switch(foo){
     case 1:
         doSomething();
         break;
-        // falls through
+    // falls through
     case 2: doSomething();
 }
 
@@ -264,10 +264,28 @@ function f() {
             } else {
                 return;
             }
-            // falls through
+        // falls through
         case 2:
             break;
     }
+}
+```
+
+:::
+
+Examples of **incorrect** code for the `{ "reportUnusedFallthroughComment": true }` option:
+
+::: correct
+
+```js
+/* eslint no-fallthrough: ["error", { "reportUnusedFallthroughComment": true }] */
+
+switch(foo){
+    case 1:
+        doSomething();
+        break;
+    // just a comment
+    case 2: doSomething();
 }
 ```
 

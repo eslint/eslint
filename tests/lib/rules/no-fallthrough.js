@@ -172,6 +172,19 @@ switch (bar) {
 }
             `,
             options: [{ reportUnusedFallthroughComment: true }]
+        },
+        {
+            code: `
+switch(foo){
+    case 1:
+        doSomething();
+        break;
+    // just a comment
+    case 2: doSomething();
+}
+          `,
+            options: [{ reportUnusedFallthroughComment: true }]
+
         }
     ],
 
@@ -381,7 +394,7 @@ switch (foo) {
     case 0:
         a();
         break;
-        /* falls through */
+    /* falls through */
     case 1:
         b();
 }`,
@@ -399,7 +412,7 @@ switch (foo) {
     default:
         a();
         break;
-        /* falls through */
+    /* falls through */
     case 1:
         b();
 }`,
@@ -417,7 +430,7 @@ switch(foo){
     case 1:
         doSomething();
         break;
-        // falls through
+    // falls through
     case 2: doSomething();
 }`,
             options: [{ reportUnusedFallthroughComment: true }],
@@ -439,7 +452,7 @@ function f() {
             } else {
                 return;
             }
-            // falls through
+        // falls through
         case 2:
             break;
     }
