@@ -185,6 +185,58 @@ switch(foo){
           `,
             options: [{ reportUnusedFallthroughComment: true }]
 
+        },
+        {
+            code: `
+switch(foo){
+    case 1:
+        doSomething();
+        break;
+}
+
+function f() {
+    switch(foo){
+        // falls through comment should not false positive
+        case 1:
+            if (a) {
+                throw new Error();
+            } else if (b) {
+                break;
+            } else {
+                return;
+            }
+        case 2:
+            break;
+    }
+}
+            `,
+            options: [{ reportUnusedFallthroughComment: true }]
+        },
+        {
+            code: `
+switch(foo){
+    case 1:
+        doSomething();
+        break;
+}
+
+function f() {
+    switch(foo){
+        /* falls through comment should not false positive */
+        case 1:
+            if (a) {
+                throw new Error();
+            } else if (b) {
+                break;
+            } else {
+                return;
+            }
+        case 2:
+            break;
+    }
+}
+            `,
+            options: [{ reportUnusedFallthroughComment: true }]
         }
     ],
 
