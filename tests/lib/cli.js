@@ -1850,7 +1850,7 @@ describe("cli", () => {
 
                 await stdAssert.rejects(
                     cli.execute(code, null, true),
-                    { message: '"eslint-plugin-no-default-export" cannot be imported because it does not provide a default export' }
+                    { message: '"eslint-plugin-no-default-export" cannot be used with the `--plugin` option because its default module does not provide a `default` export' }
                 );
             });
         });
