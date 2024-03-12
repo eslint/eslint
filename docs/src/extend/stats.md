@@ -6,9 +6,9 @@ eleventyNavigation:
     title: Stats Data
 ---
 
-While an analysis of the overall rule performance for an ESLint run can be carried out by setting the [TIMING](./custom-rules#profile_rule_performance) environment variable, it can sometimes be useful to acquire more *granular* timing data (lint time per file per rule) or collect other measures of interest. In particular, when developing new [custom plugins](./plugins) and evalulating/benchmarking new languages or rule sets.
+While an analysis of the overall rule performance for an ESLint run can be carried out by setting the [TIMING](./custom-rules#profile-rule-performance) environment variable, it can sometimes be useful to acquire more *granular* timing data (lint time per file per rule) or collect other measures of interest. In particular, when developing new [custom plugins](./plugins) and evalulating/benchmarking new languages or rule sets.
 
-For such use cases, the **stats** option has been provided. It adds a series of detailed performance statistics (see [Stats type](#-stats-type)) such as the *parse*-, *fix*- and *lint*-times (time per rule) of a given file or the number of fix passes on top of your [LintResult](../integrate/nodejs-api.md#-lintresult-type).
+For such use cases, the **stats** option has been provided. It adds a series of detailed performance statistics (see [Stats type](#-stats-type)) such as the *parse*-, *fix*- and *lint*-times (time per rule) of a given file or the number of fix passes on top of your [LintResult](../integrate/nodejs-api#-lintresult-type).
 
 As such, it is not available via stdout but made easily ingestible via a formatter using the CLI or via the Node.js API to cater to your specific needs.
 
@@ -112,3 +112,5 @@ const { ESLint } = require("eslint");
     console.error(error);
 });
 ```
+
+---

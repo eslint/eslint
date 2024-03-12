@@ -814,7 +814,7 @@ npx eslint --print-config file.js
 
 #### `--stats`
 
-This option adds a series of detailed performance statistics (see [Stats type](../extend/stats.md#-stats-type)) such as the *parse*-, *fix*- and *lint*-times (time per rule) of a given file or the number of fix passes on top of your [LintResult](../integrate/nodejs-api.md#◆-lintresult-type) (see [Stats CLI usage](../extend/stats.md#cli-usage)).
+This option adds a series of detailed performance statistics (see [Stats type](../extend/stats#-stats-type)) such as the *parse*-, *fix*- and *lint*-times (time per rule) of a given file or the number of fix passes on top of your [LintResult](../integrate/nodejs-api#-lintresult-type) (see [Stats CLI usage](../extend/stats#cli-usage)).
 
 ## Exit Codes
 
