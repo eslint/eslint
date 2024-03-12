@@ -149,6 +149,8 @@ Alternately, the [ESLint Stylistic project](https://eslint.style) provides forma
 
 For more information, see [Deprecation of formatting rules](https://eslint.org/blog/2023/10/deprecating-formatting-rules).
 
+## G
+
 ### Global
 
 A description of a global variable.
