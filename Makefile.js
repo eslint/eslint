@@ -532,8 +532,8 @@ target.lintDocsJS = function([fix = false] = []) {
 };
 
 target.fuzz = function({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
-    const fuzzerRunner = require("./tools/fuzzer-runner");
-    const fuzzResults = fuzzerRunner.run({ amount, fuzzBrokenAutofixes });
+    const { run } = require("./tools/fuzzer-runner");
+    const fuzzResults = run({ amount, fuzzBrokenAutofixes });
 
     if (fuzzResults.length) {
 

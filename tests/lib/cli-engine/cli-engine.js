@@ -4397,7 +4397,7 @@ describe("CLIEngine", () => {
                 assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
             });
 
-            it("should still apply defaultPatterns if ignore option is is false", () => {
+            it("should still apply defaultPatterns if ignore option is false", () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new CLIEngine({ ignore: false, cwd });
 

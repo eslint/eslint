@@ -4597,7 +4597,7 @@ describe("ESLint", () => {
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
             });
 
-            it("should still apply default ignore patterns if ignore option is is false", async () => {
+            it("should still apply default ignore patterns if ignore option is false", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new ESLint({ ignore: false, cwd });
 

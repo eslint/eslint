@@ -141,6 +141,11 @@ switch(foo) {
 }
 
 switch(foo) {
+    case 1: case 2:
+        doSomething();
+}
+
+switch(foo) {
     case 1:
         doSomething();
         // falls through

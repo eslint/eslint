@@ -25,6 +25,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [`--output-file` now writes a file to disk even with an empty output](#output-file)
 * [Change in behavior when no patterns are passed to CLI](#cli-empty-patterns)
 * [`/* eslint */` comments with only severity now retain options from the config file](#eslint-comment-options)
+* [Multiple `/* eslint */` comments for the same rule are now disallowed](#multiple-eslint-comments)
 * [Stricter `/* exported */` parsing](#exported-parsing)
 * [`no-constructor-return` and `no-sequences` rule schemas are stricter](#stricter-rule-schemas)
 * [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
@@ -189,6 +190,30 @@ Note that this change only affects cases where the same rule is configured in th
 ```
 
 **Related issue(s):** [#17381](https://github.com/eslint/eslint/issues/17381)
+
+## <a name="multiple-eslint-comments"></a> Multiple `/* eslint */` comments for the same rule are now disallowed
+
+Prior to ESLint v9.0.0, if the file being linted contained multiple `/* eslint */` configuration comments for the same rule, the last one would be applied, while the others would be silently ignored. For example:
+
+```js
+/* eslint semi: ["error", "always"] */
+/* eslint semi: ["error", "never"] */
+
+foo() // valid, because the configuration is "never"
+```
+
+In ESLint v9.0.0, the first one is applied, while the others are reported as lint errors:
+
+```js
+/* eslint semi: ["error", "always"] */
+/* eslint semi: ["error", "never"] */ // error: Rule "semi" is already configured by another configuration comment in the preceding code. This configuration is ignored.
+
+foo() // error: Missing semicolon
+```
+
+**To address:** Remove duplicate `/* eslint */` comments.
+
+**Related issue(s):** [#18132](https://github.com/eslint/eslint/issues/18132)
 
 ## <a name="exported-parsing"></a> Stricter `/* exported */` parsing
 
