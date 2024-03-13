@@ -26,12 +26,21 @@ jobs:
 
     - name: Lint Files
       uses: trunk-io/trunk-action@v1
-      
+      with:
+      # Run only on everything except the docs folder.
+        arguments: --ignore "docs/**"
+
     - name: Check Rule Files
       run: node Makefile checkRuleFiles
 
     - name: Check Licenses
       run: node Makefile checkLicenses
+
+    - name: Lint Docs JS Files
+      uses: trunk-io/trunk-action@v1
+      with:
+        # Run only on the docs folder.
+        arguments: --ignore "**" --ignore "!docs/**"
 
     - name: Check Rule Examples
       run: node Makefile checkRuleExamples

@@ -2,7 +2,7 @@
 # To learn more about the format of this file, see https://docs.trunk.io/reference/trunk-yaml
 version: 0.1
 cli:
-    version: 1.20.1
+    version: 1.21.0
 # Trunk provides extensibility via plugins. (https://docs.trunk.io/plugins)
 plugins:
     sources:
