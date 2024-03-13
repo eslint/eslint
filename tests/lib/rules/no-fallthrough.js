@@ -237,6 +237,18 @@ function f() {
 }
             `,
             options: [{ reportUnusedFallthroughComment: true }]
+        },
+        {
+            code: `
+switch(foo){
+    case 1:
+        doSomething();
+        // falls through
+    case 2: doSomething();
+}
+          `,
+            options: [{ reportUnusedFallthroughComment: true }]
+
         }
     ],
 
@@ -513,6 +525,25 @@ function f() {
             errors: [
                 {
                     line: 12,
+                    messageId: "unusedFallthroughComment"
+                }
+            ]
+        },
+        {
+            code: `
+switch (foo) {
+    case 0: {
+        a();
+        break;
+        // falls through
+    }
+    case 1:
+        b();
+}`,
+            options: [{ reportUnusedFallthroughComment: true }],
+            errors: [
+                {
+                    line: 6,
                     messageId: "unusedFallthroughComment"
                 }
             ]
