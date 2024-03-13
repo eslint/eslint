@@ -295,7 +295,7 @@ import {b, a, c} from 'foo.js'
 
 Examples of **correct** code for this rule with the default `{ "ignoreMemberSort": false }` option:
 
-::: incorrect
+::: correct
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreMemberSort": false }]*/
