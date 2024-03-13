@@ -234,6 +234,18 @@ import c from 'baz.js';
 
 :::
 
+Examples of **incorrect** code for this rule with the `{ "ignoreCase": true }` option:
+
+::: incorrect
+
+```js
+/*eslint sort-imports: ["error", { "ignoreCase": true }]*/
+import B from 'foo.js';
+import a from 'bar.js';
+```
+
+:::
+
 Default is `false`.
 
 ### `ignoreDeclarationSort`
@@ -258,8 +270,8 @@ Examples of **correct** code for this rule with the default `{ "ignoreDeclaratio
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreDeclarationSort": false }]*/
-import a from 'bar.js'
-import b from 'foo.js'
+import a from 'bar.js';
+import b from 'foo.js';
 ```
 
 :::
@@ -272,6 +284,17 @@ Examples of **correct** code for this rule with the `{ "ignoreDeclarationSort": 
 /*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
 import b from 'foo.js'
 import a from 'bar.js'
+```
+
+:::
+
+Examples of **incorrect** code for this rule with the `{ "ignoreDeclarationSort": true }` option:
+
+::: incorrect
+
+```js
+/*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
+import {b, a, c} from 'foo.js';
 ```
 
 :::
@@ -299,7 +322,7 @@ Examples of **correct** code for this rule with the default `{ "ignoreMemberSort
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreMemberSort": false }]*/
-import {a, b, c} from 'foo.js'
+import {a, b, c} from 'foo.js';
 ```
 
 :::
@@ -311,6 +334,18 @@ Examples of **correct** code for this rule with the `{ "ignoreMemberSort": true 
 ```js
 /*eslint sort-imports: ["error", { "ignoreMemberSort": true }]*/
 import {b, a, c} from 'foo.js'
+```
+
+:::
+
+Examples of **incorrect** code for this rule with the `{ "ignoreMemberSort": true }` option:
+
+::: incorrect
+
+```js
+/*eslint sort-imports: ["error", { "ignoreMemberSort": true }]*/
+import b from 'foo.js';
+import a from 'bar.js';
 ```
 
 :::
