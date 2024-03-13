@@ -194,12 +194,12 @@ import {b, a, c} from 'foo.js'
 
 When `true` the rule ignores the case-sensitivity of the imports local name.
 
-Examples of **incorrect** code for this rule with the `{ "ignoreCase": true }` option:
+Examples of **incorrect** code for this rule with the `{ "ignoreCase": false }` option:
 
 ::: incorrect
 
 ```js
-/*eslint sort-imports: ["error", { "ignoreCase": true }]*/
+/*eslint sort-imports: ["error", { "ignoreCase": false }]*/
 
 import B from 'foo.js';
 import a from 'bar.js';
