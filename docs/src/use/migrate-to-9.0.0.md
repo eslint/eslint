@@ -25,6 +25,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [`--output-file` now writes a file to disk even with an empty output](#output-file)
 * [Change in behavior when no patterns are passed to CLI](#cli-empty-patterns)
 * [`/* eslint */` comments with only severity now retain options from the config file](#eslint-comment-options)
+* [Multiple `/* eslint */` comments for the same rule are now disallowed](#multiple-eslint-comments)
 * [Stricter `/* exported */` parsing](#exported-parsing)
 * [`no-constructor-return` and `no-sequences` rule schemas are stricter](#stricter-rule-schemas)
 * [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
@@ -33,6 +34,8 @@ The lists below are ordered roughly by the number of users each change is expect
 * [`no-restricted-imports` now accepts multiple config entries with the same `name`](#no-restricted-imports)
 * [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
 * [`no-inner-declarations` has a new default behavior with a new option](#no-inner-declarations)
+* [`no-unused-vars` now defaults `caughtErrors` to `"all"`](#no-unused-vars)
+* [`no-useless-computed-key` flags unnecessary computed member names in classes by default](#no-useless-computed-key)
 
 ### Breaking changes for plugin developers
 
@@ -187,6 +190,30 @@ Note that this change only affects cases where the same rule is configured in th
 ```
 
 **Related issue(s):** [#17381](https://github.com/eslint/eslint/issues/17381)
+
+## <a name="multiple-eslint-comments"></a> Multiple `/* eslint */` comments for the same rule are now disallowed
+
+Prior to ESLint v9.0.0, if the file being linted contained multiple `/* eslint */` configuration comments for the same rule, the last one would be applied, while the others would be silently ignored. For example:
+
+```js
+/* eslint semi: ["error", "always"] */
+/* eslint semi: ["error", "never"] */
+
+foo() // valid, because the configuration is "never"
+```
+
+In ESLint v9.0.0, the first one is applied, while the others are reported as lint errors:
+
+```js
+/* eslint semi: ["error", "always"] */
+/* eslint semi: ["error", "never"] */ // error: Rule "semi" is already configured by another configuration comment in the preceding code. This configuration is ignored.
+
+foo() // error: Missing semicolon
+```
+
+**To address:** Remove duplicate `/* eslint */` comments.
+
+**Related issue(s):** [#18132](https://github.com/eslint/eslint/issues/18132)
 
 ## <a name="exported-parsing"></a> Stricter `/* exported */` parsing
 
@@ -362,6 +389,50 @@ if (test) {
 
 **Related issue(s):** [#15576](https://github.com/eslint/eslint/issues/15576)
 
+## <a name="no-unused-vars"></a> `no-unused-vars` now defaults `caughtErrors` to `"all"`
+
+ESLint v9.0.0 changes the default value for the `no-unused-vars` rule's `caughtErrors` option.
+Previously it defaulted to `"none"` to never check whether caught errors were used.
+It now defaults to `"all"` to check caught errors for being used.
+
+```js
+/*eslint no-unused-vars: "error"*/
+try {}
+catch (error) {
+    // 'error' is defined but never used
+}
+```
+
+**To address:** If you want to allow unused caught errors, such as when writing code that will be directly run in an environment that does not support ES2019 optional catch bindings, set the `caughtErrors` option to `"none"`.
+Otherwise, delete the unused caught errors.
+
+```js
+/*eslint no-unused-vars: "error"*/
+try {}
+catch {
+    // no error
+}
+```
+
+**Related issue(s):** [#17974](https://github.com/eslint/eslint/issues/17974)
+
+## <a name="no-useless-computed-key"></a> `no-useless-computed-key` flags unnecessary computed member names in classes by default
+
+In ESLint v9.0.0, the default value of the `enforceForClassMembers` option of the `no-useless-computed-key` rule was changed from `false` to `true`.
+The effect of this change is that unnecessary computed member names in classes will be flagged by default.
+
+```js
+/*eslint no-useless-computed-key: "error"*/
+
+class SomeClass {
+    ["someMethod"]() {} // ok in ESLint v8, error in ESLint v9.
+}
+```
+
+**To address:** Fix the problems reported by the rule or revert to the previous behavior by setting the `enforceForClassMembers` option to `false`.
+
+**Related issue(s):** [#18042](https://github.com/eslint/eslint/issues/18042)
+
 ## <a name="removed-context-methods"></a> Removed multiple `context` methods
 
 ESLint v9.0.0 removes multiple deprecated methods from the `context` object and moves them onto the `SourceCode` object:
@@ -497,13 +568,21 @@ As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the t
 
 In order to aid in the development of high-quality custom rules that are free from common bugs, ESLint v9.0.0 implements several changes to `RuleTester`:
 
+1. **Test case `output` must be different from `code`.** In ESLint v8.x, if  `output` is the same as `code`, it asserts that there was no autofix. When looking at a test case, it's not always immediately clear whether `output` differs from `code`, especially if the strings are longer or multiline, making it difficult for developers to determine whether or not the test case expects an autofix. In ESLint v9.0.0, to avoid this ambiguity, `RuleTester` now throws an error if the test `output` has the same value as the test `code`. Therefore, specifying `output` now necessarily means that the test case expects an autofix and asserts its result. If the test case doesn't expect an autofix, omit the `output` property or set it to `null`. This asserts that there was no autofix.
+1. **Test error objects must specify `message` or `messageId`.** To improve the quality of test coverage, `RuleTester` now throws an error if neither `message` nor `messageId` is specified on test error objects.
+1. **Test error object must specify `suggestions` if the actual error provides suggestions.** In ESLint v8.x, if the `suggestions` property was omitted from test error objects, `RuleTester` wasn't performing any checks related to suggestions, so it was easy to forget to assert if a test case produces suggestions. In ESLint v9.0.0, omitting the `suggestions` property asserts that the actual error does not provide suggestions, while you need to specify the `suggestions` property if the actual error does provide suggestions. We highly recommend that you test suggestions in detail by specifying an array of test suggestion objects, but you can also specify `suggestions: <number>` to assert just the number of suggestions.
+1. **Test suggestion objects must specify `output`.** To improve the quality of test coverage, `RuleTester` now throws an error if `output` property is not specified on test suggestion objects.
+1. **Test suggestion objects must specify `desc` or `messageId`.** To improve the quality of test coverage, `RuleTester` now throws an error if neither `desc` nor `messageId` property is specified on test suggestion objects. It's also not allowed to specify both. If you want to assert the suggestion description text in addition to the `messageId`, then also add the `data` property.
 1. **Suggestion messages must be unique.** Because suggestions are typically displayed in an editor as a dropdown list, it's important that no two suggestions for the same lint problem have the same message. Otherwise, it's impossible to know what any given suggestion will do. This additional check runs automatically.
+1. **Suggestions must change the code.** Suggestions are expected to fix the reported problem by changing the code. `RuleTester` now throws an error if the suggestion test `output` is the same as the test `code`.
 1. **Suggestions must generate valid syntax.** In order for rule suggestions to be helpful, they need to be valid syntax. `RuleTester` now parses the output of suggestions using the same language options as the `code` value and throws an error if parsing fails.
 1. **Test cases must be unique.** Identical test cases can cause confusion and be hard to detect manually in a long test file. Duplicates are now automatically detected and can be safely removed.
+1. **`filename` and `only` must be of the expected type.** `RuleTester` now checks the type of `filename` and `only` properties of test objects. If specified, `filename` must be a string value. If specified, `only` must be a boolean value.
+1. **Messages cannot have unsubstituted placeholders.** The `RuleTester` now also checks if there are {% raw %}`{{ placeholder }}` {% endraw %} still in the message as their values were not passed via `data` in the respective `context.report()` call.
 
 **To address:** Run your rule tests using `RuleTester` and fix any errors that occur. The changes you'll need to make to satisfy `RuleTester` are compatible with ESLint v8.x.
 
-**Related Issues(s):** [#15104](https://github.com/eslint/eslint/issues/15104), [#15735](https://github.com/eslint/eslint/issues/15735), [#16908](https://github.com/eslint/eslint/issues/16908)
+**Related Issues(s):** [#15104](https://github.com/eslint/eslint/issues/15104), [#15735](https://github.com/eslint/eslint/issues/15735), [#16908](https://github.com/eslint/eslint/issues/16908), [#18016](https://github.com/eslint/eslint/issues/18016)
 
 ## <a name="flat-eslint"></a> `FlatESLint` is now `ESLint`
 

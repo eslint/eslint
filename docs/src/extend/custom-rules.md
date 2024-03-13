@@ -44,11 +44,11 @@ The source file for a rule exports an object with the following properties. Both
     * `"suggestion"`: The rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
     * `"layout"`: The rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
 
-* `docs`: (`object`) Required for core rules and optional for custom rules. Core rules have specific entries inside of `docs` while custom rules can include any properties that you need. The following properties are only relevant when working on core rules.
+* `docs`: (`object`) Properties often used for documentation generation and tooling. Required for core rules and optional for custom rules. Custom rules can include additional properties here as needed.
 
-    * `description`: (`string`) Provides the short description of the rule in the [rules index](../rules/).
-    * `recommended`: (`boolean`) Specifies whether the rule is enabled by the `recommended` config from `@eslint/js`.
-    * `url`: (`string`) Specifies the URL at which the full documentation can be accessed (enabling code editors to provide a helpful link on highlighted rule violations).
+    * `description`: (`string`) Provides a short description of the rule. For core rules, this is used in [rules index](../rules/).
+    * `recommended`: (`boolean`) For core rules, this specifies whether the rule is enabled by the `recommended` config from `@eslint/js`.
+    * `url`: (`string`) Specifies the URL at which the full documentation can be accessed. Code editors often use this to provide a helpful link on highlighted rule violations.
 
 * `fixable`: (`string`) Either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
 
@@ -128,8 +128,14 @@ The `context` object has the following properties:
 * `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
 * `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
 * `settings`: (`object`) The [shared settings](../use/configure/configuration-files#configuring-shared-settings) from the configuration.
-* `parserPath`: (`string`) The name of the `parser` from the configuration.
-* `parserOptions`: The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
+* `languageOptions`: (`object`) more details for each property [here](../use/configure/language-options)
+    * `sourceType`: (`'script' | 'module' | 'commonjs'`) The mode for the current file.
+    * `ecmaVersion`: (`number`) The ECMA version used to parse the current file.
+    * `parser`: (`object`|`string`): Either the parser used to parse the current file for flat config or its name for legacy config.
+    * `parserOptions`: (`object`) The parser options configured for this file.
+    * `globals`: (`object`) The specified globals.
+* `parserPath`: (`string`, **Removed** Use `context.languageOptions.parser` instead.) The name of the `parser` from the configuration.
+* `parserOptions`: (**Deprecated** Use `context.languageOptions.parserOptions` instead.) The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
 
 Additionally, the `context` object has the following methods:
 
@@ -145,7 +151,8 @@ Additionally, the `context` object has the following methods:
 
 The main method you'll use when writing custom rules is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
 
-* `message`: (`string`) The problem message.
+* `messageId`: (`string`) The ID of the message (see [messageIds](#messageids)) (recommended over `message`).
+* `message`: (`string`) The problem message (alternative to `messageId`).
 * `node`: (optional `object`) The AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
 * `loc`: (optional `object`) Specifies the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
     * `start`: An object of the start location.
@@ -192,9 +199,11 @@ The node contains all the information necessary to figure out the line and colum
 
 #### `messageId`s
 
-Instead of typing out messages in both the `context.report()` call and your tests, you can use `messageId`s instead.
+`messageId`s are the recommended approach to reporting messages in `context.report()` calls because of the following benefits:
 
-This allows you to avoid retyping error messages. It also prevents errors reported in different sections of your rule from having out-of-date messages.
+* Rule violation messages can be stored in a central `meta.messages` object for convenient management
+* Rule violation messages do not need to be repeated in both the rule file and rule test file
+* As a result, the barrier for changing rule violation messages is lower, encouraging more frequent contributions to improve and optimize them for the greatest clarity and usefulness
 
 Rule file:
 
@@ -785,7 +794,7 @@ module.exports = {
 
 **Note:** If your rule schema uses JSON schema [`$ref`](https://json-schema.org/understanding-json-schema/structuring.html#ref) properties, you must use the full JSON Schema object rather than the array of positional property schemas. This is because ESLint transforms the array shorthand into a single schema without updating references that makes them incorrect (they are ignored).
 
-To learn more about JSON Schema, we recommend looking at some examples on the [JSON Schema website](https://json-schema.org/learn/), or reading the free [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/) ebook.
+To learn more about JSON Schema, we recommend looking at some examples on the [JSON Schema website](https://json-schema.org/learn/miscellaneous-examples), or reading the free [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/) ebook.
 
 ### Accessing Shebangs
 

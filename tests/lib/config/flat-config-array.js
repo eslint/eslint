@@ -44,6 +44,81 @@ const baseConfig = {
                 baz: {
 
                 },
+                "prefer-const": {
+                    meta: {
+                        schema: [
+                            {
+                                type: "object",
+                                properties: {
+                                    destructuring: { enum: ["any", "all"], default: "any" },
+                                    ignoreReadBeforeAssign: { type: "boolean", default: false }
+                                },
+                                additionalProperties: false
+                            }
+                        ]
+                    }
+                },
+                "prefer-destructuring": {
+                    meta: {
+                        schema: [
+                            {
+                                oneOf: [
+                                    {
+                                        type: "object",
+                                        properties: {
+                                            VariableDeclarator: {
+                                                type: "object",
+                                                properties: {
+                                                    array: {
+                                                        type: "boolean"
+                                                    },
+                                                    object: {
+                                                        type: "boolean"
+                                                    }
+                                                },
+                                                additionalProperties: false
+                                            },
+                                            AssignmentExpression: {
+                                                type: "object",
+                                                properties: {
+                                                    array: {
+                                                        type: "boolean"
+                                                    },
+                                                    object: {
+                                                        type: "boolean"
+                                                    }
+                                                },
+                                                additionalProperties: false
+                                            }
+                                        },
+                                        additionalProperties: false
+                                    },
+                                    {
+                                        type: "object",
+                                        properties: {
+                                            array: {
+                                                type: "boolean"
+                                            },
+                                            object: {
+                                                type: "boolean"
+                                            }
+                                        },
+                                        additionalProperties: false
+                                    }
+                                ]
+                            },
+                            {
+                                type: "object",
+                                properties: {
+                                    enforceForRenamedProperties: {
+                                        type: "boolean"
+                                    }
+                                },
+                                additionalProperties: false
+                            }
+                        ]
+                    }
+                },
 
                 // old-style
                 boom() {},
@@ -2156,6 +2231,41 @@ describe("FlatConfigArray", () => {
                     nonExistentRule2: [0, "bar"]
                 }
             }));
+
+            it("should error show expected properties", async () => {
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            "prefer-const": ["error", { destruct: true }]
+                        }
+                    }
+                ], "Unexpected property \"destruct\". Expected properties: \"destructuring\", \"ignoreReadBeforeAssign\"");
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            "prefer-destructuring": ["error", { obj: true }]
+                        }
+                    }
+                ], "Unexpected property \"obj\". Expected properties: \"VariableDeclarator\", \"AssignmentExpression\"");
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            "prefer-destructuring": ["error", { obj: true }]
+                        }
+                    }
+                ], "Unexpected property \"obj\". Expected properties: \"array\", \"object\"");
+
+                await assertInvalidConfig([
+                    {
+                        rules: {
+                            "prefer-destructuring": ["error", { object: true }, { enforceRenamedProperties: true }]
+                        }
+                    }
+                ], "Unexpected property \"enforceRenamedProperties\". Expected properties: \"enforceForRenamedProperties\"");
+            });
 
         });
 

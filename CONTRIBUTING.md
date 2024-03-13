@@ -15,7 +15,7 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 * [Propose a Rule Change](https://eslint.org/docs/latest/contribute/propose-rule-change)
 * [Request a Change](https://eslint.org/docs/latest/contribute/request-change)
 
-To report a security vulnerability in ESLint, please use our [HackerOne program](https://hackerone.com/eslint).
+To report a security vulnerability in ESLint, please use our [create an advisory form](https://github.com/eslint/eslint/security/advisories/new) on GitHub.
 
 ## Contributing Code
 

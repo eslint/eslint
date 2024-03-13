@@ -46,7 +46,8 @@ const { cat, cd, echo, exec, exit, find, mkdir, pwd, test } = require("shelljs")
 const PERF_MULTIPLIER = 13e6;
 
 const OPEN_SOURCE_LICENSES = [
-    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u, /Public Domain/u, /LGPL/u, /Python/u
+    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u,
+    /Public Domain/u, /LGPL/u, /Python/u, /BlueOak/u
 ];
 
 //------------------------------------------------------------------------------
@@ -431,8 +432,8 @@ function getBinFile(command) {
 //------------------------------------------------------------------------------
 
 target.fuzz = function({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
-    const fuzzerRunner = require("./tools/fuzzer-runner");
-    const fuzzResults = fuzzerRunner.run({ amount, fuzzBrokenAutofixes });
+    const { run } = require("./tools/fuzzer-runner");
+    const fuzzResults = run({ amount, fuzzBrokenAutofixes });
 
     if (fuzzResults.length) {
 
@@ -573,7 +574,6 @@ target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
-    const ruleTypes = require("./tools/rule-types.json");
     let errors = 0;
 
     RULE_FILES.forEach(filename => {
@@ -585,14 +585,6 @@ target.checkRuleFiles = function() {
         const ruleCode = cat(filename);
         const knownHeaders = ["Rule Details", "Options", "Environments", "Examples", "Known Limitations", "When Not To Use It", "Compatibility"];
 
-        /**
-         * Check if basename is present in rule-types.json file.
-         * @returns {boolean} true if present
-         * @private
-         */
-        function isInRuleTypes() {
-            return Object.hasOwn(ruleTypes, basename);
-        }
 
         /**
          * Check if id is present in title
@@ -673,12 +665,6 @@ target.checkRuleFiles = function() {
                 console.error("Unknown or misplaced header in the doc page of rule %s, allowed headers (and their order) are: '%s'", basename, knownHeaders.join("', '"));
                 errors++;
             }
-        }
-
-        // check for recommended configuration
-        if (!isInRuleTypes()) {
-            console.error("Missing setting for %s in tools/rule-types.json", basename);
-            errors++;
         }
 
         // check parity between rules index file and rules directory

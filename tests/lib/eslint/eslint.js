@@ -16,6 +16,7 @@ const fs = require("fs");
 const fsp = fs.promises;
 const os = require("os");
 const path = require("path");
+const timers = require("node:timers/promises");
 const escapeStringRegExp = require("escape-string-regexp");
 const fCache = require("file-entry-cache");
 const sinon = require("sinon");
@@ -134,6 +135,11 @@ describe("ESLint", () => {
     });
 
     describe("ESLint constructor function", () => {
+
+        it("should have a static property indicating the configType being used", () => {
+            assert.strictEqual(ESLint.configType, "flat");
+        });
+
         it("the default value of 'options.cwd' should be the current working directory.", async () => {
             process.chdir(__dirname);
             try {
@@ -4440,6 +4446,40 @@ describe("ESLint", () => {
             });
         });
 
+        it("should stop linting files if a rule crashes", async () => {
+
+            const cwd = getFixturePath("files");
+            let createCallCount = 0;
+
+            eslint = new ESLint({
+                cwd,
+                plugins: {
+                    boom: {
+                        rules: {
+                            boom: {
+                                create() {
+                                    createCallCount++;
+                                    throw Error("Boom!");
+                                }
+                            }
+                        }
+                    }
+                },
+                baseConfig: {
+                    rules: {
+                        "boom/boom": "error"
+                    }
+                }
+            });
+
+            await assert.rejects(eslint.lintFiles("*.js"));
+
+            // Wait until all files have been closed.
+            while (process.getActiveResourcesInfo().includes("CloseReq")) {
+                await timers.setImmediate();
+            }
+            assert.strictEqual(createCallCount, 1);
+        });
 
     });
 
@@ -4557,7 +4597,7 @@ describe("ESLint", () => {
                 assert(await engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
             });
 
-            it("should still apply default ignore patterns if ignore option is is false", async () => {
+            it("should still apply default ignore patterns if ignore option is false", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new ESLint({ ignore: false, cwd });
 

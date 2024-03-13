@@ -2594,6 +2594,7 @@
         "fixable": "whitespace"
     },
     "use-isnan": {
+        "hasSuggestions": true,
         "type": "problem",
         "docs": {
             "description": "Require calls to `isNaN()` when checking for `NaN`",

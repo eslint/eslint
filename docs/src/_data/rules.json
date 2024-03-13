@@ -398,7 +398,7 @@
                 "description": "Require calls to `isNaN()` when checking for `NaN`",
                 "recommended": true,
                 "fixable": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "valid-typeof",

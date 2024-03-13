@@ -113,7 +113,6 @@ ruleTester.run("no-unused-vars", rule, {
         "myFunc(function foo(){}.toString())",
         "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});}; foo()",
         "(function() { var doSomething = function doSomething() {}; doSomething() }())",
-        "try {} catch(e) {}",
         "/*global a */ a;",
         { code: "var a=10; (function() { alert(a); })();", options: [{ vars: "all" }] },
         { code: "function g(bar, baz) { return baz; }; g();", options: [{ vars: "all" }] },
@@ -284,12 +283,16 @@ ruleTester.run("no-unused-vars", rule, {
 
         // caughtErrors
         {
+            code: "try{}catch(err){}",
+            options: [{ caughtErrors: "none" }]
+        },
+        {
             code: "try{}catch(err){console.error(err);}",
             options: [{ caughtErrors: "all" }]
         },
         {
-            code: "try{}catch(err){}",
-            options: [{ caughtErrors: "none" }]
+            code: "try{}catch(ignoreErr){}",
+            options: [{ caughtErrorsIgnorePattern: "^ignore" }]
         },
         {
             code: "try{}catch(ignoreErr){}",
@@ -299,7 +302,7 @@ ruleTester.run("no-unused-vars", rule, {
         // caughtErrors with other combinations
         {
             code: "try{}catch(err){}",
-            options: [{ vars: "all", args: "all" }]
+            options: [{ caughtErrors: "none", vars: "all", args: "all" }]
         },
 
         // Using object rest for variable omission
@@ -442,6 +445,23 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "var a; a ??= 1;",
             languageOptions: { ecmaVersion: 2021 }
+        },
+
+        // ignore class with static initialization block https://github.com/eslint/eslint/issues/17772
+        {
+            code: "class Foo { static {} }",
+            options: [{ ignoreClassWithStaticInitBlock: true }],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class Foo { static {} }",
+            options: [{ ignoreClassWithStaticInitBlock: true, varsIgnorePattern: "^_" }],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class Foo { static {} }",
+            options: [{ ignoreClassWithStaticInitBlock: false, varsIgnorePattern: "^Foo" }],
+            languageOptions: { ecmaVersion: 2022 }
         }
     ],
     invalid: [
@@ -1124,6 +1144,10 @@ ruleTester.run("no-unused-vars", rule, {
         // caughtErrors
         {
             code: "try{}catch(err){};",
+            errors: [definedError("err")]
+        },
+        {
+            code: "try{}catch(err){};",
             options: [{ caughtErrors: "all" }],
             errors: [definedError("err")]
         },
@@ -1550,6 +1574,43 @@ function foo1() {
 c = foo1`,
             languageOptions: { ecmaVersion: 2020 },
             errors: [{ ...assignedError("c"), line: 10, column: 1 }]
+        },
+
+        // ignore class with static initialization block https://github.com/eslint/eslint/issues/17772
+        {
+            code: "class Foo { static {} }",
+            options: [{ ignoreClassWithStaticInitBlock: false }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
+        },
+        {
+            code: "class Foo { static {} }",
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
+        },
+        {
+            code: "class Foo { static { var bar; } }",
+            options: [{ ignoreClassWithStaticInitBlock: true }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ ...definedError("bar"), line: 1, column: 26 }]
+        },
+        {
+            code: "class Foo {}",
+            options: [{ ignoreClassWithStaticInitBlock: true }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
+        },
+        {
+            code: "class Foo { static bar; }",
+            options: [{ ignoreClassWithStaticInitBlock: true }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
+        },
+        {
+            code: "class Foo { static bar() {} }",
+            options: [{ ignoreClassWithStaticInitBlock: true }],
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
         }
     ]
 });

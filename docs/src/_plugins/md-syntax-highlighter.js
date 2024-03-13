@@ -26,6 +26,9 @@ SOFTWARE.
 
 const Prism = require("prismjs");
 const loadLanguages = require("prismjs/components/");
+const prismESLintHook = require("../../tools/prism-eslint-hook");
+
+prismESLintHook.installPrismESLintMarkerHook();
 
 /**
  *

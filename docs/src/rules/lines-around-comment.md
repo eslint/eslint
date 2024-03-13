@@ -233,7 +233,7 @@ class C {
 switch (foo) {
   /* what a great and wonderful day */
 
-  case 1:    
+  case 1:
     bar();
     break;
 }
@@ -317,7 +317,7 @@ class C {
 }
 
 switch (foo) {
-  case 1:    
+  case 1:
     bar();
     break;
 
@@ -653,9 +653,9 @@ const [
 
 ### ignorePattern
 
-By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`. To ignore more comments in addition to the defaults, set the `ignorePattern` option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
+By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`.
 
-Examples of **correct** code for the `ignorePattern` option:
+Examples of **correct** code for this rule:
 
 ::: correct
 
@@ -663,10 +663,24 @@ Examples of **correct** code for the `ignorePattern` option:
 /*eslint lines-around-comment: ["error"]*/
 
 foo();
-/* eslint mentioned in this comment */
+/* jshint mentioned in this comment */
 bar();
+```
 
+:::
+
+To ignore more comments in addition to the defaults, set the `ignorePattern` option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
+
+Examples of **correct** code for the `ignorePattern` option:
+
+::: correct
+
+```js
 /*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
+
+foo();
+/* jshint mentioned in this comment */
+bar();
 
 foo();
 /* a valid comment using pragma in it */
@@ -712,7 +726,7 @@ Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }`
 /*eslint lines-around-comment: ["error", { "applyDefaultIgnorePatterns": false }] */
 
 foo();
-/* eslint mentioned in comment */
+/* jshint mentioned in comment */
 
 ```
 

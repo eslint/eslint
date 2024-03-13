@@ -51,6 +51,28 @@ module.exports = [
 ];
 ```
 
+### Base config
+
+Note that the above configurations are intended for files that will run in Node.js. For files that will not run in Node.js, you should use the `base` config.
+
+Here's an example of an `eslint.config.js` file for a website project with scripts that run in browser and CommonJS configuration files and tools that run in Node.js:
+
+```js
+const eslintConfigESLintBase = require("eslint-config-eslint/base");
+const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
+
+module.exports = [
+    ...eslintConfigESLintBase.map(config => ({
+        ...config,
+        files: ["scripts/*.js"]
+    })),
+    ...eslintConfigESLintCJS.map(config => ({
+        ...config,
+        files: ["eslint.config.js", ".eleventy.js", "tools/*.js"]
+    }))
+];
+```
+
 ### Where to ask for help?
 
 Open a [discussion](https://github.com/eslint/eslint/discussions) or stop by our [Discord server](https://eslint.org/chat) instead of filing an issue.

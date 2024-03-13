@@ -36,6 +36,8 @@ export default plugin;
 module.exports = plugin;
 ```
 
+If you plan to distribute your plugin as an npm package, make sure that the module that exports the plugin object is the default export of your package. This will enable ESLint to import the plugin when it is specified in the command line in the [`--plugin` option](../use/command-line-interface#--plugin).
+
 ### Meta Data in Plugins
 
 For easier debugging and more effective caching of plugins, it's recommended to provide a name and version in a `meta` object at the root of your plugin, like this:

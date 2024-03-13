@@ -128,7 +128,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.globInputPaths` (`boolean`)<br>
   Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't interpret glob patterns.
 * `options.ignore` (`boolean`)<br>
-  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't respect `.eslintignore` files or `ignorePatterns` in your configuration.
+  Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't respect `ignorePatterns` in your configuration.
 * `options.ignorePatterns` (`string[] | null`)<br>
   Default is `null`. Ignore file patterns to use in addition to config ignores. These patterns are relative to `cwd`.
 * `options.passOnNoPatterns` (`boolean`)<br>
@@ -442,6 +442,49 @@ The `LoadedFormatter` value is the object to convert the [LintResult] objects to
 
 ---
 
+## loadESLint()
+
+The `loadESLint()` function is used for integrations that wish to support both the current configuration system (flat config) and the old configuration system (eslintrc). This function returns the correct `ESLint` class implementation based on the arguments provided:
+
+```js
+const { loadESLint } = require("eslint");
+
+// loads the default ESLint that the CLI would use based on process.cwd()
+const DefaultESLint = await loadESLint();
+
+// loads the default ESLint that the CLI would use based on the provided cwd
+const CwdDefaultESLint = await loadESLint({ cwd: "/foo/bar" });
+
+// loads the flat config version specifically
+const FlatESLint = await loadESLint({ useFlatConfig: true });
+
+// loads the legacy version specifically
+const LegacyESLint = await loadESLint({ useFlatConfig: false });
+```
+
+You can then use the returned constructor to instantiate a new `ESLint` instance, like this:
+
+```js
+// loads the default ESLint that the CLI would use based on process.cwd()
+const DefaultESLint = await loadESLint();
+const eslint = new DefaultESLint();
+```
+
+If you're ever unsure which config system the returned constructor uses, check the `configType` property, which is either `"flat"` or `"eslintrc"`:
+
+```js
+// loads the default ESLint that the CLI would use based on process.cwd()
+const DefaultESLint = await loadESLint();
+
+if (DefaultESLint.configType === "flat") {
+    // do something specific to flat config
+}
+```
+
+If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.
+
+---
+
 ## SourceCode
 
 The `SourceCode` type represents the parsed source code that ESLint executes on. It's used internally in ESLint and is also available so that already-parsed code can be used. You can create a new instance of `SourceCode` by passing in the text string representing the code and an abstract syntax tree (AST) in [ESTree](https://github.com/estree/estree) format (including location information, range information, comments, and tokens):
@@ -735,19 +778,19 @@ A test case is an object with the following properties:
 
 In addition to the properties above, invalid test cases can also have the following properties:
 
-* `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional):
-    * `message` (string/regexp): The message for the error
-    * `messageId` (string): The Id for the error. See [testing errors with messageId](#testing-errors-with-messageid) for details
+* `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional unless otherwise noted):
+    * `message` (string/regexp): The message for the error. Must provide this or `messageId`
+    * `messageId` (string): The Id for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details
     * `data` (object): Placeholder data which can be used in combination with `messageId`
     * `type` (string): The type of the reported AST node
     * `line` (number): The 1-based line number of the reported location
     * `column` (number): The 1-based column number of the reported location
     * `endLine` (number): The 1-based line number of the end of the reported location
     * `endColumn` (number): The 1-based column number of the end of the reported location
-    * `suggestions` (array): An array of objects with suggestion details to check. See [Testing Suggestions](#testing-suggestions) for details
+    * `suggestions` (array): An array of objects with suggestion details to check. Required if the rule produces suggestions. See [Testing Suggestions](#testing-suggestions) for details
 
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
-* `output` (string, required if the rule fixes code): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
+* `output` (string, required if the rule fixes code): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null` or omitted, asserts that none of the reported problems suggest autofixes.
 
 Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `languageOptions` property to configure parser behavior:
 
@@ -760,7 +803,7 @@ Any additional properties of a test case will be passed directly to the linter a
 
 If a valid test case only uses the `code` property, it can optionally be provided as a string containing the code, rather than an object with a `code` key.
 
-### Testing errors with `messageId`
+### Testing Errors with `messageId`
 
 If the rule under test uses `messageId`s, you can use `messageId` property in a test case to assert reported error's `messageId` instead of its `message`.
 
@@ -782,14 +825,39 @@ For messages with placeholders, a test case can also use `data` property to addi
 
 Please note that `data` in a test case does not assert `data` passed to `context.report`. Instead, it is used to form the expected message text which is then compared with the received `message`.
 
+### Testing Fixes
+
+The result of applying fixes can be tested by using the `output` property of an invalid test case. The `output` property should be used only when you expect a fix to be applied to the specified `code`; you can safely omit `output` if no changes are expected to the code.  Here's an example:
+
+```js
+ruleTester.run("my-rule-for-no-foo", rule, {
+    valid: [],
+    invalid: [{
+        code: "var foo;",
+        output: "var bar;",
+        errors: [{
+            messageId: "shouldBeBar",
+            line: 1,
+            column: 5
+        }]
+    }]
+})
+```
+
+A the end of this invalid test case, `RuleTester` expects a fix to be applied that results in the code changing from `var foo;` to `var bar;`. If the output after applying the fix doesn't match, then the test fails.
+
+::: important
+ESLint makes its best attempt at applying all fixes, but there is no guarantee that all fixes will be applied. As such, you should aim for testing each type of fix in a separate `RuleTester` test case rather than one test case to test multiple fixes. When there is a conflict between two fixes (because they apply to the same section of code) `RuleTester` applies only the first fix.
+:::
+
 ### Testing Suggestions
 
-Suggestions can be tested by defining a `suggestions` key on an errors object. The options to check for the suggestions are the following (all are optional):
+Suggestions can be tested by defining a `suggestions` key on an errors object. If this is a number, it asserts the number of suggestions provided for the error. Otherwise, this should be an array of objects, each containing information about a single provided suggestion. The following properties can be used:
 
-* `desc` (string): The suggestion `desc` value
-* `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s
-* `data` (object): Placeholder data which can be used in combination with `messageId`
-* `output` (string): A code string representing the result of applying the suggestion fix to the input code
+* `desc` (string): The suggestion `desc` value. Must provide this or `messageId`
+* `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s. Must provide this or `desc`
+* `data` (object): Placeholder data which can be used in combination with `messageId`.
+* `output` (string, required): A code string representing the result of applying the suggestion fix to the input code
 
 Example:
 
