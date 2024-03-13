@@ -273,7 +273,7 @@ function f() {
 
 :::
 
-Examples of **incorrect** code for the `{ "reportUnusedFallthroughComment": true }` option:
+Examples of **correct** code for the `{ "reportUnusedFallthroughComment": true }` option:
 
 ::: correct
 
