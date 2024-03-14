@@ -41,6 +41,7 @@ jobs:
         with:
           # Run only on the docs folder.
           arguments: --ignore '**' --ignore '!docs/**'
+          debug: true
 
       - name: Check Rule Examples
         run: node Makefile checkRuleExamples
