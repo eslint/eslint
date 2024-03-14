@@ -28,7 +28,7 @@ jobs:
         uses: trunk-io/trunk-action@v1
         with:
         # Run only on everything except the docs folder.
-          arguments: "--ignore docs/**"
+          arguments: $(echo "--ignore docs/**")
           debug: true
         continue-on-error: true
 
@@ -42,7 +42,7 @@ jobs:
         uses: trunk-io/trunk-action@v1
         with:
           # Run only on the docs folder.
-          arguments: --ignore $(echo '**') --ignore $(echo "!docs/**")
+          arguments: --ignore $(echo "**") --ignore $(echo "!docs/**")
           debug: true
 
       - name: Check Rule Examples
