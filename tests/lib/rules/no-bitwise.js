@@ -30,6 +30,7 @@ ruleTester.run("no-bitwise", rule, {
         { code: "a ??= b", languageOptions: { ecmaVersion: 2021 } },
         { code: "~[1, 2, 3].indexOf(1)", options: [{ allow: ["~"] }] },
         { code: "~1<<2 === -8", options: [{ allow: ["~", "<<"] }] },
+        { code: "a|=0", options: [{ allow: ["|"], int32Hint: true }] },
         { code: "a|0", options: [{ int32Hint: true }] },
         { code: "a|0", options: [{ allow: ["|"], int32Hint: false }] }
     ],
