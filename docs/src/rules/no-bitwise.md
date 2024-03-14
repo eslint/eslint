@@ -100,7 +100,8 @@ Examples of **correct** code for this rule with the `{ "int32Hint": true }` opti
 ```js
 /*eslint no-bitwise: ["error", { "int32Hint": true }] */
 
-var b = a|0;
+var b = a | 0;
+b |= 0;
 ```
 
 :::
