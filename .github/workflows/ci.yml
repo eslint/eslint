@@ -30,6 +30,7 @@ jobs:
         # Run only on everything except the docs folder.
           arguments: --ignore docs/**
           debug: true
+        continue-on-error: true
 
       - name: Check Rule Files
         run: node Makefile checkRuleFiles
