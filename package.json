@@ -22,7 +22,7 @@
     "lint:docs:js": "trunk check --filter=eslint docs --force",
     "lint:docs:rule-examples": "node Makefile.js checkRuleExamples",
     "lint:fix": "trunk check -y --ignore 'docs/**'",
-    "lint:fix:docs:js": "trunk check -y --filter=eslint -ignore '**' -ignore '!docs/**'",
+    "lint:fix:docs:js": "trunk check -y --filter=eslint --ignore '**' --ignore '!docs/**'",
     "release:generate:alpha": "node Makefile.js generatePrerelease -- alpha",
     "release:generate:beta": "node Makefile.js generatePrerelease -- beta",
     "release:generate:latest": "node Makefile.js generateRelease",
