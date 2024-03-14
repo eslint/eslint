@@ -42,7 +42,7 @@ jobs:
         uses: trunk-io/trunk-action@v1
         with:
           # Run only on the docs folder.
-          arguments: --ignore $(quote **) --ignore $(quote !docs/**)
+          arguments: --ignore $(quote '**') --ignore $(quote "!docs/**")
           debug: true
 
       - name: Check Rule Examples
