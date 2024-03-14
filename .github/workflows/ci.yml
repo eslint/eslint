@@ -29,6 +29,7 @@ jobs:
         with:
         # Run only on everything except the docs folder.
           arguments: --ignore 'docs/**'
+          debug: true
 
       - name: Check Rule Files
         run: node Makefile checkRuleFiles
