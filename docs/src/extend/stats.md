@@ -1,9 +1,10 @@
 ---
 title: Stats Data
 eleventyNavigation:
-    key: Stats Data
+    key: stats data
     parent: extend eslint
     title: Stats Data
+    order: 6
 ---
 
 While an analysis of the overall rule performance for an ESLint run can be carried out by setting the [TIMING](./custom-rules#profile-rule-performance) environment variable, it can sometimes be useful to acquire more *granular* timing data (lint time per file per rule) or collect other measures of interest. In particular, when developing new [custom plugins](./plugins) and evaluating/benchmarking new languages or rule sets.
