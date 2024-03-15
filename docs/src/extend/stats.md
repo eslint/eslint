@@ -14,7 +14,7 @@ As such, it is not available via stdout but made easily ingestible via a formatt
 
 ## ◆ Stats type
 
-The `Stats` value is the timing information of each lint run. The `stats` property of the [LintResult] type contains it. It has the following properties:
+The `Stats` value is the timing information of each lint run. The `stats` property of the [LintResult](../integrate/nodejs-api#-lintresult-type) type contains it. It has the following properties:
 
 * `fixPasses` (`number`)<br>
   The number of times ESLint has applied at least one fix after linting.
