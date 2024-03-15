@@ -97,7 +97,7 @@ This rule has an object option:
 
 Examples of **incorrect** code for this rule with the `{ "allowEscape": true }` option:
 
-:::
+::: incorrect
 
 ```js
 /* eslint no-misleading-character-class: ["error", { "allowEscape": true }] */
@@ -114,7 +114,7 @@ new RegExp(pattern);
 
 Examples of **correct** code for this rule with the `{ "allowEscape": true }` option:
 
-:::
+::: correct
 
 ```js
 /* eslint no-misleading-character-class: ["error", { "allowEscape": true }] */
