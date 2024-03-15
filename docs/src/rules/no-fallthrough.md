@@ -178,6 +178,8 @@ This rule has an object option:
 
 * Set the `allowEmptyCase` option to `true` to allow empty cases regardless of the layout. By default, this rule does not require a fallthrough comment after an empty `case` only if the empty `case` and the next `case` are on the same line or on consecutive lines.
 
+* Set the `reportUnusedFallthroughComment` option to `true` to prohibit a fallthrough comment from being present if the case cannot fallthrough due to being unreachable. This is mostly intended to help avoid misleading comments occurring as a result of refactoring.
+
 ### commentPattern
 
 Examples of **correct** code for the `{ "commentPattern": "break[\\s\\w]*omitted" }` option:
@@ -231,6 +233,60 @@ switch(foo){
     case 2: doSomething();
 }
 
+```
+
+:::
+
+### reportUnusedFallthroughComment
+
+Examples of **incorrect** code for the `{ "reportUnusedFallthroughComment": true }` option:
+
+::: incorrect
+
+```js
+/* eslint no-fallthrough: ["error", { "reportUnusedFallthroughComment": true }] */
+
+switch(foo){
+    case 1:
+        doSomething();
+        break;
+    // falls through
+    case 2: doSomething();
+}
+
+function f() {
+    switch(foo){
+        case 1:
+            if (a) {
+                throw new Error();
+            } else if (b) {
+                break;
+            } else {
+                return;
+            }
+        // falls through
+        case 2:
+            break;
+    }
+}
+```
+
+:::
+
+Examples of **correct** code for the `{ "reportUnusedFallthroughComment": true }` option:
+
+::: correct
+
+```js
+/* eslint no-fallthrough: ["error", { "reportUnusedFallthroughComment": true }] */
+
+switch(foo){
+    case 1:
+        doSomething();
+        break;
+    // just a comment
+    case 2: doSomething();
+}
 ```
 
 :::
