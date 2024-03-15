@@ -112,5 +112,3 @@ const { ESLint } = require("eslint");
     console.error(error);
 });
 ```
-
----
