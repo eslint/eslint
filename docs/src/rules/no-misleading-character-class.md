@@ -84,6 +84,48 @@ Examples of **correct** code for this rule:
 
 :::
 
+## Options
+
+This rule has an object option:
+
+* `"allowEscape"`: When set to `true`, the rule allows any grouping of code points inside a character class as long as they are written using escape sequences. This option only has effect on regular expression literals and on regular expressions created with the `RegExp` constructor with a literal argument as a pattern.
+
+### allowEscape
+
+Examples of **incorrect** code for this rule with the `{ "allowEscape": true }` option:
+
+:::
+
+```js
+/* eslint no-misleading-character-class: ["error", { "allowEscape": true }] */
+
+/[👍]/;
+
+new RegExp("\ud83d" + "\udc4d");
+
+const pattern = "\ud83d\udc4d";
+new RegExp(pattern);
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "allowEscape": true }` option:
+
+:::
+
+```js
+/* eslint no-misleading-character-class: ["error", { "allowEscape": true }] */
+
+/[\ud83d\udc4d]/;
+/[\u00B7\u0300-\u036F]/u;
+/[👨\u200d👩]/u;
+new RegExp("[\x41\u0301]");
+new RegExp(`[\u{1F1EF}\u{1F1F5}]`, "u");
+new RegExp("[\\u{1F1EF}\\u{1F1F5}]", "u");
+```
+
+:::
+
 ## When Not To Use It
 
 You can turn this rule off if you don't want to check RegExp character class syntax for multiple code point characters.
