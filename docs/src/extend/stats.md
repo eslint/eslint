@@ -23,12 +23,12 @@ The `Stats` value is the timing information of each lint run. The `stats` proper
   The times spent on (parsing, fixing, linting) a file, where the linting refers to the timing information for each rule.
     * `TimePass` (`{ parse: ParseTime, rules: Record<string, RuleTime>, fix: FixTime, total: number }`)<br>
     An object containing the times spent on (parsing, fixing, linting)
-      * `ParseTime` (`{ total: number }`)<br>
-        The total time that is spent when parsing a file.
-      * `RuleTime` (`{ total: number }`)<be>
-        The total time that is spent on a rule.
-      * `FixTime` (`{ total: number }`)<be>
-        The total time that is spent on applying fixes to the code.
+        * `ParseTime` (`{ total: number }`)<br>
+          The total time that is spent when parsing a file.
+        * `RuleTime` (`{ total: number }`)<be>
+          The total time that is spent on a rule.
+        * `FixTime` (`{ total: number }`)<be>
+          The total time that is spent on applying fixes to the code.
 
 ### CLI usage
 
@@ -44,8 +44,8 @@ function a() {
 
 Run ESLint with the *stats* option (`--stats`) and outputting to JSON via a [built-in formatter](../use/formatters/) (`-f json`):
 
-```sh
-eslint file-to-fix.js --stats -f json
+```bash
+  eslint file-to-fix.js --fix --stats -f json
 ```
 
 This yields the following `stats` entry as part of the formatted lint results object:
@@ -56,36 +56,53 @@ This yields the following `stats` entry as part of the formatted lint results ob
         "passes": [
             {
                 "parse": {
-                    "total": 3.888125
+                    "total": 3.975959
                 },
                 "rules": {
                     "no-regex-spaces": {
-                        "total": 0.15470899999999999
+                        "total": 0.160792
                     },
                     "wrap-regex": {
-                        "total": 0.389583
+                        "total": 0.422626
+                    }
+                },
+                "fix": {
+                    "total": 0.080208
+                },
+                "total": 12.765959
+            },
+            {
+                "parse": {
+                    "total": 0.623542
+                },
+                "rules": {
+                    "no-regex-spaces": {
+                        "total": 0.043084
+                    },
+                    "wrap-regex": {
+                        "total": 0.007959
                     }
                 },
                 "fix": {
                     "total": 0
                 },
-                "total": 12.266667
+                "total": 1.148875
             }
         ]
     },
-    "fixPasses": 0
+    "fixPasses": 1
 }
 ```
 
-Note, that for the simple example above, the stats time data in `rules` should be directly comparable to the averages of the first column of the TIMING output. Running the same command with `TIMING=all`, you can verify this:
+Note, that for the simple example above, the sum of all rule times should be directly comparable to the first column of the TIMING output. Running the same command with `TIMING=all`, you can verify this:
 
 ```bash
-$ TIMING:all eslint file-to-fix.js --stats -f json
+$ TIMING:all eslint file-to-fix.js --fix --stats -f json
 ...
 Rule            | Time (ms) | Relative
 :---------------|----------:|--------:
-wrap-regex      |     0.390 |    71.6%
-no-regex-spaces |     0.155 |    28.4%
+wrap-regex      |     0.431 |    67.9%
+no-regex-spaces |     0.204 |    32.1%
 ```
 
 ### API Usage
