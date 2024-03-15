@@ -317,7 +317,7 @@ function installPrismESLintMarkerHook() {
                     continue;
                 }
 
-                if (Array.isArray(token.content) || typeof token.content !== "string") {
+                if (Array.isArray(token.content)) {
                     token.content = [...splitTokensByLineFeed([token.content].flat())];
                 }
                 yield token;
