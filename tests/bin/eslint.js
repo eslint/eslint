@@ -102,7 +102,7 @@ describe("bin/eslint.js", () => {
                 ],
                 {
 
-                    // Use the tests directory as the CWD to supress the ESLintIgnoreWarning
+                    // Use the tests directory as the CWD to suppress the ESLintIgnoreWarning
                     cwd: path.resolve(__dirname, "../")
                 }
             );
