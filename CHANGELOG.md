@@ -2865,7 +2865,7 @@ v6.0.0-rc.0 - June 9, 2019
 * [`87451f4`](https://github.com/eslint/eslint/commit/87451f4779bc4c0ec874042b6854920f947ee258) Fix: no-octal should report NonOctalDecimalIntegerLiteral (fixes #11794) (#11805) (Milos Djermanovic)
 * [`e4ab053`](https://github.com/eslint/eslint/commit/e4ab0531c4e44c23494c6a802aa2329d15ac90e5) Update: support "bigint" in valid-typeof rule (#11802) (Colin Ihrig)
 * [`e0fafc8`](https://github.com/eslint/eslint/commit/e0fafc8ef59a80a6137f4170bbe46582d6fbcafc) Chore: removes unnecessary assignment in loop (#11780) (Dimitri Mitropoulos)
-* [`20908a3`](https://github.com/eslint/eslint/commit/20908a38f489c285abf8fceef4d9d13bf8b87f22) Docs: removed '>' prefix from from docs/working-with-rules (#11818) (Alok Takshak)
+* [`20908a3`](https://github.com/eslint/eslint/commit/20908a38f489c285abf8fceef4d9d13bf8b87f22) Docs: removed '>' prefix from docs/working-with-rules (#11818) (Alok Takshak)
 * [`1c43eef`](https://github.com/eslint/eslint/commit/1c43eef605a9cf02a157881424ea62dcae747f69) Sponsors: Sync README with website (ESLint Jenkins)
 * [`21f3131`](https://github.com/eslint/eslint/commit/21f3131aa1636afa8e5c01053e0e870f968425b1) Fix: `overrides` handle relative paths as expected (fixes #11577) (#11799) (Toru Nagashima)
 * [`5509cdf`](https://github.com/eslint/eslint/commit/5509cdfa1b3d575248eef89a935f79c82e3f3071) Fix: fails the test case if autofix made syntax error (fixes #11615) (#11798) (Toru Nagashima)
