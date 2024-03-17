@@ -20,7 +20,7 @@ This rule aims to eliminate unnecessary and potentially confusing blocks at the 
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-lone-blocks: "error"*/
