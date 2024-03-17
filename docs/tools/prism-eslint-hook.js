@@ -305,6 +305,10 @@ function installPrismESLintMarkerHook() {
          */
         function *splitTokensByLineFeed(tokens) {
             for (const token of tokens) {
+                if (typeof token === "string") {
+                    yield token;
+                    continue;
+                }
 
                 const content = getTokenContent(token);
 
@@ -317,7 +321,7 @@ function installPrismESLintMarkerHook() {
                     continue;
                 }
 
-                if (Array.isArray(token.content)) {
+                if (typeof token.content !== "string") {
                     token.content = [...splitTokensByLineFeed([token.content].flat())];
                 }
                 yield token;
