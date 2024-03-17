@@ -126,7 +126,7 @@ ruleTester.run("no-misleading-character-class", rule, {
             options: [{ allowEscape: true }]
         },
         {
-            code: String.raw`/[\\ud83d\\udc4d]/`,
+            code: String.raw`/[\n̅]/`,
             options: [{ allowEscape: true }]
         },
         {
