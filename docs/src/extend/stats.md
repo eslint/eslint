@@ -45,7 +45,7 @@ function a() {
 Run ESLint with the *stats* option (`--stats`) and outputting to JSON via a [built-in formatter](../use/formatters/) (`-f json`):
 
 ```bash
-  eslint file-to-fix.js --fix --stats -f json
+npx eslint file-to-fix.js --fix --stats -f json
 ```
 
 This yields the following `stats` entry as part of the formatted lint results object:
