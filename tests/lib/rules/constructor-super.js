@@ -272,6 +272,19 @@ ruleTester.run("constructor-super", rule, {
                 }
             }`,
             errors: [{ messageId: "missingAll", type: "MethodDefinition" }]
+        },
+
+        {
+            code: `class C extends D {
+
+                constructor() {
+                    do {
+                        something();
+                    } while (foo);
+                }
+
+            }`,
+            errors: [{ messageId: "missingAll", type: "MethodDefinition" }]
         }
     ]
 });
