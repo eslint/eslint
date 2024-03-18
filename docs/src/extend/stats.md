@@ -19,7 +19,7 @@ The `Stats` value is the timing information of each lint run. The `stats` proper
 
 * `fixPasses` (`number`)<br>
   The number of times ESLint has applied at least one fix after linting.
-* `times` (`TimePass[]`)<br>
+* `times` (`{ passes: TimePass[] }`)<br>
   The times spent on (parsing, fixing, linting) a file, where the linting refers to the timing information for each rule.
     * `TimePass` (`{ parse: ParseTime, rules?: Record<string, RuleTime>, fix: FixTime, total: number }`)<br>
     An object containing the times spent on (parsing, fixing, linting)
