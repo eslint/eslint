@@ -114,7 +114,7 @@ const { ESLint } = require("eslint");
 
 (async function main() {
     // 1. Create an instance.
-    const eslint = new ESLint({ stats: true });
+    const eslint = new ESLint({ stats: true, fix: true });
 
     // 2. Lint files.
     const results = await eslint.lintFiles(["file-to-fix.js"]);
