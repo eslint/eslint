@@ -134,7 +134,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.passOnNoPatterns` (`boolean`)<br>
   Default is `false`. When set to `true`, missing patterns cause the linting operation to short circuit and not report any failures.
 * `options.stats` (`boolean`)<br>
-  Default is `false`. When set to `true`, additional statistics are added to the lint results (see [type Stats](../extend/stats#-stats-type)).
+  Default is `false`. When set to `true`, additional statistics are added to the lint results (see [Stats type](../extend/stats#-stats-type)).
 * `options.warnIgnored` (`boolean`)<br>
   Default is `true`. Show warnings when the file list includes ignored files.
 
