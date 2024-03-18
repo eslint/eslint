@@ -367,8 +367,8 @@ The `LintResult` value is the information of the linting result of each file. Th
   The number of warnings. This includes fixable warnings.
 * `output` (`string | undefined`)<br>
   The modified source code text. This property is undefined if any fixable messages didn't exist.
-* `stats` ([`Stats`](../extend/stats#-stats-type))<br>
-  The [Stats] object. This contains the lint performance statistics collected with the `stats` option.
+* `stats` (`Stats | undefined`)<br>
+  The [Stats](../extend/stats#-stats-type) object. This contains the lint performance statistics collected with the `stats` option.
 * `source` (`string | undefined`)<br>
   The original source code text. This property is undefined if any messages didn't exist or the `output` property exists.
 * `usedDeprecatedRules` (`{ ruleId: string; replacedBy: string[] }[]`)<br>
