@@ -126,7 +126,7 @@ Miscellaneous:
   -h, --help                      Show help
   -v, --version                   Output the version number
   --print-config path::String     Print the configuration for the given file
-  --stats                         Add additional statistics to lint results
+  --stats                         Add statistics to the lint report - default: false
 ```
 
 ### Basic Configuration
