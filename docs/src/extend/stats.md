@@ -97,7 +97,7 @@ This yields the following `stats` entry as part of the formatted lint results ob
 Note, that for the simple example above, the sum of all rule times should be directly comparable to the first column of the TIMING output. Running the same command with `TIMING=all`, you can verify this:
 
 ```bash
-$ TIMING:all eslint file-to-fix.js --fix --stats -f json
+$ TIMING=all npx eslint file-to-fix.js --fix --stats -f json
 ...
 Rule            | Time (ms) | Relative
 :---------------|----------:|--------:
