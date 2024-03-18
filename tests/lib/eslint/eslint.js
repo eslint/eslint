@@ -5062,10 +5062,6 @@ describe("ESLint", () => {
 
     describe("Use stats option", () => {
 
-        beforeEach(() => {
-            process.chdir(originalDir);
-        });
-
         /**
          * Check if the given number is a float.
          * @param {number} n The number to check.
