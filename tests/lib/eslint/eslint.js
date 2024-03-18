@@ -5063,12 +5063,12 @@ describe("ESLint", () => {
     describe("Use stats option", () => {
 
         /**
-         * Check if the given number is a float.
+         * Check if the given number is a number.
          * @param {number} n The number to check.
-         * @returns {boolean} `true` if the number is a float, `false` otherwise.
+         * @returns {boolean} `true` if the number is a number, `false` otherwise.
          */
         function isNumber(n) {
-            return Number(n) === n && n % 1 !== 0;
+            return typeof n === "number";
         }
 
         it("should report stats", async () => {
@@ -5111,14 +5111,19 @@ describe("ESLint", () => {
             assert.strictEqual(results[0].stats.times.passes.length, 3);
             assert.strictEqual(isNumber(results[0].stats.times.passes[0].parse.total), true);
             assert.strictEqual(isNumber(results[0].stats.times.passes[1].parse.total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[2].parse.total), true);
             assert.strictEqual(isNumber(results[0].stats.times.passes[0].rules["no-regex-spaces"].total), true);
             assert.strictEqual(isNumber(results[0].stats.times.passes[0].rules["wrap-regex"].total), true);
             assert.strictEqual(isNumber(results[0].stats.times.passes[1].rules["no-regex-spaces"].total), true);
             assert.strictEqual(isNumber(results[0].stats.times.passes[1].rules["wrap-regex"].total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[2].rules["no-regex-spaces"].total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[2].rules["wrap-regex"].total), true);
             assert.strictEqual(isNumber(results[0].stats.times.passes[0].fix.total), true);
             assert.strictEqual(isNumber(results[0].stats.times.passes[1].fix.total), true);
+            assert.strictEqual(results[0].stats.times.passes[2].fix.total, 0);
             assert.strictEqual(isNumber(results[0].stats.times.passes[0].total), true);
             assert.strictEqual(isNumber(results[0].stats.times.passes[1].total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[2].total), true);
         });
 
     });
