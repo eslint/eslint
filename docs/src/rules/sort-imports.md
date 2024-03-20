@@ -193,7 +193,8 @@ import {b, a, c} from 'foo.js'
 ### `ignoreCase`
 
 When `true` the rule ignores the case-sensitivity of the imports local name.
-Uppercase letters of the alphabet must always precede lowercase letters.
+
+Uppercase letters of the alphabet must always precede lowercase letters with default settings.
 
 Examples of **incorrect** code for this rule with the default `{ "ignoreCase": false }` option:
 
