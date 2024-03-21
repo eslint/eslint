@@ -34,6 +34,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         "for(Boolean(foo);;) {}",
         "for(;; Boolean(foo)) {}",
         "if (new Boolean(foo)) {}",
+        "if ((Boolean(1), 2)) {}",
         {
             code: "var foo = bar || !!baz",
             options: [{ enforceForLogicalOperands: true }]
@@ -2434,6 +2435,35 @@ ruleTester.run("no-extra-boolean-cast", rule, {
                 parser: require(parser("typescript-parsers/boolean-cast-with-assertion")),
                 ecmaVersion: 2020
             },
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if ((1, 2, Boolean(3))) {}",
+            output: "if ((1, 2, 3)) {}",
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ?? Boolean(b)) {}",
+            output: "if (a ?? b) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ?? Boolean(b)) {}",
+            output: "if (a ?? b) {}",
+            options: [{ enforceForLogicalOperands: false }],
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if ((a, b, c ?? (d, e, f ?? Boolean(g)))) {}",
+            output: "if ((a, b, c ?? (d, e, f ?? g))) {}",
+            options: [{ enforceForLogicalOperands: false }],
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if ((a, b, c ?? (d, e, f ?? Boolean(g)))) {}",
+            output: "if ((a, b, c ?? (d, e, f ?? g))) {}",
+            options: [{ enforceForLogicalOperands: true }],
             errors: [{ messageId: "unexpectedCall" }]
         }
     ]
