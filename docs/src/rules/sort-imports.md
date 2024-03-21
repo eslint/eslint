@@ -192,6 +192,8 @@ import {b, a, c} from 'foo.js'
 
 ### `ignoreCase`
 
+Default is `false`.
+
 When `false` (default), uppercase letters of the alphabet must always precede lowercase letters.
 
 When `true`, the rule ignores the case-sensitivity of the imports local name.
@@ -247,9 +249,9 @@ import a from 'bar.js';
 
 :::
 
-Default is `false`.
-
 ### `ignoreDeclarationSort`
+
+Default is `false`.
 
 Ignores the sorting of import declaration statements.
 
@@ -300,9 +302,9 @@ import {b, a, c} from 'foo.js';
 
 :::
 
-Default is `false`.
-
 ### `ignoreMemberSort`
+
+Default is `false`.
 
 Ignores the member sorting within a `multiple` member import declaration.
 
@@ -351,9 +353,9 @@ import a from 'bar.js';
 
 :::
 
-Default is `false`.
-
 ### `memberSyntaxSortOrder`
+
+Default is `["none", "all", "multiple", "single"]`.
 
 There are four different styles and the default member syntax sort order is:
 
@@ -403,9 +405,9 @@ import {a, b} from 'foo.js';
 
 :::
 
-Default is `["none", "all", "multiple", "single"]`.
-
 ### `allowSeparatedGroups`
+
+Default is `false`.
 
 When `true` the rule checks the sorting of import declaration statements only for those that appear on consecutive lines.
 
@@ -465,8 +467,6 @@ import a from 'baz.js';
 ```
 
 :::
-
-Default is `false`.
 
 ## When Not To Use It
 
