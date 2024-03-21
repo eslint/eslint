@@ -25,12 +25,10 @@ ESLint [rules](#rule) are given an AST and may produce [violations](#violation) 
 
 ### Config File (Configuration File)
 
-A file containing settings for how ESLint should parse files into and run [rules](#rule).
+A file containing preferences for how ESLint should parse files and run [rules](#rule).
 
-ESLint currently supports two file systems:
-
-* ["Flat" config](#flat-config) (current): `eslint.config.(c|m)js` specifying all settings for a project. See [Configuration Files (New)](../configure/configuration-files).
-* [Legacy config](#legacy-config) (deprecated): `.eslintrc.*` specifying all settings for a project. See [Configuration Files](../configure/configuration-files-deprecated).
+ESLint config files are named like `eslint.config.(c|m)js`.
+Each config file exports a [config array](#config-array) containing [config objects](#config-object).
 
 For example, this `eslint.config.js` file enables the `prefer-const` [rule](#rule) at the _error_ [severity](#severity):
 
@@ -44,21 +42,32 @@ export default [
 ];
 ```
 
+See [Configuration Files (New)](../configure/configuration-files) for more details.
+
+### Config Array
+
+An array of [config objects](#config-object) within a [config file](#config-file-configuration-file).
+
+Each config file exports an array of config objects.
+The objects in the array are evaluated in order: later objects may override settings specified in earlier objects.
+
+See [Configuration Files (New)](../configure/configuration-files) for more details.
+
+### Config Object
+
+A [config file](#config-file-configuration-file) entry specifying all of the information ESLint needs to execute on a set files.
+
+Each configuration object may include properties describing which files to run on, how to handle different files types, which [plugins](#plugin) to include, and how to run [rules](#rule).
+
+See [Configuration Files (New) > Configuration Objects](../configure/configuration-files#configuration-objects) for more details.
+
 ## E
-
-### Environment
-
-A predefined list of global variables.
-
-Environments are a feature in the [Legacy config format](#legacy-config) that allow registering many [globals](#global) at once.
-
-For information about configuring environments, see [Configure Language Options (Deprecated) > Specifying Environments](../configure/language-options-deprecated#specifying-environments).
 
 ### ESQuery
 
-A [selector](#selector) syntax for querying [nodes](#node) in an [AST](#abstract-syntax-tree-ast).
+The library used by ESLint to parse [selector](#selector) syntax for querying [nodes](#node) in an [AST](#abstract-syntax-tree-ast).
 
-ESQuery is similar to CSS, in that it allows selecting on node types, attributes, and children.
+ESQuery interprets CSS syntax for AST node properties.
 Examples of ESQuery selectors include:
 
 * `BinaryExpression`: selects all nodes of type _BinaryExpression_
@@ -69,7 +78,7 @@ See [github.com/estools/esquery](https://github.com/estools/esquery) for more in
 
 ### ESTree
 
-The standard specification for how to represent JavaScript syntax as an [AST](#abstract-syntax-tree-ast).
+The format used by ESLint for how to represent JavaScript syntax as an [AST](#abstract-syntax-tree-ast).
 
 For example, the ESTree representation of the code `1 + 2;` would be an object roughly like:
 
@@ -95,6 +104,8 @@ For example, the ESTree representation of the code `1 + 2;` would be an object r
 
 [Static analysis](#static-analysis) tools such as ESLint typically operate by converting syntax into an AST in the ESTree format.
 
+See [github.com/estree/estree](https://github.com/estree/estree) for more information on the ESTree specification.
+
 ## F
 
 ### Fix
@@ -111,10 +122,9 @@ Rule violations may also include file changes that are unsafe and not automatica
 
 The current configuration file format for ESLint.
 
-The ["Legacy" config format](#legacy-config) allowed nesting configuration files in sub-directories within a project.
-"Flat" config files are named as such because all nesting must be done in one configuration file.
-
 Flat config files are named in the format `eslint.config.(c|m)?js`.
+"Flat" config files are named as such because all nesting must be done in one configuration file.
+In contrast, the ["Legacy" config format](#legacy-config) allowed nesting configuration files in sub-directories within a project.
 
 You can read more about the motivations behind flat configurations in [ESLint's new config system, Part 2: Introduction to flat config](https://eslint.org/blog/2022/08/new-config-system-part-2).
 
@@ -135,14 +145,15 @@ Trivia changes generally don't modify the [AST](#abstract-syntax-tree-ast) of co
 
 Common formatters in the ecosystem include [Prettier](https://prettier.io) and [dprint](https://dprint.dev).
 
-Note that although ESLint is a [linter](#linter) rather than a formatter, ESLint rules can also apply formatting changes to source code. 
+Note that although ESLint is a [linter](#linter) rather than a formatter, ESLint rules can also apply formatting changes to source code.
+See [Formatting (Rule)](#formatting-rule) for more information on formatting rules.
 
 ### Formatting (Rule)
 
 A rule that solely targets [formatting](#formatter-tool) concerns, such as semicolons and whitespace.
 These rules don't change application logic and are a subset of [Stylistic rules](#stylistic-rule).
 
-ESLint's built-in formatting rules are deprecated and will be removed in a later major version.
+ESLint no longer recommends formatting rules and previously deprecated its built-in formatting rules.
 ESLint recommends instead using a dedicated formatter such as [Prettier](https://prettier.io) or [dprint](https://dprint.dev).
 Alternately, the [ESLint Stylistic project](https://eslint.style) provides formatting-related lint rules.
 
@@ -150,17 +161,24 @@ For more information, see [Deprecation of formatting rules](https://eslint.org/b
 
 ## G
 
-### Global
+### Global Declaration
 
-A description of a global variable.
+A description to ESLint of a JavaScript [global variable](#global-variable) that should exist at runtime.
 
-Global variables inform lint rules that check for proper uses of [globals](#global).
+Global declarations inform lint rules that check for proper uses of global variables.
 For example, the [`no-undef` rule](../../rules/no-undef) will create a violation for references to global variables not defined in the configured list of environments.
 
-[Flat configs](#flat-config) have globals defined as JavaScript objects.
-[Legacy configs](#legacy-config) have globals defined via predefined [environments](#environment).
+[Config files](#config-file-configuration-file) have globals defined as JavaScript objects.
 
 For information about configuring globals, see [Configure Language Options > Specifying Globals](../configure/language-options#specifying-globals).
+
+### Global Variable
+
+A runtime variable that is declared "globally", meaning all modules and scripts have access to it.
+
+JavaScript allows declaring global variables on the `globalThis` object (generally aliased as `global` in Node.js and `window` in browsers).
+
+ESLint can be informed of those global variables with [global declarations](#global-declaration).
 
 ## I
 
@@ -198,7 +216,7 @@ Note that a _linter_ is separate from [formatters](#formatter-tool) and [type ch
 
 ### Logical Rule
 
-A [rule](#rule) that looks at logical issues in code.
+A [rule](#rule) that inspects how code operates to find problems.
 
 Many logical rules look for likely crashes (e.g. [`no-undef`](../../rules/no-undef)), unintended behavior (e.g. [`no-sparse-arrays`](../../rules/no-sparse-arrays)), and unused code (e.g [`no-unused-vars`](../../rules/no-unused-vars)),
 
@@ -213,17 +231,15 @@ A section of code within an [AST](#abstract-syntax-tree-ast).
 Each node represents a type of syntax found in source code.
 For example, the `1 + 2` in the AST for `1 + 2;` is a _BinaryExpression_.
 
-ESLint uses the [ESQuery](#esquery) format for its AST and [selectors](#selector).
+See [#esquery](#esquery) for the library ESLint uses to parse [selectors](#selector) that allow [rules](#rule) to search for nodes.
 
 ## O
 
 ### Override
 
-When a [config file](#config-file-configuration-file) sets a new severity and/or rule options for a rule in a set of files.
+When a [config object](#config-object) or [inline config](#inline-config-configuration-comment) sets a new severity and/or rule options that supersede previously set severity and/or options.
 
-Overrides are supported in both configuration formats.
-
-The following [flat config](#flat-config) overrides `no-unused-expression` from `"error"` to `"off"` in `*.test.js` files:
+The following [config file](#config-file-configuration-file) overrides `no-unused-expression` from `"error"` to `"off"` in `*.test.js` files:
 
 ```js
 export default [
@@ -239,25 +255,7 @@ export default [
 ];
 ```
 
-...and the following [legacy config](#flat-config) also overrides `no-unused-expression` from `"error"` to `"off"` in `*.test.js` files:
-
-```js
-{
-  "rules": {
-    "no-unused-expressions": "off"
-  },
-  "overrides": [
-    {
-      "files": ["*.test.js"],
-      "rules": {
-        "no-unused-expressions": "off"
-      }
-    }
-  ]
-}
-```
-
-Overrides are much simpler in flat configs, as flat configs declare all rules in one file rather than allowing nested hierarchies of configs the way legacy configs do.
+The following [inline config](#inline-config-configuration-comment) sets
 
 For more information on overrides in legacy configs, see [Configuration Files (Deprecated) > How to overrides work?](../configure/configuration-files-deprecated#how-do-overrides-work).
 
@@ -265,9 +263,10 @@ For more information on overrides in legacy configs, see [Configuration Files (D
 
 ### Parser
 
-A package that reads in a string and converts it to an [AST](#abstract-syntax-tree-ast).
+An object containing a method that reads in a string and converts it to a standardized format.
 
-By default, ESLint uses [Espree](https://github.com/eslint/espree) parser, which is compatible with standard JavaScript runtimes and versions.
+ESLint uses parsers to convert source code strings into an [AST](#abstract-syntax-tree-ast) shape.
+By default, ESLint uses the [Espree](https://github.com/eslint/espree) parser, which generates an AST compatible with standard JavaScript runtimes and versions.
 
 Custom parsers let ESLint parse non-standard JavaScript syntax.
 Often custom parsers are included as part of shareable configurations or plugins, so you don’t have to use them directly.
@@ -277,7 +276,7 @@ For more information on using parsers with ESLint, see [Configure a Parser](../c
 
 ### Plugin
 
-A package that can contain a set of [configurations](#shareable-config-configuration), [environments](#environment), [processors](#processor), and/or [rules](#rule).
+A package that can contain a set of [configurations](#shareable-config-configuration), [processors](#processor), and/or [rules](#rule).
 
 A popular use case for plugins is to enforce best practices for a framework.
 For example, [@angular-eslint/eslint-plugin](https://www.npmjs.com/package/@angular-eslint/eslint-plugin) contains best practices for using the Angular framework.
@@ -287,7 +286,6 @@ For more information, refer to [Configure Plugins](../configure/plugins).
 ### Processor
 
 A part of a plugin that extracts JavaScript code from other kinds of files, then lets ESLint lint the JavaScript code.
-Alternatively, processors can convert JavaScript code during preprocessing.
 
 For example, [`eslint-plugin-markdown`](https://github.com/eslint/eslint-plugin-markdown) includes a processor that converts the text of <code>```</code> code blocks in Markdown files into code that can be linted.
 
@@ -325,15 +323,17 @@ What level of reporting a rule is configured to run, if at all.
 
 ESLint supports three levels of severity:
 
-* `"off"`: Do not run the rule.
-* `"warn"`: Run the rule, but don't exit with a non-zero status code based on its violations (excluding the [`--max-warnings` flag](../command-line-interface#--max-warnings))
-* `"error"`: Run the rule, and exit with a non-zero status code if it produces any violations
+* `"off"` (`0`): Do not run the rule.
+* `"warn"` (`1`): Run the rule, but don't exit with a non-zero status code based on its violations (excluding the [`--max-warnings` flag](../command-line-interface#--max-warnings))
+* `"error"` (`2`): Run the rule, and exit with a non-zero status code if it produces any violations
 
 For documentation on configuring rules, see [Configure Rules](../configure/rules).
 
 ### Shareable Config (Configuration)
 
-A module that provides a predefined set of [rule](#rule) configurations.
+A module that provides a predefined [config file](#config-file-configuration-file) configurations.
+
+Shareable configs can configure all the same information from config files, including [plugins](#plugin) and [rules](#rule).
 
 Shareable configs are often provided alongside [plugins](#plugin).
 Many plugins provide configs with names like _"recommended"_ that enable their suggested starting set of rules.
@@ -351,7 +351,7 @@ For information on shareable configs, see [Share Configurations](../../extend/sh
 
 The process of analyzing source code without building or running it.
 
-[Linters](#linter) such as ESLint, [formatters](#formatter-tool), and [type checkers](#type-checker) are examples static analysis tools.
+[Linters](#linter) such as ESLint, [formatters](#formatter-tool), and [type checkers](#type-checker) are examples of static analysis tools.
 
 Static analysis is different from _dynamic_ analysis, which is the process of evaluating source code after it is built and executed.
 Unit, integration, and end-to-end tests are common examples of dynamic analysis.
