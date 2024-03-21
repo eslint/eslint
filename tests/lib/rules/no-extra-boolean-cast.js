@@ -2465,6 +2465,21 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             output: "if ((a, b, c ?? (d, e, f ?? g))) {}",
             options: [{ enforceForLogicalOperands: true }],
             errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ? Boolean(b) : c) {}",
+            output: "if (a ? b : c) {}",
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ? b : Boolean(c)) {}",
+            output: "if (a ? b : c) {}",
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ? b : Boolean(c ? d : e)) {}",
+            output: "if (a ? b : (c ? d : e)) {}",
+            errors: [{ messageId: "unexpectedCall" }]
         }
     ]
 });
