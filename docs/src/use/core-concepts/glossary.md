@@ -201,7 +201,7 @@ For documentation on inline config comments, see [Rules > Using configuration co
 
 The previous configuration file format for ESLint, now superseded by ["Flat" config](#flat-config).
 
-Legacy ELSint configurations are named in the format `.eslintrc.*` and allowed to be nested across files within sub-directories in a project.
+Legacy ESLint configurations are named in the format `.eslintrc.*` and allowed to be nested across files within sub-directories in a project.
 
 You can read more about the lifetime of legacy configurations in [ESLint's new config system, Part 1: Background](https://eslint.org/blog/2022/08/new-config-system-part-1).
 
