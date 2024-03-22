@@ -2478,8 +2478,39 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "if (a ? b : Boolean(c ? d : e)) {}",
-            output: "if (a ? b : (c ? d : e)) {}",
+            output: "if (a ? b : c ? d : e) {}",
             errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "const ternary = Boolean(bar ? !!baz : bat);",
+            output: "const ternary = Boolean(bar ? baz : bat);",
+            errors: [{ messageId: "unexpectedNegation" }]
+        },
+        {
+            code: "const commaOperator = Boolean((bar, baz, !!bat));",
+            output: "const commaOperator = Boolean((bar, baz, bat));",
+            errors: [{ messageId: "unexpectedNegation" }]
+        },
+        {
+            code: `
+for (let i = 0; (console.log(i), Boolean(i < 10)); i++) {
+    // ...
+}`,
+            output: `
+for (let i = 0; (console.log(i), i < 10); i++) {
+    // ...
+}`,
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "const nullishCoalescingOperator = Boolean(bar ?? Boolean(baz));",
+            output: "const nullishCoalescingOperator = Boolean(bar ?? baz);",
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ? Boolean(b = c) : Boolean(d = e));",
+            output: "if (a ? b = c : d = e);",
+            errors: [{ messageId: "unexpectedCall" }, { messageId: "unexpectedCall" }]
         }
     ]
 });
