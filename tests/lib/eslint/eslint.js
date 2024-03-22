@@ -5068,7 +5068,7 @@ describe("ESLint", () => {
          * @returns {boolean} `true` if the number is a number, `false` otherwise.
          */
         function isNumber(n) {
-            return typeof n === "number";
+            return typeof n === "number" && !Number.isNaN(n);
         }
 
         it("should report stats", async () => {
