@@ -133,8 +133,6 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `null`. Ignore file patterns to use in addition to config ignores. These patterns are relative to `cwd`.
 * `options.passOnNoPatterns` (`boolean`)<br>
   Default is `false`. When set to `true`, missing patterns cause the linting operation to short circuit and not report any failures.
-* `options.stats` (`boolean`)<br>
-  Default is `false`. When set to `true`, additional statistics are added to the lint results (see [Stats type](../extend/stats#-stats-type)).
 * `options.warnIgnored` (`boolean`)<br>
   Default is `true`. Show warnings when the file list includes ignored files.
 
@@ -152,6 +150,8 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `null`. The plugin implementations that ESLint uses for the `plugins` setting of your configuration. This is a map-like object. Those keys are plugin IDs and each value is implementation.
 * `options.ruleFilter` (`({ruleId: string, severity: number}) => boolean`)<br>
   Default is `() => true`. A predicate function that filters rules to be run. This function is called with an object containing `ruleId` and `severity`, and returns `true` if the rule should be run.
+* `options.stats` (`boolean`)<br>
+  Default is `false`. When set to `true`, additional statistics are added to the lint results (see [Stats type](../extend/stats#-stats-type)).
 
 ##### Autofix
 
