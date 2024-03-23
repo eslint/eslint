@@ -262,24 +262,18 @@ ruleTester.run("use-isnan", rule, {
             code: "foo.indexOf(a, NaN)",
             options: [{ enforceForIndexOf: true }]
         },
-
-        /*
-         * {
-         *     code: "foo.lastIndexOf(NaN, b)",
-         *     options: [{ enforceForIndexOf: true }]
-         * },
-         */
+        {
+            code: "foo.lastIndexOf(NaN, b, c)",
+            options: [{ enforceForIndexOf: true }]
+        },
         {
             code: "foo.indexOf(a, b)",
             options: [{ enforceForIndexOf: true }]
         },
-
-        /*
-         * {
-         *     code: "foo.lastIndexOf(NaN, NaN)",
-         *     options: [{ enforceForIndexOf: true }]
-         * },
-         */
+        {
+            code: "foo.lastIndexOf(NaN, NaN, b)",
+            options: [{ enforceForIndexOf: true }]
+        },
         {
             code: "foo.indexOf(...NaN)",
             options: [{ enforceForIndexOf: true }],
@@ -345,17 +339,14 @@ ruleTester.run("use-isnan", rule, {
             code: "foo.indexOf(a, Number.NaN)",
             options: [{ enforceForIndexOf: true }]
         },
-
-        /*
-         * {
-         *     code: "foo.lastIndexOf(Number.NaN, b)",
-         *     options: [{ enforceForIndexOf: true }]
-         * },
-         * {
-         *     code: "foo.lastIndexOf(Number.NaN, NaN)",
-         *     options: [{ enforceForIndexOf: true }]
-         * },
-         */
+        {
+            code: "foo.lastIndexOf(Number.NaN, b, c)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.lastIndexOf(Number.NaN, NaN, b)",
+            options: [{ enforceForIndexOf: true }]
+        },
         {
             code: "foo.indexOf(...Number.NaN)",
             options: [{ enforceForIndexOf: true }],
