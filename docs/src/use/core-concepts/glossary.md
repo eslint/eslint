@@ -42,7 +42,7 @@ export default [
 ];
 ```
 
-See [Configuration Files (New)](../configure/configuration-files) for more details.
+See [Configuration Files](../configure/configuration-files) for more details.
 
 ### Config Array
 
@@ -59,7 +59,7 @@ A [config file](#config-file-configuration-file) entry specifying all of the inf
 
 Each configuration object may include properties describing which files to run on, how to handle different files types, which [plugins](#plugin) to include, and how to run [rules](#rule).
 
-See [Configuration Files (New) > Configuration Objects](../configure/configuration-files#configuration-objects) for more details.
+See [Configuration Files > Configuration Objects](../configure/configuration-files#configuration-objects) for more details.
 
 ## E
 
@@ -179,6 +179,7 @@ A runtime variable that exists in the global scope, meaning all modules and scri
 Global variables in JavaScript are declared on the `globalThis` object (generally aliased as `global` in Node.js and `window` in browsers).
 
 You can let ESLint know which global variables your code uses with [global declarations](#global-declaration).
+
 ## I
 
 ### Inline Config (Configuration Comment)
