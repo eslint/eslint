@@ -283,6 +283,6 @@ var hasNaN = myArray.includes(NaN);
 
 :::
 
-## Known Limitations
+#### Known Limitations
 
 This option checks methods with the given names, *even if* the object which has the method is *not* an array.
