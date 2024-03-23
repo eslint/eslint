@@ -49,7 +49,7 @@ function a() {
 }
 ```
 
-Run ESLint with the *stats* option (`--stats`) and outputting to JSON via a [built-in formatter](../use/formatters/) (`-f json`):
+Run ESLint with `--stats` and output to JSON via the built-in [`json` formatter](../use/formatters/):
 
 ```bash
 npx eslint file-to-fix.js --fix --stats -f json
