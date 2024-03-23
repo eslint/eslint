@@ -114,7 +114,7 @@ no-regex-spaces |     0.204 |    32.1%
 
 ### API Usage
 
-Similarly to the example for the [CLI usage](#cli-usage), we can achieve the same thing using the Node.js API, turning on the *stats* option (`stats: true`) as follows:
+You can achieve the same thing using the Node.js API by passing`stats: true` as an option to the `ESLint` constructor. For example:
 
 ```js
 const { ESLint } = require("eslint");
