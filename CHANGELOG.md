@@ -1,3 +1,42 @@
+v9.0.0-rc.0 - March 22, 2024
+
+* [`297416d`](https://github.com/eslint/eslint/commit/297416d2b41f5880554d052328aa36cd79ceb051) chore: package.json update for eslint-9.0.0-rc.0 (#18223) (Francesco Trotta)
+* [`d363c51`](https://github.com/eslint/eslint/commit/d363c51b177e085b011c7fde1c5a5a09b3db9cdb) chore: package.json update for @eslint/js release (Jenkins)
+* [`239a7e2`](https://github.com/eslint/eslint/commit/239a7e27209a6b861d634b3ef245ebbb805793a3) docs: Clarify the description of `sort-imports` options (#18198) (gyeongwoo park)
+* [`09bd7fe`](https://github.com/eslint/eslint/commit/09bd7fe09ad255a263286e90accafbe2bf04ccfc) feat!: move AST traversal into SourceCode (#18167) (Nicholas C. Zakas)
+* [`b91f9dc`](https://github.com/eslint/eslint/commit/b91f9dc072f17f5ea79803deb86cf002d031b4cf) build: fix TypeError in prism-eslint-hooks.js (#18209) (Francesco Trotta)
+* [`4769c86`](https://github.com/eslint/eslint/commit/4769c86cc16e0b54294c0a394a1ec7ed88fc334f) docs: fix incorrect example in `no-lone-blocks` (#18215) (Tanuj Kanti)
+* [`1b841bb`](https://github.com/eslint/eslint/commit/1b841bb04ac642c5ee84d1e44be3e53317579526) chore: fix some comments (#18213) (avoidaway)
+* [`b8fb572`](https://github.com/eslint/eslint/commit/b8fb57256103b908712302ccd508f464eff1c9dc) feat: add `reportUnusedFallthroughComment` option to no-fallthrough rule (#18188) (Kirk Waiblinger)
+* [`ae8103d`](https://github.com/eslint/eslint/commit/ae8103de69c12c6e71644a1de9589644e6767d15) fix: load plugins in the CLI in flat config mode (#18185) (Francesco Trotta)
+* [`5251327`](https://github.com/eslint/eslint/commit/5251327711a2d7083e3c629cb8e48d9d1e809add) docs: Update README (GitHub Actions Bot)
+* [`29c3595`](https://github.com/eslint/eslint/commit/29c359599c2ddd168084a2c8cbca626c51d0dc13) chore: remove repetitive words (#18193) (cuithon)
+* [`1dc8618`](https://github.com/eslint/eslint/commit/1dc861897e8b47280e878d609c13c9e41892f427) docs: Update README (GitHub Actions Bot)
+* [`acc2e06`](https://github.com/eslint/eslint/commit/acc2e06edd55eaab58530d891c0a572c1f0ec453) chore: Introduce Knip (#18005) (Lars Kappert)
+
+v9.0.0-beta.2 - March 8, 2024
+
+* [`7509276`](https://github.com/eslint/eslint/commit/75092764db117252067558bd3fbbf0c66ac081b7) chore: upgrade @eslint/js@9.0.0-beta.2 (#18180) (Milos Djermanovic)
+* [`96087b3`](https://github.com/eslint/eslint/commit/96087b33dc10311bba83e22cc968919c358a0188) chore: package.json update for @eslint/js release (Jenkins)
+* [`ba1c1bb`](https://github.com/eslint/eslint/commit/ba1c1bbc6ba9d57a83d04f450566337d3c3b0448) docs: Update README (GitHub Actions Bot)
+* [`337cdf9`](https://github.com/eslint/eslint/commit/337cdf9f7ad939df7bc55c23d953e12d847b6ecc) docs: Explain limitations of RuleTester fix testing (#18175) (Nicholas C. Zakas)
+* [`c7abd89`](https://github.com/eslint/eslint/commit/c7abd8936193a87be274174c47d6775e6220e354) docs: Explain Node.js version support (#18176) (Nicholas C. Zakas)
+* [`925afa2`](https://github.com/eslint/eslint/commit/925afa2b0c882f77f6b4411bdca3cb8ad6934b56) chore: Remove some uses of `lodash.merge` (#18179) (Milos Djermanovic)
+* [`1c173dc`](https://github.com/eslint/eslint/commit/1c173dc1f3d36a28cb2543e93675c2fbdb6fa9f1) feat: add `ignoreClassWithStaticInitBlock` option to `no-unused-vars` (#18170) (Tanuj Kanti)
+* [`d961eeb`](https://github.com/eslint/eslint/commit/d961eeb855b6dd9118a78165e358e454eb1d090d) docs: show red underlines in examples in rules docs (#18041) (Yosuke Ota)
+* [`558274a`](https://github.com/eslint/eslint/commit/558274abbd25ef269f4994cf258b2e44afbad548) docs: Update README (GitHub Actions Bot)
+* [`2908b9b`](https://github.com/eslint/eslint/commit/2908b9b96ab7a25fe8044a1755030b18186a75b0) docs: Update release documentation (#18174) (Nicholas C. Zakas)
+* [`a451b32`](https://github.com/eslint/eslint/commit/a451b32b33535a57b4b7e24291f30760f65460ba) feat: make `no-misleading-character-class` report more granular errors (#18082) (Francesco Trotta)
+* [`972ef15`](https://github.com/eslint/eslint/commit/972ef155a94ad2cc85db7d209ad869869222c14c) chore: remove invalid type in @eslint/js (#18164) (Nitin Kumar)
+* [`1f1260e`](https://github.com/eslint/eslint/commit/1f1260e863f53e2a5891163485a67c55d41993aa) docs: replace HackerOne link with GitHub advisory (#18165) (Francesco Trotta)
+* [`79a95eb`](https://github.com/eslint/eslint/commit/79a95eb7da7fe657b6448c225d4f8ac31117456a) feat!: disallow multiple configuration comments for same rule (#18157) (Milos Djermanovic)
+* [`e37153f`](https://github.com/eslint/eslint/commit/e37153f71f173e8667273d6298bef81e0d33f9ba) fix: improve error message for invalid rule config (#18147) (Nitin Kumar)
+* [`c49ed63`](https://github.com/eslint/eslint/commit/c49ed63265fc8e0cccea404810a4c5075d396a15) feat: update complexity rule for optional chaining & default values (#18152) (Mathias Schreck)
+* [`e5ef3cd`](https://github.com/eslint/eslint/commit/e5ef3cd6953bb40108556e0465653898ffed8420) docs: add inline cases condition in `no-fallthrough` (#18158) (Tanuj Kanti)
+* [`af6e170`](https://github.com/eslint/eslint/commit/af6e17081fa6c343474959712e7a4a20f8b304e2) fix: stop linting files after an error (#18155) (Francesco Trotta)
+* [`450d0f0`](https://github.com/eslint/eslint/commit/450d0f044023843b1790bd497dfca45dcbdb41e4) docs: fix `ignore` option docs (#18154) (Francesco Trotta)
+* [`11144a2`](https://github.com/eslint/eslint/commit/11144a2671b2404b293f656be111221557f3390f) feat: `no-restricted-imports` option added `allowImportNames` (#16196) (M Pater)
+
 v9.0.0-beta.1 - February 23, 2024
 
 * [`32ffdd1`](https://github.com/eslint/eslint/commit/32ffdd181aa673ccc596f714d10a2f879ec622a7) chore: upgrade @eslint/js@9.0.0-beta.1 (#18146) (Milos Djermanovic)
@@ -2842,7 +2881,7 @@ v6.0.0-rc.0 - June 9, 2019
 * [`87451f4`](https://github.com/eslint/eslint/commit/87451f4779bc4c0ec874042b6854920f947ee258) Fix: no-octal should report NonOctalDecimalIntegerLiteral (fixes #11794) (#11805) (Milos Djermanovic)
 * [`e4ab053`](https://github.com/eslint/eslint/commit/e4ab0531c4e44c23494c6a802aa2329d15ac90e5) Update: support "bigint" in valid-typeof rule (#11802) (Colin Ihrig)
 * [`e0fafc8`](https://github.com/eslint/eslint/commit/e0fafc8ef59a80a6137f4170bbe46582d6fbcafc) Chore: removes unnecessary assignment in loop (#11780) (Dimitri Mitropoulos)
-* [`20908a3`](https://github.com/eslint/eslint/commit/20908a38f489c285abf8fceef4d9d13bf8b87f22) Docs: removed '>' prefix from from docs/working-with-rules (#11818) (Alok Takshak)
+* [`20908a3`](https://github.com/eslint/eslint/commit/20908a38f489c285abf8fceef4d9d13bf8b87f22) Docs: removed '>' prefix from docs/working-with-rules (#11818) (Alok Takshak)
 * [`1c43eef`](https://github.com/eslint/eslint/commit/1c43eef605a9cf02a157881424ea62dcae747f69) Sponsors: Sync README with website (ESLint Jenkins)
 * [`21f3131`](https://github.com/eslint/eslint/commit/21f3131aa1636afa8e5c01053e0e870f968425b1) Fix: `overrides` handle relative paths as expected (fixes #11577) (#11799) (Toru Nagashima)
 * [`5509cdf`](https://github.com/eslint/eslint/commit/5509cdfa1b3d575248eef89a935f79c82e3f3071) Fix: fails the test case if autofix made syntax error (fixes #11615) (#11798) (Toru Nagashima)
