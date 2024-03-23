@@ -58,7 +58,7 @@ npx eslint file-to-fix.js --fix --stats -f json
 This yields the following `stats` entry as part of the formatted lint results object:
 
 ```json
-"stats": {
+{
     "times": {
         "passes": [
             {
