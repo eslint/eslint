@@ -1458,6 +1458,29 @@ describe("Linter", () => {
             assert.strictEqual(suppressedMessages.length, 0);
         });
 
+        it("rules should apply meta.defaultOptions", () => {
+            const config = { rules: {} };
+            const codeA = "/*eslint no-constant-condition: error */ while (true) {}";
+            const messages = linter.verify(codeA, config, filename, false);
+
+            assert.deepStrictEqual(
+                messages,
+                [
+                    {
+                        severity: 2,
+                        ruleId: "no-constant-condition",
+                        message: "Unexpected constant condition.",
+                        messageId: "unexpected",
+                        nodeType: "Literal",
+                        line: 1,
+                        column: 49,
+                        endLine: 1,
+                        endColumn: 53
+                    }
+                ]
+            );
+        });
+
         describe("when the rule was already configured", () => {
 
             beforeEach(() => {
@@ -6929,6 +6952,52 @@ var a = "test2";
                 assert.isTrue(linter1.getRules().has("mock-rule"), "mock rule is present");
                 assert.isFalse(linter2.getRules().has("mock-rule"), "mock rule is not present");
             });
+        });
+    });
+
+    describe("options", () => {
+        it("rules should apply meta.defaultOptions and ignore schema defaults", () => {
+            linter.defineRule("my-rule", {
+                meta: {
+                    defaultOptions: [{
+                        inBoth: "from-default-options",
+                        inDefaultOptions: "from-default-options"
+                    }],
+                    schema: {
+                        type: "object",
+                        properties: {
+                            inBoth: { default: "from-schema", type: "string" },
+                            inDefaultOptions: { type: "string" },
+                            inSchema: { default: "from-schema", type: "string" }
+                        },
+                        additionalProperties: false
+                    }
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({
+                                message: JSON.stringify(context.options[0]),
+                                node
+                            });
+                        }
+                    };
+                }
+            });
+
+            const config = {
+                rules: {
+                    "my-rule": "error"
+                }
+            };
+
+            const code = "";
+            const messages = linter.verify(code, config);
+
+            assert.deepStrictEqual(
+                JSON.parse(messages[0].message),
+                { inBoth: "from-default-options", inDefaultOptions: "from-default-options" }
+            );
         });
     });
 
@@ -15803,6 +15872,56 @@ var a = "test2";
             assert.throws(() => {
                 linter.verify("0", config);
             }, /Fixable rules must set the `meta\.fixable` property/u);
+        });
+    });
+
+    describe("options", () => {
+        it("rules should apply meta.defaultOptions on top of schema defaults", () => {
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: {
+                                meta: {
+                                    defaultOptions: [{
+                                        inBoth: "from-default-options",
+                                        inDefaultOptions: "from-default-options"
+                                    }],
+                                    schema: [{
+                                        type: "object",
+                                        properties: {
+                                            inBoth: { default: "from-schema", type: "string" },
+                                            inDefaultOptions: { type: "string" },
+                                            inSchema: { default: "from-schema", type: "string" }
+                                        },
+                                        additionalProperties: false
+                                    }]
+                                },
+                                create(context) {
+                                    return {
+                                        Program(node) {
+                                            context.report({
+                                                message: JSON.stringify(context.options[0]),
+                                                node
+                                            });
+                                        }
+                                    };
+                                }
+                            }
+                        }
+                    }
+                },
+                rules: {
+                    "test/checker": "error"
+                }
+            };
+
+            const messages = linter.verify("foo", config, filename);
+
+            assert.deepStrictEqual(
+                JSON.parse(messages[0].message),
+                { inBoth: "from-default-options", inDefaultOptions: "from-default-options", inSchema: "from-schema" }
+            );
         });
     });
 
