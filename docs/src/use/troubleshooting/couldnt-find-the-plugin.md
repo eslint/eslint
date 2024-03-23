@@ -6,17 +6,9 @@ eleventyNavigation:
     title: ESLint couldn't find the plugin …
 ---
 
-[Legacy ESLint configuration files](../configure/configuration-files-deprecated) specify shareable configs by their package name.
-That package name is passed to the Node.js `require()`, which looks up the package under local `node_modules/` directories.
-For example, the following ESLint config will first try to load a module located at `node_modules/eslint-plugin-yours`:
+## Symptoms
 
-```js
-module.exports = {
-    extends: ["eslint-plugin-yours"],
-};
-```
-
-If the package is not found in any searched `node_modules/`, ESLint will print an error with the format:
+When using the [legacy ESLint config system](../configure/configuration-files-deprecated.md), you may see this error running ESLint after installing dependencies:
 
 ```plaintext
 ESLint couldn't find the plugin "${pluginName}".
@@ -30,16 +22,39 @@ It's likely that the plugin isn't installed correctly. Try reinstalling by runni
 The plugin "${pluginName}" was referenced from the config file in "${importerName}".
 ```
 
+## Cause
+
+[Legacy ESLint configuration files](../configure/configuration-files-deprecated) specify shareable configs by their package name.
+That package name is passed to the Node.js `require()`, which looks up the package under local `node_modules/` directories.
+For example, the following ESLint config will first try to load a module located at `node_modules/eslint-plugin-yours`:
+
+```js
+module.exports = {
+    extends: ["eslint-plugin-yours"],
+};
+```
+
+If the package is not found in any searched `node_modules/`, ESLint will print the aforementioned error.
+
 Common reasons for this occurring include:
 
 *   Not running `npm install` or the equivalent package manager command
 *   Mistyping the case-sensitive name of the plugin
 
-## Plugin Name Variations
+### Plugin Name Variations
 
-The `eslint-plugin-` plugin name prefix may be omitted for brevity, e.g. `extends: ["yours"]`.
+Note that the `eslint-plugin-` plugin name prefix may be omitted for brevity, e.g. `extends: ["yours"]`.
 
 [`@` npm scoped packages](https://docs.npmjs.com/cli/v10/using-npm/scope) put the `eslint-plugin-` prefix after the org scope, e.g. `extends: ["@org/yours"]` to load from `@org/eslint-plugin-yours`.
+
+## Resolution
+
+Common resolutions for this issue include:
+
+* Upgrading all versions of all packages to their latest version
+* Adding the plugin as a `devDependency` in your `package.json`
+* Running `npm install` or the equivalent package manager command
+* Checking that the name in your config file matches the name of the plugin package
 
 ## Resources
 

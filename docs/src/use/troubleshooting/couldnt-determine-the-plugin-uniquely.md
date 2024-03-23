@@ -6,25 +6,40 @@ eleventyNavigation:
     title: ESLint couldn't determine the plugin … uniquely
 ---
 
-[ESLint configuration files](../configure/configuration-files) allow loading in plugins that may include other plugins.
-A plugin package might be specified as a dependency of both your package and one or more ESLint plugins.
-If the same plugin appears multiple times in different versions, ESLint will print an error with the format:
+## Symptoms
+
+When using the [legacy ESLint config system](../configure/configuration-files-deprecated.md), you may see this error running ESLint after installing dependencies:
 
 ```plaintext
 ESLint couldn't determine the plugin "${pluginId}" uniquely.
 
+- ${filePath} (loaded in "${importerName}")
 - ${filePath} (loaded in "${importerName}")
 ...
 
 Please remove the "plugins" setting from either config or remove either plugin installation.
 ```
 
+## Cause
+
+ESLint configuration files allow loading in plugins that may include other plugins.
+A plugin package might be specified as a dependency of both your package and one or more ESLint plugins.
+If the same plugin appears multiple times in different versions, ESLint will print an error with the format:
+
 For example, if your package requires `eslint-plugin-a@2` and `eslint-plugin-b@3`, and `eslint-plugin-b` requires `eslint-plugin-a@1`, then the `eslint-plugin-a` package might have two different versions on disk:
 
 * `node_modules/eslint-plugin-a`
 * `node_modules/eslint-plugin-b/node_modules/eslint-plugin-a`
 
-Common resolutions to this issue include:
+If the legacy ESLint configuration system sees that both plugins exists with different versions, it won't know which one to use.
+It will instead print the aforementioned error.
+
+Note that this issue is only present in the legacy "eslintrc" configurations.
+The new ["flat" config system](../configure/configuration-files.md) have you `import` the dependencies yourself, removing the need for ESLint to attempt to determine their version uniquely.
+
+## Resolution
+
+Common resolutions for this issue include:
 
 * Upgrading all versions of all packages to their latest version
 * Running `npm dedupe` or the equivalent package manager command to deduplicate packages, if their version ranges are compatible
