@@ -34,7 +34,7 @@ If the legacy ESLint configuration system sees that both plugins exists in multi
 It will instead print the aforementioned error.
 
 Note that this issue is only present in the legacy "eslintrc" configurations.
-The new ["flat" config system](../configure/configuration-files.md) have you `import` the dependencies yourself, removing the need for ESLint to attempt to determine their version uniquely.
+The new ["flat" config system](../configure/configuration-files.md) has you `import` the dependencies yourself, removing the need for ESLint to attempt to determine their version uniquely.
 
 ## Resolution
 
