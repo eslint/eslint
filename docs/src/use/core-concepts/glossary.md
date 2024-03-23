@@ -51,7 +51,7 @@ An array of [config objects](#config-object) within a [config file](#config-file
 Each config file exports an array of config objects.
 The objects in the array are evaluated in order: later objects may override settings specified in earlier objects.
 
-See [Configuration Files (New)](../configure/configuration-files) for more details.
+See [Configuration Files](../configure/configuration-files) for more details.
 
 ### Config Object
 
@@ -174,12 +174,11 @@ For information about configuring globals, see [Configure Language Options > Spe
 
 ### Global Variable
 
-A runtime variable that is declared "globally", meaning all modules and scripts have access to it.
+A runtime variable that exists in the global scope, meaning all modules and scripts have access to it.
 
-JavaScript allows declaring global variables on the `globalThis` object (generally aliased as `global` in Node.js and `window` in browsers).
+Global variables in JavaScript are declared on the `globalThis` object (generally aliased as `global` in Node.js and `window` in browsers).
 
-ESLint can be informed of those global variables with [global declarations](#global-declaration).
-
+You can let ESLint know which global variables your code uses with [global declarations](#global-declaration).
 ## I
 
 ### Inline Config (Configuration Comment)
