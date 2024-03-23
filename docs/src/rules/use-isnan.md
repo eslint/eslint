@@ -226,6 +226,10 @@ var firstIndex = myArray.indexOf(NaN);
 var lastIndex = myArray.lastIndexOf(NaN);
 
 var indexWithSequenceExpression = myArray.indexOf((doStuff(), NaN));
+
+var firstIndexFromSecondElement = myArray.indexOf(NaN, 1);
+
+var lastIndexFromSecondElement = myArray.lastIndexOf(NaN, 1);
 ```
 
 :::
@@ -279,6 +283,6 @@ var hasNaN = myArray.includes(NaN);
 
 :::
 
-#### Known Limitations
+## Known Limitations
 
 This option checks methods with the given names, *even if* the object which has the method is *not* an array.
