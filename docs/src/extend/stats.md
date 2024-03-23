@@ -14,7 +14,7 @@ While an analysis of the overall rule performance for an ESLint run can be carri
 To enable collection of statistics, you can either:
 
 1. Use the `--stats` CLI option. This will pass the stats data into the formatter used to output results from ESLint. (Note: not all formatters output stats data.)
-1. Set `stats: true` as an option on the `ESLint` constructor. 
+1. Set `stats: true` as an option on the `ESLint` constructor.
 
 Enabling stats data adds a new `stats` key to each [LintResult](../integrate/nodejs-api#-lintresult-type) object containing data such as parse times, fix times, lint times per rule.
 
