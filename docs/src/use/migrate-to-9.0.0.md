@@ -43,6 +43,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [Removed multiple `context` methods](#removed-context-methods)
 * [Removed `sourceCode.getComments()`](#removed-sourcecode-getcomments)
 * [Removed `CodePath#currentSegments`](#removed-codepath-currentsegments)
+* [Code paths are now precalculated](#codepath-precalc)
 * [Function-style rules are no longer supported](#drop-function-style-rules)
 * [`meta.schema` is required for rules with options](#meta-schema-required)
 * [`FlatRuleTester` is now `RuleTester`](#flat-rule-tester)
@@ -489,6 +490,19 @@ ESLint v9.0.0 removes the deprecated `CodePath#currentSegments` property.
 **To address:** Update your code following the recommendations in the [blog post](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#codepath%23currentsegments).
 
 **Related Issues(s):** [#17457](https://github.com/eslint/eslint/issues/17457)
+
+## <a name="codepath-precalc"></a> Code paths are now precalculated
+
+Prior to ESLint v9.0.0, code paths were calculated during the same AST traversal used by rules, meaning that the information passed to methods like `onCodePathStart` and `onCodePathSegmentStart` was incomplete. Specifically, array properties like `CodePath#childCodePaths` and `CodePathSegment#nextSegments` began empty and then were filled with the appropriate information as the traversal completed, meaning that those arrays could have different elements depending on when you checked their values.
+
+ESLint v9.0.0 now precalculates code path information before the traversal used by rules. As a result, the code path information is now complete regardless of where it is accessed inside of a rule.
+
+**To address:** If you are accessing any array properties on `CodePath` or `CodePathSegment`, you'll need to update your code. Specifically:
+
+* If you are checking the `length` of any array properties, ensure you are using relative comparison operators like `<`, `>`, `<=`, and `>=` instead of equals.
+* If you are accessing the `nextSegments`, `prevSegments`, `allNextSegments`, or `allPrevSegments` properties on a `CodePathSegment`, or `CodePath#childCodePaths`, verify that your code will still work as expected. To be backwards compatible, consider moving the logic that checks these properties into `onCodePathEnd`.
+
+**Related Issues(s):** [#16999](https://github.com/eslint/eslint/issues/16999)
 
 ## <a name="drop-function-style-rules"></a> Function-style rules are no longer supported
 
