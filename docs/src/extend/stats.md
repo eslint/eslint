@@ -7,9 +7,16 @@ eleventyNavigation:
     order: 6
 ---
 
-While an analysis of the overall rule performance for an ESLint run can be carried out by setting the [TIMING](./custom-rules#profile-rule-performance) environment variable, it can sometimes be useful to acquire more *granular* timing data (lint time per file per rule) or collect other measures of interest. In particular, when developing new [custom plugins](./plugins) and evaluating/benchmarking new languages or rule sets.
+While an analysis of the overall rule performance for an ESLint run can be carried out by setting the [TIMING](./custom-rules#profile-rule-performance) environment variable, it can sometimes be useful to acquire more *granular* timing data (lint time per file per rule) or collect other measures of interest. In particular, when developing new [custom plugins](./plugins) and evaluating/benchmarking new languages or rule sets. For these use cases, you can optionally collect runtime statistics from ESLint.
 
-For such use cases, the **stats** option has been provided. It adds a series of detailed performance statistics (see [Stats type](#-stats-type)) such as the *parse*-, *fix*- and *lint*-times (time per rule) of a given file or the number of fix passes on top of your [LintResult](../integrate/nodejs-api#-lintresult-type).
+## Enable stats collection
+
+To enable collection of statistics, you can either:
+
+1. Use the `--stats` CLI option. This will pass the stats data into the formatter used to output results from ESLint. (Note: not all formatters output stats data.)
+1. Set `stats: true` as an option on the `ESLint` constructor.
+
+Enabling stats data adds a new `stats` key to each [LintResult](../integrate/nodejs-api#-lintresult-type) object containing data such as parse times, fix times, lint times per rule.
 
 As such, it is not available via stdout but made easily ingestible via a formatter using the CLI or via the Node.js API to cater to your specific needs.
 
@@ -42,7 +49,7 @@ function a() {
 }
 ```
 
-Run ESLint with the *stats* option (`--stats`) and outputting to JSON via a [built-in formatter](../use/formatters/) (`-f json`):
+Run ESLint with `--stats` and output to JSON via the built-in [`json` formatter](../use/formatters/):
 
 ```bash
 npx eslint file-to-fix.js --fix --stats -f json
@@ -51,7 +58,7 @@ npx eslint file-to-fix.js --fix --stats -f json
 This yields the following `stats` entry as part of the formatted lint results object:
 
 ```json
-"stats": {
+{
     "times": {
         "passes": [
             {
@@ -107,7 +114,7 @@ no-regex-spaces |     0.204 |    32.1%
 
 ### API Usage
 
-Similarly to the example for the [CLI usage](#cli-usage), we can achieve the same thing using the Node.js API, turning on the *stats* option (`stats: true`) as follows:
+You can achieve the same thing using the Node.js API by passing`stats: true` as an option to the `ESLint` constructor. For example:
 
 ```js
 const { ESLint } = require("eslint");
