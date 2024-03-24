@@ -719,6 +719,14 @@ const Linter = require("eslint").Linter;
 Linter.version; // => '9.0.0'
 ```
 
+### Linter#getTimes()
+
+This method is used to get the times spent on (parsing, fixing, linting) a file. See `times` property of the [Stats](../extend/stats#-stats-type) object.
+
+### Linter#getFixPassCount()
+
+This method is used to get the number of autofix passes made. See `fixPasses` property of the [Stats](../extend/stats#-stats-type) object.
+
 ---
 
 ## RuleTester
