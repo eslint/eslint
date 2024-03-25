@@ -5060,6 +5060,74 @@ describe("ESLint", () => {
 
     });
 
+    describe("Use stats option", () => {
+
+        /**
+         * Check if the given number is a number.
+         * @param {number} n The number to check.
+         * @returns {boolean} `true` if the number is a number, `false` otherwise.
+         */
+        function isNumber(n) {
+            return typeof n === "number" && !Number.isNaN(n);
+        }
+
+        it("should report stats", async () => {
+            const engine = new ESLint({
+                overrideConfigFile: true,
+                overrideConfig: {
+                    rules: {
+                        "no-regex-spaces": "error"
+                    }
+                },
+                cwd: getFixturePath("stats-example"),
+                stats: true
+            });
+            const results = await engine.lintFiles(["file-to-fix.js"]);
+
+            assert.strictEqual(results[0].stats.fixPasses, 0);
+            assert.strictEqual(results[0].stats.times.passes.length, 1);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[0].parse.total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[0].rules["no-regex-spaces"].total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[0].rules["wrap-regex"].total), true);
+            assert.strictEqual(results[0].stats.times.passes[0].fix.total, 0);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[0].total), true);
+        });
+
+        it("should report stats with fix", async () => {
+            const engine = new ESLint({
+                overrideConfigFile: true,
+                overrideConfig: {
+                    rules: {
+                        "no-regex-spaces": "error"
+                    }
+                },
+                cwd: getFixturePath("stats-example"),
+                fix: true,
+                stats: true
+            });
+            const results = await engine.lintFiles(["file-to-fix.js"]);
+
+            assert.strictEqual(results[0].stats.fixPasses, 2);
+            assert.strictEqual(results[0].stats.times.passes.length, 3);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[0].parse.total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[1].parse.total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[2].parse.total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[0].rules["no-regex-spaces"].total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[0].rules["wrap-regex"].total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[1].rules["no-regex-spaces"].total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[1].rules["wrap-regex"].total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[2].rules["no-regex-spaces"].total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[2].rules["wrap-regex"].total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[0].fix.total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[1].fix.total), true);
+            assert.strictEqual(results[0].stats.times.passes[2].fix.total, 0);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[0].total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[1].total), true);
+            assert.strictEqual(isNumber(results[0].stats.times.passes[2].total), true);
+        });
+
+    });
+
     describe("getRulesMetaForResults()", () => {
 
         it("should throw an error when this instance did not lint any files", async () => {
