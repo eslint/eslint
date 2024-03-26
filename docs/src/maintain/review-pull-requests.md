@@ -39,7 +39,7 @@ Once the bot checks have been satisfied, you check the following:
 
 ## Required Approvals for Pull Requests
 
-Any committer, reviewer, or TSC members may approve a pull request, but the approvals required for merging differ based on the type of pull request.
+Any committer, reviewer, or TSC member may approve a pull request, but the approvals required for merging differ based on the type of pull request.
 
 One committer approval is required to merge a non-breaking change that is:
 
