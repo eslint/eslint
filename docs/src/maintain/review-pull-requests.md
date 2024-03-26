@@ -49,7 +49,7 @@ One committer approval is required to merge a non-breaking change that is:
 1. Related to the build
 1. A chore
 
-For a non-breaking feature, pull requests require an approval from one reviewer or TSC member, plus one additional approval from any other team member.
+For a non-breaking feature, pull requests require approval from one reviewer or TSC member, plus one additional approval from any other team member.
 
 For a breaking change, pull requests require an approval from two TSC members.
 
