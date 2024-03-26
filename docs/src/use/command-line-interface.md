@@ -126,6 +126,7 @@ Miscellaneous:
   -h, --help                      Show help
   -v, --version                   Output the version number
   --print-config path::String     Print the configuration for the given file
+  --stats                         Add statistics to the lint report - default: false
 ```
 
 ### Basic Configuration
@@ -809,6 +810,20 @@ This option outputs the configuration to be used for the file passed. When prese
 
 ```shell
 npx eslint --print-config file.js
+```
+
+#### `--stats`
+
+This option adds a series of detailed performance statistics (see [Stats type](../extend/stats#-stats-type)) such as the *parse*-, *fix*- and *lint*-times (time per rule) to [`result`](../extend/custom-formatters#the-result-object) objects that are passed to the formatter (see [Stats CLI usage](../extend/stats#cli-usage)).
+
+* **Argument Type**: No argument.
+
+This option is intended for use with custom formatters that display statistics. It can also be used with the built-in `json` formatter.
+
+##### `--stats` example
+
+```shell
+npx eslint --stats --format json file.js
 ```
 
 ## Exit Codes

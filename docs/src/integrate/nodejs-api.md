@@ -150,6 +150,8 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `null`. The plugin implementations that ESLint uses for the `plugins` setting of your configuration. This is a map-like object. Those keys are plugin IDs and each value is implementation.
 * `options.ruleFilter` (`({ruleId: string, severity: number}) => boolean`)<br>
   Default is `() => true`. A predicate function that filters rules to be run. This function is called with an object containing `ruleId` and `severity`, and returns `true` if the rule should be run.
+* `options.stats` (`boolean`)<br>
+  Default is `false`. When set to `true`, additional statistics are added to the lint results (see [Stats type](../extend/stats#-stats-type)).
 
 ##### Autofix
 
@@ -367,6 +369,8 @@ The `LintResult` value is the information of the linting result of each file. Th
   The modified source code text. This property is undefined if any fixable messages didn't exist.
 * `source` (`string | undefined`)<br>
   The original source code text. This property is undefined if any messages didn't exist or the `output` property exists.
+* `stats` (`Stats | undefined`)<br>
+  The [Stats](../extend/stats#-stats-type) object. This contains the lint performance statistics collected with the `stats` option.
 * `usedDeprecatedRules` (`{ ruleId: string; replacedBy: string[] }[]`)<br>
   The information about the deprecated rules that were used to check this file.
 
@@ -714,6 +718,14 @@ const Linter = require("eslint").Linter;
 
 Linter.version; // => '9.0.0'
 ```
+
+### Linter#getTimes()
+
+This method is used to get the times spent on (parsing, fixing, linting) a file. See `times` property of the [Stats](../extend/stats#-stats-type) object.
+
+### Linter#getFixPassCount()
+
+This method is used to get the number of autofix passes made. See `fixPasses` property of the [Stats](../extend/stats#-stats-type) object.
 
 ---
 

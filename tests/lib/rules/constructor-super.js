@@ -72,6 +72,7 @@ ruleTester.run("constructor-super", rule, {
 
         // https://github.com/eslint/eslint/issues/5261
         "class A extends B { constructor(a) { super(); for (const b of a) { this.a(); } } }",
+        "class A extends B { constructor(a) { super(); for (b in a) ( foo(b) ); } }",
 
         // https://github.com/eslint/eslint/issues/5319
         "class Foo extends Object { constructor(method) { super(); this.method = method || function() {}; } }",
@@ -82,6 +83,42 @@ ruleTester.run("constructor-super", rule, {
             "    constructor() {",
             "        super();",
             "        for (let i = 0; i < 0; i++);",
+            "    }",
+            "}"
+        ].join("\n"),
+        [
+            "class A extends Object {",
+            "    constructor() {",
+            "        super();",
+            "        for (; i < 0; i++);",
+            "    }",
+            "}"
+        ].join("\n"),
+        [
+            "class A extends Object {",
+            "    constructor() {",
+            "        super();",
+            "        for (let i = 0;; i++) {",
+            "            if (foo) break;",
+            "        }",
+            "    }",
+            "}"
+        ].join("\n"),
+        [
+            "class A extends Object {",
+            "    constructor() {",
+            "        super();",
+            "        for (let i = 0; i < 0;);",
+            "    }",
+            "}"
+        ].join("\n"),
+        [
+            "class A extends Object {",
+            "    constructor() {",
+            "        super();",
+            "        for (let i = 0;;) {",
+            "            if (foo) break;",
+            "        }",
             "    }",
             "}"
         ].join("\n"),
@@ -103,7 +140,21 @@ ruleTester.run("constructor-super", rule, {
         `,
 
         // Optional chaining
-        "class A extends obj?.prop { constructor() { super(); } }"
+        "class A extends obj?.prop { constructor() { super(); } }",
+
+        `
+            class A extends Base {
+                constructor(list) {
+                    for (const a of list) {
+                        if (a.foo) {
+                            super(a);
+                            return;
+                        }
+                    }
+                    super();
+                }
+            }
+        `
     ],
     invalid: [
 
@@ -166,6 +217,10 @@ ruleTester.run("constructor-super", rule, {
         },
         {
             code: "class A extends B { constructor() { for (var a of b) super.foo(); } }",
+            errors: [{ messageId: "missingAll", type: "MethodDefinition" }]
+        },
+        {
+            code: "class A extends B { constructor() { for (var i = 1; i < 10; i++) super.foo(); } }",
             errors: [{ messageId: "missingAll", type: "MethodDefinition" }]
         },
 
@@ -285,6 +340,47 @@ ruleTester.run("constructor-super", rule, {
 
             }`,
             errors: [{ messageId: "missingAll", type: "MethodDefinition" }]
+        },
+        {
+            code: `class C extends D {
+
+                constructor() {
+                    for (let i = 1;;i++) {
+                        if (bar) {
+                            break;
+                        }
+                    }
+                }
+
+            }`,
+            errors: [{ messageId: "missingAll", type: "MethodDefinition" }]
+        },
+        {
+            code: `class C extends D {
+
+                constructor() {
+                    do {
+                        super();
+                    } while (foo);
+                }
+
+            }`,
+            errors: [{ messageId: "duplicate", type: "CallExpression" }]
+        },
+        {
+            code: `class C extends D {
+
+                constructor() {
+                    while (foo) {
+                        if (bar) {
+                            super();
+                            break;
+                        }
+                    }
+                }
+
+            }`,
+            errors: [{ messageId: "missingSome", type: "MethodDefinition" }]
         }
     ]
 });
