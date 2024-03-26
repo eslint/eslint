@@ -55,9 +55,9 @@ See [Configuration Files](../configure/configuration-files) for more details.
 
 ### Config Object
 
-A [config file](#config-file-configuration-file) entry specifying all of the information ESLint needs to execute on a set files.
+A [config file](#config-file-configuration-file) entry specifying all of the information ESLint needs to execute on a set of files.
 
-Each configuration object may include properties describing which files to run on, how to handle different files types, which [plugins](#plugin) to include, and how to run [rules](#rule).
+Each configuration object may include properties describing which files to run on, how to handle different file types, which [plugins](#plugin) to include, and how to run [rules](#rule).
 
 See [Configuration Files > Configuration Objects](../configure/configuration-files#configuration-objects) for more details.
 
@@ -71,7 +71,7 @@ ESQuery interprets CSS syntax for AST node properties.
 Examples of ESQuery selectors include:
 
 * `BinaryExpression`: selects all nodes of type _BinaryExpression_
-* `BinaryExpression[operator=+]`: selects all _BinaryExpression_ nodes whose _operator_ is `+`
+* `BinaryExpression[operator='+']`: selects all _BinaryExpression_ nodes whose _operator_ is `+`
 * `BinaryExpression > Literal[value=1]`: selects all _Literal_ nodes with _value_ `1` whose direct parent is a _BinaryExpression_
 
 See [github.com/estools/esquery](https://github.com/estools/esquery) for more information on the ESQuery format.
@@ -166,7 +166,7 @@ For more information, see [Deprecation of formatting rules](https://eslint.org/b
 A description to ESLint of a JavaScript [global variable](#global-variable) that should exist at runtime.
 
 Global declarations inform lint rules that check for proper uses of global variables.
-For example, the [`no-undef` rule](../../rules/no-undef) will create a violation for references to global variables not defined in the configured list of environments.
+For example, the [`no-undef` rule](../../rules/no-undef) will create a violation for references to global variables not defined in the configured list of globals.
 
 [Config files](#config-file-configuration-file) have globals defined as JavaScript objects.
 
@@ -186,7 +186,7 @@ You can let ESLint know which global variables your code uses with [global decla
 
 A source code comment that configures a rule to a different severity and/or set of options.
 
-Inline configs use similar same syntax as [config files](#config-file-configuration-file) to specify any number of rules by name, their new severity, and optionally new options for the rules.
+Inline configs use similar syntax as [config files](#config-file-configuration-file) to specify any number of rules by name, their new severity, and optionally new options for the rules.
 For example, the following inline config comment simultaneously disables the `eqeqeq` rule and sets the `curly` rule to `"error"`:
 
 ```js
@@ -239,12 +239,14 @@ See [#esquery](#esquery) for the library ESLint uses to parse [selectors](#selec
 
 When a [config object](#config-object) or [inline config](#inline-config-configuration-comment) sets a new severity and/or rule options that supersede previously set severity and/or options.
 
-The following [config file](#config-file-configuration-file) overrides `no-unused-expression` from `"error"` to `"off"` in `*.test.js` files:
+The following [config file](#config-file-configuration-file) overrides `no-unused-expressions` from `"error"` to `"off"` in `*.test.js` files:
 
 ```js
 export default [
-  rules: {
-    "no-unused-expressions": "off"
+  {
+    rules: {
+      "no-unused-expressions": "error"
+    }
   },
   {
     files: ["*.test.js"],
@@ -257,7 +259,7 @@ export default [
 
 The following [inline config](#inline-config-configuration-comment) sets
 
-For more information on overrides in legacy configs, see [Configuration Files (Deprecated) > How to overrides work?](../configure/configuration-files-deprecated#how-do-overrides-work).
+For more information on overrides in legacy configs, see [Configuration Files (Deprecated) > How do overrides work?](../configure/configuration-files-deprecated#how-do-overrides-work).
 
 ## P
 
@@ -307,7 +309,7 @@ Code that checks an [AST](#abstract-syntax-tree-ast) for expected patterns. When
 ESLint provides a large collection of rules that check for common JavaScript code issues.
 Many more rules may be loaded in by [plugins](#plugin).
 
-For an overview of rules provided, see [Core Concepts > Rules](../core-concepts#rules).
+For an overview of rules provided, see [Core Concepts > Rules](../core-concepts/#rules).
 
 ## S
 
@@ -340,6 +342,7 @@ Many plugins provide configs with names like _"recommended"_ that enable their s
 For example, [`eslint-plugin-solid`](https://github.com/solidjs-community/eslint-plugin-solid) provides a shareable recommended config:
 
 ```js
+import js from "@eslint/js";
 import solid from "eslint-plugin-solid/configs/recommended";
 
 export default [js.configs.recommended, solid];
