@@ -107,7 +107,7 @@ Otherwise, team members should observe a waiting period before merging a pull re
 
 The waiting period ensures that other team members have a chance to review the pull request before it is merged.
 
-**Note:** You should not merge your own pull request unless you're received the required approvals.
+**Note:** You should not merge your pull request unless you receive the required approvals.
 
 ## When to Close a Pull Request
 
