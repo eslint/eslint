@@ -25,13 +25,12 @@ Please remove the "plugins" setting from either config or remove either plugin i
 ESLint configuration files allow loading in plugins that may include other plugins.
 A plugin package might be specified as a dependency of both your package and one or more ESLint plugins.
 
-For example, if your package requires `eslint-plugin-a@2` and `eslint-plugin-b@3`, and `eslint-plugin-b` requires `eslint-plugin-a@1`, then the `eslint-plugin-a` package might have two different versions on disk:
+For example, if your config depends on `eslint-plugin-a@2` and `eslint-plugin-b@3`, and you extend `eslint-config-b` that depends on `eslint-plugin-a@1`, then the `eslint-plugin-a` package might have two different versions on disk:
 
 * `node_modules/eslint-plugin-a`
 * `node_modules/eslint-plugin-b/node_modules/eslint-plugin-a`
 
 If the legacy ESLint configuration system sees that both plugins exists in multiple places with different versions, it won't know which one to use.
-It will instead print the aforementioned error.
 
 Note that this issue is only present in the legacy "eslintrc" configurations.
 The new ["flat" config system](../configure/configuration-files.md) has you `import` the dependencies yourself, removing the need for ESLint to attempt to determine their version uniquely.

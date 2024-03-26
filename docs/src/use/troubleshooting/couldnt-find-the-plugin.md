@@ -30,7 +30,7 @@ For example, the following ESLint config will first try to load a module located
 
 ```js
 module.exports = {
-    extends: ["eslint-plugin-yours"],
+    extends: ["plugin:eslint-plugin-yours/config-name"],
 };
 ```
 

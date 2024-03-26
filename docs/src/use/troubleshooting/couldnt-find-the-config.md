@@ -18,7 +18,7 @@ The config "${configName}" was referenced from the config file in "${importerNam
 
 ## Cause
 
-ESLint configuration files specify shareable configs by their package name.
+ESLint configuration files specify shareable configs by their package name in the `extends` array.
 That package name is passed to the Node.js `require()`, which looks up the package under local `node_modules/` directories.
 For example, the following ESLint config will first try to load a module located at `node_modules/eslint-config-yours`:
 
@@ -28,7 +28,7 @@ module.exports = {
 };
 ```
 
-If the package is not found in any searched `node_modules/`, ESLint will print the aforementioned error.
+The error is output when you attempt to extend from a configuration and the package for that configuration is not found in any searched `node_modules/`.
 
 Common reasons for this occurring include:
 
