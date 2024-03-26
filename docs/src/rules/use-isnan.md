@@ -226,6 +226,10 @@ var firstIndex = myArray.indexOf(NaN);
 var lastIndex = myArray.lastIndexOf(NaN);
 
 var indexWithSequenceExpression = myArray.indexOf((doStuff(), NaN));
+
+var firstIndexFromSecondElement = myArray.indexOf(NaN, 1);
+
+var lastIndexFromSecondElement = myArray.lastIndexOf(NaN, 1);
 ```
 
 :::

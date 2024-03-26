@@ -98,6 +98,7 @@ Each object in the `results` array is a `result` object. Each `result` object co
 * **messages**: An array of [`message`](#the-message-object) objects. See below for more info about messages.
 * **errorCount**: The number of errors for the given file.
 * **warningCount**: The number of warnings for the given file.
+* **stats**: The optional [`stats`](./stats#-stats-type) object that only exists when the `stats` option is used.
 * **source**: The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
 * **output**: The source code for the given file with as many fixes applied as possible. This property is omitted if no fix is available.
 

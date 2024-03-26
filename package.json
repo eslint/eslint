@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "9.0.0-beta.2",
+  "version": "9.0.0-rc.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -67,7 +67,7 @@
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.6.1",
     "@eslint/eslintrc": "^3.0.2",
-    "@eslint/js": "9.0.0-beta.2",
+    "@eslint/js": "9.0.0-rc.0",
     "@humanwhocodes/config-array": "^0.11.14",
     "@humanwhocodes/module-importer": "^1.0.1",
     "@nodelib/fs.walk": "^1.2.8",
@@ -76,7 +76,7 @@
     "cross-spawn": "^7.0.2",
     "debug": "^4.3.2",
     "escape-string-regexp": "^4.0.0",
-    "eslint-scope": "^8.0.0",
+    "eslint-scope": "^8.0.1",
     "eslint-visitor-keys": "^4.0.0",
     "espree": "^10.0.1",
     "esquery": "^1.4.2",
