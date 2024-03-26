@@ -12,3 +12,4 @@
 /tools/internal-rules/node_modules/**
 test.js
 !.eslintrc.js
+**/svgo.config.*js
