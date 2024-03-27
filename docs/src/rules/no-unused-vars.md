@@ -441,6 +441,8 @@ class Bar {
 }
 ```
 
+:::
+
 Examples of **correct** code for the `{ "ignoreClassWithStaticInitBlock": true }` option
 
 ::: correct
@@ -456,6 +458,8 @@ class Foo {
     }
 }
 ```
+
+:::
 
 ### reportUsedIgnorePattern
 
