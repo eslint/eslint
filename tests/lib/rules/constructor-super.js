@@ -171,10 +171,6 @@ ruleTester.run("constructor-super", rule, {
 
         // nested execution scope.
         {
-            code: "class A extends B { constructor() { class C extends D { constructor() { super(); } } } }",
-            errors: [{ messageId: "missingAll", type: "MethodDefinition" }]
-        },
-        {
             code: "class A extends B { constructor() { var c = class extends D { constructor() { super(); } } } }",
             errors: [{ messageId: "missingAll", type: "MethodDefinition" }]
         },

@@ -1461,21 +1461,16 @@ ruleTester.run("no-unused-vars", rule, {
         // https://github.com/eslint/eslint/issues/10982
         {
             code: "var a = function() { a(); };",
-            errors: [assignedError("a")]
+            errors: [{ ...assignedError("a"), line: 1, column: 5 }]
         },
         {
             code: "var a = function(){ return function() { a(); } };",
-            errors: [assignedError("a")]
-        },
-        {
-            code: "const a = () => { a(); };",
-            languageOptions: { ecmaVersion: 2015 },
-            errors: [assignedError("a")]
+            errors: [{ ...assignedError("a"), line: 1, column: 5 }]
         },
         {
             code: "const a = () => () => { a(); };",
             languageOptions: { ecmaVersion: 2015 },
-            errors: [assignedError("a")]
+            errors: [{ ...assignedError("a") }]
         },
         {
             code: `let myArray = [1,2,3,4].filter((x) => x == 0);
@@ -1489,20 +1484,7 @@ ruleTester.run("no-unused-vars", rule, {
             errors: [{ ...assignedError("a"), line: 1, column: 14 }]
         },
         {
-            code: "var a = function() { a(); };",
-            errors: [{ ...assignedError("a"), line: 1, column: 5 }]
-        },
-        {
-            code: "var a = function(){ return function() { a(); } };",
-            errors: [{ ...assignedError("a"), line: 1, column: 5 }]
-        },
-        {
             code: "const a = () => { a(); };",
-            languageOptions: { ecmaVersion: 2015 },
-            errors: [{ ...assignedError("a"), line: 1, column: 7 }]
-        },
-        {
-            code: "const a = () => () => { a(); };",
             languageOptions: { ecmaVersion: 2015 },
             errors: [{ ...assignedError("a"), line: 1, column: 7 }]
         },

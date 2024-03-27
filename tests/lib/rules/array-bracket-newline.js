@@ -762,25 +762,6 @@ ruleTester.run("array-bracket-newline", rule, {
             ]
         },
         {
-            code: "var foo = [\n1\n];",
-            output: "var foo = [1];",
-            options: ["never"],
-            errors: [
-                {
-                    messageId: "unexpectedOpeningLinebreak",
-                    type: "ArrayExpression",
-                    line: 1,
-                    column: 11
-                },
-                {
-                    messageId: "unexpectedClosingLinebreak",
-                    type: "ArrayExpression",
-                    line: 3,
-                    column: 1
-                }
-            ]
-        },
-        {
             code: "var foo = [ /* any comment */\n1, 2\n];",
             output: "var foo = [ /* any comment */\n1, 2];",
             options: ["never"],
