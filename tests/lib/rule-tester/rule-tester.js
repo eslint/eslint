@@ -3195,6 +3195,18 @@ describe("RuleTester", () => {
                 }, "detected duplicate test case");
             });
 
+            it("does not ignore top level test case properties nested in other test case properties", () => {
+                ruleTester.run("foo", {
+                    meta: { schema: [{ type: "object" }] },
+                    create() {
+                        return {};
+                    }
+                }, {
+                    valid: [{ options: [{ name: "foo" }], name: "foo", code: "same" }, { options: [{ name: "bar" }], name: "bar", code: "same" }],
+                    invalid: []
+                });
+            });
+
             it("does not throw an error for defining the same test case in different run calls", () => {
                 const rule = {
                     meta: {},
