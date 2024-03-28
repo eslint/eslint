@@ -86,6 +86,10 @@ ruleTester.run("prefer-object-spread", rule, {
             code: "class C { #assign; foo() { Object.#assign({}, foo); } }",
             languageOptions: { ecmaVersion: 2022 }
         },
+        {
+            code: "var foo = Object.assign; \n var bar = foo({}, baz);",
+            languageOptions: { ecmaVersion: 2022 }
+        },
 
         // ignore Object.assign() with > 1 arguments if any of the arguments is an object expression with a getter/setter
         "Object.assign({ get a() {} }, {})",
