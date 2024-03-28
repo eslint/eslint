@@ -173,6 +173,8 @@ This configuration specifies that all of the files in the `.config` directory sh
 
 For more information on configuring rules, see [Ignore Files](ignore).
 
+**Note:** Unlike legecy config, by default flat config doesn't ignore files or directories having a name starts with a dot, such as `.fileName` or `.directoryName`.
+
 #### Cascading Configuration Objects
 
 When more than one configuration object matches a given filename, the configuration objects are merged with later objects overriding previous objects when there is a conflict. For example:
