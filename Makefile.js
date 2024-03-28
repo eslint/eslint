@@ -605,7 +605,7 @@ target.test = function() {
     target.checkRuleFiles();
     target.mocha();
 
-    // target.wdio(); // Temporarily disabled due to problems on Jenkins
+    target.wdio();
 
     target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
     target.checkLicenses();
