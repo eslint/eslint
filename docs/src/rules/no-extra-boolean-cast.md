@@ -61,6 +61,19 @@ do {
 for (; !!foo; ) {
     // ...
 }
+
+// Complex expressions are also checked for their resulting expression(s).
+
+const ternary = Boolean(bar ? !!baz : bat);
+
+const commaOperator = Boolean((bar, baz, !!bat));
+
+// another comma operator example
+for (let i = 0; (console.log(i), Boolean(i < 10)); i++) {
+    // ...
+}
+
+const nullishCoalescingOperator = Boolean(bar ?? Boolean(baz));
 ```
 
 :::

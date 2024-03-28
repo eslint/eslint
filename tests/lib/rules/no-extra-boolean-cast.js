@@ -34,6 +34,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         "for(Boolean(foo);;) {}",
         "for(;; Boolean(foo)) {}",
         "if (new Boolean(foo)) {}",
+        "if ((Boolean(1), 2)) {}",
         {
             code: "var foo = bar || !!baz",
             options: [{ enforceForLogicalOperands: true }]
@@ -2435,6 +2436,81 @@ ruleTester.run("no-extra-boolean-cast", rule, {
                 ecmaVersion: 2020
             },
             errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if ((1, 2, Boolean(3))) {}",
+            output: "if ((1, 2, 3)) {}",
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ?? Boolean(b)) {}",
+            output: "if (a ?? b) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ?? Boolean(b)) {}",
+            output: "if (a ?? b) {}",
+            options: [{ enforceForLogicalOperands: false }],
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if ((a, b, c ?? (d, e, f ?? Boolean(g)))) {}",
+            output: "if ((a, b, c ?? (d, e, f ?? g))) {}",
+            options: [{ enforceForLogicalOperands: false }],
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if ((a, b, c ?? (d, e, f ?? Boolean(g)))) {}",
+            output: "if ((a, b, c ?? (d, e, f ?? g))) {}",
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ? Boolean(b) : c) {}",
+            output: "if (a ? b : c) {}",
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ? b : Boolean(c)) {}",
+            output: "if (a ? b : c) {}",
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ? b : Boolean(c ? d : e)) {}",
+            output: "if (a ? b : c ? d : e) {}",
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "const ternary = Boolean(bar ? !!baz : bat);",
+            output: "const ternary = Boolean(bar ? baz : bat);",
+            errors: [{ messageId: "unexpectedNegation" }]
+        },
+        {
+            code: "const commaOperator = Boolean((bar, baz, !!bat));",
+            output: "const commaOperator = Boolean((bar, baz, bat));",
+            errors: [{ messageId: "unexpectedNegation" }]
+        },
+        {
+            code: `
+for (let i = 0; (console.log(i), Boolean(i < 10)); i++) {
+    // ...
+}`,
+            output: `
+for (let i = 0; (console.log(i), i < 10); i++) {
+    // ...
+}`,
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "const nullishCoalescingOperator = Boolean(bar ?? Boolean(baz));",
+            output: "const nullishCoalescingOperator = Boolean(bar ?? baz);",
+            errors: [{ messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ? Boolean(b = c) : Boolean(d = e));",
+            output: "if (a ? b = c : d = e);",
+            errors: [{ messageId: "unexpectedCall" }, { messageId: "unexpectedCall" }]
         }
     ]
 });
