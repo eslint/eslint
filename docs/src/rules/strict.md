@@ -169,7 +169,7 @@ function foo() {
 
 :::
 
-::: incorrect { "ecmaVersion": 6, "sourceType": "script" }
+::: incorrect { "ecmaVersion": 2015, "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "function"]*/
