@@ -162,9 +162,9 @@ ruleTester.run("no-useless-backreference", rule, {
             }]
         },
         {
-            code: String.raw`/\k<foo>(?<foo>a)/`,
+            code: String.raw`/\k<foo>(?<foo>bar)/`,
             errors: [{
-                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>a)' which appears later in the pattern.`,
+                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' which appears later in the pattern.`,
                 type: "Literal"
             }]
         },
