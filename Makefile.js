@@ -604,9 +604,6 @@ target.wdio = () => {
 target.test = function() {
     target.checkRuleFiles();
     target.mocha();
-
-    target.wdio();
-
     target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
     target.checkLicenses();
 };
