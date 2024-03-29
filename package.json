@@ -30,10 +30,10 @@
     "release:generate:rc": "node Makefile.js generatePrerelease -- rc",
     "release:publish": "node Makefile.js publishRelease",
     "test": "node Makefile.js test",
+    "test:browser": "node Makefile.js wdio",
     "test:cli": "mocha",
     "test:fuzz": "node Makefile.js fuzz",
-    "test:performance": "node Makefile.js perf",
-    "test:wdio": "node Makefile.js wdio"
+    "test:performance": "node Makefile.js perf"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
