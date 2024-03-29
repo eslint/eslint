@@ -39,7 +39,7 @@ Once the bot checks have been satisfied, you check the following:
 
 ## Required Approvals for Pull Requests
 
-Any committer, reviewer, or TSC members may approve a pull request, but the approvals required for merging differ based on the type of pull request.
+Any committer, reviewer, or TSC member may approve a pull request, but the approvals required for merging differ based on the type of pull request.
 
 One committer approval is required to merge a non-breaking change that is:
 
@@ -49,7 +49,7 @@ One committer approval is required to merge a non-breaking change that is:
 1. Related to the build
 1. A chore
 
-For a non-breaking feature, pull requests require an approval from one reviewer or TSC member, plus one additional approval from any other team member.
+For a non-breaking feature, pull requests require approval from one reviewer or TSC member, plus one additional approval from any other team member.
 
 For a breaking change, pull requests require an approval from two TSC members.
 
@@ -110,7 +110,7 @@ Otherwise, team members should observe a waiting period before merging a pull re
 
 The waiting period ensures that other team members have a chance to review the pull request before it is merged.
 
-**Note:** You should not merge your own pull request unless you're received the required approvals.
+**Note:** You should not merge your pull request unless you receive the required approvals.
 
 ## When to Close a Pull Request
 
