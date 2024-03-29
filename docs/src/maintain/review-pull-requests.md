@@ -63,7 +63,10 @@ When a pull request is created, whether by a team member or an outside contribut
 
 If the pull request does not have a related issue, then it should be moved through the normal [triage process for issues](./manage-issues) to be marked as accepted. Once accepted, move the pull request to the "Implementing" column.
 
-If the pull request does have a related issue, then move the pull request to the "Implementing" column.
+If the pull request does have a related issue, then:
+
+* If the issue is accepted, move the pull request to the "Implementing" column.
+* If the issue is not accepted, move the pull request to the "Evaluating" column until the issue is marked as accepted, at which point move the pull request to "Implementing".
 
 Once the pull request has one approval, one of three things can happen:
 
