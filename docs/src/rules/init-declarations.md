@@ -71,7 +71,6 @@ Examples of **incorrect** code for the default `"always"` option:
 
 ```js
 /*eslint init-declarations: ["error", "always"]*/
-/*eslint-env es6*/
 
 function foo() {
     var bar;
@@ -87,7 +86,6 @@ Examples of **correct** code for the default `"always"` option:
 
 ```js
 /*eslint init-declarations: ["error", "always"]*/
-/*eslint-env es6*/
 
 function foo() {
     var bar = 1;
@@ -106,7 +104,6 @@ Examples of **incorrect** code for the `"never"` option:
 
 ```js
 /*eslint init-declarations: ["error", "never"]*/
-/*eslint-env es6*/
 
 function foo() {
     var bar = 1;
@@ -124,7 +121,6 @@ Examples of **correct** code for the `"never"` option:
 
 ```js
 /*eslint init-declarations: ["error", "never"]*/
-/*eslint-env es6*/
 
 function foo() {
     var bar;

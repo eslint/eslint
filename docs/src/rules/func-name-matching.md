@@ -100,7 +100,6 @@ module['exports'] = function foo(name) {};
 
 ```js
 /*eslint func-name-matching: ["error", "never"] */
-/*eslint-env es6*/
 
 var foo = function bar() {};
 var foo = function() {};

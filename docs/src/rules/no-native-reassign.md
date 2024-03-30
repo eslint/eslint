@@ -44,22 +44,9 @@ undefined = 1
 
 ```js
 /*eslint no-native-reassign: "error"*/
-/*eslint-env browser*/
+/*global window:readonly*/
 
 window = {}
-length = 1
-top = 1
-```
-
-:::
-
-::: incorrect
-
-```js
-/*eslint no-native-reassign: "error"*/
-/*global a:readonly*/
-
-a = 1
 ```
 
 :::
@@ -82,20 +69,9 @@ b = 2
 
 ```js
 /*eslint no-native-reassign: "error"*/
-/*eslint-env browser*/
+/*global onload:writable*/
 
 onload = function() {}
-```
-
-:::
-
-::: correct
-
-```js
-/*eslint no-native-reassign: "error"*/
-/*global a:writable*/
-
-a = 1
 ```
 
 :::

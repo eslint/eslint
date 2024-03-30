@@ -26,7 +26,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-useless-concat: "error"*/
-/*eslint-env es6*/
 
 var a = `some` + `string`;
 

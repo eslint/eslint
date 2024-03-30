@@ -60,13 +60,12 @@ class C {
 
 :::
 
-Examples of **correct** code for this rule with ES6 environment:
+Examples of **correct** code for this rule:
 
 ::: correct
 
 ```js
 /*eslint no-lone-blocks: "error"*/
-/*eslint-env es6*/
 
 while (foo) {
     bar();
@@ -118,7 +117,6 @@ Examples of **correct** code for this rule with ES6 environment and strict mode 
 
 ```js
 /*eslint no-lone-blocks: "error"*/
-/*eslint-env es6*/
 
 "use strict";
 
