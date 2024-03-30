@@ -173,7 +173,9 @@ This configuration specifies that all of the files in the `.config` directory sh
 
 For more information on configuring rules, see [Ignore Files](ignore).
 
-**Note:** Unlike legecy config, by default flat config doesn't ignore files or directories having a name starts with a dot, such as `.fileName` or `.directoryName`.
+::: important
+Glob patterns always match files and directories that begin with a dot, such as `.foo.js` or `.fixtures`, unless those files are explicitly ignored. The only dot directory ignored by default is `.git`.
+:::
 
 #### Cascading Configuration Objects
 
