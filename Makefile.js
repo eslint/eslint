@@ -604,9 +604,6 @@ target.wdio = () => {
 target.test = function() {
     target.checkRuleFiles();
     target.mocha();
-
-    // target.wdio(); // Temporarily disabled due to problems on Jenkins
-
     target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
     target.checkLicenses();
 };

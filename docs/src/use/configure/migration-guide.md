@@ -256,7 +256,7 @@ export default [
 ];
 ```
 
-A flag config example configuration supporting multiple configs for different glob patterns:
+A flat config example configuration supporting multiple configs for different glob patterns:
 
 ```javascript
 // eslint.config.js
