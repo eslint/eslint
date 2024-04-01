@@ -173,6 +173,10 @@ This configuration specifies that all of the files in the `.config` directory sh
 
 For more information on configuring rules, see [Ignore Files](ignore).
 
+::: important
+Glob patterns always match files and directories that begin with a dot, such as `.foo.js` or `.fixtures`, unless those files are explicitly ignored. The only dot directory ignored by default is `.git`.
+:::
+
 #### Cascading Configuration Objects
 
 When more than one configuration object matches a given filename, the configuration objects are merged with later objects overriding previous objects when there is a conflict. For example:
