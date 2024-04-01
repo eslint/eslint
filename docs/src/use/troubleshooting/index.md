@@ -1,7 +1,7 @@
 ---
 title: Troubleshooting
 eleventyNavigation:
-    key: core concepts
+    key: troubleshooting
     title: Troubleshooting
     parent: use eslint
     order: 8
