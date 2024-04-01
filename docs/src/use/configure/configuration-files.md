@@ -56,7 +56,7 @@ module.exports = [
 
 Each configuration object contains all of the information ESLint needs to execute on a set of files. Each configuration object is made up of these properties:
 
-* `name` - An name for the configuration object. This is used in error messages and config inspector to help identify which configuration object is being used. ([Naming Convention](#convention-for-configuration-name))
+* `name` - An name for the configuration object. This is used in error messages and config inspector to help identify which configuration object is being used. ([Naming Convention](#configuration-naming-conventions))
 * `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
 * `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`.
 * `languageOptions` - An object containing settings related to how JavaScript is configured for linting.
