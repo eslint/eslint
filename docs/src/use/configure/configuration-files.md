@@ -319,7 +319,7 @@ Here, the `js.configs.recommended` predefined configuration is applied first and
 
 For more information on how to combine predefined configs with your preferences, please see [Combine Configs](combine-configs).
 
-### Convention for Configuration Name
+### Configuration Naming Conventions
 
 The `name` property is optional, but it is recommended to provide a name for each configuration object, especially when you are creating shared configurations. The name is used in error messages and the config inspector to help identify which configuration object is being used.
 
