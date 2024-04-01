@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ## Symptoms
 
-When using the [legacy ESLint config system](../configure/configuration-files-deprecated.md), you may see this error running ESLint after installing dependencies:
+When using the [legacy ESLint config system](../configure/configuration-files-deprecated), you may see this error running ESLint after installing dependencies:
 
 ```plaintext
 ESLint couldn't find the plugin "${pluginName}".
@@ -60,6 +60,6 @@ Common resolutions for this issue include:
 
 For more information, see:
 
-* [Legacy ESLint configuration files](../configure/configuration-files#using-a-shareable-configuration-package) for documentation on the legacy ESLint configuration format
+* [Legacy ESLint configuration files](../configure/configuration-files-deprecated#using-a-shareable-configuration-package) for documentation on the legacy ESLint configuration format
 * [Configure Plugins](../configure/plugins) for documentation on how to extend from plugins
 * [Create Plugins](../../extend/plugins#configs-in-plugins) for documentation on how to define plugins
