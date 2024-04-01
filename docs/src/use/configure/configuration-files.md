@@ -56,6 +56,7 @@ module.exports = [
 
 Each configuration object contains all of the information ESLint needs to execute on a set of files. Each configuration object is made up of these properties:
 
+* `name` - An name for the configuration object. This is used in error messages and config inspector to help identify which configuration object is being used. ([Naming Convention](#convention-for-configuration-name))
 * `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
 * `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`.
 * `languageOptions` - An object containing settings related to how JavaScript is configured for linting.
@@ -317,6 +318,32 @@ export default [
 Here, the `js.configs.recommended` predefined configuration is applied first and then another configuration object adds the desired configuration for `no-unused-vars`.
 
 For more information on how to combine predefined configs with your preferences, please see [Combine Configs](combine-configs).
+
+### Convention for Configuration Name
+
+The `name` property is optional, but it is recommended to provide a name for each configuration object, especially when you are creating shared configurations. The name is used in error messages and the config inspector to help identify which configuration object is being used.
+
+We recommend using a name that is descriptive of the configuration object's purpose and scoped with the configurations name or plugin name. Using `/` as the seperator. For example, if you are creating a configuration object for a plugin named `eslint-config-example`, you might name the configuration object `example/recommended`.
+
+```js
+export const recommanded = [
+    {
+        name: "example/recommended",
+        rules: {
+            "no-unused-vars": "warn"
+        }
+    }
+]
+
+export const strict = [
+    {
+        name: "example/strict",
+        rules: {
+            "no-unused-vars": "error"
+        }
+    }
+]
+```
 
 ## Using a Shareable Configuration Package
 
