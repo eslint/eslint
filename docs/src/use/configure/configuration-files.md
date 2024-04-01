@@ -286,6 +286,26 @@ export default [
     {
         settings: {
             sharedData: "Hello"
+        },
+        plugins: {
+            customPlugin: {
+                rules: {
+                    "my-rule": {
+                        meta: {
+                            // custom rule's meta information
+                        },
+                        create(context) {
+                            const sharedData = context.settings.sharedData;
+                            return {
+                                // code
+                            };
+                        }
+                    }
+                }
+            }
+        },
+        rules: {
+            "customPlugin/my-rule": "error"
         }
     }
 ];
