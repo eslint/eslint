@@ -35,7 +35,7 @@ For example, if your config depends on `eslint-plugin-a@2` and `eslint-plugin-b@
 If the legacy ESLint configuration system sees that both plugins exists in multiple places with different versions, it won't know which one to use.
 
 Note that this issue is only present in the legacy eslintrc configurations.
-The new ["flat" config system](../configure/configuration-files-new) has you `import` the dependencies yourself, removing the need for ESLint to attempt to determine their version uniquely.
+The new ["flat" config system](../configure/configuration-files) has you `import` the dependencies yourself, removing the need for ESLint to attempt to determine their version uniquely.
 
 ## Resolution
 
