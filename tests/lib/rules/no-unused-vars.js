@@ -1470,7 +1470,7 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "const a = () => () => { a(); };",
             languageOptions: { ecmaVersion: 2015 },
-            errors: [{ ...assignedError("a") }]
+            errors: [{ ...assignedError("a"), line: 1, column: 7 }]
         },
         {
             code: `let myArray = [1,2,3,4].filter((x) => x == 0);

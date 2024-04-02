@@ -191,6 +191,8 @@ ruleTester.run("no-object-constructor", rule, {
         })),
 
         ...[
+
+            // No semicolon required before `({})` because ASI does not occur
             {
                 code: `
                 {}
