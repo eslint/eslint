@@ -76,6 +76,7 @@ const foo = "baz";
 /* eslint-env es6 */
 
 /*eslint-env node */
+/*eslint-env*/
 ```
 
 :::

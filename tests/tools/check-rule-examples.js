@@ -83,8 +83,9 @@ describe("check-rule-examples", () => {
                 `\x1B[0m  \x1B[2m64:1\x1B[22m  \x1B[31merror\x1B[39m  "ecmaVersion" must be one of ${[3, 5, ...Array.from({ length: LATEST_ECMA_VERSION - 2015 + 1 }, (_, index) => index + 2015)].join(", ")}\x1B[0m\n` +
                 "\x1B[0m  \x1B[2m76:1\x1B[22m  \x1B[31merror\x1B[39m  /* eslint-env */ comments are no longer supported. Remove the comment\x1B[0m\n" +
                 "\x1B[0m  \x1B[2m78:1\x1B[22m  \x1B[31merror\x1B[39m  /* eslint-env */ comments are no longer supported. Remove the comment\x1B[0m\n" +
+                "\x1B[0m  \x1B[2m79:1\x1B[22m  \x1B[31merror\x1B[39m  /* eslint-env */ comments are no longer supported. Remove the comment\x1B[0m\n" +
                 "\x1B[0m\x1B[0m\n" +
-                "\x1B[0m\x1B[31m\x1B[1m✖ 11 problems (11 errors, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
+                "\x1B[0m\x1B[31m\x1B[1m✖ 12 problems (12 errors, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
                 "\x1B[0m\x1B[31m\x1B[1m\x1B[22m\x1B[39m\x1B[0m\n";
 
                 assert.strictEqual(normalizedStderr, expectedStderr);
