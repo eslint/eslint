@@ -116,7 +116,7 @@ async function findProblems(filename) {
 
                 for (const comment of ast.comments) {
 
-                    if (comment.type === "Block" && /^\s*eslint-env\s/u.test(comment.value)) {
+                    if (comment.type === "Block" && /^\s*eslint-env(?!\S)/u.test(comment.value)) {
                         problems.push({
                             fatal: false,
                             severity: 2,
