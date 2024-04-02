@@ -352,7 +352,7 @@ The name should be descriptive of the configuration object's purpose and scoped 
 ```js
 export default {
     configs: {
-        recommanded: {
+        recommended: {
             name: "example/recommended",
             rules: {
                 "no-unused-vars": "warn"
