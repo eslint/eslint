@@ -55,7 +55,6 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 
 ```js
 /*eslint object-curly-newline: ["error", "always"]*/
-/*eslint-env es6*/
 
 let a = {};
 let b = {foo: 1};
@@ -84,7 +83,6 @@ Examples of **correct** code for this rule with the `"always"` option:
 
 ```js
 /*eslint object-curly-newline: ["error", "always"]*/
-/*eslint-env es6*/
 
 let a = {
 };
@@ -133,7 +131,6 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint object-curly-newline: ["error", "never"]*/
-/*eslint-env es6*/
 
 let a = {
 };
@@ -180,7 +177,6 @@ Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
 /*eslint object-curly-newline: ["error", "never"]*/
-/*eslint-env es6*/
 
 let a = {};
 let b = {foo: 1};
@@ -211,7 +207,6 @@ Examples of **incorrect** code for this rule with the `{ "multiline": true }` op
 
 ```js
 /*eslint object-curly-newline: ["error", { "multiline": true }]*/
-/*eslint-env es6*/
 
 let a = {
 };
@@ -250,7 +245,6 @@ Examples of **correct** code for this rule with the `{ "multiline": true }` opti
 
 ```js
 /*eslint object-curly-newline: ["error", { "multiline": true }]*/
-/*eslint-env es6*/
 
 let a = {};
 let b = {foo: 1};
@@ -289,7 +283,6 @@ Examples of **incorrect** code for this rule with the `{ "minProperties": 2 }` o
 
 ```js
 /*eslint object-curly-newline: ["error", { "minProperties": 2 }]*/
-/*eslint-env es6*/
 
 let a = {
 };
@@ -328,7 +321,6 @@ Examples of **correct** code for this rule with the `{ "minProperties": 2 }` opt
 
 ```js
 /*eslint object-curly-newline: ["error", { "minProperties": 2 }]*/
-/*eslint-env es6*/
 
 let a = {};
 let b = {foo: 1};
@@ -367,7 +359,6 @@ Examples of **incorrect** code for this rule with the default `{ "consistent": t
 
 ```js
 /*eslint object-curly-newline: ["error", { "consistent": true }]*/
-/*eslint-env es6*/
 
 let a = {foo: 1
 };
@@ -415,7 +406,6 @@ Examples of **correct** code for this rule with the default `{ "consistent": tru
 
 ```js
 /*eslint object-curly-newline: ["error", { "consistent": true }]*/
-/*eslint-env es6*/
 
 let empty1 = {};
 let empty2 = {
@@ -473,7 +463,6 @@ Examples of **incorrect** code for this rule with the `{ "ObjectExpression": "al
 
 ```js
 /*eslint object-curly-newline: ["error", { "ObjectExpression": "always", "ObjectPattern": "never" }]*/
-/*eslint-env es6*/
 
 let a = {};
 let b = {foo: 1};
@@ -511,7 +500,6 @@ Examples of **correct** code for this rule with the `{ "ObjectExpression": "alwa
 
 ```js
 /*eslint object-curly-newline: ["error", { "ObjectExpression": "always", "ObjectPattern": "never" }]*/
-/*eslint-env es6*/
 
 let a = {
 };
@@ -551,7 +539,6 @@ Examples of **incorrect** code for this rule with the `{ "ImportDeclaration": "a
 
 ```js
 /*eslint object-curly-newline: ["error", { "ImportDeclaration": "always", "ExportDeclaration": "never" }]*/
-/*eslint-env es6*/
 
 import {foo, bar} from 'foo-bar';
 import {foo as f, baz} from 'foo-bar';
@@ -576,7 +563,6 @@ Examples of **correct** code for this rule with the `{ "ImportDeclaration": "alw
 
 ```js
 /*eslint object-curly-newline: ["error", { "ImportDeclaration": "always", "ExportDeclaration": "never" }]*/
-/*eslint-env es6*/
 
 import {
     foo,

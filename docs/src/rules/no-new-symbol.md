@@ -28,7 +28,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-new-symbol: "error"*/
-/*eslint-env es6*/
 
 var foo = new Symbol('foo');
 ```
@@ -41,7 +40,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-new-symbol: "error"*/
-/*eslint-env es6*/
 
 var foo = Symbol('foo');
 

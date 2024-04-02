@@ -48,7 +48,6 @@ Examples of **correct** code for this rule with the default `"after"` option:
 
 ```js
 /*eslint yield-star-spacing: ["error", "after"]*/
-/*eslint-env es6*/
 
 function* generator() {
   yield* other();
@@ -65,7 +64,6 @@ Examples of **correct** code for this rule with the `"before"` option:
 
 ```js
 /*eslint yield-star-spacing: ["error", "before"]*/
-/*eslint-env es6*/
 
 function *generator() {
   yield *other();
@@ -82,7 +80,6 @@ Examples of **correct** code for this rule with the `"both"` option:
 
 ```js
 /*eslint yield-star-spacing: ["error", "both"]*/
-/*eslint-env es6*/
 
 function * generator() {
   yield * other();
@@ -99,7 +96,6 @@ Examples of **correct** code for this rule with the `"neither"` option:
 
 ```js
 /*eslint yield-star-spacing: ["error", "neither"]*/
-/*eslint-env es6*/
 
 function*generator() {
   yield*other();

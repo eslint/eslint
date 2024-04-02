@@ -32,8 +32,6 @@ var foo = {
 Now here are ES6 equivalents:
 
 ```js
-/*eslint-env es6*/
-
 // properties
 var foo = {x, y, z};
 
@@ -54,7 +52,6 @@ Each of the following properties would warn:
 
 ```js
 /*eslint object-shorthand: "error"*/
-/*eslint-env es6*/
 
 var foo = {
     w: function() {},
@@ -68,7 +65,6 @@ In that case the expected syntax would have been:
 
 ```js
 /*eslint object-shorthand: "error"*/
-/*eslint-env es6*/
 
 var foo = {
     w() {},
@@ -83,7 +79,6 @@ The following will *not* warn:
 
 ```js
 /*eslint object-shorthand: "error"*/
-/*eslint-env es6*/
 
 var foo = {
     x: (y) => y
@@ -130,7 +125,6 @@ Example of **incorrect** code for this rule with the `"always", { "avoidQuotes":
 
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidQuotes": true }]*/
-/*eslint-env es6*/
 
 var foo = {
     "bar-baz"() {}
@@ -145,7 +139,6 @@ Example of **correct** code for this rule with the `"always", { "avoidQuotes": t
 
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidQuotes": true }]*/
-/*eslint-env es6*/
 
 var foo = {
     "bar-baz": function() {},
@@ -169,7 +162,6 @@ Example of **correct** code for this rule with the `"always", { "ignoreConstruct
 
 ```js
 /*eslint object-shorthand: ["error", "always", { "ignoreConstructors": true }]*/
-/*eslint-env es6*/
 
 var foo = {
     ConstructorFunction: function() {}
@@ -208,7 +200,6 @@ Example of **incorrect** code for this rule with the `"always", { "avoidExplicit
 
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidExplicitReturnArrows": true }]*/
-/*eslint-env es6*/
 
 var foo = {
   foo: (bar, baz) => {
@@ -229,7 +220,6 @@ Example of **correct** code for this rule with the `"always", { "avoidExplicitRe
 
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidExplicitReturnArrows": true }]*/
-/*eslint-env es6*/
 
 var foo = {
   foo(bar, baz) {
@@ -248,7 +238,6 @@ Example of **incorrect** code for this rule with the `"consistent"` option:
 
 ```js
 /*eslint object-shorthand: [2, "consistent"]*/
-/*eslint-env es6*/
 
 var foo = {
     a,
@@ -264,7 +253,6 @@ Examples of **correct** code for this rule with the `"consistent"` option:
 
 ```js
 /*eslint object-shorthand: [2, "consistent"]*/
-/*eslint-env es6*/
 
 var foo = {
     a: a,
@@ -285,7 +273,6 @@ Example of **incorrect** code with the `"consistent-as-needed"` option, which is
 
 ```js
 /*eslint object-shorthand: [2, "consistent-as-needed"]*/
-/*eslint-env es6*/
 
 var foo = {
     a: a,

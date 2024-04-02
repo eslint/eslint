@@ -50,8 +50,6 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint-env es6*/
-
 foo[ 'bar' ];
 foo['bar' ];
 
@@ -122,8 +120,6 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint-env es6*/
-
 foo['bar'];
 foo['bar' ];
 foo[ 'bar'];

@@ -35,7 +35,7 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-implied-eval: "error"*/
-/*eslint-env browser*/
+/*global window*/
 
 setTimeout("alert('Hi!');", 100);
 

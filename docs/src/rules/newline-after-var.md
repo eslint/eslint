@@ -46,7 +46,6 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint newline-after-var: ["error", "always"]*/
-/*eslint-env es6*/
 
 var greet = "hello,",
     name = "world";
@@ -74,7 +73,6 @@ Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint newline-after-var: ["error", "always"]*/
-/*eslint-env es6*/
 
 var greet = "hello,",
     name = "world";
@@ -108,7 +106,6 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint newline-after-var: ["error", "never"]*/
-/*eslint-env es6*/
 
 var greet = "hello,",
     name = "world";
@@ -140,7 +137,6 @@ Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
 /*eslint newline-after-var: ["error", "never"]*/
-/*eslint-env es6*/
 
 var greet = "hello,",
     name = "world";

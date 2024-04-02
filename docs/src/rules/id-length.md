@@ -29,7 +29,6 @@ Examples of **incorrect** code for this rule with the default options:
 
 ```js
 /*eslint id-length: "error"*/     // default is minimum 2-chars ({ "min": 2 })
-/*eslint-env es6*/
 
 var x = 5;
 obj.e = document.body;
@@ -64,7 +63,6 @@ Examples of **correct** code for this rule with the default options:
 
 ```js
 /*eslint id-length: "error"*/     // default is minimum 2-chars ({ "min": 2 })
-/*eslint-env es6*/
 
 var num = 5;
 function _f() { return 42; }
@@ -117,7 +115,6 @@ Examples of **incorrect** code for this rule with the `{ "min": 4 }` option:
 
 ```js
 /*eslint id-length: ["error", { "min": 4 }]*/
-/*eslint-env es6*/
 
 var val = 5;
 obj.e = document.body;
@@ -147,7 +144,6 @@ Examples of **correct** code for this rule with the `{ "min": 4 }` option:
 
 ```js
 /*eslint id-length: ["error", { "min": 4 }]*/
-/*eslint-env es6*/
 
 var value = 5;
 function func() { return 42; }
@@ -183,7 +179,6 @@ Examples of **incorrect** code for this rule with the `{ "max": 10 }` option:
 
 ```js
 /*eslint id-length: ["error", { "max": 10 }]*/
-/*eslint-env es6*/
 
 var reallyLongVarName = 5;
 function reallyLongFuncName() { return 42; }
@@ -206,7 +201,6 @@ Examples of **correct** code for this rule with the `{ "max": 10 }` option:
 
 ```js
 /*eslint id-length: ["error", { "max": 10 }]*/
-/*eslint-env es6*/
 
 var varName = 5;
 function funcName() { return 42; }
@@ -231,7 +225,6 @@ Examples of **correct** code for this rule with the `{ "properties": "never" }` 
 
 ```js
 /*eslint id-length: ["error", { "properties": "never" }]*/
-/*eslint-env es6*/
 
 var myObj = { a: 1 };
 ({ a: obj.x.y.z } = {});
@@ -248,7 +241,6 @@ Examples of additional **correct** code for this rule with the `{ "exceptions": 
 
 ```js
 /*eslint id-length: ["error", { "exceptions": ["x", "y", "z", "ζ"] }]*/
-/*eslint-env es6*/
 
 var x = 5;
 function y() { return 42; }
@@ -275,7 +267,6 @@ Examples of additional **correct** code for this rule with the `{ "exceptionPatt
 
 ```js
 /*eslint id-length: ["error", { "exceptionPatterns": ["E|S", "[x-z]"] }]*/
-/*eslint-env es6*/
 
 var E = 5;
 function S() { return 42; }

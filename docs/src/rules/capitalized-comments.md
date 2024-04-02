@@ -42,7 +42,6 @@ Examples of **correct** code for this rule:
 // 丈 Non-Latin character at beginning of comment
 
 /* eslint semi:off */
-/* eslint-env node */
 /* eslint-disable */
 /* eslint-enable */
 /* istanbul ignore next */
@@ -118,7 +117,6 @@ Examples of **correct** code for this rule:
 // 丈 Non-Latin character at beginning of comment
 
 /* eslint semi:off */
-/* eslint-env node */
 /* eslint-disable */
 /* eslint-enable */
 /* istanbul ignore next */

@@ -22,7 +22,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-this-before-super: "error"*/
-/*eslint-env es6*/
 
 class A1 extends B {
     constructor() {
@@ -60,7 +59,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-this-before-super: "error"*/
-/*eslint-env es6*/
 
 class A1 {
     constructor() {

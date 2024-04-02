@@ -94,7 +94,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint valid-jsdoc: "error"*/
-/*eslint-env es6*/
 
 /**
  * Add two numbers.
@@ -192,7 +191,6 @@ Examples of additional **incorrect** code for this rule with sample `"prefer": {
 
 ```js
 /*eslint valid-jsdoc: ["error", { "prefer": { "arg": "param", "argument": "param", "class": "constructor", "return": "returns", "virtual": "abstract" } }]*/
-/*eslint-env es6*/
 
 /**
  * Add two numbers.
@@ -238,7 +236,6 @@ Examples of additional **incorrect** code for this rule with sample `"preferType
 
 ```js
 /*eslint valid-jsdoc: ["error", { "preferType": { "Boolean": "boolean", "Number": "number", "object": "Object", "String": "string" } }]*/
-/*eslint-env es6*/
 
 /**
  * Add two numbers.

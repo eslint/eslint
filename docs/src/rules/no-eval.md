@@ -43,26 +43,26 @@ this.eval("var a = 0");
 
 :::
 
-Example of additional **incorrect** code for this rule when `browser` environment is set to `true`:
+Example of additional **incorrect** code for this rule with `window` global variable:
 
 ::: incorrect
 
 ```js
 /*eslint no-eval: "error"*/
-/*eslint-env browser*/
+/*global window*/
 
 window.eval("var a = 0");
 ```
 
 :::
 
-Example of additional **incorrect** code for this rule when `node` environment is set to `true`:
+Example of additional **incorrect** code for this rule with `global` global variable:
 
 ::: incorrect
 
 ```js
 /*eslint no-eval: "error"*/
-/*eslint-env node*/
+/*global global*/
 
 global.eval("var a = 0");
 ```
@@ -75,7 +75,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-eval: "error"*/
-/*eslint-env es6*/
 
 var obj = { x: "foo" },
     key = "x",
@@ -150,7 +149,7 @@ this.eval("var a = 0");
 
 ```js
 /*eslint no-eval: ["error", {"allowIndirect": true} ]*/
-/*eslint-env browser*/
+/*global window*/
 
 window.eval("var a = 0");
 ```
@@ -161,7 +160,7 @@ window.eval("var a = 0");
 
 ```js
 /*eslint no-eval: ["error", {"allowIndirect": true} ]*/
-/*eslint-env node*/
+/*global global*/
 
 global.eval("var a = 0");
 ```

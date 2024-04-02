@@ -62,7 +62,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint class-methods-use-this: "error"*/
-/*eslint-env es6*/
 
 class A {
     foo() {
@@ -79,7 +78,7 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint class-methods-use-this: "error"*/
-/*eslint-env es6*/
+
 class A {
     foo() {
         this.bar = "Hello World"; // OK, this is used
