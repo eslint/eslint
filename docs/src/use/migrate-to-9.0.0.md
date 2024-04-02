@@ -36,6 +36,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [`no-inner-declarations` has a new default behavior with a new option](#no-inner-declarations)
 * [`no-unused-vars` now defaults `caughtErrors` to `"all"`](#no-unused-vars)
 * [`no-useless-computed-key` flags unnecessary computed member names in classes by default](#no-useless-computed-key)
+* [`camelcase` allow option only accepts an array of strings](#camelcase)
 
 ### Breaking changes for plugin developers
 
@@ -433,6 +434,14 @@ class SomeClass {
 **To address:** Fix the problems reported by the rule or revert to the previous behavior by setting the `enforceForClassMembers` option to `false`.
 
 **Related issue(s):** [#18042](https://github.com/eslint/eslint/issues/18042)
+
+## <a name="camelcase"></a> `camelcase` allow option only accepts an array of strings
+
+Previously the camelcase rule didn't enforce the `allow` option to be an array of strings. In ESLint v9.0.0, the `allow` option now only accepts an array of strings.
+
+**To address:** If ESLint reports invalid configuration for this rule, update your configuration.
+
+**Related issue(s):** [#18232](https://github.com/eslint/eslint/pull/18232)
 
 ## <a name="removed-context-methods"></a> Removed multiple `context` methods
 
