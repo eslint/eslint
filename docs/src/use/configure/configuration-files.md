@@ -347,7 +347,7 @@ For more information on how to combine predefined configs with your preferences,
 
 The `name` property is optional, but it is recommended to provide a name for each configuration object, especially when you are creating shared configurations. The name is used in error messages and the config inspector to help identify which configuration object is being used.
 
-The name should be descriptive of the configuration object's purpose and scoped with the configurations name or plugin name. Using `/` as the seperator. For example, if you are creating a configuration object for a plugin named `eslint-plugin-example`, you might add `name` to the configuration objects with the `example/` prefix:
+The name should be descriptive of the configuration object's purpose and scoped with the configuration name or plugin name. Using `/` as the separator. For example, if you are creating a configuration object for a plugin named `eslint-plugin-example`, you might add `name` to the configuration objects with the `example/` prefix:
 
 ```js
 export default {
