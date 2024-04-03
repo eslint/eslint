@@ -347,7 +347,9 @@ For more information on how to combine predefined configs with your preferences,
 
 The `name` property is optional, but it is recommended to provide a name for each configuration object, especially when you are creating shared configurations. The name is used in error messages and the config inspector to help identify which configuration object is being used.
 
-The name should be descriptive of the configuration object's purpose and scoped with the configuration name or plugin name. Using `/` as the separator. For example, if you are creating a configuration object for a plugin named `eslint-plugin-example`, you might add `name` to the configuration objects with the `example/` prefix:
+The name should be descriptive of the configuration object's purpose and scoped with the configuration name or plugin name. Using `/` as the separator. ESLint does not enforce the names to be unique at runtime, but it is recommended to set unique names to avoid confusion.
+
+For example, if you are creating a configuration object for a plugin named `eslint-plugin-example`, you might add `name` to the configuration objects with the `example/` prefix:
 
 ```js
 export default {
@@ -364,6 +366,30 @@ export default {
                 "no-unused-vars": "error"
             }
         }
+    }
+};
+```
+
+When exposing arrays of configuration objects, the `name` may have extra levels of scoping to help identify the configuration object. For example:
+
+```js
+export default {
+    configs: {
+        strict: [
+            {
+                name: "example/strict/language-setup",
+                languageOptions: {
+                    ecmaVersion: 2024
+                }
+            },
+            {
+                name: "example/strict/sub-config",
+                file: ["src/**/*.js"],
+                rules: {
+                    "no-unused-vars": "error"
+                }
+            }
+        ]
     }
 }
 ```
