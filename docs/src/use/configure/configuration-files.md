@@ -345,9 +345,9 @@ For more information on how to combine predefined configs with your preferences,
 
 ### Configuration Naming Conventions
 
-The `name` property is optional, but it is recommended to provide a name for each configuration object, especially when you are creating shared configurations. The name is used in error messages, and the config inspector to help identify which configuration object is being used.
+The `name` property is optional, but it is recommended to provide a name for each configuration object, especially when you are creating shared configurations. The name is used in error messages and the config inspector to help identify which configuration object is being used.
 
-The name should be descriptive of the configuration object's purpose and scoped with the configuration name or plugin name. Using `/` as the separator. ESLint does not enforce the names to be unique at runtime, but it is recommended that unique names be set to avoid confusion.
+The name should be descriptive of the configuration object's purpose and scoped with the configuration name or plugin name using `/` as a separator. ESLint does not enforce the names to be unique at runtime, but it is recommended that unique names be set to avoid confusion.
 
 For example, if you are creating a configuration object for a plugin named `eslint-plugin-example`, you might add `name` to the configuration objects with the `example/` prefix:
 
