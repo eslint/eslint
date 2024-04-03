@@ -29,7 +29,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-shadow: "error"*/
-/*eslint-env es6*/
 
 var a = 3;
 function b() {
@@ -97,7 +96,6 @@ Examples of **incorrect** code for the default `{ "hoist": "functions" }` option
 
 ```js
 /*eslint no-shadow: ["error", { "hoist": "functions" }]*/
-/*eslint-env es6*/
 
 if (true) {
     let b = 6;
@@ -116,7 +114,6 @@ Examples of **correct** code for the default `{ "hoist": "functions" }` option:
 
 ```js
 /*eslint no-shadow: ["error", { "hoist": "functions" }]*/
-/*eslint-env es6*/
 
 if (true) {
     let a = 3;
@@ -137,7 +134,6 @@ Examples of **incorrect** code for the `{ "hoist": "all" }` option:
 
 ```js
 /*eslint no-shadow: ["error", { "hoist": "all" }]*/
-/*eslint-env es6*/
 
 if (true) {
     let a = 3;
@@ -158,7 +154,6 @@ Examples of **correct** code for the `{ "hoist": "never" }` option:
 
 ```js
 /*eslint no-shadow: ["error", { "hoist": "never" }]*/
-/*eslint-env es6*/
 
 if (true) {
     let a = 3;
@@ -183,7 +178,6 @@ Examples of **correct** code for the `{ "allow": ["done"] }` option:
 
 ```js
 /*eslint no-shadow: ["error", { "allow": ["done"] }]*/
-/*eslint-env es6*/
 
 import async from 'async';
 

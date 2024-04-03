@@ -47,8 +47,6 @@ doSomething(); // error
 A variable declaration is permitted anywhere a statement can go, even nested deeply inside other blocks. This is often undesirable due to variable hoisting, and moving declarations to the root of the program or function body can increase clarity. Note that [block bindings](https://leanpub.com/understandinges6/read#leanpub-auto-block-bindings) (`let`, `const`) are not hoisted and therefore they are not affected by this rule.
 
 ```js
-/*eslint-env es6*/
-
 // Good
 var foo = 42;
 
@@ -126,7 +124,7 @@ function doSomethingElse() {
 
 function doSomethingElse() {
     "use strict";
-    
+
     if (test) {
         function doAnotherThing() { }
     }

@@ -19,7 +19,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-throw-literal: "error"*/
-/*eslint-env es6*/
 
 throw "error";
 

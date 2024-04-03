@@ -36,7 +36,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint global-require: "error"*/
-/*eslint-env es6*/
 
 // calling require() inside of a function is not allowed
 function readFile(filename, callback) {

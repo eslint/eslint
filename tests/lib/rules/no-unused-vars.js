@@ -88,6 +88,24 @@ function assignedError(varName, additional = "", type = "Identifier") {
     };
 }
 
+/**
+ * Returns an expected error for used-but-ignored variables.
+ * @param {string} varName The name of the variable
+ * @param {string} [additional] The additional text for the message data
+ * @param {string} [type] The node type (defaults to "Identifier")
+ * @returns {Object} An expected error object
+ */
+function usedIgnoredError(varName, additional = "", type = "Identifier") {
+    return {
+        messageId: "usedIgnoredVar",
+        data: {
+            varName,
+            additional
+        },
+        type
+    };
+}
+
 ruleTester.run("no-unused-vars", rule, {
     valid: [
         "var foo = 5;\n\nlabel: while (true) {\n  console.log(foo);\n  break label;\n}",
@@ -462,6 +480,22 @@ ruleTester.run("no-unused-vars", rule, {
             code: "class Foo { static {} }",
             options: [{ ignoreClassWithStaticInitBlock: false, varsIgnorePattern: "^Foo" }],
             languageOptions: { ecmaVersion: 2022 }
+        },
+
+        // https://github.com/eslint/eslint/issues/17568
+        {
+            code: "const a = 5; const _c = a + 5;",
+            options: [{ args: "all", varsIgnorePattern: "^_", reportUsedIgnorePattern: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "(function foo(a, _b) { return a + 5 })(5)",
+            options: [{ args: "all", argsIgnorePattern: "^_", reportUsedIgnorePattern: true }]
+        },
+        {
+            code: "const [ a, _b, c ] = items;\nconsole.log(a+c);",
+            options: [{ destructuredArrayIgnorePattern: "^_", reportUsedIgnorePattern: true }],
+            languageOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -621,12 +655,12 @@ ruleTester.run("no-unused-vars", rule, {
             languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
-                    ...assignedError("a", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
+                    ...assignedError("a", ". Allowed unused elements of array destructuring must match /^_/u"),
                     line: 3,
                     column: 20
                 },
                 {
-                    ...assignedError("c", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
+                    ...assignedError("c", ". Allowed unused elements of array destructuring must match /^_/u"),
                     line: 3,
                     column: 27
                 }
@@ -644,12 +678,12 @@ ruleTester.run("no-unused-vars", rule, {
             languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
-                    ...assignedError("a", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
+                    ...assignedError("a", ". Allowed unused elements of array destructuring must match /^_/u"),
                     line: 3,
                     column: 20
                 },
                 {
-                    ...assignedError("c", ". Allowed unused elements of array destructuring patterns must match /^_/u"),
+                    ...assignedError("c", ". Allowed unused elements of array destructuring must match /^_/u"),
                     line: 3,
                     column: 27
                 },
@@ -1478,21 +1512,16 @@ ruleTester.run("no-unused-vars", rule, {
         // https://github.com/eslint/eslint/issues/10982
         {
             code: "var a = function() { a(); };",
-            errors: [assignedError("a")]
+            errors: [{ ...assignedError("a"), line: 1, column: 5 }]
         },
         {
             code: "var a = function(){ return function() { a(); } };",
-            errors: [assignedError("a")]
-        },
-        {
-            code: "const a = () => { a(); };",
-            languageOptions: { ecmaVersion: 2015 },
-            errors: [assignedError("a")]
+            errors: [{ ...assignedError("a"), line: 1, column: 5 }]
         },
         {
             code: "const a = () => () => { a(); };",
             languageOptions: { ecmaVersion: 2015 },
-            errors: [assignedError("a")]
+            errors: [{ ...assignedError("a"), line: 1, column: 7 }]
         },
         {
             code: `let myArray = [1,2,3,4].filter((x) => x == 0);
@@ -1506,20 +1535,7 @@ ruleTester.run("no-unused-vars", rule, {
             errors: [{ ...assignedError("a"), line: 1, column: 14 }]
         },
         {
-            code: "var a = function() { a(); };",
-            errors: [{ ...assignedError("a"), line: 1, column: 5 }]
-        },
-        {
-            code: "var a = function(){ return function() { a(); } };",
-            errors: [{ ...assignedError("a"), line: 1, column: 5 }]
-        },
-        {
             code: "const a = () => { a(); };",
-            languageOptions: { ecmaVersion: 2015 },
-            errors: [{ ...assignedError("a"), line: 1, column: 7 }]
-        },
-        {
-            code: "const a = () => () => { a(); };",
             languageOptions: { ecmaVersion: 2015 },
             errors: [{ ...assignedError("a"), line: 1, column: 7 }]
         },
@@ -1611,6 +1627,52 @@ c = foo1`,
             options: [{ ignoreClassWithStaticInitBlock: true }],
             languageOptions: { ecmaVersion: 2022 },
             errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
+        },
+
+        // https://github.com/eslint/eslint/issues/17568
+        {
+            code: "const _a = 5;const _b = _a + 5",
+            options: [{ args: "all", varsIgnorePattern: "^_", reportUsedIgnorePattern: true }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [
+                usedIgnoredError("_a", ". Used vars must not match /^_/u")
+            ]
+        },
+        {
+            code: "const _a = 42; foo(() => _a);",
+            options: [{ args: "all", varsIgnorePattern: "^_", reportUsedIgnorePattern: true }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [usedIgnoredError("_a", ". Used vars must not match /^_/u")]
+        },
+        {
+            code: "(function foo(_a) { return _a + 5 })(5)",
+            options: [{ args: "all", argsIgnorePattern: "^_", reportUsedIgnorePattern: true }],
+            errors: [usedIgnoredError("_a", ". Used args must not match /^_/u")]
+        },
+        {
+            code: "const [ a, _b ] = items;\nconsole.log(a+_b);",
+            options: [{ destructuredArrayIgnorePattern: "^_", reportUsedIgnorePattern: true }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [
+                usedIgnoredError("_b", ". Used elements of array destructuring must not match /^_/u")
+            ]
+        },
+        {
+            code: "let _x;\n[_x] = arr;\nfoo(_x);",
+            options: [{ destructuredArrayIgnorePattern: "^_", reportUsedIgnorePattern: true, varsIgnorePattern: "[iI]gnored" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [usedIgnoredError("_x", ". Used elements of array destructuring must not match /^_/u")]
+        },
+        {
+            code: "const [ignored] = arr;\nfoo(ignored);",
+            options: [{ destructuredArrayIgnorePattern: "^_", reportUsedIgnorePattern: true, varsIgnorePattern: "[iI]gnored" }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [usedIgnoredError("ignored", ". Used vars must not match /[iI]gnored/u")]
+        },
+        {
+            code: "try{}catch(_err){console.error(_err)}",
+            options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^_", reportUsedIgnorePattern: true }],
+            errors: [usedIgnoredError("_err", ". Used args must not match /^_/u")]
         }
     ]
 });

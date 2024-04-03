@@ -45,7 +45,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-extra-bind: "error"*/
-/*eslint-env es6*/
 
 var x = function () {
     foo();

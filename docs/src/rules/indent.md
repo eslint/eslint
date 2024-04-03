@@ -246,7 +246,6 @@ Examples of **incorrect** code for this rule with the `2, { "VariableDeclarator"
 
 ```js
 /*eslint indent: ["error", 2, { "VariableDeclarator": 1 }]*/
-/*eslint-env es6*/
 
 var a,
     b,
@@ -267,7 +266,6 @@ Examples of **correct** code for this rule with the `2, { "VariableDeclarator": 
 
 ```js
 /*eslint indent: ["error", 2, { "VariableDeclarator": 1 }]*/
-/*eslint-env es6*/
 
 var a,
   b,
@@ -288,7 +286,6 @@ Examples of **correct** code for this rule with the `2, { "VariableDeclarator": 
 
 ```js
 /*eslint indent: ["error", 2, { "VariableDeclarator": 2 }]*/
-/*eslint-env es6*/
 
 var a,
     b,
@@ -309,7 +306,6 @@ Examples of **incorrect** code for this rule with the `2, { "VariableDeclarator"
 
 ```js
 /*eslint indent: ["error", 2, { "VariableDeclarator": "first" }]*/
-/*eslint-env es6*/
 
 var a,
   b,
@@ -330,7 +326,6 @@ Examples of **correct** code for this rule with the `2, { "VariableDeclarator": 
 
 ```js
 /*eslint indent: ["error", 2, { "VariableDeclarator": "first" }]*/
-/*eslint-env es6*/
 
 var a,
     b,
@@ -351,7 +346,6 @@ Examples of **correct** code for this rule with the `2, { "VariableDeclarator": 
 
 ```js
 /*eslint indent: ["error", 2, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3 } }]*/
-/*eslint-env es6*/
 
 var a,
     b,

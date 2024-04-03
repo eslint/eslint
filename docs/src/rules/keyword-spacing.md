@@ -62,7 +62,6 @@ Examples of **correct** code for this rule with the default `{ "before": true }`
 
 ```jsx
 /*eslint keyword-spacing: ["error", { "before": true }]*/
-/*eslint-env es6*/
 
 if (foo) {
     //...

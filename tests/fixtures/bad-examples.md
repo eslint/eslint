@@ -68,3 +68,15 @@ const foo = "baz";
 ```
 
 :::
+
+:::correct
+
+```js
+/* eslint no-restricted-syntax: ["error", "ArrayPattern"] */
+/* eslint-env es6 */
+
+/*eslint-env node */
+/*eslint-env*/
+```
+
+:::

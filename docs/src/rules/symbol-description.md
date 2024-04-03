@@ -38,7 +38,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint symbol-description: "error"*/
-/*eslint-env es6*/
 
 var foo = Symbol();
 ```
@@ -51,7 +50,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint symbol-description: "error"*/
-/*eslint-env es6*/
 
 var foo = Symbol("some description");
 

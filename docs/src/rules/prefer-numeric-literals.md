@@ -40,7 +40,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint prefer-numeric-literals: "error"*/
-/*eslint-env es6*/
 
 parseInt(1);
 parseInt(1, 3);

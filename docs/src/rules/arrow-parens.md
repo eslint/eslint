@@ -15,8 +15,6 @@ be wrapped in parentheses. This rule enforces the consistent use of parentheses 
 This rule enforces parentheses around arrow function parameters regardless of arity. For example:
 
 ```js
-/*eslint-env es6*/
-
 // Bad
 a => {}
 
@@ -28,8 +26,6 @@ Following this style will help you find arrow functions (`=>`) which may be mist
 when a comparison such as `>=` was the intent.
 
 ```js
-/*eslint-env es6*/
-
 // Bad
 if (a => 2) {
 }
@@ -42,8 +38,6 @@ if (a >= 2) {
 The rule can also be configured to discourage the use of parens when they are not required:
 
 ```js
-/*eslint-env es6*/
-
 // Bad
 (a) => {}
 
@@ -72,7 +66,6 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint arrow-parens: ["error", "always"]*/
-/*eslint-env es6*/
 
 a => {};
 a => a;
@@ -90,7 +83,6 @@ Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint arrow-parens: ["error", "always"]*/
-/*eslint-env es6*/
 
 () => {};
 (a) => {};
@@ -107,8 +99,6 @@ a.then((foo) => { if (true) {} });
 One of the benefits of this option is that it prevents the incorrect use of arrow functions in conditionals:
 
 ```js
-/*eslint-env es6*/
-
 var a = 1;
 var b = 2;
 // ...
@@ -125,8 +115,6 @@ The contents of the `if` statement is an arrow function, not a comparison.
 If the arrow function is intentional, it should be wrapped in parens to remove ambiguity.
 
 ```js
-/*eslint-env es6*/
-
 var a = 1;
 var b = 0;
 // ...
@@ -141,8 +129,6 @@ if ((a) => b) {
 The following is another example of this behavior:
 
 ```js
-/*eslint-env es6*/
-
 var a = 1, b = 2, c = 3, d = 4;
 var f = a => b ? c: d;
 // f = ?
@@ -153,8 +139,6 @@ var f = a => b ? c: d;
 This should be rewritten like so:
 
 ```js
-/*eslint-env es6*/
-
 var a = 1, b = 2, c = 3, d = 4;
 var f = (a) => b ? c: d;
 ```
@@ -167,7 +151,6 @@ Examples of **incorrect** code for this rule with the `"as-needed"` option:
 
 ```js
 /*eslint arrow-parens: ["error", "as-needed"]*/
-/*eslint-env es6*/
 
 (a) => {};
 (a) => a;
@@ -188,7 +171,6 @@ Examples of **correct** code for this rule with the `"as-needed"` option:
 
 ```js
 /*eslint arrow-parens: ["error", "as-needed"]*/
-/*eslint-env es6*/
 
 () => {};
 a => {};
@@ -215,7 +197,6 @@ Examples of **incorrect** code for the `{ "requireForBlockBody": true }` option:
 
 ```js
 /*eslint arrow-parens: [2, "as-needed", { "requireForBlockBody": true }]*/
-/*eslint-env es6*/
 
 (a) => a;
 a => {};
@@ -235,7 +216,6 @@ Examples of **correct** code for the `{ "requireForBlockBody": true }` option:
 
 ```js
 /*eslint arrow-parens: [2, "as-needed", { "requireForBlockBody": true }]*/
-/*eslint-env es6*/
 
 (a) => {};
 (a) => {'\n'};

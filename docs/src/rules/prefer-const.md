@@ -149,7 +149,6 @@ Examples of **incorrect** code for the default `{"destructuring": "any"}` option
 
 ```js
 /*eslint prefer-const: "error"*/
-/*eslint-env es6*/
 
 let {a, b} = obj;    /*error 'b' is never reassigned, use 'const' instead.*/
 a = a + 1;
@@ -163,7 +162,6 @@ Examples of **correct** code for the default `{"destructuring": "any"}` option:
 
 ```js
 /*eslint prefer-const: "error"*/
-/*eslint-env es6*/
 
 // using const.
 const {a: a0, b} = obj;
@@ -183,7 +181,6 @@ Examples of **incorrect** code for the `{"destructuring": "all"}` option:
 
 ```js
 /*eslint prefer-const: ["error", {"destructuring": "all"}]*/
-/*eslint-env es6*/
 
 // all of `a` and `b` should be const, so those are warned.
 let {a, b} = obj;    /*error 'a' is never reassigned, use 'const' instead.
@@ -198,7 +195,6 @@ Examples of **correct** code for the `{"destructuring": "all"}` option:
 
 ```js
 /*eslint prefer-const: ["error", {"destructuring": "all"}]*/
-/*eslint-env es6*/
 
 // 'b' is never reassigned, but all of `a` and `b` should not be const, so those are ignored.
 let {a, b} = obj;
@@ -219,7 +215,6 @@ Examples of **correct** code for the `{"ignoreReadBeforeAssign": true}` option:
 
 ```js
 /*eslint prefer-const: ["error", {"ignoreReadBeforeAssign": true}]*/
-/*eslint-env es6*/
 
 let timer;
 function initialize() {
@@ -238,7 +233,6 @@ Examples of **correct** code for the default `{"ignoreReadBeforeAssign": false}`
 
 ```js
 /*eslint prefer-const: ["error", {"ignoreReadBeforeAssign": false}]*/
-/*eslint-env es6*/
 
 const timer = setInterval(initialize, 100);
 function initialize() {

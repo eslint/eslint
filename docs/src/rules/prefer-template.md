@@ -15,8 +15,6 @@ var str = "Hello, " + name + "!";
 ```
 
 ```js
-/*eslint-env es6*/
-
 var str = `Hello, ${name}!`;
 ```
 
@@ -45,7 +43,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint prefer-template: "error"*/
-/*eslint-env es6*/
 
 var str = "Hello World!";
 var str = `Hello, ${name}!`;
