@@ -56,6 +56,7 @@ module.exports = [
 
 Each configuration object contains all of the information ESLint needs to execute on a set of files. Each configuration object is made up of these properties:
 
+* `name` - A name for the configuration object. This is used in error messages and config inspector to help identify which configuration object is being used. ([Naming Convention](#configuration-naming-conventions))
 * `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
 * `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`.
 * `languageOptions` - An object containing settings related to how JavaScript is configured for linting.
@@ -341,6 +342,57 @@ export default [
 Here, the `js.configs.recommended` predefined configuration is applied first and then another configuration object adds the desired configuration for `no-unused-vars`.
 
 For more information on how to combine predefined configs with your preferences, please see [Combine Configs](combine-configs).
+
+### Configuration Naming Conventions
+
+The `name` property is optional, but it is recommended to provide a name for each configuration object, especially when you are creating shared configurations. The name is used in error messages and the config inspector to help identify which configuration object is being used.
+
+The name should be descriptive of the configuration object's purpose and scoped with the configuration name or plugin name using `/` as a separator. ESLint does not enforce the names to be unique at runtime, but it is recommended that unique names be set to avoid confusion.
+
+For example, if you are creating a configuration object for a plugin named `eslint-plugin-example`, you might add `name` to the configuration objects with the `example/` prefix:
+
+```js
+export default {
+    configs: {
+        recommended: {
+            name: "example/recommended",
+            rules: {
+                "no-unused-vars": "warn"
+            }
+        },
+        strict: {
+            name: "example/strict",
+            rules: {
+                "no-unused-vars": "error"
+            }
+        }
+    }
+};
+```
+
+When exposing arrays of configuration objects, the `name` may have extra scoping levels to help identify the configuration object. For example:
+
+```js
+export default {
+    configs: {
+        strict: [
+            {
+                name: "example/strict/language-setup",
+                languageOptions: {
+                    ecmaVersion: 2024
+                }
+            },
+            {
+                name: "example/strict/sub-config",
+                file: ["src/**/*.js"],
+                rules: {
+                    "no-unused-vars": "error"
+                }
+            }
+        ]
+    }
+}
+```
 
 ## Using a Shareable Configuration Package
 
