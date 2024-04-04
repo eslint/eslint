@@ -445,4 +445,12 @@ describe("options", () => {
         });
     });
 
+    describe("--inspect-config", () => {
+        it("should return true --inspect-config is passed", () => {
+            const currentOptions = flatOptions.parse("--inspect-config");
+
+            assert.isTrue(currentOptions.inspectConfig);
+        });
+    });
+
 });

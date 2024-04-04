@@ -157,6 +157,10 @@ export default [
 
 This configuration object applies to all files except those ending with `.config.js`. Effectively, this is like having `files` set to `**/*`. In general, it's a good idea to always include `files` if you are specifying `ignores`.
 
+::: tip
+Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspect-config` in the CLI) to test which config objects apply to a specific file.
+:::
+
 #### Globally ignoring files with `ignores`
 
 If `ignores` is used without any other keys in the configuration object, then the patterns act as global ignores. Here's an example:
