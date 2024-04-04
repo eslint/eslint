@@ -1,4 +1,19 @@
 {
     "items": [
+        {
+            "version": "HEAD",
+            "branch": "main",
+            "path": "/docs/head/"
+        },
+        {
+            "version": "9.0.0-rc.0",
+            "branch": "next",
+            "path": "/docs/next/"
+        },
+        {
+            "version": "8.57.0",
+            "branch": "latest",
+            "path": "/docs/latest/"
+        }
     ]
 }
