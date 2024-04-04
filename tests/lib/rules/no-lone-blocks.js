@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-lone-blocks"),
-    RuleTester = require("../../../lib/rule-tester/rule-tester");
+    RuleTester = require("../../../lib/rule-tester/rule-tester"),
+    parser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -71,7 +72,39 @@ ruleTester.run("no-lone-blocks", rule, {
         { code: "class C { static { { let block; } something; } }", languageOptions: { ecmaVersion: 2022 } },
         { code: "class C { static { something; { const block = 1; } } }", languageOptions: { ecmaVersion: 2022 } },
         { code: "class C { static { { function block(){} } something; } }", languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { something; { class block {}  } } }", languageOptions: { ecmaVersion: 2022 } }
+        { code: "class C { static { something; { class block {}  } } }", languageOptions: { ecmaVersion: 2022 } },
+
+        /*
+         * Test case to support `using` declarations in advance of explicit resource management
+         * reaching stage 4.
+         * See https://github.com/eslint/eslint/issues/18204
+         */
+        {
+            code: `
+{
+  using x = makeDisposable();
+}`,
+            languageOptions: {
+                parser: require(parser("typescript-parsers/no-lone-blocks/using")),
+                ecmaVersion: 2022
+            }
+        },
+
+        /*
+         * Test case to support `await using` declarations in advance of explicit resource management
+         * reaching stage 4.
+         * See https://github.com/eslint/eslint/issues/18204
+         */
+        {
+            code: `
+{
+  await using x = makeDisposable();
+}`,
+            languageOptions: {
+                parser: require(parser("typescript-parsers/no-lone-blocks/await-using")),
+                ecmaVersion: 2022
+            }
+        }
     ],
     invalid: [
         {
