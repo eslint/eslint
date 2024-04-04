@@ -28,12 +28,6 @@ module.exports = async function() {
 
     const { items } = data;
 
-    // For initial commit purpose only
-    if (items.length === 0) {
-        const localData = require("./versions.json");
-        items.push(...localData.items);
-    }
-
     let foundItemForThisBranch = false;
 
     for (const item of items) {
