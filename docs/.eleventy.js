@@ -43,6 +43,8 @@ module.exports = function(eleventyConfig) {
         pathPrefix = "/docs/latest/";
     } else if (process.env.BRANCH === "next") {
         pathPrefix = "/docs/next/";
+    } else if (process.env.BRANCH && /^v\d+\.x$/u.test(process.env.BRANCH)) {
+        pathPrefix = `/docs/${process.env.BRANCH}/`; // `/docs/v8.x/`, `/docs/v9.x/`, `/docs/v10.x/` ...
     }
 
     //------------------------------------------------------------------------------
