@@ -32,8 +32,6 @@ If you want to use a specific shareable config that is hosted on npm, you can us
 # npm 7+
 npm init @eslint/config -- --config eslint-config-standard
 
-# ⚠️ npm 6.x no extra double-dash:
-npm init @eslint/config --config eslint-config-standard
 ```
 
 **Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
