@@ -1222,6 +1222,16 @@ describe("ESLint", () => {
             assert.strictEqual(results[0].messages[0].ruleId, "quotes");
         });
 
+        it("should error early with config files that include an undefined", async () => {
+            eslint = new ESLint({
+                cwd: getFixturePath("undefined-config")
+            });
+
+            await assert.rejects(async () => {
+                await eslint.lintFiles(["a*.js"]);
+            }, /You have included `undefined` in your array of configs - this is commonly the result of trying to use a config from a plugin that does not exist; make sure you have not typo'd the name!/u);
+        });
+
         // https://github.com/eslint/eslint/issues/16265
         describe("Dot files in searches", () => {
 
