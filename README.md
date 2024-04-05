@@ -62,14 +62,8 @@ After that, you can run ESLint on any file or directory like this:
 After running `npm init @eslint/config`, you'll have an `eslint.config.js` or `eslint.config.mjs` file in your directory. In it, you'll see some rules configured like this:
 
 ```js
-module.exports = [
-    {
-        "rules": {
-            "semi": ["error", "always"],
-            "quotes": ["error", "double"]
-        }
-    }
-];
+import pluginJs from "@eslint/js";
+export default [ pluginJs.configs.recommended, ];
 ```
 
 The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/docs/rules) in ESLint. The first value is the error level of the rule and can be one of these values:
