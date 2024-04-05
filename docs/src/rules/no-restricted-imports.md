@@ -286,6 +286,8 @@ import { AllowedObject } from "foo";
 
 This is also an object option whose value is an array. This option allows you to specify multiple modules to restrict using `gitignore`-style patterns.
 
+Where `paths` option takes exact import paths, `patterns` option can be used to specify the import paths with more flexibility, allowing for the restriction of multiple modules within the same directory.
+
 Because the patterns follow the `gitignore`-style, if you want to reinclude any particular module this can be done by prefixing a negation (`!`) mark in front of the pattern. (Negated patterns should come last in the array because order is important.)
 
 ```json
