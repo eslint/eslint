@@ -316,7 +316,7 @@ Because the patterns follow the `gitignore`-style, if you want to reinclude any 
 }]
 ```
 
-Examples of **incorrect** code for `pattern` option:
+Examples of **incorrect** code for `patterns` option:
 
 ::: incorrect { "sourceType": "module" }
 
@@ -350,7 +350,7 @@ import pick from 'import1/private/someModule';
 
 In this example, `"!import1/private/*"` is not reincluding the modules inside `private` because the negation mark (`!`) does not reinclude the files if it's parent directory is excluded by a pattern. In this case, `import1/private` directory is already excluded by the `import1/*` pattern. (The excluded directory can be reincluded using `"!import1/private"`.)
 
-Examples of **correct** code for `pattern` option:
+Examples of **correct** code for `patterns` option:
 
 ::: correct { "sourceType": "module" }
 
