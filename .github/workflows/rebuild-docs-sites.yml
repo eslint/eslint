@@ -1,0 +1,17 @@
+name: Rebuild Docs Sites
+
+on:
+  push:
+    branches: [main]
+    paths:
+        - 'docs/src/_data/versions.json'
+
+jobs:
+  rebuild:
+    name: 'Trigger rebuild on Netlify'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: >
+          jq -r '.items | map(.branch) | join(",")' docs/src/_data/versions.json
+          | xargs -I{LIST} curl -X POST -d {} "${{ secrets.NETLIFY_DOCS_BUILD_HOOK }}?trigger_branch={{LIST}}"
