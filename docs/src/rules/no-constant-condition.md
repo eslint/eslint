@@ -118,14 +118,72 @@ if(input === "hello" || input === "bye"){
 
 ### checkLoops
 
-Set to `true` by default. Setting this option to `false` allows constant expressions in loops.
+This is an object option having following values:
 
-Examples of **correct** code for when `checkLoops` is `false`:
+* `all` - Disallow constant expressions in all loops.
+* `allExceptWhileTrue` (default) - Disallow constant expressions in all loops except `While` loop with expression `true`.
+* `none` - Allow constant expressions in loops.
+
+Example of **incorrect** code for when `checkLoops` is `all`:
+
+::: incorrect
+
+```js
+/*eslint no-constant-condition: ["error", { "checkLoops": "all" }]*/
+
+while (true) {
+    doSomething();
+};
+
+for (;true;) {
+    doSomething();
+};
+
+do {
+    doSomething();
+} while (true)
+```
+
+:::
+
+Example of **correct** code for when `checkLoops` is `all`:
 
 ::: correct
 
 ```js
-/*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
+/*eslint no-constant-condition: ["error", { "checkLoops": "all" }]*/
+
+while (a === b) {
+    doSomething();
+};
+
+for (let x = 0; x <= 10; x++) {
+    doSomething();
+};
+```
+
+:::
+
+Examples of **correct** code for when `checkLoops` is `allExceptWhileTrue`:
+
+::: correct
+
+```js
+/*eslint no-constant-condition: "error"*/
+
+while (true) {
+    doSomething();
+};
+```
+
+:::
+
+Examples of **correct** code for when `checkLoops` is `none`:
+
+::: correct
+
+```js
+/*eslint no-constant-condition: ["error", { "checkLoops": "none" }]*/
 
 while (true) {
     doSomething();

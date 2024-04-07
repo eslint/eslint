@@ -161,10 +161,13 @@ ruleTester.run("no-constant-condition", rule, {
         "if ([,] in\n\n($2))\n ;\nelse\n ;",
         "if ([...x]+'' === 'y'){}",
 
-        // { checkLoops: false }
-        { code: "while(true);", options: [{ checkLoops: false }] },
-        { code: "for(;true;);", options: [{ checkLoops: false }] },
-        { code: "do{}while(true)", options: [{ checkLoops: false }] },
+        // { checkLoops: "none" }
+        { code: "while(true);", options: [{ checkLoops: "none" }] },
+        { code: "for(;true;);", options: [{ checkLoops: "none" }] },
+        { code: "do{}while(true)", options: [{ checkLoops: "none" }] },
+
+        // { checkloops: "allExceptWhileTrue" }
+        { code: "while(true);", options: [{ checkLoops: "allExceptWhileTrue" }] },
 
         "function* foo(){while(true){yield 'foo';}}",
         "function* foo(){for(;true;){yield 'foo';}}",
@@ -272,7 +275,7 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "while(~!0);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
         { code: "while(x = 1);", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
         { code: "while(function(){});", errors: [{ messageId: "unexpected", type: "FunctionExpression" }] },
-        { code: "while(true);", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "while(true);", options: [{ checkLoops: "all" }], errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "while(1);", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "while(() => {});", errors: [{ messageId: "unexpected", type: "ArrowFunctionExpression" }] },
         { code: "while(`foo`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
@@ -316,22 +319,27 @@ ruleTester.run("no-constant-condition", rule, {
 
         {
             code: "function* foo(){while(true){} yield 'foo';}",
+            options: [{ checkLoops: "all" }],
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {
             code: "function* foo(){while(true){if (true) {yield 'foo';}}}",
+            options: [{ checkLoops: "all" }],
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {
             code: "function* foo(){while(true){yield 'foo';} while(true) {}}",
+            options: [{ checkLoops: "all" }],
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {
             code: "var a = function* foo(){while(true){} yield 'foo';}",
+            options: [{ checkLoops: "all" }],
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {
             code: "while (true) { function* foo() {yield;}}",
+            options: [{ checkLoops: "all" }],
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {
@@ -348,10 +356,12 @@ ruleTester.run("no-constant-condition", rule, {
         },
         {
             code: "function foo() {while (true) {function* bar() {while (true) {yield;}}}}",
+            options: [{ checkLoops: "all" }],
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {
             code: "function foo() {while (true) {const bar = function*() {while (true) {yield;}}}}",
+            options: [{ checkLoops: "all" }],
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {
