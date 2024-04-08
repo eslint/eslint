@@ -7,6 +7,7 @@ const unicorn = require("eslint-plugin-unicorn");
 
 // extends eslint recommended config
 const jsConfigs = [js.configs.recommended, {
+    name: "eslint-config-eslint/js",
     rules: {
         "array-bracket-spacing": "error",
         "array-callback-return": "error",
@@ -259,6 +260,7 @@ const jsConfigs = [js.configs.recommended, {
 
 // extends eslint-plugin-jsdoc's recommended config
 const jsdocConfigs = [jsdoc.configs["flat/recommended"], {
+    name: "eslint-config-eslint/jsdoc",
     settings: {
         jsdoc: {
             mode: "typescript",
@@ -350,6 +352,7 @@ const jsdocConfigs = [jsdoc.configs["flat/recommended"], {
 
 // extends eslint-plugin-unicorn's config
 const unicornConfigs = [{
+    name: "eslint-config-eslint/unicorn",
     plugins: { unicorn },
     rules: {
         "unicorn/prefer-array-find": "error",
@@ -376,7 +379,7 @@ const eslintCommentsConfigs = [eslintCommentsPluginConfigs.recommended, {
 }];
 
 module.exports = [
-    { linterOptions: { reportUnusedDisableDirectives: "error" } },
+    { name: "eslint-config-eslint/base", linterOptions: { reportUnusedDisableDirectives: "error" } },
     ...jsConfigs,
     ...unicornConfigs,
     ...jsdocConfigs,

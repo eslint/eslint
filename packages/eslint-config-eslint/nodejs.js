@@ -11,6 +11,7 @@ const sharedRules = {
 const cjsConfigs = [
     recommendedScriptConfig,
     {
+        name: "eslint-config-eslint/cjs",
         rules: {
             ...sharedRules,
             "n/no-mixed-requires": "error",
@@ -23,6 +24,7 @@ const cjsConfigs = [
 const esmConfigs = [
     recommendedModuleConfig,
     {
+        name: "eslint-config-eslint/esm",
         rules: sharedRules
     }
 ];
