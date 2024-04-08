@@ -1,2 +1,2 @@
 [build]
-  command = "cd .. && npm install -f && cd ./docs && npm run build"
+  command = "cd .. && npm install && cd ./docs && npm run build"

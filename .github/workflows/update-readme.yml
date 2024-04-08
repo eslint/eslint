@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-node@v4
 
     - name: Install npm packages
-      run: npm install --force
+      run: npm install
 
     - name: Update README with latest team and sponsor data
       run: npm run build:readme
