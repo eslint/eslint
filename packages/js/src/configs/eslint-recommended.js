@@ -9,6 +9,7 @@
 /* eslint sort-keys: ["error", "asc"] -- Long, so make more readable */
 
 module.exports = Object.freeze({
+    name: "@eslint/js/recommended",
     rules: Object.freeze({
         "constructor-super": "error",
         "for-direction": "error",
