@@ -161,6 +161,11 @@ ruleTester.run("no-constant-condition", rule, {
         "if ([,] in\n\n($2))\n ;\nelse\n ;",
         "if ([...x]+'' === 'y'){}",
 
+        // { checkLoops: false }
+        { code: "while(true);", options: [{ checkLoops: false }] },
+        { code: "for(;true;);", options: [{ checkLoops: false }] },
+        { code: "do{}while(true)", options: [{ checkLoops: false }] },
+
         // { checkLoops: "none" }
         { code: "while(true);", options: [{ checkLoops: "none" }] },
         { code: "for(;true;);", options: [{ checkLoops: "none" }] },
@@ -323,8 +328,18 @@ ruleTester.run("no-constant-condition", rule, {
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {
+            code: "function* foo(){while(true){} yield 'foo';}",
+            options: [{ checkLoops: true }],
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
             code: "function* foo(){while(true){if (true) {yield 'foo';}}}",
             options: [{ checkLoops: "all" }],
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "function* foo(){while(true){if (true) {yield 'foo';}}}",
+            options: [{ checkLoops: true }],
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {
@@ -333,13 +348,28 @@ ruleTester.run("no-constant-condition", rule, {
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {
+            code: "function* foo(){while(true){yield 'foo';} while(true) {}}",
+            options: [{ checkLoops: true }],
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
             code: "var a = function* foo(){while(true){} yield 'foo';}",
             options: [{ checkLoops: "all" }],
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {
+            code: "var a = function* foo(){while(true){} yield 'foo';}",
+            options: [{ checkLoops: true }],
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
             code: "while (true) { function* foo() {yield;}}",
             options: [{ checkLoops: "all" }],
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "while (true) { function* foo() {yield;}}",
+            options: [{ checkLoops: true }],
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {

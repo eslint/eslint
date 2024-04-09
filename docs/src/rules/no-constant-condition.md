@@ -124,7 +124,9 @@ This is an object option having following values:
 * `allExceptWhileTrue` (default) - Disallow constant expressions in all loops except `While` loop with expression `true`.
 * `none` - Allow constant expressions in loops.
 
-Example of **incorrect** code for when `checkLoops` is `all`:
+Or instead you can set the `checkLoops` value to booleans where `true` is same as `all` and `false` is same as `none`.
+
+Example of **incorrect** code for when `checkLoops` is `all` or `true`:
 
 ::: incorrect
 
@@ -138,6 +140,18 @@ while (true) {
 for (;true;) {
     doSomething();
 };
+```
+
+:::
+
+::: incorrect
+
+```js
+/*eslint no-constant-condition: ["error", { "checkLoops": true }]*/
+
+while (true) {
+    doSomething();
+};
 
 do {
     doSomething();
@@ -146,7 +160,7 @@ do {
 
 :::
 
-Example of **correct** code for when `checkLoops` is `all`:
+Example of **correct** code for when `checkLoops` is `all` or `true`:
 
 ::: correct
 
@@ -156,6 +170,14 @@ Example of **correct** code for when `checkLoops` is `all`:
 while (a === b) {
     doSomething();
 };
+```
+
+:::
+
+::: correct
+
+```js
+/*eslint no-constant-condition: ["error", { "checkLoops": true }]*/
 
 for (let x = 0; x <= 10; x++) {
     doSomething();
@@ -178,7 +200,29 @@ while (true) {
 
 :::
 
-Examples of **correct** code for when `checkLoops` is `none`:
+Examples of **correct** code for when `checkLoops` is `none` or `false`:
+
+::: correct
+
+```js
+/*eslint no-constant-condition: ["error", { "checkLoops": "none" }]*/
+
+while (true) {
+    doSomething();
+    if (condition()) {
+        break;
+    }
+};
+
+do {
+    doSomething();
+    if (condition()) {
+        break;
+    }
+} while (true)
+```
+
+:::
 
 ::: correct
 
@@ -198,13 +242,6 @@ for (;true;) {
         break;
     }
 };
-
-do {
-    doSomething();
-    if (condition()) {
-        break;
-    }
-} while (true)
 ```
 
 :::
