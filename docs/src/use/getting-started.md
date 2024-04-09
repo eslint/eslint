@@ -50,7 +50,7 @@ yarn run eslint yourfile.js
 
 **Note:** If you are coming from a version before 9.0.0 please see the [migration guide](configure/migration-guide).
 
-After running `npm init @eslint/config`, you'll have an `eslint.config.js` or `eslint.config.mjs` file in your directory. In it, you'll see some rules configured like this:
+After running `npm init @eslint/config`, you'll have an `eslint.config.js` (or `eslint.config.mjs`) file in your directory. In it, you'll see some rules configured like this:
 
 ```js
 // eslint.config.js
