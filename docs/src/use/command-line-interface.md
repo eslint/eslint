@@ -321,7 +321,7 @@ npx eslint --rule 'quotes: [error, double]' --no-eslintrc
 
 **Deprecated**: Use rules from plugins instead.
 
-This option allows you to specify another directory from which to load rules files. This allows you to dynamically load new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
+**eslintrc Mode Only.** This option allows you to specify another directory from which to load rules files. This allows you to dynamically load new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
 
 * **Argument Type**: String. Path to directory. The rules in your custom rules directory must follow the same format as bundled rules to work properly.
 * **Multiple Arguments**: Yes.
