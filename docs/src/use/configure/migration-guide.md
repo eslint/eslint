@@ -646,6 +646,12 @@ The `--resolve-plugins-relative-to` flag was used to indicate which directory pl
 
 With flat config, shareable configs can specify their dependencies directly, so this flag is no longer needed.
 
+### `package.json` Configuration No Longer Supported
+
+With eslintrc, it was possible to use a `package.json` file to configure ESLint using the `eslintConfig` key.
+
+With flat config, it's no longer possible to use a `package.json` file to configure ESLint. You'll need to move your configuration into a separate file.
+
 ### Additional Changes
 
 The following changes have been made from the eslintrc to the flat config file format:
