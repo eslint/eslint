@@ -286,7 +286,7 @@ import { AllowedObject } from "foo";
 
 This is also an object option whose value is an array. This option allows you to specify multiple modules to restrict using `gitignore`-style patterns.
 
-Where `paths` option takes exact import paths, `patterns` option can be used to specify the import paths with more flexibility, allowing for the restriction of multiple modules within the same directory.
+Where `paths` option takes exact import paths, `patterns` option can be used to specify the import paths with more flexibility, allowing for the restriction of multiple modules within the same directory. For example:
 
 ```json
 "no-restricted-imports": ["error", {
@@ -296,17 +296,20 @@ Where `paths` option takes exact import paths, `patterns` option can be used to 
 }]
 ```
 
-Here rule will only restrict the `import-foo` module.
+This configuration restricts import of the `import-foo` module but wouldn't restrict the import of `import-foo/bar` or `import-foo/baz`. You can use `patterns` to restrict both:
 
 ```json
 "no-restricted-imports": ["error", {
+    "paths": [{
+      "name": "import-foo",
+    }],
     "patterns": [{
-      "group": ["import1/*"],
+      "group": ["import-foo/ba*"],
     }]
 }]
 ```
 
-Here rule will restrict all modules inside `import1` directory.
+This configuration restricts imports not just from `import-foo` using `path`, but also `import-foo/bar` and `import-foo/baz` using `patterns`.
 
 Because the patterns follow the `gitignore`-style, if you want to reinclude any particular module this can be done by prefixing a negation (`!`) mark in front of the pattern. (Negated patterns should come last in the array because order is important.)
 
