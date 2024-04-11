@@ -12,6 +12,7 @@
 const fs = require("fs");
 const { readFile } = require("fs/promises");
 const { execSync } = require("child_process");
+const os = require("os");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -28,7 +29,17 @@ const OUTPUT_DIRECTORY = "tests/fixtures/emfile";
  * MacOS Sonoma v14.4 has a limit of 10496.
  * Windows has no hard limit but may be limited by available memory.
  */
-const FILE_COUNT = 15000;
+const DEFAULT_FILE_COUNT = 15000;
+let FILE_COUNT = DEFAULT_FILE_COUNT;
+
+// if the platform isn't windows, get the ulimit to see what the actual limit is
+if (os.platform() !== "win32") {
+    try {
+        FILE_COUNT = parseInt(execSync("ulimit -n").toString().trim(), 10);
+    } catch {
+        FILE_COUNT = DEFAULT_FILE_COUNT;
+    }
+}
 
 /**
  * Generates files in a directory.
@@ -68,12 +79,11 @@ generateFiles();
 
 console.log("Running ESLint...");
 execSync(`node bin/eslint.js ${OUTPUT_DIRECTORY} -c ${OUTPUT_DIRECTORY}/eslint.config.js`, { stdio: "inherit" });
-console.log("✅ No errors encountered.");
+console.log("✅ No errors encountered running ESLint.");
 
 console.log("Checking that this number of files would cause an EMFILE error...");
 generateEmFileError()
     .then(() => {
-        console.error("❌ No EMFILE error encountered.");
         throw new Error("EMFILE error not encountered.");
     })
     .catch(error => {
