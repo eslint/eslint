@@ -35,9 +35,10 @@ let FILE_COUNT = DEFAULT_FILE_COUNT;
 // if the platform isn't windows, get the ulimit to see what the actual limit is
 if (os.platform() !== "win32") {
     try {
-        FILE_COUNT = parseInt(execSync("ulimit -n").toString().trim(), 10);
+        FILE_COUNT = parseInt(execSync("ulimit -n").toString().trim(), 10) + 1;
     } catch {
-        FILE_COUNT = DEFAULT_FILE_COUNT;
+
+        // ignore error and use default
     }
 }
 
