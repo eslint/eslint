@@ -367,7 +367,7 @@ const unicornConfigs = [{
     }
 }];
 
-// extends eslint-plugin-eslint-comments's recommended config
+// extends @eslint-community/eslint-plugin-eslint-comments's recommended config
 const eslintCommentsConfigs = [eslintCommentsPluginConfigs.recommended, {
     rules: {
         "@eslint-community/eslint-comments/disable-enable-pair": ["error"],

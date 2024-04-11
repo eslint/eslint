@@ -29,8 +29,8 @@
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
-    "@eslint/js": "^8.42.0",
     "@eslint-community/eslint-plugin-eslint-comments": "^4.3.0",
+    "@eslint/js": "^8.42.0",
     "eslint-plugin-jsdoc": "^46.5.1",
     "eslint-plugin-n": "^17.2.0",
     "eslint-plugin-unicorn": "^49.0.0"
