@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 const fs = require("fs");
+const { readFile } = require("fs/promises");
 const { execSync } = require("child_process");
 
 //------------------------------------------------------------------------------
@@ -17,7 +18,17 @@ const { execSync } = require("child_process");
 //------------------------------------------------------------------------------
 
 const OUTPUT_DIRECTORY = "tests/fixtures/emfile";
-const FILE_COUNT = 10000;
+
+/*
+ * Every operating system has a different limit for the number of files that can
+ * be opened at once. This number is meant to be larger than the default limit
+ * on most systems.
+ *
+ * Linux systems typically start at a count of 1024 and may be increased to 4096.
+ * MacOS Sonoma v14.4 has a limit of 10496.
+ * Windows has no hard limit but may be limited by available memory.
+ */
+const FILE_COUNT = 15000;
 
 /**
  * Generates files in a directory.
@@ -34,6 +45,20 @@ function generateFiles() {
 
 }
 
+/**
+ * Generates an EMFILE error by reading all files in the output directory.
+ * @returns {Promise<Buffer[]>} A promise that resolves with the contents of all files.
+ */
+function generateEmFileError() {
+    return Promise.all(
+        Array.from({ length: FILE_COUNT }, (_, i) => {
+            const fileName = `file_${i}.js`;
+
+            return readFile(`${OUTPUT_DIRECTORY}/${fileName}`);
+        })
+    );
+}
+
 //------------------------------------------------------------------------------
 // Main
 //------------------------------------------------------------------------------
@@ -43,4 +68,19 @@ generateFiles();
 
 console.log("Running ESLint...");
 execSync(`node bin/eslint.js ${OUTPUT_DIRECTORY} -c ${OUTPUT_DIRECTORY}/eslint.config.js`, { stdio: "inherit" });
-console.log("No errors encountered.");
+console.log("✅ No errors encountered.");
+
+console.log("Checking that this number of files would cause an EMFILE error...");
+generateEmFileError()
+    .then(() => {
+        console.error("❌ No EMFILE error encountered.");
+        throw new Error("EMFILE error not encountered.");
+    })
+    .catch(error => {
+        if (error.code === "EMFILE") {
+            console.log("✅ EMFILE error encountered:", error.message);
+        } else {
+            console.error("❌ Unexpected error encountered:", error.message);
+            throw error;
+        }
+    });
