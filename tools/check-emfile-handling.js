@@ -36,6 +36,13 @@ let FILE_COUNT = DEFAULT_FILE_COUNT;
 if (os.platform() !== "win32") {
     try {
         FILE_COUNT = parseInt(execSync("ulimit -n").toString().trim(), 10) + 1;
+
+        console.log(`Detected Linux file limit of ${FILE_COUNT}.`);
+
+        // if we're on a Mac, make sure the limit isn't high enough to cause a call stack error
+        if (os.platform() === "darwin") {
+            FILE_COUNT = Math.min(FILE_COUNT, 50000);
+        }
     } catch {
 
         // ignore error and use default
@@ -90,6 +97,8 @@ generateEmFileError()
     .catch(error => {
         if (error.code === "EMFILE") {
             console.log("✅ EMFILE error encountered:", error.message);
+        } else if (error.code === "ENFILE") {
+            console.log("✅ ENFILE error encountered:", error.message);
         } else {
             console.error("❌ Unexpected error encountered:", error.message);
             throw error;
