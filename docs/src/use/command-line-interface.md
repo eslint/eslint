@@ -86,8 +86,7 @@ Fix Problems:
 
 Ignore Files:
   --no-ignore                     Disable use of ignore files and patterns
-  --ignore-pattern [String]       Patterns of files to ignore. In eslintrc mode, these are in addition to
-                                  `.eslintignore`
+  --ignore-pattern [String]       Patterns of files to ignore.
 
 Use stdin:
   --stdin                         Lint code provided on <STDIN> - default: false
