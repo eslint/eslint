@@ -86,7 +86,7 @@ Fix Problems:
 
 Ignore Files:
   --no-ignore                     Disable use of ignore files and patterns
-  --ignore-pattern [String]       Patterns of files to ignore.
+  --ignore-pattern [String]       Patterns of files to ignore
 
 Use stdin:
   --stdin                         Lint code provided on <STDIN> - default: false
