@@ -30,7 +30,7 @@
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
     "@eslint-community/eslint-plugin-eslint-comments": "^4.3.0",
-    "@eslint/js": "^8.42.0",
+    "@eslint/js": "^9.0.0",
     "eslint-plugin-jsdoc": "^46.5.1",
     "eslint-plugin-n": "^17.2.0",
     "eslint-plugin-unicorn": "^49.0.0"
@@ -42,6 +42,6 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=16.0.0"
+    "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
   }
 }

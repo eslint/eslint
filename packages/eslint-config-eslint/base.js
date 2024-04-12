@@ -68,7 +68,6 @@ const jsConfigs = [js.configs.recommended, {
         "no-caller": "error",
         "no-confusing-arrow": "error",
         "no-console": "error",
-        "no-constant-binary-expression": "error",
         "no-constructor-return": "error",
         "no-else-return": ["error", { allowElseIf: false }
         ],
@@ -99,8 +98,8 @@ const jsConfigs = [js.configs.recommended, {
         "no-nested-ternary": "error",
         "no-new": "error",
         "no-new-func": "error",
-        "no-new-object": "error",
         "no-new-wrappers": "error",
+        "no-object-constructor": "error",
         "no-octal-escape": "error",
         "no-param-reassign": "error",
         "no-proto": "error",
