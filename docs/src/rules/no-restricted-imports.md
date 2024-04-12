@@ -286,6 +286,31 @@ import { AllowedObject } from "foo";
 
 This is also an object option whose value is an array. This option allows you to specify multiple modules to restrict using `gitignore`-style patterns.
 
+Where `paths` option takes exact import paths, `patterns` option can be used to specify the import paths with more flexibility, allowing for the restriction of multiple modules within the same directory. For example:
+
+```json
+"no-restricted-imports": ["error", {
+  "paths": [{
+    "name": "import-foo",
+  }]
+}]
+```
+
+This configuration restricts import of the `import-foo` module but wouldn't restrict the import of `import-foo/bar` or `import-foo/baz`. You can use `patterns` to restrict both:
+
+```json
+"no-restricted-imports": ["error", {
+    "paths": [{
+      "name": "import-foo",
+    }],
+    "patterns": [{
+      "group": ["import-foo/ba*"],
+    }]
+}]
+```
+
+This configuration restricts imports not just from `import-foo` using `path`, but also `import-foo/bar` and `import-foo/baz` using `patterns`.
+
 Because the patterns follow the `gitignore`-style, if you want to reinclude any particular module this can be done by prefixing a negation (`!`) mark in front of the pattern. (Negated patterns should come last in the array because order is important.)
 
 ```json
@@ -294,7 +319,7 @@ Because the patterns follow the `gitignore`-style, if you want to reinclude any 
 }]
 ```
 
-Examples of **incorrect** code for `pattern` option:
+Examples of **incorrect** code for `patterns` option:
 
 ::: incorrect { "sourceType": "module" }
 
@@ -328,7 +353,7 @@ import pick from 'import1/private/someModule';
 
 In this example, `"!import1/private/*"` is not reincluding the modules inside `private` because the negation mark (`!`) does not reinclude the files if it's parent directory is excluded by a pattern. In this case, `import1/private` directory is already excluded by the `import1/*` pattern. (The excluded directory can be reincluded using `"!import1/private"`.)
 
-Examples of **correct** code for `pattern` option:
+Examples of **correct** code for `patterns` option:
 
 ::: correct { "sourceType": "module" }
 

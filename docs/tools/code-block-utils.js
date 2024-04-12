@@ -14,11 +14,14 @@
 function docsExampleCodeToParsableCode(code) {
     return code
 
-        // Remove trailing newline and presentational `⏎` characters
-        .replace(/⏎(?=\n)/gu, "")
+        // Code blocks always contain an extra line break at the end, so remove it.
+        .replace(/\n$/u, "")
 
-        // Code blocks always contain extra line breaks, so remove them.
-        .replace(/\n$/u, "");
+        // Replace LF line breaks with CRLF after `\r\n` sequences.
+        .replace(/(?<=\\r\\n)\n/gu, "\r\n")
+
+        // Remove presentational `⏎` characters at the end of lines.
+        .replace(/⏎(?=\n)/gu, "");
 }
 
 module.exports = {

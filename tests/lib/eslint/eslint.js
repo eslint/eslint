@@ -4475,6 +4475,7 @@ describe("ESLint", () => {
             await assert.rejects(eslint.lintFiles("*.js"));
 
             // Wait until all files have been closed.
+            // eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
             while (process.getActiveResourcesInfo().includes("CloseReq")) {
                 await timers.setImmediate();
             }
