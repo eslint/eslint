@@ -79,9 +79,8 @@ module.exports = [
         ignores: [
             "build/**",
             "coverage/**",
-            "docs/*",
-            "!docs/*.js",
-            "!docs/tools/",
+            "docs/!(src|tools)/",
+            "docs/src/!(_data)",
             "jsdoc/**",
             "templates/**",
             "tests/bench/**",
