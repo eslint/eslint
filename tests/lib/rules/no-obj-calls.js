@@ -53,11 +53,11 @@ ruleTester.run("no-obj-calls", rule, {
         },
         {
             code: "new Intl.Segmenter()",
-            languageOptions: { globals: globals.browser }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "Intl.foo()",
-            languageOptions: { globals: globals.browser }
+            languageOptions: { ecmaVersion: 2015 }
         },
 
         { code: "globalThis.Math();", languageOptions: { ecmaVersion: 6 } },
@@ -72,7 +72,7 @@ ruleTester.run("no-obj-calls", rule, {
         { code: "/*globals Reflect: true*/ globalThis.Reflect();", languageOptions: { ecmaVersion: 2017 } },
         { code: "var x = globalThis.Atomics();", languageOptions: { ecmaVersion: 2017 } },
         { code: "var x = globalThis.Atomics();", languageOptions: { ecmaVersion: 2017, globals: { Atomics: false } } },
-        { code: "var x = globalThis.Intl();", languageOptions: { globals: globals.browser } },
+        { code: "var x = globalThis.Intl();", languageOptions: { ecmaVersion: 2015 } },
 
         // non-existing variables
         "/*globals Math: off*/ Math();",
@@ -140,15 +140,15 @@ ruleTester.run("no-obj-calls", rule, {
         },
         {
             code: "function foo(Intl) { Intl(); }",
-            languageOptions: { globals: globals.browser }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "if (foo) { const Intl = 1; Intl(); }",
-            languageOptions: { ecmaVersion: 2015, globals: globals.browser }
+            languageOptions: { ecmaVersion: 2015 }
         },
         {
             code: "if (foo) { const Intl = 1; new Intl(); }",
-            languageOptions: { ecmaVersion: 2015, globals: globals.browser }
+            languageOptions: { ecmaVersion: 2015 }
         }
     ],
     invalid: [
@@ -257,12 +257,12 @@ ruleTester.run("no-obj-calls", rule, {
         },
         {
             code: "var x = Intl();",
-            languageOptions: { globals: globals.browser },
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
         },
         {
             code: "var x = new Intl();",
-            languageOptions: { globals: globals.browser },
+            languageOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "NewExpression" }]
         },
         {
@@ -338,17 +338,17 @@ ruleTester.run("no-obj-calls", rule, {
         },
         {
             code: "var x = globalThis.Intl();",
-            languageOptions: { globals: globals.browser, ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
         },
         {
             code: "var x = new globalThis.Intl;",
-            languageOptions: { globals: globals.browser, ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "NewExpression" }]
         },
         {
             code: "/*globals Intl: true*/ Intl();",
-            languageOptions: { globals: globals.browser, ecmaVersion: 2020 },
+            languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
         },
         {
