@@ -31,9 +31,9 @@
   "dependencies": {
     "@eslint-community/eslint-plugin-eslint-comments": "^4.3.0",
     "@eslint/js": "^9.0.0",
-    "eslint-plugin-jsdoc": "^46.5.1",
+    "eslint-plugin-jsdoc": "^48.2.3",
     "eslint-plugin-n": "^17.2.0",
-    "eslint-plugin-unicorn": "^49.0.0"
+    "eslint-plugin-unicorn": "^52.0.0"
   },
   "keywords": [
     "eslintconfig",
