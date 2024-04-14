@@ -174,6 +174,11 @@ ruleTester.run("no-constant-condition", rule, {
         // { checkloops: "allExceptWhileTrue" }
         { code: "while(true);", options: [{ checkLoops: "allExceptWhileTrue" }] },
 
+        // { checkloops: "all" }
+        { code: "while(a == b);", options: [{ checkLoops: "all" }] },
+        { code: "do{ }while(x);", options: [{ checkLoops: "all" }] },
+        { code: "for (let x = 0; x <= 10; x++) {};", options: [{ checkLoops: "all" }] },
+
         "function* foo(){while(true){yield 'foo';}}",
         "function* foo(){for(;true;){yield 'foo';}}",
         "function* foo(){do{yield 'foo';}while(true)}",
@@ -321,6 +326,10 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "if('str1' && 'str2'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if(abc==='str' || 'str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if(a || 'str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+
+        { code: "while(x = 1);", options: [{ checkLoops: "all" }], errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
+        { code: "do{ }while(x = 1)", options: [{ checkLoops: "all" }], errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
+        { code: "for (;true;) {};", options: [{ checkLoops: "all" }], errors: [{ messageId: "unexpected", type: "Literal" }] },
 
         {
             code: "function* foo(){while(true){} yield 'foo';}",
