@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = eleventy => {
     const PATH_PREFIX = eleventy.PATH_PREFIX;
 
@@ -22,5 +24,5 @@ module.exports = eleventy => {
             displayName: "Removed",
             description: `These rules from older versions of ESLint (before the <a href="${PATH_PREFIX}use/rule-deprecation">deprecation policy</a> existed) have been replaced by newer rules:`
         }
-    }
+    };
 };
