@@ -18,7 +18,8 @@ const os = require("os");
 // Helpers
 //------------------------------------------------------------------------------
 
-const OUTPUT_DIRECTORY = "tests/fixtures/emfile";
+const OUTPUT_DIRECTORY = "tmp/emfile-check";
+const CONFIG_DIRECTORY = "tests/fixtures/emfile";
 
 /*
  * Every operating system has a different limit for the number of files that can
@@ -55,6 +56,8 @@ if (os.platform() !== "win32") {
  */
 function generateFiles() {
 
+    fs.mkdirSync(OUTPUT_DIRECTORY, { recursive: true });
+
     for (let i = 0; i < FILE_COUNT; i++) {
         const fileName = `file_${i}.js`;
         const fileContent = `// This is file ${i}`;
@@ -86,7 +89,7 @@ console.log(`Generating ${FILE_COUNT} files in ${OUTPUT_DIRECTORY}...`);
 generateFiles();
 
 console.log("Running ESLint...");
-execSync(`node bin/eslint.js ${OUTPUT_DIRECTORY} -c ${OUTPUT_DIRECTORY}/eslint.config.js`, { stdio: "inherit" });
+execSync(`node bin/eslint.js ${OUTPUT_DIRECTORY} -c ${CONFIG_DIRECTORY}/eslint.config.js`, { stdio: "inherit" });
 console.log("✅ No errors encountered running ESLint.");
 
 console.log("Checking that this number of files would cause an EMFILE error...");
