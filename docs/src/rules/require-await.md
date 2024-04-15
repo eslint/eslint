@@ -94,7 +94,7 @@ Examples of **incorrect** code for this rule with the `"ignoreDirectives"` optio
 ::: incorrect
 
 ```js
-/*eslint require-await: ["error", { "ignore": ["use server"] }]*/
+/*eslint require-await: ["error", { "ignoreDirectives": ["use server"] }]*/
 
 async function handler() {
     console.log("Handled")
@@ -124,7 +124,7 @@ Examples of **correct** code for this rule with the `"ignoreDirectives"` option:
 ::: correct
 
 ```js
-/*eslint require-await: ["error", { "ignore": ["use server"] }]*/
+/*eslint require-await: ["error", { "ignoreDirectives": ["use server"] }]*/
 
 async function handler() {
     "use server"
