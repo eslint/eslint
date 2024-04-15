@@ -88,8 +88,16 @@ ruleTester.run("require-await", rule, {
         {
             code: 'async function* run() { console.log("bar") }',
             languageOptions: { ecmaVersion: 9 }
-        }
-
+        },
+        // "ignoreDirectives"
+        {
+            code: "async function foo() { 'use server' }",
+            options: [{ ignoreDirectives: ["use server"] }]
+        },
+        {
+            code: "async function foo() { \"use server\" }",
+            options: [{ ignoreDirectives: ["use server"] }]
+        },
     ],
     invalid: [
         {
@@ -161,6 +169,39 @@ ruleTester.run("require-await", rule, {
                 messageId: "missingAwait",
                 data: { name: "Async arrow function" }
             }]
-        }
+        },
+        // "ignoreDirectives"
+        {
+            code: "async function foo() { `use server` }",
+            options: [{ ignoreDirectives: ["use server"] }],
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async function 'foo'" }
+            }]
+        },
+        {
+            code: "async function foo() { doSomething() }",
+            options: [{ ignoreDirectives: ["use server"] }],
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async function 'foo'" }
+            }]
+        },
+        {
+            code: "async function foo() { 'use client' }",
+            options: [{ ignoreDirectives: ["use server"] }],
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async function 'foo'" }
+            }]
+        },
+        {
+            code: "async function foo() { doSomething(); 'use server' }",
+            options: [{ ignoreDirectives: ["use server"] }],
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async function 'foo'" }
+            }]
+        },
     ]
 });

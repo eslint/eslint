@@ -77,6 +77,69 @@ async function noop() {}
 
 :::
 
+## Options
+
+This rule has an object option, with one option:
+
+* `"ignoreDirectives"` - an optional array of directive values whose containing functions this rule will ignore.
+
+### ignore
+
+You can specify multiple directive values to ignore in the `"ignoreDirectives"` array.
+
+For example, a framework might require functions tagged with the `"use server"` directive to always be async. In this case, they should be async even if they don't contain an `await` operator. You can include `"use server"` in the `"ignoreDirectives"` array to make this rule ignore such functions.
+
+Examples of **incorrect** code for this rule with the `"ignoreDirectives"` option:
+
+::: incorrect
+
+```js
+/*eslint require-await: ["error", { "ignore": ["use server"] }]*/
+
+async function handler() {
+    console.log("Handled")
+}
+
+async function handler() {
+    "use client"
+    console.log("Handled")
+}
+
+async function handler() {
+    console.log("Handled")
+    "use server"
+}
+
+async function handler() {
+    `use server`
+    console.log("Handled")
+}
+
+```
+
+:::
+
+Examples of **correct** code for this rule with the `"ignoreDirectives"` option:
+
+::: correct
+
+```js
+/*eslint require-await: ["error", { "ignore": ["use server"] }]*/
+
+async function handler() {
+    "use server"
+    console.log("Handled")
+}
+
+async function handler() {
+    'use server'
+    console.log("Handled")
+}
+
+```
+
+:::
+
 ## When Not To Use It
 
 Asynchronous functions are designed to work with promises such that throwing an error will cause a promise's rejection handler (such as `catch()`) to be called. For example:
