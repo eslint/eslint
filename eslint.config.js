@@ -76,6 +76,7 @@ function createInternalFilesPatterns(pattern = null) {
 module.exports = [
     ...eslintConfigESLintCJS,
     {
+        name: "eslint/global-ignores",
         ignores: [
             "build/**",
             "coverage/**",
@@ -92,6 +93,7 @@ module.exports = [
         ]
     },
     {
+        name: "eslint/internal-rules",
         plugins: {
             "internal-rules": internalPlugin
         },
@@ -103,6 +105,7 @@ module.exports = [
         }
     },
     {
+        name: "eslint/tools",
         files: ["tools/*.js", "docs/tools/*.js"],
         rules: {
             "no-console": "off",
@@ -110,6 +113,7 @@ module.exports = [
         }
     },
     {
+        name: "eslint/rules",
         files: ["lib/rules/*", "tools/internal-rules/*"],
         ignores: ["**/index.js"],
         ...eslintPluginRulesRecommendedConfig,
@@ -123,6 +127,7 @@ module.exports = [
         }
     },
     {
+        name: "eslint/core-rules",
         files: ["lib/rules/*"],
         ignores: ["**/index.js"],
         rules: {
@@ -130,6 +135,7 @@ module.exports = [
         }
     },
     {
+        name: "eslint/rules-tests",
         files: ["tests/lib/rules/*", "tests/tools/internal-rules/*"],
         ...eslintPluginTestsRecommendedConfig,
         rules: {
@@ -150,6 +156,7 @@ module.exports = [
         }
     },
     {
+        name: "eslint/tests",
         files: ["tests/**/*.js"],
         languageOptions: {
             globals: {
@@ -166,6 +173,7 @@ module.exports = [
 
     // Restrict relative path imports
     {
+        name: "eslint/lib",
         files: ["lib/*"],
         ignores: ["lib/unsupported-api.js"],
         rules: {
@@ -175,6 +183,7 @@ module.exports = [
         }
     },
     {
+        name: "eslint/cli-engine",
         files: [INTERNAL_FILES.CLI_ENGINE_PATTERN],
         rules: {
             "n/no-restricted-require": ["error", [
@@ -183,6 +192,7 @@ module.exports = [
         }
     },
     {
+        name: "eslint/linter",
         files: [INTERNAL_FILES.LINTER_PATTERN],
         rules: {
             "n/no-restricted-require": ["error", [
@@ -194,6 +204,7 @@ module.exports = [
         }
     },
     {
+        name: "eslint/rules",
         files: [INTERNAL_FILES.RULES_PATTERN],
         rules: {
             "n/no-restricted-require": ["error", [
@@ -207,6 +218,7 @@ module.exports = [
         }
     },
     {
+        name: "eslint/shared",
         files: ["lib/shared/**/*"],
         rules: {
             "n/no-restricted-require": ["error", [
@@ -219,6 +231,7 @@ module.exports = [
         }
     },
     {
+        name: "eslint/source-code",
         files: [INTERNAL_FILES.SOURCE_CODE_PATTERN],
         rules: {
             "n/no-restricted-require": ["error", [
@@ -232,6 +245,7 @@ module.exports = [
         }
     },
     {
+        name: "eslint/rule-tester",
         files: [INTERNAL_FILES.RULE_TESTER_PATTERN],
         rules: {
             "n/no-restricted-require": ["error", [
