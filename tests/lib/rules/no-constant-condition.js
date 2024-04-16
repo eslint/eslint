@@ -173,6 +173,7 @@ ruleTester.run("no-constant-condition", rule, {
 
         // { checkloops: "allExceptWhileTrue" }
         { code: "while(true);", options: [{ checkLoops: "allExceptWhileTrue" }] },
+        "while(true);",
 
         // { checkloops: "all" }
         { code: "while(a == b);", options: [{ checkLoops: "all" }] },

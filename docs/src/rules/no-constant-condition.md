@@ -121,7 +121,7 @@ if(input === "hello" || input === "bye"){
 This is a string option having following values:
 
 * `"all"` - Disallow constant expressions in all loops.
-* `"allExceptWhileTrue"` (default) - Disallow constant expressions in all loops except `while` loop with expression `true`.
+* `"allExceptWhileTrue"` (default) - Disallow constant expressions in all loops except `while` loops with expression `true`.
 * `"none"` - Allow constant expressions in loops.
 
 Or instead you can set the `checkLoops` value to booleans where `true` is same as `"all"` and `false` is same as `"none"`.
@@ -186,7 +186,7 @@ for (let x = 0; x <= 10; x++) {
 
 :::
 
-Examples of **correct** code for when `checkLoops` is `"allExceptWhileTrue"`:
+Example of **correct** code for when `checkLoops` is `"allExceptWhileTrue"`:
 
 ::: correct
 
