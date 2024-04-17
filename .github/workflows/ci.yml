@@ -65,6 +65,8 @@ jobs:
         run: node Makefile mocha
       - name: Fuzz Test
         run: node Makefile fuzz
+      - name: Test EMFILE Handling
+        run: npm run test:emfile
 
   test_on_browser:
     name: Browser Test
