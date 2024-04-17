@@ -330,6 +330,8 @@ export default [
 ];
 ```
 
+Note that for this to work or if you get `Global "AudioWorkletGlobalScope " has leading or trailing whitespace`, you'll need to install the latest `globals` package.
+
 ### `eslint-env` Configuration Comments
 
 In the eslintrc config system it was possible to use `eslint-env` configuration comments to define globals for a file.
