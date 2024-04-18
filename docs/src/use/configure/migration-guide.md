@@ -330,6 +330,10 @@ export default [
 ];
 ```
 
+::: tip
+You'll need to install the `globals` package from npm for this example to work. It is not automatically installed by ESLint.
+:::
+
 ### `eslint-env` Configuration Comments
 
 In the eslintrc config system it was possible to use `eslint-env` configuration comments to define globals for a file.
