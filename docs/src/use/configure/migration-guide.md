@@ -330,7 +330,9 @@ export default [
 ];
 ```
 
-Note that for this to work or if you get `Global "AudioWorkletGlobalScope " has leading or trailing whitespace`, you'll need to install the latest `globals` package.
+::: tip
+You'll need to install the `globals` package from npm for this example to work. It is not automatically installed by ESLint.
+:::
 
 ### `eslint-env` Configuration Comments
 
