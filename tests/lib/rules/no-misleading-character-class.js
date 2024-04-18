@@ -126,7 +126,7 @@ ruleTester.run("no-misleading-character-class", rule, {
             options: [{ allowEscape: true }]
         },
         {
-            code: String.raw`/[\n̅]/`,
+            code: String.raw`/[\n\u0305]/`,
             options: [{ allowEscape: true }]
         },
         {
@@ -1677,6 +1677,11 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: String.raw`/[\\̶]/`, // Backslash + Backslash + Combining Long Stroke Overlay
+            options: [{ allowEscape: true }],
+            errors: [{ messageId: "combiningClass" }]
+        },
+        {
+            code: String.raw`/[\n̅]/`,
             options: [{ allowEscape: true }],
             errors: [{ messageId: "combiningClass" }]
         },
