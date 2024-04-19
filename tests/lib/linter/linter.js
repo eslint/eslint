@@ -7442,7 +7442,13 @@ var a = "test2";
 
         it("should have file path passed to it", () => {
             const code = "/* this is code */";
-            const parseSpy = { parse: sinon.spy() };
+            const ast = {
+                tokens: [],
+                comments: [],
+                loc: {},
+                range: []
+            };
+            const parseSpy = { parse: sinon.fake.returns(ast) };
 
             linter.defineParser("stub-parser", parseSpy);
             linter.verify(code, { parser: "stub-parser" }, filename, true);
@@ -8242,10 +8248,16 @@ describe("Linter with FlatConfigArray", () => {
                 describe("Custom Parsers", () => {
 
                     const errorPrefix = "Parsing error: ";
+                    const ast = {
+                        tokens: [],
+                        comments: [],
+                        loc: {},
+                        range: []
+                    };
 
                     it("should have file path passed to it", () => {
                         const code = "/* this is code */";
-                        const parseSpy = { parse: sinon.spy() };
+                        const parseSpy = { parse: sinon.fake.returns(ast) };
                         const config = {
                             languageOptions: {
                                 parser: parseSpy
