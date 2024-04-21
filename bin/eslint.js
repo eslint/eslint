@@ -144,7 +144,7 @@ ${getErrorMessage(error)}`;
 
         const spawn = require("cross-spawn");
 
-        spawn.sync("npm", ["init", "@eslint/config"], { encoding: "utf8", stdio: "inherit" });
+        spawn.sync("npm", ["init", "@eslint/config@latest"], { encoding: "utf8", stdio: "inherit" });
         return;
     }
 
