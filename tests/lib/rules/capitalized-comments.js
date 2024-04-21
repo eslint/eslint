@@ -367,6 +367,15 @@ ruleTester.run("capitalized-comments", rule, {
                 column: 1
             }]
         },
+        {
+            code: "// ꮳꮃꭹ",
+            output: "// Ꮳꮃꭹ",
+            errors: [{
+                messageId: "unexpectedLowercaseComment",
+                line: 1,
+                column: 1
+            }]
+        },
 
         // Using "always" string option
         {
@@ -534,6 +543,16 @@ ruleTester.run("capitalized-comments", rule, {
         {
             code: "/* Uppercase\nsecond line need not be uppercase */",
             output: "/* uppercase\nsecond line need not be uppercase */",
+            options: ["never"],
+            errors: [{
+                messageId: "unexpectedUppercaseComment",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "// Გ", // Georgian Mtavruli Capital Letter Gan (U+1C92)
+            output: "// გ", // Georgian Letter Gan (U+10D2)
             options: ["never"],
             errors: [{
                 messageId: "unexpectedUppercaseComment",
