@@ -1,3 +1,7 @@
+v9.1.1 - April 22, 2024
+
+* [`a26b402`](https://github.com/eslint/eslint/commit/a26b40279f283853717236b44602b27b57f0b627) fix: use @eslint/create-config latest (#18373) (唯然)
+
 v9.1.0 - April 19, 2024
 
 * [`d9a2983`](https://github.com/eslint/eslint/commit/d9a2983e1301599117cf554aa6a9bd44b84f2e55) chore: upgrade @eslint/js to v9.1.1 (#18367) (Francesco Trotta)
