@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "9.0.0",
+  "version": "9.1.1",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -33,7 +33,8 @@
     "test:browser": "node Makefile.js wdio",
     "test:cli": "mocha",
     "test:fuzz": "node Makefile.js fuzz",
-    "test:performance": "node Makefile.js perf"
+    "test:performance": "node Makefile.js perf",
+    "test:emfile": "node tools/check-emfile-handling.js"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -68,9 +69,10 @@
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.6.1",
     "@eslint/eslintrc": "^3.0.2",
-    "@eslint/js": "9.0.0",
-    "@humanwhocodes/config-array": "^0.12.3",
+    "@eslint/js": "9.1.1",
+    "@humanwhocodes/config-array": "^0.13.0",
     "@humanwhocodes/module-importer": "^1.0.1",
+    "@humanwhocodes/retry": "^0.2.3",
     "@nodelib/fs.walk": "^1.2.8",
     "ajv": "^6.12.4",
     "chalk": "^4.0.0",
@@ -86,7 +88,6 @@
     "file-entry-cache": "^8.0.0",
     "find-up": "^5.0.0",
     "glob-parent": "^6.0.2",
-    "graphemer": "^1.4.0",
     "ignore": "^5.2.0",
     "imurmurhash": "^0.1.4",
     "is-glob": "^4.0.0",

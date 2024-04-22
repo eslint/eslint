@@ -48,7 +48,7 @@ Prerequisites: [Node.js](https://nodejs.org/) (`^18.18.0`, `^20.9.0`, or `>=21.1
 You can install and configure ESLint using this command:
 
 ```shell
-npm init @eslint/config
+npm init @eslint/config@latest
 ```
 
 After that, you can run ESLint on any file or directory like this:
