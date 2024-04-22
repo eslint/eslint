@@ -21,7 +21,7 @@ To use ESLint, you must have [Node.js](https://nodejs.org/en/) (`^18.18.0`, `^20
 You can install and configure ESLint using this command:
 
 ```shell
-npm init @eslint/config
+npm init @eslint/config@latest
 ```
 
 If you want to use a specific shareable config that is hosted on npm, you can use the `--config` option and specify the package name:
@@ -30,7 +30,7 @@ If you want to use a specific shareable config that is hosted on npm, you can us
 # use `eslint-config-standard` shared config
 
 # npm 7+
-npm init @eslint/config -- --config eslint-config-standard
+npm init @eslint/config@latest -- --config eslint-config-standard
 
 ```
 
