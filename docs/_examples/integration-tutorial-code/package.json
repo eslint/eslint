@@ -1,5 +1,6 @@
 {
   "name": "_integration-tutorial-code",
+  "private": true,
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,6 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "eslint": "^8.39.0"
+    "eslint": "^9.1.1"
   }
 }
