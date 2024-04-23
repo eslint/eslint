@@ -217,7 +217,7 @@ const fooBarRule = require("./enforce-foo-bar");
 const ruleTester = new RuleTester({
   // Must use at least ecmaVersion 2015 because
   // that's when `const` variables were introduced.
-  parserOptions: { ecmaVersion: 2015 }
+  languageOptions: { ecmaVersion: 2015 }
 });
 
 // Throws error if the tests in ruleTester.run() do not pass
