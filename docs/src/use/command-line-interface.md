@@ -86,7 +86,7 @@ Fix Problems:
 
 Ignore Files:
   --no-ignore                     Disable use of ignore files and patterns
-  --ignore-pattern [String]       Pattern of files to ignore (in addition to those in .eslintignore)
+  --ignore-pattern [String]       Patterns of files to ignore
 
 Use stdin:
   --stdin                         Lint code provided on <STDIN> - default: false
@@ -426,7 +426,7 @@ npx eslint --no-ignore file.js
 
 #### `--ignore-pattern`
 
-This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`).
+This option allows you to specify patterns of files to ignore. In eslintrc mode, these are in addition to `.eslintignore`.
 
 * **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore-deprecated#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 * **Multiple Arguments**: Yes

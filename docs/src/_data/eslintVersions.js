@@ -3,11 +3,13 @@
  * @author Milos Djermanovic
  */
 
+"use strict";
+
 //-----------------------------------------------------------------------------
 // Requirements
 //-----------------------------------------------------------------------------
 
-const eleventyFetch  = require("@11ty/eleventy-fetch");
+const eleventyFetch = require("@11ty/eleventy-fetch");
 
 //-----------------------------------------------------------------------------
 // Exports
@@ -35,7 +37,7 @@ module.exports = async function() {
 
         foundItemForThisBranch ||= isItemForThisBranch;
 
-        const isNumberVersion = /^\d/.test(item.version); // `false` for HEAD
+        const isNumberVersion = /^\d/u.test(item.version); // `false` for HEAD
 
         if (isNumberVersion) {
 
@@ -62,8 +64,8 @@ module.exports = async function() {
             display: "",
             path: "",
             selected: true
-        })
+        });
     }
 
     return data;
-}
+};

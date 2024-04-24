@@ -1630,6 +1630,16 @@ describe("ESLint", () => {
                 }, /All files matched by 'tests\/fixtures\/cli-engine\/' are ignored\./u);
             });
 
+            it("should throw an error when all given files are ignored by a config object that has `name`", async () => {
+                eslint = new ESLint({
+                    overrideConfigFile: getFixturePath("eslint.config-with-ignores3.js")
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["tests/fixtures/cli-engine/"]);
+                }, /All files matched by 'tests\/fixtures\/cli-engine\/' are ignored\./u);
+            });
+
             it("should throw an error when all given files are ignored even with a `./` prefix", async () => {
                 eslint = new ESLint({
                     overrideConfigFile: getFixturePath("eslint.config-with-ignores.js")
@@ -1757,6 +1767,29 @@ describe("ESLint", () => {
                     cwd: getFixturePath(),
                     ignore: false,
                     overrideConfigFile: getFixturePath("eslint.config-with-ignores.js"),
+                    overrideConfig: {
+                        rules: {
+                            "no-undef": 2
+                        }
+                    }
+                });
+                const filePath = fs.realpathSync(getFixturePath("undef.js"));
+                const results = await eslint.lintFiles([filePath]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, filePath);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[1].ruleId, "no-undef");
+                assert.strictEqual(results[0].messages[1].severity, 2);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should return two messages when given a file in excluded files list by a config object that has `name` while ignore is off", async () => {
+                eslint = new ESLint({
+                    cwd: getFixturePath(),
+                    ignore: false,
+                    overrideConfigFile: getFixturePath("eslint.config-with-ignores3.js"),
                     overrideConfig: {
                         rules: {
                             "no-undef": 2
@@ -4475,10 +4508,46 @@ describe("ESLint", () => {
             await assert.rejects(eslint.lintFiles("*.js"));
 
             // Wait until all files have been closed.
+            // eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
             while (process.getActiveResourcesInfo().includes("CloseReq")) {
                 await timers.setImmediate();
             }
             assert.strictEqual(createCallCount, 1);
+        });
+
+        describe("Error while globbing", () => {
+
+            it("should throw an error with a glob pattern if an invalid config was provided", async () => {
+
+                const cwd = getFixturePath("files");
+
+                eslint = new ESLint({
+                    cwd,
+                    overrideConfig: [{ invalid: "foobar" }]
+                });
+
+                await assert.rejects(eslint.lintFiles("*.js"));
+            });
+
+            it("should throw an error with a glob pattern if an error occurs traversing a directory", async () => {
+
+                const fsWalk = require("@nodelib/fs.walk");
+                const error = new Error("Boom!");
+
+                sinon
+                    .stub(fsWalk, "walk")
+                    .value(sinon.stub().yieldsRight(error)); // call the callback passed to `fs.walk` with an error
+
+                const cwd = getFixturePath("files");
+
+                eslint = new ESLint({
+                    cwd,
+                    overrideConfigFile: true
+                });
+
+                await assert.rejects(eslint.lintFiles("*.js"), error);
+            });
+
         });
 
     });
@@ -5679,6 +5748,30 @@ describe("ESLint", () => {
             it("should apply to all files except for 'error.js'", async () => {
                 const engine = new ESLint({
                     cwd
+                });
+
+                const results = await engine.lintFiles("{error,warn}.js");
+
+                assert.strictEqual(results.length, 2);
+
+                const [errorResult, warnResult] = results;
+
+                assert.strictEqual(errorResult.filePath, path.join(getPath(), "error.js"));
+                assert.strictEqual(errorResult.messages.length, 1);
+                assert.strictEqual(errorResult.messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(errorResult.messages[0].severity, 2);
+
+                assert.strictEqual(warnResult.filePath, path.join(getPath(), "warn.js"));
+                assert.strictEqual(warnResult.messages.length, 1);
+                assert.strictEqual(warnResult.messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(warnResult.messages[0].severity, 1);
+            });
+
+            // https://github.com/eslint/eslint/issues/18261
+            it("should apply to all files except for 'error.js' even with `ignore: false` option", async () => {
+                const engine = new ESLint({
+                    cwd,
+                    ignore: false
                 });
 
                 const results = await engine.lintFiles("{error,warn}.js");

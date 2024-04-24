@@ -1,3 +1,41 @@
+v9.1.1 - April 22, 2024
+
+* [`a26b402`](https://github.com/eslint/eslint/commit/a26b40279f283853717236b44602b27b57f0b627) fix: use @eslint/create-config latest (#18373) (唯然)
+
+v9.1.0 - April 19, 2024
+
+* [`d9a2983`](https://github.com/eslint/eslint/commit/d9a2983e1301599117cf554aa6a9bd44b84f2e55) chore: upgrade @eslint/js to v9.1.1 (#18367) (Francesco Trotta)
+* [`03068f1`](https://github.com/eslint/eslint/commit/03068f13c0e3e6b34b8ca63628cfc79dd256feac) feat: Provide helpful error message for nullish configs (#18357) (Nicholas C. Zakas)
+* [`50d406d`](https://github.com/eslint/eslint/commit/50d406d68c0304370fa47d156a407258b68dfa1b) chore: package.json update for @eslint/js release (Jenkins)
+* [`8d18958`](https://github.com/eslint/eslint/commit/8d189586d60f9beda7be8cdefd4156c023c4fdde) fix: Remove name from eslint/js packages (#18368) (Nicholas C. Zakas)
+* [`155c71c`](https://github.com/eslint/eslint/commit/155c71c210aaa7235ddadabb067813d8b1c76f65) chore: package.json update for @eslint/js release (Jenkins)
+* [`594eb0e`](https://github.com/eslint/eslint/commit/594eb0e5c2b14a418d686c33d2d40fb439888b70) fix: do not crash on error in `fs.walk` filter (#18295) (Francesco Trotta)
+* [`751b518`](https://github.com/eslint/eslint/commit/751b518f02b1e9f4f0cb4a4007ffacb1be2246af) feat: replace dependency graphemer with `Intl.Segmenter` (#18110) (Francesco Trotta)
+* [`fb50077`](https://github.com/eslint/eslint/commit/fb50077fec497fbf01d754fc75aa22cff43ef066) docs: include notes about globals in migration-guide (#18356) (Gabriel Rohden)
+* [`4d11e56`](https://github.com/eslint/eslint/commit/4d11e567baff575146fd267b3765ab2c788aa1e5) feat: add `name` to eslint configs (#18289) (唯然)
+* [`1cbe1f6`](https://github.com/eslint/eslint/commit/1cbe1f6d38272784307c260f2375ab30e68716e8) feat: allow `while(true)` in `no-constant-condition` (#18286) (Tanuj Kanti)
+* [`0588fc5`](https://github.com/eslint/eslint/commit/0588fc5ecb87fddd70e1848e417ba712b48473c3) refactor: Move directive gathering to SourceCode (#18328) (Nicholas C. Zakas)
+* [`0d8cf63`](https://github.com/eslint/eslint/commit/0d8cf6350ce3dc417d6e23922e6d4ad03952aaaa) fix: EMFILE errors (#18313) (Nicholas C. Zakas)
+* [`e1ac0b5`](https://github.com/eslint/eslint/commit/e1ac0b5c035bfdff7be08b69e89e1470a7becac3) fix: --inspect-config only for flat config and respect -c (#18306) (Nicholas C. Zakas)
+* [`09675e1`](https://github.com/eslint/eslint/commit/09675e153169d4d0f4a85a95007dcd17d34d70c7) fix: `--no-ignore` should not apply to non-global ignores (#18334) (Milos Djermanovic)
+* [`9048e21`](https://github.com/eslint/eslint/commit/9048e2184c19799bb9b8a5908345d4ce05020c41) chore: lint `docs/src/_data` js files (#18335) (Milos Djermanovic)
+* [`4820790`](https://github.com/eslint/eslint/commit/48207908a8291916a124af60e02d0327276f8957) chore: upgrade globals@15.0.0 dev dependency (#18332) (Milos Djermanovic)
+* [`698d9ff`](https://github.com/eslint/eslint/commit/698d9ff2c9c4e24836d69358b93d42c356eb853b) chore: upgrade jsdoc & unicorn plugins in eslint-config-eslint (#18333) (Milos Djermanovic)
+* [`71c771f`](https://github.com/eslint/eslint/commit/71c771fb390cf178220d06fd7316033a385128a9) docs: Fix missing accessible name for scroll-to-top link (#18329) (Germán Freixinós)
+* [`0db676f`](https://github.com/eslint/eslint/commit/0db676f9c64d2622ada86b653136d2bda4f0eee0) feat: add `Intl` in es6 globals (#18318) (唯然)
+* [`200fd4e`](https://github.com/eslint/eslint/commit/200fd4e3223d1ad22dca3dc79aa6eaa860fefe32) docs: indicate eslintrc mode for `.eslintignore` (#18285) (Francesco Trotta)
+* [`32c08cf`](https://github.com/eslint/eslint/commit/32c08cf66536e595e93284500b0b8d702e30cfd8) chore: drop Node < 18 and use @eslint/js v9 in eslint-config-eslint (#18323) (Milos Djermanovic)
+* [`16b6a8b`](https://github.com/eslint/eslint/commit/16b6a8b469d2e0ba6d904b9e858711590568b246) docs: Update README (GitHub Actions Bot)
+* [`a76fb55`](https://github.com/eslint/eslint/commit/a76fb55004ea095c68dde134ca7db0212c93c86e) chore: @eslint-community/eslint-plugin-eslint-comments v4.3.0 (#18319) (Milos Djermanovic)
+* [`df5f8a9`](https://github.com/eslint/eslint/commit/df5f8a9bc1042c13f1969c9fbd8c72eee0662daa) docs: `paths` and `patterns` difference in `no-restricted-imports` (#18273) (Tanuj Kanti)
+* [`c537d76`](https://github.com/eslint/eslint/commit/c537d76327586616b7ca5d00e76eaf6c76e6bcd2) docs: update `npm init @eslint/config` generated file names (#18298) (唯然)
+* [`78e45b1`](https://github.com/eslint/eslint/commit/78e45b1d8d6b673ced233ca82b9ff1dddcdd1fec) chore: eslint-plugin-eslint-plugin v6.0.0 (#18316) (唯然)
+* [`36103a5`](https://github.com/eslint/eslint/commit/36103a52432fffa20b90f2c6960757e6b9dc778f) chore: eslint-plugin-n v17.0.0 (#18315) (唯然)
+* [`e1e305d`](https://github.com/eslint/eslint/commit/e1e305defaab98605d79c81d67ee5a48558c458a) docs: fix `linebreak-style` examples (#18262) (Francesco Trotta)
+* [`113f51e`](https://github.com/eslint/eslint/commit/113f51ec4e52d3082a74b9682239a6e28d1a70ee) docs: Mention package.json config support dropped (#18305) (Nicholas C. Zakas)
+* [`1fa6622`](https://github.com/eslint/eslint/commit/1fa66220ad130eeb69cfa0207d3896b7bb09c576) build: do not use `--force` flag to install dependencies (#18284) (Francesco Trotta)
+* [`5c35321`](https://github.com/eslint/eslint/commit/5c353215e05818e17e83192acbb4d3730c716afa) docs: add eslintrc-only note to `--rulesdir` (#18281) (Adam Lui 刘展鹏)
+
 v9.0.0 - April 5, 2024
 
 * [`19f9a89`](https://github.com/eslint/eslint/commit/19f9a8926bd7888ab4a813ae323ad3c332fd5d5c) chore: Update dependencies for v9.0.0 (#18275) (Nicholas C. Zakas)

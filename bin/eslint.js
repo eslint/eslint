@@ -140,23 +140,11 @@ ${getErrorMessage(error)}`;
     if (process.argv.includes("--init")) {
 
         // `eslint --init` has been moved to `@eslint/create-config`
-        console.warn("You can also run this command directly using 'npm init @eslint/config'.");
+        console.warn("You can also run this command directly using 'npm init @eslint/config@latest'.");
 
         const spawn = require("cross-spawn");
 
-        spawn.sync("npm", ["init", "@eslint/config"], { encoding: "utf8", stdio: "inherit" });
-        return;
-    }
-
-    // Call the config inspector if `--inspect-config` is present.
-    if (process.argv.includes("--inspect-config")) {
-
-        console.warn("You can also run this command directly using 'npx @eslint/config-inspector' in the same directory as your configuration file.");
-
-        const spawn = require("cross-spawn");
-
-        spawn.sync("npx", ["@eslint/config-inspector"], { encoding: "utf8", stdio: "inherit" });
-
+        spawn.sync("npm", ["init", "@eslint/config@latest"], { encoding: "utf8", stdio: "inherit" });
         return;
     }
 
