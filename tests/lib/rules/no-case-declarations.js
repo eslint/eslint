@@ -37,16 +37,16 @@ ruleTester.run("no-case-declarations", rule, {
             languageOptions: { ecmaVersion: 6 }
         },
         `
-                switch (a) {
-                    case 1:
-                    case 2: {}
-                }
-            `,
+            switch (a) {
+                case 1:
+                case 2: {}
+            }
+        `,
         `
-                switch (a) {
-                    case 1: var x;
-                }
-            `
+            switch (a) {
+                case 1: var x;
+            }
+        `
     ],
     invalid: [
         {
@@ -304,6 +304,38 @@ ruleTester.run("no-case-declarations", rule, {
                     {
                         messageId: "addBrackets",
                         output: "switch (a) { default: { class C {} break; } }"
+                    }
+                ]
+            }]
+        },
+
+        // https://github.com/eslint/eslint/pull/18388#issuecomment-2075356456
+        {
+            code: `
+                switch ("foo") {
+                    case "bar":
+                        function baz() { }
+                        break;
+                    default:
+                        baz();
+                }
+            `,
+            languageOptions: { ecmaVersion: "latest" },
+            errors: [{
+                messageId: "unexpected",
+                type: "FunctionDeclaration",
+                suggestions: [
+                    {
+                        messageId: "addBrackets",
+                        output: `
+                switch ("foo") {
+                    case "bar":
+                        { function baz() { }
+                        break; }
+                    default:
+                        baz();
+                }
+            `
                     }
                 ]
             }]
