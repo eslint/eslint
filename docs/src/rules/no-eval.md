@@ -105,7 +105,7 @@ class A {
 
 ### allowIndirect
 
-This rule has an option to allow indirect calls to `eval`.
+This rule has an option to allow ["indirect eval"](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#direct_and_indirect_eval).
 Indirect calls to `eval` are less dangerous than direct calls to `eval` because they cannot dynamically change the scope. Because of this, they also will not negatively impact performance to the degree of direct `eval`.
 
 ```js
