@@ -31,12 +31,6 @@
             "ignoreDependencies": [
                 "c8",
 
-                // These will be removed in https://github.com/eslint/eslint/pull/18011
-                "@eslint-community/eslint-plugin-eslint-comments",
-                "eslint-plugin-jsdoc",
-                "eslint-plugin-n",
-                "eslint-plugin-unicorn",
-
                 // Ignore until Knip has a wdio plugin:
                 "@wdio/*",
                 "rollup-plugin-node-polyfills",
