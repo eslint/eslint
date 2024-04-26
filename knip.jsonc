@@ -7,7 +7,8 @@
                 "tools/internal-rules/index.js",
                 // https://github.com/webpro/knip/issues/464
                 // Remove when Knip has a wdio plugin
-                "wdio.conf.js"
+                "wdio.conf.js",
+                "eslint.config.js"
             ],
             "project": ["{conf,lib,tools}/**/*.js"],
             "mocha": {
