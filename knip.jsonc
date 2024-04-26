@@ -32,7 +32,7 @@
                 "c8",
 
                 // These will be removed in https://github.com/eslint/eslint/pull/18011
-                "eslint-plugin-eslint-comments",
+                "@eslint-community/eslint-plugin-eslint-comments",
                 "eslint-plugin-jsdoc",
                 "eslint-plugin-n",
                 "eslint-plugin-unicorn",

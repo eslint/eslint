@@ -67,7 +67,7 @@ module.exports = {
         "eslint:recommended",
         "plugin:n/recommended",
         "plugin:jsdoc/recommended",
-        "plugin:eslint-comments/recommended"
+        "plugin:@eslint-community/eslint-comments/recommended"
     ],
     settings: {
         jsdoc: {
@@ -111,7 +111,7 @@ module.exports = {
         }
     },
     parserOptions: {
-        ecmaVersion: 2021
+        ecmaVersion: "latest"
     },
     rules: {
         "internal-rules/multiline-comment-style": "error",
@@ -149,9 +149,9 @@ module.exports = {
         ],
         "eol-last": "error",
         eqeqeq: "error",
-        "eslint-comments/disable-enable-pair": ["error"],
-        "eslint-comments/no-unused-disable": "error",
-        "eslint-comments/require-description": "error",
+        "@eslint-community/eslint-comments/disable-enable-pair": ["error"],
+        "@eslint-community/eslint-comments/no-unused-disable": "error",
+        "@eslint-community/eslint-comments/require-description": "error",
         "func-call-spacing": "error",
         "func-style": ["error", "declaration"],
         "function-call-argument-newline": ["error", "consistent"],
@@ -548,7 +548,18 @@ module.exports = {
                 "plugin:eslint-plugin/tests-recommended"
             ],
             rules: {
-                "eslint-plugin/test-case-property-ordering": "error",
+                "eslint-plugin/test-case-property-ordering": [
+                    "error",
+                    [
+                        "name",
+                        "filename",
+                        "code",
+                        "output",
+                        "options",
+                        "languageOptions",
+                        "errors"
+                    ]
+                ],
                 "eslint-plugin/test-case-shorthand-strings": "error"
             }
         },
@@ -634,7 +645,6 @@ module.exports = {
             files: [INTERNAL_FILES.RULE_TESTER_PATTERN],
             rules: {
                 "n/no-restricted-require": ["error", [
-                    ...createInternalFilesPatterns(INTERNAL_FILES.RULE_TESTER_PATTERN),
                     resolveAbsolutePath("lib/cli-engine/index.js")
                 ]]
             }
