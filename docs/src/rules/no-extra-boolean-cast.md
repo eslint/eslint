@@ -62,18 +62,6 @@ for (; !!foo; ) {
     // ...
 }
 
-// Complex expressions are also checked for their resulting expression(s).
-
-const ternary = Boolean(bar ? !!baz : bat);
-
-const commaOperator = Boolean((bar, baz, !!bat));
-
-// another comma operator example
-for (let i = 0; (console.log(i), Boolean(i < 10)); i++) {
-    // ...
-}
-
-const nullishCoalescingOperator = Boolean(bar ?? Boolean(baz));
 ```
 
 :::
@@ -101,16 +89,18 @@ var foo = bar ? !!baz : !!bat;
 
 This rule has an object option:
 
-* `"enforceForLogicalOperands"` when set to `true`, in addition to checking default contexts, checks whether the extra boolean cast is contained within a logical expression. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside logical expression.
+* `"enforceForInnerOperands"` when set to `true`, in addition to checking default contexts, checks whether the extra boolean cast is contained within an expression to which a boolean context may evaluate. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside inner expressions.
 
-### enforceForLogicalOperands
+**Deprecated:** The object property `enforceForLogicalOperands` is deprecated ([eslint#18222](https://github.com/eslint/eslint/pull/18222)). Please use `enforceForInnerOperands` instead.
 
-Examples of **incorrect** code for this rule with `"enforceForLogicalOperands"` option set to `true`:
+### enforceForInnerOperands
+
+Examples of **incorrect** code for this rule with `"enforceForInnerOperands"` option set to `true`:
 
 ::: incorrect
 
 ```js
-/*eslint no-extra-boolean-cast: ["error", {"enforceForLogicalOperands": true}]*/
+/*eslint no-extra-boolean-cast: ["error", {"enforceForInnerOperands": true}]*/
 
 if (!!foo || bar) {
     //...
@@ -124,19 +114,31 @@ if ((!!foo || bar) && baz) {
     //...
 }
 
+var foo = new Boolean(!!bar || baz)
+
 foo && Boolean(bar) ? baz : bat
 
-var foo = new Boolean(!!bar || baz)
+const ternaryBranches = Boolean(bar ? !!baz : bat);
+
+const nullishCoalescingOperator = Boolean(bar ?? Boolean(baz));
+
+const commaOperator = Boolean((bar, baz, !!bat));
+
+// another comma operator example
+for (let i = 0; console.log(i), Boolean(i < 10); i++) {
+    // ...
+}
+
 ```
 
 :::
 
-Examples of **correct** code for this rule with `"enforceForLogicalOperands"` option set to `true`:
+Examples of **correct** code for this rule with `"enforceForInnerOperands"` option set to `true`:
 
 ::: correct
 
 ```js
-/*eslint no-extra-boolean-cast: ["error", {"enforceForLogicalOperands": true}]*/
+/*eslint no-extra-boolean-cast: ["error", {"enforceForInnerOperands": true}]*/
 
 if (foo || bar) {
     //...
@@ -150,11 +152,24 @@ if ((foo || bar) && baz) {
     //...
 }
 
-foo && bar ? baz : bat
-
 var foo = new Boolean(bar || baz)
 
-var foo = !!bar || baz;
+foo && bar ? baz : bat
+
+const ternaryBranches = Boolean(bar ? baz : bat);
+
+const nullishCoalescingOperator = Boolean(bar ?? baz);
+
+const commaOperator = Boolean((bar, baz, bat));
+
+// another comma operator example
+for (let i = 0; console.log(i), i < 10; i++) {
+    // ...
+}
+
+// comma operator in non-final position
+Boolean((Boolean(bar), baz, bat))
+
 ```
 
 :::
