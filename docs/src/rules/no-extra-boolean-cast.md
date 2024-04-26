@@ -89,7 +89,7 @@ var foo = bar ? !!baz : !!bat;
 
 This rule has an object option:
 
-* `"enforceForInnerOperands"` when set to `true`, in addition to checking default contexts, checks whether the extra boolean cast is contained within an expression to which a boolean context may evaluate. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside inner expressions.
+* `"enforceForInnerOperands"` when set to `true`, in addition to checking default contexts, checks whether the extra boolean cast is contained within an expression which may be used in a boolean context. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside inner expressions.
 
 **Deprecated:** The object property `enforceForLogicalOperands` is deprecated ([eslint#18222](https://github.com/eslint/eslint/pull/18222)). Please use `enforceForInnerOperands` instead.
 
