@@ -31,7 +31,6 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 
 ```js
 /*eslint arrow-body-style: ["error", "always"]*/
-/*eslint-env es6*/
 
 let foo = () => 0;
 ```
@@ -44,7 +43,6 @@ Examples of **correct** code for this rule with the `"always"` option:
 
 ```js
 /*eslint arrow-body-style: ["error", "always"]*/
-/*eslint-env es6*/
 
 let foo = () => {
     return 0;
@@ -65,7 +63,6 @@ Examples of **incorrect** code for this rule with the default `"as-needed"` opti
 
 ```js
 /*eslint arrow-body-style: ["error", "as-needed"]*/
-/*eslint-env es6*/
 
 let foo = () => {
     return 0;
@@ -88,7 +85,6 @@ Examples of **correct** code for this rule with the default `"as-needed"` option
 
 ```js
 /*eslint arrow-body-style: ["error", "as-needed"]*/
-/*eslint-env es6*/
 
 let foo1 = () => 0;
 let foo2 = (retv, name) => {
@@ -122,7 +118,7 @@ Examples of **incorrect** code for this rule with the `{ "requireReturnForObject
 
 ```js
 /*eslint arrow-body-style: ["error", "as-needed", { "requireReturnForObjectLiteral": true }]*/
-/*eslint-env es6*/
+
 let foo = () => ({});
 let bar = () => ({ bar: 0 });
 ```
@@ -135,7 +131,6 @@ Examples of **correct** code for this rule with the `{ "requireReturnForObjectLi
 
 ```js
 /*eslint arrow-body-style: ["error", "as-needed", { "requireReturnForObjectLiteral": true }]*/
-/*eslint-env es6*/
 
 let foo = () => {};
 let bar = () => { return { bar: 0 }; };
@@ -151,7 +146,6 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint arrow-body-style: ["error", "never"]*/
-/*eslint-env es6*/
 
 let foo = () => {
     return 0;
@@ -170,7 +164,6 @@ Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
 /*eslint arrow-body-style: ["error", "never"]*/
-/*eslint-env es6*/
 
 let foo = () => 0;
 let bar = () => ({ foo: 0 });

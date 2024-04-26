@@ -38,7 +38,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-obj-calls: "error"*/
-/*eslint-env es2017, browser */
 
 var math = Math();
 
@@ -69,7 +68,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-obj-calls: "error"*/
-/*eslint-env es2017, browser*/
 
 function area(r) {
     return Math.PI * r * r;

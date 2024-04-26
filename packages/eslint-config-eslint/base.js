@@ -2,17 +2,12 @@
 
 const js = require("@eslint/js");
 const jsdoc = require("eslint-plugin-jsdoc");
-const eslintComments = require("eslint-plugin-eslint-comments");
+const eslintCommentsPluginConfigs = require("@eslint-community/eslint-plugin-eslint-comments/configs");
 const unicorn = require("eslint-plugin-unicorn");
-
-/*
- * the plugins' configs are not updated to support the flat config,
- * need to manually update the `plugins` property
- */
-eslintComments.configs.recommended.plugins = { "eslint-comments": eslintComments };
 
 // extends eslint recommended config
 const jsConfigs = [js.configs.recommended, {
+    name: "eslint-config-eslint/js",
     rules: {
         "array-bracket-spacing": "error",
         "array-callback-return": "error",
@@ -74,7 +69,6 @@ const jsConfigs = [js.configs.recommended, {
         "no-caller": "error",
         "no-confusing-arrow": "error",
         "no-console": "error",
-        "no-constant-binary-expression": "error",
         "no-constructor-return": "error",
         "no-else-return": ["error", { allowElseIf: false }
         ],
@@ -105,8 +99,8 @@ const jsConfigs = [js.configs.recommended, {
         "no-nested-ternary": "error",
         "no-new": "error",
         "no-new-func": "error",
-        "no-new-object": "error",
         "no-new-wrappers": "error",
+        "no-object-constructor": "error",
         "no-octal-escape": "error",
         "no-param-reassign": "error",
         "no-proto": "error",
@@ -266,6 +260,7 @@ const jsConfigs = [js.configs.recommended, {
 
 // extends eslint-plugin-jsdoc's recommended config
 const jsdocConfigs = [jsdoc.configs["flat/recommended"], {
+    name: "eslint-config-eslint/jsdoc",
     settings: {
         jsdoc: {
             mode: "typescript",
@@ -357,6 +352,7 @@ const jsdocConfigs = [jsdoc.configs["flat/recommended"], {
 
 // extends eslint-plugin-unicorn's config
 const unicornConfigs = [{
+    name: "eslint-config-eslint/unicorn",
     plugins: { unicorn },
     rules: {
         "unicorn/prefer-array-find": "error",
@@ -373,17 +369,18 @@ const unicornConfigs = [{
     }
 }];
 
-// extends eslint-plugin-eslint-comments's recommended config
-const eslintCommentsConfigs = [eslintComments.configs.recommended, {
+// extends @eslint-community/eslint-plugin-eslint-comments's recommended config
+const eslintCommentsConfigs = [eslintCommentsPluginConfigs.recommended, {
+    name: "eslint-config-eslint/eslint-comments",
     rules: {
-        "eslint-comments/disable-enable-pair": ["error"],
-        "eslint-comments/no-unused-disable": "error",
-        "eslint-comments/require-description": "error"
+        "@eslint-community/eslint-comments/disable-enable-pair": ["error"],
+        "@eslint-community/eslint-comments/no-unused-disable": "error",
+        "@eslint-community/eslint-comments/require-description": "error"
     }
 }];
 
 module.exports = [
-    { linterOptions: { reportUnusedDisableDirectives: "error" } },
+    { name: "eslint-config-eslint/base", linterOptions: { reportUnusedDisableDirectives: "error" } },
     ...jsConfigs,
     ...unicornConfigs,
     ...jsdocConfigs,

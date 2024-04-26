@@ -43,26 +43,26 @@ this.eval("var a = 0");
 
 :::
 
-Example of additional **incorrect** code for this rule when `browser` environment is set to `true`:
+Example of additional **incorrect** code for this rule with `window` global variable:
 
 ::: incorrect
 
 ```js
 /*eslint no-eval: "error"*/
-/*eslint-env browser*/
+/*global window*/
 
 window.eval("var a = 0");
 ```
 
 :::
 
-Example of additional **incorrect** code for this rule when `node` environment is set to `true`:
+Example of additional **incorrect** code for this rule with `global` global variable:
 
 ::: incorrect
 
 ```js
 /*eslint no-eval: "error"*/
-/*eslint-env node*/
+/*global global*/
 
 global.eval("var a = 0");
 ```
@@ -75,7 +75,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-eval: "error"*/
-/*eslint-env es6*/
 
 var obj = { x: "foo" },
     key = "x",
@@ -106,7 +105,7 @@ class A {
 
 ### allowIndirect
 
-This rule has an option to allow indirect calls to `eval`.
+This rule has an option to allow ["indirect eval"](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#direct_and_indirect_eval).
 Indirect calls to `eval` are less dangerous than direct calls to `eval` because they cannot dynamically change the scope. Because of this, they also will not negatively impact performance to the degree of direct `eval`.
 
 ```js
@@ -150,7 +149,7 @@ this.eval("var a = 0");
 
 ```js
 /*eslint no-eval: ["error", {"allowIndirect": true} ]*/
-/*eslint-env browser*/
+/*global window*/
 
 window.eval("var a = 0");
 ```
@@ -161,7 +160,7 @@ window.eval("var a = 0");
 
 ```js
 /*eslint no-eval: ["error", {"allowIndirect": true} ]*/
-/*eslint-env node*/
+/*global global*/
 
 global.eval("var a = 0");
 ```

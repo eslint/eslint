@@ -192,7 +192,48 @@ import {b, a, c} from 'foo.js'
 
 ### `ignoreCase`
 
-When `true` the rule ignores the case-sensitivity of the imports local name.
+When `false` (default), uppercase letters of the alphabet must always precede lowercase letters.
+
+When `true`, the rule ignores the case-sensitivity of the imports local name.
+
+Examples of **incorrect** code for this rule with the default `{ "ignoreCase": false }` option:
+
+::: incorrect
+
+```js
+/*eslint sort-imports: ["error", { "ignoreCase": false }]*/
+import a from 'bar.js';
+import B from 'foo.js';
+import c from 'baz.js';
+```
+
+:::
+
+Examples of **correct** code for this rule with the default `{ "ignoreCase": false }` option:
+
+::: correct
+
+```js
+/*eslint sort-imports: ["error", { "ignoreCase": false }]*/
+import B from 'bar.js';
+import a from 'foo.js';
+import c from 'baz.js';
+```
+
+:::
+
+Examples of **correct** code for this rule with `{ "ignoreCase": true }` option:
+
+::: correct
+
+```js
+/*eslint sort-imports: ["error", { "ignoreCase": true }]*/
+import a from 'bar.js';
+import B from 'foo.js';
+import c from 'baz.js';
+```
+
+:::
 
 Examples of **incorrect** code for this rule with the `{ "ignoreCase": true }` option:
 
@@ -200,32 +241,15 @@ Examples of **incorrect** code for this rule with the `{ "ignoreCase": true }` o
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreCase": true }]*/
-
 import B from 'foo.js';
 import a from 'bar.js';
 ```
 
 :::
 
-Examples of **correct** code for this rule with the `{ "ignoreCase": true }` option:
-
-::: correct
-
-```js
-/*eslint sort-imports: ["error", { "ignoreCase": true }]*/
-
-import a from 'foo.js';
-import B from 'bar.js';
-import c from 'baz.js';
-```
-
-:::
-
-Default is `false`.
-
 ### `ignoreDeclarationSort`
 
-Ignores the sorting of import declaration statements.
+When `true`, the rule ignores the sorting of import declaration statements. Default is `false`.
 
 Examples of **incorrect** code for this rule with the default `{ "ignoreDeclarationSort": false }` option:
 
@@ -239,17 +263,19 @@ import a from 'bar.js'
 
 :::
 
-Examples of **correct** code for this rule with the `{ "ignoreDeclarationSort": true }` option:
+Examples of **correct** code for this rule with the default `{ "ignoreDeclarationSort": false }` option:
 
 ::: correct
 
 ```js
-/*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
-import a from 'foo.js'
-import b from 'bar.js'
+/*eslint sort-imports: ["error", { "ignoreDeclarationSort": false }]*/
+import a from 'bar.js';
+import b from 'foo.js';
 ```
 
 :::
+
+Examples of **correct** code for this rule with the `{ "ignoreDeclarationSort": true }` option:
 
 ::: correct
 
@@ -261,11 +287,20 @@ import a from 'bar.js'
 
 :::
 
-Default is `false`.
+Examples of **incorrect** code for this rule with the `{ "ignoreDeclarationSort": true }` option:
+
+::: incorrect
+
+```js
+/*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
+import {b, a, c} from 'foo.js';
+```
+
+:::
 
 ### `ignoreMemberSort`
 
-Ignores the member sorting within a `multiple` member import declaration.
+When `true`, the rule ignores the member sorting within a `multiple` member import declaration. Default is `false`.
 
 Examples of **incorrect** code for this rule with the default `{ "ignoreMemberSort": false }` option:
 
@@ -274,6 +309,17 @@ Examples of **incorrect** code for this rule with the default `{ "ignoreMemberSo
 ```js
 /*eslint sort-imports: ["error", { "ignoreMemberSort": false }]*/
 import {b, a, c} from 'foo.js'
+```
+
+:::
+
+Examples of **correct** code for this rule with the default `{ "ignoreMemberSort": false }` option:
+
+::: correct
+
+```js
+/*eslint sort-imports: ["error", { "ignoreMemberSort": false }]*/
+import {a, b, c} from 'foo.js';
 ```
 
 :::
@@ -289,9 +335,23 @@ import {b, a, c} from 'foo.js'
 
 :::
 
-Default is `false`.
+Examples of **incorrect** code for this rule with the `{ "ignoreMemberSort": true }` option:
+
+::: incorrect
+
+```js
+/*eslint sort-imports: ["error", { "ignoreMemberSort": true }]*/
+import b from 'foo.js';
+import a from 'bar.js';
+```
+
+:::
 
 ### `memberSyntaxSortOrder`
+
+This option takes an array with four predefined elements, the order of elements specifies the order of import styles.
+
+Default order is `["none", "all", "multiple", "single"]`.
 
 There are four different styles and the default member syntax sort order is:
 
@@ -341,11 +401,9 @@ import {a, b} from 'foo.js';
 
 :::
 
-Default is `["none", "all", "multiple", "single"]`.
-
 ### `allowSeparatedGroups`
 
-When `true` the rule checks the sorting of import declaration statements only for those that appear on consecutive lines.
+When `true`, the rule checks the sorting of import declaration statements only for those that appear on consecutive lines. Default is `false`.
 
 In other words, a blank line or a comment line or line with any other statement after an import declaration statement will reset the sorting of import declaration statements.
 
@@ -403,8 +461,6 @@ import a from 'baz.js';
 ```
 
 :::
-
-Default is `false`.
 
 ## When Not To Use It
 

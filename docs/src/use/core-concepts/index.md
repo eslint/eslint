@@ -17,19 +17,19 @@ ESLint is a configurable JavaScript linter. It helps you find and fix problems i
 
 Rules are the core building block of ESLint. A rule validates if your code meets a certain expectation, and what to do if it does not meet that expectation. Rules can also contain additional configuration options specific to that rule.
 
-For example, the [`semi`](../rules/semi) rule lets you specify whether or not JavaScript statements should end with a semicolon (`;`). You can set the rule to either always require semicolons or require that a statement never ends with a semicolon.
+For example, the [`semi`](../../rules/semi) rule lets you specify whether or not JavaScript statements should end with a semicolon (`;`). You can set the rule to either always require semicolons or require that a statement never ends with a semicolon.
 
 ESLint contains hundreds of built-in rules that you can use. You can also create custom rules or use rules that others have created with [plugins](#plugins).
 
-For more information, refer to [Rules](../rules/).
+For more information, refer to [Rules](../../rules/).
 
 ### Rule Fixes
 
 Rules may optionally provide fixes for violations that they find. Fixes safely correct the violation without changing application logic.
 
-Fixes may be applied automatically with the [`--fix` command line option](command-line-interface#--fix) and via editor extensions.
+Fixes may be applied automatically with the [`--fix` command line option](../command-line-interface#--fix) and via editor extensions.
 
-Rules that may provide fixes are marked with 🔧 in [Rules](../rules/).
+Rules that may provide fixes are marked with 🔧 in [Rules](../../rules/).
 
 ### Rule Suggestions
 
@@ -38,13 +38,13 @@ Rules may optionally provide suggestions in addition to or instead of providing 
 1. Suggestions may change application logic and so cannot be automatically applied.
 1. Suggestions cannot be applied through the ESLint CLI and are only available through editor integrations.
 
-Rules that may provide suggestions are marked with 💡 in [Rules](../rules/).
+Rules that may provide suggestions are marked with 💡 in [Rules](../../rules/).
 
 ## Configuration Files
 
 An ESLint configuration file is a place where you put the configuration for ESLint in your project. You can include built-in rules, how you want them enforced, plugins with custom rules, shareable configurations, which files you want rules to apply to, and more.
 
-For more information, refer to [Configuration Files](./configure/configuration-files).
+For more information, refer to [Configuration Files](../configure/configuration-files).
 
 ## Shareable Configurations
 
@@ -52,7 +52,7 @@ Shareable configurations are ESLint configurations that are shared via npm.
 
 Often shareable configurations are used to enforce style guides using ESLint's built-in rules. For example the sharable configuration [eslint-config-airbnb-base](https://www.npmjs.com/package/eslint-config-airbnb-base) implements the popular Airbnb JavaScript style guide.
 
-For more information, refer to [Using a shareable configuration package](./configure/configuration-files#using-a-shareable-configuration-package).
+For more information, refer to [Using a shareable configuration package](../configure/configuration-files#using-a-shareable-configuration-package).
 
 ## Plugins
 
@@ -60,7 +60,7 @@ An ESLint plugin is an npm module that can contain a set of ESLint rules, config
 
 A popular use case for plugins is to enforce best practices for a framework. For example, [@angular-eslint/eslint-plugin](https://www.npmjs.com/package/@angular-eslint/eslint-plugin) contains best practices for using the Angular framework.
 
-For more information, refer to [Configure Plugins](./configure/plugins).
+For more information, refer to [Configure Plugins](../configure/plugins).
 
 ## Parsers
 
@@ -80,13 +80,13 @@ For example, [eslint-plugin-markdown](https://github.com/eslint/eslint-plugin-ma
 
 An ESLint formatter controls the appearance of the linting results in the CLI.
 
-For more information, refer to [Formatters](./formatters/).
+For more information, refer to [Formatters](../formatters/).
 
 ## Integrations
 
 One of the things that makes ESLint such a useful tool is the ecosystem of integrations that surrounds it. For example, many code editors have ESLint extensions that show you the ESLint results of your code in the file as you work so that you don't need to use the ESLint CLI to see linting results.
 
-For more information, refer to [Integrations](./integrations).
+For more information, refer to [Integrations](../integrations).
 
 ## CLI & Node.js API
 
@@ -96,4 +96,4 @@ The ESLint Node.js API lets you use ESLint programmatically from Node.js code. T
 
 Unless you are extending ESLint in some way, you should use the CLI.
 
-For more information, refer to [Command Line Interface](./command-line-interface) and [Node.js API](../integrate/nodejs-api).
+For more information, refer to [Command Line Interface](../command-line-interface) and [Node.js API](../../integrate/nodejs-api).

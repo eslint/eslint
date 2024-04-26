@@ -42,7 +42,6 @@ Examples of **incorrect** code for this rule with the default `"initializations"
 
 ```js
 /*eslint one-var-declaration-per-line: ["error", "initializations"]*/
-/*eslint-env es6*/
 
 var a, b, c = 0;
 
@@ -58,7 +57,6 @@ Examples of **correct** code for this rule with the default `"initializations"` 
 
 ```js
 /*eslint one-var-declaration-per-line: ["error", "initializations"]*/
-/*eslint-env es6*/
 
 var a, b;
 
@@ -79,7 +77,6 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 
 ```js
 /*eslint one-var-declaration-per-line: ["error", "always"]*/
-/*eslint-env es6*/
 
 var a, b;
 
@@ -96,7 +93,6 @@ Examples of **correct** code for this rule with the `"always"` option:
 
 ```js
 /*eslint one-var-declaration-per-line: ["error", "always"]*/
-/*eslint-env es6*/
 
 var a,
     b;

@@ -256,7 +256,7 @@ export default [
 ];
 ```
 
-A flag config example configuration supporting multiple configs for different glob patterns:
+A flat config example configuration supporting multiple configs for different glob patterns:
 
 ```javascript
 // eslint.config.js
@@ -329,6 +329,10 @@ export default [
     }
 ];
 ```
+
+::: tip
+You'll need to install the `globals` package from npm for this example to work. It is not automatically installed by ESLint.
+:::
 
 ### `eslint-env` Configuration Comments
 
@@ -645,6 +649,12 @@ ESLint uses the `files` keys from the config file to determine which files shoul
 The `--resolve-plugins-relative-to` flag was used to indicate which directory plugin references in your configuration file should be resolved relative to. This was necessary because shareable configs could only resolve plugins that were peer dependencies or dependencies of parent packages.
 
 With flat config, shareable configs can specify their dependencies directly, so this flag is no longer needed.
+
+### `package.json` Configuration No Longer Supported
+
+With eslintrc, it was possible to use a `package.json` file to configure ESLint using the `eslintConfig` key.
+
+With flat config, it's no longer possible to use a `package.json` file to configure ESLint. You'll need to move your configuration into a separate file.
 
 ### Additional Changes
 

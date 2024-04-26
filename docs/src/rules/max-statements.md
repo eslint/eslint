@@ -46,7 +46,6 @@ Examples of **incorrect** code for this rule with the default `{ "max": 10 }` op
 
 ```js
 /*eslint max-statements: ["error", 10]*/
-/*eslint-env es6*/
 
 function foo() {
   var foo1 = 1;
@@ -87,7 +86,6 @@ Examples of **correct** code for this rule with the default `{ "max": 10 }` opti
 
 ```js
 /*eslint max-statements: ["error", 10]*/
-/*eslint-env es6*/
 
 function foo() {
   var foo1 = 1;

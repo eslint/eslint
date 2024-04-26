@@ -140,11 +140,11 @@ ${getErrorMessage(error)}`;
     if (process.argv.includes("--init")) {
 
         // `eslint --init` has been moved to `@eslint/create-config`
-        console.warn("You can also run this command directly using 'npm init @eslint/config'.");
+        console.warn("You can also run this command directly using 'npm init @eslint/config@latest'.");
 
         const spawn = require("cross-spawn");
 
-        spawn.sync("npm", ["init", "@eslint/config"], { encoding: "utf8", stdio: "inherit" });
+        spawn.sync("npm", ["init", "@eslint/config@latest"], { encoding: "utf8", stdio: "inherit" });
         return;
     }
 

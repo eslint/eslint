@@ -40,7 +40,6 @@ Examples of **incorrect** code for this rule with the default `{ "max": 3 }` opt
 
 ```js
 /*eslint max-params: ["error", 3]*/
-/*eslint-env es6*/
 
 function foo1 (bar, baz, qux, qxx) {
     doSomething();
@@ -59,7 +58,6 @@ Examples of **correct** code for this rule with the default `{ "max": 3 }` optio
 
 ```js
 /*eslint max-params: ["error", 3]*/
-/*eslint-env es6*/
 
 function foo1 (bar, baz, qux) {
     doSomething();

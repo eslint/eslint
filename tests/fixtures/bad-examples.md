@@ -52,3 +52,31 @@ const foo = "baz";
 ```
 
 :::
+
+:::correct { "ecmaVersion": "latest" }
+
+```js
+/* eslint no-restricted-syntax: ["error", "ArrayPattern"] */
+```
+
+:::
+
+:::correct { "ecmaVersion": 6 }
+
+```js
+/* eslint no-restricted-syntax: ["error", "ArrayPattern"] */
+```
+
+:::
+
+:::correct
+
+```js
+/* eslint no-restricted-syntax: ["error", "ArrayPattern"] */
+/* eslint-env es6 */
+
+/*eslint-env node */
+/*eslint-env*/
+```
+
+:::

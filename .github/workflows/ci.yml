@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: "lts/*"
       - name: Install Packages
-        run: npm install --force
+        run: npm install
 
       - name: Install Docs Packages
         working-directory: docs
@@ -47,7 +47,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [21.x, 20.x, 18.x, "18.18.0"]
+        node: [22.x, 21.x, 20.x, 18.x, "18.18.0"]
         include:
           - os: windows-latest
             node: "lts/*"
@@ -60,11 +60,13 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Install Packages
-        run: npm install --force
+        run: npm install
       - name: Test
         run: node Makefile mocha
       - name: Fuzz Test
         run: node Makefile fuzz
+      - name: Test EMFILE Handling
+        run: npm run test:emfile
 
   test_on_browser:
     name: Browser Test
@@ -75,7 +77,7 @@ jobs:
         with:
           node-version: "20" # Should be the same as the version used on Netlify to build the ESLint Playground
       - name: Install Packages
-        run: npm install --force
+        run: npm install
       - name: Test
         run: node Makefile wdio
       - name: Fuzz Test

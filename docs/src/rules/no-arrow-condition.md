@@ -43,7 +43,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-arrow-condition: "error"*/
-/*eslint-env es6*/
 
 if (a => 1) {}
 while (a => 1) {}

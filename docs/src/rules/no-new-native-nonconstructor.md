@@ -38,7 +38,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-new-native-nonconstructor: "error"*/
-/*eslint-env es2022*/
 
 var foo = new Symbol('foo');
 var bar = new BigInt(9007199254740991);
@@ -52,7 +51,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-new-native-nonconstructor: "error"*/
-/*eslint-env es2022*/
 
 var foo = Symbol('foo');
 var bar = BigInt(9007199254740991);

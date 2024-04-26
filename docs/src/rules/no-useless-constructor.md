@@ -31,7 +31,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-useless-constructor: "error"*/
-/*eslint-env es6*/
 
 class A {
     constructor () {

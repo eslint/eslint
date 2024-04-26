@@ -437,4 +437,20 @@ describe("options", () => {
         });
     });
 
+    describe("--stats", () => {
+        it("should return true --stats is passed", () => {
+            const currentOptions = flatOptions.parse("--stats");
+
+            assert.isTrue(currentOptions.stats);
+        });
+    });
+
+    describe("--inspect-config", () => {
+        it("should return true when --inspect-config is passed", () => {
+            const currentOptions = flatOptions.parse("--inspect-config");
+
+            assert.isTrue(currentOptions.inspectConfig);
+        });
+    });
+
 });

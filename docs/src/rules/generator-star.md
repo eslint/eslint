@@ -16,8 +16,6 @@ These special functions are indicated by placing an `*` after the `function` key
 Here is an example of a generator function:
 
 ```js
-/*eslint-env es6*/
-
 function* generator() {
     yield "44";
     yield "55";
@@ -27,8 +25,6 @@ function* generator() {
 This is also valid:
 
 ```js
-/*eslint-env es6*/
-
 function *generator() {
     yield "44";
     yield "55";
@@ -38,8 +34,6 @@ function *generator() {
 This is valid as well:
 
 ```js
-/*eslint-env es6*/
-
 function * generator() {
     yield "44";
     yield "55";
@@ -63,8 +57,6 @@ You can set the style in configuration like this:
 When using `"start"` this placement will be enforced:
 
 ```js
-/*eslint-env es6*/
-
 function* generator() {
 }
 ```
@@ -72,8 +64,6 @@ function* generator() {
 When using `"middle"` this placement will be enforced:
 
 ```js
-/*eslint-env es6*/
-
 function * generator() {
 }
 ```
@@ -81,8 +71,6 @@ function * generator() {
 When using `"end"` this placement will be enforced:
 
 ```js
-/*eslint-env es6*/
-
 function *generator() {
 }
 ```
@@ -90,8 +78,6 @@ function *generator() {
 When using the expression syntax `"start"` will be enforced here:
 
 ```js
-/*eslint-env es6*/
-
 var generator = function* () {
 }
 ```
@@ -99,8 +85,6 @@ var generator = function* () {
 When using the expression syntax `"middle"` will be enforced here:
 
 ```js
-/*eslint-env es6*/
-
 var generator = function * () {
 }
 ```
@@ -108,8 +92,6 @@ var generator = function * () {
 When using the expression syntax `"end"` will be enforced here:
 
 ```js
-/*eslint-env es6*/
-
 var generator = function *() {
 }
 ```
@@ -117,8 +99,6 @@ var generator = function *() {
 When using the expression syntax this is valid for both `"start"` and `"end"`:
 
 ```js
-/*eslint-env es6*/
-
 var generator = function*() {
 }
 ```

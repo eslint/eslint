@@ -83,7 +83,6 @@ Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint quote-props: ["error", "always"]*/
-/*eslint-env es6*/
 
 var object1 = {
     "foo": "bar",
@@ -131,7 +130,6 @@ Examples of **correct** code for this rule with the `"as-needed"` option:
 
 ```js
 /*eslint quote-props: ["error", "as-needed"]*/
-/*eslint-env es6*/
 
 var object1 = {
     "a-b": 0,

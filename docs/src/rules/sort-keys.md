@@ -19,7 +19,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint sort-keys: "error"*/
-/*eslint-env es6*/
 
 let obj1 = {a: 1, c: 3, b: 2};
 let obj2 = {a: 1, "c": 3, b: 2};
@@ -45,7 +44,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint sort-keys: "error"*/
-/*eslint-env es6*/
 
 let obj1 = {a: 1, b: 2, c: 3};
 let obj2 = {a: 1, "b": 2, c: 3};
@@ -116,7 +114,6 @@ Examples of **incorrect** code for the `"desc"` option:
 
 ```js
 /*eslint sort-keys: ["error", "desc"]*/
-/*eslint-env es6*/
 
 let obj1 = {b: 2, c: 3, a: 1};
 let obj2 = {"b": 2, c: 3, a: 1};
@@ -136,7 +133,6 @@ Examples of **correct** code for the `"desc"` option:
 
 ```js
 /*eslint sort-keys: ["error", "desc"]*/
-/*eslint-env es6*/
 
 let obj1 = {c: 3, b: 2, a: 1};
 let obj2 = {c: 3, "b": 2, a: 1};
@@ -158,7 +154,6 @@ Examples of **incorrect** code for the `{caseSensitive: false}` option:
 
 ```js
 /*eslint sort-keys: ["error", "asc", {caseSensitive: false}]*/
-/*eslint-env es6*/
 
 let obj1 = {a: 1, c: 3, C: 4, b: 2};
 let obj2 = {a: 1, C: 3, c: 4, b: 2};
@@ -172,7 +167,6 @@ Examples of **correct** code for the `{caseSensitive: false}` option:
 
 ```js
 /*eslint sort-keys: ["error", "asc", {caseSensitive: false}]*/
-/*eslint-env es6*/
 
 let obj1 = {a: 1, b: 2, c: 3, C: 4};
 let obj2 = {a: 1, b: 2, C: 3, c: 4};
@@ -188,7 +182,6 @@ Examples of **incorrect** code for the `{natural: true}` option:
 
 ```js
 /*eslint sort-keys: ["error", "asc", {natural: true}]*/
-/*eslint-env es6*/
 
 let obj = {1: a, 10: c, 2: b};
 ```
@@ -201,7 +194,6 @@ Examples of **correct** code for the `{natural: true}` option:
 
 ```js
 /*eslint sort-keys: ["error", "asc", {natural: true}]*/
-/*eslint-env es6*/
 
 let obj = {1: a, 2: b, 10: c};
 ```
@@ -216,7 +208,6 @@ Examples of **incorrect** code for the `{minKeys: 4}` option:
 
 ```js
 /*eslint sort-keys: ["error", "asc", {minKeys: 4}]*/
-/*eslint-env es6*/
 
 // 4 keys
 let obj1 = {
@@ -244,7 +235,6 @@ Examples of **correct** code for the `{minKeys: 4}` option:
 
 ```js
 /*eslint sort-keys: ["error", "asc", {minKeys: 4}]*/
-/*eslint-env es6*/
 
 // 3 keys
 let obj1 = {
@@ -270,7 +260,6 @@ Examples of **incorrect** code for the `{allowLineSeparatedGroups: true}` option
 
 ```js
 /*eslint sort-keys: ["error", "asc", {allowLineSeparatedGroups: true}]*/
-/*eslint-env es6*/
 
 let obj1 = {
     b: 1,
@@ -316,7 +305,6 @@ Examples of **correct** code for the `{allowLineSeparatedGroups: true}` option:
 
 ```js
 /*eslint sort-keys: ["error", "asc", {allowLineSeparatedGroups: true}]*/
-/*eslint-env es6*/
 
 let obj1 = {
     e: 1,
@@ -342,7 +330,7 @@ let obj3 = {
 
     b () {
 
-    }, 
+    },
     e: 3,
 }
 

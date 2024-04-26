@@ -96,7 +96,6 @@ foo --;
 
 ```js
 /*eslint space-unary-ops: "error"*/
-/*eslint-env es6*/
 
 function *foo() {
     yield(0)
@@ -155,7 +154,6 @@ foo--;
 
 ```js
 /*eslint space-unary-ops: "error"*/
-/*eslint-env es6*/
 
 function *foo() {
     yield (0)

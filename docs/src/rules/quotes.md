@@ -8,8 +8,6 @@ This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding ru
 JavaScript allows you to define strings in one of three ways: double quotes, single quotes, and backticks (as of ECMAScript 6). For example:
 
 ```js
-/*eslint-env es6*/
-
 var double = "double";
 var single = 'single';
 var backtick = `backtick`;    // ES6 only
@@ -64,7 +62,6 @@ Examples of **correct** code for this rule with the default `"double"` option:
 
 ```js
 /*eslint quotes: ["error", "double"]*/
-/*eslint-env es6*/
 
 var double = "double";
 var backtick = `back
@@ -95,7 +92,6 @@ Examples of **correct** code for this rule with the `"single"` option:
 
 ```js
 /*eslint quotes: ["error", "single"]*/
-/*eslint-env es6*/
 
 var single = 'single';
 var backtick = `back${x}tick`; // backticks are allowed due to substitution
@@ -125,7 +121,6 @@ Examples of **correct** code for this rule with the `"backtick"` option:
 
 ```js
 /*eslint quotes: ["error", "backtick"]*/
-/*eslint-env es6*/
 
 "use strict"; // directives must use single or double quotes
 var backtick = `backtick`;

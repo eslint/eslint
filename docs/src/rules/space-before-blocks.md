@@ -151,7 +151,6 @@ Examples of **incorrect** code for this rule when configured `{ "functions": "ne
 
 ```js
 /*eslint space-before-blocks: ["error", { "functions": "never", "keywords": "always", "classes": "never" }]*/
-/*eslint-env es6*/
 
 function a() {}
 
@@ -170,7 +169,6 @@ Examples of **correct** code for this rule when configured `{ "functions": "neve
 
 ```js
 /*eslint space-before-blocks: ["error", { "functions": "never", "keywords": "always", "classes": "never" }]*/
-/*eslint-env es6*/
 
 for (;;) {
   // ...
@@ -193,7 +191,6 @@ Examples of **incorrect** code for this rule when configured `{ "functions": "al
 
 ```js
 /*eslint space-before-blocks: ["error", { "functions": "always", "keywords": "never", "classes": "never" }]*/
-/*eslint-env es6*/
 
 function a(){}
 
@@ -212,7 +209,6 @@ Examples of **correct** code for this rule when configured `{ "functions": "alwa
 
 ```js
 /*eslint space-before-blocks: ["error", { "functions": "always", "keywords": "never", "classes": "never" }]*/
-/*eslint-env es6*/
 
 if (a){
   b();
@@ -233,7 +229,6 @@ Examples of **incorrect** code for this rule when configured `{ "functions": "ne
 
 ```js
 /*eslint space-before-blocks: ["error", { "functions": "never", "keywords": "never", "classes": "always" }]*/
-/*eslint-env es6*/
 
 class Foo{
   constructor(){}
@@ -248,7 +243,6 @@ Examples of **correct** code for this rule when configured `{ "functions": "neve
 
 ```js
 /*eslint space-before-blocks: ["error", { "functions": "never", "keywords": "never", "classes": "always" }]*/
-/*eslint-env es6*/
 
 class Foo {
   constructor(){}

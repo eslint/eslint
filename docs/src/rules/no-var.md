@@ -47,7 +47,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-var: "error"*/
-/*eslint-env es6*/
 
 let x = "y";
 const CONFIG = {};

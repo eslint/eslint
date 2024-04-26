@@ -1047,10 +1047,10 @@ ruleTester.run("accessor-pairs", rule, {
 
         // Full location tests
         {
-            code: "var o = { get a() {} };",
+            code: "var o = { get b() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true }],
             errors: [{
-                message: "Setter is not present for getter 'a'.",
+                message: "Setter is not present for getter 'b'.",
                 type: "Property",
                 line: 1,
                 column: 11,
@@ -1831,11 +1831,11 @@ ruleTester.run("accessor-pairs", rule, {
             }]
         },
         {
-            code: "class A { static get a() {} };",
+            code: "class A { static get b() {} };",
             options: [{ setWithoutGet: true, getWithoutSet: true, enforceForClassMembers: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Setter is not present for class static getter 'a'.",
+                message: "Setter is not present for class static getter 'b'.",
                 type: "MethodDefinition",
                 line: 1,
                 column: 11,

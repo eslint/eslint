@@ -117,7 +117,6 @@ var thing = function() {
     return / <NBSP>regexp/;
 }
 
-/*eslint-env es6*/
 var thing = function() {
     return `template <NBSP>string`;
 }
@@ -191,7 +190,6 @@ Examples of additional **correct** code for this rule with the `{ "skipTemplates
 
 ```js
 /*eslint no-irregular-whitespace: ["error", { "skipTemplates": true }]*/
-/*eslint-env es6*/
 
 function thing() {
     return `template <NBSP>string`;
@@ -208,7 +206,6 @@ Examples of additional **correct** code for this rule with the `{ "skipJSXText":
 
 ```jsx
 /*eslint no-irregular-whitespace: ["error", { "skipJSXText": true }]*/
-/*eslint-env es6*/
 
 function Thing() {
     return <div>text in JSX</div>; // <NBSP> before `JSX`
