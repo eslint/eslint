@@ -7,8 +7,7 @@
                 "tools/internal-rules/index.js",
                 // https://github.com/webpro/knip/issues/464
                 // Remove when Knip has a wdio plugin
-                "wdio.conf.js",
-                "eslint.config.js"
+                "wdio.conf.js"
             ],
             "project": ["{conf,lib,tools}/**/*.js"],
             "mocha": {
@@ -40,7 +39,10 @@
 
                 // Ignore until Knip has a wdio plugin:
                 "@wdio/*",
-                "rollup-plugin-node-polyfills"
+                "rollup-plugin-node-polyfills",
+
+                // FIXME: not sure why is eslint-config-eslint reported as unused
+                "eslint-config-eslint"
             ]
         },
         "docs": {
