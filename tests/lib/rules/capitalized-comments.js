@@ -367,6 +367,24 @@ ruleTester.run("capitalized-comments", rule, {
                 column: 1
             }]
         },
+        {
+            code: "// ꮳꮃꭹ",
+            output: "// Ꮳꮃꭹ",
+            errors: [{
+                messageId: "unexpectedLowercaseComment",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "/* 𐳡𐳡𐳡 */", // right-to-left-text
+            output: "/* 𐲡𐳡𐳡 */",
+            errors: [{
+                messageId: "unexpectedLowercaseComment",
+                line: 1,
+                column: 1
+            }]
+        },
 
         // Using "always" string option
         {
@@ -534,6 +552,26 @@ ruleTester.run("capitalized-comments", rule, {
         {
             code: "/* Uppercase\nsecond line need not be uppercase */",
             output: "/* uppercase\nsecond line need not be uppercase */",
+            options: ["never"],
+            errors: [{
+                messageId: "unexpectedUppercaseComment",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "// Გ", // Georgian Mtavruli Capital Letter Gan (U+1C92)
+            output: "// გ", // Georgian Letter Gan (U+10D2)
+            options: ["never"],
+            errors: [{
+                messageId: "unexpectedUppercaseComment",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "// 𑢢", // Warang Citi Capital Letter Wi (U+118A2)
+            output: "// 𑣂", // Warang Citi Small Letter Wi (U+118C2)
             options: ["never"],
             errors: [{
                 messageId: "unexpectedUppercaseComment",
