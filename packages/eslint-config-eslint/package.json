@@ -1,14 +1,13 @@
 {
   "name": "eslint-config-eslint",
-  "version": "9.0.0",
+  "version": "10.0.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "Default ESLint configuration for ESLint projects.",
   "exports": {
     "./package.json": "./package.json",
     ".": "./index.js",
     "./base": "./base.js",
-    "./cjs": "./cjs.js",
-    "./eslintrc": "./eslintrc.js"
+    "./cjs": "./cjs.js"
   },
   "scripts": {
     "test": "node ./index.js && node ./cjs.js",
