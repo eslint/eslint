@@ -115,81 +115,81 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "var foo = bar || !!baz",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "var foo = bar && !!baz",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "var foo = bar || (baz && !!bat)",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "function foo() { return (!!bar || baz); }",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "var foo = bar() ? (!!baz && bat) : (!!bat && qux)",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "for(!!(foo && bar);;) {}",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "for(;; !!(foo || bar)) {}",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "var foo = Boolean(bar) || baz;",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "var foo = bar || Boolean(baz);",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "var foo = Boolean(bar) || Boolean(baz);",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "function foo() { return (Boolean(bar) || baz); }",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "var foo = bar() ? Boolean(baz) || bat : Boolean(bat)",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "for(Boolean(foo) || bar;;) {}",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "for(;; Boolean(foo) || bar) {}",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "if (new Boolean(foo) || bar) {}",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "if (!!foo || bar) {}",
-            options: [{ enforceForInnerOperands: false }]
+            options: [{ enforceForInnerExpressions: false }]
         },
         {
             code: "if ((!!foo || bar) === baz) {}",
-            options: [{ enforceForInnerOperands: true }]
+            options: [{ enforceForInnerExpressions: true }]
         },
         {
             code: "if (!!foo ?? bar) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             languageOptions: { ecmaVersion: 2020 }
         },
 
         /*
          * additional expressions should not be checked with option
-         * configurations other than `enforceForInnerOperands: true`.
+         * configurations other than `enforceForInnerExpressions: true`.
          */
         ...[
             "Boolean((1, 2, Boolean(3)))",
@@ -1479,7 +1479,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!foo || bar) {}",
             output: "if (foo || bar) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
@@ -1490,7 +1490,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!foo && bar) {}",
             output: "if (foo && bar) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
@@ -1502,7 +1502,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if ((!!foo || bar) && bat) {}",
             output: "if ((foo || bar) && bat) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
@@ -1513,7 +1513,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (foo && !!bar) {}",
             output: "if (foo && bar) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
@@ -1524,7 +1524,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "do {} while (!!foo || bar)",
             output: "do {} while (foo || bar)",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
@@ -1534,7 +1534,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "while (!!foo || bar) {}",
             output: "while (foo || bar) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
@@ -1544,7 +1544,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!!foo && bat ? bar : baz",
             output: "foo && bat ? bar : baz",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
@@ -1554,7 +1554,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "for (; !!foo || bar;) {}",
             output: "for (; foo || bar;) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
@@ -1564,7 +1564,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!!!foo || bar",
             output: "!foo || bar",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
@@ -1574,7 +1574,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "Boolean(!!foo || bar)",
             output: "Boolean(foo || bar)",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
@@ -1584,7 +1584,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "new Boolean(!!foo || bar)",
             output: "new Boolean(foo || bar)",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
@@ -1594,7 +1594,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(foo) || bar) {}",
             output: "if (foo || bar) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1603,7 +1603,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "do {} while (Boolean(foo) || bar)",
             output: "do {} while (foo || bar)",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1612,7 +1612,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "while (Boolean(foo) || bar) {}",
             output: "while (foo || bar) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1621,7 +1621,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "Boolean(foo) || bat ? bar : baz",
             output: "foo || bat ? bar : baz",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1630,7 +1630,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "for (; Boolean(foo) || bar;) {}",
             output: "for (; foo || bar;) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1639,7 +1639,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(foo) || bar",
             output: "!foo || bar",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1648,7 +1648,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(foo && bar) || bat",
             output: "!(foo && bar) || bat",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1657,7 +1657,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(foo + bar) || bat",
             output: "!(foo + bar) || bat",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1666,7 +1666,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(+foo)  || bar",
             output: "!+foo  || bar",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1675,7 +1675,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(foo()) || bar",
             output: "!foo() || bar",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1684,7 +1684,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(foo() || bar)",
             output: "!(foo() || bar)",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1693,7 +1693,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(foo = bar) || bat",
             output: "!(foo = bar) || bat",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1702,7 +1702,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(...foo) || bar;",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedCall",
@@ -1712,7 +1712,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(foo, bar()) || bar;",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1721,7 +1721,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean((foo, bar()) || bat);",
             output: "!((foo, bar()) || bat);",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1730,7 +1730,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean() || bar;",
             output: "true || bar;",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1739,7 +1739,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!(Boolean()) || bar;",
             output: "true || bar;",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1748,7 +1748,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!Boolean() || bar) { foo() }",
             output: "if (true || bar) { foo() }",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1757,7 +1757,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "while (!Boolean() || bar) { foo() }",
             output: "while (true || bar) { foo() }",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1766,7 +1766,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "var foo = Boolean() || bar ? bar() : baz()",
             output: "var foo = false || bar ? bar() : baz()",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1775,7 +1775,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean() || bar) { foo() }",
             output: "if (false || bar) { foo() }",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1784,7 +1784,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "while (Boolean() || bar) { foo() }",
             output: "while (false || bar) { foo() }",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1796,7 +1796,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "function *foo() { yield(!!a || d) ? b : c }",
             output: "function *foo() { yield(a || d) ? b : c }",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
@@ -1806,7 +1806,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "function *foo() { yield(!! a || d) ? b : c }",
             output: "function *foo() { yield(a || d) ? b : c }",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
@@ -1816,7 +1816,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "function *foo() { yield(! !a || d) ? b : c }",
             output: "function *foo() { yield(a || d) ? b : c }",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
@@ -1826,7 +1826,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "function *foo() { yield (!!a || d) ? b : c }",
             output: "function *foo() { yield (a || d) ? b : c }",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
@@ -1836,7 +1836,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "function *foo() { yield/**/(!!a || d) ? b : c }",
             output: "function *foo() { yield/**/(a || d) ? b : c }",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             languageOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "unexpectedNegation",
@@ -1846,7 +1846,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "x=!!a || d ? b : c ",
             output: "x=a || d ? b : c ",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
@@ -1855,7 +1855,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "void(!Boolean() || bar)",
             output: "void(true || bar)",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1864,7 +1864,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "void(! Boolean() || bar)",
             output: "void(true || bar)",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1873,7 +1873,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "typeof(!Boolean() || bar)",
             output: "typeof(true || bar)",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1882,7 +1882,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "(!Boolean() || bar)",
             output: "(true || bar)",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1891,7 +1891,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "void/**/(!Boolean() || bar)",
             output: "void/**/(true || bar)",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1902,7 +1902,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!/**/(!!foo || bar)",
             output: "!/**/(foo || bar)",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
@@ -1911,7 +1911,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!!/**/!foo || bar",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
@@ -1920,7 +1920,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!!!/**/foo || bar",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
@@ -1929,7 +1929,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!(!!foo || bar)/**/",
             output: "!(foo || bar)/**/",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
@@ -1938,7 +1938,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if(!/**/!foo || bar);",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
@@ -1947,7 +1947,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "(!!/**/foo || bar ? 1 : 2)",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression"
@@ -1956,7 +1956,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!/**/(Boolean(foo) || bar)",
             output: "!/**/(foo || bar)",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1965,7 +1965,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean/**/(foo) || bar",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1974,7 +1974,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(/**/foo) || bar",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1983,7 +1983,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(foo/**/) || bar",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -1992,7 +1992,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!(Boolean(foo)|| bar)/**/",
             output: "!(foo|| bar)/**/",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2001,7 +2001,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if(Boolean/**/(foo) || bar);",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2010,7 +2010,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "(Boolean(foo/**/)|| bar ? 1 : 2)",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2019,7 +2019,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "/**/!Boolean()|| bar",
             output: "/**/true|| bar",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2028,7 +2028,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!/**/Boolean()|| bar",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2037,7 +2037,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean/**/()|| bar",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2046,7 +2046,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "!Boolean(/**/)|| bar",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2055,7 +2055,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "(!Boolean()|| bar)/**/",
             output: "(true|| bar)/**/",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2064,7 +2064,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if(!/**/Boolean()|| bar);",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2073,7 +2073,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "(!Boolean(/**/) || bar ? 1 : 2)",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2082,7 +2082,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if(/**/Boolean()|| bar);",
             output: "if(/**/false|| bar);",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2091,7 +2091,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if(Boolean/**/()|| bar);",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2100,7 +2100,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if(Boolean(/**/)|| bar);",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2109,7 +2109,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if(Boolean()|| bar/**/);",
             output: "if(false|| bar/**/);",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2118,7 +2118,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "(Boolean/**/()|| bar ? 1 : 2)",
             output: null,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
@@ -2128,7 +2128,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             code: "if (a && !!(b ? c : d)){}",
             output: "if (a && (b ? c : d)){}",
 
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
@@ -2139,7 +2139,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "function *foo() { yield!!a || d ? b : c }",
             output: "function *foo() { yield a || d ? b : c }",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [{
                 messageId: "unexpectedNegation",
@@ -3208,25 +3208,25 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if ((1, 2, Boolean(3))) {}",
             output: "if ((1, 2, 3)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{ messageId: "unexpectedCall" }]
         },
         {
             code: "if (a ?? Boolean(b)) {}",
             output: "if (a ?? b) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{ messageId: "unexpectedCall" }]
         },
         {
             code: "if ((a, b, c ?? (d, e, f ?? Boolean(g)))) {}",
             output: "if ((a, b, c ?? (d, e, f ?? g))) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{ messageId: "unexpectedCall" }]
         },
         {
             code: "if (!!(a, b) || !!(c, d)) {}",
             output: "if ((a, b) || (c, d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3235,7 +3235,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean((a, b)) || Boolean((c, d))) {}",
             output: "if ((a, b) || (c, d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3244,7 +3244,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if ((!!((a, b))) || (!!((c, d)))) {}",
             output: "if ((a, b) || (c, d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3253,7 +3253,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!(a, b) && !!(c, d)) {}",
             output: "if ((a, b) && (c, d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3262,7 +3262,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean((a, b)) && Boolean((c, d))) {}",
             output: "if ((a, b) && (c, d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3271,7 +3271,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if ((!!((a, b))) && (!!((c, d)))) {}",
             output: "if ((a, b) && (c, d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3280,7 +3280,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!(a = b) || !!(c = d)) {}",
             output: "if ((a = b) || (c = d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3289,7 +3289,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(a /= b) || Boolean(c /= d)) {}",
             output: "if ((a /= b) || (c /= d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3298,7 +3298,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!(a >>= b) && !!(c >>= d)) {}",
             output: "if ((a >>= b) && (c >>= d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3307,7 +3307,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(a **= b) && Boolean(c **= d)) {}",
             output: "if ((a **= b) && (c **= d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             languageOptions: { ecmaVersion: 2016 },
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
@@ -3317,7 +3317,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!(a ? b : c) || !!(d ? e : f)) {}",
             output: "if ((a ? b : c) || (d ? e : f)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3326,7 +3326,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(a ? b : c) || Boolean(d ? e : f)) {}",
             output: "if ((a ? b : c) || (d ? e : f)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3335,7 +3335,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!(a ? b : c) && !!(d ? e : f)) {}",
             output: "if ((a ? b : c) && (d ? e : f)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3344,7 +3344,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(a ? b : c) && Boolean(d ? e : f)) {}",
             output: "if ((a ? b : c) && (d ? e : f)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3353,7 +3353,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!(a || b) || !!(c || d)) {}",
             output: "if (a || b || (c || d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3362,7 +3362,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(a || b) || Boolean(c || d)) {}",
             output: "if (a || b || (c || d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3371,7 +3371,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!(a || b) && !!(c || d)) {}",
             output: "if ((a || b) && (c || d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3380,7 +3380,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(a || b) && Boolean(c || d)) {}",
             output: "if ((a || b) && (c || d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3389,7 +3389,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!(a && b) || !!(c && d)) {}",
             output: "if (a && b || c && d) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3398,7 +3398,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(a && b) || Boolean(c && d)) {}",
             output: "if (a && b || c && d) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3407,7 +3407,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!(a && b) && !!(c && d)) {}",
             output: "if (a && b && (c && d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3416,7 +3416,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(a && b) && Boolean(c && d)) {}",
             output: "if (a && b && (c && d)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3425,7 +3425,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!(a !== b) || !!(c !== d)) {}",
             output: "if (a !== b || c !== d) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3434,7 +3434,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(a != b) || Boolean(c != d)) {}",
             output: "if (a != b || c != d) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3443,7 +3443,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!(a === b) && !!(c === d)) {}",
             output: "if (a === b && c === d) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3452,7 +3452,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!(a > b) || !!(c < d)) {}",
             output: "if (a > b || c < d) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3461,7 +3461,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(!a) || Boolean(+b)) {}",
             output: "if (!a || +b) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3470,7 +3470,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!f(a) && !!b.c) {}",
             output: "if (f(a) && b.c) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3479,7 +3479,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(a) || !!b) {}",
             output: "if (a || b) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedCall", type: "CallExpression" },
                 { messageId: "unexpectedNegation", type: "UnaryExpression" }
@@ -3488,7 +3488,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!a && Boolean(b)) {}",
             output: "if (a && b) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3497,7 +3497,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if ((!!a) || (Boolean(b))) {}",
             output: "if ((a) || (b)) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [
                 { messageId: "unexpectedNegation", type: "UnaryExpression" },
                 { messageId: "unexpectedCall", type: "CallExpression" }
@@ -3507,45 +3507,45 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (Boolean(a ?? b) || c) {}",
             output: "if ((a ?? b) || c) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall", type: "CallExpression" }]
         },
         {
             code: "if (Boolean?.(a ?? b) || c) {}",
             output: "if ((a ?? b) || c) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "unexpectedCall" }]
         },
         {
             code: "if (a ? Boolean(b) : c) {}",
             output: "if (a ? b : c) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{ messageId: "unexpectedCall" }]
         },
         {
             code: "if (a ? b : Boolean(c)) {}",
             output: "if (a ? b : c) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{ messageId: "unexpectedCall" }]
         },
         {
             code: "if (a ? b : Boolean(c ? d : e)) {}",
             output: "if (a ? b : c ? d : e) {}",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{ messageId: "unexpectedCall" }]
         },
         {
             code: "const ternary = Boolean(bar ? !!baz : bat);",
             output: "const ternary = Boolean(bar ? baz : bat);",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{ messageId: "unexpectedNegation" }]
         },
         {
             code: "const commaOperator = Boolean((bar, baz, !!bat));",
             output: "const commaOperator = Boolean((bar, baz, bat));",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{ messageId: "unexpectedNegation" }]
         },
         {
@@ -3557,19 +3557,19 @@ for (let i = 0; (console.log(i), Boolean(i < 10)); i++) {
 for (let i = 0; (console.log(i), i < 10); i++) {
     // ...
 }`,
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{ messageId: "unexpectedCall" }]
         },
         {
             code: "const nullishCoalescingOperator = Boolean(bar ?? Boolean(baz));",
             output: "const nullishCoalescingOperator = Boolean(bar ?? baz);",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{ messageId: "unexpectedCall" }]
         },
         {
             code: "if (a ? Boolean(b = c) : Boolean(d = e));",
             output: "if (a ? b = c : d = e);",
-            options: [{ enforceForInnerOperands: true }],
+            options: [{ enforceForInnerExpressions: true }],
             errors: [{ messageId: "unexpectedCall" }, { messageId: "unexpectedCall" }]
         }
     ]

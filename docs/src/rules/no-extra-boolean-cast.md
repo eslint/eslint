@@ -3,10 +3,6 @@ title: no-extra-boolean-cast
 rule_type: suggestion
 ---
 
-
-
-
-
 In contexts such as an `if` statement's test where the result of the expression will already be coerced to a Boolean, casting to a Boolean via double negation (`!!`) or a `Boolean` call is unnecessary. For example, these `if` statements are equivalent:
 
 ```js
@@ -61,7 +57,6 @@ do {
 for (; !!foo; ) {
     // ...
 }
-
 ```
 
 :::
@@ -89,18 +84,18 @@ var foo = bar ? !!baz : !!bat;
 
 This rule has an object option:
 
-* `"enforceForInnerOperands"` when set to `true`, in addition to checking default contexts, checks whether the extra boolean cast is contained within an expression which may be used in a boolean context. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside inner expressions.
+*   `"enforceForInnerExpressions"` when set to `true`, in addition to checking default contexts, checks whether extra boolean casts are present in expressions whose result is used in a boolean context. See examples below. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside inner expressions.
 
-**Deprecated:** The object property `enforceForLogicalOperands` is deprecated ([eslint#18222](https://github.com/eslint/eslint/pull/18222)). Please use `enforceForInnerOperands` instead.
+**Deprecated:** The object property `enforceForLogicalOperands` is deprecated ([eslint#18222](https://github.com/eslint/eslint/pull/18222)). Please use `enforceForInnerExpressions` instead.
 
-### enforceForInnerOperands
+### enforceForInnerExpressions
 
-Examples of **incorrect** code for this rule with `"enforceForInnerOperands"` option set to `true`:
+Examples of **incorrect** code for this rule with `"enforceForInnerExpressions"` option set to `true`:
 
 ::: incorrect
 
 ```js
-/*eslint no-extra-boolean-cast: ["error", {"enforceForInnerOperands": true}]*/
+/*eslint no-extra-boolean-cast: ["error", {"enforceForInnerExpressions": true}]*/
 
 if (!!foo || bar) {
     //...
@@ -114,9 +109,9 @@ if ((!!foo || bar) && baz) {
     //...
 }
 
-var foo = new Boolean(!!bar || baz)
+var foo = new Boolean(!!bar || baz);
 
-foo && Boolean(bar) ? baz : bat
+foo && Boolean(bar) ? baz : bat;
 
 const ternaryBranches = Boolean(bar ? !!baz : bat);
 
@@ -128,17 +123,16 @@ const commaOperator = Boolean((bar, baz, !!bat));
 for (let i = 0; console.log(i), Boolean(i < 10); i++) {
     // ...
 }
-
 ```
 
 :::
 
-Examples of **correct** code for this rule with `"enforceForInnerOperands"` option set to `true`:
+Examples of **correct** code for this rule with `"enforceForInnerExpressions"` option set to `true`:
 
 ::: correct
 
 ```js
-/*eslint no-extra-boolean-cast: ["error", {"enforceForInnerOperands": true}]*/
+/*eslint no-extra-boolean-cast: ["error", {"enforceForInnerExpressions": true}]*/
 
 if (foo || bar) {
     //...
@@ -152,9 +146,9 @@ if ((foo || bar) && baz) {
     //...
 }
 
-var foo = new Boolean(bar || baz)
+var foo = new Boolean(bar || baz);
 
-foo && bar ? baz : bat
+foo && bar ? baz : bat;
 
 const ternaryBranches = Boolean(bar ? baz : bat);
 
@@ -168,8 +162,7 @@ for (let i = 0; console.log(i), i < 10; i++) {
 }
 
 // comma operator in non-final position
-Boolean((Boolean(bar), baz, bat))
-
+Boolean((Boolean(bar), baz, bat));
 ```
 
 :::
