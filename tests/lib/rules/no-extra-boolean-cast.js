@@ -3575,6 +3575,30 @@ for (let i = 0; (console.log(i), i < 10); i++) {
             output: "if (a ? b = c : d = e);",
             options: [{ enforceForInnerExpressions: true }],
             errors: [{ messageId: "unexpectedCall" }, { messageId: "unexpectedCall" }]
+        },
+        {
+            code: "if (a ? Boolean((b, c)) : Boolean((d, e)));",
+            output: "if (a ? (b, c) : (d, e));",
+            options: [{ enforceForInnerExpressions: true }],
+            errors: [{ messageId: "unexpectedCall" }, { messageId: "unexpectedCall" }]
+        },
+        {
+            code: `
+function * generator() {
+    if (a ? Boolean(yield y) : x) {
+        return a;
+    };
+}
+`,
+            output: `
+function * generator() {
+    if (a ? yield y : x) {
+        return a;
+    };
+}
+`,
+            options: [{ enforceForInnerExpressions: true }],
+            errors: [{ messageId: "unexpectedCall" }]
         }
     ]
 });
