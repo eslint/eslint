@@ -186,6 +186,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             options: [{ enforceForInnerExpressions: true }],
             languageOptions: { ecmaVersion: 2020 }
         },
+        {
+            code: "if ((1, Boolean(2), 3)) {}",
+            options: [{ enforceForInnerExpressions: true }]
+        },
 
         /*
          * additional expressions should not be checked with option
