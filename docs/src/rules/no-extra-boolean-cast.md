@@ -105,7 +105,7 @@ while (!!foo && bar) {
     //...
 }
 
-if ((!!foo || bar) && baz) {
+if ((!!foo || bar) && !!baz) {
     //...
 }
 
@@ -133,6 +133,10 @@ Examples of **correct** code for this rule with `"enforceForInnerExpressions"` o
 
 ```js
 /*eslint no-extra-boolean-cast: ["error", {"enforceForInnerExpressions": true}]*/
+
+// Note that `||` and `&&` alone aren't a boolean context for either operand 
+// since the resultant value need not be a boolean without casting.
+var foo = !!bar || baz;
 
 if (foo || bar) {
     //...
