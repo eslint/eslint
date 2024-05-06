@@ -1,3 +1,17 @@
+v9.2.0 - May 3, 2024
+
+* [`b346605`](https://github.com/eslint/eslint/commit/b3466052802a1586560ad56a8128d603284d58c2) chore: upgrade @eslint/js@9.2.0 (#18413) (Milos Djermanovic)
+* [`c4c18e0`](https://github.com/eslint/eslint/commit/c4c18e05fc866b73218dbe58b760546f39a2a620) chore: package.json update for @eslint/js release (Jenkins)
+* [`284722c`](https://github.com/eslint/eslint/commit/284722ca8375c9a9e4f741bfdd78e765542da61f) chore: package.json update for eslint-config-eslint release (Jenkins)
+* [`0f5df50`](https://github.com/eslint/eslint/commit/0f5df509a4bc00cff2c62b90fab184bdf0231322) docs: Update README (GitHub Actions Bot)
+* [`347d44f`](https://github.com/eslint/eslint/commit/347d44f96b3d9d690e4f7380029e8a5a60b2fdc7) chore: remove eslintrc export from eslint-config-eslint (#18400) (Milos Djermanovic)
+* [`8485d76`](https://github.com/eslint/eslint/commit/8485d76134bdbd29230780fadc284c482cd1d963) feat: `no-case-declarations` add suggestions (#18388) (Josh Goldberg ✨)
+* [`a498f35`](https://github.com/eslint/eslint/commit/a498f35cef4df9c9f5387fafafaf482d913d5765) feat: update Unicode letter detection in capitalized-comments rule (#18375) (Francesco Trotta)
+* [`1579ce0`](https://github.com/eslint/eslint/commit/1579ce05cbb523cb5b04ff77fab06ba1ecd18dce) docs: update wording regarding indirect eval (#18394) (Kirk Waiblinger)
+* [`f316e20`](https://github.com/eslint/eslint/commit/f316e2009a8aa902fa447a49b6b5e560848f0711) ci: run tests in Node.js 22 (#18393) (Francesco Trotta)
+* [`eeec413`](https://github.com/eslint/eslint/commit/eeec41346738afb491958fdbf0bcf45a302ca1b7) fix: do not throw when defining a global named __defineSetter__ (#18364) (唯然)
+* [`f12a02c`](https://github.com/eslint/eslint/commit/f12a02c5749d31beefe46d2753a0d68b56f2281d) docs: update to eslint v9 in custom-rule-tutorial (#18383) (唯然)
+
 v9.1.1 - April 22, 2024
 
 * [`a26b402`](https://github.com/eslint/eslint/commit/a26b40279f283853717236b44602b27b57f0b627) fix: use @eslint/create-config latest (#18373) (唯然)

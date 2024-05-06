@@ -810,7 +810,8 @@
             "description": "Disallow lexical declarations in case clauses",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-case-declarations"
-        }
+        },
+        "hasSuggestions": true
     },
     "no-catch-shadow": {
         "type": "suggestion",
