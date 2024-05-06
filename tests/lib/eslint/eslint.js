@@ -1058,7 +1058,7 @@ describe("ESLint", () => {
         });
 
         // https://github.com/eslint/eslint/issues/18407
-        it("should work in case when `fs.readFile()` returns an object that is not an instance of Promise from this realm", async () => {
+        it("should work in case when `fsp.readFile()` returns an object that is not an instance of Promise from this realm", async () => {
 
             /**
              * Promise wrapper
