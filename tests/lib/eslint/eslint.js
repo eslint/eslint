@@ -10,12 +10,12 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("assert");
-const util = require("util");
-const fs = require("fs");
-const fsp = require("fs/promises");
-const os = require("os");
-const path = require("path");
+const assert = require("node:assert");
+const util = require("node:util");
+const fs = require("node:fs");
+const fsp = require("node:fs/promises");
+const os = require("node:os");
+const path = require("node:path");
 const timers = require("node:timers/promises");
 const escapeStringRegExp = require("escape-string-regexp");
 const fCache = require("file-entry-cache");
@@ -1083,7 +1083,7 @@ describe("ESLint", () => {
             );
 
             const { ESLint: LocalESLint } = proxyquire("../../../lib/eslint/eslint", {
-                "fs/promises": {
+                "node:fs/promises": {
                     readFile: spy,
                     "@noCallThru": false // allows calling other methods of `fs/promises`
                 }
@@ -5570,7 +5570,7 @@ describe("ESLint", () => {
         it("should call fs.writeFile() for each result with output", async () => {
             const spy = sinon.spy(() => Promise.resolve());
             const { ESLint: localESLint } = proxyquire("../../../lib/eslint/eslint", {
-                "fs/promises": {
+                "node:fs/promises": {
                     writeFile: spy
                 }
             });
@@ -5596,7 +5596,7 @@ describe("ESLint", () => {
         it("should call fs.writeFile() for each result with output and not at all for a result without output", async () => {
             const spy = sinon.spy(() => Promise.resolve());
             const { ESLint: localESLint } = proxyquire("../../../lib/eslint/eslint", {
-                "fs/promises": {
+                "node:fs/promises": {
                     writeFile: spy
                 }
             });

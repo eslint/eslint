@@ -10,11 +10,11 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    path = require("path"),
+    path = require("node:path"),
     sinon = require("sinon"),
     shell = require("shelljs"),
-    fs = require("fs"),
-    os = require("os"),
+    fs = require("node:fs"),
+    os = require("node:os"),
     hash = require("../../../lib/cli-engine/hash"),
     {
         Legacy: {
@@ -787,7 +787,7 @@ describe("CLIEngine", () => {
 
         // @scope for @scope/eslint-plugin
         describe("(plugin shorthand)", () => {
-            const Module = require("module");
+            const Module = require("node:module");
             let originalFindPath = null;
 
             /* eslint-disable no-underscore-dangle -- Private Node API overriding */
@@ -5123,7 +5123,7 @@ describe("CLIEngine", () => {
                     writeFileSync() {}
                 },
                 localCLIEngine = proxyquire("../../../lib/cli-engine/cli-engine", {
-                    fs: fakeFS
+                    "node:fs": fakeFS
                 }).CLIEngine,
                 report = {
                     results: [
@@ -5153,7 +5153,7 @@ describe("CLIEngine", () => {
                     writeFileSync() {}
                 },
                 localCLIEngine = proxyquire("../../../lib/cli-engine/cli-engine", {
-                    fs: fakeFS
+                    "node:fs": fakeFS
                 }).CLIEngine,
                 report = {
                     results: [

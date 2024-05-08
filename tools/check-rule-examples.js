@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------------
 
 const { parse } = require("espree");
-const { readFile } = require("fs").promises;
+const { readFile } = require("node:fs").promises;
 const { glob } = require("glob");
 const matter = require("gray-matter");
 const markdownIt = require("markdown-it");

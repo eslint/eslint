@@ -1,6 +1,6 @@
 "use strict";
 
-const path = require("path");
+const path = require("node:path");
 const TapRender = require("@munter/tap-render");
 const spot = require("tap-spot");
 const hyperlink = require("hyperlink");

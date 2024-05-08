@@ -11,8 +11,8 @@
 
 "use strict";
 
-const path = require("path");
-const assert = require("assert");
+const path = require("node:path");
+const assert = require("node:assert");
 const { addHook } = require("pirates");
 
 const {

@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const resolvePath = require("path").resolve,
+const resolvePath = require("node:path").resolve,
     rule = require("../../../lib/rules/object-curly-spacing"),
     RuleTester = require("../../../lib/rule-tester/rule-tester");
 

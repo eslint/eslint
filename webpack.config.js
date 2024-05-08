@@ -1,4 +1,6 @@
 "use strict";
+
+const webpack = require("webpack");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 /** @type {import("webpack").Configuration} */
@@ -44,6 +46,12 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.NormalModuleReplacementPlugin(
+            /^node:/u,
+            resource => {
+                resource.request = resource.request.replace(/^node:/u, "");
+            }
+        ),
         new NodePolyfillPlugin()
     ],
     resolve: {

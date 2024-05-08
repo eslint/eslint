@@ -15,13 +15,13 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    stdAssert = require("assert"),
+    stdAssert = require("node:assert"),
     { ESLint, LegacyESLint } = require("../../lib/eslint"),
     BuiltinRules = require("../../lib/rules"),
-    path = require("path"),
+    path = require("node:path"),
     sinon = require("sinon"),
-    fs = require("fs"),
-    os = require("os"),
+    fs = require("node:fs"),
+    os = require("node:os"),
     sh = require("shelljs");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();

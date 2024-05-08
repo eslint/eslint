@@ -8,10 +8,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 const sinon = require("sinon"),
-    EventEmitter = require("events"),
+    EventEmitter = require("node:events"),
     { RuleTester } = require("../../../lib/rule-tester"),
     assert = require("chai").assert,
-    nodeAssert = require("assert");
+    nodeAssert = require("node:assert");
 
 //-----------------------------------------------------------------------------
 // Helpers

@@ -4,9 +4,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("assert");
-const { execFile } = require("child_process");
-const { promisify } = require("util");
+const assert = require("node:assert");
+const { execFile } = require("node:child_process");
+const { promisify } = require("node:util");
 const { LATEST_ECMA_VERSION } = require("../../conf/ecma-version");
 
 //------------------------------------------------------------------------------
