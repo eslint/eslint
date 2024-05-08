@@ -567,6 +567,13 @@ ruleTester.run("no-restricted-exports", rule, {
                 { messageId: "restrictedNamed", data: { name: "ab" }, type: "Identifier" }
             ]
         },
+        {
+            code: "var privateUserEmail; export { privateUserEmail };",
+            options: [{ restrictedNamedExportsPattern: ["^privateUser"] }],
+            errors: [
+                { messageId: "restrictedNamed", data: { name: "privateUserEmail" }, type: "Identifier" }
+            ]
+        },
 
         // reports "default" in named export declarations (when configured)
         {

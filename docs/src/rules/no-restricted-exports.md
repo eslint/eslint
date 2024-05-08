@@ -17,6 +17,7 @@ By default, this rule doesn't disallow any names. Only the names you specify in 
 This rule has an object option:
 
 * `"restrictedNamedExports"` is an array of strings, where each string is a name to be restricted.
+* `"restrictedNamedExportsPattern"` is an array of regex strings, where each string regex pattern would be restricted.
 * `"restrictDefaultExports"` is an object option with boolean properties to restrict certain default export declarations. The option works only if the `restrictedNamedExports` option does not contain the `"default"` value. The following properties are allowed:
     * `direct`: restricts `export default` declarations.
     * `named`: restricts `export { foo as default };` declarations.
@@ -129,6 +130,20 @@ export default function foo() {}
 ```
 
 :::
+
+### restrictedNamedExportsPattern
+
+This option allows you to restrict regex patterns for named exports.
+
+```js
+/*eslint no-restricted-exports: ["error", {
+    "restrictedNamedExports": [],
+    "restrictedNamedExportsPattern": ["^privateUser"]
+}]*/
+
+var privateUserEmail = '...'; 
+export { privateUserEmail };
+```
 
 ### restrictDefaultExports
 
