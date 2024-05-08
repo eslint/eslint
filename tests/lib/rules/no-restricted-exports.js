@@ -93,7 +93,7 @@ ruleTester.run("no-restricted-exports", rule, {
         { code: "import { b as a } from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
         {
             code: "var setSomething; export { setSomething };",
-            options: [{ restrictedNamedExports: ["get*"] }]
+            options: [{ restrictedNamedExportsPattern: ["get*"] }]
         },
 
         // does not check re-export all declarations
@@ -536,23 +536,25 @@ ruleTester.run("no-restricted-exports", rule, {
                 { messageId: "restrictedNamed", data: { name: "f" }, type: "Identifier" }
             ]
         },
+
+        // restrictedNamedExportsPattern
         {
             code: "var getSomething; export { getSomething };",
-            options: [{ restrictedNamedExports: ["get*"] }],
+            options: [{ restrictedNamedExportsPattern: ["get*"] }],
             errors: [
                 { messageId: "restrictedNamed", data: { name: "getSomething" }, type: "Identifier" }
             ]
         },
         {
             code: "var getSomethingFromUser; export { getSomethingFromUser };",
-            options: [{ restrictedNamedExports: ["*User"] }],
+            options: [{ restrictedNamedExportsPattern: ["*User"] }],
             errors: [
                 { messageId: "restrictedNamed", data: { name: "getSomethingFromUser" }, type: "Identifier" }
             ]
         },
         {
             code: "var foo, ab, xy; export { foo, ab, xy };",
-            options: [{ restrictedNamedExports: ["*+(b|y)"] }],
+            options: [{ restrictedNamedExportsPattern: ["*+(b|y)"] }],
             errors: [
                 { messageId: "restrictedNamed", data: { name: "ab" }, type: "Identifier" },
                 { messageId: "restrictedNamed", data: { name: "xy" }, type: "Identifier" }
@@ -560,7 +562,7 @@ ruleTester.run("no-restricted-exports", rule, {
         },
         {
             code: "var foo; export { foo as ab };",
-            options: [{ restrictedNamedExports: ["*+(b|y)"] }],
+            options: [{ restrictedNamedExportsPattern: ["*+(b|y)"] }],
             errors: [
                 { messageId: "restrictedNamed", data: { name: "ab" }, type: "Identifier" }
             ]
