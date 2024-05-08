@@ -91,6 +91,10 @@ ruleTester.run("no-restricted-exports", rule, {
         { code: "import a from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
         { code: "import { a } from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
         { code: "import { b as a } from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
+        {
+            code: "var setSomething; export { setSomething };",
+            options: [{ restrictedNamedExports: ["get*"] }]
+        },
 
         // does not check re-export all declarations
         { code: "export * from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
@@ -530,6 +534,35 @@ ruleTester.run("no-restricted-exports", rule, {
                 { messageId: "restrictedNamed", data: { name: "d" }, type: "Identifier" },
                 { messageId: "restrictedNamed", data: { name: "e" }, type: "Identifier" },
                 { messageId: "restrictedNamed", data: { name: "f" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "var getSomething; export { getSomething };",
+            options: [{ restrictedNamedExports: ["get*"] }],
+            errors: [
+                { messageId: "restrictedNamed", data: { name: "getSomething" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "var getSomethingFromUser; export { getSomethingFromUser };",
+            options: [{ restrictedNamedExports: ["*User"] }],
+            errors: [
+                { messageId: "restrictedNamed", data: { name: "getSomethingFromUser" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "var foo, ab, xy; export { foo, ab, xy };",
+            options: [{ restrictedNamedExports: ["*+(b|y)"] }],
+            errors: [
+                { messageId: "restrictedNamed", data: { name: "ab" }, type: "Identifier" },
+                { messageId: "restrictedNamed", data: { name: "xy" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "var foo; export { foo as ab };",
+            options: [{ restrictedNamedExports: ["*+(b|y)"] }],
+            errors: [
+                { messageId: "restrictedNamed", data: { name: "ab" }, type: "Identifier" }
             ]
         },
 
