@@ -13,7 +13,7 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-const fs = require("fs");
+const fs = require("node:fs");
 const { stripIndents } = require("common-tags");
 const ejs = require("ejs");
 const got = require("got");

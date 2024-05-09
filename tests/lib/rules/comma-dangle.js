@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const path = require("path"),
+const path = require("node:path"),
     { unIndent } = require("../../_utils"),
     rule = require("../../../lib/rules/comma-dangle"),
     RuleTester = require("../../../lib/rule-tester/rule-tester");

@@ -5,7 +5,8 @@ const recommendedModuleConfig = require("eslint-plugin-n/configs/recommended-mod
 
 const sharedRules = {
     "n/callback-return": ["error", ["cb", "callback", "next"]],
-    "n/handle-callback-err": ["error", "err"]
+    "n/handle-callback-err": ["error", "err"],
+    "n/prefer-node-protocol": "error"
 };
 
 const cjsConfigs = [

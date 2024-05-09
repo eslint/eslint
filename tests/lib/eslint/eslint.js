@@ -10,12 +10,12 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("assert");
-const util = require("util");
-const fs = require("fs");
-const fsp = fs.promises;
-const os = require("os");
-const path = require("path");
+const assert = require("node:assert");
+const util = require("node:util");
+const fs = require("node:fs");
+const fsp = require("node:fs/promises");
+const os = require("node:os");
+const path = require("node:path");
 const timers = require("node:timers/promises");
 const escapeStringRegExp = require("escape-string-regexp");
 const fCache = require("file-entry-cache");
@@ -1055,6 +1055,61 @@ describe("ESLint", () => {
             });
 
             await assert.rejects(async () => await eslint.lintFiles(["lib/cli.js"]), /Expected object with parse\(\) or parseForESLint\(\) method/u);
+        });
+
+        // https://github.com/eslint/eslint/issues/18407
+        it("should work in case when `fsp.readFile()` returns an object that is not an instance of Promise from this realm", async () => {
+
+            /**
+             * Promise wrapper
+             */
+            class PromiseLike {
+                constructor(promise) {
+                    this.promise = promise;
+                }
+                then(...args) {
+                    return new PromiseLike(this.promise.then(...args));
+                }
+                catch(...args) {
+                    return new PromiseLike(this.promise.catch(...args));
+                }
+                finally(...args) {
+                    return new PromiseLike(this.promise.finally(...args));
+                }
+            }
+
+            const spy = sinon.spy(
+                (...args) => new PromiseLike(fsp.readFile(...args))
+            );
+
+            const { ESLint: LocalESLint } = proxyquire("../../../lib/eslint/eslint", {
+                "node:fs/promises": {
+                    readFile: spy,
+                    "@noCallThru": false // allows calling other methods of `fs/promises`
+                }
+            });
+
+            const testDir = "tests/fixtures/simple-valid-project";
+            const expectedLintedFiles = [
+                path.resolve(testDir, "foo.js"),
+                path.resolve(testDir, "src", "foobar.js")
+            ];
+
+            eslint = new LocalESLint({
+                cwd: originalDir,
+                overrideConfigFile: path.resolve(testDir, "eslint.config.js")
+            });
+
+            const results = await eslint.lintFiles([`${testDir}/**/foo*.js`]);
+
+            assert.strictEqual(results.length, expectedLintedFiles.length);
+
+            expectedLintedFiles.forEach((file, index) => {
+                assert(spy.calledWith(file), `Spy was not called with ${file}`);
+                assert.strictEqual(results[index].filePath, file);
+                assert.strictEqual(results[index].messages.length, 0);
+                assert.strictEqual(results[index].suppressedMessages.length, 0);
+            });
         });
 
         describe("Invalid inputs", () => {
@@ -5513,13 +5568,10 @@ describe("ESLint", () => {
         });
 
         it("should call fs.writeFile() for each result with output", async () => {
-            const fakeFS = {
-                writeFile: sinon.spy(() => Promise.resolve())
-            };
-            const spy = fakeFS.writeFile;
+            const spy = sinon.spy(() => Promise.resolve());
             const { ESLint: localESLint } = proxyquire("../../../lib/eslint/eslint", {
-                fs: {
-                    promises: fakeFS
+                "node:fs/promises": {
+                    writeFile: spy
                 }
             });
 
@@ -5542,15 +5594,13 @@ describe("ESLint", () => {
         });
 
         it("should call fs.writeFile() for each result with output and not at all for a result without output", async () => {
-            const fakeFS = {
-                writeFile: sinon.spy(() => Promise.resolve())
-            };
-            const spy = fakeFS.writeFile;
+            const spy = sinon.spy(() => Promise.resolve());
             const { ESLint: localESLint } = proxyquire("../../../lib/eslint/eslint", {
-                fs: {
-                    promises: fakeFS
+                "node:fs/promises": {
+                    writeFile: spy
                 }
             });
+
             const results = [
                 {
                     filePath: path.resolve("foo.js"),

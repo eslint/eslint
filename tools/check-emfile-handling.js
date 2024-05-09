@@ -9,10 +9,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const fs = require("fs");
-const { readFile } = require("fs/promises");
-const { execSync } = require("child_process");
-const os = require("os");
+const fs = require("node:fs");
+const { readFile } = require("node:fs/promises");
+const { execSync } = require("node:child_process");
+const os = require("node:os");
 
 //------------------------------------------------------------------------------
 // Helpers

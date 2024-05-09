@@ -64,7 +64,7 @@ function readStdin() {
 function getErrorMessage(error) {
 
     // Lazy loading because this is used only if an error happened.
-    const util = require("util");
+    const util = require("node:util");
 
     // Foolproof -- third-party module might throw non-object.
     if (typeof error !== "object" || error === null) {
