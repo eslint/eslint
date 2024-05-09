@@ -130,7 +130,7 @@
     "eslump": "^3.0.0",
     "esprima": "^4.0.1",
     "fast-glob": "^3.2.11",
-    "fs-teardown": "^0.1.3",
+    "fs-teardown": "^0.3.0",
     "glob": "^10.0.0",
     "globals": "^15.0.0",
     "got": "^11.8.3",
