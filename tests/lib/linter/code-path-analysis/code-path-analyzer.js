@@ -9,9 +9,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("assert"),
-    fs = require("fs"),
-    path = require("path"),
+const assert = require("node:assert"),
+    fs = require("node:fs"),
+    path = require("node:path"),
     vk = require("eslint-visitor-keys"),
     { Linter } = require("../../../../lib/linter"),
     EventGeneratorTester = require("../../../../tools/internal-testers/event-generator-tester"),

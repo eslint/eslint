@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("assert"),
+const assert = require("node:assert"),
     { Linter } = require("../../../../lib/linter");
 const linter = new Linter({ configType: "eslintrc" });
 

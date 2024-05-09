@@ -12,12 +12,12 @@
 
 const checker = require("npm-license"),
     ReleaseOps = require("eslint-release"),
-    fs = require("fs"),
+    fs = require("node:fs"),
     glob = require("glob"),
     marked = require("marked"),
     matter = require("gray-matter"),
-    os = require("os"),
-    path = require("path"),
+    os = require("node:os"),
+    path = require("node:path"),
     semver = require("semver"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
@@ -885,7 +885,7 @@ target.checkRuleFiles = function() {
 };
 
 target.checkRuleExamples = function() {
-    const { execFileSync } = require("child_process");
+    const { execFileSync } = require("node:child_process");
 
     // We don't need the stack trace of execFileSync if the command fails.
     try {

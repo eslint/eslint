@@ -11,8 +11,8 @@
 
 const rule = require("../../../lib/rules/indent-legacy"),
     RuleTester = require("../../../lib/rule-tester/rule-tester");
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 
 //------------------------------------------------------------------------------
 // Tests

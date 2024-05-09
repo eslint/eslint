@@ -10,8 +10,8 @@
 
 const assert = require("chai").assert,
     { CLIEngine } = require("../../../lib/cli-engine"),
-    fs = require("fs"),
-    path = require("path"),
+    fs = require("node:fs"),
+    path = require("node:path"),
     proxyquire = require("proxyquire"),
     sinon = require("sinon");
 

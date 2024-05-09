@@ -5,7 +5,7 @@
  */
 "use strict";
 
-const assert = require("assert");
+const assert = require("node:assert");
 const { RuleTester } = require("../../../lib/rule-tester");
 const tmpIt = it;
 const tmpDescribe = describe;
