@@ -3,6 +3,7 @@ title: line-comment-position
 rule_type: layout
 ---
 
+This rule was **deprecated** in ESLint v9.3.0.
 
 Line comments can be positioned above or beside code. This rule helps teams maintain a consistent style.
 
