@@ -634,13 +634,6 @@
                 "hasSuggestions": false
             },
             {
-                "name": "multiline-comment-style",
-                "description": "Enforce a particular style for multiline comments",
-                "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
-            },
-            {
                 "name": "new-cap",
                 "description": "Require constructor names to begin with a capital letter",
                 "recommended": false,
@@ -1385,13 +1378,6 @@
         ],
         "layout": [
             {
-                "name": "line-comment-position",
-                "description": "Enforce position of line comments",
-                "recommended": false,
-                "fixable": false,
-                "hasSuggestions": false
-            },
-            {
                 "name": "unicode-bom",
                 "description": "Require or disallow Unicode byte order mark (BOM)",
                 "recommended": false,
@@ -1568,6 +1554,12 @@
             "hasSuggestions": false
         },
         {
+            "name": "line-comment-position",
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
             "name": "linebreak-style",
             "replacedBy": [],
             "fixable": true,
@@ -1603,6 +1595,12 @@
             "name": "max-statements-per-line",
             "replacedBy": [],
             "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "multiline-comment-style",
+            "replacedBy": [],
+            "fixable": true,
             "hasSuggestions": false
         },
         {
