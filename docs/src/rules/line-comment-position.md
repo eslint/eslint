@@ -3,6 +3,7 @@ title: line-comment-position
 rule_type: layout
 ---
 
+This rule was **deprecated** in ESLint v9.3.0. Please use the [corresponding rule](https://eslint.style/rules/js/line-comment-position) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
 
 Line comments can be positioned above or beside code. This rule helps teams maintain a consistent style.
 
