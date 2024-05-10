@@ -465,6 +465,6 @@ ESLint supports loading configuration files written in TypeScript optionally. Th
 npm install --save-dev tsx
 ```
 
-`tsx` uses [Node.js's loader API](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options) which requires Node.js `^20.8.0 || ^18.19.0`.
+`tsx` uses [Node.js's loader API](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options) which requires Node.js `^20.8.0 || ^18.19.0`. Also note that `tsx` only strips type annotations and does not perform type checking.
 
 When both `eslint.config.js` and `eslint.config.ts` are present in the same directory, JavaScript versions always take precedence unless provied specifically via `--config` option.
