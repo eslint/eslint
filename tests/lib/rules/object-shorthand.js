@@ -1206,6 +1206,33 @@ ruleTester.run("object-shorthand", rule, {
             errors: [LONGFORM_METHOD_ERROR]
         },
 
+        // https://github.com/eslint/eslint/issues/18429
+        {
+            code: unIndent`
+                const test = {
+                    key: <T>(): void => { },
+                    key: async <T>(): Promise<void> => { },
+
+                    key: <T>(arg: T): T => { return arg },
+                    key: async <T>(arg: T): Promise<T> => { return arg },
+                }
+            `,
+            output: unIndent`
+                const test = {
+                    key<T>(): void { },
+                    async key<T>(): Promise<void> { },
+
+                    key<T>(arg: T): T { return arg },
+                    async key<T>(arg: T): Promise<T> { return arg },
+                }
+            `,
+            options: ["always", { avoidExplicitReturnArrows: true }],
+            languageOptions: {
+                parser: require("../../fixtures/parsers/typescript-parsers/object-with-generic-arrow-fn-props")
+            },
+            errors: Array(4).fill(METHOD_ERROR)
+        },
+
         // typescript: arrow function should preserve the return value
         {
             code: unIndent`

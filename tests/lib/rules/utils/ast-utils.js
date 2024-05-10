@@ -12,6 +12,7 @@
 const assert = require("chai").assert,
     util = require("node:util"),
     espree = require("espree"),
+    baseParser = require("../../../fixtures/fixture-parser"),
     astUtils = require("../../../../lib/rules/utils/ast-utils"),
     { Linter } = require("../../../../lib/linter"),
     { SourceCode } = require("../../../../lib/source-code");
@@ -28,6 +29,7 @@ const ESPREE_CONFIG = {
     loc: true
 };
 const linter = new Linter({ configType: "eslintrc" });
+const parser = baseParser.bind(null, "arrow-parens");
 
 describe("ast-utils", () => {
     let callCounts;
@@ -1200,6 +1202,29 @@ describe("ast-utils", () => {
     });
 
     {
+
+        // const code = "async <T>(a) => b";
+        const tokens = require(parser("generics-simple-async")).parse().tokens;
+        const expected = [false, false, false, true, false, false, false, false, false];
+
+        describe("isClosingAngleToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.strictEqual(astUtils.isClosingAngleToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotClosingAngleToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.strictEqual(astUtils.isNotClosingAngleToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
         const code = "if (obj && foo) { obj[foo](); }";
         const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
         const expected = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, true];
@@ -1358,6 +1383,29 @@ describe("ast-utils", () => {
             });
         });
     });
+
+    {
+
+        // const code = "async <T>(a) => b";
+        const tokens = require(parser("generics-simple-async")).parse().tokens;
+        const expected = [false, true, false, false, false, false, false, false, false];
+
+        describe("isOpeningAngleToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.strictEqual(astUtils.isOpeningAngleToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotOpeningAngleToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.strictEqual(astUtils.isNotOpeningAngleToken(token), !expected[index]);
+                });
+            });
+        });
+    }
 
     {
         const code = "if (obj && foo) { obj[foo](); }";
