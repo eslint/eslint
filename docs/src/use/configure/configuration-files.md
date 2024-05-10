@@ -21,6 +21,9 @@ The ESLint configuration file may be named any of the following:
 * `eslint.config.js`
 * `eslint.config.mjs`
 * `eslint.config.cjs`
+* `eslint.config.ts` (requires [TypeScript setup](#typescript-support))
+* `eslint.config.mts` (requires [TypeScript setup](#typescript-support))
+* `eslint.config.cts` (requires [TypeScript setup](#typescript-support))
 
 It should be placed in the root directory of your project and export an array of [configuration objects](#configuration-objects). Here's an example:
 
@@ -453,3 +456,15 @@ npx eslint --config some-other-file.js **/*.js
 ```
 
 In this case, ESLint does not search for `eslint.config.js` and instead uses `some-other-file.js`.
+
+## TypeScript Support
+
+ESLint supports loading configuration files written in TypeScript optionally. The TypeScript support is powered by [`tsx`](https://github.com/privatenumber/tsx), which does not come out-of-the-box with ESLint and you will need to install it as a dev dependency first:
+
+```shell
+npm install --save-dev tsx
+```
+
+`tsx` uses [Node.js's loader API](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options) which requires Node.js `^20.8.0 || ^18.19.0`.
+
+When both `eslint.config.js` and `eslint.config.ts` are present in the same directory, JavaScript versions always take precedence unless provied specifically via `--config` option.
