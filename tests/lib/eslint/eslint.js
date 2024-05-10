@@ -918,6 +918,25 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
             });
         });
+
+        describe("TypeScript config files", () => {
+
+            it("should find eslint.config.mts when present", async () => {
+
+                const cwd = getFixturePath("mts-config");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+        });
     });
 
     describe("lintFiles()", () => {

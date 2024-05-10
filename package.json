@@ -101,6 +101,14 @@
     "strip-ansi": "^6.0.1",
     "text-table": "^0.2.0"
   },
+  "peerDependencies": {
+    "tsx": "^4.9.4"
+  },
+  "peerDependenciesMeta": {
+    "tsx": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
@@ -162,6 +170,7 @@
     "semver": "^7.5.3",
     "shelljs": "^0.8.5",
     "sinon": "^11.0.0",
+    "tsx": "^4.9.4",
     "typescript": "^5.3.3",
     "vite-plugin-commonjs": "^0.10.0",
     "webpack": "^5.23.0",
