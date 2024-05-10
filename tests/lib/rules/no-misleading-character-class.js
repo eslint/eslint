@@ -94,7 +94,57 @@ ruleTester.run("no-misleading-character-class", rule, {
         { code: String.raw`var r = /^[\q{👶🏻}]$/v`, languageOptions: { ecmaVersion: 2024 } },
         { code: String.raw`var r = /[🇯\q{abc}🇵]/v`, languageOptions: { ecmaVersion: 2024 } },
         { code: "var r = /[🇯[A]🇵]/v", languageOptions: { ecmaVersion: 2024 } },
-        { code: "var r = /[🇯[A--B]🇵]/v", languageOptions: { ecmaVersion: 2024 } }
+        { code: "var r = /[🇯[A--B]🇵]/v", languageOptions: { ecmaVersion: 2024 } },
+
+        // allowEscape
+        {
+            code: String.raw`/[\ud83d\udc4d]/`,
+            options: [{ allowEscape: true }]
+        },
+        {
+            code: '/[\ud83d\\udc4d]/u // U+D83D + Backslash + "udc4d"',
+            options: [{ allowEscape: true }]
+        },
+        {
+            code: String.raw`/[A\u0301]/`,
+            options: [{ allowEscape: true }]
+        },
+        {
+            code: String.raw`/[👶\u{1f3fb}]/u`,
+            options: [{ allowEscape: true }]
+        },
+        {
+            code: String.raw`/[\u{1F1EF}\u{1F1F5}]/u`,
+            options: [{ allowEscape: true }]
+        },
+        {
+            code: String.raw`/[👨\u200d👩\u200d👦]/u`,
+            options: [{ allowEscape: true }]
+        },
+        {
+            code: String.raw`/[\u00B7\u0300-\u036F]/u`,
+            options: [{ allowEscape: true }]
+        },
+        {
+            code: String.raw`/[\n\u0305]/`,
+            options: [{ allowEscape: true }]
+        },
+        {
+            code: String.raw`RegExp("[\uD83D\uDC4D]")`,
+            options: [{ allowEscape: true }]
+        },
+        {
+            code: String.raw`RegExp("[A\u0301]")`,
+            options: [{ allowEscape: true }]
+        },
+        {
+            code: String.raw`RegExp("[\x41\\u0301]")`,
+            options: [{ allowEscape: true }]
+        },
+        {
+            code: 'RegExp(`[\\uD83D\\uDC4D]`) // Backslash + "uD83D" + Backslash + "uDC4D"',
+            options: [{ allowEscape: true }]
+        }
     ],
     invalid: [
 
@@ -1589,7 +1639,7 @@ ruleTester.run("no-misleading-character-class", rule, {
                 messageId: "surrogatePairWithoutUFlag",
                 suggestions: [{ messageId: "suggestUnicodeFlag", output: "new RegExp(/^[👍]$/v, 'u')" }]
             }]
-        }
+        },
 
         /*
          * This test case has been disabled because of a limitation in Node.js 18, see https://github.com/eslint/eslint/pull/18082#discussion_r1506142421.
@@ -1612,6 +1662,80 @@ ruleTester.run("no-misleading-character-class", rule, {
          *     }]
          * }
          */
+
+        // allowEscape
+
+        {
+            code: String.raw`/[Á]/`,
+            options: [{ allowEscape: false }],
+            errors: [{ messageId: "combiningClass" }]
+        },
+        {
+            code: String.raw`/[Á]/`,
+            options: [{ allowEscape: void 0 }],
+            errors: [{ messageId: "combiningClass" }]
+        },
+        {
+            code: String.raw`/[\\̶]/`, // Backslash + Backslash + Combining Long Stroke Overlay
+            options: [{ allowEscape: true }],
+            errors: [{ messageId: "combiningClass" }]
+        },
+        {
+            code: String.raw`/[\n̅]/`,
+            options: [{ allowEscape: true }],
+            errors: [{ messageId: "combiningClass" }]
+        },
+        {
+            code: String.raw`/[\👍]/`,
+            options: [{ allowEscape: true }],
+            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+        },
+        {
+            code: String.raw`RegExp('[\è]')`, // Backslash + Latin Small Letter E + Combining Grave Accent
+            options: [{ allowEscape: true }],
+            errors: [{ messageId: "combiningClass" }]
+        },
+        {
+            code: String.raw`RegExp('[\👍]')`,
+            options: [{ allowEscape: true }],
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{
+                    messageId: "suggestUnicodeFlag",
+                    output: String.raw`RegExp('[\👍]', "u")`
+                }]
+            }]
+        },
+        {
+            code: String.raw`RegExp('[\\👍]')`,
+            options: [{ allowEscape: true }],
+            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+        },
+        {
+            code: String.raw`RegExp('[\❇️]')`,
+            options: [{ allowEscape: true }],
+            errors: [{ messageId: "combiningClass" }]
+        },
+        {
+            code: "RegExp(`[\\👍]`) // Backslash + U+D83D + U+DC4D",
+            options: [{ allowEscape: true }],
+            errors: [{
+                messageId: "surrogatePairWithoutUFlag",
+                suggestions: [{
+                    messageId: "suggestUnicodeFlag",
+                    output: 'RegExp(`[\\👍]`, "u") // Backslash + U+D83D + U+DC4D'
+                }]
+            }]
+        },
+        {
+            /*
+             * In this case the rule can determine the value of `pattern` statically but has no information about the source,
+             * so it doesn't know that escape sequences were used. This is a limitation with our tools.
+             */
+            code: String.raw`const pattern = "[\x41\u0301]"; RegExp(pattern);`,
+            options: [{ allowEscape: true }],
+            errors: [{ messageId: "combiningClass" }]
+        }
 
         /* eslint-enable lines-around-comment, internal-rules/multiline-comment-style -- re-enable rule */
 
