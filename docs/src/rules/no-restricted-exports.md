@@ -133,16 +133,28 @@ export default function foo() {}
 
 ### restrictedNamedExportsPattern
 
-This option allows you to restrict regex pattern for named exports.
+Example of **incorrect** code for the `"restrictedNamedExportsPattern"` option:
+
+::: incorrect
 
 ```js
 /*eslint no-restricted-exports: ["error", {
-    "restrictedNamedExports": [],
-    "restrictedNamedExportsPattern": "^privateUser"
+    "restrictedNamedExportsPattern": "bar$"
 }]*/
 
-var privateUserEmail = '...'; 
-export { privateUserEmail };
+export const foobar = 1;
+```
+
+Example of **correct** code for the `"restrictedNamedExportsPattern"` option:
+
+::: correct
+
+```js
+/*eslint no-restricted-exports: ["error", {
+    "restrictedNamedExportsPattern": "bar$"
+}]*/
+
+export const abc = 1;
 ```
 
 ### restrictDefaultExports
