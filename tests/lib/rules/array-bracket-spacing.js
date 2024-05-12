@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const path = require("path"),
+const path = require("node:path"),
     rule = require("../../../lib/rules/array-bracket-spacing"),
     RuleTester = require("../../../lib/rule-tester/rule-tester");
 

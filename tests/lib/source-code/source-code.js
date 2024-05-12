@@ -8,8 +8,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const fs = require("fs"),
-    path = require("path"),
+const fs = require("node:fs"),
+    path = require("node:path"),
     assert = require("chai").assert,
     espree = require("espree"),
     eslintScope = require("eslint-scope"),

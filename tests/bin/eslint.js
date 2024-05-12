@@ -9,10 +9,10 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-const childProcess = require("child_process");
-const fs = require("fs");
+const childProcess = require("node:child_process");
+const fs = require("node:fs");
 const assert = require("chai").assert;
-const path = require("path");
+const path = require("node:path");
 
 //------------------------------------------------------------------------------
 // Data

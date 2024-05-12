@@ -529,6 +529,8 @@
         "fixable": "whitespace"
     },
     "line-comment-position": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "layout",
         "docs": {
             "description": "Enforce position of line comments",
@@ -669,6 +671,8 @@
         }
     },
     "multiline-comment-style": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "suggestion",
         "docs": {
             "description": "Enforce a particular style for multiline comments",
