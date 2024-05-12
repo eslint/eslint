@@ -961,6 +961,12 @@ ruleTester.run("object-shorthand", rule, {
 
         // avoidExplicitReturnArrows
         {
+            code: "({ x: (arg => { return; }) })",
+            output: "({ x(arg) { return; } })",
+            options: ["always", { avoidExplicitReturnArrows: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
             code: "({ x: () => { return; } })",
             output: "({ x() { return; } })",
             options: ["always", { avoidExplicitReturnArrows: true }],
