@@ -59,7 +59,7 @@ This rule has a string option:
 * `"expression"` (default) requires the use of function expressions instead of function declarations
 * `"declaration"` requires the use of function declarations instead of function expressions
 
-This rule has an object option for an exception:
+This rule has an object option for two exception:
 
 * `"allowArrowFunctions"`: `true` (default `false`) allows the use of arrow functions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
 * `"overrides"`:
@@ -166,7 +166,7 @@ Examples of **incorrect** code for this rule with the `"declaration"` and `{"ove
 ```js
 /*eslint func-style: ["error", "declaration", { "overrides": { "namedExports": "expression" } }]*/
 
-function foo() {
+export function foo() {
     // ...
 }
 ```
@@ -180,11 +180,11 @@ Examples of **correct** code for this rule with the `"declaration"` and `{"overr
 ```js
 /*eslint func-style: ["error", "declaration", { "overrides": { "namedExports": "expression" } }]*/
 
-var foo = function() {
+export var foo = function() {
     // ...
 };
 
-var foo = () => {};
+export var bar = () => {};
 ```
 
 :::
@@ -198,11 +198,11 @@ Examples of **incorrect** code for this rule with the `"expression"` and `{"over
 ```js
 /*eslint func-style: ["error", "expression", { "overrides": { "namedExports": "declaration" } }]*/
 
-var foo = function() {
+export var foo = function() {
     // ...
 };
 
-var foo = () => {};
+export var bar = () => {};
 ```
 
 :::
@@ -214,7 +214,7 @@ Examples of **correct** code for this rule with the `"expression"` and `{"overri
 ```js
 /*eslint func-style: ["error", "expression", { "overrides": { "namedExports": "declaration" } }]*/
 
-function foo() {
+export function foo() {
     // ...
 }
 ```
@@ -230,13 +230,13 @@ Examples of **correct** code for this rule with the `{"overrides": { "namedExpor
 ```js
 /*eslint func-style: ["error", "expression", { "overrides": { "namedExports": "ignore" } }]*/
 
-var foo = function() {
+export var foo = function() {
     // ...
 };
 
-var foo = () => {};
+export var bar = () => {};
 
-function bar() {
+export function baz() {
     // ...
 }
 ```
