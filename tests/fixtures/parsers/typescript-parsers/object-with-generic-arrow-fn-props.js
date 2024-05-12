@@ -8,8 +8,8 @@ const test = {
     key: <T>(): void => { },
     key: async <T>(): Promise<void> => { },
 
-    key: <T>(arg: T): T => arg,
-    key: async <T>(arg: T): Promise<T> => arg,
+    key: <T>(arg: T): T => { return arg },
+    key: async <T>(arg: T): Promise<T> => { return arg },
 }
  */
 
