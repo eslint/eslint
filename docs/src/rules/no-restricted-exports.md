@@ -145,6 +145,8 @@ Example of **incorrect** code for the `"restrictedNamedExportsPattern"` option:
 export const foobar = 1;
 ```
 
+:::
+
 Example of **correct** code for the `"restrictedNamedExportsPattern"` option:
 
 ::: correct
@@ -156,6 +158,8 @@ Example of **correct** code for the `"restrictedNamedExportsPattern"` option:
 
 export const abc = 1;
 ```
+
+:::
 
 ### restrictDefaultExports
 

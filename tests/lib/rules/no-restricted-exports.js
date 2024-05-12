@@ -95,6 +95,10 @@ ruleTester.run("no-restricted-exports", rule, {
             code: "var setSomething; export { setSomething };",
             options: [{ restrictedNamedExportsPattern: "^get" }]
         },
+        {
+            code: "var foo, bar; export { foo, bar };",
+            options: [{ restrictedNamedExportsPattern: "^(?!foo)(?!bar).+$" }]
+        },
 
         // does not check re-export all declarations
         { code: "export * from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
@@ -572,6 +576,13 @@ ruleTester.run("no-restricted-exports", rule, {
             options: [{ restrictedNamedExportsPattern: "^privateUser" }],
             errors: [
                 { messageId: "restrictedNamed", data: { name: "privateUserEmail" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "export const a = 1;",
+            options: [{ restrictedNamedExportsPattern: "^(?!foo)(?!bar).+$" }],
+            errors: [
+                { messageId: "restrictedNamed", data: { name: "a" }, type: "Identifier" }
             ]
         },
 
