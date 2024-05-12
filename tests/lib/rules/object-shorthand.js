@@ -527,6 +527,16 @@ ruleTester.run("object-shorthand", rule, {
             errors: [PROPERTY_ERROR]
         },
         {
+            code: "var x = {'a': /* comment */ a}",
+            output: null,
+            errors: [PROPERTY_ERROR]
+        },
+        {
+            code: "var x = {'a' /* comment */: a}",
+            output: null,
+            errors: [PROPERTY_ERROR]
+        },
+        {
             code: "var x = {y: function() {}}",
             output: "var x = {y() {}}",
             errors: [METHOD_ERROR]
