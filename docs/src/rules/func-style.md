@@ -62,7 +62,7 @@ This rule has a string option:
 This rule has an object option for an exception:
 
 * `"allowArrowFunctions"`: `true` (default `false`) allows the use of arrow functions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
-* `"overrrides"`:
+* `"overrides"`:
     * `"namedExports": "expression" | "declaration" | "ignore"`: used to override function styles in named exports
         * `"expression"`: like string option
         * `"declaration"`: like string option
@@ -159,7 +159,7 @@ var foo = () => {};
 
 ##### expression
 
-Examples of **iincorrect** code for this rule with the `"declaration"` and `{"overrides": { "namedExports": "expression" }}` option:
+Examples of **incorrect** code for this rule with the `"declaration"` and `{"overrides": { "namedExports": "expression" }}` option:
 
 ::: incorrect
 
@@ -170,6 +170,8 @@ function foo() {
     // ...
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule with the `"declaration"` and `{"overrides": { "namedExports": "expression" }}` option:
 
@@ -184,6 +186,8 @@ var foo = function() {
 
 var foo = () => {};
 ```
+
+:::
 
 ##### declaration
 
@@ -201,6 +205,8 @@ var foo = function() {
 var foo = () => {};
 ```
 
+:::
+
 Examples of **correct** code for this rule with the `"expression"` and `{"overrides": { "namedExports": "declaration" }}` option:
 
 ::: correct
@@ -215,14 +221,14 @@ function foo() {
 
 :::
 
-#### ignore
+##### ignore
 
 Examples of **correct** code for this rule with the `{"overrides": { "namedExports": "ignore" }}` option:
 
 ::: correct
 
 ```js
-/*eslint func-style: ["error", "expression", { "overrides": { "namedExports": "ignores" } }]*/
+/*eslint func-style: ["error", "expression", { "overrides": { "namedExports": "ignore" } }]*/
 
 var foo = function() {
     // ...
