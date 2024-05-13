@@ -14,7 +14,6 @@ const assert = require("chai").assert;
 const stringify = require("json-stable-stringify-without-jsonify");
 const espree = require("espree");
 const jslang = require("../../../lib/languages/js");
-const { language } = require("gray-matter");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -264,6 +263,7 @@ describe("FlatConfigArray", () => {
             const config = configs.getConfig("foo.js");
             const expected = {
                 plugins: ["@", "a", "b"],
+                language: "@/js",
                 languageOptions: {
                     ecmaVersion: "latest",
                     sourceType: "module",
@@ -299,6 +299,7 @@ describe("FlatConfigArray", () => {
             const config = configs.getConfig("foo.js");
             const expected = {
                 plugins: ["@", "a", "b:b-plugin@2.3.1"],
+                language: "@/js",
                 languageOptions: {
                     ecmaVersion: "latest",
                     sourceType: "module",
@@ -336,6 +337,7 @@ describe("FlatConfigArray", () => {
             const config = configs.getConfig("foo.js");
             const expected = {
                 plugins: ["@", "a", "b:b-plugin@2.3.1"],
+                language: "@/js",
                 languageOptions: {
                     ecmaVersion: "latest",
                     sourceType: "module",
@@ -436,6 +438,7 @@ describe("FlatConfigArray", () => {
             const config = configs.getConfig("foo.js");
 
             assert.deepStrictEqual(config.toJSON(), {
+                language: "@/js",
                 languageOptions: {
                     ecmaVersion: "latest",
                     parser: "custom-parser",
@@ -470,6 +473,7 @@ describe("FlatConfigArray", () => {
             const config = configs.getConfig("foo.js");
 
             assert.deepStrictEqual(config.toJSON(), {
+                language: "@/js",
                 languageOptions: {
                     ecmaVersion: "latest",
                     parser: "custom-parser@0.1.0",
@@ -504,6 +508,7 @@ describe("FlatConfigArray", () => {
             const config = configs.getConfig("foo.js");
 
             assert.deepStrictEqual(config.toJSON(), {
+                language: "@/js",
                 languageOptions: {
                     ecmaVersion: "latest",
                     parser: "custom-parser@0.1.0",
@@ -536,6 +541,7 @@ describe("FlatConfigArray", () => {
             const config = configs.getConfig("foo.js");
 
             assert.deepStrictEqual(config.toJSON(), {
+                language: "@/js",
                 languageOptions: {
                     ecmaVersion: "latest",
                     parser: "custom-parser@0.1.0",
@@ -608,6 +614,7 @@ describe("FlatConfigArray", () => {
             const config = configs.getConfig("foo.js");
 
             assert.deepStrictEqual(config.toJSON(), {
+                language: "@/js",
                 languageOptions: {
                     ecmaVersion: "latest",
                     parser: `espree@${espree.version}`,
@@ -638,6 +645,7 @@ describe("FlatConfigArray", () => {
             const config = configs.getConfig("foo.js");
 
             assert.deepStrictEqual(config.toJSON(), {
+                language: "@/js",
                 languageOptions: {
                     ecmaVersion: "latest",
                     parser: `espree@${espree.version}`,
@@ -672,6 +680,7 @@ describe("FlatConfigArray", () => {
             const config = configs.getConfig("foo.js");
 
             assert.deepStrictEqual(config.toJSON(), {
+                language: "@/js",
                 languageOptions: {
                     ecmaVersion: "latest",
                     parser: `espree@${espree.version}`,
@@ -704,6 +713,7 @@ describe("FlatConfigArray", () => {
             const config = configs.getConfig("foo.js");
 
             assert.deepStrictEqual(config.toJSON(), {
+                language: "@/js",
                 languageOptions: {
                     ecmaVersion: "latest",
                     parser: `espree@${espree.version}`,
@@ -1319,6 +1329,7 @@ describe("FlatConfigArray", () => {
 
                 await assertInvalidConfig([
                     {
+                        language: "@/js",
                         languageOptions: {
                             foo: true
                         }
@@ -1329,6 +1340,7 @@ describe("FlatConfigArray", () => {
 
             it("should merge two languageOptions objects with different properties", () => assertMergedResult([
                 {
+                    language: "@/js",
                     languageOptions: {
                         ecmaVersion: 2019
                     }
@@ -1340,7 +1352,7 @@ describe("FlatConfigArray", () => {
                 }
             ], {
                 plugins: baseConfig.plugins,
-
+                language: jslang,
                 languageOptions: {
                     ecmaVersion: 2019,
                     sourceType: "commonjs"
@@ -1353,6 +1365,7 @@ describe("FlatConfigArray", () => {
 
                     await assertInvalidConfig([
                         {
+                            language: "@/js",
                             languageOptions: {
                                 ecmaVersion: "true"
                             }
@@ -1362,6 +1375,7 @@ describe("FlatConfigArray", () => {
 
                 it("should merge two objects when second object has overrides", () => assertMergedResult([
                     {
+                        language: "@/js",
                         languageOptions: {
                             ecmaVersion: 2019
                         }
@@ -1373,7 +1387,7 @@ describe("FlatConfigArray", () => {
                     }
                 ], {
                     plugins: baseConfig.plugins,
-
+                    language: jslang,
                     languageOptions: {
                         ecmaVersion: 2021
                     }
@@ -1381,6 +1395,7 @@ describe("FlatConfigArray", () => {
 
                 it("should merge an object and undefined into one object", () => assertMergedResult([
                     {
+                        language: "@/js",
                         languageOptions: {
                             ecmaVersion: 2021
                         }
@@ -1389,7 +1404,7 @@ describe("FlatConfigArray", () => {
                     }
                 ], {
                     plugins: baseConfig.plugins,
-
+                    language: jslang,
                     languageOptions: {
                         ecmaVersion: 2021
                     }
@@ -1400,13 +1415,14 @@ describe("FlatConfigArray", () => {
                     {
                     },
                     {
+                        language: "@/js",
                         languageOptions: {
                             ecmaVersion: 2021
                         }
                     }
                 ], {
                     plugins: baseConfig.plugins,
-
+                    language: jslang,
                     languageOptions: {
                         ecmaVersion: 2021
                     }
@@ -1421,6 +1437,7 @@ describe("FlatConfigArray", () => {
 
                     await assertInvalidConfig([
                         {
+                            language: "@/js",
                             languageOptions: {
                                 sourceType: "true"
                             }
@@ -1430,6 +1447,7 @@ describe("FlatConfigArray", () => {
 
                 it("should merge two objects when second object has overrides", () => assertMergedResult([
                     {
+                        language: "@/js",
                         languageOptions: {
                             sourceType: "module"
                         }
@@ -1441,7 +1459,7 @@ describe("FlatConfigArray", () => {
                     }
                 ], {
                     plugins: baseConfig.plugins,
-
+                    language: jslang,
                     languageOptions: {
                         sourceType: "script"
                     }
@@ -1449,6 +1467,7 @@ describe("FlatConfigArray", () => {
 
                 it("should merge an object and undefined into one object", () => assertMergedResult([
                     {
+                        language: "@/js",
                         languageOptions: {
                             sourceType: "script"
                         }
@@ -1457,7 +1476,7 @@ describe("FlatConfigArray", () => {
                     }
                 ], {
                     plugins: baseConfig.plugins,
-
+                    language: jslang,
                     languageOptions: {
                         sourceType: "script"
                     }
@@ -1468,13 +1487,14 @@ describe("FlatConfigArray", () => {
                     {
                     },
                     {
+                        language: "@/js",
                         languageOptions: {
                             sourceType: "module"
                         }
                     }
                 ], {
                     plugins: baseConfig.plugins,
-
+                    language: jslang,
                     languageOptions: {
                         sourceType: "module"
                     }
@@ -1489,6 +1509,7 @@ describe("FlatConfigArray", () => {
 
                     await assertInvalidConfig([
                         {
+                            language: "@/js",
                             languageOptions: {
                                 globals: "true"
                             }
@@ -1500,6 +1521,7 @@ describe("FlatConfigArray", () => {
 
                     await assertInvalidConfig([
                         {
+                            language: "@/js",
                             languageOptions: {
                                 globals: {
                                     foo: "truex"
@@ -1513,6 +1535,7 @@ describe("FlatConfigArray", () => {
 
                     await assertInvalidConfig([
                         {
+                            language: "@/js",
                             languageOptions: {
                                 globals: {
                                     " foo": "readonly"
@@ -1526,6 +1549,7 @@ describe("FlatConfigArray", () => {
 
                     await assertInvalidConfig([
                         {
+                            language: "@/js",
                             languageOptions: {
                                 globals: {
                                     "foo ": "readonly"
@@ -1537,6 +1561,7 @@ describe("FlatConfigArray", () => {
 
                 it("should merge two objects when second object has different keys", () => assertMergedResult([
                     {
+                        language: "@/js",
                         languageOptions: {
                             globals: {
                                 foo: "readonly"
@@ -1552,7 +1577,7 @@ describe("FlatConfigArray", () => {
                     }
                 ], {
                     plugins: baseConfig.plugins,
-
+                    language: jslang,
                     languageOptions: {
                         globals: {
                             foo: "readonly",
@@ -1563,6 +1588,7 @@ describe("FlatConfigArray", () => {
 
                 it("should merge two objects when second object has overrides", () => assertMergedResult([
                     {
+                        language: "@/js",
                         languageOptions: {
                             globals: {
                                 foo: null
@@ -1578,7 +1604,7 @@ describe("FlatConfigArray", () => {
                     }
                 ], {
                     plugins: baseConfig.plugins,
-
+                    language: jslang,
                     languageOptions: {
                         globals: {
                             foo: "writeable"
@@ -1588,6 +1614,7 @@ describe("FlatConfigArray", () => {
 
                 it("should merge an object and undefined into one object", () => assertMergedResult([
                     {
+                        language: "@/js",
                         languageOptions: {
                             globals: {
                                 foo: "readable"
@@ -1598,7 +1625,7 @@ describe("FlatConfigArray", () => {
                     }
                 ], {
                     plugins: baseConfig.plugins,
-
+                    language: jslang,
                     languageOptions: {
                         globals: {
                             foo: "readable"
@@ -1611,6 +1638,7 @@ describe("FlatConfigArray", () => {
                     {
                     },
                     {
+                        language: "@/js",
                         languageOptions: {
                             globals: {
                                 foo: "false"
@@ -1619,7 +1647,7 @@ describe("FlatConfigArray", () => {
                     }
                 ], {
                     plugins: baseConfig.plugins,
-
+                    language: jslang,
                     languageOptions: {
                         globals: {
                             foo: "false"
@@ -1636,6 +1664,7 @@ describe("FlatConfigArray", () => {
 
                     await assertInvalidConfig([
                         {
+                            language: "@/js",
                             languageOptions: {
                                 parser: true
                             }
@@ -1700,6 +1729,7 @@ describe("FlatConfigArray", () => {
                         plugins: {
                             ...baseConfig.plugins
                         },
+                        language: jslang,
                         languageOptions: {
                             parser: stubParser
                         }
@@ -1712,6 +1742,7 @@ describe("FlatConfigArray", () => {
 
                     return assertMergedResult([
                         {
+                            language: "@/js",
                             languageOptions: {
                                 parser: stubParser
                             }
@@ -1722,7 +1753,7 @@ describe("FlatConfigArray", () => {
                         plugins: {
                             ...baseConfig.plugins
                         },
-
+                        language: jslang,
                         languageOptions: {
                             parser: stubParser
                         }
@@ -1739,6 +1770,7 @@ describe("FlatConfigArray", () => {
                         {
                         },
                         {
+                            language: "@/js",
                             languageOptions: {
                                 parser: stubParser
                             }
@@ -1747,7 +1779,7 @@ describe("FlatConfigArray", () => {
                         plugins: {
                             ...baseConfig.plugins
                         },
-
+                        language: jslang,
                         languageOptions: {
                             parser: stubParser
                         }
