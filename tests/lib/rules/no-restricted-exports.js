@@ -103,6 +103,38 @@ ruleTester.run("no-restricted-exports", rule, {
             code: "var foobar; export default foobar;",
             options: [{ restrictedNamedExportsPattern: "bar$" }]
         },
+        {
+            code: "var foobar; export default foobar;",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "export default 'default';",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "var foobar; export { foobar as default };",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "var foobar; export { foobar as 'default' };",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "export { default } from 'mod';",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "export { default as default } from 'mod';",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "export { foobar as default } from 'mod';",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "export * as default from 'mod';",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
 
         // does not check re-export all declarations
         { code: "export * from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
