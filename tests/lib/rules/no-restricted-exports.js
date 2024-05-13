@@ -99,6 +99,10 @@ ruleTester.run("no-restricted-exports", rule, {
             code: "var foo, bar; export { foo, bar };",
             options: [{ restrictedNamedExportsPattern: "^(?!foo)(?!bar).+$" }]
         },
+        {
+            code: "var foobar; export default foobar;",
+            options: [{ restrictedNamedExportsPattern: "bar$" }]
+        },
 
         // does not check re-export all declarations
         { code: "export * from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },

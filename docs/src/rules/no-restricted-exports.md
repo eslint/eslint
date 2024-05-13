@@ -17,7 +17,7 @@ By default, this rule doesn't disallow any names. Only the names you specify in 
 This rule has an object option:
 
 * `"restrictedNamedExports"` is an array of strings, where each string is a name to be restricted.
-* `"restrictedNamedExportsPattern"` is a regex string, and any named export matching that pattern would be restricted.
+* `"restrictedNamedExportsPattern"` is a string representing a regular expression pattern. Named exports matching this pattern will be restricted. This option does not apply to `default` named exports.
 * `"restrictDefaultExports"` is an object option with boolean properties to restrict certain default export declarations. The option works only if the `restrictedNamedExports` option does not contain the `"default"` value. The following properties are allowed:
     * `direct`: restricts `export default` declarations.
     * `named`: restricts `export { foo as default };` declarations.
@@ -160,6 +160,8 @@ export const abc = 1;
 ```
 
 :::
+
+Note that this option does not apply to `export default` or any `default` named exports. If you want to also restrict `default` exports, use the `restrictDefaultExports` option.
 
 ### restrictDefaultExports
 
