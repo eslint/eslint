@@ -91,6 +91,50 @@ ruleTester.run("no-restricted-exports", rule, {
         { code: "import a from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
         { code: "import { a } from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
         { code: "import { b as a } from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
+        {
+            code: "var setSomething; export { setSomething };",
+            options: [{ restrictedNamedExportsPattern: "^get" }]
+        },
+        {
+            code: "var foo, bar; export { foo, bar };",
+            options: [{ restrictedNamedExportsPattern: "^(?!foo)(?!bar).+$" }]
+        },
+        {
+            code: "var foobar; export default foobar;",
+            options: [{ restrictedNamedExportsPattern: "bar$" }]
+        },
+        {
+            code: "var foobar; export default foobar;",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "export default 'default';",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "var foobar; export { foobar as default };",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "var foobar; export { foobar as 'default' };",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "export { default } from 'mod';",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "export { default as default } from 'mod';",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "export { foobar as default } from 'mod';",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
+        {
+            code: "export * as default from 'mod';",
+            options: [{ restrictedNamedExportsPattern: "default" }]
+        },
 
         // does not check re-export all declarations
         { code: "export * from 'foo';", options: [{ restrictedNamedExports: ["a"] }] },
@@ -530,6 +574,51 @@ ruleTester.run("no-restricted-exports", rule, {
                 { messageId: "restrictedNamed", data: { name: "d" }, type: "Identifier" },
                 { messageId: "restrictedNamed", data: { name: "e" }, type: "Identifier" },
                 { messageId: "restrictedNamed", data: { name: "f" }, type: "Identifier" }
+            ]
+        },
+
+        // restrictedNamedExportsPattern
+        {
+            code: "var getSomething; export { getSomething };",
+            options: [{ restrictedNamedExportsPattern: "get*" }],
+            errors: [
+                { messageId: "restrictedNamed", data: { name: "getSomething" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "var getSomethingFromUser; export { getSomethingFromUser };",
+            options: [{ restrictedNamedExportsPattern: "User$" }],
+            errors: [
+                { messageId: "restrictedNamed", data: { name: "getSomethingFromUser" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "var foo, ab, xy; export { foo, ab, xy };",
+            options: [{ restrictedNamedExportsPattern: "(b|y)$" }],
+            errors: [
+                { messageId: "restrictedNamed", data: { name: "ab" }, type: "Identifier" },
+                { messageId: "restrictedNamed", data: { name: "xy" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "var foo; export { foo as ab };",
+            options: [{ restrictedNamedExportsPattern: "(b|y)$" }],
+            errors: [
+                { messageId: "restrictedNamed", data: { name: "ab" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "var privateUserEmail; export { privateUserEmail };",
+            options: [{ restrictedNamedExportsPattern: "^privateUser" }],
+            errors: [
+                { messageId: "restrictedNamed", data: { name: "privateUserEmail" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "export const a = 1;",
+            options: [{ restrictedNamedExportsPattern: "^(?!foo)(?!bar).+$" }],
+            errors: [
+                { messageId: "restrictedNamed", data: { name: "a" }, type: "Identifier" }
             ]
         },
 
