@@ -92,7 +92,6 @@
     "imurmurhash": "^0.1.4",
     "is-glob": "^4.0.0",
     "is-path-inside": "^3.0.3",
-    "jiti": "^1.21.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
     "levn": "^0.4.1",
     "lodash.merge": "^4.6.2",
@@ -136,6 +135,7 @@
     "globals": "^15.0.0",
     "got": "^11.8.3",
     "gray-matter": "^4.0.3",
+    "jiti": "^1.21.0",
     "js-yaml": "^4.1.0",
     "knip": "^5.8.0",
     "lint-staged": "^11.0.0",
@@ -168,6 +168,14 @@
     "webpack": "^5.23.0",
     "webpack-cli": "^4.5.0",
     "yorkie": "^2.0.0"
+  },
+  "peerDependencies": {
+    "jiti": "^1.21.0"
+  },
+  "peerDependenciesMeta": {
+    "jiti": {
+      "optional": true
+    }
   },
   "keywords": [
     "ast",
