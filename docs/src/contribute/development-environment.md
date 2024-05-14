@@ -22,7 +22,7 @@ Go to <https://github.com/eslint/eslint> and click the "Fork" button. Follow the
 Clone your fork:
 
 ```shell
-git clone https://github.com/<Your Github Username>/eslint
+git clone https://github.com/<Your GitHub Username>/eslint
 ```
 
 Once you've cloned the repository, run `npm install` to get all the necessary dependencies:
