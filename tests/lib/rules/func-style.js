@@ -290,6 +290,39 @@ ruleTester.run("func-style", rule, {
                     type: "VariableDeclarator"
                 }
             ]
+        },
+        {
+            code: "function foo() {};",
+            options: ["expression", { overrides: { namedExports: "declaration" } }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "expression",
+                    type: "FunctionDeclaration"
+                }
+            ]
+        },
+        {
+            code: "var foo = function() {};",
+            options: ["declaration", { overrides: { namedExports: "expression" } }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "declaration",
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "var foo = () => {};",
+            options: ["declaration", { overrides: { namedExports: "expression" } }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "declaration",
+                    type: "VariableDeclarator"
+                }
+            ]
         }
     ]
 });

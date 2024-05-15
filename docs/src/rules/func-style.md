@@ -59,7 +59,7 @@ This rule has a string option:
 * `"expression"` (default) requires the use of function expressions instead of function declarations
 * `"declaration"` requires the use of function declarations instead of function expressions
 
-This rule has an object option for two exception:
+This rule has an object option for two exceptions:
 
 * `"allowArrowFunctions"`: `true` (default `false`) allows the use of arrow functions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
 * `"overrides"`:
