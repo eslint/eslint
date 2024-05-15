@@ -217,5 +217,5 @@ ESLint only lints named code blocks when they are JavaScript files or if they ma
 
 ## Common Problems
 
-* [Plugin rules using the ESLint < v9.0.0 API](../troubleshooting/v9-rule-api-changes.md)
+* [Plugin rules using the ESLint < v9.0.0 API](../troubleshooting/v9-rule-api-changes)
 * [Plugin configurations have not been upgraded to flat config](https://eslint.org/docs/latest/use/configure/migration-guide#using-eslintrc-configs-in-flat-config)
