@@ -214,3 +214,8 @@ export default [
 ```
 
 ESLint only lints named code blocks when they are JavaScript files or if they match a `files` entry in a config object. Be sure to add a config object with a matching `files` entry if you want to lint non-JavaScript named code blocks.
+
+## Common Problems
+
+* [Plugin rules using the ESLint < v9.0.0 API](../troubleshooting/v9-rule-api-changes)
+* [Plugin configurations have not been upgraded to flat config](migration-guide#using-eslintrc-configs-in-flat-config)
