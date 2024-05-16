@@ -9,6 +9,12 @@ eleventyNavigation:
 
 This page serves as a reference for common issues working with ESLint.
 
+## Configuration
+
+* [`TypeError: context.getScope is not a function`](./v9-rule-api-changes)
+
+## Legacy (eslintrc) Configuration
+
 * [`ESLint couldn't determine the plugin … uniquely`](./couldnt-determine-the-plugin-uniquely)
 * [`ESLint couldn't find the config … to extend from`](./couldnt-find-the-config)
 * [`ESLint couldn't find the plugin …`](./couldnt-find-the-plugin)

@@ -78,6 +78,10 @@ export default [
 ];
 ```
 
+::: tip
+If you import a plugin and get an error such as "TypeError: context.getScope is not a function", then that means the plugin has not yet been updated to the ESLint v9.x rule API. While you should file an issue with the particular plugin, you can manually patch the plugin to work in ESLint v9.x using the [compatibility utilities](https://eslint.org/blog/2024/05/eslint-compatibility-utilities/).
+:::
+
 ### Custom Parsers
 
 In eslintrc files, importing a custom parser is similar to importing a plugin: you use a string to specify the name of the parser.
