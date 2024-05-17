@@ -59,9 +59,14 @@ This rule has a string option:
 * `"expression"` (default) requires the use of function expressions instead of function declarations
 * `"declaration"` requires the use of function declarations instead of function expressions
 
-This rule has an object option for an exception:
+This rule has an object option for two exceptions:
 
 * `"allowArrowFunctions"`: `true` (default `false`) allows the use of arrow functions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
+* `"overrides"`:
+    * `"namedExports": "expression" | "declaration" | "ignore"`: used to override function styles in named exports
+        * `"expression"`: like string option
+        * `"declaration"`: like string option
+        * `"ignore"`: either style is acceptable
 
 ### expression
 
@@ -144,6 +149,96 @@ Examples of additional **correct** code for this rule with the `"declaration", {
 /*eslint func-style: ["error", "declaration", { "allowArrowFunctions": true }]*/
 
 var foo = () => {};
+```
+
+:::
+
+### overrides
+
+#### namedExports
+
+##### expression
+
+Examples of **incorrect** code for this rule with the `"declaration"` and `{"overrides": { "namedExports": "expression" }}` option:
+
+::: incorrect
+
+```js
+/*eslint func-style: ["error", "declaration", { "overrides": { "namedExports": "expression" } }]*/
+
+export function foo() {
+    // ...
+}
+```
+
+:::
+
+Examples of **correct** code for this rule with the `"declaration"` and `{"overrides": { "namedExports": "expression" }}` option:
+
+::: correct
+
+```js
+/*eslint func-style: ["error", "declaration", { "overrides": { "namedExports": "expression" } }]*/
+
+export var foo = function() {
+    // ...
+};
+
+export var bar = () => {};
+```
+
+:::
+
+##### declaration
+
+Examples of **incorrect** code for this rule with the `"expression"` and `{"overrides": { "namedExports": "declaration" }}` option:
+
+::: incorrect
+
+```js
+/*eslint func-style: ["error", "expression", { "overrides": { "namedExports": "declaration" } }]*/
+
+export var foo = function() {
+    // ...
+};
+
+export var bar = () => {};
+```
+
+:::
+
+Examples of **correct** code for this rule with the `"expression"` and `{"overrides": { "namedExports": "declaration" }}` option:
+
+::: correct
+
+```js
+/*eslint func-style: ["error", "expression", { "overrides": { "namedExports": "declaration" } }]*/
+
+export function foo() {
+    // ...
+}
+```
+
+:::
+
+##### ignore
+
+Examples of **correct** code for this rule with the `{"overrides": { "namedExports": "ignore" }}` option:
+
+::: correct
+
+```js
+/*eslint func-style: ["error", "expression", { "overrides": { "namedExports": "ignore" } }]*/
+
+export var foo = function() {
+    // ...
+};
+
+export var bar = () => {};
+
+export function baz() {
+    // ...
+}
 ```
 
 :::
