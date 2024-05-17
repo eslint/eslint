@@ -151,6 +151,13 @@ When a suggestion is too ambitious or would take too much time to complete, it's
 
 **Breaking Changes:** Be on the lookout for changes that would be breaking. Issues that represent breaking changes should be labeled as "breaking".
 
+## Request Feedback from TSC
+
+To request feedback from the TSC, team members can ping `@eslint/eslint-tsc` and add the label "tsc waiting" on an issue or pull request.
+Unless otherwise requested, every TSC member should provide feedback on [issues labeled "tsc waiting"](https://github.com/issues?q=org%3Aeslint+label%3A"tsc+waiting").
+If a TSC member is unable to respond in a timely manner, they should post a comment indicating when they expect to be able to leave their feedback.
+The last TSC member who provides feedback on an issue labeled "tsc waiting" should remove the label.
+
 ## When to Close an Issue
 
 All team members are allowed to close issues depending on how the issue has been resolved.
