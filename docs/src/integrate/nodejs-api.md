@@ -169,6 +169,11 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.cacheStrategy` (`string`)<br>
   Default is `"metadata"`. Strategy for the cache to use for detecting changed files. Can be either `"metadata"` or `"content"`.
 
+##### Other Options
+
+* `options.flags` (`string[]`)<br>
+  Default is `[]`. The feature flags to enable for this instance.
+
 ### ◆ eslint.lintFiles(patterns)
 
 ```js
@@ -726,6 +731,17 @@ This method is used to get the times spent on (parsing, fixing, linting) a file.
 ### Linter#getFixPassCount()
 
 This method is used to get the number of autofix passes made. See `fixPasses` property of the [Stats](../extend/stats#-stats-type) object.
+
+### Linter#hasFlag()
+
+This method is used to determine if a given feature flag is set, as in this example:
+
+```js
+const Linter = require("eslint").Linter;
+const linter = new Linter({ flags: ["x_feature"] });
+
+console.log(linter.hasFlag("x_feature")); // true
+```
 
 ---
 

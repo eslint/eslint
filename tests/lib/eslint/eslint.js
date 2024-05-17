@@ -317,6 +317,23 @@ describe("ESLint", () => {
         });
     });
 
+    describe("hasFlag", () => {
+
+        let eslint;
+
+        it("should return true if the flag is present", () => {
+            eslint = new ESLint({ cwd: getFixturePath(), flags: ["x_feature", "y_feature"] });
+
+            assert.strictEqual(eslint.hasFlag("x_feature"), true);
+        });
+
+        it("should return false if the flag is not present", () => {
+            eslint = new ESLint({ cwd: getFixturePath() });
+
+            assert.strictEqual(eslint.hasFlag("x_feature"), false);
+        });
+    });
+
     describe("lintText()", () => {
         let eslint;
 

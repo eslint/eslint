@@ -7792,6 +7792,23 @@ describe("Linter with FlatConfigArray", () => {
         });
     });
 
+    describe("hasFlag()", () => {
+
+        it("should return true if the flag is present", () => {
+            assert.strictEqual(
+                new Linter({ configType: "flat", flags: ["x_feature", "y_feature"] }).hasFlag("x_feature"),
+                true
+            );
+        });
+
+        it("should return false if the flag is not present", () => {
+            assert.strictEqual(
+                new Linter({ configType: "flat" }).hasFlag("x_feature"),
+                false
+            );
+        });
+    });
+
     describe("Config Options", () => {
 
         describe("languageOptions", () => {

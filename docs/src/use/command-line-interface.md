@@ -126,6 +126,7 @@ Miscellaneous:
   -v, --version                   Output the version number
   --print-config path::String     Print the configuration for the given file
   --stats                         Add statistics to the lint report - default: false
+  --flag [String]                 Enable a feature flag
 ```
 
 ### Basic Configuration
@@ -837,6 +838,19 @@ This option is intended for use with custom formatters that display statistics. 
 
 ```shell
 npx eslint --stats --format json file.js
+```
+
+#### `--flag`
+
+This option enables one or more feature flags for ESLint.
+
+* **Argument Type**: String. A feature identifier.
+* **Multiple Arguments**: Yes
+
+##### `--flag` example
+
+```shell
+npx eslint --flag x_feature file.js
 ```
 
 ## Exit Codes
