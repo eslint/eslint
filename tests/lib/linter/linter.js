@@ -6411,7 +6411,23 @@ var a = "test2";
                         messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
-                        severity: 2
+                        severity: 2,
+                        suggestions: [
+                            {
+                                data: {
+                                    varName: "bbb"
+                                },
+                                desc: "Remove unused variable 'bbb'.",
+                                fix: {
+                                    range: [
+                                        99,
+                                        111
+                                    ],
+                                    text: ""
+                                },
+                                messageId: "removeVar"
+                            }
+                        ]
                     }]
                 );
 
@@ -13090,7 +13106,23 @@ var a = "test2";
                             messageId: "unusedVar",
                             nodeType: "Identifier",
                             ruleId: "no-unused-vars",
-                            severity: 2
+                            severity: 2,
+                            suggestions: [
+                                {
+                                    data: {
+                                        varName: "bbb"
+                                    },
+                                    desc: "Remove unused variable 'bbb'.",
+                                    fix: {
+                                        range: [
+                                            99,
+                                            111
+                                        ],
+                                        text: ""
+                                    },
+                                    messageId: "removeVar"
+                                }
+                            ]
                         }]
                     );
 
