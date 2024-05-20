@@ -69,6 +69,16 @@ ruleTester.run("func-style", rule, {
             languageOptions: { ecmaVersion: 6 }
         },
         {
+            code: "class C extends D { foo() { var bar = () => { super.baz(); }; } }",
+            options: ["declaration"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var obj = { foo() { var bar = () => super.baz; } }",
+            options: ["declaration"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "export default function () {};",
             languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
@@ -79,6 +89,11 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "var foo = () => { function foo() { this; } };",
+            options: ["declaration", { allowArrowFunctions: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = () => ({ bar() { super.baz(); } });",
             options: ["declaration", { allowArrowFunctions: true }],
             languageOptions: { ecmaVersion: 6 }
         },
@@ -176,6 +191,17 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "var foo = () => { function foo() { this; } };",
+            options: ["declaration"],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "declaration",
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "var foo = () => ({ bar() { super.baz(); } });",
             options: ["declaration"],
             languageOptions: { ecmaVersion: 6 },
             errors: [
