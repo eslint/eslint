@@ -14,9 +14,9 @@ With JavaScript ES6, a new syntax was added for creating variables from an array
 
 ### Options
 
-This rule takes two sets of configuration objects. The first object parameter determines what types of destructuring the rule applies to.
+This rule takes two arguments, both of which are objects. The first object parameter determines what types of destructuring the rule applies to.
 
-In first set of configuration object the two properties, `array` and `object`, can be used to turn on or off the destructuring requirement for each of those types independently. By default, both are true.
+In first object the two properties, `array` and `object`, can be used to turn on or off the destructuring requirement for each of those types independently. By default, both are true.
 
 ```json
 {
