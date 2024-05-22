@@ -168,7 +168,7 @@ If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.
 ##### `--inspect-config` example
 
 ```shell
-npx eslint --inspect-config@latest
+npx eslint --inspect-config
 ```
 
 #### `--env`
