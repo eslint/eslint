@@ -156,6 +156,7 @@ const jsConfigs = [js.configs.recommended, {
             vars: "all",
             args: "after-used",
             caughtErrors: "all"
+            ignoreRestSiblings: true
         }
         ],
         "no-use-before-define": "error",
