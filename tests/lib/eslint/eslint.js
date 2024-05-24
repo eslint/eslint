@@ -921,15 +921,6 @@ describe("ESLint", () => {
 
         describe("TypeScript config files", () => {
 
-            /*
-             * tsx requires Node.js v18.19.0 or later
-             * We need to bypass this test in CI
-             * TODO: remove this check when we drop Node.js v18.18.0
-             */
-            if (process.version === "v18.18.0") {
-                return;
-            }
-
             it("should find eslint.config.mts when present", async () => {
 
                 const cwd = getFixturePath("mts-config");
