@@ -39,7 +39,7 @@
                 "eslint-config-eslint",
 
                 // Optional dependencies for loading TypeScript configs
-                "tsx"
+                "importx"
             ]
         },
         "docs": {

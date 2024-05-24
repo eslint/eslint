@@ -459,12 +459,12 @@ In this case, ESLint does not search for `eslint.config.js` and instead uses `so
 
 ## TypeScript Support
 
-ESLint supports loading configuration files written in TypeScript optionally. The TypeScript support is powered by [`tsx`](https://github.com/privatenumber/tsx), which does not come out-of-the-box with ESLint and you will need to install it as a dev dependency first:
+ESLint supports loading configuration files written in TypeScript optionally. The TypeScript support is powered by [`importx`](https://github.com/antfu/importx), which does not come out-of-the-box with ESLint and you will need to install it as a dev dependency first:
 
 ```shell
-npm install --save-dev tsx
+npm install --save-dev importx
 ```
 
-`tsx` uses [Node.js's loader API](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options) which requires Node.js `^20.8.0 || ^18.19.0`. Also note that `tsx` only strips type annotations and does not perform type checking.
+Note that `importx` only strips off type annotations and does not perform type checking.
 
-When both `eslint.config.js` and `eslint.config.ts` are present in the same directory, JavaScript versions always take precedence unless provied specifically via `--config` option.
+When both `eslint.config.js` and `eslint.config.ts` are present in the same directory, JavaScript versions always take precedence unless provided specifically via `--config` option.
