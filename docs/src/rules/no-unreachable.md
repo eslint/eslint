@@ -2,6 +2,10 @@
 title: no-unreachable
 rule_type: problem
 handled_by_typescript: true
+extra_typescript_info: >-
+    TypeScript must be configured with
+    [`allowUnreachableCode: false`](https://www.typescriptlang.org/tsconfig#allowUnreachableCode)
+    for it to consider unreachable code an error.
 ---
 
 
