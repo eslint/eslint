@@ -161,7 +161,7 @@ If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.
 
 #### `--inspect-config`
 
-**Flat Config Mode Only.** This option runs `npx @eslint/config-inspector` to start the config inspector. You can use the config inspector to better understand what your configuration is doing and which files it applies to. When you use this flag, the CLI does not perform linting.
+**Flat Config Mode Only.** This option runs `npx @eslint/config-inspector@latest` to start the config inspector. You can use the config inspector to better understand what your configuration is doing and which files it applies to. When you use this flag, the CLI does not perform linting.
 
 * **Argument Type**: No argument.
 
