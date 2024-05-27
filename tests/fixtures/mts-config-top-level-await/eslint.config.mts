@@ -1,3 +1,4 @@
+
 interface FakeFlatConfigItem {
     plugins?: Record<string, any>;
     name?: string;
@@ -5,11 +6,12 @@ interface FakeFlatConfigItem {
 }
 
 const config: FakeFlatConfigItem[] = [
-    {
+    // Top-level await
+    await Promise.resolve({
         rules: {
             "no-undef": "error" as string
         }
-    },
+    }),
 ]
 
 export default config;

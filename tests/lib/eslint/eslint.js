@@ -4,7 +4,6 @@
  * @author Toru Nagashima
  */
 
-"use strict";
 
 //------------------------------------------------------------------------------
 // Requirements
@@ -115,7 +114,7 @@ describe("ESLint", () => {
          * exceeds the default test timeout, so raise it just for this hook.
          * Mocha uses `this` to set timeouts on an individual hook level.
          */
-        this.timeout(60 * 1000); // eslint-disable-line no-invalid-this -- Mocha API
+        this.timeout(60 * 1000);
         shell.mkdir("-p", fixtureDir);
         shell.cp("-r", "./tests/fixtures/.", fixtureDir);
     });
@@ -180,7 +179,7 @@ describe("ESLint", () => {
         it("should not modify baseConfig when format is specified", () => {
             const customBaseConfig = { root: true };
 
-            new ESLint({ baseConfig: customBaseConfig }); // eslint-disable-line no-new -- Check for argument side effects
+            new ESLint({ baseConfig: customBaseConfig });
 
             assert.deepStrictEqual(customBaseConfig, { root: true });
         });
@@ -299,7 +298,7 @@ describe("ESLint", () => {
             sinon.restore();
             const processStub = sinon.stub(process, "emitWarning");
 
-            // eslint-disable-next-line no-new -- for testing purpose only
+
             new ESLint({ cwd });
 
             assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
@@ -844,7 +843,7 @@ describe("ESLint", () => {
             eslint = new ESLint({
                 cwd: getFixturePath("promise-config")
             });
-            const results = await eslint.lintText('var foo = "bar";');
+            const results = await eslint.lintText("var foo = \"bar\";");
 
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].messages.length, 1);
@@ -924,6 +923,28 @@ describe("ESLint", () => {
             it("should find eslint.config.mts when present", async () => {
 
                 const cwd = getFixturePath("mts-config");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+
+            it("should find eslint.config.mts when present and support top-level-await", async () => {
+
+                // in Node.js v18.18, ts loader fallback to jiti, which does not support top-level-await
+                if (process.version.startsWith("v18.18")) {
+                    return;
+                }
+
+                const cwd = getFixturePath("mts-config-top-level-await");
 
                 eslint = new ESLint({
                     cwd
@@ -6742,7 +6763,7 @@ describe("ESLint", () => {
                 }
             });
 
-            const [{ messages }] = await eslint.lintText('const foo = "bar"');
+            const [{ messages }] = await eslint.lintText("const foo = \"bar\"");
 
             /*
              * baseConfig: { quotes: ["error", "double"], semi: "error" }
@@ -6812,7 +6833,7 @@ describe("ESLint", () => {
             const teardown = createCustomTeardown({
                 cwd,
                 files: {
-                    "package.json": '{ "type": "module" }',
+                    "package.json": "{ \"type\": \"module\" }",
                     "eslint.config.js": configFileContent,
                     "a.js": "foo\nbar;"
                 }

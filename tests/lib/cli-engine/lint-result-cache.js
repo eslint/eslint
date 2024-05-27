@@ -147,6 +147,10 @@ describe("LintResultCache", () => {
         });
 
         describe("when calculating the hashing", () => {
+            afterEach(() => {
+                sandbox.restore();
+            });
+
             it("contains eslint version during hashing", () => {
                 const version = "eslint-=-version";
                 const NewLintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
@@ -173,11 +177,6 @@ describe("LintResultCache", () => {
 
                 assert.ok(hashStub.calledOnce);
                 assert.ok(hashStub.calledWithMatch(version));
-            });
-
-            afterEach(() => {
-                sandbox.restore();
-                sandbox.reset();
             });
         });
 
