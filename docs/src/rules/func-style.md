@@ -52,7 +52,7 @@ Due to these different behaviors, it is common to have guidelines as to which st
 
 This rule enforces a particular type of function style, either `function` declarations or expressions assigned to variables. You can specify which you prefer in the configuration.
 
-Note: This lint does not apply to *all* functions. For example, a callback function passed as an argument to another function is not considered by this lint.
+Note: This rule does not apply to *all* functions. For example, a callback function passed as an argument to another function is not considered by this rule.
 
 ## Options
 
