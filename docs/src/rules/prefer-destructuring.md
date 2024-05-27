@@ -81,9 +81,9 @@ let bar;
 
 :::
 
-Alternatively, you can use separate configurations for different assignment types. It accepts 2 other keys instead of `array` and `object`.
+Alternatively, you can use separate configurations for different assignment types. The first argument accepts two other keys instead of `array` and `object`.
 
-One key is `VariableDeclarator` and the other is `AssignmentExpression`, which can be used to control the destructuring requirement for each of those types independently. Each property accepts an object that accepts two properties, `array` and `object`, which can be used to control the destructuring requirement for each of `array` and `object` independently for variable declarations and assignment expressions.  By default, `array` and `object` are set to true for both `VariableDeclarator` and `AssignmentExpression`.
+One key is `VariableDeclarator` and the other is `AssignmentExpression`, which can be used to control the destructuring requirement for each of those types independently. Each property is an object containing two properties, `array` and `object`, which can be used to control the destructuring requirement for each of `array` and `object` independently for variable declarations and assignment expressions.  By default, `array` and `object` are set to `true` for both `VariableDeclarator` and `AssignmentExpression`.
 
 ```json
 {
@@ -126,7 +126,7 @@ Examples of **correct** code when array destructuring in `AssignmentExpression` 
 
 #### enforceForRenamedProperties
 
-The rule has a second object with a single key, `enforceForRenamedProperties`, which determines whether the `object` destructuring applies to renamed variables.
+The rule has a second object argument with a single key, `enforceForRenamedProperties`, which determines whether the `object` destructuring applies to renamed variables.
 
 ```json
 {
