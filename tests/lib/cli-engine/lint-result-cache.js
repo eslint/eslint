@@ -174,6 +174,11 @@ describe("LintResultCache", () => {
                 assert.ok(hashStub.calledOnce);
                 assert.ok(hashStub.calledWithMatch(version));
             });
+
+            afterEach(() => {
+                sandbox.restore();
+                sandbox.reset();
+            });
         });
 
         describe("When file is changed", () => {
