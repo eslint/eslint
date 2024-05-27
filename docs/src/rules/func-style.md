@@ -5,36 +5,36 @@ further_reading:
 - https://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html
 ---
 
-
-There are two ways of defining functions in JavaScript: `function` declarations and `function` expressions. Declarations contain the `function` keyword first, followed by a name and then its arguments and the function body, for example:
+There are two ways of defining functions in JavaScript: `function` declarations and function expressions assigned to variables. Function declarations are statements that begin with the `function` keyword. Function expressions can either be arrow functions or use the `function` keyword with an optional name. Here are some examples:
 
 ```js
+// function declaration
 function doSomething() {
     // ...
 }
-```
 
-Equivalent function expressions begin with the `var` keyword, followed by a name and then the function itself, such as:
+// arrow function expression assigned to a variable
+const doSomethingElse = () => {
+    // ...
+};
 
-```js
-var doSomething = function() {
+// function expression assigned to a variable
+const doSomethingAgain = function() {
     // ...
 };
 ```
 
-The primary difference between `function` declarations and `function expressions` is that declarations are *hoisted* to the top of the scope in which they are defined, which allows you to write code that uses the function before its declaration. For example:
+The primary difference between `function` declarations and function expressions is that declarations are *hoisted* to the top of the scope in which they are defined, which allows you to write code that uses the function before its declaration. For example:
 
 ```js
-doSomething();
+doSomething(); // ok
 
 function doSomething() {
     // ...
 }
 ```
 
-Although this code might seem like an error, it actually works fine because JavaScript engines hoist the `function` declarations to the top of the scope. That means this code is treated as if the declaration came before the invocation.
-
-For `function` expressions, you must define the function before it is used, otherwise it causes an error. Example:
+For function expressions, you must define the function before it is used, otherwise it causes an error. Example:
 
 ```js
 doSomething();  // error!
@@ -50,7 +50,9 @@ Due to these different behaviors, it is common to have guidelines as to which st
 
 ## Rule Details
 
-This rule enforces a particular type of `function` style throughout a JavaScript file, either declarations or expressions. You can specify which you prefer in the configuration.
+This rule enforces a particular type of function style, either `function` declarations or expressions assigned to variables. You can specify which you prefer in the configuration.
+
+Note: This rule does not apply to *all* functions. For example, a callback function passed as an argument to another function is not considered by this rule.
 
 ## Options
 
