@@ -8,7 +8,7 @@ In JavaScript, returning a value in the constructor of a class may be a mistake.
 
 ## Rule Details
 
-This rule disallows return statements in the constructor of a class. Note that returning nothing with flow control is allowed.
+This rule disallows return statements in the constructor of a class. Note that returning nothing is allowed.
 
 Examples of **incorrect** code for this rule:
 
@@ -57,6 +57,13 @@ class D {
         f();
     }
 }
+
+class E {
+    constructor() {
+        return;
+    }
+}
+
 ```
 
 :::
