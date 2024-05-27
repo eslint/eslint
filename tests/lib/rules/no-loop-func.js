@@ -206,8 +206,7 @@ ruleTester.run("no-loop-func", rule, {
                 })());
             }
             `,
-            languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression" }]
+            languageOptions: { ecmaVersion: 6 }
         }
 
     ],
@@ -499,6 +498,17 @@ ruleTester.run("no-loop-func", rule, {
                     return (() => i)();
                 });
 
+            }
+            `,
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression" }]
+        },
+        {
+            code: `
+            for (var i = 0; i < 5; i++) {
+                (async () => {
+                    () => i;
+                })();
             }
             `,
             languageOptions: { ecmaVersion: 2022 },

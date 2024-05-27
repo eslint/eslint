@@ -41,10 +41,6 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-loop-func: "error"*/
 
-for (var i=10; i; i--) {
-    (function() { return i; })();
-}
-
 var i = 0;
 while(i < 5) {
     var a = function() { return i; };
@@ -127,6 +123,10 @@ for (let i=10; i; i--) {
 //... no modifications of foo after this loop ...
 
 var arr = [];
+
+for (var i=10; i; i--) {
+    (function() { return i; })();
+}
 
 for (var i = 0; i < 5; i++) {
     arr.push((f => f)((() => i)()));
