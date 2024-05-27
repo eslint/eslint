@@ -17,7 +17,7 @@ const { assert } = require("chai"),
 
 const { Linter } = require("../../../lib/linter");
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
-
+const { SourceCode } = require("../../../lib/languages/js/source-code");
 const { LATEST_ECMA_VERSION } = require("../../../conf/ecma-version");
 
 //------------------------------------------------------------------------------
@@ -6174,6 +6174,36 @@ var a = "test2";
         it("should not crash when we reuse the SourceCode object", () => {
             linter.verify("function render() { return <div className='test'>{hello}</div> }", { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
             linter.verify(linter.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
+        });
+
+        it("should verify a SourceCode object created with the constructor", () => {
+            const text = "var foo = bar;";
+            const sourceCode = new SourceCode({
+                text,
+                ast: espree.parse(text, { loc: true, range: true, tokens: true, comment: true })
+            });
+            const messages = linter.verify(sourceCode, { rules: { "no-undef": "error" } });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "'bar' is not defined.");
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("should ensure that SourceCode properties are copied over during linting", () => {
+            const text = "var foo = bar;";
+            const sourceCode = new SourceCode({
+                text,
+                ast: espree.parse(text, { loc: true, range: true, tokens: true, comment: true }),
+                hasBOM: true
+            });
+
+            linter.verify(sourceCode, { rules: { "no-undef": "error" } });
+            const resultSourceCode = linter.getSourceCode();
+
+            assert.strictEqual(resultSourceCode.text, text);
+            assert.strictEqual(resultSourceCode.ast, sourceCode.ast);
+            assert.strictEqual(resultSourceCode.hasBOM, true);
         });
 
         it("should reuse the SourceCode object", () => {
@@ -15564,6 +15594,40 @@ var a = "test2";
             assert.strictEqual(messages[0].column, 1);
 
             assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        describe("Passing SourceCode", () => {
+
+            it("should verify a SourceCode object created with the constructor", () => {
+                const text = "var foo = bar;";
+                const sourceCode = new SourceCode({
+                    text,
+                    ast: espree.parse(text, { loc: true, range: true, tokens: true, comment: true })
+                });
+                const messages = linter.verify(sourceCode, { rules: { "no-undef": "error" } });
+                const suppressedMessages = linter.getSuppressedMessages();
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].message, "'bar' is not defined.");
+                assert.strictEqual(suppressedMessages.length, 0);
+            });
+
+            it("should ensure that SourceCode properties are copied over during linting", () => {
+                const text = "var foo = bar;";
+                const sourceCode = new SourceCode({
+                    text,
+                    ast: espree.parse(text, { loc: true, range: true, tokens: true, comment: true }),
+                    hasBOM: true
+                });
+
+                linter.verify(sourceCode, { rules: { "no-undef": "error" } });
+                const resultSourceCode = linter.getSourceCode();
+
+                assert.strictEqual(resultSourceCode.text, text);
+                assert.strictEqual(resultSourceCode.ast, sourceCode.ast);
+                assert.strictEqual(resultSourceCode.hasBOM, true);
+            });
+
         });
     });
 
