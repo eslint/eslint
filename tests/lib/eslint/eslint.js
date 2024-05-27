@@ -4,6 +4,7 @@
  * @author Toru Nagashima
  */
 
+"use strict";
 
 //------------------------------------------------------------------------------
 // Requirements
@@ -114,7 +115,7 @@ describe("ESLint", () => {
          * exceeds the default test timeout, so raise it just for this hook.
          * Mocha uses `this` to set timeouts on an individual hook level.
          */
-        this.timeout(60 * 1000);
+        this.timeout(60 * 1000); // eslint-disable-line no-invalid-this -- Mocha API
         shell.mkdir("-p", fixtureDir);
         shell.cp("-r", "./tests/fixtures/.", fixtureDir);
     });
@@ -179,7 +180,7 @@ describe("ESLint", () => {
         it("should not modify baseConfig when format is specified", () => {
             const customBaseConfig = { root: true };
 
-            new ESLint({ baseConfig: customBaseConfig });
+            new ESLint({ baseConfig: customBaseConfig }); // eslint-disable-line no-new -- Check for argument side effects
 
             assert.deepStrictEqual(customBaseConfig, { root: true });
         });
@@ -298,7 +299,7 @@ describe("ESLint", () => {
             sinon.restore();
             const processStub = sinon.stub(process, "emitWarning");
 
-
+            // eslint-disable-next-line no-new -- for testing purpose only
             new ESLint({ cwd });
 
             assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");

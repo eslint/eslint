@@ -459,6 +459,10 @@ In this case, ESLint does not search for `eslint.config.js` and instead uses `so
 
 ## TypeScript Support
 
+::: warning
+Loading TypeScript configuration files is an experimental feature and may change in future releases.
+:::
+
 ESLint supports loading configuration files written in TypeScript optionally. The TypeScript support is powered by [`importx`](https://github.com/antfu/importx), which does not come out-of-the-box with ESLint and you will need to install it as a dev dependency first:
 
 ```shell
