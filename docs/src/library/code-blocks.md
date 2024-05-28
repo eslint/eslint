@@ -13,20 +13,22 @@ Make sure to leave space above and below the markdown code block to ensure it is
 ```text
 ::: correct
 
-`` `js
+```js
 function() {
     const another = [];
 }
 `` `
+
 :::
 
 ::: incorrect
 
-`` `js
+```js
 function() {
     const another = [];
 }
 `` `
+
 :::
 ```
 
