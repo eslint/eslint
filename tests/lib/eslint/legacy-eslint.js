@@ -751,8 +751,6 @@ describe("LegacyESLint", () => {
                             message: "Parsing error: Unexpected token is",
                             line: 1,
                             column: 19,
-                            endLine: 1,
-                            endColumn: 20,
                             nodeType: null
                         }
                     ],
@@ -794,8 +792,6 @@ describe("LegacyESLint", () => {
                             message: "Parsing error: Unexpected token",
                             line: 1,
                             column: 10,
-                            endLine: 1,
-                            endColumn: 11,
                             nodeType: null
                         }
                     ],
@@ -886,8 +882,6 @@ describe("LegacyESLint", () => {
                             message: "Parsing error: Unexpected token is",
                             line: 1,
                             column: 19,
-                            endLine: 1,
-                            endColumn: 20,
                             nodeType: null
                         }
                     ],
