@@ -213,7 +213,41 @@ export default [
 ];
 ```
 
-ESLint only lints named code blocks when they are JavaScript files or if they match a `files` entry in a config object. Be sure to add a config object with a matching `files` entry if you want to lint non-JavaScript named code blocks.
+ESLint only lints named code blocks when they are JavaScript files or if they match a `files` entry in a config object. Be sure to add a config object with a matching `files` entry if you want to lint non-JavaScript named code blocks. Also note that [global ignores](./ignore) apply to named code blocks as well.
+
+```js
+// eslint.config.js
+import markdown from "eslint-plugin-markdown";
+
+export default [
+
+    // applies to Markdown files
+    {
+        files: ["**/*.md"],
+        plugins: {
+            markdown
+        },
+        processor: "markdown/markdown"
+    },
+
+    // applies to all .jsx files, including jsx blocks inside of Markdown files
+    {
+        files: ["**/*.jsx"],
+        languageOptions: {
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            }
+        }
+    },
+
+    // ignore jsx blocks inside of test.md files
+    {
+        ignores: ["**/test.md/*.jsx"]
+    }
+];
+```
 
 ## Common Problems
 
