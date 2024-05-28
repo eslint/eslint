@@ -7726,6 +7726,7 @@ var a = "test2";
             assert.strictEqual(messages.length, 0);
             assert.strictEqual(suppressedMessages.length, 0);
         });
+
     });
 
     describe("merging 'parserOptions'", () => {
