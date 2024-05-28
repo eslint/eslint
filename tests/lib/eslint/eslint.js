@@ -921,9 +921,9 @@ describe("ESLint", () => {
 
         describe("TypeScript config files", () => {
 
-            it("should find eslint.config.mts when present", async () => {
+            it("should load eslint.config.ts", async () => {
 
-                const cwd = getFixturePath("mts-config");
+                const cwd = getFixturePath("config-ts/ts");
 
                 eslint = new ESLint({
                     cwd
@@ -938,14 +938,79 @@ describe("ESLint", () => {
             });
 
 
-            it("should find eslint.config.mts when present and support top-level-await", async () => {
+            it("should load eslint.config.mts", async () => {
+
+                const cwd = getFixturePath("config-ts/mts");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+            it("should load eslint.config.cts", async () => {
+
+                const cwd = getFixturePath("config-ts/cts");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+            it("should load ts config with custom path", async () => {
+
+                const cwd = getFixturePath("config-ts/custom");
+
+                eslint = new ESLint({
+                    cwd,
+                    overrideConfigFile: getFixturePath("config-ts/custom/eslint.custom.config.mts")
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+            it("should load eslint.config.mts with top-level-await", async () => {
 
                 // in Node.js v18.18, ts loader fallback to jiti, which does not support top-level-await
                 if (process.version.startsWith("v18.18")) {
                     return;
                 }
 
-                const cwd = getFixturePath("mts-config-top-level-await");
+                const cwd = getFixturePath("config-ts/top-level-await");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+
+            it("should js config should win over when both present", async () => {
+                const cwd = getFixturePath("config-ts/js-ts-mixed");
 
                 eslint = new ESLint({
                     cwd
