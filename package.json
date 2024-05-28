@@ -102,7 +102,7 @@
     "text-table": "^0.2.0"
   },
   "peerDependencies": {
-    "importx": "^0.3.1"
+    "importx": "*"
   },
   "peerDependenciesMeta": {
     "importx": {
