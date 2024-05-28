@@ -17,7 +17,7 @@ Make sure to leave space above and below the markdown code block to ensure it is
 function() {
     const another = [];
 }
-`` `
+```
 
 :::
 
@@ -27,7 +27,7 @@ function() {
 function() {
     const another = [];
 }
-`` `
+```
 
 :::
 ```
