@@ -1655,6 +1655,30 @@ describe("FlatConfigArray", () => {
                     }
                 }));
 
+                it("should merge string and an object into one object", () => assertMergedResult([
+                    {
+                        language: "@/js",
+                        languageOptions: {
+                            globals: "foo"
+                        }
+                    },
+                    {
+                        languageOptions: {
+                            globals: {
+                                foo: "false"
+                            }
+                        }
+                    }
+                ], {
+                    plugins: baseConfig.plugins,
+                    language: jslang,
+                    languageOptions: {
+                        globals: {
+                            foo: "false"
+                        }
+                    }
+                }));
+
 
             });
 
