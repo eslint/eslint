@@ -380,11 +380,13 @@ ruleTester.run("no-loop-func", rule, {
             var arr = [];
 
             for (var i = 0; i < 5; i++) {
-                arr.push((f => f)(() => i));
+                arr.push((f => f)(
+                    () => i
+                ));
             }
             `,
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 6 }]
         },
         {
             code: `
@@ -397,7 +399,7 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 6 }]
         },
         {
             code: `
@@ -410,7 +412,7 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 6 }]
         },
         {
             code: `
@@ -418,12 +420,14 @@ ruleTester.run("no-loop-func", rule, {
 
             for (var i = 0; i < 5; i++) {
                 arr.push((() => {
-                    return () => { return () => i };
+                    return () => {
+                        return () => i
+                    };
                 })());
             }
             `,
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 6 }]
         },
         {
             code: `
@@ -431,12 +435,13 @@ ruleTester.run("no-loop-func", rule, {
 
             for (var i = 0; i < 5; i++) {
                 arr.push((() => {
-                    return () => (() => i)();
+                    return () => 
+                        (() => i)();
                 })());
             }
             `,
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 6 }]
         },
         {
             code: `
@@ -452,7 +457,7 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 6 }]
         },
         {
             code: `
@@ -485,7 +490,7 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'j'" }, type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'j'" }, type: "ArrowFunctionExpression", line: 7 }]
         },
         {
             code: `
@@ -501,7 +506,7 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 7 }]
         },
         {
             code: `
@@ -512,7 +517,7 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 3 }]
         }
     ]
 });
