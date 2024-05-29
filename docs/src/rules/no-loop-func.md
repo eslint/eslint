@@ -32,7 +32,7 @@ In this case, each function created within the loop returns a different number a
 
 This error is raised to highlight a piece of code that may not work as you expect it to and could also indicate a misunderstanding of how the language works. Your code may run without any problems if you do not fix this error, but in some situations it could behave unexpectedly.
 
-This rule disallows any function within a loop that contains unsafe references (e.g. to modified variables from the outer scope).
+This rule disallows any function within a loop that contains unsafe references (e.g. to modified variables from the outer scope). This rule ignores IIFEs but not async or generator functions.
 
 Examples of **incorrect** code for this rule:
 
@@ -40,10 +40,6 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-loop-func: "error"*/
-
-for (var i=10; i; i--) {
-    (function() { return i; })();
-}
 
 var i = 0;
 while(i < 5) {
@@ -73,6 +69,25 @@ for (let i = 0; i < 10; ++i) {
     setTimeout(() => console.log(foo));
 }
 foo = 100;
+
+var arr = [];
+
+for (var i = 0; i < 5; i++) {
+    arr.push((f => f)(() => i));
+}
+
+for (var i = 0; i < 5; i++) {
+    arr.push((() => {
+        return () => i;
+    })());
+}
+
+for (var i = 0; i < 5; i++) {
+    (function fun () {
+        if (arr.includes(fun)) return i;
+        else arr.push(fun);
+    })();
+}
 ```
 
 :::
@@ -106,6 +121,22 @@ for (let i=10; i; i--) {
     a();
 }
 //... no modifications of foo after this loop ...
+
+var arr = [];
+
+for (var i=10; i; i--) {
+    (function() { return i; })();
+}
+
+for (var i = 0; i < 5; i++) {
+    arr.push((f => f)((() => i)()));
+}
+
+for (var i = 0; i < 5; i++) {
+    arr.push((() => {
+        return (() => i)();
+    })());
+}
 ```
 
 :::
