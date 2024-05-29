@@ -179,11 +179,11 @@ ruleTester.run("no-loop-func", rule, {
         "for (var i=0; (function() { i; })(), i<l; i++) { }",
         "for (var i=0; i<l; (function() { i; })(), i++) { }",
         {
-            code: "for (let i = 0; i < 10; ++i) { (()=>{ i;})() }",
+            code: "for (var i = 0; i < 10; ++i) { (()=>{ i;})() }",
             languageOptions: { ecmaVersion: 6 }
         },
         {
-            code: "for (let i = 0; i < 10; ++i) { (function a(){i;})() }",
+            code: "for (var i = 0; i < 10; ++i) { (function a(){i;})() }",
             languageOptions: { ecmaVersion: 6 }
         },
         {
