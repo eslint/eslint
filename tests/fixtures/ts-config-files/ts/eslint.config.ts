@@ -1,6 +1,4 @@
-interface FlatConfig {
-    rules: Record<string, any>;
-}
+import type { FlatConfig } from "../helper";
 
 module.exports = {
     rules: {
