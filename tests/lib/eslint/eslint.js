@@ -67,6 +67,12 @@ describe("ESLint", () => {
         }
     };
     const examplePreprocessorName = "eslint-plugin-processor";
+    const patternProcessor = require("../../fixtures/processors/pattern-processor");
+    const exampleMarkdownPlugin = {
+        processors: {
+            markdown: patternProcessor.defineProcessor(/```(\w+)\n(.+?)\n```(?:\n|$)/gsu)
+        }
+    };
     const originalDir = process.cwd();
     const fixtureDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint/fixtures");
 
@@ -3759,6 +3765,178 @@ describe("ESLint", () => {
                     assert.strictEqual(results[0].messages.length, 1);
                     assert.strictEqual(results[0].suppressedMessages.length, 0);
                     assert(!Object.hasOwn(results[0], "output"));
+                });
+            });
+
+            describe("matching and ignoring code blocks", () => {
+                const pluginConfig = {
+                    files: ["**/*.md"],
+                    plugins: {
+                        markdown: exampleMarkdownPlugin
+                    },
+                    processor: "markdown/markdown"
+                };
+                const text = unIndent`
+                    \`\`\`js
+                    foo_js
+                    \`\`\`
+
+                    \`\`\`ts
+                    foo_ts
+                    \`\`\`
+
+                    \`\`\`cjs
+                    foo_cjs
+                    \`\`\`
+
+                    \`\`\`mjs
+                    foo_mjs
+                    \`\`\`
+                `;
+
+                it("should by default lint only .js, .mjs, and .cjs virtual files", async () => {
+                    eslint = new ESLint({
+                        overrideConfigFile: true,
+                        overrideConfig: [
+                            pluginConfig,
+                            {
+                                rules: {
+                                    "no-undef": 2
+                                }
+                            }
+                        ]
+                    });
+                    const [result] = await eslint.lintText(text, { filePath: "foo.md" });
+
+                    assert.strictEqual(result.messages.length, 3);
+                    assert.strictEqual(result.messages[0].ruleId, "no-undef");
+                    assert.match(result.messages[0].message, /foo_js/u);
+                    assert.strictEqual(result.messages[0].line, 2);
+                    assert.strictEqual(result.messages[1].ruleId, "no-undef");
+                    assert.match(result.messages[1].message, /foo_cjs/u);
+                    assert.strictEqual(result.messages[1].line, 10);
+                    assert.strictEqual(result.messages[2].ruleId, "no-undef");
+                    assert.match(result.messages[2].message, /foo_mjs/u);
+                    assert.strictEqual(result.messages[2].line, 14);
+                });
+
+                it("should lint additional virtual files that match non-universal patterns", async () => {
+                    eslint = new ESLint({
+                        overrideConfigFile: true,
+                        overrideConfig: [
+                            pluginConfig,
+                            {
+                                rules: {
+                                    "no-undef": 2
+                                }
+                            },
+                            {
+                                files: ["**/*.ts"]
+                            }
+                        ]
+                    });
+                    const [result] = await eslint.lintText(text, { filePath: "foo.md" });
+
+                    assert.strictEqual(result.messages.length, 4);
+                    assert.strictEqual(result.messages[0].ruleId, "no-undef");
+                    assert.match(result.messages[0].message, /foo_js/u);
+                    assert.strictEqual(result.messages[0].line, 2);
+                    assert.strictEqual(result.messages[1].ruleId, "no-undef");
+                    assert.match(result.messages[1].message, /foo_ts/u);
+                    assert.strictEqual(result.messages[1].line, 6);
+                    assert.strictEqual(result.messages[2].ruleId, "no-undef");
+                    assert.match(result.messages[2].message, /foo_cjs/u);
+                    assert.strictEqual(result.messages[2].line, 10);
+                    assert.strictEqual(result.messages[3].ruleId, "no-undef");
+                    assert.match(result.messages[3].message, /foo_mjs/u);
+                    assert.strictEqual(result.messages[3].line, 14);
+                });
+
+                // https://github.com/eslint/eslint/issues/18493
+                it("should silently skip virtual files that match only universal patterns", async () => {
+                    eslint = new ESLint({
+                        overrideConfigFile: true,
+                        overrideConfig: [
+                            pluginConfig,
+                            {
+                                files: ["**/*"],
+                                rules: {
+                                    "no-undef": 2
+                                }
+                            }
+                        ]
+                    });
+                    const [result] = await eslint.lintText(text, { filePath: "foo.md" });
+
+                    assert.strictEqual(result.messages.length, 3);
+                    assert.strictEqual(result.messages[0].ruleId, "no-undef");
+                    assert.match(result.messages[0].message, /foo_js/u);
+                    assert.strictEqual(result.messages[0].line, 2);
+                    assert.strictEqual(result.messages[1].ruleId, "no-undef");
+                    assert.match(result.messages[1].message, /foo_cjs/u);
+                    assert.strictEqual(result.messages[1].line, 10);
+                    assert.strictEqual(result.messages[2].ruleId, "no-undef");
+                    assert.match(result.messages[2].message, /foo_mjs/u);
+                    assert.strictEqual(result.messages[2].line, 14);
+                });
+
+                it("should silently skip virtual files that are ignored by global ignores", async () => {
+                    eslint = new ESLint({
+                        overrideConfigFile: true,
+                        overrideConfig: [
+                            pluginConfig,
+                            {
+                                rules: {
+                                    "no-undef": 2
+                                }
+                            },
+                            {
+                                ignores: ["**/*.cjs"]
+                            }
+                        ]
+                    });
+                    const [result] = await eslint.lintText(text, { filePath: "foo.md" });
+
+                    assert.strictEqual(result.messages.length, 2);
+                    assert.strictEqual(result.messages[0].ruleId, "no-undef");
+                    assert.match(result.messages[0].message, /foo_js/u);
+                    assert.strictEqual(result.messages[0].line, 2);
+                    assert.strictEqual(result.messages[1].ruleId, "no-undef");
+                    assert.match(result.messages[1].message, /foo_mjs/u);
+                    assert.strictEqual(result.messages[1].line, 14);
+                });
+
+                // https://github.com/eslint/eslint/issues/15949
+                it("should silently skip virtual files that are ignored by global ignores even if they match non-universal patterns", async () => {
+                    eslint = new ESLint({
+                        overrideConfigFile: true,
+                        overrideConfig: [
+                            pluginConfig,
+                            {
+                                rules: {
+                                    "no-undef": 2
+                                }
+                            },
+                            {
+                                files: ["**/*.ts"]
+                            },
+                            {
+                                ignores: ["**/*.md/*.ts"]
+                            }
+                        ]
+                    });
+                    const [result] = await eslint.lintText(text, { filePath: "foo.md" });
+
+                    assert.strictEqual(result.messages.length, 3);
+                    assert.strictEqual(result.messages[0].ruleId, "no-undef");
+                    assert.match(result.messages[0].message, /foo_js/u);
+                    assert.strictEqual(result.messages[0].line, 2);
+                    assert.strictEqual(result.messages[1].ruleId, "no-undef");
+                    assert.match(result.messages[1].message, /foo_cjs/u);
+                    assert.strictEqual(result.messages[1].line, 10);
+                    assert.strictEqual(result.messages[2].ruleId, "no-undef");
+                    assert.match(result.messages[2].message, /foo_mjs/u);
+                    assert.strictEqual(result.messages[2].line, 14);
                 });
             });
         });
