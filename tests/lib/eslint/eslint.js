@@ -26,6 +26,7 @@ const hash = require("../../../lib/cli-engine/hash");
 const { unIndent, createCustomTeardown } = require("../../_utils");
 const { shouldUseFlatConfig } = require("../../../lib/eslint/eslint");
 const coreRules = require("../../../lib/rules");
+const espree = require("espree");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -7218,13 +7219,7 @@ describe("ESLint", () => {
                         parser: {
                             parse(text, parserOptions) {
                                 resolvedParserOptions = parserOptions;
-                                return {
-                                    comments: [],
-                                    tokens: [],
-                                    type: "Root",
-                                    loc: {},
-                                    range: []
-                                };
+                                return espree.parse(text, parserOptions);
                             }
                         },
                         parserOptions: {
