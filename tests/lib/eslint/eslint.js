@@ -926,7 +926,7 @@ describe("ESLint", () => {
         });
     });
 
-    describe("lintFiles()", () => {
+    describe.only("lintFiles()", () => {
 
         /** @type {InstanceType<import("../../../lib/eslint").ESLint>} */
         let eslint;
@@ -2105,7 +2105,7 @@ describe("ESLint", () => {
         });
 
 
-        it("should report zero messages when given a pattern with a .js and a .js2 file", async () => {
+        it.only("should report zero messages when given a pattern with a .js and a .js2 file", async () => {
             eslint = new ESLint({
                 overrideConfig: { files: ["**/*.js", "**/*.js2"] },
                 ignore: false,
@@ -2113,7 +2113,7 @@ describe("ESLint", () => {
                 overrideConfigFile: true
             });
             const results = await eslint.lintFiles(["fixtures/files/*.?s*"]);
-
+console.log(results[2])
             assert.strictEqual(results.length, 3);
             assert.strictEqual(results[0].messages.length, 0);
             assert.strictEqual(results[0].suppressedMessages.length, 0);

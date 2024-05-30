@@ -70,6 +70,7 @@
     "@eslint-community/regexpp": "^4.6.1",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "9.3.0",
+    "@humanfs/node": "^0.16.2",
     "@humanwhocodes/config-array": "^0.13.0",
     "@humanwhocodes/module-importer": "^1.0.1",
     "@humanwhocodes/retry": "^0.3.0",
