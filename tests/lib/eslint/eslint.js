@@ -4868,6 +4868,162 @@ describe("ESLint", () => {
             });
         });
 
+        describe("TypeScript config files", () => {
+            it("should find and load eslint.config.ts when present", async () => {
+
+                const cwd = getFixturePath("ts-config-files", "ts");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it('should load eslint.config.ts when we have "type": "commonjs" in nearest `package.json`', async () => {
+
+                const cwd = getFixturePath("ts-config-files", "ts", "with-type-commonjs");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it('should load eslint.config.ts when we have "type": "module" in nearest `package.json`', async () => {
+
+                const cwd = getFixturePath("ts-config-files", "ts", "with-type-module");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it("should find and load eslint.config.mts when present", async () => {
+
+                const cwd = getFixturePath("ts-config-files", "mts");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it('should load eslint.config.mts when we have "type": "commonjs" in nearest `package.json`', async () => {
+
+                const cwd = getFixturePath("ts-config-files", "mts", "with-type-commonjs");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it('should load eslint.config.mts config file when we have "type": "module" in nearest `package.json`', async () => {
+
+                const cwd = getFixturePath("ts-config-files", "mts", "with-type-module");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it("should find and load eslint.config.cts when present", async () => {
+
+                const cwd = getFixturePath("ts-config-files", "cts");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it('should load eslint.config.cts config file when we have "type": "commonjs" in nearest `package.json`', async () => {
+
+                const cwd = getFixturePath("ts-config-files", "cts", "with-type-commonjs");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it('should load .cts config file when we have "type": "module" in nearest `package.json`', async () => {
+
+                const cwd = getFixturePath("ts-config-files", "cts", "with-type-module");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+        });
+
         it("should stop linting files if a rule crashes", async () => {
 
             const cwd = getFixturePath("files");
