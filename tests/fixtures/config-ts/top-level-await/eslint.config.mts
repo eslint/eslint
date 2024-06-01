@@ -1,8 +1,8 @@
 
 interface FakeFlatConfigItem {
-    plugins?: Record<string, any>;
+    plugins?: Record<string, unknown>;
     name?: string;
-    rules?: Record<string, any>;
+    rules?: Record<string, unknown>;
 }
 
 const config: FakeFlatConfigItem[] = [

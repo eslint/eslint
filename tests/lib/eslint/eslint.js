@@ -1023,6 +1023,36 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].messages[0].severity, 2);
                 assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
             });
+
+            it("should work with const enum", async () => {
+                const cwd = getFixturePath("config-ts/ts-const-enum");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+            it("should work with ts namespace", async () => {
+                const cwd = getFixturePath("config-ts/ts-namespace");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
         });
     });
 
