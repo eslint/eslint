@@ -79,7 +79,7 @@ Each configuration object contains all of the information ESLint needs to execut
 Patterns specified in `files` and `ignores` use [`minimatch`](https://www.npmjs.com/package/minimatch) syntax and are evaluated relative to the location of the `eslint.config.js` file. If using an alternate config file via the `--config` command line option, then all patterns are evaluated relative to the current working directory.
 :::
 
-You can use a combination of `files` and `ignores` to determine which files should apply the configuration object and which should not. By default, ESLint matches `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Because config objects that don't specify `files` or `ignores` apply to all files that have been matched by any other configuration object, those config objects apply to any JavaScript files passed to ESLint by default. For example:
+You can use a combination of `files` and `ignores` to determine which files should apply the configuration object and which should not. By default, ESLint matches `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Because config objects that don't specify `files` or `ignores` apply to all files that have been matched by any other configuration object, only JavaScript files are linted by default. For example:
 
 ```js
 // eslint.config.js
@@ -142,7 +142,7 @@ Here, the configuration object excludes files ending with `.config.js` except fo
 
 Non-global `ignores` patterns can only match file names. A pattern like `"dir-to-exclude/"` will not ignore anything. To ignore everything in a particular directory, a pattern like `"dir-to-exclude/**"` should be used instead.
 
-If `ignores` is used without `files` and there are other keys (such as `rules`), then the configuration object applies to all files except the ones specified in `ignores`, for example:
+If `ignores` is used without `files` and there are other keys (such as `rules`), then the configuration object applies to all linted files except the ones specified in `ignores`, for example:
 
 ```js
 export default [
@@ -155,11 +155,54 @@ export default [
 ];
 ```
 
-This configuration object applies to all files except those ending with `.config.js`. Effectively, this is like having `files` set to `**/*`. In general, it's a good idea to always include `files` if you are specifying `ignores`.
+This configuration object applies to all JavaScript files except those ending with `.config.js`. Effectively, this is like having `files` set to `**/*`. In general, it's a good idea to always include `files` if you are specifying `ignores`.
+
+Note that negated `ignores` patterns do not cause any matching files to be linted automatically.
+ESLint only lints files that are matched either by default or by a `files` pattern not ending with `/*` or `/**`.
 
 ::: tip
 Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspect-config` in the CLI) to test which config objects apply to a specific file.
 :::
+
+#### Specifying files with arbitrary extensions
+
+To lint files with other extensions than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a glob pattern.
+Any pattern that doesn't end with `/*` or `/**` will work.
+For example, to lint TypeScript files with `.ts`, `.cts` and `.mts` extensions:
+
+```js
+// eslint.config.js
+export default [
+    {
+        files: [
+            "**/*.ts",
+            "**/*.cts",
+            "**.*.mts"
+        ]
+    },
+    // ...other config
+];
+```
+
+#### Specifying files without extension
+
+No simple glob pattern can be used to target only files without extension.
+You can use a generic pattern like `*` to target all files in the current directory, or `**` to target files in the current directory and all its subdirectories.
+Files that have an extension can be excluded with an ignore pattern. For example:
+
+```js
+// eslint.config.js
+export default [
+    {
+        files: ["**"],
+        ignores: ["**/*.*"]
+    },
+    // ...other config
+];
+```
+
+The above config lints only files without extension besides the default `.js`, `.cjs` and `.mjs` extensions.
+Note that filenames starting with a dot are considered to have an extension.
 
 #### Globally ignoring files with `ignores`
 
