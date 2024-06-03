@@ -67,7 +67,7 @@ The `meta.name` property should match the npm package name for your plugin and t
 ```js
 import fs from "fs";
 
-const pkg = JSON.parse(fs.readFileSync("./package.json", "utf8"));
+const pkg = JSON.parse(fs.readFileSync(new URL("./package.json", import.meta.url), "utf8"));
 
 const plugin = {
 
