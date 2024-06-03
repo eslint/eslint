@@ -75,7 +75,7 @@ Configuration comments can include descriptions to explain why the comment is ne
 
 ### Using Configuration Files
 
-To configure rules inside of a configuration file, use the `rules` key along with an error level and any options you want to use. For example:
+To configure rules inside of a [configuration file](./configuration-files#configuration-file), use the `rules` key along with an error level and any options you want to use. For example:
 
 ```js
 export default [
@@ -133,7 +133,7 @@ Rules configured via configuration comments have the highest priority and are ap
 
 To configure a rule that is defined within a plugin, prefix the rule ID with the plugin namespace and `/`.
 
-In a configuration file, for example:
+In a [configuration file](./configuration-files#configuration-file), for example:
 
 ```js
 // eslint.config.js
@@ -304,7 +304,7 @@ console.log('hello');
 
 ### Using configuration files
 
-To disable rules inside of a configuration file for a group of files, use a subsequent config object with a `files` key. For example:
+To disable rules inside of a [configuration file](./configuration-files#configuration-file) for a group of files, use a subsequent config object with a `files` key. For example:
 
 ```js
 // eslint.config.js

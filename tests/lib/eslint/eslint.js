@@ -422,6 +422,52 @@ describe("ESLint", () => {
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
+        it("should return a warning when given a filename without a matching config by --stdin-filename if warnIgnored is true", async () => {
+            eslint = new ESLint({
+                cwd: getFixturePath(".."),
+                overrideConfigFile: true
+            });
+
+            const options = { filePath: "fixtures/file.ts", warnIgnored: true };
+            const results = await eslint.lintText("type foo = { bar: string };", options);
+
+            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results[0].filePath, getFixturePath("file.ts"));
+            assert.strictEqual(results[0].messages[0].severity, 1);
+            assert.strictEqual(results[0].messages[0].message, "File ignored because no matching configuration was supplied.");
+            assert.strictEqual(results[0].messages[0].output, void 0);
+            assert.strictEqual(results[0].errorCount, 0);
+            assert.strictEqual(results[0].warningCount, 1);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
+            assert.strictEqual(results[0].fixableErrorCount, 0);
+            assert.strictEqual(results[0].fixableWarningCount, 0);
+            assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+            assert.strictEqual(results[0].suppressedMessages.length, 0);
+        });
+
+        it("should return a warning when given a filename outside the base path by --stdin-filename if warnIgnored is true", async () => {
+            eslint = new ESLint({
+                cwd: getFixturePath(),
+                overrideConfigFile: true
+            });
+
+            const options = { filePath: "../file.js", warnIgnored: true };
+            const results = await eslint.lintText("var bar = foo;", options);
+
+            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results[0].filePath, getFixturePath("../file.js"));
+            assert.strictEqual(results[0].messages[0].severity, 1);
+            assert.strictEqual(results[0].messages[0].message, "File ignored because outside of base path.");
+            assert.strictEqual(results[0].messages[0].output, void 0);
+            assert.strictEqual(results[0].errorCount, 0);
+            assert.strictEqual(results[0].warningCount, 1);
+            assert.strictEqual(results[0].fatalErrorCount, 0);
+            assert.strictEqual(results[0].fixableErrorCount, 0);
+            assert.strictEqual(results[0].fixableWarningCount, 0);
+            assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+            assert.strictEqual(results[0].suppressedMessages.length, 0);
+        });
+
         it("should return a warning when given a filename by --stdin-filename in excluded files list if constructor warnIgnored is false, but lintText warnIgnored is true", async () => {
             eslint = new ESLint({
                 cwd: getFixturePath(".."),
@@ -1939,6 +1985,46 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].filePath, filePath);
                 assert.strictEqual(results[0].messages[0].severity, 1);
                 assert.strictEqual(results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning.");
+                assert.strictEqual(results[0].errorCount, 0);
+                assert.strictEqual(results[0].warningCount, 1);
+                assert.strictEqual(results[0].fatalErrorCount, 0);
+                assert.strictEqual(results[0].fixableErrorCount, 0);
+                assert.strictEqual(results[0].fixableWarningCount, 0);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should return a warning when an explicitly given file has no matching config", async () => {
+                eslint = new ESLint({
+                    overrideConfigFile: true,
+                    cwd: getFixturePath()
+                });
+                const filePath = getFixturePath("files", "foo.js2");
+                const results = await eslint.lintFiles([filePath]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, filePath);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].message, "File ignored because no matching configuration was supplied.");
+                assert.strictEqual(results[0].errorCount, 0);
+                assert.strictEqual(results[0].warningCount, 1);
+                assert.strictEqual(results[0].fatalErrorCount, 0);
+                assert.strictEqual(results[0].fixableErrorCount, 0);
+                assert.strictEqual(results[0].fixableWarningCount, 0);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should return a warning when an explicitly given file is outside the base path", async () => {
+                eslint = new ESLint({
+                    overrideConfigFile: true,
+                    cwd: getFixturePath("files")
+                });
+                const filePath = getFixturePath("passing.js");
+                const results = await eslint.lintFiles([filePath]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, filePath);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].message, "File ignored because outside of base path.");
                 assert.strictEqual(results[0].errorCount, 0);
                 assert.strictEqual(results[0].warningCount, 1);
                 assert.strictEqual(results[0].fatalErrorCount, 0);

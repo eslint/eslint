@@ -189,7 +189,9 @@ npx eslint --env browser --env node file.js
 
 #### `--ext`
 
-**eslintrc Mode Only.** This option allows you to specify which file extensions ESLint uses when searching for target files in the directories you specify.
+**eslintrc Mode Only.** If you are using flat config (`eslint.config.js`), please see [migration guide](./configure/migration-guide#--ext).
+
+This option allows you to specify which file extensions ESLint uses when searching for target files in the directories you specify.
 
 * **Argument Type**: String. File extension.
 * **Multiple Arguments**: Yes

@@ -62,7 +62,27 @@ export default plugin;
 module.exports = plugin;
 ```
 
-The `meta.name` property should match the npm package name for your plugin and the `meta.version` property should match the npm package version for your plugin. The easiest way to accomplish this is by reading this information from your `package.json`.
+The `meta.name` property should match the npm package name for your plugin and the `meta.version` property should match the npm package version for your plugin. The easiest way to accomplish this is by reading this information from your `package.json`, as in this example:
+
+```js
+import fs from "fs";
+
+const pkg = JSON.parse(fs.readFileSync(new URL("./package.json", import.meta.url), "utf8"));
+
+const plugin = {
+
+    // preferred location of name and version
+    meta: {
+        name: pkg.name,
+        version: pkg.version
+    },
+    rules: {
+        // add rules here
+    }
+};
+
+export default plugin;
+```
 
 ::: tip
 While there are no restrictions on plugin names, it helps others to find your plugin on [npm](https://npmjs.com) when you follow these naming conventions:
