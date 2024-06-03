@@ -22,7 +22,7 @@ You can extend ESLint with plugins in a variety of different ways. Plugins can i
 
 ESLint supports the use of third-party plugins. Plugins are simply objects that conform to a specific interface that ESLint recognizes.
 
-To configure plugins inside of a configuration file, use the `plugins` key, which contains an object with properties representing plugin namespaces and values equal to the plugin object.
+To configure plugins inside of a [configuration file](./configuration-files#configuration-file), use the `plugins` key, which contains an object with properties representing plugin namespaces and values equal to the plugin object.
 
 ```js
 // eslint.config.js
@@ -162,7 +162,7 @@ This configuration object uses `jsd` as the prefix plugin instead of `jsdoc`.
 
 Plugins may provide processors. Processors can extract JavaScript code from other kinds of files, then let ESLint lint the JavaScript code. Alternatively, processors can convert JavaScript code during preprocessing.
 
-To specify processors in a configuration file, use the `processor` key and assign the name of processor in the format `namespace/processor-name`. For example, the following uses the processor from `eslint-plugin-markdown` for `*.md` files.
+To specify processors in a [configuration file](./configuration-files#configuration-file), use the `processor` key and assign the name of processor in the format `namespace/processor-name`. For example, the following uses the processor from `eslint-plugin-markdown` for `*.md` files.
 
 ```js
 // eslint.config.js
