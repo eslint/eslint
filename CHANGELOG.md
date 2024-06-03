@@ -1,3 +1,18 @@
+v9.4.0 - May 31, 2024
+
+* [`010dd2e`](https://github.com/eslint/eslint/commit/010dd2ef50456a1ba5892152192b6c9d9d5fd470) chore: upgrade to `@eslint/js@9.4.0` (#18534) (Francesco Trotta)
+* [`5e1b5dc`](https://github.com/eslint/eslint/commit/5e1b5dc9a3d839737125571c8fd4e239d81608de) chore: package.json update for @eslint/js release (Jenkins)
+* [`d7ab6f5`](https://github.com/eslint/eslint/commit/d7ab6f589d39c64bc5daaef4be3a972032f04c05) docs: update theme when when `prefers-color-scheme` changes (#18510) (Nitin Kumar)
+* [`594145f`](https://github.com/eslint/eslint/commit/594145f493d913e2b7e25a27accf33c44e1d4687) refactor: switch to `@eslint/config-array` (#18527) (Francesco Trotta)
+* [`525fdff`](https://github.com/eslint/eslint/commit/525fdffde4cb34010bc503f6d54855b3f9d07811) docs: fix components files (#18519) (Tanuj Kanti)
+* [`89a4a0a`](https://github.com/eslint/eslint/commit/89a4a0a260b8eb11487fe3d5d4d80f4630933eb3) feat: ignore IIFE's in the `no-loop-func` rule (#17528) (Nitin Kumar)
+* [`80747d2`](https://github.com/eslint/eslint/commit/80747d23dec69b30ea2c3620a1198f7d06b012b8) docs: refactor `prefer-destructuring` rule (#18472) (Tanuj Kanti)
+* [`f6534d1`](https://github.com/eslint/eslint/commit/f6534d14033e04f6c7c88a1f0c44a8077148ec6b) fix: skip processor code blocks that match only universal patterns (#18507) (Milos Djermanovic)
+* [`7226ebd`](https://github.com/eslint/eslint/commit/7226ebd69df04a4cc5fe546641f3443b60ec47e9) fix: allow implicit undefined return in `no-constructor-return` (#18515) (Ali Rezvani)
+* [`f06e0b5`](https://github.com/eslint/eslint/commit/f06e0b5f51ae1aad8957d27aa0ea4d6d0ad51455) docs: clarify func-style (#18477) (Cameron Steffen)
+* [`389744b`](https://github.com/eslint/eslint/commit/389744be255717c507fafc158746e579ac08d77e) fix: use `@eslint/config-inspector@latest` (#18483) (唯然)
+* [`70118a5`](https://github.com/eslint/eslint/commit/70118a5b11860fce364028d3c515393b6a586aae) fix: `func-style` false positive with arrow functions and `super` (#18473) (Milos Djermanovic)
+
 v9.3.0 - May 17, 2024
 
 * [`58e2719`](https://github.com/eslint/eslint/commit/58e271924aeb8ac2b8864845cd787ef3f9239939) chore: update dependencies for v9.3.0 release (#18469) (Francesco Trotta)

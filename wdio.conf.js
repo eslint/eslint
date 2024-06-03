@@ -18,6 +18,7 @@ exports.config = {
                 alias: {
                     util: "rollup-plugin-node-polyfills/polyfills/util",
                     path: "rollup-plugin-node-polyfills/polyfills/path",
+                    "node:path": "rollup-plugin-node-polyfills/polyfills/path",
                     assert: "rollup-plugin-node-polyfills/polyfills/assert"
                 }
             },

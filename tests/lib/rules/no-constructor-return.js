@@ -41,13 +41,11 @@ ruleTester.run("no-constructor-return", rule, {
         "class C { constructor(a) { if (!a) { return } else { a() } } }",
         "class C { constructor() { function fn() { return true } } }",
         "class C { constructor() { this.fn = function () { return true } } }",
-        "class C { constructor() { this.fn = () => { return true } } }"
+        "class C { constructor() { this.fn = () => { return true } } }",
+        "class C { constructor() { return } }",
+        "class C { constructor() { { return } } }"
     ],
     invalid: [
-        {
-            code: "class C { constructor() { return } }",
-            errors
-        },
         {
             code: "class C { constructor() { return '' } }",
             errors

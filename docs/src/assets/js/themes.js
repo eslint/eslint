@@ -26,23 +26,29 @@
             disableToggle(light_theme_toggle);
         }
 
-        light_theme_toggle.addEventListener("click", function() {
-            enableToggle(light_theme_toggle);
-            theme = this.getAttribute('data-theme');
-            document.documentElement.setAttribute('data-theme', theme);
-            window.localStorage.setItem("theme", theme);
-
-            disableToggle(dark_theme_toggle);
-        }, false);
-
-        dark_theme_toggle.addEventListener("click", function() {
+        var activateDarkMode = function() {
             enableToggle(dark_theme_toggle);
-            theme = this.getAttribute('data-theme');
-            document.documentElement.setAttribute('data-theme', theme);
-            window.localStorage.setItem("theme", theme);
 
+            document.documentElement.setAttribute('data-theme', "dark");
+            window.localStorage.setItem("theme", "dark");
+    
             disableToggle(light_theme_toggle);
-        }, false);
+        }
+
+        var activateLightMode = function() {
+            enableToggle(light_theme_toggle);
+
+            document.documentElement.setAttribute('data-theme', "light");
+            window.localStorage.setItem("theme", "light");
+    
+            disableToggle(dark_theme_toggle);
+        }
+
+        var darkModePreference = window.matchMedia("(prefers-color-scheme: dark)");
+        darkModePreference.addEventListener("change", e => e.matches ? activateDarkMode() : activateLightMode());
+
+        light_theme_toggle.addEventListener("click", activateLightMode, false);
+        dark_theme_toggle.addEventListener("click", activateDarkMode, false);
     }, false);
 
 })();
