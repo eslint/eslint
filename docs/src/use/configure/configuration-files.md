@@ -186,22 +186,19 @@ export default [
 
 #### Specifying files without extension
 
-No simple glob pattern can be used to target only files without extension.
-You can use a generic pattern like `*` to target all files in the current directory, or `**` to target files in the current directory and all its subdirectories.
-Files that have an extension can be excluded with an ignore pattern. For example:
+Files without extension can be matched with the pattern `!(*.*)`. For example:
 
 ```js
 // eslint.config.js
 export default [
     {
-        files: ["**"],
-        ignores: ["**/*.*"]
+        files: ["**/!(*.*)"]
     },
     // ...other config
 ];
 ```
 
-The above config lints only files without extension besides the default `.js`, `.cjs` and `.mjs` extensions.
+The above config lints files without extension besides the default `.js`, `.cjs` and `.mjs` extensions in all directories.
 Note that filenames starting with a dot are considered to have an extension.
 
 #### Globally ignoring files with `ignores`
