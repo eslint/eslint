@@ -166,9 +166,8 @@ Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspe
 
 #### Specifying files with arbitrary extensions
 
-To lint files with other extensions than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a glob pattern.
-Any pattern that doesn't end with `/*` or `/**` will work.
-For example, to lint TypeScript files with `.ts`, `.cts` and `.mts` extensions:
+To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a global pattern in the format of `"**/*.extension"`. (Any pattern that doesn't end with `/*` or `/**` will work.)
+For example, to lint TypeScript files with `.ts`, `.cts` and `.mts` extensions, you would specify a configuration object like this:
 
 ```js
 // eslint.config.js
@@ -186,7 +185,7 @@ export default [
 
 #### Specifying files without extension
 
-Files without extension can be matched with the pattern `!(*.*)`. For example:
+Files without an extension can be matched with the pattern `!(*.*)`. For example:
 
 ```js
 // eslint.config.js
@@ -199,7 +198,9 @@ export default [
 ```
 
 The above config lints files without extension besides the default `.js`, `.cjs` and `.mjs` extensions in all directories.
-Note that filenames starting with a dot are considered to have an extension.
+::: tip
+Filenames starting with a dot, such as `.gitignore`, are considered to have only an extension without a base name. In the case of `.gitignore`, the extension is `gitignore`, so the file matches the pattern `"**/.gitignore"` but not `"**/*.gitignore"`.
+:::
 
 #### Globally ignoring files with `ignores`
 
