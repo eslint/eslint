@@ -674,6 +674,23 @@ You can see the TypeScript types for the flat config file format in the Definite
 
 You can view the type definitions in the [DefinitelyTyped repository on GitHub](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/eslint/index.d.ts).
 
+## Visual Studio Code Support
+
+By default, the Visual Studio Code ESLint plugin does not look for `eslint.config.js` files. To enable support for the new configuration files, edit your `.vscode/settings.json` file and add the following:
+
+```json
+{
+  /// enable flat config files (eslint.config.*js)
+  "eslint.experimental.useFlatConfig": true
+}
+```
+
+In a future version of the ESLint plugin, you will no longer need to enable this manually.
+
+::: important
+The ESLint team does not maintain the ESLint plugin for Visual Studio Code, and as such, we don't have any control over its release cycle. We are currently waiting on [this issue](https://github.com/microsoft/vscode-eslint/issues/1644) to be resolved.
+:::
+
 ## Further Reading
 
 * [Overview of the flat config file format blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/)
