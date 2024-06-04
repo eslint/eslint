@@ -79,7 +79,8 @@ Each configuration object contains all of the information ESLint needs to execut
 Patterns specified in `files` and `ignores` use [`minimatch`](https://www.npmjs.com/package/minimatch) syntax and are evaluated relative to the location of the `eslint.config.js` file. If using an alternate config file via the `--config` command line option, then all patterns are evaluated relative to the current working directory.
 :::
 
-You can use a combination of `files` and `ignores` to determine which files should apply the configuration object and which should not. By default, ESLint matches `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Because config objects that don't specify `files` or `ignores` apply to all files that have been matched by any other configuration object, only JavaScript files are linted by default. For example:
+You can use a combination of `files` and `ignores` to determine which files the configuration object should apply to and which not. By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Those files are always matched unless you explicitly exclude them using `ignores`.
+Because config objects that don't specify `files` or `ignores` apply to all files that have been matched by any other configuration object, they will apply to all JavaScript files. For example:
 
 ```js
 // eslint.config.js
@@ -157,7 +158,7 @@ export default [
 
 This configuration object applies to all JavaScript files except those ending with `.config.js`. Effectively, this is like having `files` set to `**/*`. In general, it's a good idea to always include `files` if you are specifying `ignores`.
 
-Note that negated `ignores` patterns do not cause any matching files to be linted automatically.
+Note that when `files` is not specified, negated `ignores` patterns do not cause any matching files to be linted automatically.
 ESLint only lints files that are matched either by default or by a `files` pattern not ending with `/*` or `/**`.
 
 ::: tip
@@ -166,7 +167,7 @@ Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspe
 
 #### Specifying files with arbitrary extensions
 
-To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a global pattern in the format of `"**/*.extension"`. (Any pattern that doesn't end with `/*` or `/**` will work.)
+To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a pattern in the format of `"**/*.extension"`. (Any pattern that doesn't end with `/*` or `/**` will work.)
 For example, to lint TypeScript files with `.ts`, `.cts` and `.mts` extensions, you would specify a configuration object like this:
 
 ```js
