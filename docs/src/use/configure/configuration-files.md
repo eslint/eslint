@@ -142,7 +142,7 @@ Here, the configuration object excludes files ending with `.config.js` except fo
 
 Non-global `ignores` patterns can only match file names. A pattern like `"dir-to-exclude/"` will not ignore anything. To ignore everything in a particular directory, a pattern like `"dir-to-exclude/**"` should be used instead.
 
-If `ignores` is used without `files` and there are other keys (such as `rules`), then the configuration object applies to all linted files except the ones specified in `ignores`, for example:
+If `ignores` is used without `files` and there are other keys (such as `rules`), then the configuration object applies to all linted files except the ones excluded by `ignores`, for example:
 
 ```js
 export default [
