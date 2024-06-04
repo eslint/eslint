@@ -1164,6 +1164,56 @@ describe("ESLint", () => {
             });
         });
 
+        describe("Overlapping searches", () => {
+            it("should not lint the same file multiple times when the file path was passed multiple times", async () => {
+                const cwd = getFixturePath();
+
+                eslint = new ESLint({
+                    cwd,
+                    overrideConfigFile: true
+                });
+
+                const results = await eslint.lintFiles(["files/foo.js", "files/../files/foo.js", "files/foo.js"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, path.resolve(cwd, "files/foo.js"));
+                assert.strictEqual(results[0].messages.length, 0);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should not lint the same file multiple times when the file path and a pattern that matches the file were passed", async () => {
+                const cwd = getFixturePath();
+
+                eslint = new ESLint({
+                    cwd,
+                    overrideConfigFile: true
+                });
+
+                const results = await eslint.lintFiles(["files/foo.js", "files/foo*"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, path.resolve(cwd, "files/foo.js"));
+                assert.strictEqual(results[0].messages.length, 0);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should not lint the same file multiple times when multiple patterns that match the file were passed", async () => {
+                const cwd = getFixturePath();
+
+                eslint = new ESLint({
+                    cwd,
+                    overrideConfigFile: true
+                });
+
+                const results = await eslint.lintFiles(["files/f*.js", "files/foo*"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, path.resolve(cwd, "files/foo.js"));
+                assert.strictEqual(results[0].messages.length, 0);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+        });
+
         describe("Invalid inputs", () => {
 
             [
