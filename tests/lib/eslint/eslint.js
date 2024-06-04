@@ -1057,6 +1057,23 @@ describe("ESLint", () => {
 
             });
 
+            it("should load eslint.config.ts with local namespace", async () => {
+
+                const cwd = getFixturePath("ts-config-files", "ts", "local-namespace");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
             it("should find and load eslint.config.mts when present", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "mts");
@@ -5043,6 +5060,23 @@ describe("ESLint", () => {
             it("should load eslint.config.ts with const enums", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "ts", "const-enums");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it("should load eslint.config.ts with local namespace", async () => {
+
+                const cwd = getFixturePath("ts-config-files", "ts", "local-namespace");
 
                 eslint = new ESLint({
                     cwd
