@@ -5,7 +5,11 @@ export type RuleLevelAndOptions<Options extends any[] = any[]> = Prepend<
 
 export type StringSeverity = "off" | "warn" | "error";
 
-export type Severity = 0 | 1 | 2;
+export const enum Severity {
+    "Off" = 0,
+    "Warn" = 1,
+    "Error" = 2,
+}
 
 export type RuleLevel = Severity | StringSeverity;
 
