@@ -47,7 +47,7 @@ function ensureDirectoryExists(dirPath) {
 /**
  * Does nothing for a given time.
  * @param {number} time Time in ms.
- * @returns {void}
+ * @returns {Promise<void>}
  */
 async function sleep(time) {
     await util.promisify(setTimeout)(time);
@@ -76,7 +76,9 @@ describe("ESLint", () => {
     const originalDir = process.cwd();
     const fixtureDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint/fixtures");
 
-    /** @type {import("../../../lib/eslint/eslint").ESLint} */
+    /** @typedef {typeof import("../../../lib/eslint/eslint").ESLint} ESLint */
+
+    /** @type {ESLint} */
     let ESLint;
 
     /**
@@ -97,8 +99,8 @@ describe("ESLint", () => {
 
     /**
      * Create the ESLint object by mocking some of the plugins
-     * @param {Object} options options for ESLint
-     * @returns {ESLint} engine object
+     * @param {ConstructorParameters<ESLint>[0]} options options for ESLint
+     * @returns {InstanceType<ESLint>} engine object
      * @private
      */
     function eslintWithPlugins(options) {
