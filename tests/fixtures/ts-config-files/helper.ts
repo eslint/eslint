@@ -34,3 +34,11 @@ export interface FlatConfig<Rules extends RulesRecord = RulesRecord> {
     rules?: Partial<Rules>;
     settings?: Record<string, unknown>;
 }
+
+export namespace ESLintNameSpace {
+    export const enum StringSeverity {
+        "Off" = "off",
+        "Warn" = "warn",
+        "Error" = "error",
+    }
+}
