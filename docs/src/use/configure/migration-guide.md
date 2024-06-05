@@ -688,7 +688,7 @@ By default, the [Visual Studio Code ESLint plugin](https://marketplace.visualstu
 In a future version of the ESLint plugin, you will no longer need to enable this manually.
 
 ::: important
-The ESLint team does not maintain the ESLint plugin for Visual Studio Code, and as such, we don't have any control over its release cycle. We are currently waiting on [this issue](https://github.com/microsoft/vscode-eslint/issues/1644) to be resolved.
+The ESLint team does not maintain the ESLint plugin for Visual Studio Code, and as such, we don't have any control over its release cycle. We are currently waiting on [this issue](https://github.com/microsoft/vscode-eslint/issues/1644 "Microsoft/vscode-eslint issue: Enable Flat Config by default") to be resolved.
 :::
 
 ## Further Reading
