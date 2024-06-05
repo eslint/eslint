@@ -16,6 +16,20 @@ For reference information on these configuration formats, refer to the following
 * [eslintrc configuration files](configuration-files-deprecated)
 * [flat configuration files](configuration-files)
 
+## Migrate Your Config File
+
+To get started, use the [configuration migrator](https://npmjs.com/package/@eslint/migrate-config) on your existing configuration file (`.eslintrc`, `.eslintrc.json`, `.eslintrc.yml`), like this:
+
+```shell
+npx @eslint/migrate-config .eslintrc.json
+```
+
+This will create a starting point for your `eslint.config.js` file but is not guaranteed to work immediately without further modification. It will, however, do most of the conversion work mentioned in this guide automatically.
+
+::: important
+The configuration migrator doesn't yet work well for `.eslintrc.js` files. If you are using `.eslintrc.js`, the migration results in a config file that matches the evaluated output of your configuration and won't include any functions, conditionals, or anything other than the raw data represented in your configuration.
+:::
+
 ## Start Using Flat Config Files
 
 The flat config file format has been the default configuration file format since ESLint v9.0.0. You can start using the flat config file format without any additional configuration.
