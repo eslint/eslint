@@ -1076,6 +1076,24 @@ describe("ESLint", () => {
 
             });
 
+            it("should allow passing a TS config file to `overrideConfigFile`", async () => {
+
+                const cwd = getFixturePath("ts-config-files", "ts", "custom-config");
+
+                eslint = new ESLint({
+                    cwd,
+                    overrideConfigFile: getFixturePath("ts-config-files", "ts", "custom-config", "eslint.custom.config.ts")
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
             it("should find and load eslint.config.mts when present", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "mts");
@@ -5082,6 +5100,24 @@ describe("ESLint", () => {
 
                 eslint = new ESLint({
                     cwd
+                });
+
+                const results = await eslint.lintFiles("foo.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
+            it("should allow passing a TS config file to `overrideConfigFile`", async () => {
+
+                const cwd = getFixturePath("ts-config-files", "ts", "custom-config");
+
+                eslint = new ESLint({
+                    cwd,
+                    overrideConfigFile: getFixturePath("ts-config-files", "ts", "custom-config", "eslint.custom.config.ts")
                 });
 
                 const results = await eslint.lintFiles("foo.js");
