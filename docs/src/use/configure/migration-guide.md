@@ -676,7 +676,7 @@ You can view the type definitions in the [DefinitelyTyped repository on GitHub](
 
 ## Visual Studio Code Support
 
-By default, the Visual Studio Code ESLint plugin does not look for `eslint.config.js` files. To enable support for the new configuration files, edit your `.vscode/settings.json` file and add the following:
+By default, the [Visual Studio Code ESLint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) does not look for `eslint.config.js` files. To enable support for the new configuration files, edit your `.vscode/settings.json` file and add the following:
 
 ```json
 {
