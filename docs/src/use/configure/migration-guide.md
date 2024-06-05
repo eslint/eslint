@@ -680,7 +680,7 @@ By default, the [Visual Studio Code ESLint plugin](https://marketplace.visualstu
 
 ```json
 {
-  /// enable flat config files (eslint.config.*js)
+  // enable flat config files (eslint.config.*js)
   "eslint.experimental.useFlatConfig": true
 }
 ```
