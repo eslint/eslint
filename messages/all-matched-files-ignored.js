@@ -16,6 +16,6 @@ If you do want to lint these files, explicitly list one or more of the files fro
   * If the file is ignored because no matching configuration was supplied, check file patterns in your config file.
     https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-with-arbitrary-extensions
 
-  * If the file is ignored because outside of base path, change the location of your config file to be in a parent directory.
+  * If the file is ignored because it is located outside of the base path, change the location of your config file to be in a parent directory.
 `.trimStart();
 };
