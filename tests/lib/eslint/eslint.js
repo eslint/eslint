@@ -321,10 +321,16 @@ describe("ESLint", () => {
 
         let eslint;
 
-        it("should return true if the flag is present", () => {
-            eslint = new ESLint({ cwd: getFixturePath(), flags: ["x_feature", "y_feature"] });
+        it("should return true if the flag is present and active", () => {
+            eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only"] });
 
-            assert.strictEqual(eslint.hasFlag("x_feature"), true);
+            assert.strictEqual(eslint.hasFlag("test_only"), true);
+        });
+
+        it("should return false if the flag is present and inactive", () => {
+            eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_old"] });
+
+            assert.strictEqual(eslint.hasFlag("test_only_old"), false);
         });
 
         it("should return false if the flag is not present", () => {
