@@ -109,8 +109,10 @@ export default [
 ];
 ```
 
+::: important
 Note that only global `ignores` patterns can match directories.
 `ignores` patterns that are specific to a configuration will only match file names.
+:::
 
 You can also unignore files on the command line using `--ignore-pattern`, such as:
 
