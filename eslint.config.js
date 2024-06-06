@@ -31,6 +31,7 @@ const eslintPluginRulesRecommendedConfig = require("eslint-plugin-eslint-plugin/
 const eslintPluginTestsRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/tests-recommended");
 const globals = require("globals");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
+const eslintConfigESLintFormatting = require("eslint-config-eslint/formatting");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -75,6 +76,7 @@ function createInternalFilesPatterns(pattern = null) {
 
 module.exports = [
     ...eslintConfigESLintCJS,
+    eslintConfigESLintFormatting,
     {
         name: "eslint/global-ignores",
         ignores: [
