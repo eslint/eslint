@@ -6,7 +6,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("assert");
+const assert = require("node:assert");
 const { deepMergeArrays } = require("../../../lib/shared/deep-merge-arrays");
 
 //------------------------------------------------------------------------------
