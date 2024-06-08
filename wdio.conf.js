@@ -1,6 +1,6 @@
 "use strict";
 
-const path = require("path");
+const path = require("node:path");
 const commonjs = require("vite-plugin-commonjs").default;
 
 exports.config = {
@@ -18,6 +18,7 @@ exports.config = {
                 alias: {
                     util: "rollup-plugin-node-polyfills/polyfills/util",
                     path: "rollup-plugin-node-polyfills/polyfills/path",
+                    "node:path": "rollup-plugin-node-polyfills/polyfills/path",
                     assert: "rollup-plugin-node-polyfills/polyfills/assert"
                 }
             },

@@ -8,10 +8,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 const sinon = require("sinon"),
-    EventEmitter = require("events"),
+    EventEmitter = require("node:events"),
     { RuleTester } = require("../../../lib/rule-tester"),
     assert = require("chai").assert,
-    nodeAssert = require("assert");
+    nodeAssert = require("node:assert");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -3148,7 +3148,7 @@ describe("RuleTester", () => {
                         }
                     }, {
                         valid: ["foo", "foo"],
-                        invalid: [{ code: "foo", errors: [{ message: "foo bar" }] }]
+                        invalid: []
                     });
                 }, "detected duplicate test case");
             });
@@ -3162,9 +3162,68 @@ describe("RuleTester", () => {
                         }
                     }, {
                         valid: [{ code: "foo" }, { code: "foo" }],
-                        invalid: [{ code: "foo", errors: [{ message: "foo bar" }] }]
+                        invalid: []
                     });
                 }, "detected duplicate test case");
+            });
+
+            it("throws with string and object test cases", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: {},
+                        create() {
+                            return {};
+                        }
+                    }, {
+                        valid: ["foo", { code: "foo" }],
+                        invalid: []
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("ignores the name property", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: {},
+                        create() {
+                            return {};
+                        }
+                    }, {
+                        valid: [{ code: "foo" }, { name: "bar", code: "foo" }],
+                        invalid: []
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("does not ignore top level test case properties nested in other test case properties", () => {
+                ruleTester.run("foo", {
+                    meta: { schema: [{ type: "object" }] },
+                    create() {
+                        return {};
+                    }
+                }, {
+                    valid: [{ options: [{ name: "foo" }], name: "foo", code: "same" }, { options: [{ name: "bar" }], name: "bar", code: "same" }],
+                    invalid: []
+                });
+            });
+
+            it("does not throw an error for defining the same test case in different run calls", () => {
+                const rule = {
+                    meta: {},
+                    create() {
+                        return {};
+                    }
+                };
+
+                ruleTester.run("foo", rule, {
+                    valid: ["foo"],
+                    invalid: []
+                });
+
+                ruleTester.run("foo", rule, {
+                    valid: ["foo"],
+                    invalid: []
+                });
             });
         });
 
@@ -3327,6 +3386,48 @@ describe("RuleTester", () => {
                         { code: "const x = 123;", errors: [{ message: "foo bar" }], options: [{ foo: /abc/u }] }
                     ]
                 });
+            });
+
+            it("detects duplicate test cases even if the error matchers differ", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: { schema: false },
+                        create(context) {
+                            return {
+                                VariableDeclaration(node) {
+                                    context.report(node, "foo bar");
+                                }
+                            };
+                        }
+                    }, {
+                        valid: [],
+                        invalid: [
+                            { code: "const x = 123;", errors: [{ message: "foo bar" }] },
+                            { code: "const x = 123;", errors: 1 }
+                        ]
+                    });
+                }, "detected duplicate test case");
+            });
+
+            it("detects duplicate test cases even if the presence of the output property differs", () => {
+                assert.throws(() => {
+                    ruleTester.run("foo", {
+                        meta: { schema: false },
+                        create(context) {
+                            return {
+                                VariableDeclaration(node) {
+                                    context.report(node, "foo bar");
+                                }
+                            };
+                        }
+                    }, {
+                        valid: [],
+                        invalid: [
+                            { code: "const x = 123;", errors: 1 },
+                            { code: "const x = 123;", errors: 1, output: null }
+                        ]
+                    });
+                }, "detected duplicate test case");
             });
         });
     });

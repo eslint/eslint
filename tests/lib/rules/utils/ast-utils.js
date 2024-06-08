@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    util = require("util"),
+    util = require("node:util"),
     espree = require("espree"),
     astUtils = require("../../../../lib/rules/utils/ast-utils"),
     { Linter } = require("../../../../lib/linter"),

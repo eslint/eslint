@@ -985,3 +985,5 @@ quotes |    18.066 |   100.0%
 ```
 
 To see a longer list of results (more than 10), set the environment variable to another value such as `TIMING=50` or `TIMING=all`.
+
+For more granular timing information (per file per rule), use the [`stats`](./stats) option instead.

@@ -10319,6 +10319,48 @@ describe("Linter with FlatConfigArray", () => {
 
                 describe("when evaluating code containing /*global */ and /*globals */ blocks", () => {
 
+                    /**
+                     * Asserts the global variables in the provided code using the specified language options and data.
+                     * @param {string} code The code to verify.
+                     * @param {Object} languageOptions The language options to use.
+                     * @param {Object} [data={}] Additional data for the assertion.
+                     * @returns {void}
+                     */
+                    function assertGlobalVariable(code, languageOptions, data = {}) {
+                        let spy;
+
+                        const config = {
+                            plugins: {
+                                test: {
+                                    rules: {
+                                        checker: {
+                                            create(context) {
+                                                spy = sinon.spy(node => {
+                                                    const scope = context.sourceCode.getScope(node);
+                                                    const g = getVariable(scope, data.name);
+
+                                                    assert.strictEqual(g.name, data.name);
+                                                    assert.strictEqual(g.writeable, data.writeable);
+                                                });
+
+                                                return { Program: spy };
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            rules: { "test/checker": "error" }
+                        };
+
+                        if (languageOptions !== void 0) {
+                            config.languageOptions = languageOptions;
+                        }
+
+                        linter.verify(code, config);
+                        assert(spy && spy.calledOnce);
+
+                    }
+
                     it("variables should be available in global scope", () => {
                         const code = `
                         /*global a b:true c:false d:readable e:writeable Math:off */
@@ -10378,6 +10420,15 @@ describe("Linter with FlatConfigArray", () => {
 
                         linter.verify(code, config);
                         assert(spy && spy.calledOnce);
+                    });
+
+                    // https://github.com/eslint/eslint/issues/18363
+                    it("not throw when defining a global named __defineSetter__", () => {
+                        assertGlobalVariable("/*global __defineSetter__ */", {}, { name: "__defineSetter__", writeable: false });
+                        assertGlobalVariable("/*global __defineSetter__ */", void 0, { name: "__defineSetter__", writeable: false });
+                        assertGlobalVariable("/*global __defineSetter__ */", { globals: { __defineSetter__: "off" } }, { name: "__defineSetter__", writeable: false });
+                        assertGlobalVariable("/*global __defineSetter__ */", { globals: { __defineSetter__: "writeable" } }, { name: "__defineSetter__", writeable: false });
+                        assertGlobalVariable("/*global __defineSetter__:writeable */", {}, { name: "__defineSetter__", writeable: true });
                     });
                 });
 

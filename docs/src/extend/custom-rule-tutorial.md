@@ -217,7 +217,7 @@ const fooBarRule = require("./enforce-foo-bar");
 const ruleTester = new RuleTester({
   // Must use at least ecmaVersion 2015 because
   // that's when `const` variables were introduced.
-  parserOptions: { ecmaVersion: 2015 }
+  languageOptions: { ecmaVersion: 2015 }
 });
 
 // Throws error if the tests in ruleTester.run() do not pass
@@ -362,7 +362,7 @@ To publish a plugin containing a rule to npm, you need to configure the `package
 1. `"name"`: A unique name for the package. No other package on npm can have the same name.
 1. `"main"`: The relative path to the plugin file. Following this example, the path is `"eslint-plugin-example.js"`.
 1. `"description"`: A description of the package that's viewable on npm.
-1. `"peerDependencies"`: Add `"eslint": ">=8.0.0"` as a peer dependency. Any version greater than or equal to that is necessary to use the plugin. Declaring `eslint` as a peer dependency requires that users add the package to the project separately from the plugin.
+1. `"peerDependencies"`: Add `"eslint": ">=9.0.0"` as a peer dependency. Any version greater than or equal to that is necessary to use the plugin. Declaring `eslint` as a peer dependency requires that users add the package to the project separately from the plugin.
 1. `"keywords"`: Include the standard keywords `["eslint", "eslintplugin", "eslint-plugin"]` to make the package easy to find. You can add any other keywords that might be relevant to your plugin as well.
 
 A complete annotated example of what a plugin's `package.json` file should look like:
@@ -379,9 +379,9 @@ A complete annotated example of what a plugin's `package.json` file should look 
   "scripts": {
     "test": "node enforce-foo-bar.test.js"
   },
-  // Add eslint>=8.0.0 as a peer dependency.
+  // Add eslint>=9.0.0 as a peer dependency.
   "peerDependencies": {
-    "eslint": ">=8.0.0"
+    "eslint": ">=9.0.0"
   },
   // Add these standard keywords to make plugin easy to find!
   "keywords": [
@@ -392,7 +392,7 @@ A complete annotated example of what a plugin's `package.json` file should look 
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^8.36.0"
+    "eslint": "^9.0.0"
   }
 }
 ```

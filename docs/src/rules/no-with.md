@@ -35,7 +35,6 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-with: "error"*/
-/*eslint-env es6*/
 
 const r = ({x, y}) => Math.sqrt(x * x + y * y);
 ```

@@ -41,8 +41,6 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint-env es6*/
-
 function foo() {
     // ...
 }
@@ -75,8 +73,6 @@ Examples of **correct** code for this rule with the default `"always"` option:
 ::: correct
 
 ```js
-/*eslint-env es6*/
-
 function foo () {
     // ...
 }
@@ -109,8 +105,6 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint-env es6*/
-
 function foo () {
     // ...
 }
@@ -143,8 +137,6 @@ Examples of **correct** code for this rule with the `"never"` option:
 ::: correct
 
 ```js
-/*eslint-env es6*/
-
 function foo() {
     // ...
 }
@@ -177,8 +169,6 @@ Examples of **incorrect** code for this rule with the `{"anonymous": "always", "
 ::: incorrect
 
 ```js
-/*eslint-env es6*/
-
 function foo () {
     // ...
 }
@@ -207,8 +197,6 @@ Examples of **correct** code for this rule with the `{"anonymous": "always", "na
 ::: correct
 
 ```js
-/*eslint-env es6*/
-
 function foo() {
     // ...
 }
@@ -237,8 +225,6 @@ Examples of **incorrect** code for this rule with the `{"anonymous": "never", "n
 ::: incorrect
 
 ```js
-/*eslint-env es6*/
-
 function foo() {
     // ...
 }
@@ -267,8 +253,6 @@ Examples of **correct** code for this rule with the `{"anonymous": "never", "nam
 ::: correct
 
 ```js
-/*eslint-env es6*/
-
 function foo () {
     // ...
 }

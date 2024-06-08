@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("assert"),
+const assert = require("node:assert"),
     sinon = require("sinon"),
     espree = require("espree"),
     vk = require("eslint-visitor-keys"),

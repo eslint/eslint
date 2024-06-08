@@ -9,10 +9,10 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-const childProcess = require("child_process");
-const fs = require("fs");
+const childProcess = require("node:child_process");
+const fs = require("node:fs");
 const assert = require("chai").assert;
-const path = require("path");
+const path = require("node:path");
 
 //------------------------------------------------------------------------------
 // Data
@@ -181,7 +181,7 @@ describe("bin/eslint.js", () => {
                 const stderrPromise = getOutput(child).then(output => {
                     assert.match(
                         output.stderr,
-                        /Could not find config file/u
+                        /couldn't find an eslint\.config/u
                     );
                 });
 

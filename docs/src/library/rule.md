@@ -37,9 +37,9 @@ A rule has a:
 {% from 'components/rule.macro.html' import rule %}
 
  {{ rule({
-    name: "getter-return",
+    name: "array-bracket-newline",
     deprecated: true,
-    description: 'Enforce `return` statements in getters.',
+    description: 'Enforces line breaks after opening and before closing array brackets.',
     categories: {
         recommended: true,
         fixable: true,
@@ -48,13 +48,13 @@ A rule has a:
 }) }}
 
  {{ rule({
-    name: "getter-return",
+    name: "no-arrow-condition",
     removed: true,
-    description: 'Enforce `return` statements in getters.',
-    replacedBy: "other-rule-here",
+    description: 'Disallows arrow functions where test conditions are expected.',
+    replacedBy: ["no-confusing-arrow", "no-constant-condition"],
     categories: {
-        recommended: true,
-        fixable: true,
+        recommended: false,
+        fixable: false,
         hasSuggestions: false
     }
 }) }}
@@ -68,5 +68,4 @@ A rule has a:
         fixable: false,
         hasSuggestions: false
     }
-
 }) }}

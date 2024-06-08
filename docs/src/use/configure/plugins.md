@@ -22,7 +22,7 @@ You can extend ESLint with plugins in a variety of different ways. Plugins can i
 
 ESLint supports the use of third-party plugins. Plugins are simply objects that conform to a specific interface that ESLint recognizes.
 
-To configure plugins inside of a configuration file, use the `plugins` key, which contains an object with properties representing plugin namespaces and values equal to the plugin object.
+To configure plugins inside of a [configuration file](./configuration-files#configuration-file), use the `plugins` key, which contains an object with properties representing plugin namespaces and values equal to the plugin object.
 
 ```js
 // eslint.config.js
@@ -162,7 +162,7 @@ This configuration object uses `jsd` as the prefix plugin instead of `jsdoc`.
 
 Plugins may provide processors. Processors can extract JavaScript code from other kinds of files, then let ESLint lint the JavaScript code. Alternatively, processors can convert JavaScript code during preprocessing.
 
-To specify processors in a configuration file, use the `processor` key and assign the name of processor in the format `namespace/processor-name`. For example, the following uses the processor from `eslint-plugin-markdown` for `*.md` files.
+To specify processors in a [configuration file](./configuration-files#configuration-file), use the `processor` key and assign the name of processor in the format `namespace/processor-name`. For example, the following uses the processor from `eslint-plugin-markdown` for `*.md` files.
 
 ```js
 // eslint.config.js
@@ -213,4 +213,43 @@ export default [
 ];
 ```
 
-ESLint only lints named code blocks when they are JavaScript files or if they match a `files` entry in a config object. Be sure to add a config object with a matching `files` entry if you want to lint non-JavaScript named code blocks.
+ESLint only lints named code blocks when they are JavaScript files or if they match a `files` entry in a config object. Be sure to add a config object with a matching `files` entry if you want to lint non-JavaScript named code blocks. Also note that [global ignores](./ignore) apply to named code blocks as well.
+
+```js
+// eslint.config.js
+import markdown from "eslint-plugin-markdown";
+
+export default [
+
+    // applies to Markdown files
+    {
+        files: ["**/*.md"],
+        plugins: {
+            markdown
+        },
+        processor: "markdown/markdown"
+    },
+
+    // applies to all .jsx files, including jsx blocks inside of Markdown files
+    {
+        files: ["**/*.jsx"],
+        languageOptions: {
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            }
+        }
+    },
+
+    // ignore jsx blocks inside of test.md files
+    {
+        ignores: ["**/test.md/*.jsx"]
+    }
+];
+```
+
+## Common Problems
+
+* [Plugin rules using the ESLint < v9.0.0 API](../troubleshooting/v9-rule-api-changes)
+* [Plugin configurations have not been upgraded to flat config](migration-guide#using-eslintrc-configs-in-flat-config)

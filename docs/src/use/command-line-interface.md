@@ -67,36 +67,33 @@ You can view all the CLI options by running `npx eslint -h`.
 eslint [options] file.js [file.js] [dir]
 
 Basic configuration:
-  --no-eslintrc                   Disable use of configuration from .eslintrc.*
-  -c, --config path::String       Use this configuration, overriding .eslintrc.* config options if present
-  --env [String]                  Specify environments
-  --ext [String]                  Specify JavaScript file extensions
+  --no-config-lookup              Disable look up for eslint.config.js
+  -c, --config path::String       Use this configuration instead of eslint.config.js, eslint.config.mjs, or
+                                  eslint.config.cjs
+  --inspect-config                Open the config inspector with the current configuration
   --global [String]               Define global variables
   --parser String                 Specify the parser to be used
   --parser-options Object         Specify parser options
-  --resolve-plugins-relative-to path::String  A folder where plugins should be resolved from, CWD by default
 
-Specify rules and plugins:
+Specify Rules and Plugins:
   --plugin [String]               Specify plugins
   --rule Object                   Specify rules
-  --rulesdir [path::String]       Load additional rules from this directory. Deprecated: Use rules from plugins
 
-Fix problems:
+Fix Problems:
   --fix                           Automatically fix problems
   --fix-dry-run                   Automatically fix problems without saving the changes to the file system
   --fix-type Array                Specify the types of fixes to apply (directive, problem, suggestion, layout)
 
-Ignore files:
-  --ignore-path path::String      Specify path of ignore file
+Ignore Files:
   --no-ignore                     Disable use of ignore files and patterns
-  --ignore-pattern [String]       Pattern of files to ignore (in addition to those in .eslintignore)
+  --ignore-pattern [String]       Patterns of files to ignore
 
 Use stdin:
   --stdin                         Lint code provided on <STDIN> - default: false
   --stdin-filename String         Specify filename to process STDIN as
 
-Handle warnings:
-  --quiet                         Report and check errors only - default: false
+Handle Warnings:
+  --quiet                         Report errors only - default: false
   --max-warnings Int              Number of warnings to trigger nonzero exit code - default: -1
 
 Output:
@@ -107,25 +104,28 @@ Output:
 Inline configuration comments:
   --no-inline-config              Prevent comments from changing config or rules
   --report-unused-disable-directives  Adds reported errors for unused eslint-disable and eslint-enable directives
-  --report-unused-disable-directives-severity String  Chooses severity level for reporting unused eslint-disable and eslint-enable directives - either: off, warn, error, 0, 1, or 2
+  --report-unused-disable-directives-severity String  Chooses severity level for reporting unused eslint-disable and
+                                                      eslint-enable directives - either: off, warn, error, 0, 1, or 2
 
 Caching:
   --cache                         Only check changed files - default: false
   --cache-file path::String       Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
   --cache-location path::String   Path to the cache file or directory
-  --cache-strategy String         Strategy to use for detecting changed files in the cache - either: metadata or content - default: metadata
+  --cache-strategy String         Strategy to use for detecting changed files in the cache - either: metadata or
+                                  content - default: metadata
 
 Miscellaneous:
   --init                          Run config initialization wizard - default: false
   --env-info                      Output execution environment information - default: false
   --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched
   --exit-on-fatal-error           Exit with exit code 2 in case of fatal error - default: false
-  --no-warn-ignored               Suppress warnings when the file list includes ignored files. *Flat Config Mode Only*
+  --no-warn-ignored               Suppress warnings when the file list includes ignored files
   --pass-on-no-patterns           Exit with exit code 0 in case no file patterns are passed
   --debug                         Output debugging information
   -h, --help                      Show help
   -v, --version                   Output the version number
   --print-config path::String     Print the configuration for the given file
+  --stats                         Add statistics to the lint report - default: false
 ```
 
 ### Basic Configuration
@@ -159,6 +159,18 @@ This example uses the configuration file at `~/my-eslint.json`.
 
 If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.e., `--no-eslintrc` was not specified), the configurations are merged. Options from this configuration file have precedence over the options from `.eslintrc.*` and `package.json` files.
 
+#### `--inspect-config`
+
+**Flat Config Mode Only.** This option runs `npx @eslint/config-inspector@latest` to start the config inspector. You can use the config inspector to better understand what your configuration is doing and which files it applies to. When you use this flag, the CLI does not perform linting.
+
+* **Argument Type**: No argument.
+
+##### `--inspect-config` example
+
+```shell
+npx eslint --inspect-config
+```
+
 #### `--env`
 
 **eslintrc Mode Only.** This option enables specific environments.
@@ -177,7 +189,9 @@ npx eslint --env browser --env node file.js
 
 #### `--ext`
 
-**eslintrc Mode Only.** This option allows you to specify which file extensions ESLint uses when searching for target files in the directories you specify.
+**eslintrc Mode Only.** If you are using flat config (`eslint.config.js`), please see [migration guide](./configure/migration-guide#--ext).
+
+This option allows you to specify which file extensions ESLint uses when searching for target files in the directories you specify.
 
 * **Argument Type**: String. File extension.
 * **Multiple Arguments**: Yes
@@ -309,7 +323,7 @@ npx eslint --rule 'quotes: [error, double]' --no-eslintrc
 
 **Deprecated**: Use rules from plugins instead.
 
-This option allows you to specify another directory from which to load rules files. This allows you to dynamically load new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
+**eslintrc Mode Only.** This option allows you to specify another directory from which to load rules files. This allows you to dynamically load new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
 
 * **Argument Type**: String. Path to directory. The rules in your custom rules directory must follow the same format as bundled rules to work properly.
 * **Multiple Arguments**: Yes.
@@ -414,7 +428,7 @@ npx eslint --no-ignore file.js
 
 #### `--ignore-pattern`
 
-This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`).
+This option allows you to specify patterns of files to ignore. In eslintrc mode, these are in addition to `.eslintignore`.
 
 * **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore-deprecated#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 * **Multiple Arguments**: Yes
@@ -809,6 +823,20 @@ This option outputs the configuration to be used for the file passed. When prese
 
 ```shell
 npx eslint --print-config file.js
+```
+
+#### `--stats`
+
+This option adds a series of detailed performance statistics (see [Stats type](../extend/stats#-stats-type)) such as the *parse*-, *fix*- and *lint*-times (time per rule) to [`result`](../extend/custom-formatters#the-result-object) objects that are passed to the formatter (see [Stats CLI usage](../extend/stats#cli-usage)).
+
+* **Argument Type**: No argument.
+
+This option is intended for use with custom formatters that display statistics. It can also be used with the built-in `json` formatter.
+
+##### `--stats` example
+
+```shell
+npx eslint --stats --format json file.js
 ```
 
 ## Exit Codes

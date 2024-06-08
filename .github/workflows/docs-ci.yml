@@ -28,7 +28,7 @@ jobs:
       run: npm install
 
     - name: Install Packages
-      run: npm install --force
+      run: npm install
 
     - name: Stylelint Docs
       working-directory: docs

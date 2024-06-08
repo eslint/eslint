@@ -21,31 +21,17 @@ To use ESLint, you must have [Node.js](https://nodejs.org/en/) (`^18.18.0`, `^20
 You can install and configure ESLint using this command:
 
 ```shell
-npm init @eslint/config
+npm init @eslint/config@latest
 ```
 
 If you want to use a specific shareable config that is hosted on npm, you can use the `--config` option and specify the package name:
 
 ```shell
-# use `eslint-config-semistandard` shared config
+# use `eslint-config-standard` shared config
 
 # npm 7+
-npm init @eslint/config -- --config semistandard
+npm init @eslint/config@latest -- --config eslint-config-standard
 
-# or (`eslint-config` prefix is optional)
-npm init @eslint/config -- --config eslint-config-semistandard
-
-# ⚠️ npm 6.x no extra double-dash:
-npm init @eslint/config --config semistandard
-
-```
-
-The `--config` flag also supports passing in arrays:
-
-```shell
-npm init @eslint/config -- --config semistandard,standard
-# or
-npm init @eslint/config -- --config semistandard --config standard
 ```
 
 **Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
@@ -64,7 +50,7 @@ yarn run eslint yourfile.js
 
 **Note:** If you are coming from a version before 9.0.0 please see the [migration guide](configure/migration-guide).
 
-After running `npm init @eslint/config`, you'll have an `eslint.config.js` file in your directory. In it, you'll see some rules configured like this:
+After running `npm init @eslint/config`, you'll have an `eslint.config.js` (or `eslint.config.mjs`) file in your directory. In it, you'll see some rules configured like this:
 
 ```js
 // eslint.config.js

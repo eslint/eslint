@@ -36,6 +36,7 @@ The lists below are ordered roughly by the number of users each change is expect
 * [`no-inner-declarations` has a new default behavior with a new option](#no-inner-declarations)
 * [`no-unused-vars` now defaults `caughtErrors` to `"all"`](#no-unused-vars)
 * [`no-useless-computed-key` flags unnecessary computed member names in classes by default](#no-useless-computed-key)
+* [`camelcase` allow option only accepts an array of strings](#camelcase)
 
 ### Breaking changes for plugin developers
 
@@ -434,6 +435,14 @@ class SomeClass {
 
 **Related issue(s):** [#18042](https://github.com/eslint/eslint/issues/18042)
 
+## <a name="camelcase"></a> `camelcase` allow option only accepts an array of strings
+
+Previously the camelcase rule didn't enforce the `allow` option to be an array of strings. In ESLint v9.0.0, the `allow` option now only accepts an array of strings.
+
+**To address:** If ESLint reports invalid configuration for this rule, update your configuration.
+
+**Related issue(s):** [#18232](https://github.com/eslint/eslint/pull/18232)
+
 ## <a name="removed-context-methods"></a> Removed multiple `context` methods
 
 ESLint v9.0.0 removes multiple deprecated methods from the `context` object and moves them onto the `SourceCode` object:
@@ -471,7 +480,7 @@ In addition to the methods in the above table, there are several other methods t
 |`context.getScope()`|`sourceCode.getScope(node)`|
 |`context.markVariableAsUsed(name)`|`sourceCode.markVariableAsUsed(name, node)`|
 
-**To address:** Following the recommendations in the [blog post](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#from-context-to-sourcecode).
+**To address:** Use the automated upgrade tool as recommended in the [blog post](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#automatically-update-your-rules).
 
 **Related Issues(s):** [#16999](https://github.com/eslint/eslint/issues/16999), [#13481](https://github.com/eslint/eslint/issues/13481)
 
@@ -508,7 +517,7 @@ ESLint v9.0.0 now precalculates code path information before the traversal used 
 
 ESLint v9.0.0 drops support for function-style rules. Function-style rules are rules created by exporting a function rather than an object with a `create()` method. This rule format was deprecated in 2016.
 
-**To address:** Update your rules to [the most recent rule format](../extend/custom-rules).
+**To address:** Update your rules to [the most recent rule format](../extend/custom-rules). For rules written in CommonJS, you can also use [`eslint-transforms`](https://github.com/eslint/eslint-transforms/blob/main/README.md#new-rule-format).
 
 The [eslint-plugin/prefer-object-rule](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-object-rule.md) rule can help enforce the usage of object-style rules and autofix any remaining function-style rules.
 

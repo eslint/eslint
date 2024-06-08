@@ -10,10 +10,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("assert");
-const fs = require("fs");
-const os = require("os");
-const path = require("path");
+const assert = require("node:assert");
+const fs = require("node:fs");
+const os = require("node:os");
+const path = require("node:path");
 const escapeStringRegExp = require("escape-string-regexp");
 const fCache = require("file-entry-cache");
 const sinon = require("sinon");
@@ -27,7 +27,7 @@ const {
 const hash = require("../../../lib/cli-engine/hash");
 const { unIndent, createCustomTeardown } = require("../../_utils");
 const coreRules = require("../../../lib/rules");
-const childProcess = require("child_process");
+const childProcess = require("node:child_process");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -912,7 +912,7 @@ describe("LegacyESLint", () => {
         });
 
         describe('plugin shorthand notation ("@scope" for "@scope/eslint-plugin")', () => {
-            const Module = require("module");
+            const Module = require("node:module");
             let originalFindPath = null;
 
             /* eslint-disable no-underscore-dangle -- Override Node API */
@@ -5836,7 +5836,7 @@ describe("LegacyESLint", () => {
             };
             const spy = fakeFS.writeFile;
             const { LegacyESLint: localESLint } = proxyquire("../../../lib/eslint/legacy-eslint", {
-                fs: fakeFS
+                "node:fs": fakeFS
             });
 
             const results = [
@@ -5863,7 +5863,7 @@ describe("LegacyESLint", () => {
             };
             const spy = fakeFS.writeFile;
             const { LegacyESLint: localESLint } = proxyquire("../../../lib/eslint/legacy-eslint", {
-                fs: fakeFS
+                "node:fs": fakeFS
             });
             const results = [
                 {

@@ -49,7 +49,6 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint space-before-keywords: ["error", "always"]*/
-/*eslint-env es6*/
 
 if (foo) {
     // ...
@@ -72,7 +71,6 @@ Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint space-before-keywords: ["error", "always"]*/
-/*eslint-env es6*/
 
 if (foo) {
     // ...

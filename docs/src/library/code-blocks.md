@@ -18,6 +18,7 @@ function() {
     const another = [];
 }
 `` `
+
 :::
 
 ::: incorrect
@@ -27,6 +28,7 @@ function() {
     const another = [];
 }
 `` `
+
 :::
 ```
 

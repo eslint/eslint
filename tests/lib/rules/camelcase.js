@@ -338,6 +338,18 @@ ruleTester.run("camelcase", rule, {
             options: [{ allow: ["__option_foo__"] }]
         },
         {
+            code: "__option_foo__ = 0; user_id = 0; foo = 1",
+            options: [{ allow: ["__option_foo__", "_id$"] }]
+        },
+        {
+            code: "fo_o = 0;",
+            options: [{ allow: ["__option_foo__", "fo_o"] }]
+        },
+        {
+            code: "user = 0;",
+            options: [{ allow: [] }]
+        },
+        {
             code: "foo = { [computedBar]: 0 };",
             options: [{ ignoreDestructuring: true }],
             languageOptions: { ecmaVersion: 6 }

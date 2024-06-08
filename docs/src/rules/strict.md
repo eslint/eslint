@@ -169,11 +169,10 @@ function foo() {
 
 :::
 
-::: incorrect { "ecmaVersion": 6, "sourceType": "script" }
+::: incorrect { "ecmaVersion": 2015, "sourceType": "script" }
 
 ```js
 /*eslint strict: ["error", "function"]*/
-/*eslint-env es6*/
 
 // Illegal "use strict" directive in function with non-simple parameter list.
 // This is a syntax error since ES2016.

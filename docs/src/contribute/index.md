@@ -60,7 +60,7 @@ Describes the governance policy for ESLint, including the rights and privileges 
 
 ## [Report a Security Vulnerability](report-security-vulnerability)
 
-To report a security vulnerability in ESLint, please create an advisory on Github.
+To report a security vulnerability in ESLint, please create an advisory on GitHub.
 
 ## Sign the CLA
 

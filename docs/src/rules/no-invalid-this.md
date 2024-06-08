@@ -53,7 +53,6 @@ Examples of **incorrect** code for this rule in strict mode:
 
 ```js
 /*eslint no-invalid-this: "error"*/
-/*eslint-env es6*/
 
 "use strict";
 
@@ -101,7 +100,6 @@ Examples of **correct** code for this rule in strict mode:
 
 ```js
 /*eslint no-invalid-this: "error"*/
-/*eslint-env es6*/
 
 "use strict";
 

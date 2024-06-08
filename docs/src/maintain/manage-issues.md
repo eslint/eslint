@@ -43,6 +43,8 @@ All of ESLint's issues and pull requests, across all GitHub repositories, are ma
 * **Blocked**: The issue can't move forward due to some dependency
 * **Ready to Implement**: These issues have all the details necessary to start implementation
 * **Implementing**: There is an open pull request for each of these issues or this is a pull request that has been approved
+* **Second Review Needed**: Pull requests that already have one approval and the approver is requesting a second review before merging.
+* **Merge Candidates**: Pull requests that already have at least one approval and at least one approver believes the pull request is ready to merge into the next release but would still like a TSC member to verify.
 * **Completed**: The issue has been closed (either via pull request merge or by the team manually closing the issue)
 
 We make every attempt to automate movement between as many columns as we can, but sometimes moving issues needs to be done manually.
@@ -148,6 +150,13 @@ In addition to the above, changes to the core (including CLI changes) that would
 When a suggestion is too ambitious or would take too much time to complete, it's better not to accept the proposal. Stick to small, incremental changes and lay out a roadmap of where you'd like the project to go eventually. Don't let the project get bogged down in big features that will take a long time to complete.
 
 **Breaking Changes:** Be on the lookout for changes that would be breaking. Issues that represent breaking changes should be labeled as "breaking".
+
+## Request Feedback from TSC
+
+To request feedback from the TSC, team members can ping `@eslint/eslint-tsc` and add the label "tsc waiting" on an issue or pull request.
+Unless otherwise requested, every TSC member should provide feedback on [issues labeled "tsc waiting"](https://github.com/issues?q=org%3Aeslint+label%3A"tsc+waiting").
+If a TSC member is unable to respond in a timely manner, they should post a comment indicating when they expect to be able to leave their feedback.
+The last TSC member who provides feedback on an issue labeled "tsc waiting" should remove the label.
 
 ## When to Close an Issue
 

@@ -64,7 +64,7 @@ function readStdin() {
 function getErrorMessage(error) {
 
     // Lazy loading because this is used only if an error happened.
-    const util = require("util");
+    const util = require("node:util");
 
     // Foolproof -- third-party module might throw non-object.
     if (typeof error !== "object" || error === null) {
@@ -140,11 +140,11 @@ ${getErrorMessage(error)}`;
     if (process.argv.includes("--init")) {
 
         // `eslint --init` has been moved to `@eslint/create-config`
-        console.warn("You can also run this command directly using 'npm init @eslint/config'.");
+        console.warn("You can also run this command directly using 'npm init @eslint/config@latest'.");
 
         const spawn = require("cross-spawn");
 
-        spawn.sync("npm", ["init", "@eslint/config"], { encoding: "utf8", stdio: "inherit" });
+        spawn.sync("npm", ["init", "@eslint/config@latest"], { encoding: "utf8", stdio: "inherit" });
         return;
     }
 

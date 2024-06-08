@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------------
 
 const { parse } = require("espree");
-const { readFile } = require("fs").promises;
+const { readFile } = require("node:fs").promises;
 const { glob } = require("glob");
 const matter = require("gray-matter");
 const markdownIt = require("markdown-it");
@@ -13,6 +13,7 @@ const markdownItContainer = require("markdown-it-container");
 const markdownItRuleExample = require("../docs/tools/markdown-it-rule-example");
 const ConfigCommentParser = require("../lib/linter/config-comment-parser");
 const rules = require("../lib/rules");
+const { LATEST_ECMA_VERSION } = require("../conf/ecma-version");
 
 //------------------------------------------------------------------------------
 // Typedefs
@@ -27,6 +28,12 @@ const rules = require("../lib/rules");
 //------------------------------------------------------------------------------
 
 const STANDARD_LANGUAGE_TAGS = new Set(["javascript", "js", "jsx"]);
+
+const VALID_ECMA_VERSIONS = new Set([
+    3,
+    5,
+    ...Array.from({ length: LATEST_ECMA_VERSION - 2015 + 1 }, (_, index) => index + 2015) // 2015, 2016, ..., LATEST_ECMA_VERSION
+]);
 
 const commentParser = new ConfigCommentParser();
 
@@ -79,12 +86,46 @@ async function findProblems(filename) {
                 });
             }
 
+            if (parserOptions && typeof parserOptions.ecmaVersion !== "undefined") {
+                const { ecmaVersion } = parserOptions;
+                let ecmaVersionErrorMessage;
+
+                if (ecmaVersion === "latest") {
+                    ecmaVersionErrorMessage = 'Remove unnecessary "ecmaVersion":"latest".';
+                } else if (typeof ecmaVersion !== "number") {
+                    ecmaVersionErrorMessage = '"ecmaVersion" must be a number.';
+                } else if (!VALID_ECMA_VERSIONS.has(ecmaVersion)) {
+                    ecmaVersionErrorMessage = `"ecmaVersion" must be one of ${[...VALID_ECMA_VERSIONS].join(", ")}.`;
+                }
+
+                if (ecmaVersionErrorMessage) {
+                    problems.push({
+                        fatal: false,
+                        severity: 2,
+                        message: ecmaVersionErrorMessage,
+                        line: codeBlockToken.map[0] - 1,
+                        column: 1
+                    });
+                }
+            }
+
             const { ast, error } = tryParseForPlayground(code, parserOptions);
 
             if (ast) {
                 let hasRuleConfigComment = false;
 
                 for (const comment of ast.comments) {
+
+                    if (comment.type === "Block" && /^\s*eslint-env(?!\S)/u.test(comment.value)) {
+                        problems.push({
+                            fatal: false,
+                            severity: 2,
+                            message: "/* eslint-env */ comments are no longer supported. Remove the comment.",
+                            line: codeBlockToken.map[0] + 1 + comment.loc.start.line,
+                            column: comment.loc.start.column + 1
+                        });
+                    }
+
                     if (comment.type !== "Block" || !/^\s*eslint(?!\S)/u.test(comment.value)) {
                         continue;
                     }

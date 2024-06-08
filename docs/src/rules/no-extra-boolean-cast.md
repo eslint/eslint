@@ -3,10 +3,6 @@ title: no-extra-boolean-cast
 rule_type: suggestion
 ---
 
-
-
-
-
 In contexts such as an `if` statement's test where the result of the expression will already be coerced to a Boolean, casting to a Boolean via double negation (`!!`) or a `Boolean` call is unnecessary. For example, these `if` statements are equivalent:
 
 ```js
@@ -88,16 +84,18 @@ var foo = bar ? !!baz : !!bat;
 
 This rule has an object option:
 
-* `"enforceForLogicalOperands"` when set to `true`, in addition to checking default contexts, checks whether the extra boolean cast is contained within a logical expression. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside logical expression.
+*   `"enforceForInnerExpressions"` when set to `true`, in addition to checking default contexts, checks whether extra boolean casts are present in expressions whose result is used in a boolean context. See examples below. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside inner expressions.
 
-### enforceForLogicalOperands
+**Deprecated:** The object property `enforceForLogicalOperands` is deprecated ([eslint#18222](https://github.com/eslint/eslint/pull/18222)). Please use `enforceForInnerExpressions` instead.
 
-Examples of **incorrect** code for this rule with `"enforceForLogicalOperands"` option set to `true`:
+### enforceForInnerExpressions
+
+Examples of **incorrect** code for this rule with `"enforceForInnerExpressions"` option set to `true`:
 
 ::: incorrect
 
 ```js
-/*eslint no-extra-boolean-cast: ["error", {"enforceForLogicalOperands": true}]*/
+/*eslint no-extra-boolean-cast: ["error", {"enforceForInnerExpressions": true}]*/
 
 if (!!foo || bar) {
     //...
@@ -107,23 +105,38 @@ while (!!foo && bar) {
     //...
 }
 
-if ((!!foo || bar) && baz) {
+if ((!!foo || bar) && !!baz) {
     //...
 }
 
-foo && Boolean(bar) ? baz : bat
+var foo = new Boolean(!!bar || baz);
 
-var foo = new Boolean(!!bar || baz)
+foo && Boolean(bar) ? baz : bat;
+
+const ternaryBranches = Boolean(bar ? !!baz : bat);
+
+const nullishCoalescingOperator = Boolean(bar ?? Boolean(baz));
+
+const commaOperator = Boolean((bar, baz, !!bat));
+
+// another comma operator example
+for (let i = 0; console.log(i), Boolean(i < 10); i++) {
+    // ...
+}
 ```
 
 :::
 
-Examples of **correct** code for this rule with `"enforceForLogicalOperands"` option set to `true`:
+Examples of **correct** code for this rule with `"enforceForInnerExpressions"` option set to `true`:
 
 ::: correct
 
 ```js
-/*eslint no-extra-boolean-cast: ["error", {"enforceForLogicalOperands": true}]*/
+/*eslint no-extra-boolean-cast: ["error", {"enforceForInnerExpressions": true}]*/
+
+// Note that `||` and `&&` alone aren't a boolean context for either operand 
+// since the resultant value need not be a boolean without casting.
+var foo = !!bar || baz;
 
 if (foo || bar) {
     //...
@@ -137,11 +150,23 @@ if ((foo || bar) && baz) {
     //...
 }
 
-foo && bar ? baz : bat
+var foo = new Boolean(bar || baz);
 
-var foo = new Boolean(bar || baz)
+foo && bar ? baz : bat;
 
-var foo = !!bar || baz;
+const ternaryBranches = Boolean(bar ? baz : bat);
+
+const nullishCoalescingOperator = Boolean(bar ?? baz);
+
+const commaOperator = Boolean((bar, baz, bat));
+
+// another comma operator example
+for (let i = 0; console.log(i), i < 10; i++) {
+    // ...
+}
+
+// comma operator in non-final position
+Boolean((Boolean(bar), baz, bat));
 ```
 
 :::

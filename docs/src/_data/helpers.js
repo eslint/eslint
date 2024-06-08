@@ -1,14 +1,16 @@
+"use strict";
+
 module.exports = {
+
     /**
      * Returns some attributes based on whether the link is active or
      * a parent of an active item
-     *
-     * @param {String} itemUrl is the link in question
-     * @param {String} pageUrl is the page context
-     * @returns {String} is the attributes or empty
+     * @param {string} itemUrl is the link in question
+     * @param {string} pageUrl is the page context
+     * @returns {string} is the attributes or empty
      */
-    getLinkActiveState: function(itemUrl, pageUrl) {
-        let response = '';
+    getLinkActiveState(itemUrl, pageUrl) {
+        let response = "";
 
         if (itemUrl === pageUrl) {
             response = ' aria-current="page" ';
@@ -20,10 +22,13 @@ module.exports = {
 
         return response;
     },
-    excludeThis: function(arr, pageUrl) {
-        var newArray = [];
+    excludeThis(arr, pageUrl) {
+        const newArray = [];
+
         arr.forEach(item => {
-            if(item.url !== pageUrl) newArray.push(item);
+            if (item.url !== pageUrl) {
+                newArray.push(item);
+            }
         });
         return newArray;
     }

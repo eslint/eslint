@@ -1,6 +1,6 @@
 "use strict";
 
-const path = require("path");
+const path = require("node:path");
 const TapRender = require("@munter/tap-render");
 const spot = require("tap-spot");
 const hyperlink = require("hyperlink");
@@ -19,6 +19,7 @@ const skipPatterns = [
     "/donate",
     "/docs/latest",
     "/docs/next",
+    "/docs/v8.x",
     'src="null"'
 ];
 

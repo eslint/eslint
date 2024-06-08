@@ -7,7 +7,7 @@ const pluginTOC = require("eleventy-plugin-nesting-toc");
 const markdownItAnchor = require("markdown-it-anchor");
 const markdownItContainer = require("markdown-it-container");
 const Image = require("@11ty/eleventy-img");
-const path = require("path");
+const path = require("node:path");
 const { slug } = require("github-slugger");
 const yaml = require("js-yaml");
 const { highlighter, lineNumberPlugin } = require("./src/_plugins/md-syntax-highlighter");
@@ -44,6 +44,8 @@ module.exports = function(eleventyConfig) {
         pathPrefix = "/docs/latest/";
     } else if (process.env.BRANCH === "next") {
         pathPrefix = "/docs/next/";
+    } else if (process.env.BRANCH && /^v\d+\.x$/u.test(process.env.BRANCH)) {
+        pathPrefix = `/docs/${process.env.BRANCH}/`; // `/docs/v8.x/`, `/docs/v9.x/`, `/docs/v10.x/` ...
     }
 
     //------------------------------------------------------------------------------

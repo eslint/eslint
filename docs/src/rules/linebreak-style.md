@@ -52,6 +52,7 @@ var a = 'a', // \n
 function foo(params) { // \n
     // do stuff \n
 }// \n
+
 ```
 
 :::
@@ -66,6 +67,7 @@ Examples of **incorrect** code for this rule with the `"windows"` option:
 /*eslint linebreak-style: ["error", "windows"]*/
 
 var a = 'a'; // \n
+
 ```
 
 :::
@@ -75,14 +77,15 @@ Examples of **correct** code for this rule with the `"windows"` option:
 ::: correct
 
 ```js
-/*eslint linebreak-style: ["error", "windows"]*/
-
+/*eslint linebreak-style: ["error", "windows"]*/ // \r\n
+// \r\n
 var a = 'a', // \r\n
     b = 'b'; // \r\n
 // \r\n
 function foo(params) { // \r\n
     // do stuff \r\n
 } // \r\n
+
 ```
 
 :::

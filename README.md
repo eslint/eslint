@@ -48,7 +48,7 @@ Prerequisites: [Node.js](https://nodejs.org/) (`^18.18.0`, `^20.9.0`, or `>=21.1
 You can install and configure ESLint using this command:
 
 ```shell
-npm init @eslint/config
+npm init @eslint/config@latest
 ```
 
 After that, you can run ESLint on any file or directory like this:
@@ -59,15 +59,11 @@ After that, you can run ESLint on any file or directory like this:
 
 ## Configuration
 
-After running `npm init @eslint/config`, you'll have an `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
+After running `npm init @eslint/config`, you'll have an `eslint.config.js` (or `eslint.config.mjs`) file in your directory. In it, you'll see some rules configured like this:
 
-```json
-{
-    "rules": {
-        "semi": ["error", "always"],
-        "quotes": ["error", "double"]
-    }
-}
+```js
+import pluginJs from "@eslint/js";
+export default [ pluginJs.configs.recommended, ];
 ```
 
 The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/docs/rules) in ESLint. The first value is the error level of the rule and can be one of these values:
@@ -257,11 +253,6 @@ Nitin Kumar
 The people who review and fix bugs and help triage issues.
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
-<a href="https://github.com/bmish">
-<img src="https://github.com/bmish.png?s=75" width="75" height="75" alt="Bryan Mishkin's Avatar"><br />
-Bryan Mishkin
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/JoshuaKGoldberg">
 <img src="https://github.com/JoshuaKGoldberg.png?s=75" width="75" height="75" alt="Josh Goldberg ✨'s Avatar"><br />
 Josh Goldberg ✨
@@ -304,9 +295,9 @@ The following companies, organizations, and individuals support ESLint's ongoing
 <!--sponsorsstart-->
 <h3>Platinum Sponsors</h3>
 <p><a href="https://automattic.com"><img src="https://images.opencollective.com/automattic/d0ef3e1/logo.png" alt="Automattic" height="undefined"></a></p><h3>Gold Sponsors</h3>
-<p><a href="https://bitwarden.com"><img src="https://avatars.githubusercontent.com/u/15990069?v=4" alt="Bitwarden" height="96"></a> <a href="https://engineering.salesforce.com"><img src="https://images.opencollective.com/salesforce/ca8f997/logo.png" alt="Salesforce" height="96"></a> <a href="https://www.airbnb.com/"><img src="https://images.opencollective.com/airbnb/d327d66/logo.png" alt="Airbnb" height="96"></a></p><h3>Silver Sponsors</h3>
-<p><a href="https://www.jetbrains.com/"><img src="https://images.opencollective.com/jetbrains/eb04ddc/logo.png" alt="JetBrains" height="64"></a> <a href="https://liftoff.io/"><img src="https://images.opencollective.com/liftoff/5c4fa84/logo.png" alt="Liftoff" height="64"></a> <a href="https://americanexpress.io"><img src="https://avatars.githubusercontent.com/u/3853301?v=4" alt="American Express" height="64"></a> <a href="https://www.workleap.com"><img src="https://avatars.githubusercontent.com/u/53535748?u=d1e55d7661d724bf2281c1bfd33cb8f99fe2465f&v=4" alt="Workleap" height="64"></a></p><h3>Bronze Sponsors</h3>
-<p><a href="https://www.notion.so"><img src="https://images.opencollective.com/notion/bf3b117/logo.png" alt="notion" height="32"></a> <a href="https://themeisle.com"><img src="https://images.opencollective.com/themeisle/d5592fe/logo.png" alt="ThemeIsle" height="32"></a> <a href="https://www.crosswordsolver.org/anagram-solver/"><img src="https://images.opencollective.com/anagram-solver/2666271/logo.png" alt="Anagram Solver" height="32"></a> <a href="https://icons8.com/"><img src="https://images.opencollective.com/icons8/7fa1641/logo.png" alt="Icons8" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/f9645d9/logo.png" alt="Discord" height="32"></a> <a href="https://transloadit.com/"><img src="https://avatars.githubusercontent.com/u/125754?v=4" alt="Transloadit" height="32"></a> <a href="https://www.ignitionapp.com"><img src="https://avatars.githubusercontent.com/u/5753491?v=4" alt="Ignition" height="32"></a> <a href="https://nx.dev"><img src="https://avatars.githubusercontent.com/u/23692104?v=4" alt="Nx" height="32"></a> <a href="https://herocoders.com"><img src="https://avatars.githubusercontent.com/u/37549774?v=4" alt="HeroCoders" height="32"></a> <a href="https://usenextbase.com"><img src="https://avatars.githubusercontent.com/u/145838380?v=4" alt="Nextbase Starter Kit" height="32"></a></p>
+<p><a href="#"><img src="https://images.opencollective.com/guest-bf377e88/avatar.png" alt="Eli Schleifer" height="96"></a> <a href="https://engineering.salesforce.com"><img src="https://images.opencollective.com/salesforce/ca8f997/logo.png" alt="Salesforce" height="96"></a> <a href="https://www.airbnb.com/"><img src="https://images.opencollective.com/airbnb/d327d66/logo.png" alt="Airbnb" height="96"></a></p><h3>Silver Sponsors</h3>
+<p><a href="https://www.jetbrains.com/"><img src="https://images.opencollective.com/jetbrains/fe76f99/logo.png" alt="JetBrains" height="64"></a> <a href="https://liftoff.io/"><img src="https://images.opencollective.com/liftoff/5c4fa84/logo.png" alt="Liftoff" height="64"></a> <a href="https://americanexpress.io"><img src="https://avatars.githubusercontent.com/u/3853301?v=4" alt="American Express" height="64"></a> <a href="https://www.workleap.com"><img src="https://avatars.githubusercontent.com/u/53535748?u=d1e55d7661d724bf2281c1bfd33cb8f99fe2465f&v=4" alt="Workleap" height="64"></a></p><h3>Bronze Sponsors</h3>
+<p><a href="https://www.notion.so"><img src="https://images.opencollective.com/notion/bf3b117/logo.png" alt="notion" height="32"></a> <a href="https://www.crosswordsolver.org/anagram-solver/"><img src="https://images.opencollective.com/anagram-solver/2666271/logo.png" alt="Anagram Solver" height="32"></a> <a href="https://icons8.com/"><img src="https://images.opencollective.com/icons8/7fa1641/logo.png" alt="Icons8" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/f9645d9/logo.png" alt="Discord" height="32"></a> <a href="https://www.ignitionapp.com"><img src="https://avatars.githubusercontent.com/u/5753491?v=4" alt="Ignition" height="32"></a> <a href="https://nx.dev"><img src="https://avatars.githubusercontent.com/u/23692104?v=4" alt="Nx" height="32"></a> <a href="https://herocoders.com"><img src="https://avatars.githubusercontent.com/u/37549774?v=4" alt="HeroCoders" height="32"></a> <a href="https://usenextbase.com"><img src="https://avatars.githubusercontent.com/u/145838380?v=4" alt="Nextbase Starter Kit" height="32"></a></p>
 <!--sponsorsend-->
 
 ## Technology Sponsors

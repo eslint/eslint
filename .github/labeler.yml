@@ -1,7 +1,8 @@
-documentation:
-- any:
-  - changed-files:
-    - all-globs-to-all-files: ['docs/**', '!lib/rules/**']
+# Skipping this due to https://github.com/actions/labeler/issues/763
+#documentation:
+#- any:
+#  - changed-files:
+#    - all-globs-to-all-files: ['docs/**', '!lib/rules/**']
 
 rule:
 - any:

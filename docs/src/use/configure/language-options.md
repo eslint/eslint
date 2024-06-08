@@ -23,7 +23,7 @@ ESLint allows you to specify the JavaScript language options you want to support
     * `commonjs` - CommonJS module (useful if your code uses `require()`). Your code has a top-level function scope and runs in non-strict mode.
     * `script` - non-module. Your code has a shared global scope and runs in non-strict mode.
 
-Here's an example configuration file you might use when linting ECMAScript 5 code:
+Here's an example [configuration file](./configuration-files#configuration-file) you might use when linting ECMAScript 5 code:
 
 ```js
 // eslint.config.js
@@ -47,7 +47,7 @@ If you are using the built-in ESLint parser, you can additionally change how ESL
     * `impliedStrict` - enable global [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) (if `ecmaVersion` is `5` or greater)
     * `jsx` - enable [JSX](https://facebook.github.io/jsx/)
 
-Here's an example configuration file that enables JSX parsing in the default parser:
+Here's an example [configuration file](./configuration-files#configuration-file) that enables JSX parsing in the default parser:
 
 ```js
 // eslint.config.js
@@ -88,7 +88,7 @@ This defines two global variables, `var1` and `var2`. If you want to optionally 
 
 ### Using configuration files
 
-To configure global variables inside of a configuration file, set the `languageOptions.globals` configuration property to an object containing keys named for each of the global variables you want to use. For each global variable key, set the corresponding value equal to `"writable"` to allow the variable to be overwritten or `"readonly"` to disallow overwriting. For example:
+To configure global variables inside of a [configuration file](./configuration-files#configuration-file), set the `languageOptions.globals` configuration property to an object containing keys named for each of the global variables you want to use. For each global variable key, set the corresponding value equal to `"writable"` to allow the variable to be overwritten or `"readonly"` to disallow overwriting. For example:
 
 ```js
 // eslint.config.js

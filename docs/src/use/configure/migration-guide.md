@@ -16,9 +16,23 @@ For reference information on these configuration formats, refer to the following
 * [eslintrc configuration files](configuration-files-deprecated)
 * [flat configuration files](configuration-files)
 
+## Migrate Your Config File
+
+To get started, use the [configuration migrator](https://npmjs.com/package/@eslint/migrate-config) on your existing configuration file (`.eslintrc`, `.eslintrc.json`, `.eslintrc.yml`), like this:
+
+```shell
+npx @eslint/migrate-config .eslintrc.json
+```
+
+This will create a starting point for your `eslint.config.js` file but is not guaranteed to work immediately without further modification. It will, however, do most of the conversion work mentioned in this guide automatically.
+
+::: important
+The configuration migrator doesn't yet work well for `.eslintrc.js` files. If you are using `.eslintrc.js`, the migration results in a config file that matches the evaluated output of your configuration and won't include any functions, conditionals, or anything other than the raw data represented in your configuration.
+:::
+
 ## Start Using Flat Config Files
 
-Starting with ESLint v9.0.0, the flat config file format will be the default configuration file format. Once ESLint v9.0.0 is released, you can start using the flat config file format without any additional configuration.
+The flat config file format has been the default configuration file format since ESLint v9.0.0. You can start using the flat config file format without any additional configuration.
 
 To use flat config with ESLint v8, place a `eslint.config.js` file in the root of your project **or** set the `ESLINT_USE_FLAT_CONFIG` environment variable to `true`.
 
@@ -77,6 +91,10 @@ export default [
     }
 ];
 ```
+
+::: tip
+If you import a plugin and get an error such as "TypeError: context.getScope is not a function", then that means the plugin has not yet been updated to the ESLint v9.x rule API. While you should file an issue with the particular plugin, you can manually patch the plugin to work in ESLint v9.x using the [compatibility utilities](https://eslint.org/blog/2024/05/eslint-compatibility-utilities/).
+:::
 
 ### Custom Parsers
 
@@ -256,7 +274,7 @@ export default [
 ];
 ```
 
-A flag config example configuration supporting multiple configs for different glob patterns:
+A flat config example configuration supporting multiple configs for different glob patterns:
 
 ```javascript
 // eslint.config.js
@@ -329,6 +347,10 @@ export default [
     }
 ];
 ```
+
+::: tip
+You'll need to install the `globals` package from npm for this example to work. It is not automatically installed by ESLint.
+:::
 
 ### `eslint-env` Configuration Comments
 
@@ -646,6 +668,12 @@ The `--resolve-plugins-relative-to` flag was used to indicate which directory pl
 
 With flat config, shareable configs can specify their dependencies directly, so this flag is no longer needed.
 
+### `package.json` Configuration No Longer Supported
+
+With eslintrc, it was possible to use a `package.json` file to configure ESLint using the `eslintConfig` key.
+
+With flat config, it's no longer possible to use a `package.json` file to configure ESLint. You'll need to move your configuration into a separate file.
+
 ### Additional Changes
 
 The following changes have been made from the eslintrc to the flat config file format:
@@ -658,7 +686,24 @@ The following changes have been made from the eslintrc to the flat config file f
 
 You can see the TypeScript types for the flat config file format in the DefinitelyTyped project. The interface for the objects in the config’s array is called the `FlatConfig`.
 
-You can view the type definitions in the [DefinitelyTyped repository on Github](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/eslint/index.d.ts).
+You can view the type definitions in the [DefinitelyTyped repository on GitHub](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/eslint/index.d.ts).
+
+## Visual Studio Code Support
+
+By default, the [Visual Studio Code ESLint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) does not look for `eslint.config.js` files. To enable support for the new configuration files, edit your `.vscode/settings.json` file and add the following:
+
+```json
+{
+  // enable flat config files (eslint.config.*js)
+  "eslint.experimental.useFlatConfig": true
+}
+```
+
+In a future version of the ESLint plugin, you will no longer need to enable this manually.
+
+::: important
+The ESLint team does not maintain the ESLint plugin for Visual Studio Code, and as such, we don't have any control over its release cycle. We are currently waiting on [this issue](https://github.com/microsoft/vscode-eslint/issues/1644 "Microsoft/vscode-eslint issue: Enable Flat Config by default") to be resolved.
+:::
 
 ## Further Reading
 

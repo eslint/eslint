@@ -12,12 +12,12 @@
 
 const checker = require("npm-license"),
     ReleaseOps = require("eslint-release"),
-    fs = require("fs"),
+    fs = require("node:fs"),
     glob = require("glob"),
     marked = require("marked"),
     matter = require("gray-matter"),
-    os = require("os"),
-    path = require("path"),
+    os = require("node:os"),
+    path = require("node:path"),
     semver = require("semver"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
@@ -273,6 +273,73 @@ function publishSite() {
 }
 
 /**
+ * Determines whether the given version is a prerelease.
+ * @param {string} version The version to check.
+ * @returns {boolean} `true` if it is a prerelease, `false` otherwise.
+ */
+function isPreRelease(version) {
+    return /[a-z]/u.test(version);
+}
+
+/**
+ * Updates docs/src/_data/versions.json
+ * @param {string} oldVersion Current version.
+ * @param {string} newVersion New version to be released.
+ * @returns {void}
+ */
+function updateVersions(oldVersion, newVersion) {
+    echo("Updating ESLint versions list in docs package");
+
+    const filePath = path.join(__dirname, "docs", "src", "_data", "versions.json");
+    const data = require(filePath);
+    const { items } = data;
+
+    const isOldVersionPrerelease = isPreRelease(oldVersion);
+    const isNewVersionPrerelease = isPreRelease(newVersion);
+
+    if (isOldVersionPrerelease) {
+        if (isNewVersionPrerelease) {
+
+            // prerelease -> prerelease. Just update the version.
+            items.find(item => item.branch === "next").version = newVersion;
+        } else {
+
+            // prerelease -> release. First, update the item for the previous latest version
+            const latestVersionItem = items.find(item => item.branch === "latest");
+            const latestVersion = latestVersionItem.version;
+            const versionBranch = `v${latestVersion.slice(0, latestVersion.indexOf("."))}.x`; // "v8.x", "v9.x", "v10.x" ...
+
+            latestVersionItem.branch = versionBranch;
+            latestVersionItem.path = `/docs/${versionBranch}/`;
+
+            // Then, replace the item for the prerelease with a new item for the new latest version
+            items.splice(items.findIndex(item => item.branch === "next"), 1, {
+                version: newVersion,
+                branch: "latest",
+                path: "/docs/latest/"
+            });
+
+        }
+    } else {
+        if (isNewVersionPrerelease) {
+
+            // release -> prerelease. Insert an item for the prerelease.
+            items.splice(1, 0, {
+                version: newVersion,
+                branch: "next",
+                path: "/docs/next/"
+            });
+        } else {
+
+            // release -> release. Just update the version.
+            items.find(item => item.branch === "latest").version = newVersion;
+        }
+    }
+
+    fs.writeFileSync(filePath, `${JSON.stringify(data, null, 4)}\n`);
+}
+
+/**
  * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
  * and generates the site in an adjacent `website` folder.
  * @param {string} [prereleaseId] The prerelease identifier (alpha, beta, etc.). If `undefined`, this is
@@ -280,6 +347,8 @@ function publishSite() {
  * @returns {void}
  */
 function generateRelease(prereleaseId) {
+    const oldVersion = require("./package.json").version;
+
     ReleaseOps.generateRelease(prereleaseId);
     const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
 
@@ -295,6 +364,8 @@ function generateRelease(prereleaseId) {
     docsPackage.version = releaseInfo.version;
     fs.writeFileSync(docsPackagePath, `${JSON.stringify(docsPackage, null, 4)}\n`);
 
+    updateVersions(oldVersion, releaseInfo.version);
+
     echo("Updating commit with docs data");
     exec("git add docs/ && git commit --amend --no-edit");
     exec(`git tag -a -f v${releaseInfo.version} -m ${releaseInfo.version}`);
@@ -308,13 +379,12 @@ function generateRelease(prereleaseId) {
 function publishRelease() {
     ReleaseOps.publishRelease();
     const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
-    const isPreRelease = /[a-z]/u.test(releaseInfo.version);
 
     /*
      * for a pre-release, push to the "next" branch to trigger docs deploy
      * for a release, push to the "latest" branch to trigger docs deploy
      */
-    if (isPreRelease) {
+    if (isPreRelease(releaseInfo.version)) {
         exec("git push origin HEAD:next -f");
     } else {
         exec("git push origin HEAD:latest -f");
@@ -581,7 +651,7 @@ target.mocha = () => {
         errors++;
     }
 
-    lastReturn = exec(`${getBinFile("c8")} check-coverage --statement 98 --branch 97 --function 98 --lines 98`);
+    lastReturn = exec(`${getBinFile("c8")} check-coverage --statements 99 --branches 98 --functions 99 --lines 99`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -604,9 +674,6 @@ target.wdio = () => {
 target.test = function() {
     target.checkRuleFiles();
     target.mocha();
-
-    // target.wdio(); // Temporarily disabled due to problems on Jenkins
-
     target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
     target.checkLicenses();
 };
@@ -818,7 +885,7 @@ target.checkRuleFiles = function() {
 };
 
 target.checkRuleExamples = function() {
-    const { execFileSync } = require("child_process");
+    const { execFileSync } = require("node:child_process");
 
     // We don't need the stack trace of execFileSync if the command fails.
     try {

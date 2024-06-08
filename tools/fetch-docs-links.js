@@ -27,8 +27,8 @@ const metascraper = require("metascraper")([
     require("metascraper-description")()
 ]);
 const got = require("got");
-const path = require("path");
-const fs = require("fs").promises;
+const path = require("node:path");
+const fs = require("node:fs").promises;
 const glob = require("fast-glob");
 
 //-----------------------------------------------------------------------------

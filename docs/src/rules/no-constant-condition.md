@@ -118,9 +118,111 @@ if(input === "hello" || input === "bye"){
 
 ### checkLoops
 
-Set to `true` by default. Setting this option to `false` allows constant expressions in loops.
+This is a string option having following values:
 
-Examples of **correct** code for when `checkLoops` is `false`:
+* `"all"` - Disallow constant expressions in all loops.
+* `"allExceptWhileTrue"` (default) - Disallow constant expressions in all loops except `while` loops with expression `true`.
+* `"none"` - Allow constant expressions in loops.
+
+Or instead you can set the `checkLoops` value to booleans where `true` is same as `"all"` and `false` is same as `"none"`.
+
+Examples of **incorrect** code for when `checkLoops` is `"all"` or `true`:
+
+::: incorrect
+
+```js
+/*eslint no-constant-condition: ["error", { "checkLoops": "all" }]*/
+
+while (true) {
+    doSomething();
+};
+
+for (;true;) {
+    doSomething();
+};
+```
+
+:::
+
+::: incorrect
+
+```js
+/*eslint no-constant-condition: ["error", { "checkLoops": true }]*/
+
+while (true) {
+    doSomething();
+};
+
+do {
+    doSomething();
+} while (true)
+```
+
+:::
+
+Examples of **correct** code for when `checkLoops` is `"all"` or `true`:
+
+::: correct
+
+```js
+/*eslint no-constant-condition: ["error", { "checkLoops": "all" }]*/
+
+while (a === b) {
+    doSomething();
+};
+```
+
+:::
+
+::: correct
+
+```js
+/*eslint no-constant-condition: ["error", { "checkLoops": true }]*/
+
+for (let x = 0; x <= 10; x++) {
+    doSomething();
+};
+```
+
+:::
+
+Example of **correct** code for when `checkLoops` is `"allExceptWhileTrue"`:
+
+::: correct
+
+```js
+/*eslint no-constant-condition: "error"*/
+
+while (true) {
+    doSomething();
+};
+```
+
+:::
+
+Examples of **correct** code for when `checkLoops` is `"none"` or `false`:
+
+::: correct
+
+```js
+/*eslint no-constant-condition: ["error", { "checkLoops": "none" }]*/
+
+while (true) {
+    doSomething();
+    if (condition()) {
+        break;
+    }
+};
+
+do {
+    doSomething();
+    if (condition()) {
+        break;
+    }
+} while (true)
+```
+
+:::
 
 ::: correct
 
@@ -140,13 +242,6 @@ for (;true;) {
         break;
     }
 };
-
-do {
-    doSomething();
-    if (condition()) {
-        break;
-    }
-} while (true)
 ```
 
 :::
