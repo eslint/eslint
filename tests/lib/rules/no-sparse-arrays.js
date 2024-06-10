@@ -39,7 +39,11 @@ ruleTester.run("no-sparse-arrays", rule, {
             code: "var a = [ 1,, 2];",
             errors: [{
                 messageId: "unexpectedSparseArray",
-                type: "ArrayExpression"
+                type: "ArrayExpression",
+                line: 1,
+                column: 13,
+                endLine: 1,
+                endColumn: 14
             }]
         },
         {
