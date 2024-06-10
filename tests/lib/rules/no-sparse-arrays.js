@@ -28,7 +28,11 @@ ruleTester.run("no-sparse-arrays", rule, {
             code: "var a = [,];",
             errors: [{
                 messageId: "unexpectedSparseArray",
-                type: "ArrayExpression"
+                type: "ArrayExpression",
+                line: 1,
+                column: 10,
+                endLine: 1,
+                endColumn: 11
             }]
         },
         {
@@ -37,6 +41,69 @@ ruleTester.run("no-sparse-arrays", rule, {
                 messageId: "unexpectedSparseArray",
                 type: "ArrayExpression"
             }]
+        },
+        {
+            code: "[,,];",
+            errors: [
+                {
+                    messageId: "unexpectedSparseArray",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 3
+                },
+                {
+                    messageId: "unexpectedSparseArray",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 3,
+                    endLine: 1,
+                    endColumn: 4
+                }
+            ]
+        },
+        {
+            code: "[(( [a,] )),,,];",
+            errors: [
+                {
+                    messageId: "unexpectedSparseArray",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
+                },
+                {
+                    messageId: "unexpectedSparseArray",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
+                }
+            ]
+        },
+        {
+            code: "[,(( [a,] )),,];",
+            errors: [
+                {
+                    messageId: "unexpectedSparseArray",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 2,
+                    endLine: 1,
+                    endColumn: 3
+                },
+                {
+                    messageId: "unexpectedSparseArray",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
+                }
+            ]
         }
     ]
 });
