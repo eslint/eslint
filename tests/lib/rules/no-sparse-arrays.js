@@ -47,23 +47,23 @@ ruleTester.run("no-sparse-arrays", rule, {
             }]
         },
         {
-            code: "[,,];",
+            code: "[\r\n\t/* comment */,\n// comment\n ,];",
             errors: [
                 {
                     messageId: "unexpectedSparseArray",
                     type: "ArrayExpression",
-                    line: 1,
-                    column: 2,
-                    endLine: 1,
-                    endColumn: 3
+                    line: 2,
+                    column: 15,
+                    endLine: 2,
+                    endColumn: 16
                 },
                 {
                     messageId: "unexpectedSparseArray",
                     type: "ArrayExpression",
-                    line: 1,
-                    column: 3,
-                    endLine: 1,
-                    endColumn: 4
+                    line: 4,
+                    column: 2,
+                    endLine: 4,
+                    endColumn: 3
                 }
             ]
         },
