@@ -1,16 +1,17 @@
 {
   "name": "eslint-config-eslint",
-  "version": "10.0.0",
+  "version": "11.0.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "Default ESLint configuration for ESLint projects.",
   "exports": {
     "./package.json": "./package.json",
     ".": "./index.js",
     "./base": "./base.js",
-    "./cjs": "./cjs.js"
+    "./cjs": "./cjs.js",
+    "./formatting": "./formatting.js"
   },
   "scripts": {
-    "test": "node ./index.js && node ./cjs.js",
+    "test": "node ./index.js && node ./cjs.js && node ./formatting.js",
     "prepublish": "npm test"
   },
   "files": [
@@ -18,6 +19,7 @@
     "README.md",
     "base.js",
     "cjs.js",
+    "formatting.js",
     "index.js",
     "nodejs.js"
   ],

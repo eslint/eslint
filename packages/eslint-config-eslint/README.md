@@ -73,6 +73,20 @@ module.exports = [
 ];
 ```
 
+### Formatting config
+
+Note that none of the above configurations includes formatting rules. If you want to enable formatting rules, add the formatting config.
+
+```js
+import eslintConfigESLint from "eslint-config-eslint";
+import eslintConfigESLintFormatting from "eslint-config-eslint/formatting";
+
+export default [
+    ...eslintConfigESLint,
+    eslintConfigESLintFormatting
+];
+```
+
 ### Where to ask for help?
 
 Open a [discussion](https://github.com/eslint/eslint/discussions) or stop by our [Discord server](https://eslint.org/chat) instead of filing an issue.
