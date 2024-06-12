@@ -107,7 +107,7 @@
     "@eslint-community/eslint-plugin-eslint-comments": "^4.3.0",
     "@types/estree": "^1.0.5",
     "@types/node": "^20.11.5",
-    "@wdio/browser-runner": "8.36.0",
+    "@wdio/browser-runner": "8.38.3",
     "@wdio/cli": "^8.14.6",
     "@wdio/concise-reporter": "^8.14.0",
     "@wdio/globals": "^8.14.6",
