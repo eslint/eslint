@@ -356,6 +356,43 @@ describe("FlatConfigArray", () => {
             assert.strictEqual(stringify(actual), stringify(expected));
         });
 
+        it("should convert config with languageOptions.globals.name into normalized JSON object", () => {
+
+            const configs = new FlatConfigArray([{
+                languageOptions: {
+                    globals: {
+                        name: "off"
+                    }
+                }
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("foo.js");
+            const expected = {
+                plugins: ["@"],
+                language: "@/js",
+                languageOptions: {
+                    ecmaVersion: "latest",
+                    sourceType: "module",
+                    parser: `espree@${espree.version}`,
+                    parserOptions: {},
+                    globals: {
+                        name: "off"
+                    }
+                },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
+                processor: void 0
+            };
+            const actual = config.toJSON();
+
+            assert.deepStrictEqual(actual, expected);
+
+            assert.strictEqual(stringify(actual), stringify(expected));
+        });
+
         it("should throw an error when config with unnamed parser object is normalized", () => {
 
             const configs = new FlatConfigArray([{
