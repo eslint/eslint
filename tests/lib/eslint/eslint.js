@@ -1305,6 +1305,22 @@ describe("ESLint", () => {
             assert.strictEqual(results[0].suppressedMessages.length, 0);
         });
 
+        // https://github.com/eslint/eslint/issues/18550
+        it("should skip files with non-standard extensions when they're matched only by a '*' files pattern", async () => {
+            eslint = new ESLint({
+                cwd: getFixturePath("files"),
+                overrideConfig: { files: ["*"] },
+                overrideConfigFile: true
+            });
+            const results = await eslint.lintFiles(["."]);
+
+            assert.strictEqual(results.length, 2);
+            assert(
+                results.every(result => /^\.[cm]?js$/u.test(path.extname(result.filePath))),
+                "File with a non-standard extension was linted"
+            );
+        });
+
         // https://github.com/eslint/eslint/issues/16413
         it("should find files and report zero messages when given a parent directory with a .js", async () => {
             eslint = new ESLint({
