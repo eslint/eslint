@@ -173,10 +173,10 @@ const __dirname = path.dirname(__filename);
 const gitignorePath = path.resolve(__dirname, ".gitignore");
 
 export default [
- includeIgnoreFile(gitignorePath),
- {
-  // your overrides
- }
+    includeIgnoreFile(gitignorePath),
+    {
+        // your overrides
+    }
 ];
 ```
 
