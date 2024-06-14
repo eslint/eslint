@@ -159,7 +159,7 @@ export default [
 This configuration object applies to all JavaScript files except those ending with `.config.js`. Effectively, this is like having `files` set to `**/*`. In general, it's a good idea to always include `files` if you are specifying `ignores`.
 
 Note that when `files` is not specified, negated `ignores` patterns do not cause any matching files to be linted automatically.
-ESLint only lints files that are matched either by default or by a `files` pattern not ending with `/*` or `/**`.
+ESLint only lints files that are matched either by default or by a `files` pattern that is not `*` and does not end with `/*` or `/**`.
 
 ::: tip
 Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspect-config` in the CLI) to test which config objects apply to a specific file.
@@ -167,7 +167,7 @@ Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspe
 
 #### Specifying files with arbitrary extensions
 
-To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a pattern in the format of `"**/*.extension"`. (Any pattern that doesn't end with `/*` or `/**` will work.)
+To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a pattern in the format of `"**/*.extension"`. (Any pattern that is not `*` and doesn't end with `/*` or `/**` will work.)
 For example, to lint TypeScript files with `.ts`, `.cts` and `.mts` extensions, you would specify a configuration object like this:
 
 ```js
