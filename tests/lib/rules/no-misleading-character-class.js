@@ -1597,7 +1597,7 @@ ruleTester.run("no-misleading-character-class", rule, {
             }]
         },
 
-        /* eslint-disable lines-around-comment, internal-rules/multiline-comment-style -- see https://github.com/eslint/eslint/issues/18081 */
+        /* eslint-disable lines-around-comment -- see https://github.com/eslint/eslint/issues/18081 */
 
         {
             code: String.raw`
@@ -1737,7 +1737,7 @@ ruleTester.run("no-misleading-character-class", rule, {
             errors: [{ messageId: "combiningClass" }]
         }
 
-        /* eslint-enable lines-around-comment, internal-rules/multiline-comment-style -- re-enable rule */
+        /* eslint-enable lines-around-comment -- re-enable rule */
 
     ]
 });
