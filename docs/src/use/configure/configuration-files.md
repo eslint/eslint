@@ -167,7 +167,7 @@ Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspe
 
 #### Specifying files with arbitrary extensions
 
-To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a pattern in the format of `"**/*.extension"`. (Any pattern that is not `*` and doesn't end with `/*` or `/**` will work.)
+To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a pattern in the format of `"**/*.extension"`. Any pattern will work except if it is `*` or if it ends with `/*` or `/**`.
 For example, to lint TypeScript files with `.ts`, `.cts` and `.mts` extensions, you would specify a configuration object like this:
 
 ```js
