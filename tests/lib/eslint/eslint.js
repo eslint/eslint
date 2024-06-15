@@ -26,6 +26,7 @@ const hash = require("../../../lib/cli-engine/hash");
 const { unIndent, createCustomTeardown } = require("../../_utils");
 const { shouldUseFlatConfig } = require("../../../lib/eslint/eslint");
 const coreRules = require("../../../lib/rules");
+const espree = require("espree");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -1530,6 +1531,22 @@ describe("ESLint", () => {
             assert.strictEqual(results[0].messages.length, 0);
             assert.strictEqual(results[1].messages.length, 0);
             assert.strictEqual(results[0].suppressedMessages.length, 0);
+        });
+
+        // https://github.com/eslint/eslint/issues/18550
+        it("should skip files with non-standard extensions when they're matched only by a '*' files pattern", async () => {
+            eslint = new ESLint({
+                cwd: getFixturePath("files"),
+                overrideConfig: { files: ["*"] },
+                overrideConfigFile: true
+            });
+            const results = await eslint.lintFiles(["."]);
+
+            assert.strictEqual(results.length, 2);
+            assert(
+                results.every(result => /^\.[cm]?js$/u.test(path.extname(result.filePath))),
+                "File with a non-standard extension was linted"
+            );
         });
 
         // https://github.com/eslint/eslint/issues/16413
@@ -7703,6 +7720,7 @@ describe("ESLint", () => {
                         parser: {
                             parse(text, parserOptions) {
                                 resolvedParserOptions = parserOptions;
+                                return espree.parse(text, parserOptions);
                             }
                         },
                         parserOptions: {

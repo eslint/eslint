@@ -405,7 +405,7 @@ npx eslint --fix --fix-type suggestion,layout .
 * **Multiple Arguments**: No
 * **Default Value**:  By default, ESLint looks for `.eslintignore` in the current working directory.
 
-**Note:** `--ignore-path` is only supported when using [deprecated configuration](./configure/configuration-files-deprecated).
+**Note:** `--ignore-path` is only supported when using [deprecated configuration](./configure/configuration-files-deprecated). If you want to include patterns from a `.gitignore` file in your `eslint.config.js` file, please see [including `.gitignore` files](./configure/ignore#including-gitignore-files).
 
 ##### `--ignore-path` example
 

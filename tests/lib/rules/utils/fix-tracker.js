@@ -12,7 +12,7 @@ const assert = require("chai").assert,
     espree = require("espree"),
     FixTracker = require("../../../../lib/rules/utils/fix-tracker"),
     ruleFixer = require("../../../../lib/linter/rule-fixer"),
-    { SourceCode } = require("../../../../lib/source-code"),
+    { SourceCode } = require("../../../../lib/languages/js/source-code"),
     Traverser = require("../../../../lib/shared/traverser");
 
 //------------------------------------------------------------------------------
