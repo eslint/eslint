@@ -3176,6 +3176,12 @@ describe("Linter", () => {
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
+            assert.strictEqual(messages[0].endLine, 1);
+            assert.strictEqual(messages[0].endColumn, 24);
+            assert.strictEqual(messages[0].ruleId, null);
+            assert.strictEqual(messages[0].fatal, true);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].nodeType, null);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
             assert.strictEqual(messages[1].message, "Unexpected alert.");
@@ -3204,6 +3210,12 @@ describe("Linter", () => {
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
+            assert.strictEqual(messages[0].endLine, 1);
+            assert.strictEqual(messages[0].endColumn, 24);
+            assert.strictEqual(messages[0].ruleId, null);
+            assert.strictEqual(messages[0].fatal, true);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].nodeType, null);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
             assert.strictEqual(messages[1].message, "Unexpected alert.");
@@ -3213,7 +3225,7 @@ describe("Linter", () => {
         });
 
         it("should report a violation", () => {
-            const code = "/*eslint no-alert:0 2*/ alert('test');";
+            const code = "\n\n\n    /*eslint no-alert:0 2*/ alert('test');";
 
             const config = { rules: { "no-alert": 1 } };
 
@@ -3230,8 +3242,14 @@ describe("Linter", () => {
              * parseJsonConfig function in lib/eslint.js
              */
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/u);
-            assert.strictEqual(messages[0].line, 1);
-            assert.strictEqual(messages[0].column, 1);
+            assert.strictEqual(messages[0].line, 4);
+            assert.strictEqual(messages[0].column, 5);
+            assert.strictEqual(messages[0].endLine, 4);
+            assert.strictEqual(messages[0].endColumn, 28);
+            assert.strictEqual(messages[0].ruleId, null);
+            assert.strictEqual(messages[0].fatal, true);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].nodeType, null);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
             assert.strictEqual(messages[1].message, "Unexpected alert.");
@@ -11811,6 +11829,12 @@ describe("Linter with FlatConfigArray", () => {
                         assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/u);
                         assert.strictEqual(messages[0].line, 1);
                         assert.strictEqual(messages[0].column, 1);
+                        assert.strictEqual(messages[0].endLine, 1);
+                        assert.strictEqual(messages[0].endColumn, 24);
+                        assert.strictEqual(messages[0].ruleId, null);
+                        assert.strictEqual(messages[0].fatal, true);
+                        assert.strictEqual(messages[0].severity, 2);
+                        assert.strictEqual(messages[0].nodeType, null);
 
                         assert.strictEqual(messages[1].ruleId, "no-alert");
                         assert.strictEqual(messages[1].message, "Unexpected alert.");
@@ -11839,6 +11863,12 @@ describe("Linter with FlatConfigArray", () => {
                         assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/u);
                         assert.strictEqual(messages[0].line, 1);
                         assert.strictEqual(messages[0].column, 1);
+                        assert.strictEqual(messages[0].endLine, 1);
+                        assert.strictEqual(messages[0].endColumn, 24);
+                        assert.strictEqual(messages[0].ruleId, null);
+                        assert.strictEqual(messages[0].fatal, true);
+                        assert.strictEqual(messages[0].severity, 2);
+                        assert.strictEqual(messages[0].nodeType, null);
 
                         assert.strictEqual(messages[1].ruleId, "no-alert");
                         assert.strictEqual(messages[1].message, "Unexpected alert.");
@@ -11848,7 +11878,7 @@ describe("Linter with FlatConfigArray", () => {
                     });
 
                     it("should report a violation", () => {
-                        const code = "/*eslint no-alert:0 2*/ alert('test');";
+                        const code = "\n\n\n    /*eslint no-alert:0 2*/ alert('test');";
 
                         const config = { rules: { "no-alert": 1 } };
 
@@ -11865,8 +11895,14 @@ describe("Linter with FlatConfigArray", () => {
                          * parseJsonConfig function in lib/eslint.js
                          */
                         assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/u);
-                        assert.strictEqual(messages[0].line, 1);
-                        assert.strictEqual(messages[0].column, 1);
+                        assert.strictEqual(messages[0].line, 4);
+                        assert.strictEqual(messages[0].column, 5);
+                        assert.strictEqual(messages[0].endLine, 4);
+                        assert.strictEqual(messages[0].endColumn, 28);
+                        assert.strictEqual(messages[0].ruleId, null);
+                        assert.strictEqual(messages[0].fatal, true);
+                        assert.strictEqual(messages[0].severity, 2);
+                        assert.strictEqual(messages[0].nodeType, null);
 
                         assert.strictEqual(messages[1].ruleId, "no-alert");
                         assert.strictEqual(messages[1].message, "Unexpected alert.");
