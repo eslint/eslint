@@ -193,7 +193,7 @@ By the same token, supporting ES6 syntax is not the same as supporting new ES6 g
 
 Parser options are set in your `.eslintrc.*` file with the `parserOptions` property. The available options are:
 
-* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, 10, 11, 12, 13, 14, or 15 to specify the version of ECMAScript syntax you want to use. You can also set it to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), 2019 (same as 10), 2020 (same as 11), 2021 (same as 12), 2022 (same as 13), 2023 (same as 14), or 2024 (same as 15) to use the year-based naming. You can also set `"latest"` to use the most recently supported version.
+* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, or 16 to specify the version of ECMAScript syntax you want to use. You can also set it to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), 2019 (same as 10), 2020 (same as 11), 2021 (same as 12), 2022 (same as 13), 2023 (same as 14), 2024 (same as 15), or 2025 (same as 16) to use the year-based naming. You can also set `"latest"` to use the most recently supported version.
 * `sourceType` - set to `"script"` (default) or `"module"` if your code is in ECMAScript modules.
 * `allowReserved` - allow the use of reserved words as identifiers (if `ecmaVersion` is 3).
 * `ecmaFeatures` - an object indicating which additional language features you'd like to use:

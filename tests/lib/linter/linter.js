@@ -5610,7 +5610,7 @@ var a = "test2";
             });
 
             it("supports ECMAScript version 'latest'", () => {
-                const messages = linter.verify("let x = /[\\q{abc|d}&&[A--B]]/v;", {
+                const messages = linter.verify("let x = /(?<x>a)|(?<x>b)/;", {
                     parserOptions: { ecmaVersion: "latest" }
                 });
                 const suppressedMessages = linter.getSuppressedMessages();
@@ -7865,6 +7865,14 @@ describe("Linter with FlatConfigArray", () => {
                     };
 
                     linter.verify("foo", config, filename);
+                });
+
+                it("ecmaVersion should be 'latest' by default", () => {
+                    const messages = linter.verify("let x = /(?<x>a)|(?<x>b)/;"); // ECMAScript 2025 syntax
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 0); // No parsing errors
+                    assert.strictEqual(suppressedMessages.length, 0);
                 });
 
                 it("ecmaVersion should be normalized to latest year by default", () => {
