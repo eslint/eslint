@@ -694,7 +694,7 @@ ESLint v9.x support was added in the [`vscode-eslint`](https://marketplace.visua
 
 In versions of `vscode-eslint` prior to v3.0.10, the new configuration system is not enabled by default. To enable support for the new configuration files, edit your `.vscode/settings.json` file and add the following:
 
-```jsonc
+```json
 {
   // required in vscode-eslint < v3.0.10 only
   "eslint.experimental.useFlatConfig": true
