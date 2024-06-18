@@ -130,12 +130,17 @@ async function findProblems(filename) {
                         continue;
                     }
                     const { directiveValue } = commentParser.parseDirective(comment);
-                    const parseResult = commentParser.parseJsonConfig(directiveValue, comment.loc);
+                    const parseResult = commentParser.parseJsonConfig(directiveValue);
                     const parseError = parseResult.error;
 
                     if (parseError) {
-                        parseError.line += codeBlockToken.map[0] + 1;
-                        problems.push(parseError);
+                        problems.push({
+                            fatal: true,
+                            severity: 2,
+                            message: parseError.message,
+                            line: comment.loc.start.line + codeBlockToken.map[0] + 1,
+                            column: comment.loc.start.column + 1
+                        });
                     } else if (Object.hasOwn(parseResult.config, title)) {
                         if (hasRuleConfigComment) {
                             problems.push({
