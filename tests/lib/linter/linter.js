@@ -16901,6 +16901,11 @@ var a = "test2";
                 assert.strictEqual(messages[5].line, 9);
                 assert.strictEqual(messages[5].column, 3);
 
+                assert.strictEqual(messages[6].ruleId, null);
+                assert.match(messages[6].message, /Unused eslint-disable directive/u);
+                assert.strictEqual(messages[6].line, 10);
+                assert.strictEqual(messages[6].column, 3);
+
                 assert.strictEqual(messages[7].ruleId, "test/no-classes");
                 assert.strictEqual(messages[7].message, "No classes allowed.");
                 assert.strictEqual(messages[7].line, 12);
