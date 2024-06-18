@@ -17,7 +17,7 @@ const { assert } = require("chai"),
 
 const { Linter } = require("../../../lib/linter");
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
-
+const { SourceCode } = require("../../../lib/languages/js/source-code");
 const { LATEST_ECMA_VERSION } = require("../../../conf/ecma-version");
 
 //------------------------------------------------------------------------------
@@ -6176,6 +6176,36 @@ var a = "test2";
             linter.verify(linter.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
         });
 
+        it("should verify a SourceCode object created with the constructor", () => {
+            const text = "var foo = bar;";
+            const sourceCode = new SourceCode({
+                text,
+                ast: espree.parse(text, { loc: true, range: true, tokens: true, comment: true })
+            });
+            const messages = linter.verify(sourceCode, { rules: { "no-undef": "error" } });
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "'bar' is not defined.");
+            assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        it("should ensure that SourceCode properties are copied over during linting", () => {
+            const text = "var foo = bar;";
+            const sourceCode = new SourceCode({
+                text,
+                ast: espree.parse(text, { loc: true, range: true, tokens: true, comment: true }),
+                hasBOM: true
+            });
+
+            linter.verify(sourceCode, { rules: { "no-undef": "error" } });
+            const resultSourceCode = linter.getSourceCode();
+
+            assert.strictEqual(resultSourceCode.text, text);
+            assert.strictEqual(resultSourceCode.ast, sourceCode.ast);
+            assert.strictEqual(resultSourceCode.hasBOM, true);
+        });
+
         it("should reuse the SourceCode object", () => {
             let ast1 = null,
                 ast2 = null;
@@ -7442,7 +7472,7 @@ var a = "test2";
 
         it("should have file path passed to it", () => {
             const code = "/* this is code */";
-            const parseSpy = { parse: sinon.spy() };
+            const parseSpy = { parse: sinon.spy(espree.parse) };
 
             linter.defineParser("stub-parser", parseSpy);
             linter.verify(code, { parser: "stub-parser" }, filename, true);
@@ -7690,6 +7720,7 @@ var a = "test2";
             assert.strictEqual(messages.length, 0);
             assert.strictEqual(suppressedMessages.length, 0);
         });
+
     });
 
     describe("merging 'parserOptions'", () => {
@@ -8245,7 +8276,7 @@ describe("Linter with FlatConfigArray", () => {
 
                     it("should have file path passed to it", () => {
                         const code = "/* this is code */";
-                        const parseSpy = { parse: sinon.spy() };
+                        const parseSpy = { parse: sinon.spy(espree.parse) };
                         const config = {
                             languageOptions: {
                                 parser: parseSpy
@@ -15552,6 +15583,40 @@ var a = "test2";
             assert.strictEqual(messages[0].column, 1);
 
             assert.strictEqual(suppressedMessages.length, 0);
+        });
+
+        describe("Passing SourceCode", () => {
+
+            it("should verify a SourceCode object created with the constructor", () => {
+                const text = "var foo = bar;";
+                const sourceCode = new SourceCode({
+                    text,
+                    ast: espree.parse(text, { loc: true, range: true, tokens: true, comment: true })
+                });
+                const messages = linter.verify(sourceCode, { rules: { "no-undef": "error" } });
+                const suppressedMessages = linter.getSuppressedMessages();
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].message, "'bar' is not defined.");
+                assert.strictEqual(suppressedMessages.length, 0);
+            });
+
+            it("should ensure that SourceCode properties are copied over during linting", () => {
+                const text = "var foo = bar;";
+                const sourceCode = new SourceCode({
+                    text,
+                    ast: espree.parse(text, { loc: true, range: true, tokens: true, comment: true }),
+                    hasBOM: true
+                });
+
+                linter.verify(sourceCode, { rules: { "no-undef": "error" } });
+                const resultSourceCode = linter.getSourceCode();
+
+                assert.strictEqual(resultSourceCode.text, text);
+                assert.strictEqual(resultSourceCode.ast, sourceCode.ast);
+                assert.strictEqual(resultSourceCode.hasBOM, true);
+            });
+
         });
     });
 

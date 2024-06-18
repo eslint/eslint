@@ -14,9 +14,9 @@ const fs = require("node:fs"),
     espree = require("espree"),
     eslintScope = require("eslint-scope"),
     sinon = require("sinon"),
-    { Linter } = require("../../../lib/linter"),
-    SourceCode = require("../../../lib/source-code/source-code"),
-    astUtils = require("../../../lib/shared/ast-utils");
+    { Linter } = require("../../../../../lib/linter"),
+    SourceCode = require("../../../../../lib/languages/js/source-code/source-code"),
+    astUtils = require("../../../../../lib/shared/ast-utils");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -206,7 +206,7 @@ describe("SourceCode", () => {
         });
 
         describe("when it read a UTF-8 file (has BOM), SourceCode", () => {
-            const UTF8_FILE = path.resolve(__dirname, "../../fixtures/utf8-bom.js");
+            const UTF8_FILE = path.resolve(__dirname, "../../../../fixtures/utf8-bom.js");
             const text = fs.readFileSync(
                 UTF8_FILE,
                 "utf8"

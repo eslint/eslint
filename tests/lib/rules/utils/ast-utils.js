@@ -14,7 +14,7 @@ const assert = require("chai").assert,
     espree = require("espree"),
     astUtils = require("../../../../lib/rules/utils/ast-utils"),
     { Linter } = require("../../../../lib/linter"),
-    { SourceCode } = require("../../../../lib/source-code");
+    { SourceCode } = require("../../../../lib/languages/js/source-code");
 
 //------------------------------------------------------------------------------
 // Tests

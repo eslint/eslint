@@ -82,7 +82,8 @@ Each configuration object contains all of the information ESLint needs to execut
 Patterns specified in `files` and `ignores` use [`minimatch`](https://www.npmjs.com/package/minimatch) syntax and are evaluated relative to the location of the `eslint.config.js` file. If using an alternate config file via the `--config` command line option, then all patterns are evaluated relative to the current working directory.
 :::
 
-You can use a combination of `files` and `ignores` to determine which files should apply the configuration object and which should not. By default, ESLint matches `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Because config objects that don't specify `files` or `ignores` apply to all files that have been matched by any other configuration object, those config objects apply to any JavaScript files passed to ESLint by default. For example:
+You can use a combination of `files` and `ignores` to determine which files the configuration object should apply to and which not. By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Those files are always matched unless you explicitly exclude them using `ignores`.
+Because config objects that don't specify `files` or `ignores` apply to all files that have been matched by any other configuration object, they will apply to all JavaScript files. For example:
 
 ```js
 // eslint.config.js
@@ -145,7 +146,7 @@ Here, the configuration object excludes files ending with `.config.js` except fo
 
 Non-global `ignores` patterns can only match file names. A pattern like `"dir-to-exclude/"` will not ignore anything. To ignore everything in a particular directory, a pattern like `"dir-to-exclude/**"` should be used instead.
 
-If `ignores` is used without `files` and there are other keys (such as `rules`), then the configuration object applies to all files except the ones specified in `ignores`, for example:
+If `ignores` is used without `files` and there are other keys (such as `rules`), then the configuration object applies to all linted files except the ones excluded by `ignores`, for example:
 
 ```js
 export default [
@@ -158,10 +159,51 @@ export default [
 ];
 ```
 
-This configuration object applies to all files except those ending with `.config.js`. Effectively, this is like having `files` set to `**/*`. In general, it's a good idea to always include `files` if you are specifying `ignores`.
+This configuration object applies to all JavaScript files except those ending with `.config.js`. Effectively, this is like having `files` set to `**/*`. In general, it's a good idea to always include `files` if you are specifying `ignores`.
+
+Note that when `files` is not specified, negated `ignores` patterns do not cause any matching files to be linted automatically.
+ESLint only lints files that are matched either by default or by a `files` pattern that is not `*` and does not end with `/*` or `/**`.
 
 ::: tip
 Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspect-config` in the CLI) to test which config objects apply to a specific file.
+:::
+
+#### Specifying files with arbitrary extensions
+
+To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a pattern in the format of `"**/*.extension"`. Any pattern will work except if it is `*` or if it ends with `/*` or `/**`.
+For example, to lint TypeScript files with `.ts`, `.cts` and `.mts` extensions, you would specify a configuration object like this:
+
+```js
+// eslint.config.js
+export default [
+    {
+        files: [
+            "**/*.ts",
+            "**/*.cts",
+            "**.*.mts"
+        ]
+    },
+    // ...other config
+];
+```
+
+#### Specifying files without extension
+
+Files without an extension can be matched with the pattern `!(*.*)`. For example:
+
+```js
+// eslint.config.js
+export default [
+    {
+        files: ["**/!(*.*)"]
+    },
+    // ...other config
+];
+```
+
+The above config lints files without extension besides the default `.js`, `.cjs` and `.mjs` extensions in all directories.
+::: tip
+Filenames starting with a dot, such as `.gitignore`, are considered to have only an extension without a base name. In the case of `.gitignore`, the extension is `gitignore`, so the file matches the pattern `"**/.gitignore"` but not `"**/*.gitignore"`.
 :::
 
 #### Globally ignoring files with `ignores`

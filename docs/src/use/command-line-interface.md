@@ -189,7 +189,9 @@ npx eslint --env browser --env node file.js
 
 #### `--ext`
 
-**eslintrc Mode Only.** This option allows you to specify which file extensions ESLint uses when searching for target files in the directories you specify.
+**eslintrc Mode Only.** If you are using flat config (`eslint.config.js`), please see [migration guide](./configure/migration-guide#--ext).
+
+This option allows you to specify which file extensions ESLint uses when searching for target files in the directories you specify.
 
 * **Argument Type**: String. File extension.
 * **Multiple Arguments**: Yes
@@ -403,7 +405,7 @@ npx eslint --fix --fix-type suggestion,layout .
 * **Multiple Arguments**: No
 * **Default Value**:  By default, ESLint looks for `.eslintignore` in the current working directory.
 
-**Note:** `--ignore-path` is only supported when using [deprecated configuration](./configure/configuration-files-deprecated).
+**Note:** `--ignore-path` is only supported when using [deprecated configuration](./configure/configuration-files-deprecated). If you want to include patterns from a `.gitignore` file in your `eslint.config.js` file, please see [including `.gitignore` files](./configure/ignore#including-gitignore-files).
 
 ##### `--ignore-path` example
 

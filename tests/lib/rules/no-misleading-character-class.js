@@ -1596,9 +1596,6 @@ ruleTester.run("no-misleading-character-class", rule, {
                 suggestions: null
             }]
         },
-
-        /* eslint-disable lines-around-comment, internal-rules/multiline-comment-style -- see https://github.com/eslint/eslint/issues/18081 */
-
         {
             code: String.raw`
 
@@ -1728,6 +1725,7 @@ ruleTester.run("no-misleading-character-class", rule, {
             }]
         },
         {
+
             /*
              * In this case the rule can determine the value of `pattern` statically but has no information about the source,
              * so it doesn't know that escape sequences were used. This is a limitation with our tools.
@@ -1736,8 +1734,5 @@ ruleTester.run("no-misleading-character-class", rule, {
             options: [{ allowEscape: true }],
             errors: [{ messageId: "combiningClass" }]
         }
-
-        /* eslint-enable lines-around-comment, internal-rules/multiline-comment-style -- re-enable rule */
-
     ]
 });

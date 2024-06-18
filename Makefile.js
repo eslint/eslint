@@ -651,7 +651,7 @@ target.mocha = () => {
         errors++;
     }
 
-    lastReturn = exec(`${getBinFile("c8")} check-coverage --statement 98 --branch 97 --function 98 --lines 98`);
+    lastReturn = exec(`${getBinFile("c8")} check-coverage --statements 99 --branches 98 --functions 99 --lines 99`);
     if (lastReturn.code !== 0) {
         errors++;
     }
