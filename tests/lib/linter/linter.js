@@ -16921,7 +16921,7 @@ var a = "test2";
                 assert.strictEqual(messages[9].line, 16);
                 assert.strictEqual(messages[9].column, 3);
 
-                assert.strictEqual(linter.getSuppressedMessages.length, 0);
+                assert.strictEqual(linter.getSuppressedMessages().length, 0);
             });
 
             it("should correctly report problem for a a non-existent rule in disable directive", () => {
