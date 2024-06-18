@@ -302,13 +302,13 @@ This method loads a formatter. Formatters convert lint results to a human- or ma
 
 ### ◆ eslint.hasFlag()
 
+This method is used to determine if a given feature flag is set, as in this example:
+
 ```js
 if (eslint.hasFlag("x_feature")) {
     // handle flag
 }
 ```
-
-This method is used to determine if a given feature flag is set, as in this example:
 
 #### Parameters
 
