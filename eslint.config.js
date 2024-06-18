@@ -10,7 +10,7 @@
 //-----------------------------------------------------------------------------
 
 const path = require("node:path");
-const internalPlugin = require("eslint-plugin-internal-rules");
+const internalPlugin = require("./tools/internal-rules");
 const eslintPluginRulesRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/rules-recommended");
 const eslintPluginTestsRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/tests-recommended");
 const globals = require("globals");
@@ -74,7 +74,6 @@ module.exports = [
             "tests/fixtures/**",
             "tests/performance/**",
             "tmp/**",
-            "tools/internal-rules/node_modules/**",
             "**/test.js"
         ]
     },
