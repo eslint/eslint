@@ -505,7 +505,7 @@ In this case, ESLint does not search for `eslint.config.js` and instead uses `so
 Loading TypeScript configuration files is an experimental feature and may change in future releases.
 :::
 
-ESLint supports loading configuration files written in TypeScript optionally. When in runtime that supports TypeScript natively (Deno and Bun), native imports will be used. For the other runtime (Node.js etc.), the TypeScript support is powered by [`importx`](https://github.com/antfu/importx), which does not come out-of-the-box with ESLint, and you will need to install it as a dev dependency first:
+ESLint supports loading configuration files written in TypeScript. When ESLint is executed in a runtime that supports TypeScript natively (Deno and Bun), native imports will be used. For other runtimes, the TypeScript support is powered by [`importx`](https://github.com/antfu/importx), which is not automatically installed with ESLint. You need to install it as a dev dependency manually:
 
 ```shell
 npm install --save-dev importx
