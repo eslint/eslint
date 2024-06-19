@@ -3176,6 +3176,12 @@ describe("Linter", () => {
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
+            assert.strictEqual(messages[0].endLine, 1);
+            assert.strictEqual(messages[0].endColumn, 24);
+            assert.strictEqual(messages[0].ruleId, null);
+            assert.strictEqual(messages[0].fatal, true);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].nodeType, null);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
             assert.strictEqual(messages[1].message, "Unexpected alert.");
@@ -3204,6 +3210,12 @@ describe("Linter", () => {
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
+            assert.strictEqual(messages[0].endLine, 1);
+            assert.strictEqual(messages[0].endColumn, 24);
+            assert.strictEqual(messages[0].ruleId, null);
+            assert.strictEqual(messages[0].fatal, true);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].nodeType, null);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
             assert.strictEqual(messages[1].message, "Unexpected alert.");
@@ -3213,7 +3225,7 @@ describe("Linter", () => {
         });
 
         it("should report a violation", () => {
-            const code = "/*eslint no-alert:0 2*/ alert('test');";
+            const code = "\n\n\n    /*eslint no-alert:0 2*/ alert('test');";
 
             const config = { rules: { "no-alert": 1 } };
 
@@ -3230,8 +3242,14 @@ describe("Linter", () => {
              * parseJsonConfig function in lib/eslint.js
              */
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/u);
-            assert.strictEqual(messages[0].line, 1);
-            assert.strictEqual(messages[0].column, 1);
+            assert.strictEqual(messages[0].line, 4);
+            assert.strictEqual(messages[0].column, 5);
+            assert.strictEqual(messages[0].endLine, 4);
+            assert.strictEqual(messages[0].endColumn, 28);
+            assert.strictEqual(messages[0].ruleId, null);
+            assert.strictEqual(messages[0].fatal, true);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].nodeType, null);
 
             assert.strictEqual(messages[1].ruleId, "no-alert");
             assert.strictEqual(messages[1].message, "Unexpected alert.");
@@ -5610,7 +5628,7 @@ var a = "test2";
             });
 
             it("supports ECMAScript version 'latest'", () => {
-                const messages = linter.verify("let x = /[\\q{abc|d}&&[A--B]]/v;", {
+                const messages = linter.verify("let x = /(?<x>a)|(?<x>b)/;", {
                     parserOptions: { ecmaVersion: "latest" }
                 });
                 const suppressedMessages = linter.getSuppressedMessages();
@@ -7865,6 +7883,14 @@ describe("Linter with FlatConfigArray", () => {
                     };
 
                     linter.verify("foo", config, filename);
+                });
+
+                it("ecmaVersion should be 'latest' by default", () => {
+                    const messages = linter.verify("let x = /(?<x>a)|(?<x>b)/;"); // ECMAScript 2025 syntax
+                    const suppressedMessages = linter.getSuppressedMessages();
+
+                    assert.strictEqual(messages.length, 0); // No parsing errors
+                    assert.strictEqual(suppressedMessages.length, 0);
                 });
 
                 it("ecmaVersion should be normalized to latest year by default", () => {
@@ -11811,6 +11837,12 @@ describe("Linter with FlatConfigArray", () => {
                         assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/u);
                         assert.strictEqual(messages[0].line, 1);
                         assert.strictEqual(messages[0].column, 1);
+                        assert.strictEqual(messages[0].endLine, 1);
+                        assert.strictEqual(messages[0].endColumn, 24);
+                        assert.strictEqual(messages[0].ruleId, null);
+                        assert.strictEqual(messages[0].fatal, true);
+                        assert.strictEqual(messages[0].severity, 2);
+                        assert.strictEqual(messages[0].nodeType, null);
 
                         assert.strictEqual(messages[1].ruleId, "no-alert");
                         assert.strictEqual(messages[1].message, "Unexpected alert.");
@@ -11839,6 +11871,12 @@ describe("Linter with FlatConfigArray", () => {
                         assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/u);
                         assert.strictEqual(messages[0].line, 1);
                         assert.strictEqual(messages[0].column, 1);
+                        assert.strictEqual(messages[0].endLine, 1);
+                        assert.strictEqual(messages[0].endColumn, 24);
+                        assert.strictEqual(messages[0].ruleId, null);
+                        assert.strictEqual(messages[0].fatal, true);
+                        assert.strictEqual(messages[0].severity, 2);
+                        assert.strictEqual(messages[0].nodeType, null);
 
                         assert.strictEqual(messages[1].ruleId, "no-alert");
                         assert.strictEqual(messages[1].message, "Unexpected alert.");
@@ -11848,7 +11886,7 @@ describe("Linter with FlatConfigArray", () => {
                     });
 
                     it("should report a violation", () => {
-                        const code = "/*eslint no-alert:0 2*/ alert('test');";
+                        const code = "\n\n\n    /*eslint no-alert:0 2*/ alert('test');";
 
                         const config = { rules: { "no-alert": 1 } };
 
@@ -11865,8 +11903,14 @@ describe("Linter with FlatConfigArray", () => {
                          * parseJsonConfig function in lib/eslint.js
                          */
                         assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/u);
-                        assert.strictEqual(messages[0].line, 1);
-                        assert.strictEqual(messages[0].column, 1);
+                        assert.strictEqual(messages[0].line, 4);
+                        assert.strictEqual(messages[0].column, 5);
+                        assert.strictEqual(messages[0].endLine, 4);
+                        assert.strictEqual(messages[0].endColumn, 28);
+                        assert.strictEqual(messages[0].ruleId, null);
+                        assert.strictEqual(messages[0].fatal, true);
+                        assert.strictEqual(messages[0].severity, 2);
+                        assert.strictEqual(messages[0].nodeType, null);
 
                         assert.strictEqual(messages[1].ruleId, "no-alert");
                         assert.strictEqual(messages[1].message, "Unexpected alert.");

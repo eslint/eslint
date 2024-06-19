@@ -5191,9 +5191,9 @@ describe("CLIEngine", () => {
         });
 
         it("should expose the list of plugin rules", () => {
-            const engine = new CLIEngine({ plugins: ["internal-rules"] });
+            const engine = new CLIEngine({ plugins: ["eslint-plugin-eslint-plugin"] });
 
-            assert(engine.getRules().has("internal-rules/no-invalid-meta"), "internal-rules/no-invalid-meta is present");
+            assert(engine.getRules().has("eslint-plugin/require-meta-schema"), "eslint-plugin/require-meta-schema is present");
         });
 
         it("should expose the list of rules from a preloaded plugin", () => {
@@ -5201,7 +5201,7 @@ describe("CLIEngine", () => {
                 plugins: ["foo"]
             }, {
                 preloadedPlugins: {
-                    foo: require("eslint-plugin-internal-rules")
+                    foo: require("../../../tools/internal-rules")
                 }
             });
 
