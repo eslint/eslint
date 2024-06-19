@@ -315,6 +315,11 @@ if (eslint.hasFlag("x_feature")) {
 * `flagName` (`string`)<br>
   The flag to check.
 
+#### Return Value
+
+* (`boolean`)<br>
+  True if the flag is enabled.
+
 ### ◆ ESLint.version
 
 ```js
