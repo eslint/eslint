@@ -8,7 +8,6 @@
     }
     var setTheme = function (theme) {
         if (theme === "system") {
-            console.error('system settheme')
             theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
             document.documentElement.setAttribute('data-theme', theme);
             window.localStorage.setItem("theme", "system");
@@ -56,7 +55,6 @@
             disableToggle([light_theme_toggle, dark_theme_toggle]);
         }, false);
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-            console.error('hello world',theme);
             var currentTheme = window.localStorage.getItem("theme");
             if (currentTheme === "system" || !currentTheme) {
                 enableToggle(system_theme_toggle);
