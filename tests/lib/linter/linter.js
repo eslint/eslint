@@ -18,6 +18,8 @@ const { assert } = require("chai"),
 const { Linter } = require("../../../lib/linter");
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 const { SourceCode } = require("../../../lib/languages/js/source-code");
+const jslang = require("../../../lib/languages/js");
+const Traverser = require("../../../lib/shared/traverser");
 const { LATEST_ECMA_VERSION } = require("../../../conf/ecma-version");
 
 //------------------------------------------------------------------------------
@@ -16687,6 +16689,256 @@ var a = "test2";
                     1
                 );
             });
+        });
+
+    });
+
+    describe("Languages", () => {
+
+        describe("With a language that has 0-based lines and 1-based columns", () => {
+
+            /**
+             * Changes a 1-based line & 0-based column location to be a 0-based line & 1-based column location
+             * @param {Object} nodeOrToken An object with a `loc` property.
+             * @returns {void}
+             */
+            function adjustLoc(nodeOrToken) {
+                nodeOrToken.loc = {
+                    start: {
+                        line: nodeOrToken.loc.start.line - 1,
+                        column: nodeOrToken.loc.start.column + 1
+                    },
+                    end: {
+                        line: nodeOrToken.loc.end.line - 1,
+                        column: nodeOrToken.loc.end.column + 1
+                    }
+                };
+            }
+
+            const config = {
+                plugins: {
+                    test: {
+                        languages: {
+                            js: {
+                                ...jslang,
+                                lineStart: 0,
+                                columnStart: 1,
+                                parse(...args) {
+                                    const result = jslang.parse(...args);
+
+                                    Traverser.traverse(result.ast, {
+                                        enter(node) {
+                                            adjustLoc(node);
+                                        }
+                                    });
+
+                                    result.ast.tokens.forEach(adjustLoc);
+                                    result.ast.comments.forEach(adjustLoc);
+
+                                    return result;
+                                }
+                            }
+                        },
+                        rules: {
+                            "no-classes": {
+                                create(context) {
+                                    return {
+                                        ClassDeclaration(node) {
+                                            context.report({ node, message: "No classes allowed." });
+                                        }
+                                    };
+                                }
+                            }
+                        }
+                    }
+                },
+                language: "test/js",
+                rules: {
+                    "test/no-classes": "error"
+                }
+            };
+
+            it("should report 1-based location of a lint problem", () => {
+                const messages = linter.verify(`${"\n".repeat(4)}${" ".repeat(7)}class A {${"\n".repeat(2)}${" ".repeat(12)}}  \n`, config);
+
+                assert.strictEqual(messages.length, 1);
+
+                const [message] = messages;
+
+                assert.strictEqual(message.ruleId, "test/no-classes");
+                assert.strictEqual(message.message, "No classes allowed.");
+                assert.strictEqual(message.line, 5);
+                assert.strictEqual(message.column, 8);
+                assert.strictEqual(message.endLine, 7);
+                assert.strictEqual(message.endColumn, 14);
+            });
+
+            it("should correctly apply eslint-disable-line directive", () => {
+                const messages = linter.verify(`${"\n".repeat(4)}class A {}  /* eslint-disable-line */\n`, config);
+
+                assert.strictEqual(messages.length, 0);
+
+                const suppressedMessages = linter.getSuppressedMessages();
+
+                assert.strictEqual(suppressedMessages.length, 1);
+
+                const [message] = suppressedMessages;
+
+                assert.strictEqual(message.ruleId, "test/no-classes");
+                assert.strictEqual(message.message, "No classes allowed.");
+                assert.strictEqual(message.line, 5);
+                assert.strictEqual(message.column, 1);
+                assert.strictEqual(message.endLine, 5);
+                assert.strictEqual(message.endColumn, 11);
+            });
+
+            it("should correctly apply single-line eslint-disable-next-line directive", () => {
+                const messages = linter.verify(`${"\n".repeat(4)}   /* eslint-disable-next-line */\nclass A {} \n`, config);
+
+                assert.strictEqual(messages.length, 0);
+
+                const suppressedMessages = linter.getSuppressedMessages();
+
+                assert.strictEqual(suppressedMessages.length, 1);
+
+                const [message] = suppressedMessages;
+
+                assert.strictEqual(message.ruleId, "test/no-classes");
+                assert.strictEqual(message.message, "No classes allowed.");
+                assert.strictEqual(message.line, 6);
+                assert.strictEqual(message.column, 1);
+                assert.strictEqual(message.endLine, 6);
+                assert.strictEqual(message.endColumn, 11);
+            });
+
+            it("should correctly apply multiline eslint-disable-next-line directive", () => {
+                const messages = linter.verify(`${"\n".repeat(4)}/* eslint-disable-next-line\n  test/no-classes*/\nclass A {} \n`, config);
+
+                assert.strictEqual(messages.length, 0);
+
+                const suppressedMessages = linter.getSuppressedMessages();
+
+                assert.strictEqual(suppressedMessages.length, 1);
+
+                const [message] = suppressedMessages;
+
+                assert.strictEqual(message.ruleId, "test/no-classes");
+                assert.strictEqual(message.message, "No classes allowed.");
+                assert.strictEqual(message.line, 7);
+                assert.strictEqual(message.column, 1);
+                assert.strictEqual(message.endLine, 7);
+                assert.strictEqual(message.endColumn, 11);
+            });
+
+            it("should correctly apply eslint-disable directive", () => {
+                const messages = linter.verify(`${"\n".repeat(4)}/* eslint-disable test/no-classes */class A {} \n`, config);
+
+                assert.strictEqual(messages.length, 0);
+
+                const suppressedMessages = linter.getSuppressedMessages();
+
+                assert.strictEqual(suppressedMessages.length, 1);
+
+                const [message] = suppressedMessages;
+
+                assert.strictEqual(message.ruleId, "test/no-classes");
+                assert.strictEqual(message.message, "No classes allowed.");
+                assert.strictEqual(message.line, 5);
+                assert.strictEqual(message.column, 37);
+                assert.strictEqual(message.endLine, 5);
+                assert.strictEqual(message.endColumn, 47);
+            });
+
+            it("should correctly report unused disable directives", () => {
+                const messages = linter.verify([
+                    "",
+                    "",
+                    "  /* eslint-enable test/no-classes */",
+                    "  /* eslint-disable test/no-classes */",
+                    "  /* eslint-enable test/no-classes */",
+                    "  // eslint-disable-line test/no-classes",
+                    "  class A {}",
+                    "  // eslint-disable-line test/no-classes",
+                    "  class B {}",
+                    "  // eslint-disable-next-line test/no-classes",
+                    "",
+                    "  class C {}",
+                    "  /* eslint-disable-next-line",
+                    "   test/no-classes */ ",
+                    "",
+                    "  class D {}"
+                ].join("\n"), config);
+
+                assert.strictEqual(messages.length, 10);
+
+                assert.strictEqual(messages[0].ruleId, null);
+                assert.match(messages[0].message, /Unused eslint-enable directive/u);
+                assert.strictEqual(messages[0].line, 3);
+                assert.strictEqual(messages[0].column, 3);
+
+                assert.strictEqual(messages[1].ruleId, null);
+                assert.match(messages[1].message, /Unused eslint-disable directive/u);
+                assert.strictEqual(messages[1].line, 4);
+                assert.strictEqual(messages[1].column, 3);
+
+                assert.strictEqual(messages[2].ruleId, null);
+                assert.match(messages[2].message, /Unused eslint-disable directive/u);
+                assert.strictEqual(messages[2].line, 6);
+                assert.strictEqual(messages[2].column, 3);
+
+                assert.strictEqual(messages[3].ruleId, "test/no-classes");
+                assert.strictEqual(messages[3].message, "No classes allowed.");
+                assert.strictEqual(messages[3].line, 7);
+                assert.strictEqual(messages[3].column, 3);
+
+                assert.strictEqual(messages[4].ruleId, null);
+                assert.match(messages[4].message, /Unused eslint-disable directive/u);
+                assert.strictEqual(messages[4].line, 8);
+                assert.strictEqual(messages[4].column, 3);
+
+                assert.strictEqual(messages[5].ruleId, "test/no-classes");
+                assert.strictEqual(messages[5].message, "No classes allowed.");
+                assert.strictEqual(messages[5].line, 9);
+                assert.strictEqual(messages[5].column, 3);
+
+                assert.strictEqual(messages[6].ruleId, null);
+                assert.match(messages[6].message, /Unused eslint-disable directive/u);
+                assert.strictEqual(messages[6].line, 10);
+                assert.strictEqual(messages[6].column, 3);
+
+                assert.strictEqual(messages[7].ruleId, "test/no-classes");
+                assert.strictEqual(messages[7].message, "No classes allowed.");
+                assert.strictEqual(messages[7].line, 12);
+                assert.strictEqual(messages[7].column, 3);
+
+                assert.strictEqual(messages[8].ruleId, null);
+                assert.match(messages[8].message, /Unused eslint-disable directive/u);
+                assert.strictEqual(messages[8].line, 13);
+                assert.strictEqual(messages[8].column, 3);
+
+                assert.strictEqual(messages[9].ruleId, "test/no-classes");
+                assert.strictEqual(messages[9].message, "No classes allowed.");
+                assert.strictEqual(messages[9].line, 16);
+                assert.strictEqual(messages[9].column, 3);
+
+                assert.strictEqual(linter.getSuppressedMessages().length, 0);
+            });
+
+            it("should correctly report problem for a a non-existent rule in disable directive", () => {
+                const messages = linter.verify(`${"\n".repeat(4)}${" ".repeat(7)}/* eslint-disable \n${" ".repeat(8)}test/foo */  \n`, config);
+
+                assert.strictEqual(messages.length, 1);
+
+                const [message] = messages;
+
+                assert.strictEqual(message.ruleId, "test/foo");
+                assert.strictEqual(message.message, "Definition for rule 'test/foo' was not found.");
+                assert.strictEqual(message.line, 5);
+                assert.strictEqual(message.column, 8);
+                assert.strictEqual(message.endLine, 6);
+                assert.strictEqual(message.endColumn, 20);
+            });
+
         });
 
     });
