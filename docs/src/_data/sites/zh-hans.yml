@@ -78,6 +78,7 @@ footer:
     title: 主题切换
     light: 浅色
     dark: 深色
+    system: 系统
   language_switcher:
     title: 语言切换
     description: 切换到你所选择语言版本对应的 ESLint 网站。

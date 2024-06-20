@@ -1,54 +1,68 @@
 /* theme toggle buttons */
-(function() {
-    var enableToggle = function(btn) {
+(function () {
+    var enableToggle = function (btn) {
         btn.setAttribute("aria-pressed", "true");
     }
-
-    var disableToggle = function(btn) {
-        btn.setAttribute("aria-pressed", "false");
+    var disableToggle = function (btns) {
+        btns.forEach(btn => btn.setAttribute("aria-pressed", "false"));
+    }
+    var setTheme = function (theme) {
+        if (theme === "system") {
+            console.error('system settheme')
+            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
+            document.documentElement.setAttribute('data-theme', theme);
+            window.localStorage.setItem("theme", "system");
+        } else {
+            document.documentElement.setAttribute('data-theme', theme);
+            window.localStorage.setItem("theme", theme);
+        }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    var theme = window.localStorage.getItem("theme");
+
+    document.addEventListener('DOMContentLoaded', function () {
         var switcher = document.getElementById('js-theme-switcher');
         switcher.removeAttribute('hidden');
-
         var light_theme_toggle = document.getElementById('light-theme-toggle'),
-            dark_theme_toggle = document.getElementById('dark-theme-toggle');
+            dark_theme_toggle = document.getElementById('dark-theme-toggle'),
+            system_theme_toggle = document.getElementById('system-theme-toggle');
 
-        // get any previously-chosen themes
-        var theme = document.documentElement.getAttribute('data-theme');
-
-        if (theme == "light") {
+        if (!theme || theme === "system") {
+            enableToggle(system_theme_toggle);
+            disableToggle([light_theme_toggle, dark_theme_toggle]);
+        } else if (theme === "light") {
             enableToggle(light_theme_toggle);
-            disableToggle(dark_theme_toggle);
-        } else if (theme == "dark") {
+            disableToggle([system_theme_toggle, dark_theme_toggle]);
+        } else if (theme === "dark") {
             enableToggle(dark_theme_toggle);
-            disableToggle(light_theme_toggle);
+            disableToggle([system_theme_toggle, light_theme_toggle]);
         }
 
-        var activateDarkMode = function() {
-            enableToggle(dark_theme_toggle);
-
-            document.documentElement.setAttribute('data-theme', "dark");
-            window.localStorage.setItem("theme", "dark");
-    
-            disableToggle(light_theme_toggle);
-        }
-
-        var activateLightMode = function() {
+        light_theme_toggle.addEventListener("click", function () {
             enableToggle(light_theme_toggle);
-
-            document.documentElement.setAttribute('data-theme', "light");
-            window.localStorage.setItem("theme", "light");
-    
-            disableToggle(dark_theme_toggle);
-        }
-
-        var darkModePreference = window.matchMedia("(prefers-color-scheme: dark)");
-        darkModePreference.addEventListener("change", e => e.matches ? activateDarkMode() : activateLightMode());
-
-        light_theme_toggle.addEventListener("click", activateLightMode, false);
-        dark_theme_toggle.addEventListener("click", activateDarkMode, false);
+            theme = this.getAttribute('data-theme');
+            setTheme(theme);
+            disableToggle([system_theme_toggle, dark_theme_toggle]);
+        }, false);
+        dark_theme_toggle.addEventListener("click", function () {
+            enableToggle(dark_theme_toggle);
+            theme = this.getAttribute('data-theme');
+            setTheme(theme);
+            disableToggle([system_theme_toggle, light_theme_toggle]);
+        }, false);
+        system_theme_toggle.addEventListener("click", function () {
+            enableToggle(system_theme_toggle);
+            setTheme('system');
+            disableToggle([light_theme_toggle, dark_theme_toggle]);
+        }, false);
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            console.error('hello world',theme);
+            var currentTheme = window.localStorage.getItem("theme");
+            if (currentTheme === "system" || !currentTheme) {
+                enableToggle(system_theme_toggle);
+                disableToggle([light_theme_toggle, dark_theme_toggle]);
+                setTheme('system');
+            }
+        });
     }, false);
-
 })();
