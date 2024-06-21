@@ -300,7 +300,7 @@ This method loads a formatter. Formatters convert lint results to a human- or ma
 * (`Promise<LoadedFormatter>`)<br>
   The promise that will be fulfilled with a [LoadedFormatter] object.
 
-### ◆ eslint.hasFlag()
+### ◆ eslint.hasFlag(flagName)
 
 This method is used to determine if a given feature flag is set, as in this example:
 
