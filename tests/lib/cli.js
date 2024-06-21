@@ -159,6 +159,7 @@ describe("cli", () => {
             sinon.restore();
             log.info.resetHistory();
             log.error.resetHistory();
+            log.warn.resetHistory();
         });
 
         after(() => {
