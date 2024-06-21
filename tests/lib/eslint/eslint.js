@@ -5144,6 +5144,16 @@ describe("ESLint", () => {
                 assert(!await engine.isPathIgnored("c.js"), "c.js should not be ignored");
             });
 
+            it("should interpret ignorePatterns as relative to cwd", async () => {
+                const cwd = getFixturePath("ignored-paths", "subdir");
+                const engine = new ESLint({
+                    ignorePatterns: ["undef.js"],
+                    cwd // using ../../eslint.config.js
+                });
+
+                assert(await engine.isPathIgnored(path.join(cwd, "undef.js")));
+            });
+
             it("should return true for files which match an ignorePattern even if they do not exist on the filesystem", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new ESLint({
