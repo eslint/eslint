@@ -389,7 +389,7 @@ import pick from 'import1/private/someModule';
 
 The `patterns` array can also include objects. The `group` property is used to specify the `gitignore`-style patterns for restricting modules and the `message` property is used to specify a custom message.
 
-The `group` property is required property when using objects inside the `patterns` array.
+Either of the `group` or `regexGroup` property is required when using the `patterns` option.
 
 ```json
 "no-restricted-imports": ["error", {
@@ -429,6 +429,53 @@ Examples of **correct** code for this `group` option:
 }]}]*/
 
 import lodash from 'lodash';
+```
+
+:::
+
+#### regexGroup
+
+The `regexGroup` property is used to specify the regex patterns for restricting modules.
+
+```json
+"no-restricted-imports": ["error", {
+    "patterns": [{
+      "regexGroup": "import1/private/",
+      "message": "usage of import1 private modules not allowed."
+    }, {
+      "regexGroup": "import2/(?!good)",
+      "message": "import2 is deprecated, except the modules in import2/good."
+    }]
+}]
+```
+
+Examples of **incorrect** code for `regexGroup` option:
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    regexGroup: "@app/(?!(api/enums$)).*",
+}]}]*/
+
+import Foo from '@app/api';
+import Bar from '@app/api/bar';
+import Baz from '@app/api/baz';
+import Bux from '@app/api/enums/foo';
+```
+
+:::
+
+Examples of **correct** code for `regexGroup` option:
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    regexGroup: "@app/(?!(api/enums$)).*",
+}]}]*/
+
+import Foo from '@app/api/enums';
 ```
 
 :::
