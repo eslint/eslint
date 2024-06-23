@@ -437,6 +437,8 @@ import lodash from 'lodash';
 
 The `regexGroup` property is used to specify the regex patterns for restricting modules.
 
+Note: `regexGroup` cannot be used in combination with `group`.
+
 ```json
 "no-restricted-imports": ["error", {
     "patterns": [{
