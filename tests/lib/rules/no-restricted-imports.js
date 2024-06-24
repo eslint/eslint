@@ -2284,6 +2284,23 @@ ruleTester.run("no-restricted-imports", rule, {
         }]
     },
     {
+        code: "import withPatternsCaseSensitive from 'foo';",
+        options: [{
+            patterns: [{
+                group: ["FOO"],
+                message: "foo is forbidden, use bar instead",
+                caseSensitive: false
+            }]
+        }],
+        errors: [{
+            message: "'foo' import is restricted from being used by a pattern. foo is forbidden, use bar instead",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 45
+        }]
+    },
+    {
         code: `
         // error
         import { Foo_Enum } from '@app/api';
