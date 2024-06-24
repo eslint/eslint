@@ -433,13 +433,13 @@ ruleTester.run("no-restricted-imports", rule, {
         },
         {
             code: "import withPatterns from \"foo/bar\";",
-            options: [{ patterns: [{ regexGroup: "foo/(?!bar)", message: "foo is forbidden, use bar instead" }] }]
+            options: [{ patterns: [{ regex: "foo/(?!bar)", message: "foo is forbidden, use bar instead" }] }]
         },
         {
             code: "import withPatternsCaseSensitive from 'foo';",
             options: [{
                 patterns: [{
-                    regexGroup: "FOO",
+                    regex: "FOO",
                     message: "foo is forbidden, use bar instead",
                     caseSensitive: true
                 }]
@@ -449,7 +449,7 @@ ruleTester.run("no-restricted-imports", rule, {
             code: "import Foo from '../../my/relative-module';",
             options: [{
                 patterns: [{
-                    regexGroup: "my/relative-module",
+                    regex: "my/relative-module",
                     importNamePattern: "^Foo"
                 }]
             }]
@@ -458,7 +458,7 @@ ruleTester.run("no-restricted-imports", rule, {
             code: "import { Bar } from '../../my/relative-module';",
             options: [{
                 patterns: [{
-                    regexGroup: "my/relative-module",
+                    regex: "my/relative-module",
                     importNamePattern: "^Foo"
                 }]
             }]
@@ -2241,7 +2241,7 @@ ruleTester.run("no-restricted-imports", rule, {
     },
     {
         code: "import withPatterns from \"foo/baz\";",
-        options: [{ patterns: [{ regexGroup: "foo/(?!bar)", message: "foo is forbidden, use bar instead" }] }],
+        options: [{ patterns: [{ regex: "foo/(?!bar)", message: "foo is forbidden, use bar instead" }] }],
         errors: [{
             message: "'foo/baz' import is restricted from being used by a pattern. foo is forbidden, use bar instead",
             type: "ImportDeclaration",
@@ -2254,7 +2254,7 @@ ruleTester.run("no-restricted-imports", rule, {
         code: "import withPatternsCaseSensitive from 'FOO';",
         options: [{
             patterns: [{
-                regexGroup: "FOO",
+                regex: "FOO",
                 message: "foo is forbidden, use bar instead",
                 caseSensitive: true
             }]
@@ -2271,7 +2271,7 @@ ruleTester.run("no-restricted-imports", rule, {
         code: "import { Foo } from '../../my/relative-module';",
         options: [{
             patterns: [{
-                regexGroup: "my/relative-module",
+                regex: "my/relative-module",
                 importNamePattern: "^Foo"
             }]
         }],
@@ -2296,7 +2296,7 @@ ruleTester.run("no-restricted-imports", rule, {
         `,
         options: [{
             patterns: [{
-                regexGroup: "@app/(?!(api/enums$)).*",
+                regex: "@app/(?!(api/enums$)).*",
                 importNamePattern: "_Enum$"
             }]
         }],

@@ -389,7 +389,7 @@ import pick from 'import1/private/someModule';
 
 The `patterns` array can also include objects. The `group` property is used to specify the `gitignore`-style patterns for restricting modules and the `message` property is used to specify a custom message.
 
-Either of the `group` or `regexGroup` property is required when using the `patterns` option.
+Either of the `group` or `regex` property is required when using the `patterns` option.
 
 ```json
 "no-restricted-imports": ["error", {
@@ -433,31 +433,31 @@ import lodash from 'lodash';
 
 :::
 
-#### regexGroup
+#### regex
 
-The `regexGroup` property is used to specify the regex patterns for restricting modules.
+The `regex` property is used to specify the regex patterns for restricting modules.
 
-Note: `regexGroup` cannot be used in combination with `group`.
+Note: `regex` cannot be used in combination with `group`.
 
 ```json
 "no-restricted-imports": ["error", {
     "patterns": [{
-      "regexGroup": "import1/private/",
+      "regex": "import1/private/",
       "message": "usage of import1 private modules not allowed."
     }, {
-      "regexGroup": "import2/(?!good)",
+      "regex": "import2/(?!good)",
       "message": "import2 is deprecated, except the modules in import2/good."
     }]
 }]
 ```
 
-Examples of **incorrect** code for `regexGroup` option:
+Examples of **incorrect** code for `regex` option:
 
 ::: incorrect { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
-    regexGroup: "@app/(?!(api/enums$)).*",
+    regex: "@app/(?!(api/enums$)).*",
 }]}]*/
 
 import Foo from '@app/api';
@@ -468,13 +468,13 @@ import Bux from '@app/api/enums/foo';
 
 :::
 
-Examples of **correct** code for `regexGroup` option:
+Examples of **correct** code for `regex` option:
 
 ::: correct { "sourceType": "module" }
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
-    regexGroup: "@app/(?!(api/enums$)).*",
+    regex: "@app/(?!(api/enums$)).*",
 }]}]*/
 
 import Foo from '@app/api/enums';
