@@ -1188,7 +1188,7 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
-            errors: [definedError("err", ". Allowed unused args must match /^ignore/u")]
+            errors: [definedError("err", ". Allowed unused caught errors must match /^ignore/u")]
         },
         {
             code: "try{}catch(err){};",
@@ -1205,7 +1205,7 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "try{}catch(ignoreErr){}try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
-            errors: [definedError("err", ". Allowed unused args must match /^ignore/u")]
+            errors: [definedError("err", ". Allowed unused caught errors must match /^ignore/u")]
         },
 
         // multiple try catch both fail
@@ -1213,8 +1213,8 @@ ruleTester.run("no-unused-vars", rule, {
             code: "try{}catch(error){}try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
             errors: [
-                definedError("error", ". Allowed unused args must match /^ignore/u"),
-                definedError("err", ". Allowed unused args must match /^ignore/u")
+                definedError("error", ". Allowed unused caught errors must match /^ignore/u"),
+                definedError("err", ". Allowed unused caught errors must match /^ignore/u")
             ]
         },
 
@@ -1672,7 +1672,53 @@ c = foo1`,
         {
             code: "try{}catch(_err){console.error(_err)}",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^_", reportUsedIgnorePattern: true }],
-            errors: [usedIgnoredError("_err", ". Used args must not match /^_/u")]
+            errors: [usedIgnoredError("_err", ". Used caught errors must not match /^_/u")]
+        },
+        {
+            code: `
+try {
+} catch (_) {
+  _ = 'foo'
+}
+            `,
+            options: [{ caughtErrorsIgnorePattern: "foo" }],
+            errors: [
+                {
+                    message: "'_' is assigned a value but never used. Allowed unused caught errors must match /foo/u."
+                }
+            ]
+        },
+        {
+            code: `
+try {
+} catch (_) {
+  _ = 'foo'
+}
+            `,
+            options: [{
+                caughtErrorsIgnorePattern: "ignored",
+                varsIgnorePattern: "_"
+            }],
+            errors: [
+                {
+                    message: "'_' is assigned a value but never used. Allowed unused caught errors must match /ignored/u."
+                }
+            ]
+        },
+        {
+            code: `
+_ => { _ = _ + 1 };
+            `,
+            options: [{
+                argsIgnorePattern: "ignored",
+                varsIgnorePattern: "_"
+            }],
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: "'_' is assigned a value but never used. Allowed unused args must match /ignored/u."
+                }
+            ]
         }
     ]
 });
