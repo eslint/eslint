@@ -317,6 +317,29 @@ describe("ESLint", () => {
         });
     });
 
+    describe("hasFlag", () => {
+
+        let eslint;
+
+        it("should return true if the flag is present and active", () => {
+            eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only"] });
+
+            assert.strictEqual(eslint.hasFlag("test_only"), true);
+        });
+
+        it("should return false if the flag is present and inactive", () => {
+            eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_old"] });
+
+            assert.strictEqual(eslint.hasFlag("test_only_old"), false);
+        });
+
+        it("should return false if the flag is not present", () => {
+            eslint = new ESLint({ cwd: getFixturePath() });
+
+            assert.strictEqual(eslint.hasFlag("x_feature"), false);
+        });
+    });
+
     describe("lintText()", () => {
         let eslint;
 
