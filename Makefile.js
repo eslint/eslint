@@ -10,7 +10,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const checker = require("npm-license"),
+const checker = require("npm-license-list"),
     ReleaseOps = require("eslint-release"),
     fs = require("node:fs"),
     glob = require("glob"),
