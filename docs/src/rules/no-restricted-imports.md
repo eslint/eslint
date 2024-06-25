@@ -389,7 +389,7 @@ import pick from 'import1/private/someModule';
 
 The `patterns` array can also include objects. The `group` property is used to specify the `gitignore`-style patterns for restricting modules and the `message` property is used to specify a custom message.
 
-Either of the `group` or `regex` property is required when using the `patterns` option.
+Either of the `group` or `regex` properties is required when using the `patterns` option.
 
 ```json
 "no-restricted-imports": ["error", {
