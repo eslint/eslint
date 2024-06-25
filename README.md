@@ -39,6 +39,7 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 10. [License](#license)
 11. [Team](#team)
 12. [Sponsors](#sponsors)
+<!-- markdownlint-disable-next-line MD051 -->
 13. [Technology Sponsors](#technology-sponsors)
 
 ## Installation and Usage
@@ -300,8 +301,5 @@ The following companies, organizations, and individuals support ESLint's ongoing
 <p><a href="https://www.notion.so"><img src="https://images.opencollective.com/notion/bf3b117/logo.png" alt="notion" height="32"></a> <a href="https://www.crosswordsolver.org/anagram-solver/"><img src="https://images.opencollective.com/anagram-solver/2666271/logo.png" alt="Anagram Solver" height="32"></a> <a href="https://icons8.com/"><img src="https://images.opencollective.com/icons8/7fa1641/logo.png" alt="Icons8" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/f9645d9/logo.png" alt="Discord" height="32"></a> <a href="https://www.ignitionapp.com"><img src="https://avatars.githubusercontent.com/u/5753491?v=4" alt="Ignition" height="32"></a> <a href="https://nx.dev"><img src="https://avatars.githubusercontent.com/u/23692104?v=4" alt="Nx" height="32"></a> <a href="https://herocoders.com"><img src="https://avatars.githubusercontent.com/u/37549774?v=4" alt="HeroCoders" height="32"></a></p>
 <!--sponsorsend-->
 
-## Technology Sponsors
-
-* Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
-* Hosting for ([eslint.org](https://eslint.org)) is sponsored by [Netlify](https://www.netlify.com)
-* Password management is sponsored by [1Password](https://www.1password.com)
+<!--techsponsorsstart-->
+<!--techsponsorsend-->
