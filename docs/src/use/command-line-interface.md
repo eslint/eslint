@@ -126,6 +126,7 @@ Miscellaneous:
   -v, --version                   Output the version number
   --print-config path::String     Print the configuration for the given file
   --stats                         Add statistics to the lint report - default: false
+  --flag [String]                 Enable a feature flag
 ```
 
 ### Basic Configuration
@@ -405,7 +406,7 @@ npx eslint --fix --fix-type suggestion,layout .
 * **Multiple Arguments**: No
 * **Default Value**:  By default, ESLint looks for `.eslintignore` in the current working directory.
 
-**Note:** `--ignore-path` is only supported when using [deprecated configuration](./configure/configuration-files-deprecated).
+**Note:** `--ignore-path` is only supported when using [deprecated configuration](./configure/configuration-files-deprecated). If you want to include patterns from a `.gitignore` file in your `eslint.config.js` file, please see [including `.gitignore` files](./configure/ignore#including-gitignore-files).
 
 ##### `--ignore-path` example
 
@@ -837,6 +838,19 @@ This option is intended for use with custom formatters that display statistics. 
 
 ```shell
 npx eslint --stats --format json file.js
+```
+
+#### `--flag`
+
+This option enables one or more feature flags for ESLint.
+
+* **Argument Type**: String. A feature identifier.
+* **Multiple Arguments**: Yes
+
+##### `--flag` example
+
+```shell
+npx eslint --flag x_feature file.js
 ```
 
 ## Exit Codes

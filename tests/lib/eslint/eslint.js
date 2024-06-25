@@ -26,6 +26,7 @@ const hash = require("../../../lib/cli-engine/hash");
 const { unIndent, createCustomTeardown } = require("../../_utils");
 const { shouldUseFlatConfig } = require("../../../lib/eslint/eslint");
 const coreRules = require("../../../lib/rules");
+const espree = require("espree");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -313,6 +314,29 @@ describe("ESLint", () => {
             assert.strictEqual(processStub.getCall(0).args[1], "ESLintIgnoreWarning");
 
             processStub.restore();
+        });
+    });
+
+    describe("hasFlag", () => {
+
+        let eslint;
+
+        it("should return true if the flag is present and active", () => {
+            eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only"] });
+
+            assert.strictEqual(eslint.hasFlag("test_only"), true);
+        });
+
+        it("should return false if the flag is present and inactive", () => {
+            eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_old"] });
+
+            assert.strictEqual(eslint.hasFlag("test_only_old"), false);
+        });
+
+        it("should return false if the flag is not present", () => {
+            eslint = new ESLint({ cwd: getFixturePath() });
+
+            assert.strictEqual(eslint.hasFlag("x_feature"), false);
         });
     });
 
@@ -1303,6 +1327,22 @@ describe("ESLint", () => {
             assert.strictEqual(results[0].messages.length, 0);
             assert.strictEqual(results[1].messages.length, 0);
             assert.strictEqual(results[0].suppressedMessages.length, 0);
+        });
+
+        // https://github.com/eslint/eslint/issues/18550
+        it("should skip files with non-standard extensions when they're matched only by a '*' files pattern", async () => {
+            eslint = new ESLint({
+                cwd: getFixturePath("files"),
+                overrideConfig: { files: ["*"] },
+                overrideConfigFile: true
+            });
+            const results = await eslint.lintFiles(["."]);
+
+            assert.strictEqual(results.length, 2);
+            assert(
+                results.every(result => /^\.[cm]?js$/u.test(path.extname(result.filePath))),
+                "File with a non-standard extension was linted"
+            );
         });
 
         // https://github.com/eslint/eslint/issues/16413
@@ -5127,6 +5167,16 @@ describe("ESLint", () => {
                 assert(!await engine.isPathIgnored("c.js"), "c.js should not be ignored");
             });
 
+            it("should interpret ignorePatterns as relative to cwd", async () => {
+                const cwd = getFixturePath("ignored-paths", "subdir");
+                const engine = new ESLint({
+                    ignorePatterns: ["undef.js"],
+                    cwd // using ../../eslint.config.js
+                });
+
+                assert(await engine.isPathIgnored(path.join(cwd, "undef.js")));
+            });
+
             it("should return true for files which match an ignorePattern even if they do not exist on the filesystem", async () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new ESLint({
@@ -7268,6 +7318,7 @@ describe("ESLint", () => {
                         parser: {
                             parse(text, parserOptions) {
                                 resolvedParserOptions = parserOptions;
+                                return espree.parse(text, parserOptions);
                             }
                         },
                         parserOptions: {
