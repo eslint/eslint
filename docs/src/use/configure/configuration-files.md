@@ -513,17 +513,20 @@ This feature is currently experimental and may change in future versions.
 
 To use this feature, you must have [`jiti`](https://www.npmjs.com/package/jiti) installed in your project.
 
-**NPM**
+NPM
+
 ```bash
 npm install --save-dev jiti
 ```
 
-**Yarn**
+Yarn
+
 ```bash
 yarn add --dev jiti
 ```
 
-**PNPM**
+PNPM
+
 ```bash
 pnpm add --save-dev jiti
 ```
@@ -582,9 +585,9 @@ export default config
 
 ### Important Notes
 
-- **Type Checking**: ESLint does not perform any type checking on the configuration file.
-- **`tsconfig.json` Ignored**: Your local `tsconfig.json` file does not influence how the configuration file is loaded.
-- **Runtime Support**: If you are using a runtime that supports TypeScript natively, such as [`Bun`](https://bun.sh) or
+* **Type Checking**: ESLint does not perform any type checking on the configuration file.
+* **`tsconfig.json` Ignored**: Your local `tsconfig.json` file does not influence how the configuration file is loaded.
+* **Runtime Support**: If you are using a runtime that supports TypeScript natively, such as [`Bun`](https://bun.sh) or
 [`Deno`](`https://deno.com`), ESLint will defer loading the configuration file to the runtime.
 
 ### Configuration File Precedence
@@ -613,6 +616,7 @@ As of now, [`jiti`](https://www.npmjs.com/package/jiti) does not support [Top-le
 You can now write your ESLint configuration files in TypeScript by following these steps:
 
 1. Install [`jiti`](https://www.npmjs.com/package/jiti) in your project.
+
 ```bash
 # NPM
 npm install --save-dev jiti
@@ -623,11 +627,15 @@ yarn add --dev jiti
 #PNPM
 pnpm add --save-dev jiti
 ```
+
 2. Create an `eslint.config.ts`, `eslint.config.mts`, or `eslint.config.cts` file.
+
 ```bash
 touch eslint.config.ts
 ```
+
 3. Export an array of [configuration objects](#configuration-objects) from the file.
+
 ```ts
 import eslint from "@eslint/js"
 import type { Linter } from "eslint"
