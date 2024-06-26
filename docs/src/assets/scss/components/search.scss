@@ -52,12 +52,36 @@
     color: var(--body-text-color);
     position: absolute;
     display: block;
-    top: 50%;
-    offset-block-start: 50%;
-    transform: translateY(-50%);
+    top: .75rem;
     left: .75rem;
     offset-inline-start: .75rem;
     z-index: 3;
+}
+
+.search__inner-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+}
+
+.search__powered-by {
+    display: flex;
+    padding: 10px 6px 0 0;
+
+    .powered-by-text {
+            color: var(--body-text-color);
+            margin-right: 5px;
+    }
+
+    .algolia-logo1,
+    .algolia-logo2 {
+        fill: #003dff;
+    }
+
+    .algolia-logo2 {
+        fill-rule: evenodd;
+    }
 }
 
 /* search results */
