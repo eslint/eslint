@@ -21,6 +21,9 @@ The ESLint configuration file may be named any of the following:
 * `eslint.config.js`
 * `eslint.config.mjs`
 * `eslint.config.cjs`
+* `eslint.config.ts` (Requires [TypeScript Setup](#experimental-typescript-support))
+* `eslint.config.mts` (Requires [TypeScript Setup](#experimental-typescript-support))
+* `eslint.config.cts` (Requires [TypeScript Setup](#experimental-typescript-support))
 
 It should be placed in the root directory of your project and export an array of [configuration objects](#configuration-objects). Here's an example:
 
@@ -495,3 +498,148 @@ npx eslint --config some-other-file.js **/*.js
 ```
 
 In this case, ESLint does not search for `eslint.config.js` and instead uses `some-other-file.js`.
+
+<a name="experimental-typescript-support">
+
+## ◆ Configuration Files written in TypeScript (new)
+
+</a>
+
+As of ESLint v9.6.0, you can write your ESLint configuration files in [TypeScript](https://www.typescriptlang.org).
+
+::: warning
+This feature is currently experimental and may change in future versions.
+:::
+
+To use this feature, you must have [`jiti`](https://www.npmjs.com/package/jiti) installed in your project.
+
+**NPM**
+```bash
+npm install --save-dev jiti
+```
+
+**Yarn**
+```bash
+yarn add --dev jiti
+```
+
+**PNPM**
+```bash
+pnpm add --save-dev jiti
+```
+
+You can then create a configuration file with the `.ts`, `.mts`, or `.cts` extension and export an array of [configuration objects](#configuration-objects). Here's an example:
+
+```ts
+import eslint from "@eslint/js"
+import type { Linter } from "eslint"
+
+export default [
+  eslint.configs.recommended,
+  {
+    rules: {
+      "no-console": [0],
+    },
+  },
+] satisfies Linter.FlatConfig[]
+```
+
+with an `eslint.config.cts` file (CJS):
+
+```ts
+import type { Linter } from "eslint"
+const eslint = require("@eslint/js")
+
+const config: Linter.FlatConfig[] = [
+  eslint.configs.recommended,
+  {
+    rules: {
+      "no-console": [0],
+    },
+  },
+]
+
+module.exports = config
+```
+
+with an `eslint.config.mts` file (ESM):
+
+```ts
+import eslint from "@eslint/js"
+import type { Linter } from "eslint"
+
+const config: Linter.FlatConfig[] = [
+  eslint.configs.recommended,
+  {
+    rules: {
+      "no-console": [0],
+    },
+  },
+]
+
+export default config
+```
+
+### Important Notes
+
+- **Type Checking**: ESLint does not perform any type checking on the configuration file.
+- **`tsconfig.json` Ignored**: Your local `tsconfig.json` file does not influence how the configuration file is loaded.
+- **Runtime Support**: If you are using a runtime that supports TypeScript natively, such as [`Bun`](https://bun.sh) or
+[`Deno`](`https://deno.com`), ESLint will defer loading the configuration file to the runtime.
+
+### Configuration File Precedence
+
+If you have multiple ESLint configuration files, ESLint prioritizes JavaScript files over TypeScript files. The order of precedence is as follows:
+
+1. **`eslint.config.js`**
+2. **`eslint.config.mjs`**
+3. **`eslint.config.cjs`**
+4. **`eslint.config.ts`**
+5. **`eslint.config.mts`**
+6. **`eslint.config.cts`**
+
+To override this behavior, use the `--config` or `-c` command line option to specify a different configuration file:
+
+```bash
+npx eslint --config eslint.config.ts
+```
+
+::: warning
+As of now, [`jiti`](https://www.npmjs.com/package/jiti) does not support [Top-level `await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await)
+:::
+
+### Summary
+
+You can now write your ESLint configuration files in TypeScript by following these steps:
+
+1. Install [`jiti`](https://www.npmjs.com/package/jiti) in your project.
+```bash
+# NPM
+npm install --save-dev jiti
+
+# Yarn
+yarn add --dev jiti
+
+#PNPM
+pnpm add --save-dev jiti
+```
+2. Create an `eslint.config.ts`, `eslint.config.mts`, or `eslint.config.cts` file.
+```bash
+touch eslint.config.ts
+```
+3. Export an array of [configuration objects](#configuration-objects) from the file.
+```ts
+import eslint from "@eslint/js"
+import type { Linter } from "eslint"
+
+const config: Linter.FlatConfig[] = [
+  eslint.configs.recommended,
+  {
+    rules: {
+      "no-console": [0],
+    },
+  },
+]
+
+export default config
+```
