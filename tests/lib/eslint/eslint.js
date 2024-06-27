@@ -2305,11 +2305,13 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].messages[0].severity, 1);
                 assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
                 assert.strictEqual(results[0].messages[0].messageId, "undef");
+                assert.match(results[0].messages[0].message, /'bar'/u);
                 assert.strictEqual(results[1].filePath, getFixturePath("curly-files", "b.js"));
                 assert.strictEqual(results[1].messages.length, 1);
                 assert.strictEqual(results[1].messages[0].severity, 1);
                 assert.strictEqual(results[1].messages[0].ruleId, "no-undef");
                 assert.strictEqual(results[1].messages[0].messageId, "undef");
+                assert.match(results[1].messages[0].message, /'baz'/u);
             });
 
         });
