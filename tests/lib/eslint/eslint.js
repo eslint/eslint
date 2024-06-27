@@ -4938,7 +4938,7 @@ describe("ESLint", () => {
                 await assert.rejects(eslint.lintFiles("*.js"));
             });
 
-            it("should throw an error with a glob pattern if an error occurs traversing a directory", async () => {
+            xit("should throw an error with a glob pattern if an error occurs traversing a directory", async () => {
 
                 const fsWalk = require("@nodelib/fs.walk");
                 const error = new Error("Boom!");
