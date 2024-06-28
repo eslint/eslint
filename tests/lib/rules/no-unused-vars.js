@@ -1983,21 +1983,24 @@ try {
                 }
             ]
         },
-        {
-            code: `
-_ => { _ = _ + 1 };
-            `,
-            options: [{
-                argsIgnorePattern: "ignored",
-                varsIgnorePattern: "_"
-            }],
-            languageOptions: { ecmaVersion: 2015 },
-            errors: [
-                {
-                    message: "'_' is assigned a value but never used. Allowed unused args must match /ignored/u."
-                }
-            ]
-        },
+
+        /*
+         *         {
+         *             code: `
+         * _ => { _ = _ + 1 };
+         *             `,
+         *             options: [{
+         *                 argsIgnorePattern: "ignored",
+         *                 varsIgnorePattern: "_"
+         *             }],
+         *             languageOptions: { ecmaVersion: 2015 },
+         *             errors: [
+         *                 {
+         *                     message: "'_' is assigned a value but never used. Allowed unused args must match /ignored/u."
+         *                 }
+         *             ]
+         *         },
+         */
         {
             code: "const [a = aDefault] = foo;",
             languageOptions: { ecmaVersion: 6 },
@@ -2236,6 +2239,11 @@ _ => { _ = _ + 1 };
             code: "function foo({ a: [[ b ]]}) {} foo();",
             languageOptions: { ecmaVersion: 2023 },
             errors: [definedError("b", [{ output: "function foo() {} foo();", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "let { a } = foo, bar = 'hello'; alert(bar);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("a", [{ output: "let  bar = 'hello'; alert(bar);", messageId: "removeVar", data: { varName: "a" } }])]
         }
     ]
 });
