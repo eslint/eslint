@@ -62,7 +62,6 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-
 }
 
 .search__powered-by {
@@ -70,8 +69,8 @@
     padding: 10px 6px 0 0;
 
     .powered-by-text {
-            color: var(--body-text-color);
-            margin-right: 5px;
+        color: var(--body-text-color);
+        margin-right: 5px;
     }
 
     .algolia-logo1,
