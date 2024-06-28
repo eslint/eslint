@@ -2309,6 +2309,11 @@ _ => { _ = _ + 1 };
             code: "function foo({ a: [[ b ]]}) {} foo();",
             languageOptions: { ecmaVersion: 2023 },
             errors: [definedError("b", [{ output: "function foo() {} foo();", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "let { a } = foo, bar = 'hello'; alert(bar);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("a", [{ output: "let  bar = 'hello'; alert(bar);", messageId: "removeVar", data: { varName: "a" } }])]
         }
     ]
 });
