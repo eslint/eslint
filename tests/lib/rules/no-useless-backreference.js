@@ -538,7 +538,7 @@ ruleTester.run("no-useless-backreference", rule, {
         {
             code: String.raw`/((?<foo>bar)|\k<foo>(?<foo>baz))/`,
             errors: [{
-                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and another group which cannot be referenced for some reason.`,
+                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>baz)' which appears later in the pattern.`,
                 type: "Literal"
             }]
         },
@@ -552,7 +552,48 @@ ruleTester.run("no-useless-backreference", rule, {
         {
             code: String.raw`/((?<foo>bar)|\k<foo>(?<foo>baz)|(?<foo>qux))/`,
             errors: [{
-                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and other 2 groups which cannot be referenced for some reason.`,
+                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>baz)' which appears later in the pattern.`,
+                type: "Literal"
+            }]
+        },
+        {
+            code: String.raw`/((?<foo>bar)|\k<foo>|(?<foo>baz))/`,
+            errors: [{
+                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and another group which is in another alternative.`,
+                type: "Literal"
+            }]
+        },
+        {
+            code: String.raw`/((?<foo>bar)|\k<foo>|(?<foo>baz)|(?<foo>qux))/`,
+            errors: [{
+                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and other 2 groups which is in another alternative.`,
+                type: "Literal"
+            }]
+        },
+        {
+            code: String.raw`/((?<foo>bar)|(?<foo>baz\k<foo>)|(?<foo>qux\k<foo>))/`,
+            errors: [
+                {
+                    message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>baz\k<foo>)' from within that group.`,
+                    type: "Literal"
+                },
+                {
+                    message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>qux\k<foo>)' from within that group.`,
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: String.raw`/(?<=((?<foo>bar)|(?<foo>baz))\k<foo>)/`,
+            errors: [{
+                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and another group which appears before in the same lookbehind.`,
+                type: "Literal"
+            }]
+        },
+        {
+            code: String.raw`/((?!(?<foo>bar))|(?!(?<foo>baz)))\k<foo>/`,
+            errors: [{
+                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and another group which is in a negative lookaround.`,
                 type: "Literal"
             }]
         }
