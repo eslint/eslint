@@ -19,12 +19,6 @@ const assert = require("chai").assert,
 describe("ConfigCommentParser", () => {
 
     let commentParser;
-    const location = {
-        start: {
-            line: 1,
-            column: 0
-        }
-    };
 
     beforeEach(() => {
         commentParser = new ConfigCommentParser();
@@ -34,7 +28,7 @@ describe("ConfigCommentParser", () => {
 
         it("should parse JSON config with one item", () => {
             const code = "no-alert:0";
-            const result = commentParser.parseJsonConfig(code, location);
+            const result = commentParser.parseJsonConfig(code);
 
 
             assert.deepStrictEqual(result, {
@@ -47,7 +41,7 @@ describe("ConfigCommentParser", () => {
 
         it("should parse JSON config with two items", () => {
             const code = "no-alert:0 semi: 2";
-            const result = commentParser.parseJsonConfig(code, location);
+            const result = commentParser.parseJsonConfig(code);
 
 
             assert.deepStrictEqual(result, {
@@ -61,7 +55,7 @@ describe("ConfigCommentParser", () => {
 
         it("should parse JSON config with two comma-separated items", () => {
             const code = "no-alert:0,semi: 2";
-            const result = commentParser.parseJsonConfig(code, location);
+            const result = commentParser.parseJsonConfig(code);
 
 
             assert.deepStrictEqual(result, {
@@ -75,7 +69,7 @@ describe("ConfigCommentParser", () => {
 
         it("should parse JSON config with two items and a string severity", () => {
             const code = "no-alert:off,semi: 2";
-            const result = commentParser.parseJsonConfig(code, location);
+            const result = commentParser.parseJsonConfig(code);
 
 
             assert.deepStrictEqual(result, {
@@ -89,7 +83,7 @@ describe("ConfigCommentParser", () => {
 
         it("should parse JSON config with two items and options", () => {
             const code = "no-alert:off, semi: [2, always]";
-            const result = commentParser.parseJsonConfig(code, location);
+            const result = commentParser.parseJsonConfig(code);
 
 
             assert.deepStrictEqual(result, {
@@ -103,7 +97,7 @@ describe("ConfigCommentParser", () => {
 
         it("should parse JSON config with two items and options from plugins", () => {
             const code = "plugin/no-alert:off, plugin/semi: [2, always]";
-            const result = commentParser.parseJsonConfig(code, location);
+            const result = commentParser.parseJsonConfig(code);
 
             assert.deepStrictEqual(result, {
                 success: true,

@@ -3242,13 +3242,12 @@ describe("SourceCode", () => {
             const problem = result.problems[0];
 
             // Node.js 19 changes the JSON parsing error format, so we need to check each field separately to use a regex
-            assert.strictEqual(problem.column, 1);
-            assert.strictEqual(problem.line, 1);
-            assert.isTrue(problem.fatal);
+            assert.strictEqual(problem.loc.start.column, 0);
+            assert.strictEqual(problem.loc.start.line, 1);
+            assert.strictEqual(problem.loc.end.column, 24);
+            assert.strictEqual(problem.loc.end.line, 1);
             assert.match(problem.message, /Failed to parse JSON from ' "some-rule"::,': Unexpected token '?:'?/u);
-            assert.isNull(problem.nodeType);
             assert.isNull(problem.ruleId);
-            assert.strictEqual(problem.severity, 2);
         });
     });
 });

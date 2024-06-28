@@ -317,6 +317,29 @@ describe("ESLint", () => {
         });
     });
 
+    describe("hasFlag", () => {
+
+        let eslint;
+
+        it("should return true if the flag is present and active", () => {
+            eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only"] });
+
+            assert.strictEqual(eslint.hasFlag("test_only"), true);
+        });
+
+        it("should return false if the flag is present and inactive", () => {
+            eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_old"] });
+
+            assert.strictEqual(eslint.hasFlag("test_only_old"), false);
+        });
+
+        it("should return false if the flag is not present", () => {
+            eslint = new ESLint({ cwd: getFixturePath() });
+
+            assert.strictEqual(eslint.hasFlag("x_feature"), false);
+        });
+    });
+
     describe("lintText()", () => {
         let eslint;
 
@@ -2389,6 +2412,42 @@ describe("ESLint", () => {
                 await assert.rejects(async () => {
                     await eslint.lintFiles(["."]);
                 }, /All files matched by '.' are ignored/u);
+            });
+
+            // https://github.com/eslint/eslint/issues/18597
+            it("should skip files ignored by a pattern with escape character '\\'", async () => {
+                eslint = new ESLint({
+                    cwd: getFixturePath(),
+                    overrideConfigFile: true,
+                    overrideConfig: [
+                        {
+                            ignores: [
+                                "curly-files/\\{a,b}.js" // ignore file named `{a,b}.js`, not files named `a.js` or `b.js`
+                            ]
+                        },
+                        {
+                            rules: {
+                                "no-undef": "warn"
+                            }
+                        }
+                    ]
+                });
+
+                const results = await eslint.lintFiles(["curly-files"]);
+
+                assert.strictEqual(results.length, 2);
+                assert.strictEqual(results[0].filePath, getFixturePath("curly-files", "a.js"));
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                assert.strictEqual(results[0].messages[0].messageId, "undef");
+                assert.match(results[0].messages[0].message, /'bar'/u);
+                assert.strictEqual(results[1].filePath, getFixturePath("curly-files", "b.js"));
+                assert.strictEqual(results[1].messages.length, 1);
+                assert.strictEqual(results[1].messages[0].severity, 1);
+                assert.strictEqual(results[1].messages[0].ruleId, "no-undef");
+                assert.strictEqual(results[1].messages[0].messageId, "undef");
+                assert.match(results[1].messages[0].message, /'baz'/u);
             });
 
         });
@@ -5278,6 +5337,16 @@ describe("ESLint", () => {
                 assert(await engine.isPathIgnored("a.js"), "a.js should be ignored");
                 assert(await engine.isPathIgnored("b.js"), "b.js should be ignored");
                 assert(!await engine.isPathIgnored("c.js"), "c.js should not be ignored");
+            });
+
+            it("should interpret ignorePatterns as relative to cwd", async () => {
+                const cwd = getFixturePath("ignored-paths", "subdir");
+                const engine = new ESLint({
+                    ignorePatterns: ["undef.js"],
+                    cwd // using ../../eslint.config.js
+                });
+
+                assert(await engine.isPathIgnored(path.join(cwd, "undef.js")));
             });
 
             it("should return true for files which match an ignorePattern even if they do not exist on the filesystem", async () => {
