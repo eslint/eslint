@@ -2505,6 +2505,42 @@ describe("ESLint", () => {
                 }, /All files matched by '.' are ignored/u);
             });
 
+            // https://github.com/eslint/eslint/issues/18597
+            it("should skip files ignored by a pattern with escape character '\\'", async () => {
+                eslint = new ESLint({
+                    cwd: getFixturePath(),
+                    overrideConfigFile: true,
+                    overrideConfig: [
+                        {
+                            ignores: [
+                                "curly-files/\\{a,b}.js" // ignore file named `{a,b}.js`, not files named `a.js` or `b.js`
+                            ]
+                        },
+                        {
+                            rules: {
+                                "no-undef": "warn"
+                            }
+                        }
+                    ]
+                });
+
+                const results = await eslint.lintFiles(["curly-files"]);
+
+                assert.strictEqual(results.length, 2);
+                assert.strictEqual(results[0].filePath, getFixturePath("curly-files", "a.js"));
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                assert.strictEqual(results[0].messages[0].messageId, "undef");
+                assert.match(results[0].messages[0].message, /'bar'/u);
+                assert.strictEqual(results[1].filePath, getFixturePath("curly-files", "b.js"));
+                assert.strictEqual(results[1].messages.length, 1);
+                assert.strictEqual(results[1].messages[0].severity, 1);
+                assert.strictEqual(results[1].messages[0].ruleId, "no-undef");
+                assert.strictEqual(results[1].messages[0].messageId, "undef");
+                assert.match(results[1].messages[0].message, /'baz'/u);
+            });
+
         });
 
 
