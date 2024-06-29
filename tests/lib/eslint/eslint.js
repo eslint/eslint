@@ -321,6 +321,7 @@ describe("ESLint", () => {
 
     describe("hasFlag", () => {
 
+        /** @type {InstanceType<ESLint>} */
         let eslint;
 
         it("should return true if the flag is present and active", () => {
@@ -343,6 +344,8 @@ describe("ESLint", () => {
     });
 
     describe("lintText()", () => {
+
+        /** @type {InstanceType<ESLint>} */
         let eslint;
 
         it("should report the total and per file errors when using local cwd eslint.config.js", async () => {
@@ -1225,7 +1228,7 @@ describe("ESLint", () => {
 
     describe("lintFiles()", () => {
 
-        /** @type {InstanceType<import("../../../lib/eslint").ESLint>} */
+        /** @type {InstanceType<ESLint>} */
         let eslint;
 
         it("should use correct parser when custom parser is specified", async () => {
@@ -5434,6 +5437,7 @@ describe("ESLint", () => {
 
     describe("Fix Types", () => {
 
+        /** @type {InstanceType<ESLint>} */
         let eslint;
 
         it("should throw an error when an invalid fix type is specified", () => {
