@@ -515,6 +515,6 @@ Note that `importx` only strips off type annotations and does not perform type c
 
 When both `eslint.config.js` and `eslint.config.ts` are present in the same directory, JavaScript versions always take precedence unless provided specifically via `--config` option.
 
-::: info
+::: tip
 Due to the current limitation of Node.js loaders, top-level await in `eslint.config.ts` is only supported in Node.js v20.0 and later.
 :::
