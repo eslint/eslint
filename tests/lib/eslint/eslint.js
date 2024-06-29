@@ -1065,8 +1065,8 @@ describe("ESLint", () => {
 
             it("should load eslint.config.mts with top-level-await", async () => {
 
-                // in Node.js v18.18, ts loader fallback to jiti, which does not support top-level-await
-                if (process.version.startsWith("v18.18")) {
+                // in Node.js v18, importx loader fallback to jiti, which does not support top-level-await
+                if (process.version.startsWith("v18.")) {
                     return;
                 }
 
