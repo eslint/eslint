@@ -925,7 +925,7 @@ describe("ESLint", () => {
             eslint = new ESLint({
                 cwd: getFixturePath("promise-config")
             });
-            const results = await eslint.lintText('var foo = "bar";');
+            const results = await eslint.lintText("var foo = \"bar\";");
 
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].messages.length, 1);
@@ -1018,7 +1018,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load eslint.config.ts when we have "type": "commonjs" in nearest `package.json`', async () => {
+            it("should load eslint.config.ts when we have \"type\": \"commonjs\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "ts", "with-type-commonjs");
 
@@ -1035,7 +1035,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load eslint.config.ts when we have "type": "module" in nearest `package.json`', async () => {
+            it("should load eslint.config.ts when we have \"type\": \"module\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "ts", "with-type-module");
 
@@ -1052,7 +1052,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load eslint.config.ts when we have "type": "module" in nearest `package.json`', async () => {
+            it("should load eslint.config.ts when we have \"type\": \"module\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "ts", "with-type-module");
 
@@ -1138,7 +1138,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load eslint.config.mts when we have "type": "commonjs" in nearest `package.json`', async () => {
+            it("should load eslint.config.mts when we have \"type\": \"commonjs\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "mts", "with-type-commonjs");
 
@@ -1155,7 +1155,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load eslint.config.mts config file when we have "type": "module" in nearest `package.json`', async () => {
+            it("should load eslint.config.mts config file when we have \"type\": \"module\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "mts", "with-type-module");
 
@@ -1189,7 +1189,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load eslint.config.cts config file when we have "type": "commonjs" in nearest `package.json`', async () => {
+            it("should load eslint.config.cts config file when we have \"type\": \"commonjs\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "cts", "with-type-commonjs");
 
@@ -1206,7 +1206,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load .cts config file when we have "type": "module" in nearest `package.json`', async () => {
+            it("should load .cts config file when we have \"type\": \"module\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "cts", "with-type-module");
 
@@ -5172,7 +5172,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load eslint.config.ts when we have "type": "commonjs" in nearest `package.json`', async () => {
+            it("should load eslint.config.ts when we have \"type\": \"commonjs\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "ts", "with-type-commonjs");
 
@@ -5189,7 +5189,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load eslint.config.ts when we have "type": "module" in nearest `package.json`', async () => {
+            it("should load eslint.config.ts when we have \"type\": \"module\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "ts", "with-type-module");
 
@@ -5275,7 +5275,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load eslint.config.mts when we have "type": "commonjs" in nearest `package.json`', async () => {
+            it("should load eslint.config.mts when we have \"type\": \"commonjs\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "mts", "with-type-commonjs");
 
@@ -5292,7 +5292,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load eslint.config.mts config file when we have "type": "module" in nearest `package.json`', async () => {
+            it("should load eslint.config.mts config file when we have \"type\": \"module\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "mts", "with-type-module");
 
@@ -5326,7 +5326,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load eslint.config.cts config file when we have "type": "commonjs" in nearest `package.json`', async () => {
+            it("should load eslint.config.cts config file when we have \"type\": \"commonjs\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "cts", "with-type-commonjs");
 
@@ -5343,7 +5343,7 @@ describe("ESLint", () => {
 
             });
 
-            it('should load .cts config file when we have "type": "module" in nearest `package.json`', async () => {
+            it("should load .cts config file when we have \"type\": \"module\" in nearest `package.json`", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "cts", "with-type-module");
 
@@ -7562,7 +7562,7 @@ describe("ESLint", () => {
                 }
             });
 
-            const [{ messages }] = await eslint.lintText('const foo = "bar"');
+            const [{ messages }] = await eslint.lintText("const foo = \"bar\"");
 
             /*
              * baseConfig: { quotes: ["error", "double"], semi: "error" }
@@ -7632,7 +7632,7 @@ describe("ESLint", () => {
             const teardown = createCustomTeardown({
                 cwd,
                 files: {
-                    "package.json": '{ "type": "module" }',
+                    "package.json": "{ \"type\": \"module\" }",
                     "eslint.config.js": configFileContent,
                     "a.js": "foo\nbar;"
                 }
