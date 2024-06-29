@@ -505,7 +505,7 @@ In this case, ESLint does not search for `eslint.config.js` and instead uses `so
 
 </a>
 
-As of ESLint v9.6.0, you can write your ESLint configuration files in [TypeScript](https://www.typescriptlang.org).
+As of ESLint v10, you can write your ESLint configuration files in [TypeScript](https://www.typescriptlang.org).
 
 ::: warning
 This feature is currently experimental and may change in future versions.
