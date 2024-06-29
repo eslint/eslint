@@ -30,10 +30,6 @@
                 // Optional dependencies for loading TypeScript configs
                 "importx",
 
-                // FIXME: not sure why is eslint-config-eslint, eslint-plugin-internal-rules reported as unused
-                "eslint-config-eslint",
-                "eslint-plugin-internal-rules",
-
                 // FIXME: not sure why is eslint-config-eslint reported as unused
                 "eslint-config-eslint"
             ]

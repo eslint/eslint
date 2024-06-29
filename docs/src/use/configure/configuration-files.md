@@ -505,7 +505,7 @@ In this case, ESLint does not search for `eslint.config.js` and instead uses `so
 Loading TypeScript configuration files is an experimental feature and may change in future releases.
 :::
 
-ESLint supports loading configuration files written in TypeScript. When ESLint is executed in a runtime that supports TypeScript natively (Deno and Bun), native imports will be used. For other runtimes, the TypeScript support is powered by [`importx`](https://github.com/antfu/importx), which is not automatically installed with ESLint. You need to install it as a dev dependency manually:
+ESLint supports loading configuration files written in TypeScript. When ESLint is executed in a runtime that supports TypeScript natively (Deno and Bun), native imports will be used. For other runtimes, the TypeScript support is powered by [`importx`](https://github.com/antfu-collective/importx), which is not automatically installed with ESLint. You need to install it as a dev dependency manually:
 
 ```shell
 npm install --save-dev importx
@@ -514,3 +514,7 @@ npm install --save-dev importx
 Note that `importx` only strips off type annotations and does not perform type checking.
 
 When both `eslint.config.js` and `eslint.config.ts` are present in the same directory, JavaScript versions always take precedence unless provided specifically via `--config` option.
+
+::: info
+Due to the current limitation of Node.js loaders, top-level await in `eslint.config.ts` is only supported in Node.js v20.0 and later.
+:::
