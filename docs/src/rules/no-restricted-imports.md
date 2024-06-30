@@ -319,7 +319,7 @@ To re-include a module when using `gitignore-`style patterns, add a negation (`!
 }]
 ```
 
-You can also use regular expressions to restrict modules (See the [`regex` option](#regex)), which can make re-including specific modules easier.
+You can also use regular expressions to restrict modules (see the [`regex` option](#regex)).
 
 Examples of **incorrect** code for `patterns` option:
 
