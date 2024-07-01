@@ -89,6 +89,9 @@ ruleTester.run("no-invalid-regexp", rule, {
         "new RegExp('[A--B]', flags)", // valid only with `v` flag
         "new RegExp('[[]\\\\u{0}*', flags)", // valid only with `u` flag
 
+        // ES2025
+        "new RegExp('((?<k>a)|(?<k>b))')",
+
         // allowConstructorFlags
         {
             code: "new RegExp('.', 'g')",
@@ -354,6 +357,16 @@ ruleTester.run("no-invalid-regexp", rule, {
             errors: [{
                 messageId: "regexMessage",
                 data: { message: "Invalid regular expression: /[[]\\u{0}*/v: Unterminated character class" },
+                type: "NewExpression"
+            }]
+        },
+
+        // ES2025
+        {
+            code: "new RegExp('(?<k>a)(?<k>b)')",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /(?<k>a)(?<k>b)/: Duplicate capture group name" },
                 type: "NewExpression"
             }]
         }
