@@ -79,6 +79,7 @@
     "cross-spawn": "^7.0.2",
     "debug": "^4.3.2",
     "escape-string-regexp": "^4.0.0",
+    "eslint-plugin-yml": "^1.14.0",
     "eslint-scope": "^8.0.1",
     "eslint-visitor-keys": "^4.0.0",
     "espree": "^10.1.0",

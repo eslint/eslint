@@ -3,6 +3,7 @@
 version: 0.1
 cli:
     version: 1.22.2
+
 # Trunk provides extensibility via plugins. (https://docs.trunk.io/plugins)
 plugins:
     sources:
@@ -25,6 +26,7 @@ tools:
 lint:
     definitions:
         - name: eslint
+          files: [typescript, javascript, yaml] # Add YAML to default files.
           commands:
               - name: lint
                 run: ${workspace}/bin/eslint.js --output-file ${tmpfile} --format json ${target}
@@ -41,18 +43,18 @@ lint:
         - shellcheck@0.10.0
         - shfmt@3.6.0
         - svgo@3.3.2
+        - trivy@0.52.2
         - trufflehog@3.79.0
-        - yamllint@1.35.1
+    disabled:
+        - yamllint
     ignore:
         - linters: [markdownlint]
           paths:
               - CHANGELOG.md
         - linters: [prettier]
           paths:
-              # Ignore all files
-              - "**"
-              # Except for json files in conf/
-              - "!conf/**/*.json"
+              - "**" # Ignore all files
+              - "!conf/**/*.json" # Except for json files in conf/
 actions:
     disabled:
         - trunk-announce
