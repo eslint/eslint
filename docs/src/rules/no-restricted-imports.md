@@ -284,7 +284,7 @@ import { AllowedObject } from "foo";
 
 ### patterns
 
-This is also an object option whose value is an array. This option allows you to specify multiple modules to restrict using `gitignore`-style patterns.
+This is also an object option whose value is an array. This option allows you to specify multiple modules to restrict using `gitignore`-style patterns or regular expressions.
 
 Where `paths` option takes exact import paths, `patterns` option can be used to specify the import paths with more flexibility, allowing for the restriction of multiple modules within the same directory. For example:
 
@@ -311,13 +311,15 @@ This configuration restricts import of the `import-foo` module but wouldn't rest
 
 This configuration restricts imports not just from `import-foo` using `path`, but also `import-foo/bar` and `import-foo/baz` using `patterns`.
 
-Because the patterns follow the `gitignore`-style, if you want to reinclude any particular module this can be done by prefixing a negation (`!`) mark in front of the pattern. (Negated patterns should come last in the array because order is important.)
+To re-include a module when using `gitignore-`style patterns, add a negation (`!`) mark before the pattern. (Make sure these negated patterns are placed last in the array, as order matters)
 
 ```json
 "no-restricted-imports": ["error", {
     "patterns": ["import1/private/*", "import2/*", "!import2/good"]
 }]
 ```
+
+You can also use regular expressions to restrict modules (see the [`regex` option](#regex)).
 
 Examples of **incorrect** code for `patterns` option:
 
@@ -389,7 +391,7 @@ import pick from 'import1/private/someModule';
 
 The `patterns` array can also include objects. The `group` property is used to specify the `gitignore`-style patterns for restricting modules and the `message` property is used to specify a custom message.
 
-The `group` property is required property when using objects inside the `patterns` array.
+Either of the `group` or `regex` properties is required when using the `patterns` option.
 
 ```json
 "no-restricted-imports": ["error", {
@@ -433,9 +435,58 @@ import lodash from 'lodash';
 
 :::
 
+#### regex
+
+The `regex` property is used to specify the regex patterns for restricting modules.
+
+Note: `regex` cannot be used in combination with `group`.
+
+```json
+"no-restricted-imports": ["error", {
+    "patterns": [{
+      "regex": "import1/private/",
+      "message": "usage of import1 private modules not allowed."
+    }, {
+      "regex": "import2/(?!good)",
+      "message": "import2 is deprecated, except the modules in import2/good."
+    }]
+}]
+```
+
+Examples of **incorrect** code for `regex` option:
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    regex: "@app/(?!(api/enums$)).*",
+}]}]*/
+
+import Foo from '@app/api';
+import Bar from '@app/api/bar';
+import Baz from '@app/api/baz';
+import Bux from '@app/api/enums/foo';
+```
+
+:::
+
+Examples of **correct** code for `regex` option:
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    regex: "@app/(?!(api/enums$)).*",
+}]}]*/
+
+import Foo from '@app/api/enums';
+```
+
+:::
+
 #### caseSensitive
 
-This is a boolean option and sets the patterns specified in the `group` array to be case-sensitive when `true`. Default is `false`.
+This is a boolean option and sets the patterns specified in the `group` or `regex` properties to be case-sensitive when `true`. Default is `false`.
 
 ```json
 "no-restricted-imports": ["error", {
@@ -478,7 +529,7 @@ import pick from 'food';
 
 #### importNames
 
-You can also specify `importNames` on objects inside of `patterns`. In this case, the specified names are applied only to the specified `group`.
+You can also specify `importNames` within objects inside the `patterns` array. In this case, the specified names apply only to the associated `group` or `regex` property.
 
 ```json
 "no-restricted-imports": ["error", {
@@ -524,7 +575,7 @@ import { hasValues } from 'utils/collection-utils';
 
 #### allowImportNames
 
-You can also specify `allowImportNames` on objects inside of `patterns`. In this case, the specified names are applied only to the specified `group`.
+You can also specify `allowImportNames` within objects inside the `patterns` array. In this case, the specified names apply only to the associated `group` or `regex` property.
 
 Note: `allowImportNames` cannot be used in combination with `importNames`, `importNamePattern` or `allowImportNamePattern`.
 
