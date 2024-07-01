@@ -51,7 +51,7 @@
       "node tools/fetch-docs-links.js",
       "git add docs/src/_data/further_reading_links.json"
     ],
-    "docs/**/*.svg": "npx -y svgo -r --multipass"
+    "docs/**/*.svg": "trunk check --fix --filter=svgo"
   },
   "files": [
     "LICENSE",
