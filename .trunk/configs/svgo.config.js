@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = {
     plugins: [
         {
@@ -6,9 +8,9 @@ module.exports = {
                 overrides: {
                     removeViewBox: false, // https://github.com/svg/svgo/issues/1128
                     sortAttrs: true,
-                    removeOffCanvasPaths: true,
-                },
-            },
-        },
-    ],
+                    removeOffCanvasPaths: true
+                }
+            }
+        }
+    ]
 };
