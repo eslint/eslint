@@ -481,6 +481,9 @@ const { loadESLint } = require("eslint");
 // loads the default ESLint that the CLI would use based on process.cwd()
 const DefaultESLint = await loadESLint();
 
+// loads the default ESLint that the CLI would use based on the provided cwd
+const CwdDefaultESLint = await loadESLint({ cwd: "/foo/bar" });
+
 // loads the flat config version specifically
 const FlatESLint = await loadESLint({ useFlatConfig: true });
 
