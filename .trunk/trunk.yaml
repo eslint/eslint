@@ -1,0 +1,62 @@
+# This file controls the behavior of Trunk: https://docs.trunk.io/cli
+# To learn more about the format of this file, see https://docs.trunk.io/reference/trunk-yaml
+version: 0.1
+cli:
+    version: 1.22.2
+# Trunk provides extensibility via plugins. (https://docs.trunk.io/plugins)
+plugins:
+    sources:
+        - id: trunk
+          uri: https://github.com/trunk-io/plugins
+          ref: v1.6.0
+
+# Many linters and tools depend on runtimes - configure them here. (https://docs.trunk.io/runtimes)
+runtimes:
+    enabled:
+        - go@1.21.0
+        - node@18.12.1
+        - python@3.10.8
+tools:
+    enabled:
+        - gh@2.52.0
+    runtimes: [node]
+
+# This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
+lint:
+    definitions:
+        - name: eslint
+          commands:
+              - name: lint
+                run: ${workspace}/bin/eslint.js --output-file ${tmpfile} --format json ${target}
+    enabled:
+        - taplo@0.8.1
+        - eslint
+        - actionlint@1.7.1
+        - checkov@3.2.161
+        - git-diff-check
+        - markdownlint@0.41.0
+        - oxipng@9.1.1
+        - prettier@3.3.2
+        - renovate@37.421.4
+        - shellcheck@0.10.0
+        - shfmt@3.6.0
+        - svgo@3.3.2
+        - trufflehog@3.79.0
+        - yamllint@1.35.1
+    ignore:
+        - linters: [markdownlint]
+          paths:
+              - CHANGELOG.md
+        - linters: [prettier]
+          paths:
+              # Ignore all files
+              - "**"
+              # Except for json files in conf/
+              - "!conf/**/*.json"
+actions:
+    disabled:
+        - trunk-announce
+        - trunk-check-pre-push
+        - trunk-fmt-pre-commit
+    enabled:
+        - trunk-upgrade-available

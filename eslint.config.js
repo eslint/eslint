@@ -74,7 +74,8 @@ module.exports = [
             "tests/fixtures/**",
             "tests/performance/**",
             "tmp/**",
-            "**/test.js"
+            "**/test.js",
+            "**/svgo.config.*js"
         ]
     },
     {

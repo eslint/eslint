@@ -21,8 +21,6 @@ const checker = require("npm-license"),
     semver = require("semver"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
-    yaml = require("js-yaml"),
-    ignore = require("ignore"),
     { CLIEngine } = require("./lib/cli-engine"),
     builtinRules = require("./lib/rules/index");
 
@@ -33,7 +31,7 @@ require("shelljs/make");
  * @see https://github.com/shelljs/shelljs/blob/124d3349af42cb794ae8f78fc9b0b538109f7ca7/make.js#L4
  * @see https://github.com/DefinitelyTyped/DefinitelyTyped/blob/3aa2d09b6408380598cfb802743b07e1edb725f3/types/shelljs/make.d.ts#L8-L11
  */
-const { cat, cd, echo, exec, exit, find, ls, mkdir, pwd, test } = require("shelljs");
+const { cat, cd, echo, exec, exit, find, mkdir, pwd, test } = require("shelljs");
 
 //------------------------------------------------------------------------------
 // Settings
@@ -73,9 +71,6 @@ const NODE = "node ", // intentional extra space
 
     // Files
     RULE_FILES = glob.sync("lib/rules/*.js").filter(filePath => path.basename(filePath) !== "index.js"),
-    JSON_FILES = find("conf/").filter(fileType("json")),
-    MARKDOWNLINT_IGNORE_INSTANCE = ignore().add(fs.readFileSync(path.join(__dirname, ".markdownlintignore"), "utf-8")),
-    MARKDOWN_FILES_ARRAY = MARKDOWNLINT_IGNORE_INSTANCE.filter(find("docs/").concat(ls(".")).filter(fileType("md"))),
     TEST_FILES = "\"tests/{bin,conf,lib,tools}/**/*.js\"",
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslint.config.js"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
@@ -92,30 +87,6 @@ const NODE = "node ", // intentional extra space
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
-
-/**
- * Simple JSON file validation that relies on ES JSON parser.
- * @param {string} filePath Path to JSON.
- * @throws Error If file contents is invalid JSON.
- * @returns {undefined}
- */
-function validateJsonFile(filePath) {
-    const contents = fs.readFileSync(filePath, "utf8");
-
-    JSON.parse(contents);
-}
-
-/**
- * Generates a function that matches files with a particular extension.
- * @param {string} extension The file extension (i.e. "js")
- * @returns {Function} The function to pass into a filter method.
- * @private
- */
-function fileType(extension) {
-    return function(filename) {
-        return filename.slice(filename.lastIndexOf(".") + 1) === extension;
-    };
-}
 
 /**
  * Executes a command and returns the output instead of printing it to stdout.
@@ -461,29 +432,6 @@ function getFirstVersionOfDeletion(filePath) {
 }
 
 /**
- * Lints Markdown files.
- * @param {Array} files Array of file names to lint.
- * @returns {Object} exec-style exit code object.
- * @private
- */
-function lintMarkdown(files) {
-    const markdownlint = require("markdownlint");
-    const config = yaml.load(fs.readFileSync(path.join(__dirname, "./.markdownlint.yml"), "utf8")),
-        result = markdownlint.sync({
-            files,
-            config,
-            resultVersion: 1
-        }),
-        resultString = result.toString(),
-        returnCode = resultString ? 1 : 0;
-
-    if (resultString) {
-        console.error(resultString);
-    }
-    return { code: returnCode };
-}
-
-/**
  * Gets linting results from every formatter, based on a hard-coded snippet and config
  * @returns {Object} Output from each formatter
  */
@@ -552,54 +500,6 @@ function getBinFile(command) {
 //------------------------------------------------------------------------------
 // Tasks
 //------------------------------------------------------------------------------
-
-target.lint = function([fix = false] = []) {
-    let errors = 0,
-        lastReturn;
-
-    /*
-     * In order to successfully lint JavaScript files in the `docs` directory, dependencies declared in `docs/package.json`
-     * would have to be installed in `docs/node_modules`. In particular, eslint-plugin-node rules examine `docs/node_modules`
-     * when analyzing `require()` calls from CJS modules in the `docs` directory. Since our release process does not run `npm install`
-     * in the `docs` directory, linting would fail and break the release. Also, working on the main `eslint` package does not require
-     * installing dependencies declared in `docs/package.json`, so most contributors will not have `docs/node_modules` locally.
-     * Therefore, we add `--ignore-pattern "docs/**"` to exclude linting the `docs` directory from this command.
-     * There is a separate command `target.lintDocsJS` for linting JavaScript files in the `docs` directory.
-     */
-    echo("Validating JavaScript files");
-    lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} . --ignore-pattern "docs/**"`);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
-    echo("Validating JSON Files");
-    JSON_FILES.forEach(validateJsonFile);
-
-    echo("Validating Markdown Files");
-    lastReturn = lintMarkdown(MARKDOWN_FILES_ARRAY);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
-    if (errors) {
-        exit(1);
-    }
-};
-
-target.lintDocsJS = function([fix = false] = []) {
-    let errors = 0;
-
-    echo("Validating JavaScript files in the docs directory");
-    const lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} docs`);
-
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
-    if (errors) {
-        exit(1);
-    }
-};
 
 target.fuzz = function({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
     const { run } = require("./tools/fuzzer-runner");
