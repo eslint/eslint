@@ -511,7 +511,7 @@ As of ESLint v10, you can write your ESLint configuration files in [TypeScript](
 This feature is currently experimental and may change in future versions.
 :::
 
-To use this feature, you must have [`jiti`](https://www.npmjs.com/package/jiti) installed in your project.
+To use this feature, you must have [`jiti`](https://jiti.unjs.io) installed in your project.
 
 NPM
 
@@ -608,14 +608,14 @@ npx eslint --config eslint.config.ts
 ```
 
 ::: warning
-As of now, [`jiti`](https://www.npmjs.com/package/jiti) does not support [Top-level `await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await)
+As of now, [`jiti`](https://jiti.unjs.io) does not support [Top-level `await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await)
 :::
 
 ### Summary
 
 You can now write your ESLint configuration files in TypeScript by following these steps:
 
-1. Install [`jiti`](https://www.npmjs.com/package/jiti) in your project.
+1. Install [`jiti`](https://jiti.unjs.io) in your project.
 
 ```bash
 # NPM
