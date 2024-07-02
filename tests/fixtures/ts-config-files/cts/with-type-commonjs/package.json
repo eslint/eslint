@@ -1,0 +1,5 @@
+{
+    "private": true,
+    "name": "cts-config-with-commonjs-pkg-type",
+    "type": "commonjs"
+}
