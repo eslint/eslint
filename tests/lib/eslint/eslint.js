@@ -920,7 +920,7 @@ describe("ESLint", () => {
             eslint = new ESLint({
                 cwd: getFixturePath("promise-config")
             });
-            const results = await eslint.lintText('var foo = "bar";');
+            const results = await eslint.lintText("var foo = \"bar\";");
 
             assert.strictEqual(results.length, 1);
             assert.strictEqual(results[0].messages.length, 1);
@@ -981,6 +981,142 @@ describe("ESLint", () => {
             it("should favor eslint.config.mjs when eslint.config.cjs is present", async () => {
 
                 const cwd = getFixturePath("mjs-cjs-config");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+        });
+
+        describe("TypeScript config files", () => {
+
+            it("should load eslint.config.ts", async () => {
+
+                const cwd = getFixturePath("config-ts/ts");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+
+            it("should load eslint.config.mts", async () => {
+
+                const cwd = getFixturePath("config-ts/mts");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+            it("should load eslint.config.cts", async () => {
+
+                const cwd = getFixturePath("config-ts/cts");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+            it("should load ts config with custom path", async () => {
+
+                const cwd = getFixturePath("config-ts/custom");
+
+                eslint = new ESLint({
+                    cwd,
+                    overrideConfigFile: getFixturePath("config-ts/custom/eslint.custom.config.mts")
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+            it("should load eslint.config.mts with top-level-await", async () => {
+
+                // in Node.js v18, importx loader fallback to jiti, which does not support top-level-await
+                if (process.version.startsWith("v18.")) {
+                    return;
+                }
+
+                const cwd = getFixturePath("config-ts/top-level-await");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+
+            it("should js config should win over when both present", async () => {
+                const cwd = getFixturePath("config-ts/js-ts-mixed");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+            it("should work with const enum", async () => {
+                const cwd = getFixturePath("config-ts/ts-const-enum");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                const results = await eslint.lintText("foo");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+            });
+
+            it("should work with ts namespace", async () => {
+                const cwd = getFixturePath("config-ts/ts-namespace");
 
                 eslint = new ESLint({
                     cwd
@@ -7123,7 +7259,7 @@ describe("ESLint", () => {
                 }
             });
 
-            const [{ messages }] = await eslint.lintText('const foo = "bar"');
+            const [{ messages }] = await eslint.lintText("const foo = \"bar\"");
 
             /*
              * baseConfig: { quotes: ["error", "double"], semi: "error" }
@@ -7193,7 +7329,7 @@ describe("ESLint", () => {
             const teardown = createCustomTeardown({
                 cwd,
                 files: {
-                    "package.json": '{ "type": "module" }',
+                    "package.json": "{ \"type\": \"module\" }",
                     "eslint.config.js": configFileContent,
                     "a.js": "foo\nbar;"
                 }
