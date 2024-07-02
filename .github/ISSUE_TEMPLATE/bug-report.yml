@@ -13,12 +13,14 @@ body:
     label: Environment
     description: |
       Please tell us about how you're running ESLint (Run `npx eslint --env-info`.)
+    # eslint-disable no-trailing-spaces -- trailing whitespace is intentional here
     value: |
         Node version: 
         npm version: 
         Local ESLint version: 
         Global ESLint version: 
         Operating System: 
+    # eslint-enable no-trailing-spaces -- now re-enable
   validations:
     required: true
 - type: dropdown

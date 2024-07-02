@@ -16,6 +16,7 @@ const eslintPluginTestsRecommendedConfig = require("eslint-plugin-eslint-plugin/
 const globals = require("globals");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 const eslintConfigESLintFormatting = require("eslint-config-eslint/formatting");
+const eslintPluginYml = require("eslint-plugin-yml");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -237,5 +238,6 @@ module.exports = [
                 resolveAbsolutePath("lib/cli-engine/index.js")
             ]]
         }
-    }
+    },
+    ...eslintPluginYml.configs["flat/recommended"]
 ];
