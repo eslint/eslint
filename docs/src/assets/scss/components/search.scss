@@ -64,23 +64,24 @@
     align-items: flex-end;
 }
 
-.search__powered-by {
-    display: flex;
-    padding: 10px 6px 0 0;
+.search_powered-by-wrapper {
+	text-decoration: none;
 
-    .powered-by-text {
-        color: var(--body-text-color);
-        margin-right: 5px;
-    }
+	.search__powered-by {
+		display: flex;
+		padding: 10px 6px 0 0;
+		align-items: center;
 
-    .algolia-logo1,
-    .algolia-logo2 {
-        fill: #003dff;
-    }
+		.powered-by-text {
+			color: var(--body-text-color);
+			margin-right: 5px;
+			margin-top: -2px;
+		}
 
-    .algolia-logo2 {
-        fill-rule: evenodd;
-    }
+		.algolia-logo {
+			fill: var(--body-text-color);
+		}
+	}
 }
 
 /* search results */
