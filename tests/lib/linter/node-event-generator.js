@@ -104,8 +104,7 @@ describe("NodeEventGenerator", () => {
             const generator = new NodeEventGenerator(emitter, STANDARD_ESQUERY_OPTION);
 
             Traverser.traverse(ast, {
-                enter(node, parent) {
-                    node.parent = parent;
+                enter(node) {
                     generator.enterNode(node);
                 },
                 leave(node) {
@@ -366,8 +365,7 @@ describe("NodeEventGenerator", () => {
 
             Traverser.traverse(ast, {
                 visitorKeys,
-                enter(node, parent) {
-                    node.parent = parent;
+                enter(node) {
                     generator.enterNode(node);
                 },
                 leave(node) {
