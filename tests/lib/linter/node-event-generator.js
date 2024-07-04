@@ -70,12 +70,16 @@ describe("NodeEventGenerator", () => {
         });
 
         it("should generate events for AST queries", () => {
-            const dummyNode = { type: "Bar", parent: { type: "Foo" } };
+            const dummyParent = { type: "Foo" };
+            const dummyNode = { type: "Bar" };
 
+            generator.enterNode(dummyParent);
             generator.enterNode(dummyNode);
 
-            assert(emitter.emit.calledTwice);
+            assert(emitter.emit.calledThrice);
+            assert(emitter.emit.calledWith("Foo", dummyParent));
             assert(emitter.emit.calledWith("Foo > Bar", dummyNode));
+            assert(emitter.emit.calledWith("Bar", dummyNode));
         });
     });
 
