@@ -96,8 +96,7 @@ function formatTeamMembers(members) {
  */
 function formatSponsors(sponsors) {
     const nonEmptySponsors = Object.keys(sponsors).filter(
-        tier => sponsors[tier].length > 0
-    );
+        tier => sponsors[tier].length);
 
     /* eslint-disable indent -- Allow deeper template substitution indent */
     return stripIndents`<!--sponsorsstart-->
