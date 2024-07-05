@@ -39,8 +39,7 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 10. [License](#license)
 11. [Team](#team)
 12. [Sponsors](#sponsors)
-<!-- markdownlint-disable-next-line MD051 -->
-13. [Technology Sponsors](#technology-sponsors)
+13. [Technology Sponsors](#technology-sponsors) <!-- markdownlint-disable-line MD051 -->
 
 ## Installation and Usage
 
