@@ -61,23 +61,23 @@
 }
 
 .search_powered-by-wrapper {
-	text-decoration: none;
+    text-decoration: none;
 
-	.search__powered-by {
-		display: flex;
-		padding: 10px 6px 0 0;
-		align-items: center;
+    .search__powered-by {
+        display: flex;
+        padding: 10px 6px 0 0;
+        align-items: center;
 
-		.powered-by-text {
-			color: var(--body-text-color);
-			margin-right: 5px;
-			margin-top: -2px;
-		}
+        .powered-by-text {
+            color: var(--body-text-color);
+            margin-right: 5px;
+            margin-top: -2px;
+        }
 
-		.algolia-logo {
-			fill: var(--body-text-color);
-		}
-	}
+        .algolia-logo {
+            fill: var(--body-text-color);
+        }
+    }
 }
 
 /* search results */
