@@ -1,3 +1,26 @@
+v9.6.0 - June 28, 2024
+
+* [`b15ee30`](https://github.com/eslint/eslint/commit/b15ee302742e280e8cd019b49e7b50a4f3b88bc0) chore: upgrade @eslint/js@9.6.0 (#18632) (Milos Djermanovic)
+* [`d655503`](https://github.com/eslint/eslint/commit/d655503b1fc97acfb4e7c61b3d9b557733c189b7) chore: package.json update for @eslint/js release (Jenkins)
+* [`1613e2e`](https://github.com/eslint/eslint/commit/1613e2e586423ec7871617aec4dce5c433f0e9f0) fix: Allow escaping characters in config patterns on Windows (#18628) (Milos Djermanovic)
+* [`13dbecd`](https://github.com/eslint/eslint/commit/13dbecdea749abf51951ce61662eec2621a4b9af) docs: Limit search to just docs (#18627) (Nicholas C. Zakas)
+* [`7c78ad9`](https://github.com/eslint/eslint/commit/7c78ad9d9f896354d557f24e2d37710cf79a27bf) refactor: Use language.visitorKeys and check for non-JS SourceCode (#18625) (Nicholas C. Zakas)
+* [`e2b16e2`](https://github.com/eslint/eslint/commit/e2b16e2b72606162dce3d804bc80186b6c5ec0f9) feat: Implement feature flags (#18516) (Nicholas C. Zakas)
+* [`69ff64e`](https://github.com/eslint/eslint/commit/69ff64e638c0a56628afbc271dda5c963724aca4) refactor: Return value of applyInlineConfig() (#18623) (Nicholas C. Zakas)
+* [`375227f`](https://github.com/eslint/eslint/commit/375227f94da3c1c4ff6c61a29b272889fa48ca79) docs: Update getting-started.md - add pnpm to init eslint config (#18599) (Kostiantyn Ochenash)
+* [`44915bb`](https://github.com/eslint/eslint/commit/44915bb95dfa21f946021d77b3b361e7e9b140e0) docs: Update README (GitHub Actions Bot)
+* [`d2d06f7`](https://github.com/eslint/eslint/commit/d2d06f7a70d9b96b125ecf2de8951bea549db4da) refactor: use `/` separator when adjusting `ignorePatterns` on Windows (#18613) (Milos Djermanovic)
+* [`21d3766`](https://github.com/eslint/eslint/commit/21d3766c3f4efd981d3cc294c2c82c8014815e6e) fix: `no-unused-vars` include caught errors pattern in report message (#18609) (Kirk Waiblinger)
+* [`6421973`](https://github.com/eslint/eslint/commit/642197346bf02d277c2014144537aa21ab57dc59) refactor: fix disable directives for languages with 0-based lines (#18605) (Milos Djermanovic)
+* [`d7a7736`](https://github.com/eslint/eslint/commit/d7a7736937981befc5dfd68ce512f1a6ebf93e68) fix: improve `no-unused-vars` message on unused caught errors (#18608) (Kirk Waiblinger)
+* [`0a13539`](https://github.com/eslint/eslint/commit/0a135395aca72461eb8b4c6f0866290bcf59916e) refactor: Allow optional methods for languages (#18604) (Nicholas C. Zakas)
+* [`f9e95d2`](https://github.com/eslint/eslint/commit/f9e95d2d06c0a7017417a3de4929b14d1008c63c) fix: correct locations of invalid `/* eslint */` comments (#18593) (Milos Djermanovic)
+* [`8824aa1`](https://github.com/eslint/eslint/commit/8824aa1469ffc572c5e5c1765d1b6da113dfba19) feat: add `ecmaVersion: 2025`, parsing duplicate named capturing groups (#18596) (Milos Djermanovic)
+* [`c7ddee0`](https://github.com/eslint/eslint/commit/c7ddee0d089e4db7be3f1a09f1a5731dd90b81b1) chore: make internal-rules not being a package (#18601) (Milos Djermanovic)
+* [`3379164`](https://github.com/eslint/eslint/commit/3379164e8b0cee57caf7da34226982075ebef51a) chore: remove `.eslintrc.js` (#18011) (唯然)
+* [`d0c3a32`](https://github.com/eslint/eslint/commit/d0c3a322fbcc2f70cfcd9d5010efef721245c382) chore: update knip (with webdriver-io plugin) (#18594) (Lars Kappert)
+* [`d50db7b`](https://github.com/eslint/eslint/commit/d50db7bcb4c19c0631ab80b120249ecf155824ce) docs: Update vscode-eslint info (#18595) (Nicholas C. Zakas)
+
 v9.5.0 - June 14, 2024
 
 * [`f588160`](https://github.com/eslint/eslint/commit/f588160c2f9996c9c62b787f1fe678f71740ec43) chore: upgrade @eslint/js@9.5.0 (#18591) (Milos Djermanovic)
