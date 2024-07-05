@@ -60,6 +60,26 @@
     z-index: 3;
 }
 
+.search_powered-by-wrapper {
+	text-decoration: none;
+
+	.search__powered-by {
+		display: flex;
+		padding: 10px 6px 0 0;
+		align-items: center;
+
+		.powered-by-text {
+			color: var(--body-text-color);
+			margin-right: 5px;
+			margin-top: -2px;
+		}
+
+		.algolia-logo {
+			fill: var(--body-text-color);
+		}
+	}
+}
+
 /* search results */
 .search .search-results {
     font-size: .875rem;
