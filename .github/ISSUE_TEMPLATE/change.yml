@@ -7,7 +7,7 @@ labels:
 body:
 - type: markdown
   attributes:
-    value: By opening an issue, you agree to abide by the [Open JS Foundation Code of Conduct](https://eslint.org/conduct).
+    value: By opening an issue, you agree to abide by the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct).
 - type: input
   attributes:
     label: ESLint version
