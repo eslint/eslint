@@ -68,6 +68,33 @@ export default [
 ];
 ```
 
+Parsers also refer external config files. Here's an example of using `babel.config.json` for Babel ESlint parser:
+
+```json
+// babel.config.json
+{
+     presets: ["@babel/preset-env"]
+}
+```
+
+```js
+// eslint.config.js
+import babelParser from "@babel/eslint-parser";
+
+export default [
+    {
+        languageOptions: {
+            parser: babelParser,
+            parserOptions: {
+                babelOptions: {
+                  configFile: "./babel.config.json"
+                }
+            }
+        }
+    }
+];
+```
+
 ::: tip
 In addition to the options specified in `languageOptions.parserOptions`, ESLint also passes `ecmaVersion` and `sourceType` to all parsers. This allows custom parsers to understand the context in which ESLint is evaluating JavaScript code.
 :::
