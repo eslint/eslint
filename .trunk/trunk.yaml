@@ -27,8 +27,10 @@ lint:
     definitions:
         - name: eslint
           files: [typescript, javascript, yaml] # Add YAML to default files.
+          hold_the_line: false
           commands:
               - name: lint
+                disable_upstream: true
                 run: ${workspace}/bin/eslint.js --output-file ${tmpfile} --format json ${target}
     enabled:
         - taplo@0.8.1
