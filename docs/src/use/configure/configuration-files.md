@@ -607,10 +607,6 @@ To override this behavior, use the `--config` or `-c` command line option to spe
 npx eslint --config eslint.config.ts
 ```
 
-::: warning
-As of now, [`jiti`](https://github.com/unjs/jiti) does not support [Top-level `await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await)
-:::
-
 ### Summary
 
 You can now write your ESLint configuration files in TypeScript by following these steps:
