@@ -5953,12 +5953,12 @@ describe("ESLint", () => {
 
                 const cwd = getFixturePath("ts-config-files", "ts", "with-type-module", "CJS-ESM-mixed-syntax", "import-and-export-assignment");
 
-                const configFileContent = "import type { FlatConfig } from \"../../../../helper\";\nimport rules, { Level } from \"./rules\";\nexport = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];";
+                const configFileContent = "import helpers = require(\"../../../../helper\");\nimport rulesModule = require(\"./rules\");\nconst { default: rules, Level } = rulesModule;\nconst allExports = [{ rules: { ...rules, semi: Level.Error } }] satisfies helpers.FlatConfig[];\nexport = allExports;";
 
                 const teardown = createCustomTeardown({
                     cwd,
                     files: {
-                        "rules.ts": "import type { RulesRecord } from \"../../../../helper\";\nimport { Severity } from \"../../../../helper\";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { \"no-undef\": Severity.Error } satisfies RulesRecord;",
+                        "rules.ts": "import helpers = require(\"../../../../helper\");\nconst enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nconst rules = { \"no-undef\": helpers.Severity.Error } satisfies helpers.RulesRecord;\nconst allExports = { default: rules, Level };\nexport = allExports;",
                         "package.json": typeModule,
                         "eslint.config.ts": configFileContent,
                         "foo.js": "foo"
@@ -5987,12 +5987,12 @@ describe("ESLint", () => {
 
                 const cwd = getFixturePath("ts-config-files", "ts", "with-type-commonjs", "CJS-ESM-mixed-syntax", "import-and-export-assignment");
 
-                const configFileContent = "import type { FlatConfig } from \"../../../../helper\";\nimport rules, { Level } from \"./rules\";\nexport = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];";
+                const configFileContent = "import helpers = require(\"../../../../helper\");\nimport rulesModule = require(\"./rules\");\nconst { default: rules, Level } = rulesModule;\nconst allExports = [{ rules: { ...rules, semi: Level.Error } }] satisfies helpers.FlatConfig[];\nexport = allExports;";
 
                 const teardown = createCustomTeardown({
                     cwd,
                     files: {
-                        "rules.ts": "import type { RulesRecord } from \"../../../../helper\";\nimport { Severity } from \"../../../../helper\";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { \"no-undef\": Severity.Error } satisfies RulesRecord;",
+                        "rules.ts": "import helpers = require(\"../../../../helper\");\nconst enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nconst rules = { \"no-undef\": helpers.Severity.Error } satisfies helpers.RulesRecord;\nconst allExports = { default: rules, Level };\nexport = allExports;",
                         "package.json": typeCommonJS,
                         "eslint.config.ts": configFileContent,
                         "foo.js": "foo"
