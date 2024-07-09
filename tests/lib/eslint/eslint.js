@@ -6090,6 +6090,38 @@ describe("ESLint", () => {
 
             });
 
+            it("should not load extensions with other than .ts, .mts or .cts", async () => {
+
+                const cwd = getFixturePath("ts-config-files", "wrong-extension");
+
+                const configFileContent = `import type { FlatConfig } from "../../helper";\nexport default ${
+                    JSON.stringify([
+                        { rules: { "no-undef": 2 } }
+                    ], null, 2)} satisfies FlatConfig[];`;
+
+                const teardown = createCustomTeardown({
+                    cwd,
+                    files: {
+                        "package.json": typeCommonJS,
+                        "eslint.config.mcts": configFileContent,
+                        "foo.js": "foo;"
+                    }
+                });
+
+                await teardown.prepare();
+
+                eslint = new ESLint({
+                    cwd,
+                    overrideConfigFile: "eslint.config.mcts",
+                    flags: ["unstable_ts_config"]
+                });
+
+                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
+
+                await assert.rejects(() => eslint.lintFiles(["foo.js"]));
+
+            });
+
         });
 
         it("should stop linting files if a rule crashes", async () => {
