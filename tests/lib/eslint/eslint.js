@@ -1429,30 +1429,47 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
 
-            it("should throw if eslint.config.js file is not present", async () => {
-                eslint = new ESLint({
-                    flags,
-                    cwd: getFixturePath("..")
-                });
-                await assert.rejects(() => eslint.lintFiles("fixtures/undef*.js"), /Could not find config file/u);
-            });
+            describe("Missing Configuration File", () => {
 
-            it("should not throw if eslint.config.js file is not present and overrideConfigFile is `true`", async () => {
-                eslint = new ESLint({
-                    flags,
-                    cwd: getFixturePath(".."),
-                    overrideConfigFile: true
-                });
-                await eslint.lintFiles("fixtures/undef*.js");
-            });
+                const workDirName = "no-config-file";
+                const workDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint/no-config");
 
-            it("should not throw if eslint.config.js file is not present and overrideConfigFile is path to a config file", async () => {
-                eslint = new ESLint({
-                    flags,
-                    cwd: getFixturePath(".."),
-                    overrideConfigFile: "fixtures/configurations/quotes-error.js"
+                // copy into clean area so as not to get "infected" by other config files
+                before(function () {
+
+                    shell.mkdir("-p", workDir);
+                    shell.cp("-r", "./tests/fixtures/" + workDirName, workDir);
                 });
-                await eslint.lintFiles("fixtures/undef*.js");
+
+                after(() => {
+                    shell.rm("-r", workDir);
+                });
+
+                it(flags + ":should throw if eslint.config.js file is not present", async () => {
+                    eslint = new ESLint({
+                        flags,
+                        cwd: workDir
+                    });
+                    await assert.rejects(() => eslint.lintFiles("no-config-file/*.js"), /Could not find config file/u);
+                });
+
+                it("should not throw if eslint.config.js file is not present and overrideConfigFile is `true`", async () => {
+                    eslint = new ESLint({
+                        flags,
+                        cwd: workDir,
+                        overrideConfigFile: true
+                    });
+                    await eslint.lintFiles("no-config-file/*.js");
+                });
+
+                it("should not throw if eslint.config.js file is not present and overrideConfigFile is path to a config file", async () => {
+                    eslint = new ESLint({
+                        flags,
+                        cwd: workDir,
+                        overrideConfigFile: path.join(fixtureDir, "configurations/quotes-error.js")
+                    });
+                    await eslint.lintFiles("no-config-file/*.js");
+                });
             });
 
             it("should throw if overrideConfigFile is path to a file that doesn't exist", async () => {
@@ -9313,6 +9330,73 @@ describe("ESLint", () => {
             assert.strictEqual(results[1].suppressedMessages.length, 0);
         });
 
+        describe("Subdirectory Config File", () => {
+
+            const workDirName = "subdir-only-config";
+            const workDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint/" + workDirName);
+
+            // copy into clean area so as not to get "infected" by other config files
+            before(function () {
+
+                shell.mkdir("-p", workDir);
+                shell.cp("-r", "./tests/fixtures/" + workDirName, workDir);
+            });
+
+            after(() => {
+                shell.rm("-r", workDir);
+            });
+
+            it("should find config file when cwd doesn't have a config file", async () => {
+                eslint = new ESLint({
+                    flags,
+                    cwd: workDir
+                });
+                const results = await eslint.lintFiles(["."]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, path.resolve(workDir, workDirName, "subdir", "eslint.config.mjs"));
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+        });
+
+        describe("Root config trying to ignore subdirectory with config", () => {
+
+            const workDirName = "subdir-ignored-config";
+            const workDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint/" + workDirName);
+
+            // copy into clean area so as not to get "infected" by other config files
+            before(function () {
+
+                shell.mkdir("-p", workDir);
+                shell.cp("-r", "./tests/fixtures/" + workDirName, workDir);
+            });
+
+            after(() => {
+                shell.rm("-r", workDir);
+            });
+
+            it("should traverse into subdir when parent config file specifies it as ignored", async () => {
+                eslint = new ESLint({
+                    flags,
+                    cwd: workDir
+                });
+                const results = await eslint.lintFiles(["."]);
+
+                assert.strictEqual(results.length, 2);
+                assert.strictEqual(results[0].filePath, path.resolve(workDir, workDirName, "eslint.config.cjs"));
+                assert.strictEqual(results[0].messages.length, 0);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+                assert.strictEqual(results[1].filePath, path.resolve(workDir, workDirName, "subdir", "eslint.config.mjs"));
+                assert.strictEqual(results[1].messages.length, 1);
+                assert.strictEqual(results[1].messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(results[1].suppressedMessages.length, 0);
+            });
+
+        });
 
     });
 });
