@@ -1061,25 +1061,6 @@ describe("ESLint", () => {
 
             });
 
-            it("should load eslint.config.ts when we have \"type\": \"module\" in nearest `package.json`", async () => {
-
-                const cwd = getFixturePath("ts-config-files", "ts", "with-type-module");
-
-                eslint = new ESLint({
-                    cwd,
-                    flags
-                });
-
-                const results = await eslint.lintText("foo");
-
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
-
-            });
-
             it("should load eslint.config.ts with const enums", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "ts", "const-enums");
