@@ -163,21 +163,16 @@ describe("LintResultCache", () => {
             it("contains node version during hashing", () => {
                 const version = "node-=-version";
 
-                const versionStub = sandbox.stub(process, "version").value(version);
+                sandbox.stub(process, "version").value(version);
+                const NewLintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
+                    "./hash": hashStub
+                });
+                const newLintResultCache = new NewLintResultCache(cacheFileLocation, "metadata");
 
-                try {
-                    const NewLintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
-                        "./hash": hashStub
-                    });
-                    const newLintResultCache = new NewLintResultCache(cacheFileLocation, "metadata");
+                newLintResultCache.getCachedLintResults(filePath, fakeConfig);
 
-                    newLintResultCache.getCachedLintResults(filePath, fakeConfig);
-
-                    assert.ok(hashStub.calledOnce);
-                    assert.ok(hashStub.calledWithMatch(version));
-                } finally {
-                    versionStub.restore();
-                }
+                assert.ok(hashStub.calledOnce);
+                assert.ok(hashStub.calledWithMatch(version));
             });
         });
 
