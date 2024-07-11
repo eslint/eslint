@@ -5170,6 +5170,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5188,6 +5189,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5206,6 +5208,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5240,6 +5243,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5274,6 +5278,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5308,6 +5313,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5342,6 +5348,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5376,6 +5383,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5411,6 +5419,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5446,6 +5455,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5481,6 +5491,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5516,6 +5527,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5551,6 +5563,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5584,6 +5597,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5617,6 +5631,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5650,6 +5665,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5683,6 +5699,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5719,6 +5736,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5755,6 +5773,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5788,6 +5807,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5821,6 +5841,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5854,6 +5875,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5887,6 +5909,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5920,6 +5943,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5953,6 +5977,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5972,6 +5997,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5990,6 +6016,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6001,14 +6028,17 @@ describe("ESLint", () => {
 
                 const cwd = getFixturePath("ts-config-files", "ts", "custom-config");
 
+                const overrideConfigFile = path.join(cwd, "eslint.custom.config.ts");
+
                 eslint = new ESLint({
                     cwd,
                     flags,
-                    overrideConfigFile: getFixturePath("ts-config-files", "ts", "custom-config", "eslint.custom.config.ts")
+                    overrideConfigFile
                 });
 
                 const results = await eslint.lintFiles("foo.js");
 
+                assert.strictEqual(await eslint.findConfigFile(), overrideConfigFile);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6027,6 +6057,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.mts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6045,6 +6076,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.mts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6063,6 +6095,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.mts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6081,6 +6114,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.cts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6099,6 +6133,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.cts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6117,6 +6152,7 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.cts"));
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6150,7 +6186,7 @@ describe("ESLint", () => {
                     flags
                 });
 
-
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.mcts"));
                 await assert.rejects(() => eslint.lintFiles(["foo.js"]));
 
             });
