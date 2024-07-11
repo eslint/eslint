@@ -6191,6 +6191,20 @@ describe("ESLint", () => {
 
             });
 
+            it("should not load TS config files when `\"unstable_ts_config\"` flag is not set", async () => {
+
+                const cwd = getFixturePath("ts-config-files", "ts");
+
+                eslint = new ESLint({
+                    cwd,
+                    overrideConfigFile: "eslint.config.ts"
+                });
+
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
+                await assert.rejects(() => eslint.lintFiles(["foo.js"]));
+
+            });
+
         });
 
         it("should stop linting files if a rule crashes", async () => {
