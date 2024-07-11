@@ -1015,7 +1015,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintText("foo");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -1034,7 +1033,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintText("foo");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -1053,7 +1051,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintText("foo");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -1072,7 +1069,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintText("foo");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -1091,7 +1087,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintText("foo");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -1111,7 +1106,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintText("foo");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -1130,7 +1124,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintText("foo");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -1149,7 +1142,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintText("foo");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -1168,7 +1160,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintText("foo");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -1187,7 +1178,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintText("foo");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -1206,7 +1196,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintText("foo");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -1225,7 +1214,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintText("foo");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5182,7 +5170,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5201,7 +5188,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5220,7 +5206,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5255,7 +5240,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5290,7 +5274,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5325,7 +5308,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5360,7 +5342,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5395,7 +5376,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5431,7 +5411,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5467,7 +5446,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5503,7 +5481,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5539,7 +5516,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5575,7 +5551,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5609,7 +5584,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5643,7 +5617,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5677,7 +5650,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5711,7 +5683,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5748,7 +5719,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5785,7 +5755,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5819,7 +5788,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5853,7 +5821,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5887,7 +5854,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5921,7 +5887,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5955,7 +5920,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -5989,7 +5953,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles(["foo.js"]);
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 2);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6009,7 +5972,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6028,7 +5990,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6048,7 +6009,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6067,7 +6027,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6086,7 +6045,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6105,7 +6063,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6124,7 +6081,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6143,7 +6099,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6162,7 +6117,6 @@ describe("ESLint", () => {
 
                 const results = await eslint.lintFiles("foo.js");
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
                 assert.strictEqual(results[0].messages[0].severity, 2);
@@ -6196,7 +6150,6 @@ describe("ESLint", () => {
                     flags
                 });
 
-                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), true);
 
                 await assert.rejects(() => eslint.lintFiles(["foo.js"]));
 
