@@ -6189,7 +6189,7 @@ describe("ESLint", () => {
 
             });
 
-            it("should not load extensions with other than .ts, .mts or .cts", async () => {
+            it("should not load extensions other than .ts, .mts or .cts", async () => {
 
                 const cwd = getFixturePath("ts-config-files", "wrong-extension");
 
