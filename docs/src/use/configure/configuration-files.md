@@ -21,9 +21,9 @@ The ESLint configuration file may be named any of the following:
 * `eslint.config.js`
 * `eslint.config.mjs`
 * `eslint.config.cjs`
-* `eslint.config.ts` (Requires [TypeScript Setup](#experimental-typescript-support))
-* `eslint.config.mts` (Requires [TypeScript Setup](#experimental-typescript-support))
-* `eslint.config.cts` (Requires [TypeScript Setup](#experimental-typescript-support))
+* `eslint.config.ts` (requires [additional setup](#typescript-configuration-files))
+* `eslint.config.mts` (requires [additional setup](#typescript-configuration-files))
+* `eslint.config.cts` requires [additional setup](#typescript-configuration-files))
 
 It should be placed in the root directory of your project and export an array of [configuration objects](#configuration-objects). Here's an example:
 
@@ -499,36 +499,20 @@ npx eslint --config some-other-file.js **/*.js
 
 In this case, ESLint does not search for `eslint.config.js` and instead uses `some-other-file.js`.
 
-<a name="experimental-typescript-support">
-
-## ◆ Configuration Files written in TypeScript (new)
-
-</a>
-
-As of ESLint v9.x, you can write your ESLint configuration files in [TypeScript](https://www.typescriptlang.org).
+## TypeScript Configuration Files
 
 ::: warning
 This feature is currently experimental and may change in future versions.
 :::
 
-To use this feature, you must have [`jiti`](https://github.com/unjs/jiti) installed in your project.
-
-NPM
+To enable TypeScript configuration files, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in your project.
 
 ```bash
-npm install --save-dev jiti
-```
-
-Yarn
-
-```bash
+npm install -D jiti
+# or
 yarn add --dev jiti
-```
-
-PNPM
-
-```bash
-pnpm add --save-dev jiti
+# or
+pnpm add -D jiti
 ```
 
 You can then create a configuration file with the `.ts`, `.mts`, or `.cts` extension and export an array of [configuration objects](#configuration-objects). Here's an example:
@@ -550,8 +534,8 @@ export default [
 with an `eslint.config.cts` file (CJS):
 
 ```ts
-import type { Linter } from "eslint"
-const eslint = require("@eslint/js")
+import type { Linter } from "eslint";
+const eslint = require("@eslint/js");
 
 const config: Linter.FlatConfig[] = [
   eslint.configs.recommended,
@@ -560,16 +544,16 @@ const config: Linter.FlatConfig[] = [
       "no-console": [0],
     },
   },
-]
+];
 
-module.exports = config
+module.exports = config;
 ```
 
 with an `eslint.config.mts` file (ESM):
 
 ```ts
-import eslint from "@eslint/js"
-import type { Linter } from "eslint"
+import eslint from "@eslint/js";
+import type { Linter } from "eslint";
 
 const config: Linter.FlatConfig[] = [
   eslint.configs.recommended,
@@ -578,9 +562,9 @@ const config: Linter.FlatConfig[] = [
       "no-console": [0],
     },
   },
-]
+];
 
-export default config
+export default config;
 ```
 
 ### Important Notes
@@ -633,8 +617,8 @@ touch eslint.config.ts
 3. Export an array of [configuration objects](#configuration-objects) from the file.
 
 ```ts
-import eslint from "@eslint/js"
-import type { Linter } from "eslint"
+import eslint from "@eslint/js";
+import type { Linter } from "eslint";
 
 const config: Linter.FlatConfig[] = [
   eslint.configs.recommended,
@@ -643,7 +627,7 @@ const config: Linter.FlatConfig[] = [
       "no-console": [0],
     },
   },
-]
+];
 
-export default config
+export default config;
 ```
