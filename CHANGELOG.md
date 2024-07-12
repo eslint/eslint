@@ -1,3 +1,18 @@
+v9.7.0 - July 12, 2024
+
+* [`793b718`](https://github.com/eslint/eslint/commit/793b7180119e7e440d685defb2ee01597574ef1e) chore: upgrade @eslint/js@9.7.0 (#18680) (Francesco Trotta)
+* [`7ed6f9a`](https://github.com/eslint/eslint/commit/7ed6f9a4db702bbad941422f456451a8dba7a450) chore: package.json update for @eslint/js release (Jenkins)
+* [`14e9f81`](https://github.com/eslint/eslint/commit/14e9f81ccdb51d2b915b68f442d48ced0a691646) fix: destructuring in catch clause in `no-unused-vars` (#18636) (Francesco Trotta)
+* [`7bcda76`](https://github.com/eslint/eslint/commit/7bcda760369c44d0f1131fccaaf1ccfed5af85f1) refactor: Add type references (#18652) (Nicholas C. Zakas)
+* [`51bf57c`](https://github.com/eslint/eslint/commit/51bf57c493a65baeee3a935f2d0e52e27271fb48) chore: add tech sponsors through actions (#18624) (Strek)
+* [`9f416db`](https://github.com/eslint/eslint/commit/9f416db680ad01716a769296085bf3eb93f76424) docs: Add Powered by Algolia label to the search. (#18633) (Amaresh  S M)
+* [`6320732`](https://github.com/eslint/eslint/commit/6320732c3e2a52a220552e348108c53c60f9ef7a) refactor: don't use `parent` property in `NodeEventGenerator` (#18653) (Milos Djermanovic)
+* [`7bd9839`](https://github.com/eslint/eslint/commit/7bd98398f112da020eddcda2c26cf4cc563af004) feat: add support for es2025 duplicate named capturing groups (#18630) (Yosuke Ota)
+* [`1381394`](https://github.com/eslint/eslint/commit/1381394a75b5902ce588455765a3919e2f138a7a) feat: add `regex` option in `no-restricted-imports` (#18622) (Nitin Kumar)
+* [`9e6d640`](https://github.com/eslint/eslint/commit/9e6d6405c3ee774c2e716a3453ede9696ced1be7) refactor: move "Parsing error" prefix adding to Linter (#18650) (Milos Djermanovic)
+* [`c8d26cb`](https://github.com/eslint/eslint/commit/c8d26cb4a2f9d89bfc1914167d3e9f1d3314ffe7) docs: Open JS Foundation -> OpenJS Foundation (#18649) (Milos Djermanovic)
+* [`6e79ac7`](https://github.com/eslint/eslint/commit/6e79ac76f44b34c24a3e92c20713fbafe1dcbae2) docs: `loadESLint` does not support option `cwd` (#18641) (Francesco Trotta)
+
 v9.6.0 - June 28, 2024
 
 * [`b15ee30`](https://github.com/eslint/eslint/commit/b15ee302742e280e8cd019b49e7b50a4f3b88bc0) chore: upgrade @eslint/js@9.6.0 (#18632) (Milos Djermanovic)
