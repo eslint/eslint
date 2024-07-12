@@ -1,3 +1,9 @@
+/*
+ * This file ensures that TypeScript configuration files can handle
+ * importing various TypeScript constructs such as types, enums,
+ * and namespaces from other TypeScript files.
+ */
+
 export type RuleLevelAndOptions<Options extends any[] = any[]> = Prepend<
     Partial<Options>,
     RuleLevel
