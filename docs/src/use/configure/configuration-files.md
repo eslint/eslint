@@ -505,7 +505,7 @@ In this case, ESLint does not search for `eslint.config.js` and instead uses `so
 This feature is currently experimental and may change in future versions.
 :::
 
-To enable TypeScript configuration files, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in your project.
+For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in your project (this dependency is not automatically installed by ESLint):
 
 ```bash
 npm install -D jiti
@@ -515,7 +515,7 @@ yarn add --dev jiti
 pnpm add -D jiti
 ```
 
-You can then create a configuration file with the `.ts`, `.mts`, or `.cts` extension and export an array of [configuration objects](#configuration-objects). Here's an example:
+You can then create a configuration file with a `.ts`, `.mts`, or `.cts` extension, and export an array of [configuration objects](#configuration-objects). Here's an example in ESM format:
 
 ```ts
 import js from "@eslint/js";
@@ -531,7 +531,7 @@ export default [
 ] satisfies Linter.FlatConfig[];
 ```
 
-with an `eslint.config.cts` file (CJS):
+Here's an example in CommonJS format:
 
 ```ts
 import type { Linter } from "eslint";
@@ -549,85 +549,23 @@ const config: Linter.FlatConfig[] = [
 module.exports = config;
 ```
 
-with an `eslint.config.mts` file (ESM):
-
-```ts
-import eslint from "@eslint/js";
-import type { Linter } from "eslint";
-
-const config: Linter.FlatConfig[] = [
-  eslint.configs.recommended,
-  {
-    rules: {
-      "no-console": [0],
-    },
-  },
-];
-
-export default config;
-```
-
-### Important Notes
-
-* **Type Checking**: ESLint does not perform any type checking on the configuration file.
-* **`tsconfig.json` Ignored**: Your local `tsconfig.json` file does not influence how the configuration file is loaded.
-* **Runtime Support**: If you are using a runtime that supports TypeScript natively, such as [`Bun`](https://bun.sh) or
-[`Deno`](`https://deno.com`), ESLint will defer loading the configuration file to the runtime.
+::: important
+ESLint does not perform type checking on your configuration file and does not apply any settings from `tsconfig.json`.
+:::
 
 ### Configuration File Precedence
 
 If you have multiple ESLint configuration files, ESLint prioritizes JavaScript files over TypeScript files. The order of precedence is as follows:
 
-1. **`eslint.config.js`**
-2. **`eslint.config.mjs`**
-3. **`eslint.config.cjs`**
-4. **`eslint.config.ts`**
-5. **`eslint.config.mts`**
-6. **`eslint.config.cts`**
+1. `eslint.config.js`
+2. `eslint.config.mjs`
+3. `eslint.config.cjs`
+4. `eslint.config.ts`
+5. `eslint.config.mts`
+6. `eslint.config.cts`
 
 To override this behavior, use the `--config` or `-c` command line option to specify a different configuration file:
 
 ```bash
 npx eslint --config eslint.config.ts
-```
-
-### Summary
-
-You can now write your ESLint configuration files in TypeScript by following these steps:
-
-1. Install [`jiti`](https://github.com/unjs/jiti) in your project.
-
-```bash
-# NPM
-npm install --save-dev jiti
-
-# Yarn
-yarn add --dev jiti
-
-#PNPM
-pnpm add --save-dev jiti
-```
-
-2. Create an `eslint.config.ts`, `eslint.config.mts`, or `eslint.config.cts` file.
-
-```bash
-touch eslint.config.ts
-```
-
-3. Export an array of [configuration objects](#configuration-objects) from the file.
-
-```ts
-import eslint from "@eslint/js";
-import type { Linter } from "eslint";
-
-const config: Linter.FlatConfig[] = [
-  eslint.configs.recommended,
-  {
-    rules: {
-      "no-console": [0],
-    },
-  },
-];
-
-export default config;
 ```
