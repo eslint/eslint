@@ -8,13 +8,12 @@
     }
     var setTheme = function (theme) {
         if (theme === "system") {
-            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
-            document.documentElement.setAttribute('data-theme', theme);
-            window.localStorage.setItem("theme", "system");
+            systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
+            document.documentElement.setAttribute('data-theme', systemTheme);
         } else {
             document.documentElement.setAttribute('data-theme', theme);
-            window.localStorage.setItem("theme", theme);
         }
+        window.localStorage.setItem("theme", theme);
     }
 
     var theme = window.localStorage.getItem("theme");
