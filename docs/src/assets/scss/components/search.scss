@@ -102,7 +102,7 @@
     @media all and (min-width: 1024px) {
         box-shadow: var(--shadow-lg);
         position: absolute;
-        top: calc(100% - 1.25rem);
+        top: calc(100% - 1.5rem);
     }
 
     &[data-results="true"] {
