@@ -180,7 +180,7 @@ module.exports = [
     // JSONC files
     {
         name: "eslint/json",
-        files: [".vscode/*.json"],
+        files: [".vscode/*.json","knip.jsonc"],
         language: "json/jsonc"
     },
 
