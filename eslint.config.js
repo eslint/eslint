@@ -85,7 +85,8 @@ module.exports = [
             "tests/fixtures/**",
             "tests/performance/**",
             "tmp/**",
-            "**/test.js"
+            "**/test.js",
+            ".vscode"
         ]
     },
     {
@@ -179,9 +180,10 @@ module.exports = [
 
     // JSONC files
     {
-        name: "eslint/json",
-        files: [".vscode/*.json","knip.jsonc"],
-        language: "json/jsonc"
+        name: "eslint/jsonc",
+        files: ["knip.jsonc"],
+        language: "json/jsonc",
+        ...json.configs.recommended
     },
 
     // Restrict relative path imports
