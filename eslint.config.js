@@ -171,7 +171,7 @@ module.exports = [
     // JSON files
     {
         name: "eslint/json",
-        files: ["**/*.json"],
+        files: ["**/*.json", ".c8rc"],
         ignores: ["**/package-lock.json"],
         language: "json/json",
         ...json.configs.recommended
