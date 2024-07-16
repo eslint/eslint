@@ -8537,6 +8537,39 @@ describe("ESLint", () => {
             assert.strictEqual(messages[0].messageId, "extraSemi");
             assert.strictEqual(messages[0].line, 2);
         });
+
+        it("new instance of ESLint should use the latest version of the config file (TypeScript)", async () => {
+            const cwd = getFixturePath(`config_file_${Date.now()}`);
+            const configFileContent = "export default [{ rules: { semi: ['error', 'always'] } }];";
+            const teardown = createCustomTeardown({
+                cwd,
+                files: {
+                    "eslint.config.ts": configFileContent,
+                    "a.js": "foo\nbar;"
+                }
+            });
+
+            await teardown.prepare();
+
+            let eslint = new ESLint({ cwd, flags: ["unstable_ts_config"] });
+            let [{ messages }] = await eslint.lintFiles(["a.js"]);
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "semi");
+            assert.strictEqual(messages[0].messageId, "missingSemi");
+            assert.strictEqual(messages[0].line, 1);
+
+            await sleep(100);
+            await fsp.writeFile(path.join(cwd, "eslint.config.ts"), configFileContent.replace("always", "never"));
+
+            eslint = new ESLint({ cwd, flags: ["unstable_ts_config"] });
+            [{ messages }] = await eslint.lintFiles(["a.js"]);
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "semi");
+            assert.strictEqual(messages[0].messageId, "extraSemi");
+            assert.strictEqual(messages[0].line, 2);
+        });
     });
 
     // only works on a Windows machine
