@@ -20,7 +20,6 @@ runtimes:
 tools:
     enabled:
         - gh@2.52.0
-    runtimes: [node]
 
 # This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
 lint:

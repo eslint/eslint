@@ -37,7 +37,7 @@ jobs:
       - name: Check Licenses
         run: node Makefile checkLicenses
 
-      - name: Lint Docs JS Files
+      - name: Lint Docs Files
         uses: trunk-io/trunk-action@v1
         with:
 
