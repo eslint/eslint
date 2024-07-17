@@ -6201,7 +6201,20 @@ describe("ESLint", () => {
                 });
 
                 assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
-                await assert.rejects(() => eslint.lintFiles(["foo.js"]));
+                await assert.doesNotReject(() => eslint.lintFiles(["foo.js"]));
+
+            });
+
+            it("should fallback to JS config files when `\"unstable_ts_config\"` flag is not set", async () => {
+
+                const cwd = getFixturePath("ts-config-files", "ts");
+
+                eslint = new ESLint({
+                    cwd
+                });
+
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "../../eslint.config.js"));
+                await assert.doesNotReject(() => eslint.lintFiles(["foo.js"]));
 
             });
 
