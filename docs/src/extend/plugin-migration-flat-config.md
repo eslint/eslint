@@ -126,6 +126,85 @@ export default [
 
 You should update your plugin's documentation to advise your users if you have renamed a file extension-named processor.
 
+### Clarifying the Use of Meta Objects:
+
+#### Plugin Meta-Object
+
+The top-level meta object of the plugin provides essential metadata about the plugin itself. This meta object is used when the processor is specified in the format plugin-name/processor-name. This helps ESLint to cache the plugin and provide more informative debug messages.
+
+Example:
+
+```js
+// eslint.config.js
+import markdown from "eslint-plugin-markdown";
+
+export default [
+    {
+        files: ["**/*.md"],
+        plugins: {
+            markdown
+        },
+        processor: "markdown/markdown"
+    },
+    // ... other configs
+];
+```
+
+#### Processor Meta Object
+
+Each processor can also have its own meta-object. This is particularly useful when the processor is specified directly as a processor object. The meta object within the processor helps ESLint to cache the processor and provide more detailed debugging information.
+
+Example:
+
+```js
+// eslint.config.js
+import markdown from "eslint-plugin-markdown";
+
+export default [
+    {
+        files: ["**/*.md"],
+        processor: markdown.processors.markdown
+    },
+    // ... other configs
+];
+
+```
+
+Why Both Meta Objects are Needed
+It is recommended that both the plugin and each processor provide their respective meta objects. This ensures that features relying on meta objects, such as --print-config and --cache, work correctly regardless of how the processor is specified in the configuration.
+
+Example Structure:
+
+```js
+const plugin = {
+    meta: {
+        name: "eslint-plugin-example",
+        version: "1.0.0"
+    },
+    configs: {},
+    rules: {},
+    processors: {
+        markdown: {
+            meta: {
+                name: "eslint-processor-markdown",
+                version: "1.0.0"
+            },
+            preprocess() {},
+            postprocess() {}
+        }
+    }
+};
+
+// for ESM
+export default plugin;
+
+// OR for CommonJS
+module.exports = plugin;
+
+````
+
+By including meta information in both places, you ensure that your plugin and processors are fully compatible with ESLint's new flat config system and its features.
+
 ## Migrating Configs for Flat Config
 
 If your plugin is exporting configs that refer back to your plugin, then you'll need to update your configs to flat config format. As part of the migration, you'll need to reference your plugin directly in the `plugins` key. For example, here is an exported config in the old configuration system format for a plugin named `eslint-plugin-example`:
