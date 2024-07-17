@@ -203,8 +203,6 @@ module.exports = plugin;
 
 ````
 
-By including meta information in both places, you ensure that your plugin and processors are fully compatible with ESLint's new flat config system and its features.
-
 ## Migrating Configs for Flat Config
 
 If your plugin is exporting configs that refer back to your plugin, then you'll need to update your configs to flat config format. As part of the migration, you'll need to reference your plugin directly in the `plugins` key. For example, here is an exported config in the old configuration system format for a plugin named `eslint-plugin-example`:
