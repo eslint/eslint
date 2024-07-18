@@ -36,7 +36,7 @@ eslint:eslint Config file URL is file:///C:/Users/nzakas/projects/eslint/eslint/
 **What To Do:** Run ESLint with the `--print-config` command line flag and pass the file to check, like this:
 
 ```shell
-npx eslint file.js --print-config
+npx eslint --print-config file.js
 ```
 
 This outputs a JSON representation of the file's calculated config, such as:
