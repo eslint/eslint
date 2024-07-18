@@ -4,7 +4,7 @@ eleventyNavigation:
     key: migration guide
     parent: configure
     title: Configuration Migration Guide
-    order: 8
+    order: 9
 ---
 
 This guide provides an overview of how you can migrate your ESLint configuration file from the eslintrc format (typically configured in `.eslintrc.js` or `.eslintrc.json` files) to the new flat config format (typically configured in an `eslint.config.js` file).
