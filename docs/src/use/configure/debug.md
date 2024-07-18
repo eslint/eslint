@@ -71,7 +71,7 @@ You won't see any entries for `files`, `ignores`, or `name`, because those are o
 **What To Do:** Run ESLint with the `--inspect-config` command line flag and pass the file to check, like this:
 
 ```shell
-npx eslint file.js --inspect-config
+npx eslint --inspect-config
 ```
 
 This initiates the config inspector by installing and starting [`@eslint/config-inspector`](https://github.com/eslint/config-inspector). You can then type in the filename in question to see which configuration objects will apply.
