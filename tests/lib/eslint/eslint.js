@@ -6201,7 +6201,7 @@ describe("ESLint", () => {
                 });
 
                 assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
-                await assert.doesNotReject(() => eslint.lintFiles(["foo.js"]));
+                await assert.rejects(() => eslint.lintFiles(["foo.js"]));
 
             });
 
