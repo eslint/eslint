@@ -327,10 +327,12 @@ describe("ESLint", () => {
             assert.strictEqual(eslint.hasFlag("test_only"), true);
         });
 
-        it("should return false if the flag is present and inactive", () => {
-            eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_old"] });
+        it("should throw an error if the flag is inactive", () => {
 
-            assert.strictEqual(eslint.hasFlag("test_only_old"), false);
+            assert.throws(() => {
+                eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_old"] });
+            }, /The flag 'test_only_old' is inactive/u);
+
         });
 
         it("should return false if the flag is not present", () => {
