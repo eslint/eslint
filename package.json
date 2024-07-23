@@ -68,7 +68,7 @@
   "dependencies": {
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.11.0",
-    "@eslint/config-array": "^0.17.0",
+    "@eslint/config-array": "^0.17.1",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "9.7.0",
     "@humanwhocodes/module-importer": "^1.0.1",
