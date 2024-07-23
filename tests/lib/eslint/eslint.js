@@ -2314,6 +2314,103 @@ describe("ESLint", () => {
                 assert.match(results[1].messages[0].message, /'baz'/u);
             });
 
+            // https://github.com/eslint/eslint/issues/18706
+            it("should disregard ignore pattern '/'", async () => {
+                eslint = new ESLint({
+                    cwd: getFixturePath("ignores-relative"),
+                    overrideConfigFile: true,
+                    overrideConfig: [
+                        {
+                            ignores: ["/"]
+                        },
+                        {
+                            plugins: {
+                                "test-plugin": {
+                                    rules: {
+                                        "no-program": {
+                                            create(context) {
+                                                return {
+                                                    Program(node) {
+                                                        context.report({
+                                                            node,
+                                                            message: "Program is disallowed."
+                                                        });
+                                                    }
+                                                };
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            rules: {
+                                "test-plugin/no-program": "warn"
+                            }
+                        }
+                    ]
+                });
+
+                const results = await eslint.lintFiles(["**/a.js"]);
+
+                assert.strictEqual(results.length, 2);
+                assert.strictEqual(results[0].filePath, getFixturePath("ignores-relative", "a.js"));
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "test-plugin/no-program");
+                assert.strictEqual(results[0].messages[0].message, "Program is disallowed.");
+                assert.strictEqual(results[1].filePath, getFixturePath("ignores-relative", "subdir", "a.js"));
+                assert.strictEqual(results[1].messages.length, 1);
+                assert.strictEqual(results[1].messages[0].severity, 1);
+                assert.strictEqual(results[1].messages[0].ruleId, "test-plugin/no-program");
+                assert.strictEqual(results[1].messages[0].message, "Program is disallowed.");
+            });
+
+            it("should not skip an unignored file in base path when all files are initially ignored by '**'", async () => {
+                eslint = new ESLint({
+                    cwd: getFixturePath("ignores-relative"),
+                    overrideConfigFile: true,
+                    overrideConfig: [
+                        {
+                            ignores: [
+                                "**",
+                                "!a.js"
+                            ]
+                        },
+                        {
+                            plugins: {
+                                "test-plugin": {
+                                    rules: {
+                                        "no-program": {
+                                            create(context) {
+                                                return {
+                                                    Program(node) {
+                                                        context.report({
+                                                            node,
+                                                            message: "Program is disallowed."
+                                                        });
+                                                    }
+                                                };
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            rules: {
+                                "test-plugin/no-program": "warn"
+                            }
+                        }
+                    ]
+                });
+
+                const results = await eslint.lintFiles(["**/a.js"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, getFixturePath("ignores-relative", "a.js"));
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "test-plugin/no-program");
+                assert.strictEqual(results[0].messages[0].message, "Program is disallowed.");
+            });
+
         });
 
 
