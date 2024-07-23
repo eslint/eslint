@@ -30,7 +30,11 @@ lint:
           commands:
               - name: lint
                 disable_upstream: true
-                run: ${workspace}/bin/eslint.js --output-file ${tmpfile} --format json ${target}
+                run: node ${workspace}/bin/eslint.js --output-file ${tmpfile} --format json ${target}
+        - name: checkov
+          supported_platforms: [linux, macos]
+        - name: renovate
+          supported_platforms: [linux, macos]
     enabled:
         - taplo@0.8.1
         - eslint
