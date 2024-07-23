@@ -1922,9 +1922,9 @@ describe("cli", () => {
                     const filePath = getFixturePath("passing.js");
                     const input = `--flag test_only_oldx --config ${configPath} ${filePath}`;
 
-                    stdAssert.rejects(async () => {
+                    await stdAssert.rejects(async () => {
                         await cli.execute(input, null, true);
-                    }, /Unknown flag 'test_only_old'\.*/u);
+                    }, /Unknown flag 'test_only_oldx'\./u);
                 });
 
                 it("should not error when a valid flag is used", async () => {
