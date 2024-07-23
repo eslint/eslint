@@ -13,14 +13,12 @@ body:
     label: Environment
     description: |
       Please tell us about how you're running ESLint (Run `npx eslint --env-info`.)
-     
     value: |
         Node version: 
         npm version: 
         Local ESLint version: 
         Global ESLint version: 
         Operating System: 
-     
   validations:
     required: true
 - type: dropdown
