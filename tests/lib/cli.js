@@ -1912,9 +1912,9 @@ describe("cli", () => {
                     const filePath = getFixturePath("passing.js");
                     const input = `--flag test_only_old --config ${configPath} ${filePath}`;
 
-                    stdAssert.rejects(async () => {
+                    await stdAssert.rejects(async () => {
                         await cli.execute(input, null, true);
-                    }, /The 'test_only_old' flag is inactive: Used only for testing\.*/u);
+                    }, /The flag 'test_only_old' is inactive: Used only for testing\./u);
                 });
 
                 it("should error out when an unknown flag is used", async () => {
