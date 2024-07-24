@@ -105,7 +105,7 @@
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@eslint/core": "^0.1.0",
-    "@eslint/json": "^0.1.0",
+    "@eslint/json": "^0.2.0",
     "@types/estree": "^1.0.5",
     "@types/node": "^20.11.5",
     "@wdio/browser-runner": "^8.38.3",
