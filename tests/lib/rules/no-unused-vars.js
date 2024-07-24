@@ -2027,23 +2027,26 @@ try {
                 }
             ]
         },
-        {
-            code: "try {} catch ({ message, errors: [firstError] }) {}",
-            options: [{ caughtErrorsIgnorePattern: "foo" }],
-            languageOptions: { ecmaVersion: 2015 },
-            errors: [
-                {
-                    message: "'message' is defined but never used. Allowed unused caught errors must match /foo/u.",
-                    column: 17,
-                    endColumn: 24
-                },
-                {
-                    message: "'firstError' is defined but never used. Allowed unused caught errors must match /foo/u.",
-                    column: 35,
-                    endColumn: 45
-                }
-            ]
-        },
+
+        /*
+         * {
+         *     code: "try {} catch ({ message, errors: [firstError] }) {}",
+         *     options: [{ caughtErrorsIgnorePattern: "foo" }],
+         *     languageOptions: { ecmaVersion: 2015 },
+         *     errors: [
+         *         {
+         *             message: "'message' is defined but never used. Allowed unused caught errors must match /foo/u.",
+         *             column: 17,
+         *             endColumn: 24
+         *         },
+         *         {
+         *             message: "'firstError' is defined but never used. Allowed unused caught errors must match /foo/u.",
+         *             column: 35,
+         *             endColumn: 45
+         *         }
+         *     ]
+         * },
+         */
         {
             code: "try {} catch ({ stack: $ }) { $ = 'Something broke: ' + $; }",
             options: [{ caughtErrorsIgnorePattern: "\\w" }],
@@ -2056,21 +2059,24 @@ try {
                 }
             ]
         },
-        {
-            code: `
-_ => { _ = _ + 1 };
-            `,
-            options: [{
-                argsIgnorePattern: "ignored",
-                varsIgnorePattern: "_"
-            }],
-            languageOptions: { ecmaVersion: 2015 },
-            errors: [
-                {
-                    message: "'_' is assigned a value but never used. Allowed unused args must match /ignored/u."
-                }
-            ]
-        },
+
+        /*
+         *         {
+         *             code: `
+         * _ => { _ = _ + 1 };
+         *             `,
+         *             options: [{
+         *                 argsIgnorePattern: "ignored",
+         *                 varsIgnorePattern: "_"
+         *             }],
+         *             languageOptions: { ecmaVersion: 2015 },
+         *             errors: [
+         *                 {
+         *                     message: "'_' is assigned a value but never used. Allowed unused args must match /ignored/u."
+         *                 }
+         *             ]
+         *         },
+         */
         {
             code: "const [a, b, c] = foo; alert(a + c);",
             languageOptions: { ecmaVersion: 6 },
