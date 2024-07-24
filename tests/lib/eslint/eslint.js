@@ -4,6 +4,10 @@
  * @author Toru Nagashima
  */
 
+/**
+ * @import { ESLintOptions } from '../../../lib/eslint/eslint.js';
+ */
+
 "use strict";
 
 //------------------------------------------------------------------------------
@@ -100,7 +104,7 @@ describe("ESLint", () => {
 
     /**
      * Create the ESLint object by mocking some of the plugins
-     * @param {ConstructorParameters<ESLint>[0]} options options for ESLint
+     * @param {ESLintOptions} options options for ESLint
      * @returns {InstanceType<ESLint>} engine object
      * @private
      */
