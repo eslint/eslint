@@ -1227,6 +1227,24 @@ describe("ESLint", () => {
 
             });
 
+            it("should successfully load a TS config file that exports a promise", async () => {
+
+                const cwd = getFixturePath("ts-config-files", "ts", "exports-promise");
+
+                eslint = new ESLint({
+                    cwd,
+                    flags
+                });
+
+                const results = await eslint.lintText("foo;");
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+            });
+
         });
     });
 
@@ -6318,6 +6336,26 @@ describe("ESLint", () => {
 
                 assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "../../eslint.config.js"));
                 await assert.doesNotReject(() => eslint.lintFiles(["foo.js"]));
+
+            });
+
+            it("should successfully load a TS config file that exports a promise", async () => {
+
+                const cwd = getFixturePath("ts-config-files", "ts", "exports-promise");
+
+                eslint = new ESLint({
+                    cwd,
+                    flags
+                });
+
+                const results = await eslint.lintFiles(["foo*.js"]);
+
+                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
             });
 
