@@ -44,6 +44,15 @@ function createParentDirective(range, value, ruleIds = []) {
     };
 }
 
+const sourceCode = {
+    getRange(node) {
+        return node.range;
+    },
+    getLoc(node) {
+        return node.loc;
+    }
+};
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -54,6 +63,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{ parentDirective: createParentDirective([0, 7]), type: "disable", line: 1, column: 8, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 7, ruleId: "foo" }]
                 }),
@@ -65,6 +75,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{ parentDirective: createParentDirective([21, 27]), type: "disable", line: 2, column: 1, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }]
                 }),
@@ -76,6 +87,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 8, ruleId: null }]
                 }),
@@ -87,6 +99,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }]
                 }),
@@ -98,6 +111,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: null, justification: "justification" }],
                     problems: [{ line: 2, column: 3, ruleId: "foo" }]
                 }),
@@ -111,6 +125,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: "foo", justification: "justification" }],
                     problems: [{ line: 2, column: 3, ruleId: "foo" }]
                 }),
@@ -122,6 +137,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: "foo", justification: "justification" }],
                     problems: [{ line: 1, column: 8, ruleId: "foo" }]
                 }),
@@ -133,6 +149,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([26, 29]),
                         type: "disable",
@@ -151,6 +168,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([7, 31]),
                         type: "disable",
@@ -170,6 +188,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 26]),
@@ -198,6 +217,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 25]),
@@ -226,6 +246,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         { type: "disable", line: 1, column: 1, ruleId: null, justification: "j1" },
                         { type: "enable", line: 1, column: 26, ruleId: null, justification: "j2" }
@@ -240,6 +261,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -276,6 +298,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -312,6 +335,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -342,6 +366,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -370,6 +395,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -398,6 +424,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -426,6 +453,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         { type: "disable", line: 1, column: 1, ruleId: null, justification: "j1" },
                         { type: "enable", line: 1, column: 22, ruleId: "foo", justification: "j2" },
@@ -457,6 +485,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([6, 27]),
                         type: "disable-line",
@@ -475,6 +504,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([7, 28]),
                         type: "disable-line",
@@ -493,6 +523,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([7, 28]),
                         type: "disable-line",
@@ -511,6 +542,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([7, 34]),
                         type: "disable-line",
@@ -531,6 +563,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([7, 34]),
                         type: "disable-line",
@@ -549,6 +582,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 27]),
                         type: "disable-line",
@@ -567,6 +601,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -595,6 +630,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([7, 34]),
@@ -657,6 +693,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 31]),
                         type: "disable-next-line",
@@ -675,6 +712,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 31]),
                         type: "disable-next-line",
@@ -692,6 +730,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 31]),
                         type: "disable-next-line",
@@ -710,6 +749,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         { parentDirective: createParentDirective([0, 31]), type: "disable-next-line", line: 1, column: 1, ruleId: null, justification: "j1" },
                         { parentDirective: createParentDirective([31, 50]), type: "enable", line: 1, column: 31, ruleId: null, justification: "j2" }
@@ -726,6 +766,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable-next-line", line: 1, column: 1, ruleId: "foo", justification: "justification" }],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }]
                 }),
@@ -737,6 +778,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 31]),
                         type: "disable-next-line",
@@ -770,6 +812,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 20]),
                         type: "disable",
@@ -799,6 +842,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 20]),
                         type: "disable",
@@ -825,6 +869,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 1, ruleId: null, justification: "justification" }],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
@@ -837,6 +882,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 21]),
                         type: "disable",
@@ -867,6 +913,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 24]),
                         type: "disable",
@@ -904,6 +951,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -951,6 +999,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -991,6 +1040,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1045,6 +1095,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1096,6 +1147,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1147,6 +1199,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 1, ruleId: "foo", justification: "justification" }],
                     problems: [{ line: 1, column: 6, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
@@ -1159,6 +1212,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1210,6 +1264,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -1258,6 +1313,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -1305,6 +1361,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 24]),
@@ -1352,6 +1409,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1419,6 +1477,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 20]),
                         type: "enable",
@@ -1448,6 +1507,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 20]),
                         type: "enable",
@@ -1474,6 +1534,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         { type: "disable", line: 1, column: 1, ruleId: null, justification: "justification" },
                         { type: "enable", line: 3, column: 1, ruleId: null, justification: "justification" }
@@ -1489,6 +1550,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 21]),
                         type: "enable",
@@ -1519,6 +1581,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 24]),
@@ -1567,6 +1630,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1643,6 +1707,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1699,6 +1764,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1753,6 +1819,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1809,6 +1876,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1865,6 +1933,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         { type: "disable", line: 1, column: 1, ruleId: "foo", justification: "j1" },
                         { type: "enable", line: 3, column: 1, ruleId: "foo", justification: "j2" }
@@ -1880,6 +1949,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1938,6 +2008,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -1994,6 +2065,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -2050,6 +2122,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -2126,6 +2199,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -2196,6 +2270,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 22]),
                         type: "disable-line",
@@ -2229,6 +2304,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable-line", line: 1, column: 1, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
@@ -2241,6 +2317,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 27]),
                         type: "disable-next-line",
@@ -2273,6 +2350,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable-next-line", line: 1, column: 1, ruleId: null, justification: "justification" }],
                     problems: [{ line: 2, column: 10, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
@@ -2285,6 +2363,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         { parentDirective: createParentDirective([0, 20]), type: "disable", line: 1, column: 1, ruleId: null },
                         { parentDirective: createParentDirective([20, 43]), type: "disable-line", line: 1, column: 22, ruleId: null }
@@ -2325,6 +2404,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 27]),
                         type: "disable-next-line",
@@ -2348,6 +2428,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2397,6 +2478,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2447,6 +2529,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2497,6 +2580,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2547,6 +2631,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2617,6 +2702,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2707,6 +2793,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2751,6 +2838,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2798,6 +2886,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -2868,6 +2957,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -2925,6 +3015,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -2983,6 +3074,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -3041,6 +3133,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -3099,6 +3192,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -3177,6 +3271,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -3275,6 +3370,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -3319,6 +3415,7 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
