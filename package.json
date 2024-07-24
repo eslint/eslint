@@ -167,7 +167,7 @@
     "yorkie": "^2.0.0"
   },
   "peerDependencies": {
-    "jiti": "^1.21.0"
+    "jiti": "*"
   },
   "peerDependenciesMeta": {
     "jiti": {
