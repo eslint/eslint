@@ -7803,11 +7803,18 @@ describe("Linter with FlatConfigArray", () => {
             );
         });
 
-        it("should return false if an inactive flag is present", () => {
-            assert.strictEqual(
-                new Linter({ configType: "flat", flags: ["test_only_old"] }).hasFlag("test_only_old"),
-                false
-            );
+        it("should throw an error if an inactive flag is present", () => {
+            assert.throws(() => {
+                // eslint-disable-next-line no-new -- needed for test
+                new Linter({ configType: "flat", flags: ["test_only_old"] });
+            }, /The flag 'test_only_old' is inactive: Used only for testing/u);
+        });
+
+        it("should throw an error if an unknown flag is present", () => {
+            assert.throws(() => {
+                // eslint-disable-next-line no-new -- needed for test
+                new Linter({ configType: "flat", flags: ["x_unknown"] });
+            }, /Unknown flag 'x_unknown'/u);
         });
 
         it("should return false if the flag is not present", () => {

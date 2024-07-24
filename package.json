@@ -68,7 +68,7 @@
   "dependencies": {
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.11.0",
-    "@eslint/config-array": "^0.17.0",
+    "@eslint/config-array": "^0.17.1",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "9.7.0",
     "@humanwhocodes/module-importer": "^1.0.1",
@@ -105,7 +105,7 @@
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@eslint/core": "^0.1.0",
-    "@eslint/json": "^0.1.0",
+    "@eslint/json": "^0.2.0",
     "@types/estree": "^1.0.5",
     "@types/node": "^20.11.5",
     "@wdio/browser-runner": "^8.38.3",

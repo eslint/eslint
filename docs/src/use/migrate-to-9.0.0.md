@@ -4,7 +4,7 @@ eleventyNavigation:
     key: migrate to v9
     parent: use eslint
     title: Migrate to v9.x
-    order: 7
+    order: 9
 
 ---
 

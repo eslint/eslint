@@ -4,7 +4,7 @@ eleventyNavigation:
     key: integrations
     parent: use eslint
     title: Integrations
-    order: 7
+    order: 8
 
 ---
 
