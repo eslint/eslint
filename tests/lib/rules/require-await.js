@@ -188,7 +188,17 @@ ruleTester.run("require-await", rule, {
                 messageId: "missingAwait",
                 data: { name: "Async arrow function" },
                 suggestions: [
-                    { output: "async function foo() { await ( () => { doSomething() }) }", messageId: "removeAsync" }
+                    { output: "async function foo() { await (() => { doSomething() }) }", messageId: "removeAsync" }
+                ]
+            }]
+        },
+        {
+            code: "const obj = { async: async function foo() { bar(); } }",
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async method 'async'" },
+                suggestions: [
+                    { output: "const obj = { async: function foo() { bar(); } }", messageId: "removeAsync" }
                 ]
             }]
         }
