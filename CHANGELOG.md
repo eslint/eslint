@@ -1,3 +1,16 @@
+v9.8.0 - July 26, 2024
+
+* [`deee448`](https://github.com/eslint/eslint/commit/deee4480def929cfa7f5b75f315d84f23eaba592) chore: upgrade to `@eslint/js@9.8.0` (#18720) (Francesco Trotta)
+* [`4aaf2b3`](https://github.com/eslint/eslint/commit/4aaf2b39ba3659aff0c769de4ccefa3d5379ff93) chore: package.json update for @eslint/js release (Jenkins)
+* [`8e1a627`](https://github.com/eslint/eslint/commit/8e1a627a6784380ca7e7670e336bbe9630da2da1) chore: update dependency @eslint/core to ^0.2.0 (#18700) (renovate[bot])
+* [`13d0bd3`](https://github.com/eslint/eslint/commit/13d0bd371eb8eb4aa1601c8727212a62ab923d0e) feat: Add and use SourceCode#getLoc/getRange (#18703) (Nicholas C. Zakas)
+* [`282df1a`](https://github.com/eslint/eslint/commit/282df1aef3c3e62f2617c6c2944944510f287a07) docs: Add system theme option (#18617) (Amaresh  S M)
+* [`ab0ff27`](https://github.com/eslint/eslint/commit/ab0ff2755d6950d7e7fb92944771c1c30f933e02) fix: Throw error when invalid flags passed (#18705) (Nicholas C. Zakas)
+* [`70dc803`](https://github.com/eslint/eslint/commit/70dc80337328338f3811040e3f1a1bd5674ecbd2) fix: `basePath` directory can never be ignored (#18711) (Milos Djermanovic)
+* [`53b1ff0`](https://github.com/eslint/eslint/commit/53b1ff047948e36682fade502c949f4e371e53cd) docs: Debug config docs (#18698) (Nicholas C. Zakas)
+* [`4514424`](https://github.com/eslint/eslint/commit/45144243f3b5762bd8e19e41749a7d330a723ada) build: Enable JSON linting (#18681) (Nicholas C. Zakas)
+* [`a7016a5`](https://github.com/eslint/eslint/commit/a7016a50d88011f279d52b9355a5662e561c414c) docs: fix search input stylings (#18682) (Amaresh  S M)
+
 v9.7.0 - July 12, 2024
 
 * [`793b718`](https://github.com/eslint/eslint/commit/793b7180119e7e440d685defb2ee01597574ef1e) chore: upgrade @eslint/js@9.7.0 (#18680) (Francesco Trotta)
