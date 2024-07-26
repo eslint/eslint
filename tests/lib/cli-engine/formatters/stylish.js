@@ -419,4 +419,32 @@ describe("formatter:stylish", () => {
             assert.include(result, "  9 errors and 3 warnings potentially fixable with the `--fix` option.\n");
         });
     });
+
+    describe("when passed mixed length messages", () => {
+        const code = [{
+            filePath: "foo.js",
+            errorCount: 1,
+            warningCount: 1,
+            messages: [{
+                message: "Unexpected short.",
+                severity: 2,
+                line: 5,
+                column: 10,
+                ruleId: "short"
+            }, {
+                message: "Unexpected long named message.",
+                severity: 1,
+                line: 106,
+                column: 11,
+                ruleId: "aVeryLongNameForARule"
+            }]
+        }];
+
+        it("should return a string properly aligned as a table", () => {
+            const result = formatter(code);
+
+            assert.strictEqual(result, "\nfoo.js\n    5:10  error    Unexpected short               short\n  106:11  warning  Unexpected long named message  aVeryLongNameForARule\n\n\u2716 2 problems (1 error, 1 warning)\n");
+        });
+    });
+
 });
