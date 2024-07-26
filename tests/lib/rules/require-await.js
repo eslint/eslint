@@ -98,7 +98,7 @@ ruleTester.run("require-await", rule, {
                 messageId: "missingAwait",
                 data: { name: "Async function 'foo'" },
                 suggestions: [
-                    { output: " function foo() { doSomething() }", messageId: "removeAsync" }
+                    { output: "function foo() { doSomething() }", messageId: "removeAsync" }
                 ]
             }]
         },
@@ -108,7 +108,7 @@ ruleTester.run("require-await", rule, {
                 messageId: "missingAwait",
                 data: { name: "Async function" },
                 suggestions: [
-                    { output: "( function() { doSomething() })", messageId: "removeAsync" }
+                    { output: "(function() { doSomething() })", messageId: "removeAsync" }
                 ]
             }]
         },
@@ -118,7 +118,7 @@ ruleTester.run("require-await", rule, {
                 messageId: "missingAwait",
                 data: { name: "Async arrow function" },
                 suggestions: [
-                    { output: " () => { doSomething() }", messageId: "removeAsync" }
+                    { output: "() => { doSomething() }", messageId: "removeAsync" }
                 ]
             }]
         },
@@ -128,7 +128,7 @@ ruleTester.run("require-await", rule, {
                 messageId: "missingAwait",
                 data: { name: "Async arrow function" },
                 suggestions: [
-                    { output: " () => doSomething()", messageId: "removeAsync" }
+                    { output: "() => doSomething()", messageId: "removeAsync" }
                 ]
             }]
         },
@@ -138,7 +138,7 @@ ruleTester.run("require-await", rule, {
                 messageId: "missingAwait",
                 data: { name: "Async method 'foo'" },
                 suggestions: [
-                    { output: "({  foo() { doSomething() } })", messageId: "removeAsync" }
+                    { output: "({ foo() { doSomething() } })", messageId: "removeAsync" }
                 ]
             }]
         },
@@ -148,7 +148,7 @@ ruleTester.run("require-await", rule, {
                 messageId: "missingAwait",
                 data: { name: "Async method 'foo'" },
                 suggestions: [
-                    { output: "class A {  foo() { doSomething() } }", messageId: "removeAsync" }
+                    { output: "class A { foo() { doSomething() } }", messageId: "removeAsync" }
                 ]
             }]
         },
@@ -158,7 +158,7 @@ ruleTester.run("require-await", rule, {
                 messageId: "missingAwait",
                 data: { name: "Async method 'foo'" },
                 suggestions: [
-                    { output: "(class {  foo() { doSomething() } })", messageId: "removeAsync" }
+                    { output: "(class { foo() { doSomething() } })", messageId: "removeAsync" }
                 ]
             }]
         },
@@ -168,7 +168,7 @@ ruleTester.run("require-await", rule, {
                 messageId: "missingAwait",
                 data: { name: "Async method ''" },
                 suggestions: [
-                    { output: "(class {  ''() { doSomething() } })", messageId: "removeAsync" }
+                    { output: "(class { ''() { doSomething() } })", messageId: "removeAsync" }
                 ]
             }]
         },
@@ -178,7 +178,7 @@ ruleTester.run("require-await", rule, {
                 messageId: "missingAwait",
                 data: { name: "Async function 'foo'" },
                 suggestions: [
-                    { output: " function foo() { async () => { await doSomething() } }", messageId: "removeAsync" }
+                    { output: "function foo() { async () => { await doSomething() } }", messageId: "removeAsync" }
                 ]
             }]
         },
