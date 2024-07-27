@@ -201,6 +201,16 @@ ruleTester.run("require-await", rule, {
                     { output: "const obj = { async: function foo() { bar(); } }", messageId: "removeAsync" }
                 ]
             }]
+        },
+        {
+            code: "async /* test */ function foo() { doSomething() }",
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async function 'foo'" },
+                suggestions: [
+                    { output: "/* test */ function foo() { doSomething() }", messageId: "removeAsync" }
+                ]
+            }]
         }
     ]
 });
