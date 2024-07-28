@@ -211,6 +211,29 @@ ruleTester.run("require-await", rule, {
                     { output: "/* test */ function foo() { doSomething() }", messageId: "removeAsync" }
                 ]
             }]
+        },
+        {
+            code: `class A {
+                a = 0
+                async [b](){ return 0; }
+            }`,
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async method" },
+                suggestions: [] // No suggestions because removing `async` causes a parsing error.
+            }]
+        },
+        {
+            code: `foo
+                async () => { return 0; }
+            `,
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async arrow function" },
+                suggestions: [] // No suggestions because removing `async` causes a parsing error.
+            }]
         }
     ]
 });
