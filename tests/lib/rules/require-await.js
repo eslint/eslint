@@ -221,7 +221,15 @@ ruleTester.run("require-await", rule, {
             errors: [{
                 messageId: "missingAwait",
                 data: { name: "Async method" },
-                suggestions: [] // No suggestions because removing `async` causes a parsing error.
+                suggestions: [
+                    {
+                        output: `class A {
+                a = 0
+                ;[b](){ return 0; }
+            }`,
+                        messageId: "removeAsync"
+                    }
+                ]
             }]
         },
         {
@@ -232,7 +240,14 @@ ruleTester.run("require-await", rule, {
             errors: [{
                 messageId: "missingAwait",
                 data: { name: "Async arrow function" },
-                suggestions: [] // No suggestions because removing `async` causes a parsing error.
+                suggestions: [
+                    {
+                        output: `foo
+                ;() => { return 0; }
+            `,
+                        messageId: "removeAsync"
+                    }
+                ]
             }]
         }
     ]
