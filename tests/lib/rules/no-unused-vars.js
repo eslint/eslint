@@ -944,14 +944,7 @@ ruleTester.run("no-unused-vars", rule, {
                     varName: "name",
                     action: "assigned a value",
                     additional: ""
-                },
-                suggestions: [
-                    {
-                        output: "(function(obj) {  for ( name in obj ) { i(); return; } })({});",
-                        messageId: "removeVar",
-                        data: { varName: "name" }
-                    }
-                ]
+                }
             }]
         },
         {
@@ -964,14 +957,7 @@ ruleTester.run("no-unused-vars", rule, {
                     varName: "name",
                     action: "assigned a value",
                     additional: ""
-                },
-                suggestions: [
-                    {
-                        output: "(function(obj) {  for ( name in obj ) { } })({});",
-                        messageId: "removeVar",
-                        data: { varName: "name" }
-                    }
-                ]
+                }
             }]
         },
         {
@@ -1028,14 +1014,7 @@ ruleTester.run("no-unused-vars", rule, {
                     varName: "name",
                     action: "assigned a value",
                     additional: ""
-                },
-                suggestions: [
-                    {
-                        output: "(function(iter) {  for ( name of iter ) { i(); return; } })({});",
-                        messageId: "removeVar",
-                        data: { varName: "name" }
-                    }
-                ]
+                }
             }]
         },
         {
@@ -1049,14 +1028,7 @@ ruleTester.run("no-unused-vars", rule, {
                     varName: "name",
                     action: "assigned a value",
                     additional: ""
-                },
-                suggestions: [
-                    {
-                        output: "(function(iter) {  for ( name of iter ) { } })({});",
-                        messageId: "removeVar",
-                        data: { varName: "name" }
-                    }
-                ]
+                }
             }]
         },
         {
@@ -1225,14 +1197,7 @@ ruleTester.run("no-unused-vars", rule, {
                         varName: "coords",
                         action: "assigned a value",
                         additional: ""
-                    },
-                    suggestions: [
-                        {
-                            output: "let type;\n({ type, ...coords } = data);\n console.log(type)",
-                            messageId: "removeVar",
-                            data: { varName: "coords" }
-                        }
-                    ]
+                    }
                 }
             ]
         },
@@ -1547,28 +1512,28 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var a = 0; a = a + a;", errors: [assignedError("a")] },
         { code: "var a = 0; a += a + 1;", errors: [assignedError("a")] },
         { code: "var a = 0; a++;", errors: [assignedError("a")] },
-        { code: "function foo(a) { a = a + 1 } foo();", errors: [assignedError("a", [{ output: "function foo() { a = a + 1 } foo();", messageId: "removeVar", data: { varName: "a" } }])] },
-        { code: "function foo(a) { a += a + 1 } foo();", errors: [assignedError("a", [{ output: "function foo() { a += a + 1 } foo();", messageId: "removeVar", data: { varName: "a" } }])] },
-        { code: "function foo(a) { a++ } foo();", errors: [assignedError("a", [{ output: "function foo() { a++ } foo();", messageId: "removeVar", data: { varName: "a" } }])] },
+        { code: "function foo(a) { a = a + 1 } foo();", errors: [assignedError("a")] },
+        { code: "function foo(a) { a += a + 1 } foo();", errors: [assignedError("a")] },
+        { code: "function foo(a) { a++ } foo();", errors: [assignedError("a")] },
         { code: "var a = 3; a = a * 5 + 6;", errors: [assignedError("a")] },
         { code: "var a = 2, b = 4; a = a * 2 + b;", errors: [assignedError("a")] },
 
         // https://github.com/eslint/eslint/issues/6576 (For coverage)
         {
             code: "function foo(cb) { cb = function(a) { cb(1 + a); }; bar(not_cb); } foo();",
-            errors: [assignedError("cb", [{ output: "function foo() { cb = function(a) { cb(1 + a); }; bar(not_cb); } foo();", messageId: "removeVar", data: { varName: "cb" } }])]
+            errors: [assignedError("cb")]
         },
         {
             code: "function foo(cb) { cb = function(a) { return cb(1 + a); }(); } foo();",
-            errors: [assignedError("cb", [{ output: "function foo() { cb = function(a) { return cb(1 + a); }(); } foo();", messageId: "removeVar", data: { varName: "cb" } }])]
+            errors: [assignedError("cb")]
         },
         {
             code: "function foo(cb) { cb = (function(a) { cb(1 + a); }, cb); } foo();",
-            errors: [assignedError("cb", [{ output: "function foo() { cb = (function(a) { cb(1 + a); }, cb); } foo();", messageId: "removeVar", data: { varName: "cb" } }])]
+            errors: [assignedError("cb")]
         },
         {
             code: "function foo(cb) { cb = (0, function(a) { cb(1 + a); }); } foo();",
-            errors: [assignedError("cb", [{ output: "function foo() { cb = (0, function(a) { cb(1 + a); }); } foo();", messageId: "removeVar", data: { varName: "cb" } }])]
+            errors: [assignedError("cb")]
         },
 
         // https://github.com/eslint/eslint/issues/6646
@@ -1582,20 +1547,7 @@ ruleTester.run("no-unused-vars", rule, {
                 "}"
             ].join("\n"),
             errors: [
-                assignedError("b", [
-                    {
-                        output: [
-                            "while (a) {",
-                            "    function foo() {",
-                            "        b = b + 1;",
-                            "    }",
-                            "    foo()",
-                            "}"
-                        ].join("\n"),
-                        messageId: "removeVar",
-                        data: { varName: "b" }
-                    }
-                ])
+                assignedError("b")
             ]
         },
 
@@ -1877,7 +1829,7 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "let foo;\ninit();\nfoo = foo + 2;\nfunction init() {foo = 1;}",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ ...assignedError("foo", [{ output: "\ninit();\nfoo = foo + 2;\nfunction init() {foo = 1;}", messageId: "removeVar", data: { varName: "foo" } }]), line: 3, column: 1 }]
+            errors: [{ ...assignedError("foo"), line: 3, column: 1 }]
         },
         {
             code: "function foo(n) {\nif (n < 2) return 1;\nreturn n * foo(n - 1);}",
@@ -2027,26 +1979,37 @@ try {
                 }
             ]
         },
-
-        /*
-         * {
-         *     code: "try {} catch ({ message, errors: [firstError] }) {}",
-         *     options: [{ caughtErrorsIgnorePattern: "foo" }],
-         *     languageOptions: { ecmaVersion: 2015 },
-         *     errors: [
-         *         {
-         *             message: "'message' is defined but never used. Allowed unused caught errors must match /foo/u.",
-         *             column: 17,
-         *             endColumn: 24
-         *         },
-         *         {
-         *             message: "'firstError' is defined but never used. Allowed unused caught errors must match /foo/u.",
-         *             column: 35,
-         *             endColumn: 45
-         *         }
-         *     ]
-         * },
-         */
+        {
+            code: "try {} catch ({ message, errors: [firstError] }) {}",
+            options: [{ caughtErrorsIgnorePattern: "foo" }],
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: "'message' is defined but never used. Allowed unused caught errors must match /foo/u.",
+                    column: 17,
+                    endColumn: 24,
+                    suggestions: [
+                        {
+                            output: "try {} catch ({  errors: [firstError] }) {}",
+                            messageId: "removeVar",
+                            data: { varName: "message" }
+                        }
+                    ]
+                },
+                {
+                    message: "'firstError' is defined but never used. Allowed unused caught errors must match /foo/u.",
+                    column: 35,
+                    endColumn: 45,
+                    suggestions: [
+                        {
+                            output: "try {} catch ({ message }) {}",
+                            messageId: "removeVar",
+                            data: { varName: "firstError" }
+                        }
+                    ]
+                }
+            ]
+        },
         {
             code: "try {} catch ({ stack: $ }) { $ = 'Something broke: ' + $; }",
             options: [{ caughtErrorsIgnorePattern: "\\w" }],
@@ -2059,24 +2022,19 @@ try {
                 }
             ]
         },
-
-        /*
-         *         {
-         *             code: `
-         * _ => { _ = _ + 1 };
-         *             `,
-         *             options: [{
-         *                 argsIgnorePattern: "ignored",
-         *                 varsIgnorePattern: "_"
-         *             }],
-         *             languageOptions: { ecmaVersion: 2015 },
-         *             errors: [
-         *                 {
-         *                     message: "'_' is assigned a value but never used. Allowed unused args must match /ignored/u."
-         *                 }
-         *             ]
-         *         },
-         */
+        {
+            code: "_ => { _ = _ + 1 };",
+            options: [{
+                argsIgnorePattern: "ignored",
+                varsIgnorePattern: "_"
+            }],
+            languageOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    message: "'_' is assigned a value but never used. Allowed unused args must match /ignored/u."
+                }
+            ]
+        },
         {
             code: "const [a, b, c] = foo; alert(a + c);",
             languageOptions: { ecmaVersion: 6 },
@@ -2520,6 +2478,16 @@ try {
             code: "import foo, { a } from 'module'; foo();",
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [definedError("a", [{ output: "import foo from 'module'; foo();", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "let a; a = foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a")]
+        },
+        {
+            code: "array.forEach(a => {})",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [definedError("a", [{ output: "array.forEach(() => {})", messageId: "removeVar", data: { varName: "a" } }])]
         }
     ]
 });
