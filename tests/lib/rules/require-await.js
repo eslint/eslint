@@ -203,7 +203,7 @@ ruleTester.run("require-await", rule, {
             }]
         },
         {
-            code: "async /* test */ function foo() { doSomething() }",
+            code: "async    /* test */ function foo() { doSomething() }",
             errors: [{
                 messageId: "missingAwait",
                 data: { name: "Async function 'foo'" },
