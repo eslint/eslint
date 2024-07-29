@@ -81,6 +81,7 @@ footer:
     title: Theme Switcher
     light: Light
     dark: Dark
+    system: System
   language_switcher:
     title: Language Switcher
     description: Selecting a language will take you to the ESLint website in that language.
