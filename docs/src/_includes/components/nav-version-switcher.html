@@ -15,6 +15,7 @@
             {% for item in eslintVersions.items %}
             <option value="{{ item.version }}" data-url="{{ item.path }}" {% if item.selected %}selected{% endif %}>{{ item.display }}</option>
             {% endfor %}
+            <option value="version support" data-url="/version-support/">Version Support</option>
         </select>
     </div>
 </div>
