@@ -30,7 +30,7 @@ jobs:
 
           # Run on everything except the docs folder.
           arguments: --ignore=docs/** --filter=eslint --verbose
-          check_mode: all
+          check-mode: all
 
       - name: Lint Files (other)
         uses: trunk-io/trunk-action@v1
@@ -51,7 +51,7 @@ jobs:
 
           # Run only on the docs folder.
           arguments: --ignore=** --ignore=!docs/** --filter=eslint --verbose
-          check_mode: all
+          check-mode: all
 
       - name: Lint Docs Files
         uses: trunk-io/trunk-action@v1
