@@ -22,12 +22,4 @@ jobs:
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
         with:
-          arguments: --github-label=test
-          post-annotations: true # only for fork PRs
-
-      - name: Trunk Check
-        uses: trunk-io/trunk-action@v1
-        with:
-          check-mode: all
-          arguments: --filter=eslint --github-label=eslint          
           post-annotations: true # only for fork PRs
