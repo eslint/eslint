@@ -29,7 +29,7 @@ jobs:
         with:
 
           # Run on everything except the docs folder.
-          arguments: --ignore=docs/** --filter=eslint --verbose
+          arguments: --ignore=docs/** --filter=eslint
           check-mode: all
 
       - name: Lint Files (other)
@@ -37,7 +37,7 @@ jobs:
         with:
 
           # Run on everything except the docs folder.
-          arguments: --ignore=docs/** --filter=-eslint --verbose
+          arguments: --ignore=docs/** --filter=-eslint
 
       - name: Check Rule Files
         run: node Makefile checkRuleFiles
@@ -50,15 +50,15 @@ jobs:
         with:
 
           # Run only on the docs folder.
-          arguments: --ignore=** --ignore=!docs/** --filter=eslint --verbose
+          arguments: --ignore=** --ignore=!docs/** --filter=eslint
           check-mode: all
 
-      - name: Lint Docs Files
+      - name: Lint Docs Files (other)
         uses: trunk-io/trunk-action@v1
         with:
 
           # Run only on the docs folder.
-          arguments: --ignore=** --ignore=!docs/** --filter=-eslint --verbose
+          arguments: --ignore=** --ignore=!docs/** --filter=-eslint
 
       - name: Check Rule Examples
         run: node Makefile checkRuleExamples
