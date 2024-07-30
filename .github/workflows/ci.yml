@@ -29,7 +29,7 @@ jobs:
         with:
 
           # Run on everything except the docs folder.
-          arguments: --ignore=docs/** --filter=eslint
+          arguments: --ignore=docs/** --filter=eslint --verbose
           check_mode: all
 
       - name: Lint Files (other)
@@ -37,7 +37,7 @@ jobs:
         with:
 
           # Run on everything except the docs folder.
-          arguments: --ignore=docs/** --filter=-0eslint
+          arguments: --ignore=docs/** --filter=-eslint --verbose
 
       - name: Check Rule Files
         run: node Makefile checkRuleFiles
@@ -50,7 +50,7 @@ jobs:
         with:
 
           # Run only on the docs folder.
-          arguments: --ignore=** --ignore=!docs/** --filter=eslint
+          arguments: --ignore=** --ignore=!docs/** --filter=eslint --verbose
           check_mode: all
 
       - name: Lint Docs Files
@@ -58,7 +58,7 @@ jobs:
         with:
 
           # Run only on the docs folder.
-          arguments: --ignore=** --ignore=!docs/** --filter=-eslint
+          arguments: --ignore=** --ignore=!docs/** --filter=-eslint --verbose
 
       - name: Check Rule Examples
         run: node Makefile checkRuleExamples
