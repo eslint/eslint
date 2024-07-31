@@ -1,5 +1,5 @@
 module.exports = [
     {
-        ignores: ["subdir/"]
+        ignores: ["subdir*/"]
     }
 ];
