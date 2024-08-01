@@ -120,7 +120,7 @@ describe("ESLint", () => {
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
-    before(function () {
+    before(function() {
 
         /*
          * GitHub Actions Windows and macOS runners occasionally exhibit
@@ -183,8 +183,7 @@ describe("ESLint", () => {
                         rules: {
                             "test/report-cwd": "error"
                         }
-                    },
-                    flags
+                    }
                 });
                 const results = await engine.lintText("");
 
@@ -212,7 +211,6 @@ describe("ESLint", () => {
                         cacheFile: "",
                         configFile: "",
                         envs: [],
-                        flags,
                         globals: [],
                         ignorePath: ".gitignore",
                         ignorePattern: [],
@@ -241,7 +239,6 @@ describe("ESLint", () => {
                         errorOnUnmatchedPattern: "",
                         fix: "",
                         fixTypes: ["xyz"],
-                        flags,
                         globInputPaths: "",
                         ignore: "",
                         ignorePatterns: "",
@@ -309,8 +306,7 @@ describe("ESLint", () => {
                             "eslint-plugin-foo": {},
                             "eslint-plugin-bar": {},
                             "": {}
-                        },
-                        flags
+                        }
                     }),
                     new RegExp(escapeStringRegExp([
                         "Invalid Options:",
@@ -332,35 +328,35 @@ describe("ESLint", () => {
                 assert.strictEqual(processStub.getCall(0).args[0], "The \".eslintignore\" file is no longer supported. Switch to using the \"ignores\" property in \"eslint.config.js\": https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files");
                 assert.strictEqual(processStub.getCall(0).args[1], "ESLintIgnoreWarning");
 
-            processStub.restore();
+                processStub.restore();
+            });
         });
-    });
 
-    describe("hasFlag", () => {
+        describe("hasFlag", () => {
 
         /** @type {InstanceType<ESLint>} */
         let eslint;
 
-        it("should return true if the flag is present and active", () => {
-            eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only"] });
+            it("should return true if the flag is present and active", () => {
+                eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only"] });
 
-            assert.strictEqual(eslint.hasFlag("test_only"), true);
+                assert.strictEqual(eslint.hasFlag("test_only"), true);
+            });
+
+            it("should throw an error if the flag is inactive", () => {
+
+                assert.throws(() => {
+                    eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_old"] });
+                }, /The flag 'test_only_old' is inactive/u);
+
+            });
+
+            it("should return false if the flag is not present", () => {
+                eslint = new ESLint({ cwd: getFixturePath() });
+
+                assert.strictEqual(eslint.hasFlag("x_feature"), false);
+            });
         });
-
-        it("should throw an error if the flag is inactive", () => {
-
-            assert.throws(() => {
-                eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_old"] });
-            }, /The flag 'test_only_old' is inactive/u);
-
-        });
-
-        it("should return false if the flag is not present", () => {
-            eslint = new ESLint({ cwd: getFixturePath() });
-
-            assert.strictEqual(eslint.hasFlag("x_feature"), false);
-        });
-    });
 
     describe("lintText()", () => {
 
@@ -370,8 +366,7 @@ describe("ESLint", () => {
             it("should report the total and per file errors when using local cwd eslint.config.js", async () => {
                 eslint = new ESLint({
                     flags,
-                    cwd: __dirname,
-                    flags
+                    cwd: path.join(__dirname, "config")
                 });
 
                 const results = await eslint.lintText("var foo = 'bar';");
@@ -401,8 +396,7 @@ describe("ESLint", () => {
                             "no-unused-vars": 1
                         }
                     },
-                    overrideConfigFile: true,
-                    flags
+                    overrideConfigFile: true
                 });
                 const results = await eslint.lintText("var foo = 'bar';");
 
@@ -424,8 +418,7 @@ describe("ESLint", () => {
                 eslint = new ESLint({
                     flags,
                     overrideConfigFile: "fixtures/configurations/quotes-error.js",
-                    cwd: getFixturePath(".."),
-                    flags
+                    cwd: getFixturePath("..")
                 });
                 const results = await eslint.lintText("var foo = 'bar';");
 
@@ -446,8 +439,7 @@ describe("ESLint", () => {
                 eslint = new ESLint({
                     flags,
                     ignore: false,
-                    cwd: getFixturePath(),
-                    flags
+                    cwd: getFixturePath()
                 });
                 const options = { filePath: "test.js" };
                 const results = await eslint.lintText("var foo = 'bar';", options);
@@ -459,8 +451,7 @@ describe("ESLint", () => {
                 eslint = new ESLint({
                     flags,
                     cwd: getFixturePath(".."),
-                    overrideConfigFile: "fixtures/eslint.config-with-ignores.js",
-                    flags
+                    overrideConfigFile: "fixtures/eslint.config-with-ignores.js"
                 });
 
                 const options = { filePath: "fixtures/passing.js", warnIgnored: true };
@@ -484,8 +475,7 @@ describe("ESLint", () => {
                 eslint = new ESLint({
                     flags,
                     cwd: getFixturePath(".."),
-                    overrideConfigFile: true,
-                    flags
+                    overrideConfigFile: true
                 });
 
                 const options = { filePath: "fixtures/file.ts", warnIgnored: true };
@@ -509,8 +499,7 @@ describe("ESLint", () => {
                 eslint = new ESLint({
                     flags,
                     cwd: getFixturePath(),
-                    overrideConfigFile: true,
-                    flags
+                    overrideConfigFile: true
                 });
 
                 const options = { filePath: "../file.js", warnIgnored: true };
@@ -535,8 +524,7 @@ describe("ESLint", () => {
                     flags,
                     cwd: getFixturePath(".."),
                     overrideConfigFile: "fixtures/eslint.config-with-ignores.js",
-                    warnIgnored: false,
-                    flags
+                    warnIgnored: false
                 });
 
                 const options = { filePath: "fixtures/passing.js", warnIgnored: true };
@@ -560,7 +548,7 @@ describe("ESLint", () => {
                 eslint = new ESLint({
                     flags,
                     cwd: getFixturePath(".."),
-                    overrideConfigFile: "fixtures/eslint.config-with-ignores.js",
+                    overrideConfigFile: "fixtures/eslint.config-with-ignores.js"
                 });
                 const options = {
                     filePath: "fixtures/passing.js",
@@ -579,7 +567,7 @@ describe("ESLint", () => {
                     flags,
                     cwd: getFixturePath(".."),
                     overrideConfigFile: "fixtures/eslint.config-with-ignores.js",
-                    warnIgnored: false,
+                    warnIgnored: false
                 });
                 const options = { filePath: "fixtures/passing.js" };
                 const results = await eslint.lintText("var bar = foo;", options);
@@ -591,7 +579,7 @@ describe("ESLint", () => {
             it("should throw an error when there's no config file for a stdin file", () => {
                 eslint = new ESLint({
                     flags,
-                    cwd: "/",
+                    cwd: "/"
                 });
                 const options = { filePath: "fixtures/passing.js" };
 
@@ -1445,17 +1433,17 @@ describe("ESLint", () => {
                 const workDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint/no-config");
 
                 // copy into clean area so as not to get "infected" by other config files
-                before(function () {
+                before(() => {
 
                     shell.mkdir("-p", workDir);
-                    shell.cp("-r", "./tests/fixtures/" + workDirName, workDir);
+                    shell.cp("-r", `./tests/fixtures/${workDirName}`, workDir);
                 });
 
                 after(() => {
                     shell.rm("-r", workDir);
                 });
 
-                it(flags + ":should throw if eslint.config.js file is not present", async () => {
+                it(`${flags}:should throw if eslint.config.js file is not present`, async () => {
                     eslint = new ESLint({
                         flags,
                         cwd: workDir
@@ -3953,10 +3941,10 @@ describe("ESLint", () => {
                 beforeEach(() => (id = Date.now().toString()));
 
                 /*
-                * `fs.rmdir(path, { recursive: true })` is deprecated and will be removed.
-                * Use `fs.rm(path, { recursive: true })` instead.
-                * When supporting Node.js 14.14.0+, the compatibility condition can be removed for `fs.rmdir`.
-                */
+                 * `fs.rmdir(path, { recursive: true })` is deprecated and will be removed.
+                 * Use `fs.rm(path, { recursive: true })` instead.
+                 * When supporting Node.js 14.14.0+, the compatibility condition can be removed for `fs.rmdir`.
+                 */
                 if (typeof fsp.rm === "function") {
                     afterEach(async () => fsp.rm(root, { recursive: true, force: true }));
                 } else {
@@ -7991,10 +7979,10 @@ describe("ESLint", () => {
                 const [{ messages }] = await eslint.lintText("let x");
 
                 /*
-                * if baseConfig was inserted before default configs,
-                * `ecmaVersion: "latest"` from default configs would overwrite
-                * `ecmaVersion: 5` from baseConfig, so this wouldn't be a parsing error.
-                */
+                 * if baseConfig was inserted before default configs,
+                 * `ecmaVersion: "latest"` from default configs would overwrite
+                 * `ecmaVersion: 5` from baseConfig, so this wouldn't be a parsing error.
+                 */
 
                 assert.strictEqual(messages.length, 1);
                 assert(messages[0].fatal, "Fatal error expected.");
@@ -8017,10 +8005,10 @@ describe("ESLint", () => {
                 const [{ messages }] = await eslint.lintText("foo");
 
                 /*
-                * if baseConfig was inserted after configs from the config file,
-                * `strict: 0` from eslint.config.js wouldn't overwrite `strict: ["error", "global"]`
-                * from baseConfig, so there would be an error message from the `strict` rule.
-                */
+                 * if baseConfig was inserted after configs from the config file,
+                 * `strict: 0` from eslint.config.js wouldn't overwrite `strict: ["error", "global"]`
+                 * from baseConfig, so there would be an error message from the `strict` rule.
+                 */
 
                 assert.strictEqual(messages.length, 0);
             });
@@ -8068,12 +8056,12 @@ describe("ESLint", () => {
             const [{ messages }] = await eslint.lintText("const foo = \"bar\"");
 
                 /*
-                * baseConfig: { quotes: ["error", "double"], semi: "error" }
-                * eslint.config-with-rules.js: { quotes: ["error", "single"] }
-                * overrideConfig: { quotes: "warn" }
-                *
-                * Merged config: { quotes: ["warn", "single"], semi: "error" }
-                */
+                 * baseConfig: { quotes: ["error", "double"], semi: "error" }
+                 * eslint.config-with-rules.js: { quotes: ["error", "single"] }
+                 * overrideConfig: { quotes: "warn" }
+                 *
+                 * Merged config: { quotes: ["warn", "single"], semi: "error" }
+                 */
 
                 assert.strictEqual(messages.length, 2);
                 assert.strictEqual(messages[0].ruleId, "quotes");
@@ -8085,10 +8073,10 @@ describe("ESLint", () => {
             it("when it has 'files' they should be interpreted as relative to the config file", async () => {
 
                 /*
-                * `fixtures/plugins` directory does not have a config file.
-                * It's parent directory `fixtures` does have a config file, so
-                * the base path will be `fixtures`, cwd will be `fixtures/plugins`
-                */
+                 * `fixtures/plugins` directory does not have a config file.
+                 * It's parent directory `fixtures` does have a config file, so
+                 * the base path will be `fixtures`, cwd will be `fixtures/plugins`
+                 */
                 const eslint = new ESLint({
                     flags,
                     cwd: getFixturePath("plugins"),
@@ -8109,10 +8097,10 @@ describe("ESLint", () => {
             it("when it has 'ignores' they should be interpreted as relative to the config file", async () => {
 
                 /*
-                * `fixtures/plugins` directory does not have a config file.
-                * It's parent directory `fixtures` does have a config file, so
-                * the base path will be `fixtures`, cwd will be `fixtures/plugins`
-                */
+                 * `fixtures/plugins` directory does not have a config file.
+                 * It's parent directory `fixtures` does have a config file, so
+                 * the base path will be `fixtures`, cwd will be `fixtures/plugins`
+                 */
                 const eslint = new ESLint({
                     flags,
                     cwd: getFixturePath("plugins"),
@@ -8366,14 +8354,14 @@ describe("ESLint", () => {
          */
         function testShouldUseFlatConfig(expectedValueWithConfig, expectedValueWithoutConfig) {
             describe("when there is a flat config file present", () => {
-                const originalDir = process.cwd();
+                const originalCwd = process.cwd();
 
                 beforeEach(() => {
                     process.chdir(__dirname);
                 });
 
                 afterEach(() => {
-                    process.chdir(originalDir);
+                    process.chdir(originalCwd);
                 });
 
                 it(`is \`${expectedValueWithConfig}\``, async () => {
@@ -8382,14 +8370,14 @@ describe("ESLint", () => {
             });
 
             describe("when there is no flat config file present", () => {
-                const originalDir = process.cwd();
+                const originalCwd = process.cwd();
 
                 beforeEach(() => {
                     process.chdir(os.tmpdir());
                 });
 
                 afterEach(() => {
-                    process.chdir(originalDir);
+                    process.chdir(originalCwd);
                 });
 
                 it(`is \`${expectedValueWithoutConfig}\``, async () => {
@@ -8443,9 +8431,9 @@ describe("ESLint", () => {
             } catch {
 
                 /*
-                * we don't care if the file didn't exist, since our
-                * intention was to remove the file
-                */
+                 * we don't care if the file didn't exist, since our
+                 * intention was to remove the file
+                 */
             }
         }
 
@@ -8476,9 +8464,9 @@ describe("ESLint", () => {
                 } catch {
 
                     /*
-                    * we don't care if the file didn't exist, since our
-                    * intention was to remove the file
-                    */
+                     * we don't care if the file didn't exist, since our
+                     * intention was to remove the file
+                     */
                 }
             }
             beforeEach(() => {
@@ -8864,9 +8852,9 @@ describe("ESLint", () => {
             fs.unlinkSync(toBeDeletedFile);
 
             /*
-            * file-entry-cache@2.0.0 will remove from the cache deleted files
-            * even when they were not part of the array of files to be analyzed
-            */
+             * file-entry-cache@2.0.0 will remove from the cache deleted files
+             * even when they were not part of the array of files to be analyzed
+             */
             await eslint.lintFiles([badFile, goodFile]);
 
             cache = JSON.parse(fs.readFileSync(cacheFilePath));
@@ -8909,10 +8897,10 @@ describe("ESLint", () => {
             assert.strictEqual(typeof cache.getKey(testFile2), "object", "the entry for the test-file2 should have been in the cache");
 
             /*
-            * we pass a different set of files (minus test-file2)
-            * previous version of file-entry-cache would remove the non visited
-            * entries. 2.0.0 version will keep them unless they don't exist
-            */
+             * we pass a different set of files (minus test-file2)
+             * previous version of file-entry-cache would remove the non visited
+             * entries. 2.0.0 version will keep them unless they don't exist
+             */
             await eslint.lintFiles([badFile, goodFile]);
 
             fileCache = fCache.createFromFile(cacheFilePath);
@@ -9092,12 +9080,12 @@ describe("ESLint", () => {
             const filePath = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
 
             /*
-            * Run linting on the same file 3 times to cover multiple cases:
-            *   Run 1: Lint result wasn't already cached.
-            *   Run 2: Lint result was already cached. The cached lint result is used but the cache is reconciled before the run ends.
-            *   Run 3: Lint result was already cached. The cached lint result was being used throughout the previous run, so possible
-            *     mutations in the previous run that occured after the cache was reconciled may have side effects for this run.
-            */
+             * Run linting on the same file 3 times to cover multiple cases:
+             *   Run 1: Lint result wasn't already cached.
+             *   Run 2: Lint result was already cached. The cached lint result is used but the cache is reconciled before the run ends.
+             *   Run 3: Lint result was already cached. The cached lint result was being used throughout the previous run, so possible
+             *     mutations in the previous run that occured after the cache was reconciled may have side effects for this run.
+             */
             for (let i = 0; i < 3; i++) {
                 const [result] = await eslint.lintFiles([filePath]);
 
@@ -9141,12 +9129,12 @@ describe("ESLint", () => {
             const filePath = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
 
             /*
-            * Run linting on the same file 3 times to cover multiple cases:
-            *   Run 1: Lint result wasn't already cached.
-            *   Run 2: Lint result was already cached. The cached lint result is used but the cache is reconciled before the run ends.
-            *   Run 3: Lint result was already cached. The cached lint result was being used throughout the previous run, so possible
-            *     mutations in the previous run that occured after the cache was reconciled may have side effects for this run.
-            */
+             * Run linting on the same file 3 times to cover multiple cases:
+             *   Run 1: Lint result wasn't already cached.
+             *   Run 2: Lint result was already cached. The cached lint result is used but the cache is reconciled before the run ends.
+             *   Run 3: Lint result was already cached. The cached lint result was being used throughout the previous run, so possible
+             *     mutations in the previous run that occured after the cache was reconciled may have side effects for this run.
+             */
             for (let i = 0; i < 3; i++) {
                 const [result] = await eslint.lintFiles([filePath]);
 
@@ -9334,7 +9322,7 @@ describe("ESLint", () => {
             before(() => {
 
                 shell.mkdir("-p", workDir);
-                shell.cp("-r", "./tests/fixtures/" + workDirName, tmpDir);
+                shell.cp("-r", `./tests/fixtures/${workDirName}`, tmpDir);
             });
 
             after(() => {
@@ -9368,7 +9356,7 @@ describe("ESLint", () => {
             before(() => {
 
                 shell.mkdir("-p", workDir);
-                shell.cp("-r", "./tests/fixtures/" + workDirName, tmpDir);
+                shell.cp("-r", `./tests/fixtures/${workDirName}`, tmpDir);
             });
 
             after(() => {
