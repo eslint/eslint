@@ -25,7 +25,7 @@ npm init @eslint/config@latest
 
 # or
 
-yarn create @eslint/config@latest
+yarn create @eslint/config
 
 # or
 
