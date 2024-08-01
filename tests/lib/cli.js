@@ -170,7 +170,7 @@ describe("cli", () => {
             const useFlatConfig = configType === "flat";
             const ActiveESLint = configType === "flat" ? ESLint : LegacyESLint;
 
-            describe("execute()", () => {
+            describe.only("execute()", () => {
 
                 it(`should return error when text with incorrect quotes is passed as argument with configType:${configType}`, async () => {
                     const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
@@ -1935,6 +1935,21 @@ describe("cli", () => {
 
                     sinon.assert.notCalled(log.error);
                     assert.strictEqual(exitCode, 0);
+                });
+
+            });
+
+            describe("unstable_config_lookup_from_file", () => {
+
+                const flag = "unstable_config_lookup_from_file";
+
+                it.only("should throw an error when text is passed and no config file is found", async () => {
+
+                    await stdAssert.rejects(
+                        () => cli.execute(`--flag ${flag} --stdin --stdin-filename /foo.js"`, "var foo = 'bar';", true),
+                        /Could not find config file/u
+                    );
+
                 });
 
             });
