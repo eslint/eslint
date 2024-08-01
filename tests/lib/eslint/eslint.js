@@ -366,7 +366,7 @@ describe("ESLint", () => {
             it("should report the total and per file errors when using local cwd eslint.config.js", async () => {
                 eslint = new ESLint({
                     flags,
-                    cwd: path.join(__dirname, "config")
+                    cwd: __dirname
                 });
 
                 const results = await eslint.lintText("var foo = 'bar';");
