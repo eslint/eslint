@@ -588,6 +588,16 @@ describe("ESLint", () => {
                 assert.strictEqual(results.length, 0);
             });
 
+            it("should throw an error when there's no config file for a stdin file", () => {
+                eslint = new ESLint({
+                    flags,
+                    cwd: "/",
+                });
+                const options = { filePath: "fixtures/passing.js" };
+
+                return assert.rejects(() => eslint.lintText("var bar = foo;", options), /Could not find config file/u);
+            });
+
             it("should show excluded file warnings by default", async () => {
                 eslint = new ESLint({
                     flags,
@@ -2433,143 +2443,143 @@ describe("ESLint", () => {
                     }, /All files matched by '.' are ignored/u);
                 });
 
-            // https://github.com/eslint/eslint/issues/18597
-            it("should skip files ignored by a pattern with escape character '\\'", async () => {
-                eslint = new ESLint({
-                    cwd: getFixturePath(),
-                    flags,
-                    overrideConfigFile: true,
-                    overrideConfig: [
-                        {
-                            ignores: [
-                                "curly-files/\\{a,b}.js" // ignore file named `{a,b}.js`, not files named `a.js` or `b.js`
-                            ]
-                        },
-                        {
-                            rules: {
-                                "no-undef": "warn"
+                // https://github.com/eslint/eslint/issues/18597
+                it("should skip files ignored by a pattern with escape character '\\'", async () => {
+                    eslint = new ESLint({
+                        cwd: getFixturePath(),
+                        flags,
+                        overrideConfigFile: true,
+                        overrideConfig: [
+                            {
+                                ignores: [
+                                    "curly-files/\\{a,b}.js" // ignore file named `{a,b}.js`, not files named `a.js` or `b.js`
+                                ]
+                            },
+                            {
+                                rules: {
+                                    "no-undef": "warn"
+                                }
                             }
-                        }
-                    ]
+                        ]
+                    });
+
+                    const results = await eslint.lintFiles(["curly-files"]);
+
+                    assert.strictEqual(results.length, 2);
+                    assert.strictEqual(results[0].filePath, getFixturePath("curly-files", "a.js"));
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 1);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    assert.strictEqual(results[0].messages[0].messageId, "undef");
+                    assert.match(results[0].messages[0].message, /'bar'/u);
+                    assert.strictEqual(results[1].filePath, getFixturePath("curly-files", "b.js"));
+                    assert.strictEqual(results[1].messages.length, 1);
+                    assert.strictEqual(results[1].messages[0].severity, 1);
+                    assert.strictEqual(results[1].messages[0].ruleId, "no-undef");
+                    assert.strictEqual(results[1].messages[0].messageId, "undef");
+                    assert.match(results[1].messages[0].message, /'baz'/u);
                 });
 
-                const results = await eslint.lintFiles(["curly-files"]);
-
-                assert.strictEqual(results.length, 2);
-                assert.strictEqual(results[0].filePath, getFixturePath("curly-files", "a.js"));
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 1);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
-                assert.strictEqual(results[0].messages[0].messageId, "undef");
-                assert.match(results[0].messages[0].message, /'bar'/u);
-                assert.strictEqual(results[1].filePath, getFixturePath("curly-files", "b.js"));
-                assert.strictEqual(results[1].messages.length, 1);
-                assert.strictEqual(results[1].messages[0].severity, 1);
-                assert.strictEqual(results[1].messages[0].ruleId, "no-undef");
-                assert.strictEqual(results[1].messages[0].messageId, "undef");
-                assert.match(results[1].messages[0].message, /'baz'/u);
-            });
-
-            // https://github.com/eslint/eslint/issues/18706
-            it("should disregard ignore pattern '/'", async () => {
-                eslint = new ESLint({
-                    cwd: getFixturePath("ignores-relative"),
-                    flags,
-                    overrideConfigFile: true,
-                    overrideConfig: [
-                        {
-                            ignores: ["/"]
-                        },
-                        {
-                            plugins: {
-                                "test-plugin": {
-                                    rules: {
-                                        "no-program": {
-                                            create(context) {
-                                                return {
-                                                    Program(node) {
-                                                        context.report({
-                                                            node,
-                                                            message: "Program is disallowed."
-                                                        });
-                                                    }
-                                                };
+                // https://github.com/eslint/eslint/issues/18706
+                it("should disregard ignore pattern '/'", async () => {
+                    eslint = new ESLint({
+                        cwd: getFixturePath("ignores-relative"),
+                        flags,
+                        overrideConfigFile: true,
+                        overrideConfig: [
+                            {
+                                ignores: ["/"]
+                            },
+                            {
+                                plugins: {
+                                    "test-plugin": {
+                                        rules: {
+                                            "no-program": {
+                                                create(context) {
+                                                    return {
+                                                        Program(node) {
+                                                            context.report({
+                                                                node,
+                                                                message: "Program is disallowed."
+                                                            });
+                                                        }
+                                                    };
+                                                }
                                             }
                                         }
                                     }
+                                },
+                                rules: {
+                                    "test-plugin/no-program": "warn"
                                 }
-                            },
-                            rules: {
-                                "test-plugin/no-program": "warn"
                             }
-                        }
-                    ]
+                        ]
+                    });
+
+                    const results = await eslint.lintFiles(["**/a.js"]);
+
+                    assert.strictEqual(results.length, 2);
+                    assert.strictEqual(results[0].filePath, getFixturePath("ignores-relative", "a.js"));
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 1);
+                    assert.strictEqual(results[0].messages[0].ruleId, "test-plugin/no-program");
+                    assert.strictEqual(results[0].messages[0].message, "Program is disallowed.");
+                    assert.strictEqual(results[1].filePath, getFixturePath("ignores-relative", "subdir", "a.js"));
+                    assert.strictEqual(results[1].messages.length, 1);
+                    assert.strictEqual(results[1].messages[0].severity, 1);
+                    assert.strictEqual(results[1].messages[0].ruleId, "test-plugin/no-program");
+                    assert.strictEqual(results[1].messages[0].message, "Program is disallowed.");
                 });
 
-                const results = await eslint.lintFiles(["**/a.js"]);
-
-                assert.strictEqual(results.length, 2);
-                assert.strictEqual(results[0].filePath, getFixturePath("ignores-relative", "a.js"));
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 1);
-                assert.strictEqual(results[0].messages[0].ruleId, "test-plugin/no-program");
-                assert.strictEqual(results[0].messages[0].message, "Program is disallowed.");
-                assert.strictEqual(results[1].filePath, getFixturePath("ignores-relative", "subdir", "a.js"));
-                assert.strictEqual(results[1].messages.length, 1);
-                assert.strictEqual(results[1].messages[0].severity, 1);
-                assert.strictEqual(results[1].messages[0].ruleId, "test-plugin/no-program");
-                assert.strictEqual(results[1].messages[0].message, "Program is disallowed.");
-            });
-
-            it("should not skip an unignored file in base path when all files are initially ignored by '**'", async () => {
-                eslint = new ESLint({
-                    cwd: getFixturePath("ignores-relative"),
-                    flags,
-                    overrideConfigFile: true,
-                    overrideConfig: [
-                        {
-                            ignores: [
-                                "**",
-                                "!a.js"
-                            ]
-                        },
-                        {
-                            plugins: {
-                                "test-plugin": {
-                                    rules: {
-                                        "no-program": {
-                                            create(context) {
-                                                return {
-                                                    Program(node) {
-                                                        context.report({
-                                                            node,
-                                                            message: "Program is disallowed."
-                                                        });
-                                                    }
-                                                };
+                it("should not skip an unignored file in base path when all files are initially ignored by '**'", async () => {
+                    eslint = new ESLint({
+                        cwd: getFixturePath("ignores-relative"),
+                        flags,
+                        overrideConfigFile: true,
+                        overrideConfig: [
+                            {
+                                ignores: [
+                                    "**",
+                                    "!a.js"
+                                ]
+                            },
+                            {
+                                plugins: {
+                                    "test-plugin": {
+                                        rules: {
+                                            "no-program": {
+                                                create(context) {
+                                                    return {
+                                                        Program(node) {
+                                                            context.report({
+                                                                node,
+                                                                message: "Program is disallowed."
+                                                            });
+                                                        }
+                                                    };
+                                                }
                                             }
                                         }
                                     }
+                                },
+                                rules: {
+                                    "test-plugin/no-program": "warn"
                                 }
-                            },
-                            rules: {
-                                "test-plugin/no-program": "warn"
                             }
-                        }
-                    ]
+                        ]
+                    });
+
+                    const results = await eslint.lintFiles(["**/a.js"]);
+
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].filePath, getFixturePath("ignores-relative", "a.js"));
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 1);
+                    assert.strictEqual(results[0].messages[0].ruleId, "test-plugin/no-program");
+                    assert.strictEqual(results[0].messages[0].message, "Program is disallowed.");
                 });
 
-                const results = await eslint.lintFiles(["**/a.js"]);
-
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].filePath, getFixturePath("ignores-relative", "a.js"));
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 1);
-                assert.strictEqual(results[0].messages[0].ruleId, "test-plugin/no-program");
-                assert.strictEqual(results[0].messages[0].message, "Program is disallowed.");
             });
-
-        });
 
 
             it("should report zero messages when given a pattern with a .js and a .js2 file", async () => {
@@ -9007,29 +9017,6 @@ describe("ESLint", () => {
                 assert(fileCache.getFileDescriptor(badFile).changed === false, `the entry for ${badFile} should have been unchanged`);
                 assert(fileCache.getFileDescriptor(goodFileCopy).changed === true, `the entry for ${goodFileCopy} should have been changed`);
             });
-        });
-    });
-
-    describe("hasFlag", () => {
-
-        let eslint;
-
-        it("should return true if the flag is present and active", () => {
-            eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only"] });
-
-            assert.strictEqual(eslint.hasFlag("test_only"), true);
-        });
-
-        it("should return false if the flag is present and inactive", () => {
-            eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_old"] });
-
-            assert.strictEqual(eslint.hasFlag("test_only_old"), false);
-        });
-
-        it("should return false if the flag is not present", () => {
-            eslint = new ESLint({ cwd: getFixturePath() });
-
-            assert.strictEqual(eslint.hasFlag("x_feature"), false);
         });
     });
 
