@@ -249,6 +249,26 @@ ruleTester.run("require-await", rule, {
                     }
                 ]
             }]
+        },
+        {
+            code: `class A {
+                foo() {}
+                async [bar] () { baz; }
+            }`,
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async method" },
+                suggestions: [
+                    {
+                        output: `class A {
+                foo() {}
+                [bar] () { baz; }
+            }`,
+                        messageId: "removeAsync"
+                    }
+                ]
+            }]
         }
     ]
 });
