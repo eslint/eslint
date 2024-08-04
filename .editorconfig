@@ -1,18 +1,10 @@
 root = true
 
 [*]
-indent_style = space
-indent_size = 4
-trim_trailing_whitespace = true
+charset = utf-8
 end_of_line = lf
 insert_final_newline = true
+trim_trailing_whitespace = true
 
-[docs/rules/linebreak-style.md]
-end_of_line = disabled
-
-[{docs/rules/{indent.md,no-mixed-spaces-and-tabs.md}]
-indent_style = disabled
-indent_size = disabled
-
-[docs/rules/no-trailing-spaces.md]
+[*.md]
 trim_trailing_whitespace = false
