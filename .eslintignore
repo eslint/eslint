@@ -12,3 +12,6 @@
 /tools/internal-rules/node_modules/**
 test.js
 !.eslintrc.js
+node_modules/
+dist/
+coverage/
