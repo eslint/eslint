@@ -23,7 +23,7 @@ The ESLint configuration file may be named any of the following:
 * `eslint.config.cjs`
 * `eslint.config.ts` (requires [additional setup](#typescript-configuration-files))
 * `eslint.config.mts` (requires [additional setup](#typescript-configuration-files))
-* `eslint.config.cts` requires [additional setup](#typescript-configuration-files))
+* `eslint.config.cts` (requires [additional setup](#typescript-configuration-files))
 
 It should be placed in the root directory of your project and export an array of [configuration objects](#configuration-objects). Here's an example:
 
