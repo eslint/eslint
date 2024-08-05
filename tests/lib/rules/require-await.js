@@ -96,70 +96,178 @@ ruleTester.run("require-await", rule, {
             code: "async function foo() { doSomething() }",
             errors: [{
                 messageId: "missingAwait",
-                data: { name: "Async function 'foo'" }
+                data: { name: "Async function 'foo'" },
+                suggestions: [
+                    { output: "function foo() { doSomething() }", messageId: "removeAsync" }
+                ]
             }]
         },
         {
             code: "(async function() { doSomething() })",
             errors: [{
                 messageId: "missingAwait",
-                data: { name: "Async function" }
+                data: { name: "Async function" },
+                suggestions: [
+                    { output: "(function() { doSomething() })", messageId: "removeAsync" }
+                ]
             }]
         },
         {
             code: "async () => { doSomething() }",
             errors: [{
                 messageId: "missingAwait",
-                data: { name: "Async arrow function" }
+                data: { name: "Async arrow function" },
+                suggestions: [
+                    { output: "() => { doSomething() }", messageId: "removeAsync" }
+                ]
             }]
         },
         {
             code: "async () => doSomething()",
             errors: [{
                 messageId: "missingAwait",
-                data: { name: "Async arrow function" }
+                data: { name: "Async arrow function" },
+                suggestions: [
+                    { output: "() => doSomething()", messageId: "removeAsync" }
+                ]
             }]
         },
         {
             code: "({ async foo() { doSomething() } })",
             errors: [{
                 messageId: "missingAwait",
-                data: { name: "Async method 'foo'" }
+                data: { name: "Async method 'foo'" },
+                suggestions: [
+                    { output: "({ foo() { doSomething() } })", messageId: "removeAsync" }
+                ]
             }]
         },
         {
             code: "class A { async foo() { doSomething() } }",
             errors: [{
                 messageId: "missingAwait",
-                data: { name: "Async method 'foo'" }
+                data: { name: "Async method 'foo'" },
+                suggestions: [
+                    { output: "class A { foo() { doSomething() } }", messageId: "removeAsync" }
+                ]
             }]
         },
         {
             code: "(class { async foo() { doSomething() } })",
             errors: [{
                 messageId: "missingAwait",
-                data: { name: "Async method 'foo'" }
+                data: { name: "Async method 'foo'" },
+                suggestions: [
+                    { output: "(class { foo() { doSomething() } })", messageId: "removeAsync" }
+                ]
             }]
         },
         {
             code: "(class { async ''() { doSomething() } })",
             errors: [{
                 messageId: "missingAwait",
-                data: { name: "Async method ''" }
+                data: { name: "Async method ''" },
+                suggestions: [
+                    { output: "(class { ''() { doSomething() } })", messageId: "removeAsync" }
+                ]
             }]
         },
         {
             code: "async function foo() { async () => { await doSomething() } }",
             errors: [{
                 messageId: "missingAwait",
-                data: { name: "Async function 'foo'" }
+                data: { name: "Async function 'foo'" },
+                suggestions: [
+                    { output: "function foo() { async () => { await doSomething() } }", messageId: "removeAsync" }
+                ]
             }]
         },
         {
             code: "async function foo() { await (async () => { doSomething() }) }",
             errors: [{
                 messageId: "missingAwait",
-                data: { name: "Async arrow function" }
+                data: { name: "Async arrow function" },
+                suggestions: [
+                    { output: "async function foo() { await (() => { doSomething() }) }", messageId: "removeAsync" }
+                ]
+            }]
+        },
+        {
+            code: "const obj = { async: async function foo() { bar(); } }",
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async method 'async'" },
+                suggestions: [
+                    { output: "const obj = { async: function foo() { bar(); } }", messageId: "removeAsync" }
+                ]
+            }]
+        },
+        {
+            code: "async    /* test */ function foo() { doSomething() }",
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async function 'foo'" },
+                suggestions: [
+                    { output: "/* test */ function foo() { doSomething() }", messageId: "removeAsync" }
+                ]
+            }]
+        },
+        {
+            code: `class A {
+                a = 0
+                async [b](){ return 0; }
+            }`,
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async method" },
+                suggestions: [
+                    {
+                        output: `class A {
+                a = 0
+                ;[b](){ return 0; }
+            }`,
+                        messageId: "removeAsync"
+                    }
+                ]
+            }]
+        },
+        {
+            code: `foo
+                async () => { return 0; }
+            `,
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async arrow function" },
+                suggestions: [
+                    {
+                        output: `foo
+                ;() => { return 0; }
+            `,
+                        messageId: "removeAsync"
+                    }
+                ]
+            }]
+        },
+        {
+            code: `class A {
+                foo() {}
+                async [bar] () { baz; }
+            }`,
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{
+                messageId: "missingAwait",
+                data: { name: "Async method" },
+                suggestions: [
+                    {
+                        output: `class A {
+                foo() {}
+                [bar] () { baz; }
+            }`,
+                        messageId: "removeAsync"
+                    }
+                ]
             }]
         }
     ]
