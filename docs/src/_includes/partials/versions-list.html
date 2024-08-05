@@ -2,4 +2,5 @@
     {% for item in eslintVersions.items %}
     <li><a href="{{ item.path }}" {% if item.selected %} data-current="true" {% endif %}>{{ item.display }}</a></li>
     {%- endfor -%}
+    <li><a href="https://eslint.org/version-support">Previous Versions</a></li>
 </ul>
