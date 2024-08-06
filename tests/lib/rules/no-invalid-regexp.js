@@ -259,6 +259,15 @@ ruleTester.run("no-invalid-regexp", rule, {
             }]
         },
         {
+            code: "new RegExp('.', 'uu');",
+            options: [{ allowConstructorFlags: ["u"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'uu'" },
+                type: "NewExpression"
+            }]
+        },
+        {
             code: "new RegExp(')');",
             errors: [{
                 messageId: "regexMessage",
