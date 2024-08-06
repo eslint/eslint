@@ -15,6 +15,7 @@ on:
   push:
     branches: [main]
   pull_request:
+
     # The branches below must be a subset of the branches above
     branches: [main]
   schedule:
@@ -33,6 +34,7 @@ jobs:
       fail-fast: false
       matrix:
         language: [ 'javascript' ]
+
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python' ]
         # Learn more:
         # https://docs.github.com/en/free-pro-team@latest/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#changing-the-languages-that-are-analyzed
@@ -46,6 +48,7 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
+
         # If you wish to specify custom queries, you can do so here or in a config file.
         # By default, queries listed here will override any specified in a config file.
         # Prefix the list here with "+" to use these queries and those in the config file.
