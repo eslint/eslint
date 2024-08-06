@@ -202,11 +202,10 @@ export default [
 If your config extends other configs, you can export an array:
 
 ```js
-const baseConfig = require('./base-config');
+const baseConfig = require("./base-config");
 
 module.exports = {
     configs: {
-        // the config referenced by example/recommended
         extendedConfig: [
             baseConfig,
             {
@@ -220,7 +219,9 @@ module.exports = {
 };
 ```
 
-You should update your documentation so your plugin users know how to reference the exported configs. If your config is an array, consumers will have to spread it:
+You should update your documentation so your plugin users know how to reference the exported configs.
+
+If your config is an object, consumers should not spread it; and if it's an array, they should:
 
 ```js
 import example from "eslint-plugin-example";
