@@ -221,7 +221,9 @@ module.exports = {
 
 You should update your documentation so your plugin users know how to reference the exported configs.
 
-If your config is an object, consumers should not spread it; and if it's an array, they should:
+If your exported config is an object, then your users can insert it directly into the config array; if your exported config is an array, then your users should use the spread operator (`...`) to insert the array's items into the config array.
+
+Here's an example with both an object config and an array config:
 
 ```js
 import example from "eslint-plugin-example";
