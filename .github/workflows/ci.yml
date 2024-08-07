@@ -24,8 +24,20 @@ jobs:
         working-directory: docs
         run: npm install
 
-      - name: Lint Files
-        run: node Makefile lint
+      - name: Lint Files (eslint)
+        uses: trunk-io/trunk-action@v1
+        with:
+
+          # Run on everything except the docs folder.
+          arguments: --ignore=docs/** --filter=eslint
+          check-mode: all
+
+      - name: Lint Files (other)
+        uses: trunk-io/trunk-action@v1
+        with:
+
+          # Run on everything except the docs folder.
+          arguments: --ignore=docs/** --filter=-eslint
 
       - name: Check Rule Files
         run: node Makefile checkRuleFiles
@@ -33,8 +45,20 @@ jobs:
       - name: Check Licenses
         run: node Makefile checkLicenses
 
-      - name: Lint Docs JS Files
-        run: node Makefile lintDocsJS
+      - name: Lint Docs Files (eslint)
+        uses: trunk-io/trunk-action@v1
+        with:
+
+          # Run only on the docs folder.
+          arguments: --ignore=** --ignore=!docs/** --filter=eslint
+          check-mode: all
+
+      - name: Lint Docs Files (other)
+        uses: trunk-io/trunk-action@v1
+        with:
+
+          # Run only on the docs folder.
+          arguments: --ignore=** --ignore=!docs/** --filter=-eslint
 
       - name: Check Rule Examples
         run: node Makefile checkRuleExamples
