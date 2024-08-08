@@ -74,6 +74,14 @@ The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/do
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](https://eslint.org/docs/latest/use/configure)).
 
+## Version Support
+
+We will continue to release bug and security fixes for versions 8 and 9. The prvious versions are end of life and will not receive any security or bug fixes.
+
+See our [`Version Support](https://eslint.org/version-support/) document for more information
+
+ESLint offers commercial support through our partners, [Tidelift](https://tidelift.com/funding/github/npm/eslint) and [HeroDevs](https://www.herodevs.com/support/eslint-nes?utm_source=ESLintWebsite&utm_medium=ESLintWebsite&utm_campaign=ESLintNES&utm_id=ESLintNES).
+
 ## Code of Conduct
 
 ESLint adheres to the [JS Foundation Code of Conduct](https://eslint.org/conduct).
