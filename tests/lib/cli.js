@@ -170,7 +170,7 @@ describe("cli", () => {
             const useFlatConfig = configType === "flat";
             const ActiveESLint = configType === "flat" ? ESLint : LegacyESLint;
 
-            describe.only("execute()", () => {
+            describe("execute()", () => {
 
                 it(`should return error when text with incorrect quotes is passed as argument with configType:${configType}`, async () => {
                     const flag = useFlatConfig ? "--no-config-lookup" : "--no-eslintrc";
