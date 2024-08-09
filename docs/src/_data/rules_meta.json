@@ -2383,7 +2383,8 @@
             "description": "Disallow async functions which have no `await` expression",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/require-await"
-        }
+        },
+        "hasSuggestions": true
     },
     "require-unicode-regexp": {
         "type": "suggestion",
