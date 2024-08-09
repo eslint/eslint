@@ -21,6 +21,7 @@ const jslang = require("../../../lib/languages/js");
 
 const baseConfig = {
     files: ["**/*.js"],
+    language: "@/js",
     plugins: {
         "@": {
             languages: {
@@ -181,6 +182,10 @@ async function assertMergedResult(values, result) {
 
     const config = configs.getConfig("foo.js");
 
+    if (!result.language) {
+        result.language = jslang;
+    }
+
     assert.deepStrictEqual(config, result);
 }
 
@@ -228,6 +233,14 @@ describe("FlatConfigArray", () => {
     it("should not reuse languageOptions.parserOptions across configs", () => {
         const base = [{
             files: ["**/*.js"],
+            plugins: {
+                "@": {
+                    languages: {
+                        js: jslang
+                    }
+                }
+            },
+            language: "@/js",
             languageOptions: {
                 parserOptions: {
                     foo: true
@@ -409,7 +422,7 @@ describe("FlatConfigArray", () => {
 
             assert.throws(() => {
                 config.toJSON();
-            }, /Could not serialize parser/u);
+            }, /Cannot serialize key "parse"/u);
 
         });
 
@@ -430,7 +443,7 @@ describe("FlatConfigArray", () => {
 
             assert.throws(() => {
                 config.toJSON();
-            }, /Could not serialize parser/u);
+            }, /Cannot serialize key "parse"/u);
 
         });
 
@@ -453,7 +466,7 @@ describe("FlatConfigArray", () => {
 
             assert.throws(() => {
                 config.toJSON();
-            }, /Could not serialize parser/u);
+            }, /Cannot serialize key "parse"/u);
 
         });
 
