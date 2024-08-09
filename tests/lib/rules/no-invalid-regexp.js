@@ -254,7 +254,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["a"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Invalid flags supplied to RegExp constructor 'ga'" },
+                data: { message: "Invalid flags supplied to RegExp constructor 'a'" },
                 type: "NewExpression"
             }]
         },
@@ -263,7 +263,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["u"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Invalid flags supplied to RegExp constructor 'uu'" },
+                data: { message: "Invalid flags supplied to RegExp constructor 'u'" },
                 type: "NewExpression"
             }]
         },
