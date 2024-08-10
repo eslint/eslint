@@ -464,11 +464,14 @@ describe("RuleTester", () => {
     });
 
     describe("setup", () => {
-        it("should call the setup function if present", () => {
+        const ruleName = "no-var";
+        const rule = require("../../fixtures/testers/rule-tester/no-var");
+
+        it("should be called when a function is assigned", () => {
             const setup = sinon.stub();
 
             ruleTester = new RuleTester();
-            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+            ruleTester.run(ruleName, rule, {
                 valid: [{
                     code: "const onlyValid = 42;",
                     setup
@@ -476,6 +479,17 @@ describe("RuleTester", () => {
                 invalid: []
             });
             sinon.assert.calledOnce(setup);
+        });
+
+        it("should throw when not a function is assigned", () => {
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "const onlyValid = 42;",
+                    setup: 42
+                }],
+                invalid: []
+            }), "Optional test case property 'setup' must be a function");
         });
     });
 
