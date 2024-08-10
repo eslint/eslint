@@ -463,6 +463,22 @@ describe("RuleTester", () => {
         });
     });
 
+    describe("setup", () => {
+        it("should call the setup function if present", () => {
+            const setup = sinon.stub();
+
+            ruleTester = new RuleTester();
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [{
+                    code: "const onlyValid = 42;",
+                    setup
+                }],
+                invalid: []
+            });
+            sinon.assert.calledOnce(setup);
+        });
+    });
+
     it("should not throw an error when everything passes", () => {
         ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
             valid: [
