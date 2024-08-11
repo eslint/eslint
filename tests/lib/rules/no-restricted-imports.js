@@ -430,6 +430,38 @@ ruleTester.run("no-restricted-imports", rule, {
                     allowImportNamePattern: "^Foo"
                 }]
             }]
+        },
+        {
+            code: "import withPatterns from \"foo/bar\";",
+            options: [{ patterns: [{ regex: "foo/(?!bar)", message: "foo is forbidden, use bar instead" }] }]
+        },
+        {
+            code: "import withPatternsCaseSensitive from 'foo';",
+            options: [{
+                patterns: [{
+                    regex: "FOO",
+                    message: "foo is forbidden, use bar instead",
+                    caseSensitive: true
+                }]
+            }]
+        },
+        {
+            code: "import Foo from '../../my/relative-module';",
+            options: [{
+                patterns: [{
+                    regex: "my/relative-module",
+                    importNamePattern: "^Foo"
+                }]
+            }]
+        },
+        {
+            code: "import { Bar } from '../../my/relative-module';",
+            options: [{
+                patterns: [{
+                    regex: "my/relative-module",
+                    importNamePattern: "^Foo"
+                }]
+            }]
         }
     ],
     invalid: [{
@@ -2206,6 +2238,115 @@ ruleTester.run("no-restricted-imports", rule, {
             column: 8,
             endColumn: 26
         }]
+    },
+    {
+        code: "import withPatterns from \"foo/baz\";",
+        options: [{ patterns: [{ regex: "foo/(?!bar)", message: "foo is forbidden, use bar instead" }] }],
+        errors: [{
+            message: "'foo/baz' import is restricted from being used by a pattern. foo is forbidden, use bar instead",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 36
+        }]
+    },
+    {
+        code: "import withPatternsCaseSensitive from 'FOO';",
+        options: [{
+            patterns: [{
+                regex: "FOO",
+                message: "foo is forbidden, use bar instead",
+                caseSensitive: true
+            }]
+        }],
+        errors: [{
+            message: "'FOO' import is restricted from being used by a pattern. foo is forbidden, use bar instead",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 45
+        }]
+    },
+    {
+        code: "import { Foo } from '../../my/relative-module';",
+        options: [{
+            patterns: [{
+                regex: "my/relative-module",
+                importNamePattern: "^Foo"
+            }]
+        }],
+        errors: [{
+            message: "'Foo' import from '../../my/relative-module' is restricted from being used by a pattern.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 13
+        }]
+    },
+    {
+        code: "import withPatternsCaseSensitive from 'foo';",
+        options: [{
+            patterns: [{
+                group: ["FOO"],
+                message: "foo is forbidden, use bar instead",
+                caseSensitive: false
+            }]
+        }],
+        errors: [{
+            message: "'foo' import is restricted from being used by a pattern. foo is forbidden, use bar instead",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 45
+        }]
+    },
+    {
+        code: `
+        // error
+        import { Foo_Enum } from '@app/api';
+        import { Bar_Enum } from '@app/api/bar';
+        import { Baz_Enum } from '@app/api/baz';
+        import { B_Enum } from '@app/api/enums/foo';
+
+        // no error
+        import { C_Enum } from '@app/api/enums';
+        `,
+        options: [{
+            patterns: [{
+                regex: "@app/(?!(api/enums$)).*",
+                importNamePattern: "_Enum$"
+            }]
+        }],
+        errors: [
+            {
+                message: "'Foo_Enum' import from '@app/api' is restricted from being used by a pattern.",
+                type: "ImportDeclaration",
+                line: 3,
+                column: 18,
+                endColumn: 26
+            },
+            {
+                message: "'Bar_Enum' import from '@app/api/bar' is restricted from being used by a pattern.",
+                type: "ImportDeclaration",
+                line: 4,
+                column: 18,
+                endColumn: 26
+            },
+            {
+                message: "'Baz_Enum' import from '@app/api/baz' is restricted from being used by a pattern.",
+                type: "ImportDeclaration",
+                line: 5,
+                column: 18,
+                endColumn: 26
+            },
+            {
+                message: "'B_Enum' import from '@app/api/enums/foo' is restricted from being used by a pattern.",
+                type: "ImportDeclaration",
+                line: 6,
+                column: 18,
+                endColumn: 24
+            }
+        ]
     }
     ]
 });

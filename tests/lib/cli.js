@@ -82,6 +82,7 @@ describe("cli", () => {
         let fixtureDir;
         const log = {
             info: sinon.spy(),
+            warn: sinon.spy(),
             error: sinon.spy()
         };
         const RuntimeInfo = {
@@ -157,6 +158,7 @@ describe("cli", () => {
             sinon.restore();
             log.info.resetHistory();
             log.error.resetHistory();
+            log.warn.resetHistory();
         });
 
         after(() => {
@@ -1901,6 +1903,40 @@ describe("cli", () => {
                         { message: '"eslint-plugin-no-default-export" cannot be used with the `--plugin` option because its default module does not provide a `default` export' }
                     );
                 });
+            });
+
+            describe("--flag option", () => {
+
+                it("should throw an error when an inactive flag is used", async () => {
+                    const configPath = getFixturePath("eslint.config.js");
+                    const filePath = getFixturePath("passing.js");
+                    const input = `--flag test_only_old --config ${configPath} ${filePath}`;
+
+                    await stdAssert.rejects(async () => {
+                        await cli.execute(input, null, true);
+                    }, /The flag 'test_only_old' is inactive: Used only for testing\./u);
+                });
+
+                it("should error out when an unknown flag is used", async () => {
+                    const configPath = getFixturePath("eslint.config.js");
+                    const filePath = getFixturePath("passing.js");
+                    const input = `--flag test_only_oldx --config ${configPath} ${filePath}`;
+
+                    await stdAssert.rejects(async () => {
+                        await cli.execute(input, null, true);
+                    }, /Unknown flag 'test_only_oldx'\./u);
+                });
+
+                it("should not error when a valid flag is used", async () => {
+                    const configPath = getFixturePath("eslint.config.js");
+                    const filePath = getFixturePath("passing.js");
+                    const input = `--flag test_only --config ${configPath} ${filePath}`;
+                    const exitCode = await cli.execute(input, null, true);
+
+                    sinon.assert.notCalled(log.error);
+                    assert.strictEqual(exitCode, 0);
+                });
+
             });
         });
     });

@@ -36,7 +36,7 @@ let searchQuery;
  */
 function fetchSearchResults(query) {
     return index.search(query, {
-        // facetFilters: ["tags:docs"]
+        facetFilters: ["tags:docs"]
     }).then(({ hits }) => hits);
 }
 

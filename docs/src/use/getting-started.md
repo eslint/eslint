@@ -22,6 +22,14 @@ You can install and configure ESLint using this command:
 
 ```shell
 npm init @eslint/config@latest
+
+# or
+
+yarn create @eslint/config
+
+# or
+
+pnpm create @eslint/config@latest
 ```
 
 If you want to use a specific shareable config that is hosted on npm, you can use the `--config` option and specify the package name:
