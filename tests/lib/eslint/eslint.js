@@ -5100,7 +5100,7 @@ describe("ESLint", () => {
 
         let eslint;
 
-        describe("with lintFiles", () => {
+        describe("fixTypes values validation", () => {
             it("should throw an error when an invalid fix type is specified", () => {
                 assert.throws(() => {
                     eslint = new ESLint({
@@ -5111,7 +5111,9 @@ describe("ESLint", () => {
                     });
                 }, /'fixTypes' must be an array of any of "directive", "problem", "suggestion", and "layout"\./iu);
             });
+        });
 
+        describe("with lintFiles", () => {
             it("should not fix any rules when fixTypes is used without fix", async () => {
                 eslint = new ESLint({
                     cwd: path.join(fixtureDir, ".."),
