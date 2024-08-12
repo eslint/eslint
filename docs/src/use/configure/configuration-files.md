@@ -513,7 +513,7 @@ To use this feature on the command line, use the `--flag` flag:
 npx eslint --flag unstable_config_lookup_from_file .
 ```
 
-For more information about using feature flags, see [Feature Flags](../flags).
+For more information about using feature flags, see [Feature Flags](../../flags).
 
 ## TypeScript Configuration Files
 
