@@ -1,0 +1,5 @@
+{
+    "private": true,
+    "name": "cts-config-with-module-pkg-type",
+    "type": "module"
+}
