@@ -168,7 +168,7 @@
   },
   "overrides": {
     "uri-js": "npm:fast-uri@^2.3.0"
-   }
+  },
   "peerDependencies": {
     "jiti": "*"
   },
