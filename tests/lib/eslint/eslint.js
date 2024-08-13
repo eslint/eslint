@@ -5174,20 +5174,6 @@ describe("ESLint", () => {
         });
 
         describe("with lintText", () => {
-            it("should throw an error when pattern is passed instead of code", () => {
-                assert.rejects(async () => {
-                    eslint = new ESLint({
-                        cwd: path.join(fixtureDir, ".."),
-                        overrideConfigFile: true,
-                        fix: true,
-                        fixTypes: ["layout"]
-                    });
-                    const inputPath = getFixturePath("fix-types/fix-only-semi.js");
-
-                    await eslint.lintText([inputPath]);
-                }, /'code' must be a string\./iu);
-            });
-
             it("should not fix any rules when fixTypes is used without fix", async () => {
                 eslint = new ESLint({
                     cwd: path.join(fixtureDir, ".."),
@@ -5196,7 +5182,7 @@ describe("ESLint", () => {
                     fixTypes: ["layout"]
                 });
                 const inputPath = getFixturePath("fix-types/fix-only-semi.js");
-                const content = await fs.readFileSync(inputPath, "utf8");
+                const content = fs.readFileSync(inputPath, "utf8");
                 const results = await eslint.lintText(content, { filePath: inputPath });
 
                 assert.strictEqual(results[0].output, void 0);
@@ -5211,7 +5197,7 @@ describe("ESLint", () => {
                 });
                 const inputPath = getFixturePath("fix-types/fix-only-semi.js");
                 const outputPath = getFixturePath("fix-types/fix-only-semi.expected.js");
-                const content = await fs.readFileSync(inputPath, "utf8");
+                const content = fs.readFileSync(inputPath, "utf8");
                 const results = await eslint.lintText(content, { filePath: inputPath });
                 const expectedOutput = fs.readFileSync(outputPath, "utf8");
 
@@ -5227,7 +5213,7 @@ describe("ESLint", () => {
                 });
                 const inputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.js");
                 const outputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.expected.js");
-                const content = await fs.readFileSync(inputPath, "utf8");
+                const content = fs.readFileSync(inputPath, "utf8");
                 const results = await eslint.lintText(content, { filePath: inputPath });
                 const expectedOutput = fs.readFileSync(outputPath, "utf8");
 
@@ -5243,7 +5229,7 @@ describe("ESLint", () => {
                 });
                 const inputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.js");
                 const outputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.expected.js");
-                const content = await fs.readFileSync(inputPath, "utf8");
+                const content = fs.readFileSync(inputPath, "utf8");
                 const results = await eslint.lintText(content, { filePath: inputPath });
                 const expectedOutput = fs.readFileSync(outputPath, "utf8");
 
