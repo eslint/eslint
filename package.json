@@ -167,8 +167,7 @@
     "yorkie": "^2.0.0"
   },
   "overrides": {
-  	"ajv": {
-      "uri-js": "npm:fast-uri@^2.3.0"
+    "uri-js": "npm:fast-uri@^2.3.0"
    }
   "peerDependencies": {
     "jiti": "*"
