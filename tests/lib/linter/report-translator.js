@@ -9,9 +9,10 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert;
-const { SourceCode } = require("../../../lib/source-code");
+const { SourceCode } = require("../../../lib/languages/js/source-code");
 const espree = require("espree");
 const createReportTranslator = require("../../../lib/linter/report-translator");
+const jslang = require("../../../lib/languages/js");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -51,6 +52,7 @@ describe("createReportTranslator", () => {
         suggestion1 = "First suggestion";
         suggestion2 = "Second suggestion {{interpolated}}";
         translateReport = createReportTranslator({
+            language: jslang,
             ruleId: "foo-rule",
             severity: 2,
             sourceCode,
@@ -460,7 +462,9 @@ describe("createReportTranslator", () => {
             };
 
             assert.deepStrictEqual(
-                createReportTranslator({ ruleId: "foo-rule", severity: 1, sourceCode })(reportDescriptor),
+                createReportTranslator({
+                    language: jslang, ruleId: "foo-rule", severity: 1, sourceCode
+                })(reportDescriptor),
                 {
                     ruleId: "foo-rule",
                     severity: 1,

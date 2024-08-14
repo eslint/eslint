@@ -2,13 +2,7 @@
     "workspaces": {
         ".": {
             // These entries are complementary to the ones found in package.json
-            "entry": [
-                "lib/rules/index.js",
-                "tools/internal-rules/index.js",
-                // https://github.com/webpro/knip/issues/464
-                // Remove when Knip has a wdio plugin
-                "wdio.conf.js"
-            ],
+            "entry": ["lib/rules/index.js", "tools/internal-rules/*.js"],
             "project": ["{conf,lib,tools}/**/*.js"],
             "mocha": {
                 "entry": [
@@ -30,13 +24,14 @@
             ],
             "ignoreDependencies": [
                 "c8",
-
-                // Ignore until Knip has a wdio plugin:
-                "@wdio/*",
+                "@wdio/cli",
                 "rollup-plugin-node-polyfills",
 
                 // FIXME: not sure why is eslint-config-eslint reported as unused
-                "eslint-config-eslint"
+                "eslint-config-eslint",
+
+                // Optional peer dependency used for loading TypeScript configuration files
+                "jiti"
             ]
         },
         "docs": {

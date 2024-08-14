@@ -4,7 +4,7 @@ eleventyNavigation:
     key: migration guide
     parent: configure
     title: Configuration Migration Guide
-    order: 8
+    order: 9
 ---
 
 This guide provides an overview of how you can migrate your ESLint configuration file from the eslintrc format (typically configured in `.eslintrc.js` or `.eslintrc.json` files) to the new flat config format (typically configured in an `eslint.config.js` file).
@@ -690,20 +690,18 @@ You can view the type definitions in the [DefinitelyTyped repository on GitHub](
 
 ## Visual Studio Code Support
 
-By default, the [Visual Studio Code ESLint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) does not look for `eslint.config.js` files. To enable support for the new configuration files, edit your `.vscode/settings.json` file and add the following:
+ESLint v9.x support was added in the [`vscode-eslint`](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) v3.0.10.
+
+In versions of `vscode-eslint` prior to v3.0.10, the new configuration system is not enabled by default. To enable support for the new configuration files, edit your `.vscode/settings.json` file and add the following:
 
 ```json
 {
-  // enable flat config files (eslint.config.*js)
+  // required in vscode-eslint < v3.0.10 only
   "eslint.experimental.useFlatConfig": true
 }
 ```
 
 In a future version of the ESLint plugin, you will no longer need to enable this manually.
-
-::: important
-The ESLint team does not maintain the ESLint plugin for Visual Studio Code, and as such, we don't have any control over its release cycle. We are currently waiting on [this issue](https://github.com/microsoft/vscode-eslint/issues/1644 "Microsoft/vscode-eslint issue: Enable Flat Config by default") to be resolved.
-:::
 
 ## Further Reading
 

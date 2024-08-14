@@ -169,6 +169,11 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.cacheStrategy` (`string`)<br>
   Default is `"metadata"`. Strategy for the cache to use for detecting changed files. Can be either `"metadata"` or `"content"`.
 
+##### Other Options
+
+* `options.flags` (`string[]`)<br>
+  Default is `[]`. The feature flags to enable for this instance.
+
 ### ◆ eslint.lintFiles(patterns)
 
 ```js
@@ -294,6 +299,26 @@ This method loads a formatter. Formatters convert lint results to a human- or ma
 
 * (`Promise<LoadedFormatter>`)<br>
   The promise that will be fulfilled with a [LoadedFormatter] object.
+
+### ◆ eslint.hasFlag(flagName)
+
+This method is used to determine if a given feature flag is set, as in this example:
+
+```js
+if (eslint.hasFlag("x_feature")) {
+    // handle flag
+}
+```
+
+#### Parameters
+
+* `flagName` (`string`)<br>
+  The flag to check.
+
+#### Return Value
+
+* (`boolean`)<br>
+  True if the flag is enabled.
 
 ### ◆ ESLint.version
 
@@ -455,9 +480,6 @@ const { loadESLint } = require("eslint");
 
 // loads the default ESLint that the CLI would use based on process.cwd()
 const DefaultESLint = await loadESLint();
-
-// loads the default ESLint that the CLI would use based on the provided cwd
-const CwdDefaultESLint = await loadESLint({ cwd: "/foo/bar" });
 
 // loads the flat config version specifically
 const FlatESLint = await loadESLint({ useFlatConfig: true });
@@ -726,6 +748,17 @@ This method is used to get the times spent on (parsing, fixing, linting) a file.
 ### Linter#getFixPassCount()
 
 This method is used to get the number of autofix passes made. See `fixPasses` property of the [Stats](../extend/stats#-stats-type) object.
+
+### Linter#hasFlag()
+
+This method is used to determine if a given feature flag is set, as in this example:
+
+```js
+const Linter = require("eslint").Linter;
+const linter = new Linter({ flags: ["x_feature"] });
+
+console.log(linter.hasFlag("x_feature")); // true
+```
 
 ---
 

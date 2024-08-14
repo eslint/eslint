@@ -11,7 +11,7 @@
 
 const assert = require("chai").assert,
     espree = require("espree"),
-    TokenStore = require("../../../lib/source-code/token-store");
+    TokenStore = require("../../../../../lib/languages/js/source-code/token-store");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -655,7 +655,7 @@ describe("TokenStore", () => {
         });
 
         it("should retrieve the first token if the root node contains a trailing comment", () => {
-            const parser = require("../../fixtures/parsers/all-comments-parser");
+            const parser = require("../../../../fixtures/parsers/all-comments-parser");
             const code = "foo // comment";
             const ast = parser.parse(code, { loc: true, range: true, tokens: true, comment: true });
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
@@ -874,7 +874,7 @@ describe("TokenStore", () => {
         });
 
         it("should retrieve the last token if the root node contains a trailing comment", () => {
-            const parser = require("../../fixtures/parsers/all-comments-parser");
+            const parser = require("../../../../fixtures/parsers/all-comments-parser");
             const code = "foo // comment";
             const ast = parser.parse(code, { loc: true, range: true, tokens: true, comment: true });
             const tokenStore = new TokenStore(ast.tokens, ast.comments);

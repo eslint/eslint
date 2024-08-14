@@ -1310,7 +1310,7 @@
                 "description": "Disallow async functions which have no `await` expression",
                 "recommended": false,
                 "fixable": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "require-unicode-regexp",

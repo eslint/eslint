@@ -70,12 +70,16 @@ describe("NodeEventGenerator", () => {
         });
 
         it("should generate events for AST queries", () => {
-            const dummyNode = { type: "Bar", parent: { type: "Foo" } };
+            const dummyParent = { type: "Foo" };
+            const dummyNode = { type: "Bar" };
 
+            generator.enterNode(dummyParent);
             generator.enterNode(dummyNode);
 
-            assert(emitter.emit.calledTwice);
+            assert(emitter.emit.calledThrice);
+            assert(emitter.emit.calledWith("Foo", dummyParent));
             assert(emitter.emit.calledWith("Foo > Bar", dummyNode));
+            assert(emitter.emit.calledWith("Bar", dummyNode));
         });
     });
 
@@ -100,8 +104,7 @@ describe("NodeEventGenerator", () => {
             const generator = new NodeEventGenerator(emitter, STANDARD_ESQUERY_OPTION);
 
             Traverser.traverse(ast, {
-                enter(node, parent) {
-                    node.parent = parent;
+                enter(node) {
                     generator.enterNode(node);
                 },
                 leave(node) {
@@ -362,8 +365,7 @@ describe("NodeEventGenerator", () => {
 
             Traverser.traverse(ast, {
                 visitorKeys,
-                enter(node, parent) {
-                    node.parent = parent;
+                enter(node) {
                     generator.enterNode(node);
                 },
                 leave(node) {

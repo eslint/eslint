@@ -14,9 +14,9 @@ const fs = require("node:fs"),
     espree = require("espree"),
     eslintScope = require("eslint-scope"),
     sinon = require("sinon"),
-    { Linter } = require("../../../lib/linter"),
-    SourceCode = require("../../../lib/source-code/source-code"),
-    astUtils = require("../../../lib/shared/ast-utils");
+    { Linter } = require("../../../../../lib/linter"),
+    SourceCode = require("../../../../../lib/languages/js/source-code/source-code"),
+    astUtils = require("../../../../../lib/shared/ast-utils");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -206,7 +206,7 @@ describe("SourceCode", () => {
         });
 
         describe("when it read a UTF-8 file (has BOM), SourceCode", () => {
-            const UTF8_FILE = path.resolve(__dirname, "../../fixtures/utf8-bom.js");
+            const UTF8_FILE = path.resolve(__dirname, "../../../../fixtures/utf8-bom.js");
             const text = fs.readFileSync(
                 UTF8_FILE,
                 "utf8"
@@ -3242,13 +3242,12 @@ describe("SourceCode", () => {
             const problem = result.problems[0];
 
             // Node.js 19 changes the JSON parsing error format, so we need to check each field separately to use a regex
-            assert.strictEqual(problem.column, 1);
-            assert.strictEqual(problem.line, 1);
-            assert.isTrue(problem.fatal);
+            assert.strictEqual(problem.loc.start.column, 0);
+            assert.strictEqual(problem.loc.start.line, 1);
+            assert.strictEqual(problem.loc.end.column, 24);
+            assert.strictEqual(problem.loc.end.line, 1);
             assert.match(problem.message, /Failed to parse JSON from ' "some-rule"::,': Unexpected token '?:'?/u);
-            assert.isNull(problem.nodeType);
             assert.isNull(problem.ruleId);
-            assert.strictEqual(problem.severity, 2);
         });
     });
 });

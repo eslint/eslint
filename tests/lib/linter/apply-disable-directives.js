@@ -11,6 +11,7 @@
 
 const assert = require("chai").assert;
 const applyDisableDirectives = require("../../../lib/linter/apply-disable-directives");
+const jslang = require("../../../lib/languages/js");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -43,6 +44,15 @@ function createParentDirective(range, value, ruleIds = []) {
     };
 }
 
+const sourceCode = {
+    getRange(node) {
+        return node.range;
+    },
+    getLoc(node) {
+        return node.loc;
+    }
+};
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -52,6 +62,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems before the comment on the same line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{ parentDirective: createParentDirective([0, 7]), type: "disable", line: 1, column: 8, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 7, ruleId: "foo" }]
                 }),
@@ -62,6 +74,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems on a previous line before the comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{ parentDirective: createParentDirective([21, 27]), type: "disable", line: 2, column: 1, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }]
                 }),
@@ -72,6 +86,8 @@ describe("apply-disable-directives", () => {
         it("filters problems at the same location as the comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 8, ruleId: null }]
                 }),
@@ -82,6 +98,8 @@ describe("apply-disable-directives", () => {
         it("filters out problems after the comment on the same line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }]
                 }),
@@ -92,6 +110,8 @@ describe("apply-disable-directives", () => {
         it("filters out problems on a later line than the comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: null, justification: "justification" }],
                     problems: [{ line: 2, column: 3, ruleId: "foo" }]
                 }),
@@ -104,6 +124,8 @@ describe("apply-disable-directives", () => {
         it("filters problems after the comment that have the same ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: "foo", justification: "justification" }],
                     problems: [{ line: 2, column: 3, ruleId: "foo" }]
                 }),
@@ -114,6 +136,8 @@ describe("apply-disable-directives", () => {
         it("filters problems in the same location as the comment that have the same ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 8, ruleId: "foo", justification: "justification" }],
                     problems: [{ line: 1, column: 8, ruleId: "foo" }]
                 }),
@@ -124,6 +148,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems after the comment that have a different ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([26, 29]),
                         type: "disable",
@@ -141,6 +167,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems before the comment that have the same ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([7, 31]),
                         type: "disable",
@@ -159,6 +187,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems after the eslint-enable comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 26]),
@@ -186,6 +216,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems in the same location as the eslint-enable comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 25]),
@@ -213,6 +245,8 @@ describe("apply-disable-directives", () => {
         it("filters out problems before the eslint-enable comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         { type: "disable", line: 1, column: 1, ruleId: null, justification: "j1" },
                         { type: "enable", line: 1, column: 26, ruleId: null, justification: "j2" }
@@ -226,6 +260,8 @@ describe("apply-disable-directives", () => {
         it("filter out problems if disable all then enable foo and then disable foo", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -261,6 +297,8 @@ describe("apply-disable-directives", () => {
         it("filter out problems if disable all then enable foo and then disable all", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -296,6 +334,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems before the eslint-enable comment if there is no corresponding disable comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -325,6 +365,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems after the comment that have the same ruleId as the eslint-enable comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -352,6 +394,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems in the same location as the comment that have the same ruleId as the eslint-enable comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -379,6 +423,8 @@ describe("apply-disable-directives", () => {
         it("filters problems after the comment that have a different ruleId as the eslint-enable comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -406,6 +452,8 @@ describe("apply-disable-directives", () => {
         it("reenables reporting correctly even when followed by another enable comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         { type: "disable", line: 1, column: 1, ruleId: null, justification: "j1" },
                         { type: "enable", line: 1, column: 22, ruleId: "foo", justification: "j2" },
@@ -436,6 +484,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems on a previous line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([6, 27]),
                         type: "disable-line",
@@ -453,6 +503,8 @@ describe("apply-disable-directives", () => {
         it("filters problems before the comment on the same line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([7, 28]),
                         type: "disable-line",
@@ -470,6 +522,8 @@ describe("apply-disable-directives", () => {
         it("filters problems after the comment on the same line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([7, 28]),
                         type: "disable-line",
@@ -487,6 +541,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems on a following line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([7, 34]),
                         type: "disable-line",
@@ -506,6 +562,8 @@ describe("apply-disable-directives", () => {
         it("filters problems on the current line that match the ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([7, 34]),
                         type: "disable-line",
@@ -523,6 +581,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems on the current line that do not match the ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 27]),
                         type: "disable-line",
@@ -540,6 +600,8 @@ describe("apply-disable-directives", () => {
         it("filters problems on the current line that do not match the ruleId if preceded by a disable comment", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -567,6 +629,8 @@ describe("apply-disable-directives", () => {
         it("handles consecutive comments appropriately", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([7, 34]),
@@ -628,6 +692,8 @@ describe("apply-disable-directives", () => {
         it("filters problems on the next line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 31]),
                         type: "disable-next-line",
@@ -645,6 +711,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems on the same line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 31]),
                         type: "disable-next-line",
@@ -661,6 +729,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems after the next line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 31]),
                         type: "disable-next-line",
@@ -678,6 +748,8 @@ describe("apply-disable-directives", () => {
         it("filters problems on the next line even if there is an eslint-enable comment on the same line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         { parentDirective: createParentDirective([0, 31]), type: "disable-next-line", line: 1, column: 1, ruleId: null, justification: "j1" },
                         { parentDirective: createParentDirective([31, 50]), type: "enable", line: 1, column: 31, ruleId: null, justification: "j2" }
@@ -693,6 +765,8 @@ describe("apply-disable-directives", () => {
         it("filters problems on the next line that match the ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable-next-line", line: 1, column: 1, ruleId: "foo", justification: "justification" }],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }]
                 }),
@@ -703,6 +777,8 @@ describe("apply-disable-directives", () => {
         it("keeps problems on the next line that do not match the ruleId", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 31]),
                         type: "disable-next-line",
@@ -735,6 +811,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 20]),
                         type: "disable",
@@ -763,6 +841,8 @@ describe("apply-disable-directives", () => {
         it("Does not fix a problem for /* eslint-disable */ when disableFixes is enabled", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 20]),
                         type: "disable",
@@ -788,6 +868,8 @@ describe("apply-disable-directives", () => {
         it("Does not add a problem for /* eslint-disable */ /* (problem) */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 1, ruleId: null, justification: "justification" }],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
@@ -799,6 +881,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 21]),
                         type: "disable",
@@ -828,6 +912,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */ /* (problem from another rule) */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 24]),
                         type: "disable",
@@ -864,6 +950,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* (problem from foo) */ /* eslint-disable */ /* eslint-enable foo */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -910,6 +998,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable */ /* eslint-enable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -949,6 +1039,8 @@ describe("apply-disable-directives", () => {
         it("Adds two problems for /* eslint-disable */ /* eslint-disable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1002,6 +1094,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable */ /* eslint-disable */ /* (problem) */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1052,6 +1146,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */ /* eslint-disable */ /* (problem from foo) */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1102,6 +1198,8 @@ describe("apply-disable-directives", () => {
         it("Does not add a problem for /* eslint-disable foo */ /* (problem from foo) */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable", line: 1, column: 1, ruleId: "foo", justification: "justification" }],
                     problems: [{ line: 1, column: 6, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
@@ -1113,6 +1211,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable */ /* eslint-disable foo */ /* (problem from foo) */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1163,6 +1263,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable */ /* eslint-disable foo */ /* (problem from another rule) */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -1210,6 +1312,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */ /* eslint-enable foo */ /* (problem from foo) */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -1256,6 +1360,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */ /* eslint-enable */ /* (problem from foo) */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 24]),
@@ -1302,6 +1408,8 @@ describe("apply-disable-directives", () => {
         it("Adds two problems for /* eslint-disable */ /* eslint-disable foo */ /* eslint-enable foo */ /* (problem from foo) */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1368,6 +1476,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-enable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 20]),
                         type: "enable",
@@ -1396,6 +1506,8 @@ describe("apply-disable-directives", () => {
         it("Does not fix a problem for /* eslint-enable */ when disableFixes is enabled", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 20]),
                         type: "enable",
@@ -1421,6 +1533,8 @@ describe("apply-disable-directives", () => {
         it("Does not add a problem for /* eslint-disable */ /* (problem) */ /* eslint-enable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         { type: "disable", line: 1, column: 1, ruleId: null, justification: "justification" },
                         { type: "enable", line: 3, column: 1, ruleId: null, justification: "justification" }
@@ -1435,6 +1549,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-enable foo */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 21]),
                         type: "enable",
@@ -1464,6 +1580,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable not-foo */ /* (problem from not-foo) */ /* eslint-enable foo */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 24]),
@@ -1511,6 +1629,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable */ /* eslint-enable */ /* eslint-enable foo */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1586,6 +1706,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable */ /* eslint-enable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1641,6 +1763,8 @@ describe("apply-disable-directives", () => {
         it("Adds two problems for /* eslint-enable */ /* eslint-enable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1694,6 +1818,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-enable */ /* eslint-disable */  /* (problem) */ /* eslint-enable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1749,6 +1875,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable */ /* eslint-enable foo */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1804,6 +1932,8 @@ describe("apply-disable-directives", () => {
         it("Does not add a problem for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable foo */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         { type: "disable", line: 1, column: 1, ruleId: "foo", justification: "j1" },
                         { type: "enable", line: 3, column: 1, ruleId: "foo", justification: "j2" }
@@ -1818,6 +1948,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable foo */ /* eslint-enable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 21]),
@@ -1875,6 +2007,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable bar */ /* (problem from bar) */ /* eslint-enable foo */ /* eslint-enable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -1930,6 +2064,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable foo */ /* eslint-enable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -1985,6 +2121,8 @@ describe("apply-disable-directives", () => {
         it("Adds two problems for /* eslint-disable foo */ /* (problem from foo) */ /* eslint-enable foo */ /* eslint-enable foo */ /* eslint-enable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -2060,6 +2198,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-disable used */ /* (problem from used) */ /* eslint-enable used */ /* eslint-enable */", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 20]),
@@ -2129,6 +2269,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for // eslint-disable-line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 22]),
                         type: "disable-line",
@@ -2161,6 +2303,8 @@ describe("apply-disable-directives", () => {
         it("Does not add a problem for // eslint-disable-line (problem)", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable-line", line: 1, column: 1, ruleId: null, justification: "justification" }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
@@ -2172,6 +2316,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for // eslint-disable-next-line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 27]),
                         type: "disable-next-line",
@@ -2203,6 +2349,8 @@ describe("apply-disable-directives", () => {
         it("Does not add a problem for // eslint-disable-next-line \\n (problem)", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{ type: "disable-next-line", line: 1, column: 1, ruleId: null, justification: "justification" }],
                     problems: [{ line: 2, column: 10, ruleId: "foo" }],
                     reportUnusedDisableDirectives: "error"
@@ -2214,6 +2362,8 @@ describe("apply-disable-directives", () => {
         it("adds two problems for /* eslint-disable */ // eslint-disable-line", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         { parentDirective: createParentDirective([0, 20]), type: "disable", line: 1, column: 1, ruleId: null },
                         { parentDirective: createParentDirective([20, 43]), type: "disable-line", line: 1, column: 22, ruleId: null }
@@ -2253,6 +2403,8 @@ describe("apply-disable-directives", () => {
         it("Does not add problems when reportUnusedDisableDirectives: \"off\" is used", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [{
                         parentDirective: createParentDirective([0, 27]),
                         type: "disable-next-line",
@@ -2275,6 +2427,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2323,6 +2477,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2372,6 +2528,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2421,6 +2579,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2470,6 +2630,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2539,6 +2701,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2628,6 +2792,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2671,6 +2837,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -2717,6 +2885,8 @@ describe("apply-disable-directives", () => {
         it("Adds a problem for /* eslint-disable foo */ \\n (problem from foo and bar) // eslint-disable-line foo, bar", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -2786,6 +2956,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -2842,6 +3014,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -2899,6 +3073,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -2956,6 +3132,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -3013,6 +3191,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -3090,6 +3270,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
@@ -3187,6 +3369,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,
@@ -3230,6 +3414,8 @@ describe("apply-disable-directives", () => {
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
+                    language: jslang,
+                    sourceCode,
                     directives: [
                         {
                             parentDirective,

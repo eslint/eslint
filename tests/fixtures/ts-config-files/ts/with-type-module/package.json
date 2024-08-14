@@ -1,0 +1,5 @@
+{
+    "private": true,
+    "name": "ts-config-with-module-pkg-type",
+    "type": "module"
+}

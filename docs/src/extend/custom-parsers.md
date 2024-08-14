@@ -14,9 +14,9 @@ ESLint custom parsers let you extend ESLint to support linting new non-standard 
 
 ### Methods in Custom Parsers
 
-A custom parser is a JavaScript object with either a `parse` or `parseForESLint` method. The `parse` method only returns the AST, whereas `parseForESLint` also returns additional values that let the parser customize the behavior of ESLint even more.
+A custom parser is a JavaScript object with either a `parse()` or `parseForESLint()` method. The `parse` method only returns the AST, whereas `parseForESLint()` also returns additional values that let the parser customize the behavior of ESLint even more.
 
-Both methods should take in the source code as the first argument, and an optional configuration object as the second argument, which is provided as [`parserOptions`](../use/configure/language-options#specifying-parser-options) in a configuration file.
+Both methods should be instance (own) properties and take in the source code as the first argument, and an optional configuration object as the second argument, which is provided as [`parserOptions`](../use/configure/language-options#specifying-parser-options) in a configuration file.
 
 ```javascript
 // customParser.js

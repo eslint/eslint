@@ -21,6 +21,9 @@ The ESLint configuration file may be named any of the following:
 * `eslint.config.js`
 * `eslint.config.mjs`
 * `eslint.config.cjs`
+* `eslint.config.ts` (requires [additional setup](#typescript-configuration-files))
+* `eslint.config.mts` (requires [additional setup](#typescript-configuration-files))
+* `eslint.config.cts` (requires [additional setup](#typescript-configuration-files))
 
 It should be placed in the root directory of your project and export an array of [configuration objects](#configuration-objects). Here's an example:
 
@@ -159,7 +162,7 @@ export default [
 This configuration object applies to all JavaScript files except those ending with `.config.js`. Effectively, this is like having `files` set to `**/*`. In general, it's a good idea to always include `files` if you are specifying `ignores`.
 
 Note that when `files` is not specified, negated `ignores` patterns do not cause any matching files to be linted automatically.
-ESLint only lints files that are matched either by default or by a `files` pattern not ending with `/*` or `/**`.
+ESLint only lints files that are matched either by default or by a `files` pattern that is not `*` and does not end with `/*` or `/**`.
 
 ::: tip
 Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspect-config` in the CLI) to test which config objects apply to a specific file.
@@ -167,7 +170,7 @@ Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspe
 
 #### Specifying files with arbitrary extensions
 
-To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a pattern in the format of `"**/*.extension"`. (Any pattern that doesn't end with `/*` or `/**` will work.)
+To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a pattern in the format of `"**/*.extension"`. Any pattern will work except if it is `*` or if it ends with `/*` or `/**`.
 For example, to lint TypeScript files with `.ts`, `.cts` and `.mts` extensions, you would specify a configuration object like this:
 
 ```js
@@ -495,3 +498,84 @@ npx eslint --config some-other-file.js **/*.js
 ```
 
 In this case, ESLint does not search for `eslint.config.js` and instead uses `some-other-file.js`.
+
+## TypeScript Configuration Files
+
+::: warning
+This feature is currently experimental and may change in future versions.
+:::
+
+You need to enable this feature through the `unstable_ts_config` feature flag:
+
+```bash
+npx eslint --flag unstable_ts_config
+```
+
+For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in your project (this dependency is not automatically installed by ESLint):
+
+```bash
+npm install -D jiti
+# or
+yarn add --dev jiti
+# or
+pnpm add -D jiti
+```
+
+You can then create a configuration file with a `.ts`, `.mts`, or `.cts` extension, and export an array of [configuration objects](#configuration-objects). Here's an example in ESM format:
+
+```ts
+import js from "@eslint/js";
+import type { Linter } from "eslint";
+
+export default [
+  js.configs.recommended,
+  {
+    rules: {
+      "no-console": [0],
+    },
+  },
+] satisfies Linter.FlatConfig[];
+```
+
+Here's an example in CommonJS format:
+
+```ts
+import type { Linter } from "eslint";
+const eslint = require("@eslint/js");
+
+const config: Linter.FlatConfig[] = [
+  eslint.configs.recommended,
+  {
+    rules: {
+      "no-console": [0],
+    },
+  },
+];
+
+module.exports = config;
+```
+
+::: important
+ESLint does not perform type checking on your configuration file and does not apply any settings from `tsconfig.json`.
+:::
+
+::: warning
+As of now, [`jiti`](https://github.com/unjs/jiti) does not support [Top-level `await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await)
+:::
+
+### Configuration File Precedence
+
+If you have multiple ESLint configuration files, ESLint prioritizes JavaScript files over TypeScript files. The order of precedence is as follows:
+
+1. `eslint.config.js`
+2. `eslint.config.mjs`
+3. `eslint.config.cjs`
+4. `eslint.config.ts`
+5. `eslint.config.mts`
+6. `eslint.config.cts`
+
+To override this behavior, use the `--config` or `-c` command line option to specify a different configuration file:
+
+```bash
+npx eslint --flag unstable_ts_config --config eslint.config.ts
+```
