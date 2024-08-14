@@ -1460,8 +1460,12 @@ describe("Linter", () => {
             assert.strictEqual(suppressedMessages.length, 0);
         });
 
-        it("rules should apply meta.defaultOptions", () => {
-            const config = { rules: {} };
+        it("rules use the rule's config when it is present", () => {
+            const config = {
+                rules: {
+                    "no-constant-condition": ["error", { checkLoops: "all" }]
+                }
+            };
             const codeA = "/*eslint no-constant-condition: error */ while (true) {}";
             const messages = linter.verify(codeA, config, filename, false);
 
@@ -1481,6 +1485,14 @@ describe("Linter", () => {
                     }
                 ]
             );
+        });
+
+        it("rules should apply meta.defaultOptions when the rule is not configured", () => {
+            const config = { rules: {} };
+            const codeA = "/*eslint no-constant-condition: error */ while (true) {}";
+            const messages = linter.verify(codeA, config, filename, false);
+
+            assert.deepStrictEqual(messages, []);
         });
 
         describe("when the rule was already configured", () => {
