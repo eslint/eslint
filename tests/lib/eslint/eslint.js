@@ -6443,73 +6443,141 @@ describe("ESLint", () => {
         /** @type {InstanceType<ESLint>} */
         let eslint;
 
-        it("should throw an error when an invalid fix type is specified", () => {
-            assert.throws(() => {
+        describe("fixTypes values validation", () => {
+            it("should throw an error when an invalid fix type is specified", () => {
+                assert.throws(() => {
+                    eslint = new ESLint({
+                        cwd: path.join(fixtureDir, ".."),
+                        overrideConfigFile: true,
+                        fix: true,
+                        fixTypes: ["layou"]
+                    });
+                }, /'fixTypes' must be an array of any of "directive", "problem", "suggestion", and "layout"\./iu);
+            });
+        });
+
+        describe("with lintFiles", () => {
+            it("should not fix any rules when fixTypes is used without fix", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    overrideConfigFile: true,
+                    fix: false,
+                    fixTypes: ["layout"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-only-semi.js");
+                const results = await eslint.lintFiles([inputPath]);
+
+                assert.strictEqual(results[0].output, void 0);
+            });
+
+            it("should not fix non-style rules when fixTypes has only 'layout'", async () => {
                 eslint = new ESLint({
                     cwd: path.join(fixtureDir, ".."),
                     overrideConfigFile: true,
                     fix: true,
-                    fixTypes: ["layou"]
+                    fixTypes: ["layout"]
                 });
-            }, /'fixTypes' must be an array of any of "directive", "problem", "suggestion", and "layout"\./iu);
+                const inputPath = getFixturePath("fix-types/fix-only-semi.js");
+                const outputPath = getFixturePath("fix-types/fix-only-semi.expected.js");
+                const results = await eslint.lintFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(results[0].output, expectedOutput);
+            });
+
+            it("should not fix style or problem rules when fixTypes has only 'suggestion'", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    overrideConfigFile: true,
+                    fix: true,
+                    fixTypes: ["suggestion"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.js");
+                const outputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.expected.js");
+                const results = await eslint.lintFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(results[0].output, expectedOutput);
+            });
+
+            it("should fix both style and problem rules when fixTypes has 'suggestion' and 'layout'", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    overrideConfigFile: true,
+                    fix: true,
+                    fixTypes: ["suggestion", "layout"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.js");
+                const outputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.expected.js");
+                const results = await eslint.lintFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(results[0].output, expectedOutput);
+            });
         });
 
-        it("should not fix any rules when fixTypes is used without fix", async () => {
-            eslint = new ESLint({
-                cwd: path.join(fixtureDir, ".."),
-                overrideConfigFile: true,
-                fix: false,
-                fixTypes: ["layout"]
+        describe("with lintText", () => {
+            it("should not fix any rules when fixTypes is used without fix", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    overrideConfigFile: true,
+                    fix: false,
+                    fixTypes: ["layout"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-only-semi.js");
+                const content = fs.readFileSync(inputPath, "utf8");
+                const results = await eslint.lintText(content, { filePath: inputPath });
+
+                assert.strictEqual(results[0].output, void 0);
             });
-            const inputPath = getFixturePath("fix-types/fix-only-semi.js");
-            const results = await eslint.lintFiles([inputPath]);
 
-            assert.strictEqual(results[0].output, void 0);
-        });
+            it("should not fix non-style rules when fixTypes has only 'layout'", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    overrideConfigFile: true,
+                    fix: true,
+                    fixTypes: ["layout"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-only-semi.js");
+                const outputPath = getFixturePath("fix-types/fix-only-semi.expected.js");
+                const content = fs.readFileSync(inputPath, "utf8");
+                const results = await eslint.lintText(content, { filePath: inputPath });
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
 
-        it("should not fix non-style rules when fixTypes has only 'layout'", async () => {
-            eslint = new ESLint({
-                cwd: path.join(fixtureDir, ".."),
-                overrideConfigFile: true,
-                fix: true,
-                fixTypes: ["layout"]
+                assert.strictEqual(results[0].output, expectedOutput);
             });
-            const inputPath = getFixturePath("fix-types/fix-only-semi.js");
-            const outputPath = getFixturePath("fix-types/fix-only-semi.expected.js");
-            const results = await eslint.lintFiles([inputPath]);
-            const expectedOutput = fs.readFileSync(outputPath, "utf8");
 
-            assert.strictEqual(results[0].output, expectedOutput);
-        });
+            it("should not fix style or problem rules when fixTypes has only 'suggestion'", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    overrideConfigFile: true,
+                    fix: true,
+                    fixTypes: ["suggestion"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.js");
+                const outputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.expected.js");
+                const content = fs.readFileSync(inputPath, "utf8");
+                const results = await eslint.lintText(content, { filePath: inputPath });
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
 
-        it("should not fix style or problem rules when fixTypes has only 'suggestion'", async () => {
-            eslint = new ESLint({
-                cwd: path.join(fixtureDir, ".."),
-                overrideConfigFile: true,
-                fix: true,
-                fixTypes: ["suggestion"]
+                assert.strictEqual(results[0].output, expectedOutput);
             });
-            const inputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.js");
-            const outputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.expected.js");
-            const results = await eslint.lintFiles([inputPath]);
-            const expectedOutput = fs.readFileSync(outputPath, "utf8");
 
-            assert.strictEqual(results[0].output, expectedOutput);
-        });
+            it("should fix both style and problem rules when fixTypes has 'suggestion' and 'layout'", async () => {
+                eslint = new ESLint({
+                    cwd: path.join(fixtureDir, ".."),
+                    overrideConfigFile: true,
+                    fix: true,
+                    fixTypes: ["suggestion", "layout"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.js");
+                const outputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.expected.js");
+                const content = fs.readFileSync(inputPath, "utf8");
+                const results = await eslint.lintText(content, { filePath: inputPath });
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
 
-        it("should fix both style and problem rules when fixTypes has 'suggestion' and 'layout'", async () => {
-            eslint = new ESLint({
-                cwd: path.join(fixtureDir, ".."),
-                overrideConfigFile: true,
-                fix: true,
-                fixTypes: ["suggestion", "layout"]
+                assert.strictEqual(results[0].output, expectedOutput);
             });
-            const inputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.js");
-            const outputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.expected.js");
-            const results = await eslint.lintFiles([inputPath]);
-            const expectedOutput = fs.readFileSync(outputPath, "utf8");
-
-            assert.strictEqual(results[0].output, expectedOutput);
         });
     });
 
