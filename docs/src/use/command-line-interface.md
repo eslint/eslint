@@ -22,11 +22,15 @@ npx eslint [options] [file|dir|glob]*
 
 Such as:
 
-```shell
-# Run on two files
-npx eslint file1.js file2.js
+Run on two files
 
-# Run on multiple files
+```shell
+npx eslint file1.js file2.js
+```
+
+Run on multiple files
+
+```shell
 npx eslint lib/**
 ```
 
@@ -55,7 +59,11 @@ Examples of options that accept multiple values:
 
 ```shell
 npx eslint --ext .jsx --ext .js lib/
-# OR
+```
+
+OR
+
+```shell
 npx eslint --ext .jsx,.js lib/
 ```
 
@@ -185,6 +193,9 @@ Details about the global variables defined by each environment are available in 
 
 ```shell
 npx eslint --env browser,node file.js
+```
+
+```shell
 npx eslint --env browser --env node file.js
 ```
 
@@ -202,14 +213,21 @@ This option allows you to specify which file extensions ESLint uses when searchi
 
 ##### `--ext` example
 
+Use only .ts extension
+
 ```shell
-# Use only .ts extension
 npx eslint . --ext .ts
+```
 
-# Use both .js and .ts
+Use both .js and .ts
+
+```shell
 npx eslint . --ext .js --ext .ts
+```
 
-# Also use both .js and .ts
+Also use both .js and .ts
+
+```shell
 npx eslint . --ext .js,.ts
 ```
 
@@ -224,6 +242,9 @@ This option defines global variables so that they are not  flagged as undefined 
 
 ```shell
 npx eslint --global require,exports:true file.js
+```
+
+```shell
 npx eslint --global require --global exports:true
 ```
 
@@ -237,8 +258,9 @@ This option allows you to specify a parser to be used by ESLint.
 
 ##### `--parser` example
 
+Use TypeScript ESLint parser
+
 ```shell
-# Use TypeScript ESLint parser
 npx eslint --parser @typescript-eslint/parser file.ts
 ```
 
@@ -252,8 +274,13 @@ This option allows you to specify parser options to be used by ESLint. The avail
 ##### `--parser-options` example
 
 ```shell
-echo '3 ** 4' | npx eslint --stdin --parser-options ecmaVersion:6 # fails with a parsing error
-echo '3 ** 4' | npx eslint --stdin --parser-options ecmaVersion:7 # succeeds, yay!
+echo '3 ** 4' | npx eslint --stdin --parser-options ecmaVersion:6
+# fails with a parsing error
+```
+
+```shell
+echo '3 ** 4' | npx eslint --stdin --parser-options ecmaVersion:7
+# succeeds, yay!
 ```
 
 #### `--resolve-plugins-relative-to`
@@ -293,6 +320,9 @@ Before using the plugin, you have to install it using npm.
 
 ```shell
 npx eslint --plugin jquery file.js
+```
+
+```shell
 npx eslint --plugin eslint-plugin-mocha file.js
 ```
 
@@ -309,14 +339,27 @@ To ignore rules in `.eslintrc` configuration files and only run rules specified 
 
 ##### `--rule` example
 
+Apply single rule
+
 ```shell
-# Apply single rule
 npx eslint --rule 'quotes: [error, double]'
-# Apply multiple rules
+```
+
+Apply multiple rules
+
+```shell
 npx eslint --rule 'guard-for-in: error' --rule 'brace-style: [error, 1tbs]'
-# Apply rule from jquery plugin
+```
+
+Apply rule from jquery plugin
+
+```shell
 npx eslint --rule 'jquery/dollar-sign: error'
-# Only apply rule from the command line
+```
+
+Only apply rule from the command line
+
+```shell
 npx eslint --rule 'quotes: [error, double]' --no-eslintrc
 ```
 
@@ -335,6 +378,9 @@ Note that, as with core rules and plugin rules, you still need to enable the rul
 
 ```shell
 npx eslint --rulesdir my-rules/ file.js
+```
+
+```shell
 npx eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js
 ```
 
@@ -392,7 +438,13 @@ This option is helpful if you are using another program to format your code, but
 
 ```shell
 npx eslint --fix --fix-type suggestion .
+```
+
+```shell
 npx eslint --fix --fix-type suggestion --fix-type problem .
+```
+
+```shell
 npx eslint --fix --fix-type suggestion,layout .
 ```
 
@@ -412,6 +464,9 @@ npx eslint --fix --fix-type suggestion,layout .
 
 ```shell
 npx eslint --ignore-path tmp/.eslintignore file.js
+```
+
+```shell
 npx eslint --ignore-path .gitignore file.js
 ```
 
@@ -532,9 +587,9 @@ An npm-installed formatter is resolved with or without `eslint-formatter-` prefi
 When specified, the given format is output to the console. If you'd like to save that output into a file, you can do so on the command line like so:
 
 ```shell
-# Saves the output into the `results.json` file.
 npx eslint -f json file.js > results.json
 ```
+Saves the output into the `results.json` file.
 
 ##### `-f`, `--format` example
 
@@ -554,10 +609,16 @@ Use an npm-installed formatter:
 
 ```shell
 npm install eslint-formatter-pretty
+```
 
-# Then run one of the following commands
+Then run one of the following commands
+
+```shell
 npx eslint -f pretty file.js
-# or alternatively
+```
+or alternatively
+
+```shell
 npx eslint -f eslint-formatter-pretty file.js
 ```
 
@@ -573,6 +634,9 @@ You can use these options to override the default behavior, which is to enable c
 
 ```shell
 npx eslint --color file.js | cat
+```
+
+```shell
 npx eslint --no-color file.js
 ```
 
