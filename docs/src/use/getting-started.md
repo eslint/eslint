@@ -20,19 +20,19 @@ To use ESLint, you must have [Node.js](https://nodejs.org/en/) (`^18.18.0`, `^20
 
 You can install and configure ESLint using this command:
 
-```shell copy
+```shell
 npm init @eslint/config@latest
 ```
 
 or
 
-```shell copy
+```shell
 yarn create @eslint/config
 ```
 
 or
 
-```shell copy
+```shell
 pnpm create @eslint/config@latest
 ```
 
