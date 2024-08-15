@@ -589,6 +589,7 @@ When specified, the given format is output to the console. If you'd like to save
 ```shell
 npx eslint -f json file.js > results.json
 ```
+
 Saves the output into the `results.json` file.
 
 ##### `-f`, `--format` example
@@ -616,6 +617,7 @@ Then run one of the following commands
 ```shell
 npx eslint -f pretty file.js
 ```
+
 or alternatively
 
 ```shell
