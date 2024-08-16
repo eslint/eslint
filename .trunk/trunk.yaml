@@ -2,14 +2,17 @@
 # To learn more about the format of this file, see https://docs.trunk.io/reference/trunk-yaml
 version: 0.1
 cli:
-    version: 1.22.2
+    version: 1.22.3
+
+repo:
+  trunk_remote_hint: github.com/eslint/eslint
 
 # Trunk provides extensibility via plugins. (https://docs.trunk.io/plugins)
 plugins:
     sources:
         - id: trunk
           uri: https://github.com/trunk-io/plugins
-          ref: v1.6.0
+          ref: v1.6.1
 
 # Many linters and tools depend on runtimes - configure them here. (https://docs.trunk.io/runtimes)
 runtimes:
@@ -19,7 +22,7 @@ runtimes:
         - python@3.10.8
 tools:
     enabled:
-        - gh@2.52.0
+        - gh@2.54.0
 
 # This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
 lint:
@@ -36,18 +39,18 @@ lint:
         - name: renovate
           supported_platforms: [linux, macos]
     enabled:
-        - taplo@0.8.1
+        - taplo@0.9.3
         - eslint
         - actionlint@1.7.1
-        - checkov@3.2.161
+        - checkov@3.2.228
         - markdownlint@0.41.0
-        - oxipng@9.1.1
-        - prettier@3.3.2
-        - renovate@37.421.4
+        - oxipng@9.1.2
+        - prettier@3.3.3
+        - renovate@38.37.1
         - shellcheck@0.10.0
         - shfmt@3.6.0
         - svgo@3.3.2
-        - trivy@0.52.2
+        - trivy@0.54.1
     disabled:
         - yamllint
         - trufflehog # Requires the network to run.
