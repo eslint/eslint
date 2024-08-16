@@ -199,7 +199,42 @@ export default [
 ];
 ```
 
+If your config extends other configs, you can export an array:
+
+```js
+const baseConfig = require("./base-config");
+
+module.exports = {
+    configs: {
+        extendedConfig: [
+            baseConfig,
+            {
+                rules: {
+                    "example/rule1": "error",
+                    "example/rule2": "error"
+                }
+            }
+        ],
+    },
+};
+```
+
 You should update your documentation so your plugin users know how to reference the exported configs.
+
+If your exported config is an object, then your users can insert it directly into the config array; if your exported config is an array, then your users should use the spread operator (`...`) to insert the array's items into the config array.
+
+Here's an example with both an object config and an array config:
+
+```js
+import example from "eslint-plugin-example";
+
+export default [
+    example.configs.recommended, // Object, so don't spread
+    ...example.configs.extendedConfig, // Array, so needs spreading
+];
+```
+
+For more information, see the [full documentation](https://eslint.org/docs/latest/extend/plugins#configs-in-plugins).
 
 ## Migrating Environments for Flat Config
 

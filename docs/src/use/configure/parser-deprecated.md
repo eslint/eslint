@@ -10,7 +10,7 @@ You can use custom parsers to convert JavaScript code into an abstract syntax tr
 
 ## Configure a Custom Parser
 
-By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file if the parser meets the following requirements:
+By default, ESLint uses [Espree](https://github.com/eslint/js/tree/main/packages/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file if the parser meets the following requirements:
 
 1. It must be a Node module loadable from the config file where the parser is used. Usually, this means you should install the parser package separately using npm.
 1. It must conform to the [parser interface](../../extend/custom-parsers).

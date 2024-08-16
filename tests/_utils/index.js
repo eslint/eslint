@@ -32,10 +32,14 @@ function unIndent(strings, ...values) {
 }
 
 /**
+ * @typedef {Pick<ReturnType<typeof createTeardown>, "getPath" | "cleanup" | "prepare">} Teardown
+ */
+
+/**
  * Creates a new filesystem volume at the given location with the given files.
  * @param {Object} desc A description of the filesystem volume to create.
  * @param {string} desc.cwd The current working directory ESLint is using.
- * @param {Object} desc.files A map of filename to file contents to create.
+ * @param {Record<string, string>} desc.files A map of filename to file contents to create.
  * @returns {Teardown} An object with prepare(), cleanup(), and getPath()
  *      methods.
  */

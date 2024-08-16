@@ -3,7 +3,7 @@ title: ScopeManager
 
 ---
 
-This document was written based on the implementation of [eslint-scope](https://github.com/eslint/eslint-scope), a fork of [escope](https://github.com/estools/escope), and deprecates some members ESLint is not using.
+This document was written based on the implementation of [eslint-scope](https://github.com/eslint/js/tree/main/packages/eslint-scope), a fork of [escope](https://github.com/estools/escope), and deprecates some members ESLint is not using.
 
 ----
 

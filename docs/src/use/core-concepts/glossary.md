@@ -272,7 +272,7 @@ For more information on overrides in legacy configs, see [Configuration Files (D
 An object containing a method that reads in a string and converts it to a standardized format.
 
 ESLint uses parsers to convert source code strings into an [AST](#abstract-syntax-tree-ast) shape.
-By default, ESLint uses the [Espree](https://github.com/eslint/espree) parser, which generates an AST compatible with standard JavaScript runtimes and versions.
+By default, ESLint uses the [Espree](https://github.com/eslint/js/tree/main/packages/espree) parser, which generates an AST compatible with standard JavaScript runtimes and versions.
 
 Custom parsers let ESLint parse non-standard JavaScript syntax.
 Often custom parsers are included as part of shareable configurations or plugins, so you don’t have to use them directly.
