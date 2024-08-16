@@ -66,7 +66,7 @@ Each configuration object contains all of the information ESLint needs to execut
     * `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
     * `sourceType` - The type of JavaScript source code. Possible values are `"script"` for traditional script files, `"module"` for ECMAScript modules (ESM), and `"commonjs"` for CommonJS files. (default: `"module"` for `.js` and `.mjs` files; `"commonjs"` for `.cjs` files)
     * `globals` - An object specifying additional objects that should be added to the global scope during linting.
-    * `parser` - An object containing a `parse()` method or a `parseForESLint()` method. (default: [`espree`](https://github.com/eslint/espree))
+    * `parser` - An object containing a `parse()` method or a `parseForESLint()` method. (default: [`espree`](https://github.com/eslint/js/tree/main/packages/espree))
     * `parserOptions` - An object specifying additional options that are passed directly to the `parse()` or `parseForESLint()` method on the parser. The available options are parser-dependent.
 * `linterOptions` - An object containing settings related to the linting process.
     * `noInlineConfig` - A Boolean value indicating if inline configuration is allowed.

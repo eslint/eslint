@@ -15,7 +15,7 @@ You can use custom parsers to convert JavaScript code into an abstract syntax tr
 
 ## Configure a Custom Parser
 
-In many cases, you can use the [default parser](https://github.com/eslint/espree) that ESLint ships with for parsing your JavaScript code. You can optionally override the default parser by using the `parser` property. The `parser` property must be an object that conforms to the [parser interface](../../extend/custom-parsers). For example, you can use the [`@babel/eslint-parser`](https://www.npmjs.com/package/@babel/eslint-parser) package to allow ESLint to parse experimental syntax:
+In many cases, you can use the [default parser](https://github.com/eslint/js/tree/main/packages/espree) that ESLint ships with for parsing your JavaScript code. You can optionally override the default parser by using the `parser` property. The `parser` property must be an object that conforms to the [parser interface](../../extend/custom-parsers). For example, you can use the [`@babel/eslint-parser`](https://www.npmjs.com/package/@babel/eslint-parser) package to allow ESLint to parse experimental syntax:
 
 ```js
 // eslint.config.js

@@ -45,7 +45,7 @@ The `parseForESLint` method should return an object that contains the required p
 
 * `ast` should contain the [AST](#ast-specification) object.
 * `services` can contain any parser-dependent services (such as type checkers for nodes). The value of the `services` property is available to rules as `context.sourceCode.parserServices`. Default is an empty object.
-* `scopeManager` can be a [ScopeManager](./scope-manager-interface) object. Custom parsers can use customized scope analysis for experimental/enhancement syntaxes. The default is the `ScopeManager` object which is created by [eslint-scope](https://github.com/eslint/eslint-scope).
+* `scopeManager` can be a [ScopeManager](./scope-manager-interface) object. Custom parsers can use customized scope analysis for experimental/enhancement syntaxes. The default is the `ScopeManager` object which is created by [eslint-scope](https://github.com/eslint/js/tree/main/packages/eslint-scope).
     * Support for `scopeManager` was added in ESLint v4.14.0. ESLint versions that support `scopeManager` will provide an `eslintScopeManager: true` property in `parserOptions`, which can be used for feature detection.
 * `visitorKeys` can be an object to customize AST traversal. The keys of the object are the type of AST nodes. Each value is an array of the property names which should be traversed. The default is [KEYS of `eslint-visitor-keys`](https://github.com/eslint/eslint-visitor-keys#evkkeys).
     * Support for `visitorKeys` was added in ESLint v4.14.0. ESLint versions that support `visitorKeys` will provide an `eslintVisitorKeys: true` property in `parserOptions`, which can be used for feature detection.
