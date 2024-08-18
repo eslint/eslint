@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "9.8.0",
+  "version": "9.9.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -70,7 +70,7 @@
     "@eslint-community/regexpp": "^4.11.0",
     "@eslint/config-array": "^0.17.1",
     "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "9.8.0",
+    "@eslint/js": "9.9.0",
     "@humanwhocodes/module-importer": "^1.0.1",
     "@humanwhocodes/retry": "^0.3.0",
     "@nodelib/fs.walk": "^1.2.8",
@@ -104,14 +104,14 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
-    "@eslint/core": "^0.2.0",
-    "@eslint/json": "^0.2.0",
+    "@eslint/core": "^0.3.0",
+    "@eslint/json": "^0.3.0",
     "@types/estree": "^1.0.5",
     "@types/node": "^20.11.5",
-    "@wdio/browser-runner": "^8.38.3",
-    "@wdio/cli": "^8.38.2",
-    "@wdio/concise-reporter": "^8.38.2",
-    "@wdio/mocha-framework": "^8.38.2",
+    "@wdio/browser-runner": "^8.40.1",
+    "@wdio/cli": "^8.40.0",
+    "@wdio/concise-reporter": "^8.39.0",
+    "@wdio/mocha-framework": "^8.40.0",
     "babel-loader": "^8.0.5",
     "c8": "^7.12.0",
     "chai": "^4.0.1",
@@ -132,6 +132,7 @@
     "globals": "^15.0.0",
     "got": "^11.8.3",
     "gray-matter": "^4.0.3",
+    "jiti": "^1.21.6",
     "js-yaml": "^4.1.0",
     "knip": "^5.21.0",
     "lint-staged": "^11.0.0",
@@ -164,6 +165,14 @@
     "webpack": "^5.23.0",
     "webpack-cli": "^4.5.0",
     "yorkie": "^2.0.0"
+  },
+  "peerDependencies": {
+    "jiti": "*"
+  },
+  "peerDependenciesMeta": {
+    "jiti": {
+      "optional": true
+    }
   },
   "keywords": [
     "ast",

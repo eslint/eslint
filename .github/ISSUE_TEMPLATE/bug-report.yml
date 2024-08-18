@@ -62,6 +62,7 @@ body:
   validations:
     required: true
 - type: textarea
+  id: lint-output
   attributes:
     label: What actually happened?
     description: |
@@ -69,6 +70,7 @@ body:
   validations:
     required: true
 - type: input
+  id: repro-url
   attributes:
     label: Link to Minimal Reproducible Example
     description: 'Link to a [playground](https://eslint.org/play), [StackBlitz](https://stackblitz.com), or GitHub repo with a minimal reproduction of the problem. **A minimal reproduction is required** so that others can help debug your issue. If a report is vague (e.g. just a generic error message) and has no reproduction, it may be auto-closed.'
