@@ -1,3 +1,19 @@
+v9.9.0 - August 9, 2024
+
+* [`461b2c3`](https://github.com/eslint/eslint/commit/461b2c35786dc5fd5e146f370bdcafd32938386f) chore: upgrade to `@eslint/js@9.9.0` (#18765) (Francesco Trotta)
+* [`59dba1b`](https://github.com/eslint/eslint/commit/59dba1b3404391f5d968be578f0205569d5d41b2) chore: package.json update for @eslint/js release (Jenkins)
+* [`fea8563`](https://github.com/eslint/eslint/commit/fea8563d3372a663aa7a1a676290c34cfb8452ba) chore: update dependency @eslint/core to ^0.3.0 (#18724) (renovate[bot])
+* [`41d0206`](https://github.com/eslint/eslint/commit/41d02066935b987d2e3b13a08680cc74d7067986) feat: Add support for TS config files (#18134) (Arya Emami)
+* [`aac191e`](https://github.com/eslint/eslint/commit/aac191e6701495666c264f71fc440207ea19251f) chore: update dependency @eslint/json to ^0.3.0 (#18760) (renovate[bot])
+* [`9fe068c`](https://github.com/eslint/eslint/commit/9fe068c60db466277a785434496a8f90a9090bed) docs: how to author plugins with configs that extend other configs (#18753) (Alec Gibson)
+* [`b97fa05`](https://github.com/eslint/eslint/commit/b97fa051375d1a4592faf251c783691d0b0b9ab9) chore: update wdio dependencies for more stable tests (#18759) (Christian Bromann)
+* [`3a4eaf9`](https://github.com/eslint/eslint/commit/3a4eaf921543b1cd5d1df4ea9dec02fab396af2a) feat: add suggestion to `require-await` to remove `async` keyword (#18716) (Dave)
+* [`48117b2`](https://github.com/eslint/eslint/commit/48117b27e98639ffe7e78a230bfad9a93039fb7f) docs: add version support page in the side navbar (#18738) (Amaresh  S M)
+* [`fec2951`](https://github.com/eslint/eslint/commit/fec2951d58c704c57bea7e89ffde119e4dc621e3) docs: add version support page to the dropdown (#18730) (Amaresh  S M)
+* [`38a0661`](https://github.com/eslint/eslint/commit/38a0661872dd6f1db2f53501895c58e8cf4e8064) docs: Fix typo (#18735) (Zaina Al Habash)
+* [`3c32a9e`](https://github.com/eslint/eslint/commit/3c32a9e23c270d83bd8b2649e78aabb76992928e) docs: Update yarn command for creating ESLint config (#18739) (Temitope Ogunleye)
+* [`f9ac978`](https://github.com/eslint/eslint/commit/f9ac978de629c9a702febcf478a743c5ab11fcf6) docs: Update README (GitHub Actions Bot)
+
 v9.8.0 - July 26, 2024
 
 * [`deee448`](https://github.com/eslint/eslint/commit/deee4480def929cfa7f5b75f315d84f23eaba592) chore: upgrade to `@eslint/js@9.8.0` (#18720) (Francesco Trotta)
