@@ -8,7 +8,7 @@
       <h3 class="h6 c-tabs__tabpanel__title">npm</h3>
 
 ```shell
-{{ params.npm }}
+{{ params.npm | safe }}
 ```
 
   </div>
@@ -16,7 +16,7 @@
       <h3 class="h6 c-tabs__tabpanel__title">yarn</h3>
 
 ```shell
-{{ params.yarn }}
+{{ params.yarn | safe }}
 ```
   </div>
 </div>
