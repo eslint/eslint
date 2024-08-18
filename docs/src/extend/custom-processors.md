@@ -183,8 +183,9 @@ export default [
 ];
 ```
 
-Why Both Meta Objects are Needed
-It is recommended that both the plugin and each processor provide their respective meta objects. This ensures that features relying on meta objects, such as --print-config and --cache, work correctly regardless of how the processor is specified in the configuration.
+##### Why Both Meta Objects are Needed
+
+It is recommended that both the plugin and each processor provide their respective meta objects. This ensures that features relying on meta objects, such as `--print-config` and `--cache`, work correctly regardless of how the processor is specified in the configuration.
 
 Example Structure:
 
@@ -215,7 +216,7 @@ export default plugin;
 module.exports = plugin;
 ```
 
-**The `meta` object** helps ESLint cache the processor and provide more friendly debug message. The `meta.name` property should match the processor name and the `meta.version` property should match the npm package version for your processors. The easiest way to accomplish this is by reading this information from your `package.json`.
+The `meta.name` property should match the processor name and the `meta.version` property should match the npm package version for your processors. The easiest way to accomplish this is by reading this information from your `package.json`.
 
 ## Specifying Processor in Config Files
 
