@@ -8,6 +8,8 @@ eleventyNavigation:
 
 ---
 
+{%- from 'components/code-tabs.macro.html' import code_tabs %}
+
 ::: tip
 This page explains how to use flat config files. For the deprecated eslintrc format, [see the deprecated documentation](configuration-files-deprecated).
 :::
@@ -493,9 +495,10 @@ When ESLint is run on the command line, it first checks the current working dire
 
 You can prevent this search for `eslint.config.js` by using the `-c` or `--config` option on the command line to specify an alternate configuration file, such as:
 
-```shell
-npx eslint --config some-other-file.js **/*.js
-```
+{{ code_tabs({
+    npm: "npx eslint --config some-other-file.js **/*.js",
+    yarn: "yarn dlx eslint --config some-other-file.js **/*.js"
+}) }}
 
 In this case, ESLint does not search for `eslint.config.js` and instead uses `some-other-file.js`.
 
@@ -507,9 +510,10 @@ This feature is currently experimental and may change in future versions.
 
 You need to enable this feature through the `unstable_ts_config` feature flag:
 
-```bash
-npx eslint --flag unstable_ts_config
-```
+{{ code_tabs({
+    npm: "npx eslint --flag unstable_ts_config",
+    yarn: "yarn dlx eslint --flag unstable_ts_config"
+}) }}
 
 For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in your project (this dependency is not automatically installed by ESLint):
 
