@@ -7,6 +7,8 @@ eleventyNavigation:
     order: 6
 ---
 
+{%- from 'components/code-tabs.macro.html' import code_tabs %}
+
 ESLint has a very lightweight development environment that makes updating code fast and easy. This is a step-by-step guide to setting up a local development environment that will let you contribute back to the project.
 
 ## Step 1: Install Node.js
@@ -27,10 +29,12 @@ git clone https://github.com/<Your GitHub Username>/eslint
 
 Once you've cloned the repository, run `npm install` to get all the necessary dependencies:
 
-```shell
-cd eslint
-npm install
-```
+{{ code_tabs({
+     npm: "cd eslint
+npm install",
+    yarn: "cd eslint
+yarn install"
+}) }}
 
 You must be connected to the Internet for this step to work. You'll see a lot of utilities being downloaded.
 
@@ -52,15 +56,17 @@ Now, the remote `upstream` points to the upstream source.
 
 [Yeoman](https://yeoman.io) is a scaffold generator that ESLint uses to help streamline development of new rules. If you don't already have Yeoman installed, you can install it via npm:
 
-```shell
-npm install -g yo
-```
+{{ code_tabs({
+     npm: "npm install -g yo",
+    yarn: "yarn global add yo"
+}) }}
 
 Then, you can install the ESLint Yeoman generator:
 
-```shell
-npm install -g generator-eslint
-```
+{{ code_tabs({
+     npm: "npm install -g generator-eslint",
+    yarn: "yarn global add generator-eslint"
+}) }}
 
 Please see the [generator documentation](https://github.com/eslint/generator-eslint) for instructions on how to use it.
 
@@ -68,9 +74,10 @@ Please see the [generator documentation](https://github.com/eslint/generator-esl
 
 Running the tests is the best way to ensure you have correctly set up your development environment. Make sure you're in the `eslint` directory and run:
 
-```shell
-npm test
-```
+{{ code_tabs({
+     npm: "npm test",
+    yarn: "yarn test"
+}) }}
 
 The testing takes a few minutes to complete. If any tests fail, that likely means one or more parts of the environment setup didn't complete correctly. The upstream tests always pass.
 
