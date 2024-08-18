@@ -8,6 +8,8 @@ eleventyNavigation:
 edit_link: https://github.com/eslint/eslint/edit/main/templates/formatter-examples.md.ejs
 ---
 
+{%- from 'components/code-tabs.macro.html' import code_tabs %}
+
 ESLint comes with several built-in formatters to control the appearance of the linting results, and supports third-party formatters as well.
 
 You can specify a formatter using the `--format` or `-f` flag in the CLI. For example, `--format json` uses the `json` formatter.
@@ -52,9 +54,10 @@ function addOne(i) {
 
 Tests the formatters with the CLI:
 
-```shell
-npx eslint --format <Add formatter here> fullOfProblems.js
-```
+{{ code_tabs({
+    npm: "npx eslint --format <Add formatter here> fullOfProblems.js",
+    yarn: "yarn dlx eslint --format <Add formatter here> fullOfProblems.js"
+}) }}
 
 ## Built-In Formatter Options
 
