@@ -249,6 +249,29 @@ export default [
 ];
 ```
 
+## Specify a Language
+
+Plugins may provide languages. Languages allow ESLint to lint programming languages besides JavaScript. To specify a language in a [configuration file](./configuration-files#configuration-file), use the `language` key and assign the name of language in the format `namespace/language-name`. For example, the following uses the `json/jsonc` language from `@eslint/json` for `*.json` files.
+
+```js
+// eslint.config.js
+import json from "@eslint/json";
+
+export default [
+    {
+        files: ["**/*.json"],
+        plugins: {
+            json
+        },
+        language: "json/jsonc"
+    }
+];
+```
+
+::: tip
+When you specify a `language` in a config object, `languageOptions` becomes specific to that language. Each language defines its own `languageOptions`, so check the documentation of the plugin to determine which options are available.
+:::
+
 ## Common Problems
 
 * [Plugin rules using the ESLint < v9.0.0 API](../troubleshooting/v9-rule-api-changes)
