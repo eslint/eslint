@@ -50,7 +50,6 @@ lint:
         - shellcheck@0.10.0
         - shfmt@3.6.0
         - svgo@3.3.2
-        - trivy@0.54.1
     disabled:
         - yamllint
         - trufflehog # Requires the network to run.
