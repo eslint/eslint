@@ -1,0 +1,70 @@
+# This file controls the behavior of Trunk: https://docs.trunk.io/cli
+# To learn more about the format of this file, see https://docs.trunk.io/reference/trunk-yaml
+version: 0.1
+cli:
+    version: 1.22.3
+
+repo:
+  trunk_remote_hint: github.com/eslint/eslint
+
+# Trunk provides extensibility via plugins. (https://docs.trunk.io/plugins)
+plugins:
+    sources:
+        - id: trunk
+          uri: https://github.com/trunk-io/plugins
+          ref: v1.6.1
+
+# Many linters and tools depend on runtimes - configure them here. (https://docs.trunk.io/runtimes)
+runtimes:
+    enabled:
+        - go@1.21.0
+        - node@18.18.0
+        - python@3.10.8
+tools:
+    enabled:
+        - gh@2.54.0
+
+# This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
+lint:
+    definitions:
+        - name: eslint
+          files: [typescript, javascript, yaml] # Add YAML to default files.
+          hold_the_line: false
+          commands:
+              - name: lint
+                disable_upstream: true
+                run: node ${workspace}/bin/eslint.js --output-file ${tmpfile} --format json ${target}
+        - name: checkov
+          supported_platforms: [linux, macos]
+        - name: renovate
+          supported_platforms: [linux, macos]
+    enabled:
+        - taplo@0.9.3
+        - eslint
+        - actionlint@1.7.1
+        - checkov@3.2.228
+        - markdownlint@0.41.0
+        - oxipng@9.1.2
+        - prettier@3.3.3
+        - renovate@38.37.1
+        - shellcheck@0.10.0
+        - shfmt@3.6.0
+        - svgo@3.3.2
+    disabled:
+        - yamllint
+        - trufflehog # Requires the network to run.
+    ignore:
+        - linters: [markdownlint]
+          paths:
+              - CHANGELOG.md
+        - linters: [prettier]
+          paths:
+              - "**" # Ignore all files
+              - "!conf/**/*.json" # Except for json files in conf/
+actions:
+    disabled:
+        - trunk-announce
+        - trunk-check-pre-push
+        - trunk-fmt-pre-commit
+    enabled:
+        - trunk-upgrade-available
