@@ -130,4 +130,4 @@ export default [
 ];
 ```
 
-See [Specify a Language](../../use/configure/plugins#specify-a-Language) in the Plugin Configuration documentation for more details.
+See [Specify a Language](../use/configure/plugins#specify-a-language) in the Plugin Configuration documentation for more details.
