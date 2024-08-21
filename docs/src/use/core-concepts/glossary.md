@@ -293,7 +293,7 @@ For more information, refer to [Configure Plugins](../configure/plugins).
 
 A part of a plugin that extracts JavaScript code from other kinds of files, then lets ESLint lint the JavaScript code.
 
-For example, [`eslint-plugin-markdown`](https://github.com/eslint/eslint-plugin-markdown) includes a processor that converts the text of <code>```</code> code blocks in Markdown files into code that can be linted.
+For example, [`@eslint/markdown`](https://github.com/eslint/markdown) includes a processor that converts the text of <code>```</code> code blocks in Markdown files into code that can be linted.
 
 For more information on configuring processor, see [Plugins > Specify a Processor](../configure/plugins#specify-a-processor).
 

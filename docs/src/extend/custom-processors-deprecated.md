@@ -6,7 +6,7 @@ title: Custom Processors (Deprecated)
 This documentation is for custom processors using the deprecated eslintrc configuration format. [View the updated documentation](custom-processors).
 :::
 
-You can also create custom processors that tell ESLint how to process files other than standard JavaScript. For example, you could write a custom processor to extract and process JavaScript from Markdown files ([eslint-plugin-markdown](https://www.npmjs.com/package/eslint-plugin-markdown) includes a custom processor for this).
+You can also create custom processors that tell ESLint how to process files other than standard JavaScript. For example, you could write a custom processor to extract and process JavaScript from Markdown files ([@eslint/markdown](https://www.npmjs.com/package/@eslint/markdown) includes a custom processor for this).
 
 ## Custom Processor Specification
 

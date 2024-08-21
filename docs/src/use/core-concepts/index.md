@@ -74,7 +74,7 @@ For example, [@typescript-eslint/parser](https://www.npmjs.com/package/@typescri
 
 An ESLint processor extracts JavaScript code from other kinds of files, then lets ESLint lint the JavaScript code. Alternatively, you can use a processor to manipulate JavaScript code before parsing it with ESLint.
 
-For example, [eslint-plugin-markdown](https://github.com/eslint/eslint-plugin-markdown) contains a custom processor that lets you lint JavaScript code inside of Markdown code blocks.
+For example, [@eslint/markdown](https://github.com/eslint/markdown) contains a custom processor that lets you lint JavaScript code inside of Markdown code blocks.
 
 ## Formatters
 

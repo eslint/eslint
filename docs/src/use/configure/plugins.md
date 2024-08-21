@@ -162,11 +162,11 @@ This configuration object uses `jsd` as the prefix plugin instead of `jsdoc`.
 
 Plugins may provide processors. Processors can extract JavaScript code from other kinds of files, then let ESLint lint the JavaScript code. Alternatively, processors can convert JavaScript code during preprocessing.
 
-To specify processors in a [configuration file](./configuration-files#configuration-file), use the `processor` key and assign the name of processor in the format `namespace/processor-name`. For example, the following uses the processor from `eslint-plugin-markdown` for `*.md` files.
+To specify processors in a [configuration file](./configuration-files#configuration-file), use the `processor` key and assign the name of processor in the format `namespace/processor-name`. For example, the following uses the processor from `@eslint/markdown` for `*.md` files.
 
 ```js
 // eslint.config.js
-import markdown from "eslint-plugin-markdown";
+import markdown from "@eslint/markdown";
 
 export default [
     {
@@ -183,7 +183,7 @@ Processors may make named code blocks such as `0.js` and `1.js`. ESLint handles 
 
 ```js
 // eslint.config.js
-import markdown from "eslint-plugin-markdown";
+import markdown from "@eslint/markdown";
 
 export default [
 
@@ -217,7 +217,7 @@ ESLint only lints named code blocks when they are JavaScript files or if they ma
 
 ```js
 // eslint.config.js
-import markdown from "eslint-plugin-markdown";
+import markdown from "@eslint/markdown";
 
 export default [
 
