@@ -74,7 +74,7 @@ A basic `Language` object must implement the following:
 * `lineStart` - either 0 or 1 to indicate how the AST represents the first line in the file. ESLint uses this to correctly display error locations.
 * `columnStart` - either 0 or 1 to indicate how the AST represents the first column in the file. ESLint uses this to correctly display error locations.
 * `nodeTypeKey` - the name of the property that indicates the node type (usually `"type"` or `"kind"`).
-* `validateLanguageOptions(languageOptions)` - validates language options for the language. This method is expected to throw a validation error when an expected language option doesn't have the correct type or value. Unexpected language options should be silently ignored and no error should be thrown. This method is required eve if the language doesn't specify any options.
+* `validateLanguageOptions(languageOptions)` - validates language options for the language. This method is expected to throw a validation error when an expected language option doesn't have the correct type or value. Unexpected language options should be silently ignored and no error should be thrown. This method is required even if the language doesn't specify any options.
 * `parse(file, context)` - parses the given file into an AST or CST, and can also include additional values meant for use in rules. Called internally by ESLint.
 * `createSourceCode(file, parseResult, context)` - creates a `SourceCode` object. Call internally by ESLint after `parse()`, and the second argument is the exact return value from `parse()`.
 
