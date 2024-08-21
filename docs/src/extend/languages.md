@@ -80,7 +80,7 @@ A basic `Language` object must implement the following:
 
 The following optional members allow you to customize how ESLint interacts with the object:
 
-* `visitorKeys` - visitor keys that are specific the AST or CST. This is used to optimize traversal of the AST or CST inside of ESLint. While not required, it is strongly recommended, especially for AST or CST formats that deviate significantly from ESTree format.
+* `visitorKeys` - visitor keys that are specific to the AST or CST. This is used to optimize traversal of the AST or CST inside of ESLint. While not required, it is strongly recommended, especially for AST or CST formats that deviate significantly from ESTree format.
 * `matchesSelectorClass(className, node, ancestry)` - allows you to specify selector classes, such as `:expression`, that match more than one node. This method is called whenever an [esquery](https://github.com/estools/esquery) selector contains a `:` followed by an identifier.
 
 See [`JSONLanguage`](https://github.com/eslint/json/blob/main/src/languages/json-language.js) as an example of a basic `Language` class.
