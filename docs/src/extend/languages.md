@@ -14,7 +14,7 @@ Starting with ESLint v9.7.0, you can extend ESLint with additional languages thr
 
 In order to create a language, you need:
 
-1. **A parser.** The parser is the piece that converts plain text into an data structure. There is no specific format that ESLint requires the data structure to be in, so you can use any already-existing parser, or write your own.
+1. **A parser.** The parser is the piece that converts plain text into a data structure. There is no specific format that ESLint requires the data structure to be in, so you can use any already-existing parser, or write your own.
 1. **A `SourceCode` object.** The way ESLint works with an AST is through a `SourceCode` object. There are some required methods on each `SourceCode`, and you can also add more methods or properties that you'd like to expose to rules.
 1. **A `Language` object.** The `Language` object contains information about the language itself along with methods for parsing and creating the `SourceCode` object.
 
