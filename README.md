@@ -54,7 +54,7 @@ npm init @eslint/config@latest
 After that, you can run ESLint on any file or directory like this:
 
 ```shell
-./node_modules/.bin/eslint yourfile.js
+npx eslint yourfile.js
 ```
 
 ## Configuration
@@ -62,11 +62,18 @@ After that, you can run ESLint on any file or directory like this:
 After running `npm init @eslint/config`, you'll have an `eslint.config.js` (or `eslint.config.mjs`) file in your directory. In it, you'll see some rules configured like this:
 
 ```js
-import pluginJs from "@eslint/js";
-export default [ pluginJs.configs.recommended, ];
+export default [
+    {
+        files: ["**/*.js", "**/*.cjs", "**/*.mjs"],
+        rules: {
+            "prefer-const": "warn",
+            "no-constant-binary-expression": "error"
+        }
+    }
+];
 ```
 
-The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/docs/rules) in ESLint. The first value is the error level of the rule and can be one of these values:
+The names `"prefer-const"` and `"no-constant-binary-expression"` are the names of [rules](https://eslint.org/docs/rules) in ESLint. The first value is the error level of the rule and can be one of these values:
 
 * `"off"` or `0` - turn the rule off
 * `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
@@ -74,9 +81,17 @@ The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/do
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](https://eslint.org/docs/latest/use/configure)).
 
+## Version Support
+
+The ESLint team provides ongoing support for the current version and six months of limited support for the previous version. Limited support includes critical bug fixes, security issues, and compatibility issues only.
+
+ESLint offers commercial support for both current and previous versions through our partners, [Tidelift][tidelift] and [HeroDevs][herodevs].
+
+See [Version Support](https://eslint.org/version-support) for more details.
+
 ## Code of Conduct
 
-ESLint adheres to the [JS Foundation Code of Conduct](https://eslint.org/conduct).
+ESLint adheres to the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct).
 
 ## Filing Issues
 
@@ -89,27 +104,13 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 
 ## Frequently Asked Questions
 
-### I'm using JSCS, should I migrate to ESLint?
+### Does ESLint support JSX?
 
-Yes. [JSCS has reached end of life](https://eslint.org/blog/2016/07/jscs-end-of-life) and is no longer supported.
-
-We have prepared a [migration guide](https://eslint.org/docs/latest/use/migrating-from-jscs) to help you convert your JSCS settings to an ESLint configuration.
-
-We are now at or near 100% compatibility with JSCS. If you try ESLint and believe we are not yet compatible with a JSCS rule/configuration, please create an issue (mentioning that it is a JSCS compatibility issue) and we will evaluate it as per our normal process.
+Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](https://eslint.org/docs/latest/use/configure)). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
 
 ### Does Prettier replace ESLint?
 
 No, ESLint and Prettier have different jobs: ESLint is a linter (looking for problematic patterns) and Prettier is a code formatter. Using both tools is common, refer to [Prettier's documentation](https://prettier.io/docs/en/install#eslint-and-other-linters) to learn how to configure them to work well with each other.
-
-### Why can't ESLint find my plugins?
-
-* Make sure your plugins (and ESLint) are both in your project's `package.json` as devDependencies (or dependencies, if your project uses ESLint at runtime).
-* Make sure you have run `npm install` and all your dependencies are installed.
-* Make sure your plugins' peerDependencies have been installed as well. You can use `npm view eslint-plugin-myplugin peerDependencies` to see what peer dependencies `eslint-plugin-myplugin` has.
-
-### Does ESLint support JSX?
-
-Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](https://eslint.org/docs/latest/use/configure)). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
 
 ### What ECMAScript versions does ESLint support?
 
@@ -304,3 +305,6 @@ The following companies, organizations, and individuals support ESLint's ongoing
 <h2>Technology Sponsors</h2>
 <p><a href="https://netlify.com"><img src="https://raw.githubusercontent.com/eslint/eslint.org/main/src/assets/images/techsponsors/netlify-icon.svg" alt="Netlify" height="32"></a> <a href="https://algolia.com"><img src="https://raw.githubusercontent.com/eslint/eslint.org/main/src/assets/images/techsponsors/algolia-icon.svg" alt="Algolia" height="32"></a> <a href="https://1password.com"><img src="https://raw.githubusercontent.com/eslint/eslint.org/main/src/assets/images/techsponsors/1password-icon.svg" alt="1Password" height="32"></a></p>
 <!--techsponsorsend-->
+
+[tidelift]: https://tidelift.com/funding/github/npm/eslint
+[herodevs]: https://www.herodevs.com/support/eslint-nes?utm_source=ESLintWebsite&utm_medium=ESLintWebsite&utm_campaign=ESLintNES&utm_id=ESLintNES
