@@ -101,7 +101,7 @@ const plugin = {
     },
     languages: {
         my: myLanguage
-    }
+    },
     rules: {
         // add rules here
     }
