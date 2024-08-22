@@ -1,11 +1,10 @@
----
+
 title: Configure Language Options
 eleventyNavigation:
     key: configure language options
     parent: configure
     title: Configure Language Options
     order: 2
----
 
 ::: tip
 This page explains how to configure language options using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](language-options-deprecated).
