@@ -37,6 +37,7 @@ const INTERNAL_FILES = Object.fromEntries(
 );
 
 const ALL_JS_FILES = "**/*.js";
+const ALL_YAML_FILES = "**/*.y?(a)ml";
 
 /**
  * Resolve an absolute path or glob pattern.
@@ -274,5 +275,8 @@ module.exports = [
             ]]
         }
     },
-    ...eslintPluginYml.configs["flat/recommended"]
+    ...eslintPluginYml.configs["flat/recommended"].map(config => ({
+        ...config,
+        files: [ALL_YAML_FILES]
+    }))
 ];
