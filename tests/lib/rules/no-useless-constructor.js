@@ -47,48 +47,93 @@ ruleTester.run("no-useless-constructor", rule, {
     invalid: [
         {
             code: "class A { constructor(){} }",
-            output: "class A {  }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "noUselessConstructor",
+                    output: "class A {  }"
+                }]
+            }]
         },
         {
             code: "class A { 'constructor'(){} }",
-            output: "class A {  }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "noUselessConstructor",
+                    output: "class A {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B { constructor() { super(); } }",
-            output: "class A extends B {  }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "noUselessConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B { constructor(foo){ super(foo); } }",
-            output: "class A extends B {  }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "noUselessConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B { constructor(foo, bar){ super(foo, bar); } }",
-            output: "class A extends B {  }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "noUselessConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B { constructor(...args){ super(...args); } }",
-            output: "class A extends B {  }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "noUselessConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B.C { constructor() { super(...arguments); } }",
-            output: "class A extends B.C {  }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "noUselessConstructor",
+                    output: "class A extends B.C {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B { constructor(a, b, ...c) { super(...arguments); } }",
-            output: "class A extends B {  }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "noUselessConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B { constructor(a, b, ...c) { super(a, b, ...c); } }",
-            output: "class A extends B {  }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "noUselessConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
         }
     ]
 });

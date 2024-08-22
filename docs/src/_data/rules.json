@@ -1134,8 +1134,8 @@
                 "name": "no-useless-constructor",
                 "description": "Disallow unnecessary constructors",
                 "recommended": false,
-                "fixable": true,
-                "hasSuggestions": false
+                "fixable": false,
+                "hasSuggestions": true
             },
             {
                 "name": "no-useless-escape",
