@@ -28,18 +28,19 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 ## Table of Contents
 
 1. [Installation and Usage](#installation-and-usage)
-2. [Configuration](#configuration)
-3. [Code of Conduct](#code-of-conduct)
-4. [Filing Issues](#filing-issues)
-5. [Frequently Asked Questions](#frequently-asked-questions)
-6. [Releases](#releases)
-7. [Security Policy](#security-policy)
-8. [Semantic Versioning Policy](#semantic-versioning-policy)
-9. [Stylistic Rule Updates](#stylistic-rule-updates)
-10. [License](#license)
-11. [Team](#team)
-12. [Sponsors](#sponsors)
-13. [Technology Sponsors](#technology-sponsors) <!-- markdownlint-disable-line MD051 -->
+1. [Configuration](#configuration)
+1. [Version Support](#version-support)
+1. [Code of Conduct](#code-of-conduct)
+1. [Filing Issues](#filing-issues)
+1. [Frequently Asked Questions](#frequently-asked-questions)
+1. [Releases](#releases)
+1. [Security Policy](#security-policy)
+1. [Semantic Versioning Policy](#semantic-versioning-policy)
+1. [Stylistic Rule Updates](#stylistic-rule-updates)
+1. [License](#license)
+1. [Team](#team)
+1. [Sponsors](#sponsors)
+1. [Technology Sponsors](#technology-sponsors) <!-- markdownlint-disable-line MD051 -->
 
 ## Installation and Usage
 
@@ -59,7 +60,7 @@ npx eslint yourfile.js
 
 ## Configuration
 
-After running `npm init @eslint/config`, you'll have an `eslint.config.js` (or `eslint.config.mjs`) file in your directory. In it, you'll see some rules configured like this:
+You can configure rules in your `eslint.config.js` files as in this example:
 
 ```js
 export default [
