@@ -314,6 +314,7 @@ For example, here's an eslintrc file with language options:
 module.exports = {
     env: {
         browser: true,
+        node: true
     },
     globals: {
         myCustomGlobal: "readonly",
