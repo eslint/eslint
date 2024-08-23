@@ -1,3 +1,24 @@
+v9.9.1 - August 23, 2024
+
+* [`b0c34d0`](https://github.com/eslint/eslint/commit/b0c34d04b1ac1e56609209db2f9b18a6c05a198d) chore: upgrade to @eslint/js@9.9.1 (#18809) (Francesco Trotta)
+* [`cd5a0da`](https://github.com/eslint/eslint/commit/cd5a0daa24b7ab019c42d64da478c84cc4d32c34) chore: package.json update for @eslint/js release (Jenkins)
+* [`4840930`](https://github.com/eslint/eslint/commit/4840930b9d8b6aa3578fe234180425e9060ceeca) docs: Update README with version support and clean up content (#18804) (Nicholas C. Zakas)
+* [`f61f40d`](https://github.com/eslint/eslint/commit/f61f40d8a68b27ad1ff96c019ac41d4e958961a4) docs: Update globals examples (#18805) (Nicholas C. Zakas)
+* [`e112642`](https://github.com/eslint/eslint/commit/e1126423db08a29a6cdf39626110fd29186785f0) refactor: Extract parsing logic from Linter (#18790) (Nicholas C. Zakas)
+* [`241fcea`](https://github.com/eslint/eslint/commit/241fcea48abe1c63f22b31be4bd75b6039768a85) docs: Use and define languages (#18795) (Nicholas C. Zakas)
+* [`0f68a85`](https://github.com/eslint/eslint/commit/0f68a851db4db4eb6ff537345e7d6c26434950f1) chore: use eslint-plugin-yml on yaml files only (#18801) (Milos Djermanovic)
+* [`5dbdd63`](https://github.com/eslint/eslint/commit/5dbdd63dc83428447e25f1fc1d05d8a69e3b006a) docs: eslint-plugin-markdown -> @eslint/markdown (#18797) (Nicholas C. Zakas)
+* [`c6c8ddd`](https://github.com/eslint/eslint/commit/c6c8ddd3130bbfec98ef817e4647faf19b34c85c) docs: update links to eslint-visitor-keys repo (#18796) (Francesco Trotta)
+* [`f8d1b3c`](https://github.com/eslint/eslint/commit/f8d1b3c2324cdada4fe1d8799f4f517c1585a001) chore: update dependencies for browser tests (#18794) (Christian Bromann)
+* [`aed2624`](https://github.com/eslint/eslint/commit/aed262407918406c19d43b8d54070fa93508782b) chore: update dependency @eslint/config-array to ^0.18.0 (#18788) (renovate[bot])
+* [`5c29128`](https://github.com/eslint/eslint/commit/5c291283dc29dcfdae585d9878e0fb8ab0d68c43) chore: update dependency @eslint/core to ^0.4.0 (#18789) (renovate[bot])
+* [`5d66fb2`](https://github.com/eslint/eslint/commit/5d66fb2b53ded440180feef526b1211673c40e88) chore: migrate linting workflow to use trunk check meta-linter (#18643) (Chris Clearwater)
+* [`f981d05`](https://github.com/eslint/eslint/commit/f981d054ed935ef9844b6f76d4ce90ebb345b66f) docs: Update README (GitHub Actions Bot)
+* [`b516974`](https://github.com/eslint/eslint/commit/b516974713ada28c75f1e21599fc0cec13a8b321) docs: update links to `eslint/js` repo (#18781) (Francesco Trotta)
+* [`fb7a3f5`](https://github.com/eslint/eslint/commit/fb7a3f5df5f661bcd96e483558da66eafeb4b954) docs: update note for package managers (#18779) (Jay)
+* [`bf96855`](https://github.com/eslint/eslint/commit/bf96855d7c181648cb0a0e8faf77d707ddd4725f) chore: add ids to github issue templates (#18775) (Strek)
+* [`9bde90c`](https://github.com/eslint/eslint/commit/9bde90c2edb6800c7f6428c5550ff00fff44ab02) fix: add logic to handle `fixTypes` in `lintText()` (#18736) (Amaresh  S M)
+
 v9.9.0 - August 9, 2024
 
 * [`461b2c3`](https://github.com/eslint/eslint/commit/461b2c35786dc5fd5e146f370bdcafd32938386f) chore: upgrade to `@eslint/js@9.9.0` (#18765) (Francesco Trotta)
