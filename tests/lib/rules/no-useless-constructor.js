@@ -50,7 +50,7 @@ ruleTester.run("no-useless-constructor", rule, {
             errors: [{
                 ...error,
                 suggestions: [{
-                    messageId: "noUselessConstructor",
+                    messageId: "removeConstructor",
                     output: "class A {  }"
                 }]
             }]
@@ -60,7 +60,7 @@ ruleTester.run("no-useless-constructor", rule, {
             errors: [{
                 ...error,
                 suggestions: [{
-                    messageId: "noUselessConstructor",
+                    messageId: "removeConstructor",
                     output: "class A {  }"
                 }]
             }]
@@ -70,7 +70,7 @@ ruleTester.run("no-useless-constructor", rule, {
             errors: [{
                 ...error,
                 suggestions: [{
-                    messageId: "noUselessConstructor",
+                    messageId: "removeConstructor",
                     output: "class A extends B {  }"
                 }]
             }]
@@ -80,7 +80,7 @@ ruleTester.run("no-useless-constructor", rule, {
             errors: [{
                 ...error,
                 suggestions: [{
-                    messageId: "noUselessConstructor",
+                    messageId: "removeConstructor",
                     output: "class A extends B {  }"
                 }]
             }]
@@ -90,7 +90,7 @@ ruleTester.run("no-useless-constructor", rule, {
             errors: [{
                 ...error,
                 suggestions: [{
-                    messageId: "noUselessConstructor",
+                    messageId: "removeConstructor",
                     output: "class A extends B {  }"
                 }]
             }]
@@ -100,7 +100,7 @@ ruleTester.run("no-useless-constructor", rule, {
             errors: [{
                 ...error,
                 suggestions: [{
-                    messageId: "noUselessConstructor",
+                    messageId: "removeConstructor",
                     output: "class A extends B {  }"
                 }]
             }]
@@ -110,7 +110,7 @@ ruleTester.run("no-useless-constructor", rule, {
             errors: [{
                 ...error,
                 suggestions: [{
-                    messageId: "noUselessConstructor",
+                    messageId: "removeConstructor",
                     output: "class A extends B.C {  }"
                 }]
             }]
@@ -120,7 +120,7 @@ ruleTester.run("no-useless-constructor", rule, {
             errors: [{
                 ...error,
                 suggestions: [{
-                    messageId: "noUselessConstructor",
+                    messageId: "removeConstructor",
                     output: "class A extends B {  }"
                 }]
             }]
@@ -130,7 +130,7 @@ ruleTester.run("no-useless-constructor", rule, {
             errors: [{
                 ...error,
                 suggestions: [{
-                    messageId: "noUselessConstructor",
+                    messageId: "removeConstructor",
                     output: "class A extends B {  }"
                 }]
             }]
