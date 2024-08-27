@@ -9,6 +9,7 @@ body:
   attributes:
     value: By opening an issue, you agree to abide by the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct).
 - type: textarea
+  id: environment
   attributes:
     label: Environment
     description: |
@@ -22,6 +23,7 @@ body:
   validations:
     required: true
 - type: dropdown
+  id: parser
   attributes:
     label: What parser are you using?
     description: |
@@ -86,6 +88,7 @@ body:
       - label: I am willing to submit a pull request for this issue.
         required: false
 - type: textarea
+  id: comments
   attributes:
     label: Additional comments
     description: Is there anything else that's important for the team to know?
