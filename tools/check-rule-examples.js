@@ -137,7 +137,9 @@ async function findProblems(filename) {
                         problems.push({
                             fatal: true,
                             severity: 2,
-                            message: parseError.message,
+
+                            // slice off environment-specific JSON parsing error message
+                            message: parseError.message.slice(0, parseError.message.lastIndexOf(":")),
                             line: comment.loc.start.line + codeBlockToken.map[0] + 1,
                             column: comment.loc.start.column + 1
                         });
