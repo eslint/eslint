@@ -65,7 +65,7 @@ describe("check-rule-examples", () => {
                     .replace(/(?<=\x1B\[4m).*(?=bad-examples\.md)/u, "")
 
                     // Remove runtime-specific error message part (different in Node.js 18, 20 and 21).
-                    .replace(/(?<=' doesn't allow this comment'):.*(?=\x1B\[0m)/u, "");
+                    .replace(/(?<='doesn't allow this comment'):.*(?=\x1B\[0m)/u, "");
 
                 /* eslint-enable no-control-regex -- re-enable rule */
 
