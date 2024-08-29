@@ -7080,7 +7080,7 @@ var a = "test2";
                 assert.deepStrictEqual(preprocess.args[0], [code, filename]);
             });
 
-            it.only("should receive text even if a SourceCode object was given (with BOM).", () => {
+            it("should receive text even if a SourceCode object was given (with BOM).", () => {
                 const code = "\uFEFFfoo";
                 const preprocess = sinon.spy(text => text.split(" "));
 
@@ -16034,7 +16034,7 @@ var a = "test2";
             receivedPhysicalFilenames = [];
         });
 
-        describe.only("preprocessors", () => {
+        describe("preprocessors", () => {
             it("should receive text and filename.", () => {
                 const code = "foo bar baz";
                 const preprocess = sinon.spy(text => text.split(" "));
@@ -16211,7 +16211,7 @@ var a = "test2";
             });
         });
 
-        describe.only("postprocessors", () => {
+        describe("postprocessors", () => {
             it("should receive result and filename.", () => {
                 const code = "foo bar baz";
                 const preprocess = sinon.spy(text => text.split(" "));
