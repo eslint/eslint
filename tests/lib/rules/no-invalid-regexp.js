@@ -223,6 +223,15 @@ ruleTester.run("no-invalid-regexp", rule, {
             }]
         },
         {
+            code: "new RegExp('.', 'aa');",
+            options: [{ allowConstructorFlags: ["a", "a"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'aa'" },
+                type: "NewExpression"
+            }]
+        },
+        {
             code: "new RegExp('.', 'aA');",
             options: [{ allowConstructorFlags: ["a"] }],
             errors: [{
