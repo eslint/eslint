@@ -613,7 +613,7 @@ ruleTester.run("no-unused-vars", rule, {
                 assignedError("a", [{ output: "function f() {  return function(){ f(a = 2); }; }", messageId: "removeVar", data: { varName: "a" } }])
             ]
         },
-        { code: "import x from \"y\";", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("x", [{ output: "", messageId: "removeVar", data: { varName: "x" } }])] },
+        { code: "import x from \"y\";", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("x", [{ output: "import \"y\";", messageId: "removeVar", data: { varName: "x" } }])] },
         { code: "export function fn2({ x, y }) {\n console.log(x); \n};", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y", [{ output: "export function fn2({ x }) {\n console.log(x); \n};", messageId: "removeVar", data: { varName: "y" } }])] },
         { code: "export function fn2( x, y ) {\n console.log(x); \n};", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y", [{ output: "export function fn2( x ) {\n console.log(x); \n};", messageId: "removeVar", data: { varName: "y" } }])] },
 
@@ -2417,12 +2417,12 @@ try {
         {
             code: "import a from 'module';",
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [definedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }])]
+            errors: [definedError("a", [{ output: "import 'module';", messageId: "removeVar", data: { varName: "a" } }])]
         },
         {
-            code: "import * as foo from 'module'",
+            code: "import * as foo from 'module';",
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [definedError("foo", [{ output: "", messageId: "removeVar", data: { varName: "foo" } }])]
+            errors: [definedError("foo", [{ output: "import 'module';", messageId: "removeVar", data: { varName: "foo" } }])]
         },
         {
             code: "import a, * as foo from 'module'; a();",
@@ -2488,6 +2488,11 @@ try {
             code: "array.forEach(a => {})",
             languageOptions: { ecmaVersion: 6 },
             errors: [definedError("a", [{ output: "array.forEach(() => {})", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "if (foo()) var bar;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [definedError("bar", [{ output: "if (foo());", messageId: "removeVar", data: { varName: "bar" } }])]
         }
     ]
 });
