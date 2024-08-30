@@ -218,7 +218,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["a"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Invalid flags supplied to RegExp constructor 'a'" },
+                data: { message: "Invalid flags supplied to RegExp constructor 'aa'" },
                 type: "NewExpression"
             }]
         },
@@ -236,7 +236,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["a", "z"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Invalid flags supplied to RegExp constructor 'a'" },
+                data: { message: "Invalid flags supplied to RegExp constructor 'aa'" },
                 type: "NewExpression"
             }]
         },
@@ -245,7 +245,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["a", "z"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Invalid flags supplied to RegExp constructor 'z'" },
+                data: { message: "Invalid flags supplied to RegExp constructor 'zz'" },
                 type: "NewExpression"
             }]
         },
@@ -254,7 +254,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["a"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Invalid flags supplied to RegExp constructor 'a'" },
+                data: { message: "Invalid flags supplied to RegExp constructor 'aa'" },
                 type: "NewExpression"
             }]
         },
@@ -263,7 +263,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["u"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Invalid flags supplied to RegExp constructor 'u'" },
+                data: { message: "Invalid flags supplied to RegExp constructor 'uu'" },
                 type: "NewExpression"
             }]
         },
