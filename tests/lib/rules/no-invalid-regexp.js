@@ -214,6 +214,69 @@ ruleTester.run("no-invalid-regexp", rule, {
             }]
         },
         {
+            code: "new RegExp('.', 'aa');",
+            options: [{ allowConstructorFlags: ["a"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'aa'" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('.', 'aa');",
+            options: [{ allowConstructorFlags: ["a", "a"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'aa'" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('.', 'aA');",
+            options: [{ allowConstructorFlags: ["a"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'A'" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('.', 'aaz');",
+            options: [{ allowConstructorFlags: ["a", "z"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'aa'" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('.', 'azz');",
+            options: [{ allowConstructorFlags: ["a", "z"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'zz'" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('.', 'aga');",
+            options: [{ allowConstructorFlags: ["a"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'aa'" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('.', 'uu');",
+            options: [{ allowConstructorFlags: ["u"] }],
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid flags supplied to RegExp constructor 'uu'" },
+                type: "NewExpression"
+            }]
+        },
+        {
             code: "new RegExp(')');",
             errors: [{
                 messageId: "regexMessage",
