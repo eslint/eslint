@@ -98,6 +98,12 @@ function i(flags) {
 
 :::
 
+## Options
+
+This rule has one object option:
+
+* `"requireFlag": "u"|"v"` requires a particular Unicode regex flag
+
 ## When Not To Use It
 
 If you don't want to warn on regular expressions without either a `u` or a `v` flag, then it's safe to disable this rule.
