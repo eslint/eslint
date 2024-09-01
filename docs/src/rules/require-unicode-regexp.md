@@ -129,7 +129,7 @@ Examples of **correct** code for this rule with the `{ "requireFlag": "u" }` opt
 :::correct
 
 ```js
-/*eslint require-unicode-regexp: ["error", {requireFlag: "u"}] */
+/*eslint require-unicode-regexp: ["error", { "requireFlag": "u" }] */
 
 const foo = /foo/u;
 
