@@ -168,9 +168,6 @@ Examples of **correct** code for this rule with the `{ "requireFlag": "v" }` opt
 const foo = /foo/v;
 
 const fooRegexp = new RegExp('foo', 'v');
-
-const fooFlags = "/foo/gimvy";
-
 ```
 
 :::
