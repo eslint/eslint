@@ -111,7 +111,7 @@ Examples of **incorrect** code for this rule with the `{ "requireFlag": "u" }` o
 :::incorrect
 
 ```js
-/*eslint require-unicode-regexp: ["error", {requireFlag: "u"}] */
+/*eslint require-unicode-regexp: ["error", { "requireFlag": "u" }] */
 
 const fooEmpty = /foo/;
 
