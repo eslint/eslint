@@ -392,6 +392,33 @@ ruleTester.run("require-unicode-regexp", rule, {
             }]
         },
         {
+            code: "new RegExp(\"foo\", \"\\u0067\")",
+            options: [{ requireFlag: "v" }],
+            languageOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "requireVFlag",
+                suggestions: null
+            }]
+        },
+        {
+            code: "new RegExp(\"foo\", `\\u0067`)",
+            options: [{ requireFlag: "v" }],
+            languageOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "requireVFlag",
+                suggestions: null
+            }]
+        },
+        {
+            code: "const regularFlags = \"sm\"; new RegExp(\"foo\", `${regularFlags}g`)",
+            options: [{ requireFlag: "v" }],
+            languageOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "requireVFlag",
+                suggestions: null
+            }]
+        },
+        {
             code: "/foo/v",
             options: [{ requireFlag: "u" }],
             languageOptions: { ecmaVersion: 2024 },
