@@ -134,9 +134,6 @@ Examples of **correct** code for this rule with the `{ "requireFlag": "u" }` opt
 const foo = /foo/u;
 
 const fooRegexp = new RegExp('foo', 'u');
-
-const fooFlags = "/foo/gimuy";
-
 ```
 
 :::
