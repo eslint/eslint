@@ -163,7 +163,7 @@ Examples of **correct** code for this rule with the `{ "requireFlag": "v" }` opt
 :::correct
 
 ```js
-/*eslint require-unicode-regexp: ["error", {requireFlag: "v"}]*/
+/*eslint require-unicode-regexp: ["error", { "requireFlag": "v" }] */
 
 const foo = /foo/v;
 
