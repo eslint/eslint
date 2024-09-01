@@ -104,6 +104,86 @@ This rule has one object option:
 
 * `"requireFlag": "u"|"v"` requires a particular Unicode regex flag
 
+### requireFlag: "u"
+
+Examples of **incorrect** code for this rule with the `{ "requireFlag": "u" }` option:
+
+:::incorrect
+
+```js
+/*eslint require-unicode-regexp: ["error", {requireFlag: "u"}] */
+
+const fooEmpty = /foo/;
+
+const fooEmptyRegexp = new RegExp('foo');
+
+const foo = /foo/v;
+
+const fooRegexp = new RegExp('foo', 'v');
+
+const fooFlags = "/foo/gimvy";
+
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "requireFlag": "u" }` option:
+
+:::correct
+
+```js
+/*eslint require-unicode-regexp: ["error", {requireFlag: "u"}] */
+
+const foo = /foo/u;
+
+const fooRegexp = new RegExp('foo', 'u');
+
+const fooFlags = "/foo/gimuy";
+
+```
+
+:::
+
+### requireFlag: "v"
+
+Examples of **incorrect** code for this rule with the `{ "requireFlag": "v" }` option:
+
+:::incorrect
+
+```js
+/*eslint require-unicode-regexp: ["error", {requireFlag: "v"}] */
+
+const fooEmpty = /foo/;
+
+const fooEmptyRegexp = new RegExp('foo');
+
+const foo = /foo/u;
+
+const fooRegexp = new RegExp('foo', 'u');
+
+const fooFlags = "/foo/gimuy";
+
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "requireFlag": "v" }` option:
+
+:::correct
+
+```js
+/*eslint require-unicode-regexp: ["error", {requireFlag: "v"}]*/
+
+const foo = /foo/v;
+
+const fooRegexp = new RegExp('foo', 'v');
+
+const fooFlags = "/foo/gimvy";
+
+```
+
+:::
+
 ## When Not To Use It
 
 If you don't want to warn on regular expressions without either a `u` or a `v` flag, then it's safe to disable this rule.
