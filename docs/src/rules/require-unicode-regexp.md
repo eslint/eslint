@@ -120,9 +120,6 @@ const fooEmptyRegexp = new RegExp('foo');
 const foo = /foo/v;
 
 const fooRegexp = new RegExp('foo', 'v');
-
-const fooFlags = "/foo/gimvy";
-
 ```
 
 :::
