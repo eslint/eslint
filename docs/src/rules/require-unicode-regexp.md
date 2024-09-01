@@ -154,9 +154,6 @@ const fooEmptyRegexp = new RegExp('foo');
 const foo = /foo/u;
 
 const fooRegexp = new RegExp('foo', 'u');
-
-const fooFlags = "/foo/gimuy";
-
 ```
 
 :::
