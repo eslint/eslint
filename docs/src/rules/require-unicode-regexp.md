@@ -145,7 +145,7 @@ Examples of **incorrect** code for this rule with the `{ "requireFlag": "v" }` o
 :::incorrect
 
 ```js
-/*eslint require-unicode-regexp: ["error", {requireFlag: "v"}] */
+/*eslint require-unicode-regexp: ["error", { "requireFlag": "v" }] */
 
 const fooEmpty = /foo/;
 
