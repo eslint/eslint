@@ -172,6 +172,21 @@ ruleTester.run("require-unicode-regexp", rule, {
             }]
         },
         {
+            code: "new RegExp('foo',)",
+            languageOptions: {
+                ecmaVersion: 2017
+            },
+            errors: [{
+                messageId: "requireUFlag",
+                suggestions: [
+                    {
+                        messageId: "addUFlag",
+                        output: "new RegExp('foo', \"u\",)"
+                    }
+                ]
+            }]
+        },
+        {
             code: "new RegExp('foo', false)",
             errors: [{
                 messageId: "requireUFlag",
