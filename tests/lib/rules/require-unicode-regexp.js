@@ -397,11 +397,39 @@ ruleTester.run("require-unicode-regexp", rule, {
             languageOptions: { ecmaVersion: 2024 },
             errors: [{
                 messageId: "requireVFlag",
-                suggestions: null
+                suggestions: [
+                    {
+                        messageId: "addVFlag",
+                        output: "new RegExp(\"foo\", \"\\u0067v\")"
+                    }
+                ]
             }]
         },
         {
             code: "new RegExp(\"foo\", `\\u0067`)",
+            options: [{ requireFlag: "v" }],
+            languageOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "requireVFlag",
+                suggestions: [
+                    {
+                        messageId: "addVFlag",
+                        output: "new RegExp(\"foo\", `\\u0067v`)"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "new RegExp(\"foo\", \"\\u0075\")",
+            options: [{ requireFlag: "v" }],
+            languageOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "requireVFlag",
+                suggestions: null
+            }]
+        },
+        {
+            code: "new RegExp(\"foo\", `\\u0075`)",
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
             errors: [{
@@ -411,6 +439,20 @@ ruleTester.run("require-unicode-regexp", rule, {
         },
         {
             code: "const regularFlags = \"sm\"; new RegExp(\"foo\", `${regularFlags}g`)",
+            options: [{ requireFlag: "v" }],
+            languageOptions: { ecmaVersion: 2024 },
+            errors: [{
+                messageId: "requireVFlag",
+                suggestions: [
+                    {
+                        messageId: "addVFlag",
+                        output: "const regularFlags = \"sm\"; new RegExp(\"foo\", `${regularFlags}gv`)"
+                    }
+                ]
+            }]
+        },
+        {
+            code: "const regularFlags = \"smu\"; new RegExp(\"foo\", `${regularFlags}g`)",
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
             errors: [{
