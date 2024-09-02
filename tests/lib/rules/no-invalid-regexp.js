@@ -218,7 +218,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["a"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Duplicate flags supplied to RegExp constructor 'a'" },
+                data: { message: "Duplicate flags ('a') supplied to RegExp constructor" },
                 type: "NewExpression"
             }]
         },
@@ -227,7 +227,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["a", "a"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Duplicate flags supplied to RegExp constructor 'a'" },
+                data: { message: "Duplicate flags ('a') supplied to RegExp constructor" },
                 type: "NewExpression"
             }]
         },
@@ -245,7 +245,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["a", "z"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Duplicate flags supplied to RegExp constructor 'a'" },
+                data: { message: "Duplicate flags ('a') supplied to RegExp constructor" },
                 type: "NewExpression"
             }]
         },
@@ -254,7 +254,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["a", "z"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Duplicate flags supplied to RegExp constructor 'z'" },
+                data: { message: "Duplicate flags ('z') supplied to RegExp constructor" },
                 type: "NewExpression"
             }]
         },
@@ -263,7 +263,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["a"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Duplicate flags supplied to RegExp constructor 'a'" },
+                data: { message: "Duplicate flags ('a') supplied to RegExp constructor" },
                 type: "NewExpression"
             }]
         },
@@ -272,7 +272,7 @@ ruleTester.run("no-invalid-regexp", rule, {
             options: [{ allowConstructorFlags: ["u"] }],
             errors: [{
                 messageId: "regexMessage",
-                data: { message: "Duplicate flags supplied to RegExp constructor 'u'" },
+                data: { message: "Duplicate flags ('u') supplied to RegExp constructor" },
                 type: "NewExpression"
             }]
         },
