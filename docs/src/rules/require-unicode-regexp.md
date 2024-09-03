@@ -143,7 +143,7 @@ const fooRegexp = new RegExp('foo', 'u');
 ### requireFlag: "v"
 
 The `v` flag may be a better choice when it is supported because it has more
-features than the `u` flag (e.g., the ability to test Unicode properties). It
+features than the `u` flag (e.g., the ability to test Unicode properties of strings). It
 does have a stricter syntax, however (e.g., the need to escape certain
 characters within character classes).
 
