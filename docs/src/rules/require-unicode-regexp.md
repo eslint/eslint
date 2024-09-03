@@ -106,7 +106,7 @@ This rule has one object option:
 
 ### requireFlag: "u"
 
-The `u` flag may be preferred in environments which do not support the `v` flag.
+The `u` flag may be preferred in environments that do not support the `v` flag.
 
 Examples of **incorrect** code for this rule with the `{ "requireFlag": "u" }` option:
 
