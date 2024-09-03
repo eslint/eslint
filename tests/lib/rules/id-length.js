@@ -246,6 +246,27 @@ ruleTester.run("id-length", rule, {
         { code: "var [i] = arr;", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
         { code: "var [,i,a] = arr;", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError, tooShortError] },
         { code: "function foo([a]) {}", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
+        { code: "import * as x from 'module';", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
+        { code: "import x from 'module';", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
+        { code: "import { x } from 'module';", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
+        {
+            code: "import { xyzabcdefg } from 'module';",
+            options: [{ max: 5 }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [tooLongError]
+        },
+        {
+            code: "import * as xyzabcdefg from 'module';",
+            options: [{ max: 5 }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [tooLongError]
+        },
+        {
+            code: "import  xyzabcdefg from 'module';",
+            options: [{ max: 5 }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [tooLongError]
+        },
         {
             code: "var _$xt_$ = Foo(42)",
             options: [{ min: 2, max: 4 }],
