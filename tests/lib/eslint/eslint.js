@@ -9232,6 +9232,20 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
 
+            it("should not traverse into subdir4/subsubdir when config file in subdir4 specifies subsubdir as ignored and passing in subdir4", async () => {
+                eslint = new ESLint({
+                    flags,
+                    cwd: workDir
+                });
+                const results = await eslint.lintFiles(["subdir4"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, path.resolve(workDir, "subdir4", "eslint.config.mjs"));
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
         });
 
     });
