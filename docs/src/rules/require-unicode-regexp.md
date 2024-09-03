@@ -106,6 +106,8 @@ This rule has one object option:
 
 ### requireFlag: "u"
 
+The `u` flag may be preferred in environments which do not support the `v` flag.
+
 Examples of **incorrect** code for this rule with the `{ "requireFlag": "u" }` option:
 
 :::incorrect
@@ -139,6 +141,11 @@ const fooRegexp = new RegExp('foo', 'u');
 :::
 
 ### requireFlag: "v"
+
+The `v` flag may be a better choice when it is supported because it has more
+features than the `u` flag (e.g., the ability to test Unicode properties). It
+does have a stricter syntax, however (e.g., the need to escape certain
+characters within character classes).
 
 Examples of **incorrect** code for this rule with the `{ "requireFlag": "v" }` option:
 
