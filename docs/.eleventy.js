@@ -11,6 +11,7 @@ const path = require("node:path");
 const { slug } = require("github-slugger");
 const yaml = require("js-yaml");
 const { highlighter, lineNumberPlugin } = require("./src/_plugins/md-syntax-highlighter");
+const { preWrapperPlugin } = require("./src/_plugins/pre-wrapper");
 const {
     DateTime
 } = require("luxon");
@@ -252,6 +253,7 @@ module.exports = function(eleventyConfig) {
             }
         })
         .use(lineNumberPlugin)
+        .use(preWrapperPlugin)
         .disable("code");
 
     eleventyConfig.setLibrary("md", md);
