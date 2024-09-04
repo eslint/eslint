@@ -64,6 +64,8 @@ ruleTester.run("id-length", rule, {
         { code: "({ a: obj.x.y.z } = {});", options: [{ properties: "never" }], languageOptions: { ecmaVersion: 6 } },
         { code: "import something from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export var num = 0;", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import * as something from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { something } from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "({ prop: obj.x.y.something } = {});", languageOptions: { ecmaVersion: 6 } },
         { code: "({ prop: obj.longName } = {});", languageOptions: { ecmaVersion: 6 } },
         { code: "var obj = { a: 1, bc: 2 };", options: [{ properties: "never" }] },
