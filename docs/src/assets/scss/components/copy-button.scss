@@ -1,9 +1,7 @@
-[class*='language-'] > .c-btn--copy {
-    /*rtl:ignore*/
+[class*="language-"] > .c-btn--copy {
     direction: ltr;
     position: absolute;
     top: 12px;
-    /*rtl:ignore*/
     right: 12px;
     z-index: 3;
     border-radius: 4px;
@@ -22,25 +20,24 @@
         opacity 0.25s;
 }
 
-[class*='language-']:hover > .c-btn--copy,
-[class*='language-'] > .c-btn--copy:focus {
+[class*="language-"]:hover > .c-btn--copy,
+[class*="language-"] > .c-btn--copy:focus {
     opacity: 1;
 }
 
-[class*='language-'] > .c-btn--copy:hover,
-[class*='language-'] > .c-btn--copy.copied {
+[class*="language-"] > .c-btn--copy:hover,
+[class*="language-"] > .c-btn--copy.copied {
     background-color: var(--color-neutral-300);
 }
 
-[class*='language-'] > .c-btn--copy.copied,
-[class*='language-'] > .c-btn--copy:hover.copied {
+[class*="language-"] > .c-btn--copy.copied,
+[class*="language-"] > .c-btn--copy:hover.copied {
     background-image: url("/docs/head/assets/images/icons/copied.svg");
 }
 
-[class*='language-'] > span.lang {
+[class*="language-"] > span.lang {
     position: absolute;
     top: 2px;
-    /*rtl:ignore*/
     right: 8px;
     z-index: 2;
     font-size: 12px;
@@ -51,7 +48,7 @@
         opacity 0.4s;
 }
 
-[class*='language-']:hover > .c-btn--copy + span.lang,
-[class*='language-'] > .c-btn--copy:focus + span.lang {
+[class*="language-"]:hover > .c-btn--copy + span.lang,
+[class*="language-"] > .c-btn--copy:focus + span.lang {
     opacity: 0;
 }
