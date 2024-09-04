@@ -140,44 +140,46 @@ By default, ESLint does not perform autofixes when a custom processor is used, e
 
 You can have both rules and custom processors in a single plugin. You can also have multiple processors in one plugin. To support multiple extensions, add each one to the `processors` element and point them to the same object.
 
-### Clarifying the Use of Meta Objects:
+### How `meta` Objects are Used
 
-#### Plugin Meta-Object
+The `meta` object helps ESLint cache configurations that use a processor and to provide more friendly debug messages. The `meta.name` property should match the processor name and the `meta.version` property should match the npm package version for your processors. The easiest way to accomplish this is by reading this information from your `package.json`.
 
-The top-level meta object of the plugin provides essential metadata about the plugin itself. This meta object is used when the processor is specified in the format plugin-name/processor-name. This helps ESLint to cache the plugin and provide more informative debug messages.
+#### Plugin `meta` Object
+
+The [plugin `meta` object](plugins#meta-data-in-plugins) provides information about the plugin itself. When a processor is specified using the string format `plugin-name/processor-name`, ESLint automatically uses the plugin `meta` to generate a name for the processor. This is the most common case for processors.
 
 Example:
 
 ```js
 // eslint.config.js
-import markdown from "eslint-plugin-markdown";
+import example from "eslint-plugin-example";
 
 export default [
     {
-        files: ["**/*.md"],
         plugins: {
-            markdown
+            example
         },
-        processor: "markdown/markdown"
+        processor: "example/processor-name"
     },
     // ... other configs
 ];
 ```
 
-#### Processor Meta Object
+/////We should add some content here explaining what the processor name is interpreted as.
 
-Each processor can also have its own meta-object. This is particularly useful when the processor is specified directly as a processor object. The meta object within the processor helps ESLint to cache the processor and provide more detailed debugging information.
+#### Processor `meta` Object
+
+Each processor can also specify its own `meta` object. This information is used when the processor object is passed directly to `processor` in a configuration. (In that case, ESLint doesn't know which plugin the processor belongs to.)
 
 Example:
 
 ```js
 // eslint.config.js
-import markdown from "eslint-plugin-markdown";
+import example from "eslint-plugin-example";
 
 export default [
     {
-        files: ["**/*.md"],
-        processor: markdown.processors.markdown
+        processor: example.processors.processor-name
     },
     // ... other configs
 ];
@@ -186,37 +188,6 @@ export default [
 ##### Why Both Meta Objects are Needed
 
 It is recommended that both the plugin and each processor provide their respective meta objects. This ensures that features relying on meta objects, such as `--print-config` and `--cache`, work correctly regardless of how the processor is specified in the configuration.
-
-Example Structure:
-
-```js
-const plugin = {
-    meta: {
-        name: "eslint-plugin-example",
-        version: "1.0.0"
-    },
-    configs: {},
-    rules: {},
-    processors: {
-        markdown: {
-            meta: {
-                name: "eslint-processor-markdown",
-                version: "1.0.0"
-            },
-            preprocess() {},
-            postprocess() {}
-        }
-    }
-};
-
-// for ESM
-export default plugin;
-
-// OR for CommonJS
-module.exports = plugin;
-```
-
-The `meta.name` property should match the processor name and the `meta.version` property should match the npm package version for your processors. The easiest way to accomplish this is by reading this information from your `package.json`.
 
 ## Specifying Processor in Config Files
 
