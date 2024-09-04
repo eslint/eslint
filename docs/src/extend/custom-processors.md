@@ -165,8 +165,6 @@ export default [
 ];
 ```
 
-/////We should add some content here explaining what the processor name is interpreted as.
-
 #### Processor `meta` Object
 
 Each processor can also specify its own `meta` object. This information is used when the processor object is passed directly to `processor` in a configuration. (In that case, ESLint doesn't know which plugin the processor belongs to.)
