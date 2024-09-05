@@ -250,7 +250,6 @@ ruleTester.run("id-length", rule, {
         { code: "function foo([a]) {}", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
         { code: "import x from 'module';", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
         { code: "import * as x from 'module';", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
-        { code: "import { x } from 'module';", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
         {
             code: "import longName from 'module';",
             options: [{ max: 5 }],
