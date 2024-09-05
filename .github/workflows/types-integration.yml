@@ -72,5 +72,5 @@ jobs:
           npm install ../eslint
 
       - name: Run TSC
-        working-directory: webpack
+        working-directory: neostandard
         run: npm run check:tsc
