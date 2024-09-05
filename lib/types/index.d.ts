@@ -1529,8 +1529,22 @@ export namespace ESLint {
         usedDeprecatedRules: DeprecatedRuleUse[];
     }
 
+    interface MaxWarningsExceeded {
+
+        /**
+         * Number of warnings to trigger nonzero exit code.
+         */
+        maxWarnings: number;
+
+        /**
+         * Number of warnings found while linting.
+         */
+        foundWarnings: number;
+    }
+
     interface LintResultData {
         cwd: string;
+        maxWarningsExceeded?: MaxWarningsExceeded | undefined;
         rulesMeta: {
             [ruleId: string]: Rule.RuleMetaData;
         };
@@ -1542,7 +1556,7 @@ export namespace ESLint {
     }
 
     interface Formatter {
-        format(results: LintResult[], data: LintResultData): string | Promise<string>;
+        format(results: LintResult[], data?: LintResultData): string | Promise<string>;
     }
 
     // Docs reference the types by those name
