@@ -1,0 +1,38 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  markdown_plugin:
+    name: Types (eslint-webpack-plugin)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout eslint
+        uses: actions/checkout@v4
+        with:
+          path: eslint
+
+      - name: Checkout eslint-webpack-plugin
+        uses: actions/checkout@v4
+        with:
+          repository: webpack-contrib/eslint-webpack-plugin
+          path: webpack
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+      - name: Install Packages
+        working-directory: webpack
+        run: |
+          npm install
+          npm install ../eslint
+
+      - name: Run TSC
+        working-directory: webpack
+        run: npm run lint:types
