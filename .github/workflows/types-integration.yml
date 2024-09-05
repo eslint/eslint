@@ -27,7 +27,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-      - name: Install Packages
+
+      - name: Install Packages (eslint)
+        working-directory: eslint
+        run: npm install
+
+      - name: Install Packages (eslint-webpack-plugin)
         working-directory: webpack
         run: |
           npm install
