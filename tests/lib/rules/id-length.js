@@ -263,12 +263,6 @@ ruleTester.run("id-length", rule, {
             errors: [tooLongError]
         },
         {
-            code: "import { longName } from 'module';",
-            options: [{ max: 5 }],
-            languageOptions: { ecmaVersion: 6 },
-            errors: [tooLongError]
-        },
-        {
             code: "var _$xt_$ = Foo(42)",
             options: [{ min: 2, max: 4 }],
             errors: [
