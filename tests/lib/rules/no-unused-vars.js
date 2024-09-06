@@ -2523,6 +2523,6 @@ try {
             code: "with (a) var foo;",
             languageOptions: { ecmaVersion: 6 },
             errors: [definedError("foo", [{ output: "with (a);", messageId: "removeVar", data: { varName: "foo" } }])]
-        },
+        }
     ]
 });
