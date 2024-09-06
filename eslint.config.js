@@ -93,7 +93,8 @@ module.exports = [
             "tests/performance/**",
             "tmp/**",
             "**/test.js",
-            ".vscode"
+            ".vscode",
+            "**/*.ts"
         ]
     },
     {

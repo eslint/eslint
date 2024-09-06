@@ -112,3 +112,16 @@ jobs:
           name: logs
           path: |
             wdio-logs/*.log
+
+  test_types:
+    name: Types Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+      - name: Install Packages
+        run: npm install
+      - name: Test
+        run: npm run test:types
