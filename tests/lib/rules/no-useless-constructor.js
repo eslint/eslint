@@ -116,6 +116,26 @@ ruleTester.run("no-useless-constructor", rule, {
             }]
         },
         {
+            code: "class A extends B { constructor(a, b, ...c) { super(...arguments); } }",
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "removeConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
+        },
+        {
+            code: "class A extends B { constructor(a, b, ...c) { super(a, b, ...c); } }",
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "removeConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
+        },
+        {
             code: "class A {\nfoo = 5\nconstructor() {}\nbar() {}\n}",
             languageOptions: { ecmaVersion: 2022 },
             errors: [{
