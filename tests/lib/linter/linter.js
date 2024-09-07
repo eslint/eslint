@@ -1646,7 +1646,7 @@ describe("Linter", () => {
             const suppressedMessages = linter.getSuppressedMessages();
 
             // different engines have different JSON parsing error messages
-            assert.match(messages[0].message, /Failed to parse JSON from ' "no-unused-vars": \['/u);
+            assert.match(messages[0].message, /Failed to parse JSON from '"no-unused-vars": \['/u);
             assert.strictEqual(messages[0].severity, 2);
             assert.isTrue(messages[0].fatal);
             assert.isNull(messages[0].ruleId);
@@ -3175,7 +3175,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/u);
+            assert.match(messages[0].message, /^Failed to parse JSON from '"no-alert":'1'':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
             assert.strictEqual(messages[0].endLine, 1);
@@ -3209,7 +3209,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/u);
+            assert.match(messages[0].message, /^Failed to parse JSON from '"no-alert":abc':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
             assert.strictEqual(messages[0].endLine, 1);
@@ -3243,7 +3243,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/u);
+            assert.match(messages[0].message, /^Failed to parse JSON from '"no-alert":0 2':/u);
             assert.strictEqual(messages[0].line, 4);
             assert.strictEqual(messages[0].column, 5);
             assert.strictEqual(messages[0].endLine, 4);
@@ -11260,7 +11260,7 @@ describe("Linter with FlatConfigArray", () => {
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         // different engines have different JSON parsing error messages
-                        assert.match(messages[0].message, /Failed to parse JSON from ' "no-unused-vars": \['/u);
+                        assert.match(messages[0].message, /Failed to parse JSON from '"no-unused-vars": \['/u);
                         assert.strictEqual(messages[0].severity, 2);
                         assert.isTrue(messages[0].fatal);
                         assert.isNull(messages[0].ruleId);
@@ -11867,7 +11867,7 @@ describe("Linter with FlatConfigArray", () => {
                          * first part only as defined in the
                          * parseJsonConfig function in lib/eslint.js
                          */
-                        assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/u);
+                        assert.match(messages[0].message, /^Failed to parse JSON from '"no-alert":'1'':/u);
                         assert.strictEqual(messages[0].line, 1);
                         assert.strictEqual(messages[0].column, 1);
                         assert.strictEqual(messages[0].endLine, 1);
@@ -11901,7 +11901,7 @@ describe("Linter with FlatConfigArray", () => {
                          * first part only as defined in the
                          * parseJsonConfig function in lib/eslint.js
                          */
-                        assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/u);
+                        assert.match(messages[0].message, /^Failed to parse JSON from '"no-alert":abc':/u);
                         assert.strictEqual(messages[0].line, 1);
                         assert.strictEqual(messages[0].column, 1);
                         assert.strictEqual(messages[0].endLine, 1);
@@ -11935,7 +11935,7 @@ describe("Linter with FlatConfigArray", () => {
                          * first part only as defined in the
                          * parseJsonConfig function in lib/eslint.js
                          */
-                        assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/u);
+                        assert.match(messages[0].message, /^Failed to parse JSON from '"no-alert":0 2':/u);
                         assert.strictEqual(messages[0].line, 4);
                         assert.strictEqual(messages[0].column, 5);
                         assert.strictEqual(messages[0].endLine, 4);

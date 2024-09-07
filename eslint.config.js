@@ -17,7 +17,7 @@ const globals = require("globals");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 const eslintConfigESLintFormatting = require("eslint-config-eslint/formatting");
 const eslintPluginYml = require("eslint-plugin-yml");
-const json = require("@eslint/json");
+const json = require("@eslint/json").default;
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -93,7 +93,8 @@ module.exports = [
             "tests/performance/**",
             "tmp/**",
             "**/test.js",
-            ".vscode"
+            ".vscode",
+            "**/*.ts"
         ]
     },
     {
