@@ -51,6 +51,8 @@ const OPEN_SOURCE_LICENSES = [
     /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u, /Public Domain/u, /LGPL/u, /Python/u
 ];
 
+const MAIN_GIT_BRANCH = "main";
+
 //------------------------------------------------------------------------------
 // Data
 //------------------------------------------------------------------------------
@@ -78,6 +80,8 @@ const NODE = "node ", // intentional extra space
     TEST_FILES = "\"tests/{bin,conf,lib,tools}/**/*.js\"",
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslint.config.js"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
+    CHANGELOG_FILE = "./CHANGELOG.md",
+    VERSIONS_FILE = "./docs/src/_data/versions.json",
 
     /*
      * glob arguments with Windows separator `\` don't work:
@@ -123,6 +127,14 @@ function fileType(extension) {
  */
 function execSilent(cmd) {
     return exec(cmd, { silent: true }).stdout;
+}
+
+/**
+ * Gets name of the currently checked out Git branch.
+ * @returns {string} Name of the currently checked out Git branch.
+ */
+function getCurrentGitBranch() {
+    return execSilent("git branch --show-current").trim();
 }
 
 /**
@@ -274,10 +286,14 @@ function publishSite() {
 /**
  * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
  * and generates the site in an adjacent `website` folder.
+ * @param {Object} options Release options.
+ * @param {string} options.packageTag Tag that should be added to the package submitted to the npm registry.
  * @returns {void}
  */
-function generateRelease() {
-    ReleaseOps.generateRelease();
+function generateRelease({ packageTag }) {
+    echo(`Current Git branch: ${getCurrentGitBranch()}`);
+
+    ReleaseOps.generateRelease(/* prereleaseId = */ void 0, packageTag);
     const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
 
     echo("Generating site");
@@ -343,19 +359,33 @@ function generatePrerelease(prereleaseId) {
 function publishRelease() {
     ReleaseOps.publishRelease();
     const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
-    const isPreRelease = /[a-z]/u.test(releaseInfo.version);
 
-    /*
-     * for a pre-release, push to the "next" branch to trigger docs deploy
-     * for a release, push to the "latest" branch to trigger docs deploy
-     */
-    if (isPreRelease) {
-        exec("git push origin HEAD:next -f");
-    } else {
-        exec("git push origin HEAD:latest -f");
-    }
+    const docsSiteBranch = releaseInfo.packageTag === "maintenance"
+        ? `v${semver.major(releaseInfo.version)}.x`
+        : releaseInfo.packageTag; // "latest" or "next"
+
+    echo(`Updating docs site branch: ${docsSiteBranch}`);
+    exec(`git push origin HEAD:${docsSiteBranch} -f`);
 
     publishSite();
+
+    // Update changelog and list of versions on the main branch
+    if (getCurrentGitBranch() !== MAIN_GIT_BRANCH) {
+        echo(`Updating changelog and versions on branch: ${MAIN_GIT_BRANCH}`);
+
+        exec(`git checkout ${MAIN_GIT_BRANCH} --force`);
+
+        fs.writeFileSync(CHANGELOG_FILE, `${releaseInfo.markdownChangelog}${cat(CHANGELOG_FILE)}`);
+
+        const versions = JSON.parse(cat(VERSIONS_FILE));
+
+        versions.items.find(({ branch }) => branch === docsSiteBranch).version = releaseInfo.version;
+        fs.writeFileSync(VERSIONS_FILE, `${JSON.stringify(versions, null, 4)}\n`);
+
+        exec(`git add ${CHANGELOG_FILE} ${VERSIONS_FILE}`);
+        exec(`git commit -m "chore: updates for v${releaseInfo.version} release"`);
+        exec("git push origin HEAD");
+    }
 }
 
 /**
@@ -1105,6 +1135,6 @@ target.perf = function() {
     });
 };
 
-target.generateRelease = generateRelease;
+target.generateRelease = ([packageTag]) => generateRelease({ packageTag });
 target.generatePrerelease = ([prereleaseType]) => generatePrerelease(prereleaseType);
 target.publishRelease = publishRelease;
