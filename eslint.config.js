@@ -18,6 +18,8 @@ const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 const eslintConfigESLintFormatting = require("eslint-config-eslint/formatting");
 const eslintPluginYml = require("eslint-plugin-yml");
 const json = require("@eslint/json").default;
+const expectType = require("eslint-plugin-expect-type");
+const tsParser = require("@typescript-eslint/parser");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -93,8 +95,7 @@ module.exports = [
             "tests/performance/**",
             "tmp/**",
             "**/test.js",
-            ".vscode",
-            "**/*.ts"
+            ".vscode"
         ]
     },
     {
@@ -279,5 +280,21 @@ module.exports = [
     ...eslintPluginYml.configs["flat/recommended"].map(config => ({
         ...config,
         files: [ALL_YAML_FILES]
-    }))
+    })),
+    {
+        name: "eslint/ts-rules",
+        files: ["**/*.ts"],
+        languageOptions: {
+            parser: tsParser,
+            parserOptions: {
+                project: "tests/lib/types/tsconfig.json"
+            }
+        },
+        plugins: {
+            "expect-type": expectType
+        },
+        rules: {
+            "expect-type/expect": "error"
+        }
+    }
 ];
