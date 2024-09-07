@@ -3246,7 +3246,7 @@ describe("SourceCode", () => {
             assert.strictEqual(problem.loc.start.line, 1);
             assert.strictEqual(problem.loc.end.column, 24);
             assert.strictEqual(problem.loc.end.line, 1);
-            assert.match(problem.message, /Failed to parse JSON from ' "some-rule"::,': Unexpected token '?:'?/u);
+            assert.match(problem.message, /Failed to parse JSON from '"some-rule"::,': Unexpected token '?:'?/u);
             assert.isNull(problem.ruleId);
         });
     });

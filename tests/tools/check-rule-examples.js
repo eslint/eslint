@@ -65,7 +65,7 @@ describe("check-rule-examples", () => {
                     .replace(/(?<=\x1B\[4m).*(?=bad-examples\.md)/u, "")
 
                     // Remove runtime-specific error message part (different in Node.js 18, 20 and 21).
-                    .replace(/(?<=' doesn't allow this comment'):.*(?=\x1B\[0m)/u, "");
+                    .replace(/(?<='doesn't allow this comment'):.*(?=\x1B\[0m)/u, "");
 
                 /* eslint-enable no-control-regex -- re-enable rule */
 
@@ -77,7 +77,7 @@ describe("check-rule-examples", () => {
                 "\x1B[0m  \x1B[2m20:5\x1B[22m  \x1B[31merror\x1B[39m  Nonstandard language tag 'ts': use one of 'javascript', 'js' or 'jsx'\x1B[0m\n" +
                 "\x1B[0m  \x1B[2m23:7\x1B[22m  \x1B[31merror\x1B[39m  Syntax error: Identifier 'foo' has already been declared\x1B[0m\n" +
                 "\x1B[0m  \x1B[2m31:1\x1B[22m  \x1B[31merror\x1B[39m  Example code should contain a configuration comment like /* eslint no-restricted-syntax: \"error\" */\x1B[0m\n" +
-                "\x1B[0m  \x1B[2m41:1\x1B[22m  \x1B[31merror\x1B[39m  Failed to parse JSON from ' doesn't allow this comment'\x1B[0m\n" +
+                "\x1B[0m  \x1B[2m41:1\x1B[22m  \x1B[31merror\x1B[39m  Failed to parse JSON from 'doesn't allow this comment'\x1B[0m\n" +
                 "\x1B[0m  \x1B[2m51:1\x1B[22m  \x1B[31merror\x1B[39m  Duplicate /* eslint no-restricted-syntax */ configuration comment. Each example should contain only one. Split this example into multiple examples\x1B[0m\n" +
                 "\x1B[0m  \x1B[2m56:1\x1B[22m  \x1B[31merror\x1B[39m  Remove unnecessary \"ecmaVersion\":\"latest\"\x1B[0m\n" +
                 `\x1B[0m  \x1B[2m64:1\x1B[22m  \x1B[31merror\x1B[39m  "ecmaVersion" must be one of ${[3, 5, ...Array.from({ length: LATEST_ECMA_VERSION - 2015 + 1 }, (_, index) => index + 2015)].join(", ")}\x1B[0m\n` +

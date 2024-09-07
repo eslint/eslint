@@ -16,7 +16,8 @@ const eslintPluginTestsRecommendedConfig = require("eslint-plugin-eslint-plugin/
 const globals = require("globals");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 const eslintConfigESLintFormatting = require("eslint-config-eslint/formatting");
-const json = require("@eslint/json");
+const eslintPluginYml = require("eslint-plugin-yml");
+const json = require("@eslint/json").default;
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -36,6 +37,7 @@ const INTERNAL_FILES = Object.fromEntries(
 );
 
 const ALL_JS_FILES = "**/*.js";
+const ALL_YAML_FILES = "**/*.y?(a)ml";
 
 /**
  * Resolve an absolute path or glob pattern.
@@ -91,7 +93,8 @@ module.exports = [
             "tests/performance/**",
             "tmp/**",
             "**/test.js",
-            ".vscode"
+            ".vscode",
+            "**/*.ts"
         ]
     },
     {
@@ -272,5 +275,9 @@ module.exports = [
                 resolveAbsolutePath("lib/cli-engine/index.js")
             ]]
         }
-    }
+    },
+    ...eslintPluginYml.configs["flat/recommended"].map(config => ({
+        ...config,
+        files: [ALL_YAML_FILES]
+    }))
 ];
