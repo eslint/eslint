@@ -1056,5 +1056,5 @@ target.perf = function() {
 };
 
 target.generateRelease = ([packageTag]) => generateRelease({ packageTag });
-target.generatePrerelease = ([prereleaseType]) => generateRelease({ prereleaseType, packageTag: "next" });
+target.generatePrerelease = ([prereleaseId]) => generateRelease({ prereleaseId, packageTag: "next" });
 target.publishRelease = publishRelease;
