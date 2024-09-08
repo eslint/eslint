@@ -176,5 +176,12 @@
   "license": "MIT",
   "engines": {
     "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
+  },
+  "overrides": {
+    "sinon": {
+      "nise@^5.1.6": {
+        "@sinonjs/fake-timers": "11.2.2"
+      }
+    }
   }
 }
