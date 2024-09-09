@@ -1567,7 +1567,13 @@ export namespace ESLint {
     // The documented type name is `LoadedFormatter`, but `Formatter` has been historically more used.
     type Formatter = LoadedFormatter;
 
-    /** The expected signature of a custom formatter. */
+    /**
+     * The expected signature of a custom formatter.
+     * @param results An array of lint results to format.
+     * @param context Optional additional information for the formatter.
+     * When the `FormatterFunction` is called by ESLint, this argument is always specified.
+     * @return The formatter output.
+     */
     type FormatterFunction =
     (results: LintResult[], context?: LintResultData) => string | Promise<string>;
 
