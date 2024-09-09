@@ -89,6 +89,7 @@ module.exports = [
             "docs/!(src|tools)/",
             "docs/src/!(_data)",
             "jsdoc/**",
+            "lib/types/**/*.ts",
             "templates/**",
             "tests/bench/**",
             "tests/fixtures/**",
