@@ -83,7 +83,7 @@
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "9.10.0",
     "@eslint/plugin-kit": "^0.2.0",
-    "@humanfs/node": "^0.16.3",
+    "@humanfs/node": "^0.16.5",
     "@humanwhocodes/module-importer": "^1.0.1",
     "@humanwhocodes/retry": "^0.3.0",
     "ajv": "^6.12.4",
