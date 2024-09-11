@@ -104,6 +104,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
+    "@sinonjs/fake-timers": "11.2.2",
     "@wdio/browser-runner": "^8.14.6",
     "@wdio/cli": "^8.14.6",
     "@wdio/concise-reporter": "^8.14.0",
