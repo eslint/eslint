@@ -126,7 +126,7 @@
     "eslint-plugin-jsdoc": "^46.2.5",
     "eslint-plugin-n": "^16.6.0",
     "eslint-plugin-unicorn": "^49.0.0",
-    "eslint-release": "github:eslint/eslint-release#support-previous-versions",
+    "eslint-release": "^3.3.0",
     "eslump": "^3.0.0",
     "esprima": "^4.0.1",
     "fast-glob": "^3.2.11",
