@@ -1003,7 +1003,7 @@ linterWithEslintrcConfig.getRules();
     const customFormatter1: ESLint.Formatter = { format: () => "ok" };
     const customFormatter2: ESLint.Formatter = { format: () => Promise.resolve("ok") };
 
-    let data: ESLint.LintResultData;
+    let resultsMeta: ESLint.ResultsMeta;
     const meta: Rule.RuleMetaData = {
         type: "suggestion",
         docs: {
@@ -1019,7 +1019,7 @@ linterWithEslintrcConfig.getRules();
         },
     };
 
-    data = { cwd: "/foo/bar", rulesMeta: { "no-extra-semi": meta } };
+    resultsMeta = { maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 } };
 
     const version: string = ESLint.version;
 
@@ -1027,7 +1027,7 @@ linterWithEslintrcConfig.getRules();
         const results: ESLint.LintResult[] = await resultsPromise;
         const formatter = await formatterPromise;
 
-        const output: string = await formatter.format(results, data);
+        const output: string = await formatter.format(results, resultsMeta);
 
         eslint.getRulesMetaForResults(results);
 
@@ -1131,7 +1131,7 @@ linterWithEslintrcConfig.getRules();
     const customFormatter1: ESLint.Formatter = { format: () => "ok" };
     const customFormatter2: ESLint.Formatter = { format: () => Promise.resolve("ok") };
 
-    let data: ESLint.LintResultData;
+    let resultsMeta: ESLint.ResultsMeta;
     const meta: Rule.RuleMetaData = {
         type: "suggestion",
         docs: {
@@ -1147,7 +1147,7 @@ linterWithEslintrcConfig.getRules();
         },
     };
 
-    data = { cwd: "/foo/bar", rulesMeta: { "no-extra-semi": meta } };
+    resultsMeta = { maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 } };
 
     const version: string = LegacyESLint.version;
 
@@ -1155,7 +1155,7 @@ linterWithEslintrcConfig.getRules();
         const results: ESLint.LintResult[] = await resultsPromise;
         const formatter = await formatterPromise;
 
-        const output: string = await formatter.format(results, data);
+        const output: string = await formatter.format(results, resultsMeta);
 
         eslint.getRulesMetaForResults(results);
 
@@ -1168,6 +1168,20 @@ linterWithEslintrcConfig.getRules();
 }
 
 // #endregion
+
+// #region ESLint.Formatter
+
+function jsonFormatter(results: ESLint.LintResult[]) {
+    return JSON.stringify(results, null, 2);
+};
+
+const customFormatter: ESLint.FormatterFunction = jsonFormatter;
+
+function wrapperFormatter(results: ESLint.LintResult[], { cwd, maxWarningsExceeded, rulesMeta }: ESLint.LintResultData) {
+    customFormatter(results, { cwd, maxWarningsExceeded, rulesMeta });
+}
+
+// #endregion ESLint.Formatter
 
 // #region ESLint.LintResult
 
@@ -1216,7 +1230,7 @@ for (const result of results) {
     }
 }
 
-// #region ESLint.LintResult
+// #endregion ESLint.LintResult
 
 // #region ESLintRules
 
