@@ -11,7 +11,7 @@ const matter = require("gray-matter");
 const markdownIt = require("markdown-it");
 const markdownItContainer = require("markdown-it-container");
 const markdownItRuleExample = require("../docs/tools/markdown-it-rule-example");
-const ConfigCommentParser = require("../lib/linter/config-comment-parser");
+const { ConfigCommentParser } = require("@eslint/plugin-kit");
 const rules = require("../lib/rules");
 const { LATEST_ECMA_VERSION } = require("../conf/ecma-version");
 
@@ -129,8 +129,8 @@ async function findProblems(filename) {
                     if (comment.type !== "Block" || !/^\s*eslint(?!\S)/u.test(comment.value)) {
                         continue;
                     }
-                    const { directiveValue } = commentParser.parseDirective(comment);
-                    const parseResult = commentParser.parseJsonConfig(directiveValue);
+                    const { value } = commentParser.parseDirective(comment.value);
+                    const parseResult = commentParser.parseJSONLikeConfig(value);
                     const parseError = parseResult.error;
 
                     if (parseError) {

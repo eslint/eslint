@@ -272,7 +272,7 @@ For more information on overrides in legacy configs, see [Configuration Files (D
 An object containing a method that reads in a string and converts it to a standardized format.
 
 ESLint uses parsers to convert source code strings into an [AST](#abstract-syntax-tree-ast) shape.
-By default, ESLint uses the [Espree](https://github.com/eslint/espree) parser, which generates an AST compatible with standard JavaScript runtimes and versions.
+By default, ESLint uses the [Espree](https://github.com/eslint/js/tree/main/packages/espree) parser, which generates an AST compatible with standard JavaScript runtimes and versions.
 
 Custom parsers let ESLint parse non-standard JavaScript syntax.
 Often custom parsers are included as part of shareable configurations or plugins, so you don’t have to use them directly.
@@ -293,7 +293,7 @@ For more information, refer to [Configure Plugins](../configure/plugins).
 
 A part of a plugin that extracts JavaScript code from other kinds of files, then lets ESLint lint the JavaScript code.
 
-For example, [`eslint-plugin-markdown`](https://github.com/eslint/eslint-plugin-markdown) includes a processor that converts the text of <code>```</code> code blocks in Markdown files into code that can be linted.
+For example, [`@eslint/markdown`](https://github.com/eslint/markdown) includes a processor that converts the text of <code>```</code> code blocks in Markdown files into code that can be linted.
 
 For more information on configuring processor, see [Plugins > Specify a Processor](../configure/plugins#specify-a-processor).
 
