@@ -66,6 +66,7 @@ ruleTester.run("id-length", rule, {
         { code: "export var num = 0;", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import * as something from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import { x } from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { x as x } from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import { x as foo } from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import { longName } from 'y';", options: [{ max: 5 }], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import { x as bar } from 'y';", options: [{ max: 5 }], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
