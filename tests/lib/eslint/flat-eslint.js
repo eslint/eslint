@@ -1549,6 +1549,16 @@ describe("FlatESLint", () => {
                 }, /All files matched by 'tests\/fixtures\/cli-engine\/' are ignored\./u);
             });
 
+            it("should throw an error when all given files are ignored by a config object that has `name`", async () => {
+                eslint = new FlatESLint({
+                    overrideConfigFile: getFixturePath("eslint.config-with-ignores3.js")
+                });
+
+                await assert.rejects(async () => {
+                    await eslint.lintFiles(["tests/fixtures/cli-engine/"]);
+                }, /All files matched by 'tests\/fixtures\/cli-engine\/' are ignored\./u);
+            });
+
             it("should throw an error when all given files are ignored even with a `./` prefix", async () => {
                 eslint = new FlatESLint({
                     overrideConfigFile: getFixturePath("eslint.config_with_ignores.js")
@@ -1664,6 +1674,29 @@ describe("FlatESLint", () => {
                     cwd: getFixturePath(),
                     ignore: false,
                     overrideConfigFile: getFixturePath("eslint.config_with_ignores.js"),
+                    overrideConfig: {
+                        rules: {
+                            "no-undef": 2
+                        }
+                    }
+                });
+                const filePath = fs.realpathSync(getFixturePath("undef.js"));
+                const results = await eslint.lintFiles([filePath]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].filePath, filePath);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[1].ruleId, "no-undef");
+                assert.strictEqual(results[0].messages[1].severity, 2);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should return two messages when given a file in excluded files list by a config object that has `name` while ignore is off", async () => {
+                eslint = new FlatESLint({
+                    cwd: getFixturePath(),
+                    ignore: false,
+                    overrideConfigFile: getFixturePath("eslint.config-with-ignores3.js"),
                     overrideConfig: {
                         rules: {
                             "no-undef": 2
@@ -5706,6 +5739,30 @@ describe("FlatESLint", () => {
             it("should apply to all files except for 'error.js'", async () => {
                 const engine = new FlatESLint({
                     cwd
+                });
+
+                const results = await engine.lintFiles("{error,warn}.js");
+
+                assert.strictEqual(results.length, 2);
+
+                const [errorResult, warnResult] = results;
+
+                assert.strictEqual(errorResult.filePath, path.join(getPath(), "error.js"));
+                assert.strictEqual(errorResult.messages.length, 1);
+                assert.strictEqual(errorResult.messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(errorResult.messages[0].severity, 2);
+
+                assert.strictEqual(warnResult.filePath, path.join(getPath(), "warn.js"));
+                assert.strictEqual(warnResult.messages.length, 1);
+                assert.strictEqual(warnResult.messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(warnResult.messages[0].severity, 1);
+            });
+
+            // https://github.com/eslint/eslint/issues/18261
+            it("should apply to all files except for 'error.js' even with `ignore: false` option", async () => {
+                const engine = new FlatESLint({
+                    cwd,
+                    ignore: false
                 });
 
                 const results = await engine.lintFiles("{error,warn}.js");
