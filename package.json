@@ -22,7 +22,7 @@
       "types": "./lib/types/rules/index.d.ts"
     },
     "./universal": {
-        "default": "./lib/linter/linter.js"
+        "default": "./lib/universal.js"
     }
   },
   "scripts": {
