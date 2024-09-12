@@ -120,9 +120,8 @@ async function assertMergedResult(values, result) {
 async function assertInvalidConfig(values, message) {
     const configs = createFlatConfigArray(values);
 
-    await configs.normalize();
-
     assert.throws(() => {
+        configs.normalizeSync();
         configs.getConfig("foo.js");
     }, message);
 }
@@ -648,6 +647,161 @@ describe("FlatConfigArray", () => {
 
             assert.deepStrictEqual(config.rules, normalizeRuleConfig(allConfig.rules));
         });
+    });
+
+    describe("Config array elements", () => {
+        it("should error on a 'foo' string config", async () => {
+
+            await assertInvalidConfig(["foo"], "Config (unnamed): Unexpected non-object config at original index 0.");
+        });
+
+        it("should throw an error when undefined original config is normalized", () => {
+
+            const configs = new FlatConfigArray([void 0]);
+
+            assert.throws(() => {
+                configs.normalizeSync();
+            }, "Config (unnamed): Unexpected undefined config at original index 0.");
+
+        });
+
+        it("should throw an error when undefined original config is normalized asynchronously", async () => {
+
+            const configs = new FlatConfigArray([void 0]);
+
+            try {
+                await configs.normalize();
+                assert.fail("Error not thrown");
+            } catch (error) {
+                assert.strictEqual(error.message, "Config (unnamed): Unexpected undefined config at original index 0.");
+            }
+
+        });
+
+        it("should throw an error when null original config is normalized", () => {
+
+            const configs = new FlatConfigArray([null]);
+
+            assert.throws(() => {
+                configs.normalizeSync();
+            }, "Config (unnamed): Unexpected null config at original index 0.");
+
+        });
+
+        it("should throw an error when null original config is normalized asynchronously", async () => {
+
+            const configs = new FlatConfigArray([null]);
+
+            try {
+                await configs.normalize();
+                assert.fail("Error not thrown");
+            } catch (error) {
+                assert.strictEqual(error.message, "Config (unnamed): Unexpected null config at original index 0.");
+            }
+
+        });
+
+        it("should throw an error when undefined base config is normalized", () => {
+
+            const configs = new FlatConfigArray([], { baseConfig: [void 0] });
+
+            assert.throws(() => {
+                configs.normalizeSync();
+            }, "Config (unnamed): Unexpected undefined config at base index 0.");
+
+        });
+
+        it("should throw an error when undefined base config is normalized asynchronously", async () => {
+
+            const configs = new FlatConfigArray([], { baseConfig: [void 0] });
+
+            try {
+                await configs.normalize();
+                assert.fail("Error not thrown");
+            } catch (error) {
+                assert.strictEqual(error.message, "Config (unnamed): Unexpected undefined config at base index 0.");
+            }
+
+        });
+
+        it("should throw an error when null base config is normalized", () => {
+
+            const configs = new FlatConfigArray([], { baseConfig: [null] });
+
+            assert.throws(() => {
+                configs.normalizeSync();
+            }, "Config (unnamed): Unexpected null config at base index 0.");
+
+        });
+
+        it("should throw an error when null base config is normalized asynchronously", async () => {
+
+            const configs = new FlatConfigArray([], { baseConfig: [null] });
+
+            try {
+                await configs.normalize();
+                assert.fail("Error not thrown");
+            } catch (error) {
+                assert.strictEqual(error.message, "Config (unnamed): Unexpected null config at base index 0.");
+            }
+
+        });
+
+        it("should throw an error when undefined user-defined config is normalized", () => {
+
+            const configs = new FlatConfigArray([]);
+
+            configs.push(void 0);
+
+            assert.throws(() => {
+                configs.normalizeSync();
+            }, "Config (unnamed): Unexpected undefined config at user-defined index 0.");
+
+        });
+
+        it("should throw an error when undefined user-defined config is normalized asynchronously", async () => {
+
+            const configs = new FlatConfigArray([]);
+
+            configs.push(void 0);
+
+            try {
+                await configs.normalize();
+                assert.fail("Error not thrown");
+            } catch (error) {
+                assert.strictEqual(error.message, "Config (unnamed): Unexpected undefined config at user-defined index 0.");
+            }
+
+        });
+
+        it("should throw an error when null user-defined config is normalized", () => {
+
+            const configs = new FlatConfigArray([]);
+
+            configs.push(null);
+
+            assert.throws(() => {
+                configs.normalizeSync();
+            }, "Config (unnamed): Unexpected null config at user-defined index 0.");
+
+        });
+
+        it("should throw an error when null user-defined config is normalized asynchronously", async () => {
+
+            const configs = new FlatConfigArray([]);
+
+            configs.push(null);
+
+            try {
+                await configs.normalize();
+                assert.fail("Error not thrown");
+            } catch (error) {
+                assert.strictEqual(error.message, "Config (unnamed): Unexpected null config at user-defined index 0.");
+            }
+
+        });
+
+
     });
 
     describe("Config Properties", () => {
