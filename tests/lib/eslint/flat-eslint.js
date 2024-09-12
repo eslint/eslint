@@ -4541,7 +4541,40 @@ describe("FlatESLint", () => {
             });
         });
 
+        describe("Error while globbing", () => {
 
+            it("should throw an error with a glob pattern if an invalid config was provided", async () => {
+
+                const cwd = getFixturePath("files");
+
+                eslint = new FlatESLint({
+                    cwd,
+                    overrideConfig: [{ invalid: "foobar" }]
+                });
+
+                await assert.rejects(eslint.lintFiles("*.js"));
+            });
+
+            it("should throw an error with a glob pattern if an error occurs traversing a directory", async () => {
+
+                const fsWalk = require("@nodelib/fs.walk");
+                const error = new Error("Boom!");
+
+                sinon
+                    .stub(fsWalk, "walk")
+                    .value(sinon.stub().yieldsRight(error)); // call the callback passed to `fs.walk` with an error
+
+                const cwd = getFixturePath("files");
+
+                eslint = new FlatESLint({
+                    cwd,
+                    overrideConfigFile: true
+                });
+
+                await assert.rejects(eslint.lintFiles("*.js"), error);
+            });
+
+        });
     });
 
     describe("Fix Types", () => {
