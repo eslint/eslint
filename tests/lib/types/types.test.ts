@@ -27,6 +27,7 @@
 
 import { AST, ESLint, Linter, loadESLint, Rule, RuleTester, Scope, SourceCode } from "eslint";
 import { ESLintRules } from "eslint/rules";
+import { Linter as ESLinter } from "eslint/universal";
 import {
     builtinRules,
     FileEnumerator,
