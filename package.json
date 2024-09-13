@@ -22,6 +22,7 @@
       "types": "./lib/types/rules/index.d.ts"
     },
     "./universal": {
+        "types": "./lib/types/universal.d.ts",
         "default": "./lib/universal.js"
     }
   },
