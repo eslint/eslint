@@ -1411,7 +1411,7 @@ export class ESLint {
 
     isPathIgnored(filePath: string): Promise<boolean>;
 
-    loadFormatter(nameOrPath?: string): Promise<ESLint.Formatter>;
+    loadFormatter(nameOrPath?: string): Promise<ESLint.LoadedFormatter>;
 }
 
 export namespace ESLint {
@@ -1555,14 +1555,38 @@ export namespace ESLint {
         replacedBy: string[];
     }
 
-    interface Formatter {
-        format(results: LintResult[], data?: LintResultData): string | Promise<string>;
+    interface ResultsMeta {
+        maxWarningsExceeded?: MaxWarningsExceeded | undefined;
     }
+
+    /** The type of an object resolved by {@link ESLint.loadFormatter}. */
+    interface LoadedFormatter {
+
+        /**
+         * Used to call the underlying formatter.
+         * @param results An array of lint results to format.
+         * @param resultsMeta An object with an optional `maxWarningsExceeded` property that will be
+         * passed to the underlying formatter function along with other properties set by ESLint.
+         * This argument can be omitted if `maxWarningsExceeded` is not needed.
+         * @return The formatter output.
+         */
+        format(results: LintResult[], resultsMeta?: ResultsMeta): string | Promise<string>;
+    }
+
+    // The documented type name is `LoadedFormatter`, but `Formatter` has been historically more used.
+    type Formatter = LoadedFormatter;
+
+    /**
+     * The expected signature of a custom formatter.
+     * @param results An array of lint results to format.
+     * @param context Additional information for the formatter.
+     * @return The formatter output.
+     */
+    type FormatterFunction =
+    (results: LintResult[], context: LintResultData) => string | Promise<string>;
 
     // Docs reference the types by those name
     type EditInfo = Rule.Fix;
-    type LoadedFormatter = Formatter;
-    type ResultsMeta = LintResultData;
 }
 
 // #endregion

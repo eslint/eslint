@@ -105,9 +105,9 @@ loc.column; // $ExpectType number
 sourceCode.getIndexFromLoc({ line: 0, column: 0 });
 
 sourceCode.getTokenByRangeStart(0); // $ExpectType Token | null
-sourceCode.getTokenByRangeStart(0, { includeComments: true }); // $ExpectType Comment | Token | null || Token | Comment | null
+sourceCode.getTokenByRangeStart(0, { includeComments: true }); // $ExpectType Comment | Token | null
 sourceCode.getTokenByRangeStart(0, { includeComments: false }); // $ExpectType Token | null
-sourceCode.getTokenByRangeStart(0, { includeComments: false as boolean }); // $ExpectType Comment | Token | null || Token | Comment | null
+sourceCode.getTokenByRangeStart(0, { includeComments: false as boolean }); // $ExpectType Comment | Token | null
 
 sourceCode.getFirstToken(AST); // $ExpectType Token | null
 sourceCode.getFirstToken(AST, 0);
@@ -115,7 +115,7 @@ sourceCode.getFirstToken(AST, { skip: 0 });
 sourceCode.getFirstToken(AST, (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"); // $ExpectType (Token & { type: "Identifier"; }) | null
 sourceCode.getFirstToken(AST, { filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier" }); // $ExpectType (Token & { type: "Identifier"; }) | null
 sourceCode.getFirstToken(AST, { skip: 0, filter: t => t.type === "Identifier" });
-sourceCode.getFirstToken(AST, { includeComments: true }); // $ExpectType Comment | Token | null || Token | Comment | null
+sourceCode.getFirstToken(AST, { includeComments: true }); // $ExpectType Comment | Token | null
 sourceCode.getFirstToken(AST, { includeComments: true, skip: 0 });
 // prettier-ignore
 sourceCode.getFirstToken(AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
@@ -223,7 +223,7 @@ sourceCode.getFirstTokenBetween(AST, AST, {
     skip: 0,
     filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
-sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true }); // $ExpectType Comment | Token | null || Token | Comment | null
+sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true }); // $ExpectType Comment | Token | null
 sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true, skip: 0 });
 // prettier-ignore
 sourceCode.getFirstTokenBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
@@ -241,7 +241,7 @@ sourceCode.getFirstTokensBetween(AST, AST, { // $ExpectType (Token & { type: "Id
     filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 sourceCode.getFirstTokensBetween(AST, AST, { count: 0, filter: t => t.type === "Identifier" });
-sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true }); // $ExpectType (Comment | Token)[] || (Token | Comment)[]
+sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true }); // $ExpectType (Comment | Token)[]
 sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true, count: 0 });
 // prettier-ignore
 sourceCode.getFirstTokensBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; })[]
@@ -278,7 +278,7 @@ sourceCode.getTokens(AST, 0);
 sourceCode.getTokens(AST, 0, 0);
 sourceCode.getTokens(AST, (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"); // $ExpectType (Token & { type: "Identifier"; })[]
 sourceCode.getTokens(AST, { filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier" }); // $ExpectType (Token & { type: "Identifier"; })[]
-sourceCode.getTokens(AST, { includeComments: true }); // $ExpectType (Comment | Token)[] || (Token | Comment)[]
+sourceCode.getTokens(AST, { includeComments: true }); // $ExpectType (Comment | Token)[]
 // prettier-ignore
 sourceCode.getTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
     includeComments: true,
@@ -1003,7 +1003,7 @@ linterWithEslintrcConfig.getRules();
     const customFormatter1: ESLint.Formatter = { format: () => "ok" };
     const customFormatter2: ESLint.Formatter = { format: () => Promise.resolve("ok") };
 
-    let data: ESLint.LintResultData;
+    let resultsMeta: ESLint.ResultsMeta;
     const meta: Rule.RuleMetaData = {
         type: "suggestion",
         docs: {
@@ -1019,7 +1019,7 @@ linterWithEslintrcConfig.getRules();
         },
     };
 
-    data = { cwd: "/foo/bar", rulesMeta: { "no-extra-semi": meta } };
+    resultsMeta = { maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 } };
 
     const version: string = ESLint.version;
 
@@ -1027,7 +1027,7 @@ linterWithEslintrcConfig.getRules();
         const results: ESLint.LintResult[] = await resultsPromise;
         const formatter = await formatterPromise;
 
-        const output: string = await formatter.format(results, data);
+        const output: string = await formatter.format(results, resultsMeta);
 
         eslint.getRulesMetaForResults(results);
 
@@ -1131,7 +1131,7 @@ linterWithEslintrcConfig.getRules();
     const customFormatter1: ESLint.Formatter = { format: () => "ok" };
     const customFormatter2: ESLint.Formatter = { format: () => Promise.resolve("ok") };
 
-    let data: ESLint.LintResultData;
+    let resultsMeta: ESLint.ResultsMeta;
     const meta: Rule.RuleMetaData = {
         type: "suggestion",
         docs: {
@@ -1147,7 +1147,7 @@ linterWithEslintrcConfig.getRules();
         },
     };
 
-    data = { cwd: "/foo/bar", rulesMeta: { "no-extra-semi": meta } };
+    resultsMeta = { maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 } };
 
     const version: string = LegacyESLint.version;
 
@@ -1155,7 +1155,7 @@ linterWithEslintrcConfig.getRules();
         const results: ESLint.LintResult[] = await resultsPromise;
         const formatter = await formatterPromise;
 
-        const output: string = await formatter.format(results, data);
+        const output: string = await formatter.format(results, resultsMeta);
 
         eslint.getRulesMetaForResults(results);
 
@@ -1168,6 +1168,20 @@ linterWithEslintrcConfig.getRules();
 }
 
 // #endregion
+
+// #region ESLint.Formatter
+
+function jsonFormatter(results: ESLint.LintResult[]) {
+    return JSON.stringify(results, null, 2);
+};
+
+const customFormatter: ESLint.FormatterFunction = jsonFormatter;
+
+function wrapperFormatter(results: ESLint.LintResult[], { cwd, maxWarningsExceeded, rulesMeta }: ESLint.LintResultData) {
+    customFormatter(results, { cwd, maxWarningsExceeded, rulesMeta });
+}
+
+// #endregion ESLint.Formatter
 
 // #region ESLint.LintResult
 
@@ -1216,7 +1230,7 @@ for (const result of results) {
     }
 }
 
-// #region ESLint.LintResult
+// #endregion ESLint.LintResult
 
 // #region ESLintRules
 

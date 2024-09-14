@@ -54,6 +54,9 @@ body:
     options:
       - label: I am willing to submit a pull request for this change.
         required: false
+- type: markdown
+  attributes:
+    value: Please **do not** open a pull request until this issue has been accepted by the team.
 - type: textarea
   attributes:
     label: Additional comments
