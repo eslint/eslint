@@ -3,4 +3,4 @@
  * @author 唯然<weiran.zsd@outlook.com>
  */
 
-export type { Linter } from "./index.d.ts";
+export { Linter } from "./index";
