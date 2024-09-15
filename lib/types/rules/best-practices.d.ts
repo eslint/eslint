@@ -692,6 +692,11 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default []
                  */
                 ignorePropertyModificationsFor: string[];
+                /**
+                 * @since 6.6.0
+                 * @default []
+                 */
+                ignorePropertyModificationsForRegex: string[];
             }>,
         ]
     >;
