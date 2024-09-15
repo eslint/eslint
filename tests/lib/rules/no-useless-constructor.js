@@ -11,6 +11,7 @@
 
 const rule = require("../../../lib/rules/no-useless-constructor");
 const RuleTester = require("../../../lib/rule-tester/rule-tester");
+const { unIndent } = require("../../_utils");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -136,13 +137,23 @@ ruleTester.run("no-useless-constructor", rule, {
             }]
         },
         {
-            code: "class A { foo = \"bar\"\nconstructor() { }\n[0]() { } }",
+            code: unIndent`
+              class A {
+                foo = 'bar'
+                constructor() { }
+                [0]() { }
+              }`,
             languageOptions: { ecmaVersion: 2022 },
             errors: [{
                 ...error,
                 suggestions: [{
                     messageId: "removeConstructor",
-                    output: "class A { foo = \"bar\"\n;\n[0]() { } }"
+                    output: unIndent`
+                    class A {
+                      foo = 'bar'
+                      ;
+                      [0]() { }
+                    }`
                 }]
             }]
         }
