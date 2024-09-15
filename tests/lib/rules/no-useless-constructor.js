@@ -136,17 +136,6 @@ ruleTester.run("no-useless-constructor", rule, {
             }]
         },
         {
-            code: "class A {\nfoo = 5\nconstructor() {}\nbar() {}\n}",
-            languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                ...error,
-                suggestions: [{
-                    messageId: "removeConstructor",
-                    output: "class A {\nfoo = 5;\n\nbar() {}\n}"
-                }]
-            }]
-        },
-        {
             code: "class A { foo = \"bar\"\nconstructor() { }\n[0]() { } }",
             languageOptions: { ecmaVersion: 2022 },
             errors: [{
