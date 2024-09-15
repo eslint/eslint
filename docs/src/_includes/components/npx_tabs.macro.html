@@ -10,7 +10,7 @@
       <h3 class="h6 c-tabs__tabpanel__title">npm</h3>
 
 ```shell
-{% if params.comment %}# {{params.comment}}{{"\n"}}{% endif -%}
+{% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
 npx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ') | safe }}
 ```
 
@@ -19,7 +19,7 @@ npx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ') | sa
       <h3 class="h6 c-tabs__tabpanel__title">yarn</h3>
 
 ```shell
-{% if comment %}# {{comment}}{{"\n"}}{% endif -%}
+{% if comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
 yarn dlx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ') | safe }}
 ```
 
@@ -28,7 +28,7 @@ yarn dlx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ')
       <h3 class="h6 c-tabs__tabpanel__title">pnpm</h3>
 
 ```shell
-{% if params.comment %}# {{params.comment}}{{"\n"}}{% endif -%}
+{% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
 pnpm dlx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ') | safe }}
 ```
 
@@ -37,7 +37,7 @@ pnpm dlx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ')
       <h3 class="h6 c-tabs__tabpanel__title">bun</h3>
 
 ```shell
-{% if params.comment %}# {{params.comment}}{{"\n"}}{% endif -%}
+{% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
 bunx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ') | safe }}
 ```
 
