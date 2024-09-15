@@ -1,4 +1,4 @@
-{%- macro npx_tabs(package = "", args = [], comment = null) -%}
+{%- macro npx_tabs({params}) -%}
 <div class="c-tabs" data-tabs>
    <div class="c-tabs__tablist" data-tablist hidden>
       <button class="c-tabs__tab" data-tab>npm</button>
@@ -10,8 +10,8 @@
       <h3 class="h6 c-tabs__tabpanel__title">npm</h3>
 
 ```shell
-{% if comment %}# {{comment}}{{"\n"}}{% endif -%}
-npx {{ package | safe }} {{ args.toString().replace(',', ' ') | safe }}
+{% if params.comment %}# {{params.comment}}{{"\n"}}{% endif -%}
+npx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ') | safe }}
 ```
 
    </div>
@@ -20,7 +20,7 @@ npx {{ package | safe }} {{ args.toString().replace(',', ' ') | safe }}
 
 ```shell
 {% if comment %}# {{comment}}{{"\n"}}{% endif -%}
-yarn dlx {{ package | safe }} {{ args.toString().replace(',', ' ') | safe }}
+yarn dlx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ') | safe }}
 ```
 
    </div>
@@ -28,8 +28,8 @@ yarn dlx {{ package | safe }} {{ args.toString().replace(',', ' ') | safe }}
       <h3 class="h6 c-tabs__tabpanel__title">pnpm</h3>
 
 ```shell
-{% if comment %}# {{comment}}{{"\n"}}{% endif -%}
-pnpm dlx {{ package | safe }} {{ args.toString().replace(',', ' ') | safe }}
+{% if params.comment %}# {{params.comment}}{{"\n"}}{% endif -%}
+pnpm dlx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ') | safe }}
 ```
 
    </div>
@@ -37,8 +37,8 @@ pnpm dlx {{ package | safe }} {{ args.toString().replace(',', ' ') | safe }}
       <h3 class="h6 c-tabs__tabpanel__title">bun</h3>
 
 ```shell
-{% if comment %}# {{comment}}{{"\n"}}{% endif -%}
-bunx {{ package | safe }} {{ args.toString().replace(',', ' ') | safe }}
+{% if params.comment %}# {{params.comment}}{{"\n"}}{% endif -%}
+bunx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ') | safe }}
 ```
 
    </div>
