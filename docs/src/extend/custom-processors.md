@@ -165,9 +165,11 @@ export default [
 ];
 ```
 
+In this example, the processor name is `"example/processor-name"`, and that's the value that will be used for serializing configurations.
+
 #### Processor `meta` Object
 
-Each processor can also specify its own `meta` object. This information is used when the processor object is passed directly to `processor` in a configuration. (In that case, ESLint doesn't know which plugin the processor belongs to.)
+Each processor can also specify its own `meta` object. This information is used when the processor object is passed directly to `processor` in a configuration. In that case, ESLint doesn't know which plugin the processor belongs to.
 
 Example:
 
@@ -177,13 +179,15 @@ import example from "eslint-plugin-example";
 
 export default [
     {
-        processor: example.processors.processor-name
+        processor: example.processors["processor-name"]
     },
     // ... other configs
 ];
 ```
 
-##### Why Both Meta Objects are Needed
+In this example, specifying `example.processors["processor-name"]` directly uses the processor's own `meta` object, which must be defined to ensure proper handling when the processor is not referenced through the plugin name.
+
+#### Why Both Meta Objects are Needed
 
 It is recommended that both the plugin and each processor provide their respective meta objects. This ensures that features relying on meta objects, such as `--print-config` and `--cache`, work correctly regardless of how the processor is specified in the configuration.
 
