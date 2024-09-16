@@ -51,7 +51,7 @@ After the patch release has been published (or no patch release is necessary), c
 
 ### Release Parameters
 
-The following tables shows examples of the option to select as `RELEASE_TYPE` when starting `eslint-js Release` (the `@eslint/js` package release) and `eslint Release` (the `eslint` package release) jobs on Jenkins to release a new version with the latest features. In both jobs, `main` should be selected as `RELEASE_BRANCH`.
+The following tables show examples of the option to select as `RELEASE_TYPE` when starting `eslint-js Release` (the `@eslint/js` package release) and `eslint Release` (the `eslint` package release) jobs on Jenkins to release a new version with the latest features. In both jobs, `main` should be selected as `RELEASE_BRANCH`.
 
 | **HEAD Version** | **Desired Next Version** | **`eslint-js Release`<br>`RELEASE_TYPE`** |
 | :---: | :---: | :---: |
