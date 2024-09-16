@@ -19,7 +19,7 @@ npx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ') | sa
       <h3 class="h6 c-tabs__tabpanel__title">yarn</h3>
 
 ```shell
-{% if comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
+{% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
 yarn dlx {{ params.package | safe }} {{ params.args.toString().replace(',', ' ') | safe }}
 ```
 
