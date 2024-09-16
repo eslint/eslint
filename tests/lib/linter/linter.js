@@ -16071,6 +16071,35 @@ var a = "test2";
                 assert.strictEqual(logs.length, 1, "preprocess() should only be called once.");
             });
 
+            it("should pass the BOM to preprocess", () => {
+                const logs = [];
+                const code = "\uFEFFfoo";
+                const config = {
+                    files: ["*.md"],
+                    processor: {
+                        preprocess(text, filenameForText) {
+                            logs.push({
+                                text,
+                                filename: filenameForText
+                            });
+
+                            return [{ text: "bar", filename: "0.js" }];
+                        },
+                        postprocess() {
+                            return [];
+                        }
+                    }
+                };
+
+                linter.verify(code, config, "a.md");
+                assert.deepStrictEqual(logs, [
+                    {
+                        text: code,
+                        filename: "a.md"
+                    }
+                ]);
+            });
+
             it("should apply a preprocessor to the code, and lint each code sample separately", () => {
                 const code = "foo bar baz";
                 const configs = createFlatConfigArray([
