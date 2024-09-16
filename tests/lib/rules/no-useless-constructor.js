@@ -11,6 +11,7 @@
 
 const rule = require("../../../lib/rules/no-useless-constructor");
 const RuleTester = require("../../../lib/rule-tester/rule-tester");
+const { unIndent } = require("../../_utils");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -47,39 +48,114 @@ ruleTester.run("no-useless-constructor", rule, {
     invalid: [
         {
             code: "class A { constructor(){} }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "removeConstructor",
+                    output: "class A {  }"
+                }]
+            }]
         },
         {
             code: "class A { 'constructor'(){} }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "removeConstructor",
+                    output: "class A {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B { constructor() { super(); } }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "removeConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B { constructor(foo){ super(foo); } }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "removeConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B { constructor(foo, bar){ super(foo, bar); } }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "removeConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B { constructor(...args){ super(...args); } }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "removeConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B.C { constructor() { super(...arguments); } }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "removeConstructor",
+                    output: "class A extends B.C {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B { constructor(a, b, ...c) { super(...arguments); } }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "removeConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
         },
         {
             code: "class A extends B { constructor(a, b, ...c) { super(a, b, ...c); } }",
-            errors: [error]
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "removeConstructor",
+                    output: "class A extends B {  }"
+                }]
+            }]
+        },
+        {
+            code: unIndent`
+              class A {
+                foo = 'bar'
+                constructor() { }
+                [0]() { }
+              }`,
+            languageOptions: { ecmaVersion: 2022 },
+            errors: [{
+                ...error,
+                suggestions: [{
+                    messageId: "removeConstructor",
+                    output: unIndent`
+                    class A {
+                      foo = 'bar'
+                      ;
+                      [0]() { }
+                    }`
+                }]
+            }]
         }
     ]
 });
