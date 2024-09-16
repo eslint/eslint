@@ -259,12 +259,6 @@ export interface PossibleErrors extends Linter.RulesRecord {
                  * @default false
                  */
                 enforceForInnerExpressions: boolean;
-                /**
-                 * @deprecated
-                 * @since 7.0.0-alpha.2
-                 * @default false
-                 */
-                enforceForLogicalOperands: boolean;
             }>,
         ]
     >;
