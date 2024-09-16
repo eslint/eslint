@@ -474,7 +474,7 @@ export interface BestPractices extends Linter.RulesRecord {
                 /**
                  * @default []
                  */
-                allow: Array<"~" | "!!" | "+" | "*">;
+                allow: Array<"~" | "!!" | "+" | "- -" | "-" | "*">;
             }>,
         ]
     >;
