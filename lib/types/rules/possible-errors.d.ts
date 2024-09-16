@@ -414,7 +414,17 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * @since 5.3.0
      * @see https://eslint.org/docs/rules/no-misleading-character-class
      */
-    "no-misleading-character-class": Linter.RuleEntry<[]>;
+    "no-misleading-character-class": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @since 9.3.0
+                 * @default false
+                 */
+                allowEscape: boolean;
+            }>,
+        ]
+    >;
 
     /**
      * Rule to disallow calling global object properties as functions.
