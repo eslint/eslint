@@ -55,8 +55,8 @@ This rule disallows the following characters except where the options allow:
 \u2009 - Thin Space - <THSP>
 \u200A - Hair Space - <HSP>
 \u200B - Zero Width Space - <ZWSP>
-\u2028 - Line Separator - <LSEP>
-\u2029 - Paragraph Separator - < PSEP>
+\u2028 - Line Separator - <LS> - <LSEP>
+\u2029 - Paragraph Separator - <PS> - <PSEP>
 \u202F - Narrow No-Break Space - <NNBSP>
 \u205f - Medium Mathematical Space - <MMSP>
 \u3000 - Ideographic Space - <IDSP>
