@@ -324,6 +324,8 @@ export interface BestPractices extends Linter.RulesRecord {
                     | "getters"
                     | "setters"
                     | "constructors"
+                    | "asyncFunctions"
+                    | "asyncMethods"
                 >;
             }>,
         ]
