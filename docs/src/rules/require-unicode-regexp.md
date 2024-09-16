@@ -98,6 +98,87 @@ function i(flags) {
 
 :::
 
+## Options
+
+This rule has one object option:
+
+* `"requireFlag": "u"|"v"` requires a particular Unicode regex flag
+
+### requireFlag: "u"
+
+The `u` flag may be preferred in environments that do not support the `v` flag.
+
+Examples of **incorrect** code for this rule with the `{ "requireFlag": "u" }` option:
+
+:::incorrect
+
+```js
+/*eslint require-unicode-regexp: ["error", { "requireFlag": "u" }] */
+
+const fooEmpty = /foo/;
+
+const fooEmptyRegexp = new RegExp('foo');
+
+const foo = /foo/v;
+
+const fooRegexp = new RegExp('foo', 'v');
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "requireFlag": "u" }` option:
+
+:::correct
+
+```js
+/*eslint require-unicode-regexp: ["error", { "requireFlag": "u" }] */
+
+const foo = /foo/u;
+
+const fooRegexp = new RegExp('foo', 'u');
+```
+
+:::
+
+### requireFlag: "v"
+
+The `v` flag may be a better choice when it is supported because it has more
+features than the `u` flag (e.g., the ability to test Unicode properties of strings). It
+does have a stricter syntax, however (e.g., the need to escape certain
+characters within character classes).
+
+Examples of **incorrect** code for this rule with the `{ "requireFlag": "v" }` option:
+
+:::incorrect
+
+```js
+/*eslint require-unicode-regexp: ["error", { "requireFlag": "v" }] */
+
+const fooEmpty = /foo/;
+
+const fooEmptyRegexp = new RegExp('foo');
+
+const foo = /foo/u;
+
+const fooRegexp = new RegExp('foo', 'u');
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "requireFlag": "v" }` option:
+
+:::correct
+
+```js
+/*eslint require-unicode-regexp: ["error", { "requireFlag": "v" }] */
+
+const foo = /foo/v;
+
+const fooRegexp = new RegExp('foo', 'v');
+```
+
+:::
+
 ## When Not To Use It
 
 If you don't want to warn on regular expressions without either a `u` or a `v` flag, then it's safe to disable this rule.

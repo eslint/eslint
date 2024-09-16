@@ -143,3 +143,21 @@ export default [
     }
 ];
 ```
+
+You can include multiple different collections of globals in the same way. The following example includes globals both for web browsers and for [Jest](https://jestjs.io/):
+
+```js
+// eslint.config.js
+import globals from "globals";
+
+export default [
+    {
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+                ...globals.jest
+            }
+        }
+    }
+];
+```

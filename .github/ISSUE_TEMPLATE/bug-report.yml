@@ -9,19 +9,21 @@ body:
   attributes:
     value: By opening an issue, you agree to abide by the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct).
 - type: textarea
+  id: environment
   attributes:
     label: Environment
     description: |
       Please tell us about how you're running ESLint (Run `npx eslint --env-info`.)
     value: |
-        Node version: 
-        npm version: 
-        Local ESLint version: 
-        Global ESLint version: 
-        Operating System: 
+        Node version:
+        npm version:
+        Local ESLint version:
+        Global ESLint version:
+        Operating System:
   validations:
     required: true
 - type: dropdown
+  id: parser
   attributes:
     label: What parser are you using?
     description: |
@@ -36,6 +38,7 @@ body:
   validations:
     required: true
 - type: textarea
+  id: description
   attributes:
     label: What did you do?
     description: |
@@ -55,6 +58,7 @@ body:
   validations:
     required: true
 - type: textarea
+  id: expectation
   attributes:
     label: What did you expect to happen?
     description: |
@@ -83,7 +87,11 @@ body:
     options:
       - label: I am willing to submit a pull request for this issue.
         required: false
+- type: markdown
+  attributes:
+    value: Please **do not** open a pull request until this issue has been accepted by the team.
 - type: textarea
+  id: comments
   attributes:
     label: Additional comments
     description: Is there anything else that's important for the team to know?

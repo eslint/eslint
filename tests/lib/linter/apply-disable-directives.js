@@ -20,7 +20,7 @@ const jslang = require("../../../lib/languages/js");
 /**
  * Creates a ParentDirective for a given range.
  * @param {[number, number]} range total range of the comment
- * @param {string} value String value of the comment
+ * @param {string} value String value of the directive
  * @param {string[]} ruleIds Rule IDs reported in the value
  * @returns {ParentDirective} Test-ready ParentDirective object.
  */
@@ -35,11 +35,11 @@ function createParentDirective(range, value, ruleIds = []) {
                 },
                 end: {
                     line: 1,
-                    column: value ? value.length : 10
+                    column: range[1] + 1
                 }
-            },
-            value
+            }
         },
+        value,
         ruleIds
     };
 }
@@ -2423,12 +2423,15 @@ describe("apply-disable-directives", () => {
 
     describe("unused rules within directives", () => {
         it("Adds a problem for /* eslint-disable used, unused */", () => {
-            const parentDirective = createParentDirective([0, 32], " eslint-disable used, unused ", ["used", "unused"]);
+            const parentDirective = createParentDirective([0, 32], "used, unused", ["used", "unused"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable used, unused */"
+                    },
                     directives: [
                         {
                             parentDirective,
@@ -2473,12 +2476,15 @@ describe("apply-disable-directives", () => {
             );
         });
         it("Adds a problem for /* eslint-disable used , unused , -- unused and used are ok */", () => {
-            const parentDirective = createParentDirective([0, 62], " eslint-disable used , unused , -- unused and used are ok ", ["used", "unused"]);
+            const parentDirective = createParentDirective([0, 62], "used , unused ,", ["used", "unused"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable used , unused , -- unused and used are ok */"
+                    },
                     directives: [
                         {
                             parentDirective,
@@ -2524,12 +2530,15 @@ describe("apply-disable-directives", () => {
         });
 
         it("Adds a problem for /* eslint-disable unused, used */", () => {
-            const parentDirective = createParentDirective([0, 32], " eslint-disable unused, used ", ["unused", "used"]);
+            const parentDirective = createParentDirective([0, 32], "unused, used", ["unused", "used"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable unused, used */"
+                    },
                     directives: [
                         {
                             parentDirective,
@@ -2575,12 +2584,15 @@ describe("apply-disable-directives", () => {
         });
 
         it("Adds a problem for /* eslint-disable unused,, ,, used */", () => {
-            const parentDirective = createParentDirective([0, 37], " eslint-disable unused,, ,, used ", ["unused", "used"]);
+            const parentDirective = createParentDirective([0, 37], " unused,, ,, used ", ["unused", "used"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable unused,, ,, used */"
+                    },
                     directives: [
                         {
                             parentDirective,
@@ -2626,12 +2638,15 @@ describe("apply-disable-directives", () => {
         });
 
         it("Adds a problem for /* eslint-disable unused-1, unused-2, used */", () => {
-            const parentDirective = createParentDirective([0, 45], " eslint-disable unused-1, unused-2, used ", ["unused-1", "unused-2", "used"]);
+            const parentDirective = createParentDirective([0, 45], "unused-1, unused-2, used", ["unused-1", "unused-2", "used"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable unused-1, unused-2, used */"
+                    },
                     directives: [
                         {
                             parentDirective,
@@ -2697,12 +2712,15 @@ describe("apply-disable-directives", () => {
         });
 
         it("Adds a problem for /* eslint-disable unused-1, unused-2, used, unused-3 */", () => {
-            const parentDirective = createParentDirective([0, 55], " eslint-disable unused-1, unused-2, used, unused-3 ", ["unused-1", "unused-2", "used", "unused-3"]);
+            const parentDirective = createParentDirective([0, 55], "unused-1, unused-2, used, unused-3", ["unused-1", "unused-2", "used", "unused-3"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable unused-1, unused-2, used, unused-3 */"
+                    },
                     directives: [
                         {
                             parentDirective,
@@ -2788,12 +2806,15 @@ describe("apply-disable-directives", () => {
         });
 
         it("Adds a problem for /* eslint-disable unused-1, unused-2 */", () => {
-            const parentDirective = createParentDirective([0, 39], " eslint-disable unused-1, unused-2 ", ["unused-1", "unused-2"]);
+            const parentDirective = createParentDirective([0, 39], "unused-1, unused-2", ["unused-1", "unused-2"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable unused-1, unused-2 */"
+                    },
                     directives: [
                         {
                             parentDirective,
@@ -2833,12 +2854,15 @@ describe("apply-disable-directives", () => {
         });
 
         it("Adds a problem for /* eslint-disable unused-1, unused-2, unused-3 */", () => {
-            const parentDirective = createParentDirective([0, 49], " eslint-disable unused-1, unused-2, unused-3 ", ["unused-1", "unused-2", "unused-3"]);
+            const parentDirective = createParentDirective([0, 49], "unused-1, unused-2, unused-3", ["unused-1", "unused-2", "unused-3"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable unused-1, unused-2, unused-3 */"
+                    },
                     directives: [
                         {
                             parentDirective,
@@ -2886,10 +2910,13 @@ describe("apply-disable-directives", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable foo */ \n  (problem)    // eslint-disable-line foo, bar"
+                    },
                     directives: [
                         {
-                            parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
+                            parentDirective: createParentDirective([0, 29], "foo", ["foo"]),
                             ruleId: "foo",
                             type: "disable",
                             line: 1,
@@ -2897,7 +2924,7 @@ describe("apply-disable-directives", () => {
                             justification: "j1"
                         },
                         {
-                            parentDirective: createParentDirective([41, 81], " eslint-disable-line foo, bar", ["foo", "bar"]),
+                            parentDirective: createParentDirective([41, 81], "foo, bar", ["foo", "bar"]),
                             ruleId: "foo",
                             type: "disable-line",
                             line: 2,
@@ -2905,7 +2932,7 @@ describe("apply-disable-directives", () => {
                             justification: "j2"
                         },
                         {
-                            parentDirective: createParentDirective([41, 81], " eslint-disable-line foo, bar ", ["foo", "bar"]),
+                            parentDirective: createParentDirective([41, 81], "foo, bar", ["foo", "bar"]),
                             ruleId: "bar",
                             type: "disable-line",
                             line: 2,
@@ -2952,15 +2979,18 @@ describe("apply-disable-directives", () => {
         });
 
         it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-enable used, unused */", () => {
-            const parentDirective = createParentDirective([0, 32], " eslint-enable used, unused ", ["used", "unused"]);
+            const parentDirective = createParentDirective([52, 84], "used, unused", ["used", "unused"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable used */\n/* (problem from used) */\n/* eslint-enable used, unused */"
+                    },
                     directives: [
                         {
-                            parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
+                            parentDirective: createParentDirective([0, 29], "used", ["used"]),
                             ruleId: "used",
                             type: "disable",
                             line: 1,
@@ -2979,7 +3009,7 @@ describe("apply-disable-directives", () => {
                             parentDirective,
                             ruleId: "unused",
                             type: "enable",
-                            line: 4,
+                            line: 3,
                             column: 1,
                             justification: "j3"
                         }
@@ -2997,10 +3027,10 @@ describe("apply-disable-directives", () => {
                     {
                         ruleId: null,
                         message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused').",
-                        line: 4,
+                        line: 3,
                         column: 1,
                         fix: {
-                            range: [21, 29],
+                            range: [73, 81],
                             text: ""
                         },
                         severity: 2,
@@ -3010,15 +3040,18 @@ describe("apply-disable-directives", () => {
             );
         });
         it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-enable used , unused , -- unused and used are ok */", () => {
-            const parentDirective = createParentDirective([0, 62], " eslint-enable used , unused , -- unused and used are ok ", ["used", "unused"]);
+            const parentDirective = createParentDirective([52, 113], " eslint-enable used , unused , -- unused and used are ok ", ["used", "unused"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable used */\n/* (problem from used) */\n/* eslint-enable used , unused , -- unused and used are ok */"
+                    },
                     directives: [
                         {
-                            parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
+                            parentDirective: createParentDirective([0, 29], "used", ["used"]),
                             ruleId: "used",
                             type: "disable",
                             line: 1,
@@ -3037,7 +3070,7 @@ describe("apply-disable-directives", () => {
                             parentDirective,
                             ruleId: "unused",
                             type: "enable",
-                            line: 4,
+                            line: 3,
                             column: 1,
                             justification: "j3"
                         }
@@ -3055,10 +3088,10 @@ describe("apply-disable-directives", () => {
                     {
                         ruleId: null,
                         message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused').",
-                        line: 4,
+                        line: 3,
                         column: 1,
                         fix: {
-                            range: [22, 31],
+                            range: [74, 83],
                             text: ""
                         },
                         severity: 2,
@@ -3069,15 +3102,18 @@ describe("apply-disable-directives", () => {
         });
 
         it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-enable unused, used */", () => {
-            const parentDirective = createParentDirective([0, 32], " eslint-enable unused, used ", ["unused", "used"]);
+            const parentDirective = createParentDirective([52, 84], "unused, used", ["unused", "used"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable used */\n/* (problem from used) */\n/* eslint-enable unused, used */"
+                    },
                     directives: [
                         {
-                            parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
+                            parentDirective: createParentDirective([0, 29], "used", ["used"]),
                             ruleId: "used",
                             type: "disable",
                             line: 1,
@@ -3096,7 +3132,7 @@ describe("apply-disable-directives", () => {
                             parentDirective,
                             ruleId: "used",
                             type: "enable",
-                            line: 4,
+                            line: 3,
                             column: 1,
                             justification: "j3"
                         }
@@ -3117,7 +3153,7 @@ describe("apply-disable-directives", () => {
                         line: 3,
                         column: 1,
                         fix: {
-                            range: [17, 25],
+                            range: [69, 77],
                             text: ""
                         },
                         severity: 2,
@@ -3128,15 +3164,18 @@ describe("apply-disable-directives", () => {
         });
 
         it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-enable unused,, ,, used */", () => {
-            const parentDirective = createParentDirective([0, 37], " eslint-enable unused,, ,, used ", ["unused", "used"]);
+            const parentDirective = createParentDirective([52, 88], "unused,, ,, used", ["unused", "used"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable used */\n/* (problem from used) */\n/* eslint-enable unused,, ,, used */"
+                    },
                     directives: [
                         {
-                            parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
+                            parentDirective: createParentDirective([0, 29], "used", ["used"]),
                             ruleId: "used",
                             type: "disable",
                             line: 1,
@@ -3155,7 +3194,7 @@ describe("apply-disable-directives", () => {
                             parentDirective,
                             ruleId: "used",
                             type: "enable",
-                            line: 4,
+                            line: 3,
                             column: 1,
                             justification: "j3"
                         }
@@ -3176,7 +3215,7 @@ describe("apply-disable-directives", () => {
                         line: 3,
                         column: 1,
                         fix: {
-                            range: [17, 24],
+                            range: [69, 76],
                             text: ""
                         },
                         severity: 2,
@@ -3187,15 +3226,18 @@ describe("apply-disable-directives", () => {
         });
 
         it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-enable unused-1, unused-2, used */", () => {
-            const parentDirective = createParentDirective([0, 45], " eslint-enable unused-1, unused-2, used ", ["unused-1", "unused-2", "used"]);
+            const parentDirective = createParentDirective([52, 96], "unused-1, unused-2, used", ["unused-1", "unused-2", "used"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable used */\n/* (problem from used) */\n/* eslint-enable unused-1, unused-2, used */"
+                    },
                     directives: [
                         {
-                            parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
+                            parentDirective: createParentDirective([0, 29], "used", ["used"]),
                             ruleId: "used",
                             type: "disable",
                             line: 1,
@@ -3214,7 +3256,7 @@ describe("apply-disable-directives", () => {
                             parentDirective,
                             ruleId: "unused-2",
                             type: "enable",
-                            line: 4,
+                            line: 3,
                             column: 1,
                             justification: "j3"
                         },
@@ -3222,7 +3264,7 @@ describe("apply-disable-directives", () => {
                             parentDirective,
                             ruleId: "used",
                             type: "enable",
-                            line: 5,
+                            line: 3,
                             column: 1,
                             justification: "j4"
                         }
@@ -3243,7 +3285,7 @@ describe("apply-disable-directives", () => {
                         line: 3,
                         column: 1,
                         fix: {
-                            range: [17, 27],
+                            range: [69, 79],
                             text: ""
                         },
                         severity: 2,
@@ -3252,10 +3294,10 @@ describe("apply-disable-directives", () => {
                     {
                         ruleId: null,
                         message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-2').",
-                        line: 4,
+                        line: 3,
                         column: 1,
                         fix: {
-                            range: [25, 35],
+                            range: [77, 87],
                             text: ""
                         },
                         severity: 2,
@@ -3266,15 +3308,18 @@ describe("apply-disable-directives", () => {
         });
 
         it("Adds a problem for /* eslint-disable used */ /* (problem from used) */ /* eslint-enable unused-1, unused-2, used, unused-3 */", () => {
-            const parentDirective = createParentDirective([0, 55], " eslint-enable unused-1, unused-2, used, unused-3 ", ["unused-1", "unused-2", "used", "unused-3"]);
+            const parentDirective = createParentDirective([52, 106], "unused-1, unused-2, used, unused-3", ["unused-1", "unused-2", "used", "unused-3"]);
 
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     language: jslang,
-                    sourceCode,
+                    sourceCode: {
+                        ...sourceCode,
+                        text: "/* eslint-disable used */\n/* (problem from used) */\n/* eslint-enable unused-1, unused-2, used, unused-3 */"
+                    },
                     directives: [
                         {
-                            parentDirective: createParentDirective([0, 29], " eslint-disable foo ", ["foo"]),
+                            parentDirective: createParentDirective([0, 29], "used", ["used"]),
                             ruleId: "used",
                             type: "disable",
                             line: 1,
@@ -3293,7 +3338,7 @@ describe("apply-disable-directives", () => {
                             parentDirective,
                             ruleId: "unused-2",
                             type: "enable",
-                            line: 4,
+                            line: 3,
                             column: 1,
                             justification: "j3"
                         },
@@ -3301,7 +3346,7 @@ describe("apply-disable-directives", () => {
                             parentDirective,
                             ruleId: "used",
                             type: "enable",
-                            line: 5,
+                            line: 3,
                             column: 1,
                             justification: "j4"
                         },
@@ -3309,7 +3354,7 @@ describe("apply-disable-directives", () => {
                             parentDirective,
                             ruleId: "unused-3",
                             type: "enable",
-                            line: 6,
+                            line: 3,
                             column: 1,
                             justification: "j5"
                         }
@@ -3330,7 +3375,7 @@ describe("apply-disable-directives", () => {
                         line: 3,
                         column: 1,
                         fix: {
-                            range: [17, 27],
+                            range: [69, 79],
                             text: ""
                         },
                         severity: 2,
@@ -3339,10 +3384,10 @@ describe("apply-disable-directives", () => {
                     {
                         ruleId: null,
                         message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-2').",
-                        line: 4,
+                        line: 3,
                         column: 1,
                         fix: {
-                            range: [25, 35],
+                            range: [77, 87],
                             text: ""
                         },
                         severity: 2,
@@ -3351,10 +3396,10 @@ describe("apply-disable-directives", () => {
                     {
                         ruleId: null,
                         message: "Unused eslint-enable directive (no matching eslint-disable directives were found for 'unused-3').",
-                        line: 6,
+                        line: 3,
                         column: 1,
                         fix: {
-                            range: [41, 51],
+                            range: [93, 103],
                             text: ""
                         },
                         severity: 2,
