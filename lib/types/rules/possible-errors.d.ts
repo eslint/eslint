@@ -253,13 +253,26 @@ export interface PossibleErrors extends Linter.RulesRecord {
      */
     "no-extra-boolean-cast": Linter.RuleEntry<
         [
-            Partial<{
-                /**
-                 * @since 9.3.0
-                 * @default false
-                 */
-                enforceForInnerExpressions: boolean;
-            }>,
+            | Partial<{
+                  /**
+                   * @since 9.3.0
+                   * @default false
+                   */
+                  enforceForInnerExpressions: boolean;
+                  /**
+                   * @deprecated
+                   */
+                  enforceForLogicalOperands: never;
+              }>
+            | Partial<{
+                  /**
+                   * @deprecated
+                   * @since 7.0.0-alpha.2
+                   * @default false
+                   */
+                  enforceForLogicalOperands: boolean;
+                  enforceForInnerExpressions: never;
+              }>,
         ]
     >;
 
