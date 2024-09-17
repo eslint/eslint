@@ -166,6 +166,16 @@ export interface StylisticIssues extends Linter.RulesRecord {
                  */
                 ignoreDestructuring: boolean;
                 /**
+                 * @since 6.7.0
+                 * @default false
+                 */
+                ignoreImports: boolean;
+                /**
+                 * @since 7.4.0
+                 * @default false
+                 */
+                ignoreGlobals: boolean;
+                /**
                  * @remarks
                  * Also accept for regular expression patterns
                  */
