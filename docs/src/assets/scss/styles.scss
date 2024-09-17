@@ -2,6 +2,7 @@
 @import "tokens/spacing";
 @import "tokens/typography";
 @import "tokens/ui";
+@import "tokens/opacity";
 
 @import "foundations";
 @import "syntax-highlighter";
@@ -29,6 +30,7 @@
 @import "components/index"; // used in component library
 @import "components/tabs";
 @import "components/resources";
+@import "components/logo";
 
 @import "ads";
 
