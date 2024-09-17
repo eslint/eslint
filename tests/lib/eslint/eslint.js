@@ -9323,7 +9323,7 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
 
-            it("XX should traverse into subdir1 and subdir2 but not subdir3 when parent config file specifies it as ignored and passing in sub*/*.js", async () => {
+            it("should traverse into subdir1 and subdir2 but not subdir3 when parent config file specifies it as ignored and passing in sub*/*.js", async () => {
                 eslint = new ESLint({
                     flags,
                     cwd: workDir
@@ -9343,7 +9343,7 @@ describe("ESLint", () => {
                 assert.strictEqual(results[1].suppressedMessages.length, 0);
             });
 
-            it("XX should reject an error when parent config file specifies subdir3 as ignored and passing in sub*3/*.mjs", async () => {
+            it("should reject an error when parent config file specifies subdir3 as ignored and passing in sub*3/*.mjs", async () => {
                 eslint = new ESLint({
                     flags,
                     cwd: workDir
@@ -9353,6 +9353,85 @@ describe("ESLint", () => {
                     () => eslint.lintFiles(["sub*3/*.mjs"]),
                     /All files matched by 'sub\*3\/\*\.mjs' are ignored\./u
                 );
+            });
+
+            it("should traverse into subdir1 and subdir2 but not subdir3 when parent config file specifies it as ignored and passing in sub*/*.js and **/*.cjs", async () => {
+                eslint = new ESLint({
+                    flags,
+                    cwd: workDir
+                });
+                const results = await eslint.lintFiles(["sub*/*.js", "**/*.cjs"]);
+
+                assert.strictEqual(results.length, 3);
+                assert.strictEqual(results[0].filePath, path.resolve(workDir, "eslint.config.cjs"));
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+                assert.strictEqual(results[1].filePath, path.resolve(workDir, "subdir1/1.js"));
+                assert.strictEqual(results[1].messages.length, 1);
+                assert.strictEqual(results[1].messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(results[1].messages[0].severity, 1);
+                assert.strictEqual(results[1].suppressedMessages.length, 0);
+                assert.strictEqual(results[2].filePath, path.resolve(workDir, "subdir2/2.js"));
+                assert.strictEqual(results[2].messages.length, 1);
+                assert.strictEqual(results[2].messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(results[2].messages[0].severity, 1);
+                assert.strictEqual(results[2].suppressedMessages.length, 0);
+            });
+
+            it("should traverse into subdir1 and subdir2 but not subdir3 when parent config file specifies it as ignored and passing in **/*.cjs and sub*/*.js", async () => {
+                eslint = new ESLint({
+                    flags,
+                    cwd: workDir
+                });
+                const results = await eslint.lintFiles(["**/*.cjs", "sub*/*.js"]);
+
+                assert.strictEqual(results.length, 3);
+                assert.strictEqual(results[0].filePath, path.resolve(workDir, "eslint.config.cjs"));
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(results[0].messages[0].severity, 1);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+                assert.strictEqual(results[1].filePath, path.resolve(workDir, "subdir1/1.js"));
+                assert.strictEqual(results[1].messages.length, 1);
+                assert.strictEqual(results[1].messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(results[1].messages[0].severity, 1);
+                assert.strictEqual(results[1].suppressedMessages.length, 0);
+                assert.strictEqual(results[2].filePath, path.resolve(workDir, "subdir2/2.js"));
+                assert.strictEqual(results[2].messages.length, 1);
+                assert.strictEqual(results[2].messages[0].ruleId, "no-unused-vars");
+                assert.strictEqual(results[2].messages[0].severity, 1);
+                assert.strictEqual(results[2].suppressedMessages.length, 0);
+            });
+
+            describe("Order of glob patterns shouldn't matter", () => {
+
+                it("should throw an error when parent config file ignores subdir3 and passing in **/*.cjs and subir3/*.js", async () => {
+                    eslint = new ESLint({
+                        flags,
+                        cwd: workDir
+                    });
+
+                    await assert.rejects(
+                        () => eslint.lintFiles(["**/*.cjs", "subdir3/*.js"]),
+                        /All files matched by 'subdir3\/\*\.js' are ignored\./u
+                    );
+                });
+
+                it("should throw an error when parent config file ignores subdir3 and passing in subdir3/*.js and **/*.cjs", async () => {
+                    eslint = new ESLint({
+                        flags,
+                        cwd: workDir
+                    });
+
+                    await assert.rejects(
+                        () => eslint.lintFiles(["subdir3/*.js", "**/*.cjs"]),
+                        /All files matched by 'subdir3\/\*\.js' are ignored\./u
+                    );
+                });
+
+
             });
 
             it("should traverse into subdir3 when parent config file specifies it as ignored and passing in subdir3/eslint.config.mjs", async () => {
