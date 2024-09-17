@@ -35,6 +35,7 @@ import {
     shouldUseFlatConfig,
 } from "eslint/use-at-your-own-risk";
 import { Comment, PrivateIdentifier, PropertyDefinition, StaticBlock, WhileStatement } from "estree";
+import { Language } from "@eslint/core";
 
 const SOURCE = `var foo = bar;`;
 
@@ -1355,6 +1356,15 @@ ruleTester.run("simple-valid-test", rule, {
 // #region Config
 
 ((): Linter.Config => ({
+    language: "js/js"
+}));
+
+((): Linter.Config => ({
+    // @ts-expect-error
+    language: null
+}));
+
+((): Linter.Config => ({
     languageOptions: {
         parser: {
             parse: () => AST,
@@ -1495,6 +1505,16 @@ config = flatConfig;
 flatConfig = config;
 
 // #endregion Config
+
+// #region Plugins
+
+((): ESLint.Plugin => ({
+    languages: {
+        "js": {} as Language
+    }
+}));
+
+// #endregion Plugins
 
 (async (useFlatConfig?: boolean) => {
     await loadESLint(); // $ExpectType typeof ESLint | typeof LegacyESLint
