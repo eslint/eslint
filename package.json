@@ -26,6 +26,19 @@
       "default": "./lib/universal.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      "use-at-your-own-risk": [
+        "./lib/types/use-at-your-own-risk.d.ts"
+      ],
+      "rules": [
+        "./lib/types/rules/index.d.ts"
+      ],
+      "universal": [
+        "./lib/types/universal.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "build:docs:update-links": "node tools/fetch-docs-links.js",
     "build:site": "node Makefile.js gensite",
