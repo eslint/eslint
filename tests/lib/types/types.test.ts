@@ -579,6 +579,7 @@ rule = {
 // #region Linter
 
 const linter = new Linter();
+const eslinter = new ESLinter();
 
 linter.version;
 
