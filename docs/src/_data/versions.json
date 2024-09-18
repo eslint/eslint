@@ -11,7 +11,7 @@
             "path": "/docs/latest/"
         },
         {
-            "version": "8.57.0",
+            "version": "8.57.1",
             "branch": "v8.x",
             "path": "/docs/v8.x/"
         }

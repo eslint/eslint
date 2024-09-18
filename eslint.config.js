@@ -200,7 +200,7 @@ module.exports = [
     {
         name: "eslint/lib",
         files: ["lib/*.js"],
-        ignores: ["lib/unsupported-api.js"],
+        ignores: ["lib/unsupported-api.js", "lib/universal.js"],
         rules: {
             "n/no-restricted-require": ["error", [
                 ...createInternalFilesPatterns()
