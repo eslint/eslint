@@ -90,8 +90,8 @@ ruleTester.run("complexity", rule, {
         { code: "var a = (x) => {do {'foo';} while (true)}", options: [2], languageOptions: { ecmaVersion: 6 } },
 
         // modified complexity
-        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}", options: [{ max: 2, modifiedComplexity: true }] },
-        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}", options: [{ max: 3, modifiedComplexity: true }] },
+        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}", options: [{ max: 2, variant: "modified" }] },
+        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}", options: [{ max: 3, variant: "modified" }] },
 
         // class fields
         { code: "function foo() { class C { x = a || b; y = c || d; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
@@ -190,8 +190,8 @@ ruleTester.run("complexity", rule, {
         },
 
         // modified complexity
-        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}", options: [{ max: 1, modifiedComplexity: true }], errors: [makeError("Function 'a'", 2, 1)] },
-        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}", options: [{ max: 2, modifiedComplexity: true }], errors: [makeError("Function 'a'", 3, 2)] },
+        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}", options: [{ max: 1, variant: "modified" }], errors: [makeError("Function 'a'", 2, 1)] },
+        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}", options: [{ max: 2, variant: "modified" }], errors: [makeError("Function 'a'", 3, 2)] },
 
         // class fields
         {

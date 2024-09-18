@@ -150,9 +150,9 @@ function foo() { // this function has complexity = 1
 
 This rule has a number or object option:
 
-* `"max"` (default `20`) enforces a maximum complexity
+* `"max"` (default: `20`) enforces a maximum complexity
 
-* `"modifiedComplexity": true` use the modified complexity model
+* `"variant": "classic|modified"` (default: `"classic"`) cyclomatic complexity variant to use
 
 ### max
 
@@ -170,16 +170,21 @@ Or use the shorthand syntax:
 "complexity": ["error", 2]
 ```
 
-### modifiedComplexity
+### variant
+
+Cyclomatic complexity variant to use:
+
+* `"classic"` (default) - Classic McCabe cyclomatic complexity
+* `"modified"` - Modified cyclomatic complexity
 
 _Modified cyclomatic complexity_ is the same as the classic cyclomatic complexity, but each `switch` statement only increases the complexity value by `1`, regardless of how many `case` statements it contains.
 
-Examples of **correct** code for this rule with the `{ "max": 2, "modifiedComplexity": true }` option:
+Examples of **correct** code for this rule with the `{ "max": 2, "variant": "modified" }` option:
 
 ::: correct
 
 ```js
-/*eslint complexity: ["error", {"max": 3, "modifiedComplexity": true}]*/
+/*eslint complexity: ["error", {"max": 3, "variant": "modified"}]*/
 
 function a(x) {     // this function has modified complexity = 1
     switch (x) {    // this whole switch statement has modified complexity = 1
