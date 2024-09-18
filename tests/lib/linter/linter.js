@@ -16075,7 +16075,7 @@ var a = "test2";
                 const logs = [];
                 const code = "\uFEFFfoo";
                 const config = {
-                    files: ["*.md"],
+                    files: ["**/*.myjs"],
                     processor: {
                         preprocess(text, filenameForText) {
                             logs.push({
@@ -16083,21 +16083,33 @@ var a = "test2";
                                 filename: filenameForText
                             });
 
-                            return [{ text: "bar", filename: "0.js" }];
+                            return [{ text, filename: filenameForText }];
                         },
-                        postprocess() {
-                            return [];
+                        postprocess(messages) {
+                            return messages.flat();
                         }
+                    },
+                    rules: {
+                        "unicode-bom": ["error", "never"]
                     }
                 };
 
-                linter.verify(code, config, "a.md");
+                const results = linter.verify(code, config, {
+                    filename: "a.myjs",
+                    filterCodeBlock() {
+                        return true;
+                    }
+                });
+
                 assert.deepStrictEqual(logs, [
                     {
                         text: code,
-                        filename: "a.md"
+                        filename: "a.myjs"
                     }
                 ]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].ruleId, "unicode-bom");
             });
 
             it("should apply a preprocessor to the code, and lint each code sample separately", () => {
