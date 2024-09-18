@@ -27,6 +27,7 @@
 
 import { AST, ESLint, Linter, loadESLint, Rule, RuleTester, Scope, SourceCode } from "eslint";
 import { ESLintRules } from "eslint/rules";
+import { Linter as ESLinter } from "eslint/universal";
 import {
     builtinRules,
     FileEnumerator,
@@ -579,6 +580,7 @@ rule = {
 // #region Linter
 
 const linter = new Linter();
+const eslinter = new ESLinter();
 
 linter.version;
 
