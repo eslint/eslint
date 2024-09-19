@@ -858,6 +858,15 @@ export interface BestPractices extends Linter.RulesRecord {
     "no-unused-labels": Linter.RuleEntry<[]>;
 
     /**
+     * Disallow variable assignments when the value is not used
+     *
+     *
+     * @since 9.0.0-alpha.1
+     * @see https://eslint.org/docs/latest/rules/no-useless-assignment
+     */
+    "no-useless-assignment": Linter.RuleEntry<[]>;
+
+    /**
      * Disallow useless backreferences in regular expressions
      *
      * @remarks
