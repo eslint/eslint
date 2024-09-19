@@ -186,10 +186,18 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to disallow negating the left operand in `in` expressions.
      *
      * @since 0.1.2
-     * @deprecated since 3.3.0, use [`no-unsafe-negation`](https://eslint.org/docs/rules/no-unsafe-negation) instead.
      * @see https://eslint.org/docs/rules/no-negated-in-lhs
      */
     "no-negated-in-lhs": Linter.RuleEntry<[]>;
+
+    /**
+     * Rule to disallow `new` operators with the `Symbol` object.
+     *
+     * @since 2.0.0-beta.1
+          * @deprecated since 8.27.0, use [`no-new-native-nonconstructor`](https://eslint.org/docs/rules/no-new-native-nonconstructor) instead.
+     * @see https://eslint.org/docs/rules/no-new-symbol
+     */
+    "no-new-symbol": Linter.RuleEntry<[]>;
 
     /**
      * Rule to disallow spacing between function identifiers and their applications.
