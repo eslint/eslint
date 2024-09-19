@@ -481,6 +481,19 @@ describe("RuleTester", () => {
             sinon.assert.calledOnce(before);
         });
 
+        it("should cause test to fail when it throws error", () => {
+            const before = sinon.stub().throws(new Error("Something happended"));
+
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "const onlyValid = 42;",
+                    before
+                }],
+                invalid: []
+            }), "Something happended");
+        });
+
         it("should throw when not a function is assigned", () => {
             ruleTester = new RuleTester();
             assert.throws(() => ruleTester.run(ruleName, rule, {
