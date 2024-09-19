@@ -26,6 +26,7 @@
  */
 
 import * as ESTree from "estree";
+import { Language } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
 
@@ -1266,6 +1267,13 @@ export namespace Linter {
         ignores?: string[];
 
         /**
+         * The name of the language used for linting. This is used to determine the
+         * parser and other language-specific settings.
+         * @since 9.7.0
+         */
+        language?: string;
+
+        /**
          * An object containing settings related to how JavaScript is configured for
          * linting.
          */
@@ -1441,6 +1449,7 @@ export namespace ESLint {
     interface Plugin extends ObjectMetaProperties {
         configs?: Record<string, Linter.LegacyConfig | Linter.Config | Linter.Config[]> | undefined;
         environments?: Record<string, Environment> | undefined;
+        languages?: Record<string, Language> | undefined;
         processors?: Record<string, Linter.Processor> | undefined;
         rules?: Record<string, Rule.RuleModule> | undefined;
     }

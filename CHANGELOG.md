@@ -1,3 +1,23 @@
+v8.57.1 - September 16, 2024
+
+* [`140ec45`](https://github.com/eslint/eslint/commit/140ec4569fda5a974b6964242b0b2991828a5567) chore: upgrade @eslint/js@8.57.1 (#18913) (Milos Djermanovic)
+* [`bcdfc04`](https://github.com/eslint/eslint/commit/bcdfc04a69c53dbf1fc3d38603fe0a796bf2274d) chore: package.json update for @eslint/js release (Jenkins)
+* [`3f6ce8d`](https://github.com/eslint/eslint/commit/3f6ce8d6b74aba0d645448e898f271825eeb9630) chore: pin vite-plugin-commonjs@0.10.1 (#18910) (Milos Djermanovic)
+* [`a19072f`](https://github.com/eslint/eslint/commit/a19072f9f17ea8266bc66193e5f8a4bf1368835d) fix: add logic to handle fixTypes in the lintText() method (#18900) (Francesco Trotta)
+* [`04c7188`](https://github.com/eslint/eslint/commit/04c718865b75a95ebfc4d429b8c9fad773228624) fix: Don't lint same file multiple times (#18899) (Francesco Trotta)
+* [`87ec3c4`](https://github.com/eslint/eslint/commit/87ec3c49dd23ab8892bc19aae711292d03a73483) fix: do not throw when defining a global named `__defineSetter__` (#18898) (Francesco Trotta)
+* [`60a1267`](https://github.com/eslint/eslint/commit/60a12676878c3fe0623c3b93e7565f003daac5f0) fix: Provide helpful error message for nullish configs (#18889) (Milos Djermanovic)
+* [`35d366a`](https://github.com/eslint/eslint/commit/35d366aed6e8ab0cfa8f9c9bac4656e3784c11f6) build: Support updates to previous major versions (#18870) (Milos Djermanovic)
+* [`a0dea8e`](https://github.com/eslint/eslint/commit/a0dea8ee01cc4c1b65927562afd3a46418573a02) fix: allow `name` in global ignores, fix `--no-ignore` for non-global (#18875) (Milos Djermanovic)
+* [`3836bb4`](https://github.com/eslint/eslint/commit/3836bb48d3f12058ec36c2edf2ca1b50eb1c923b) fix: do not crash on error in `fs.walk` filter (#18886) (Milos Djermanovic)
+* [`2dec349`](https://github.com/eslint/eslint/commit/2dec349199df4cba1554172ad38163cc09ad0a52) fix: skip processor code blocks that match only universal patterns (#18880) (Milos Djermanovic)
+* [`6a5add4`](https://github.com/eslint/eslint/commit/6a5add41e80941c7253b56b02815ac316e583006) docs: v8.x Add EOL banner (#18744) (Amaresh  S M)
+* [`b034575`](https://github.com/eslint/eslint/commit/b034575978e3bb57e2edca0d2dc547c7a3abc928) docs: v8.x add version support page to the dropdown (#18731) (Amaresh  S M)
+* [`760ef7d`](https://github.com/eslint/eslint/commit/760ef7d9dbd7b615ccbdc20f02cbc05dbabbada8) docs: v8.x add version support page in the side navbar (#18740) (Amaresh  S M)
+* [`428b7ea`](https://github.com/eslint/eslint/commit/428b7ea0a9c086b7d8afa0adb629b09d7347d41d) docs: Add Powered by Algolia label to the search (#18658) (Amaresh  S M)
+* [`9f07549`](https://github.com/eslint/eslint/commit/9f0754979527d05cd0abb2ea7ab1c3563fb4a361) chore: ignore `/docs/v8.x` in link checker (#18660) (Milos Djermanovic)
+* [`c68c07f`](https://github.com/eslint/eslint/commit/c68c07ff44c180952e93c6f2c860079db6291b29) docs: version selectors synchronization (#18265) (Milos Djermanovic)
+
 v9.10.0 - September 6, 2024
 
 * [`24c3ff7`](https://github.com/eslint/eslint/commit/24c3ff7d0c0bd8b98994e04f0870cbec94c5801d) chore: upgrade to @eslint/js@9.10.0 (#18866) (Francesco Trotta)

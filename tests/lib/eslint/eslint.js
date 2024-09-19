@@ -1246,6 +1246,36 @@ describe("ESLint", () => {
             });
 
         });
+
+        it("should pass BOM through processors", async () => {
+            eslint = new ESLint({
+                overrideConfigFile: true,
+                overrideConfig: [
+                    {
+                        files: ["**/*.myjs"],
+                        processor: {
+                            preprocess(text, filename) {
+                                return [{ text, filename }];
+                            },
+                            postprocess(messages) {
+                                return messages.flat();
+                            },
+                            supportsAutofix: true
+                        },
+                        rules: {
+                            "unicode-bom": ["error", "never"]
+                        }
+                    }
+                ],
+                cwd: path.join(fixtureDir)
+            });
+            const results = await eslint.lintText("\uFEFFvar foo = 'bar';", { filePath: "test.myjs" });
+
+            assert.strictEqual(results.length, 1);
+            assert.strictEqual(results[0].messages.length, 1);
+            assert.strictEqual(results[0].messages[0].severity, 2);
+            assert.strictEqual(results[0].messages[0].ruleId, "unicode-bom");
+        });
     });
 
     describe("lintFiles()", () => {
