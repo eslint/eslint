@@ -463,22 +463,22 @@ describe("RuleTester", () => {
         });
     });
 
-    describe("setup", () => {
+    describe("before", () => {
         const ruleName = "no-var";
         const rule = require("../../fixtures/testers/rule-tester/no-var");
 
         it("should be called when a function is assigned", () => {
-            const setup = sinon.stub();
+            const before = sinon.stub();
 
             ruleTester = new RuleTester();
             ruleTester.run(ruleName, rule, {
                 valid: [{
                     code: "const onlyValid = 42;",
-                    setup
+                    before
                 }],
                 invalid: []
             });
-            sinon.assert.calledOnce(setup);
+            sinon.assert.calledOnce(before);
         });
 
         it("should throw when not a function is assigned", () => {
@@ -486,10 +486,10 @@ describe("RuleTester", () => {
             assert.throws(() => ruleTester.run(ruleName, rule, {
                 valid: [{
                     code: "const onlyValid = 42;",
-                    setup: 42
+                    before: 42
                 }],
                 invalid: []
-            }), "Optional test case property 'setup' must be a function");
+            }), "Optional test case property 'before' must be a function");
         });
     });
 
