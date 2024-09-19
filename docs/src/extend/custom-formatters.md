@@ -106,12 +106,12 @@ Each object in the `results` array is a `result` object. Each `result` object co
 
 Each `message` object contains information about the ESLint rule that was triggered by some source code. The properties available on each `message` object are:
 
-* **ruleId**: the ID of the rule that produced the error or warning.
+* **ruleId**: the ID of the rule that produced the error or warning. If the error or warning was not produced by a rule (for example, if it's a parsing error), this is `null`.
 * **severity**: the severity of the failure, `1` for warnings and `2` for errors.
 * **message**: the human readable description of the error.
 * **line**: the line where the issue is located.
 * **column**: the column where the issue is located.
-* **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/es5.md#node-objects)
+* **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/es5.md#node-objects) or `null` if the issue isn't related to a particular AST node.
 
 ### The `context` Argument
 

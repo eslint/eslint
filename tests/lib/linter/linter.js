@@ -1646,7 +1646,7 @@ describe("Linter", () => {
             const suppressedMessages = linter.getSuppressedMessages();
 
             // different engines have different JSON parsing error messages
-            assert.match(messages[0].message, /Failed to parse JSON from ' "no-unused-vars": \['/u);
+            assert.match(messages[0].message, /Failed to parse JSON from '"no-unused-vars": \['/u);
             assert.strictEqual(messages[0].severity, 2);
             assert.isTrue(messages[0].fatal);
             assert.isNull(messages[0].ruleId);
@@ -3175,7 +3175,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/u);
+            assert.match(messages[0].message, /^Failed to parse JSON from '"no-alert":'1'':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
             assert.strictEqual(messages[0].endLine, 1);
@@ -3209,7 +3209,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/u);
+            assert.match(messages[0].message, /^Failed to parse JSON from '"no-alert":abc':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
             assert.strictEqual(messages[0].endLine, 1);
@@ -3243,7 +3243,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/u);
+            assert.match(messages[0].message, /^Failed to parse JSON from '"no-alert":0 2':/u);
             assert.strictEqual(messages[0].line, 4);
             assert.strictEqual(messages[0].column, 5);
             assert.strictEqual(messages[0].endLine, 4);
@@ -11260,7 +11260,7 @@ describe("Linter with FlatConfigArray", () => {
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         // different engines have different JSON parsing error messages
-                        assert.match(messages[0].message, /Failed to parse JSON from ' "no-unused-vars": \['/u);
+                        assert.match(messages[0].message, /Failed to parse JSON from '"no-unused-vars": \['/u);
                         assert.strictEqual(messages[0].severity, 2);
                         assert.isTrue(messages[0].fatal);
                         assert.isNull(messages[0].ruleId);
@@ -11867,7 +11867,7 @@ describe("Linter with FlatConfigArray", () => {
                          * first part only as defined in the
                          * parseJsonConfig function in lib/eslint.js
                          */
-                        assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/u);
+                        assert.match(messages[0].message, /^Failed to parse JSON from '"no-alert":'1'':/u);
                         assert.strictEqual(messages[0].line, 1);
                         assert.strictEqual(messages[0].column, 1);
                         assert.strictEqual(messages[0].endLine, 1);
@@ -11901,7 +11901,7 @@ describe("Linter with FlatConfigArray", () => {
                          * first part only as defined in the
                          * parseJsonConfig function in lib/eslint.js
                          */
-                        assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/u);
+                        assert.match(messages[0].message, /^Failed to parse JSON from '"no-alert":abc':/u);
                         assert.strictEqual(messages[0].line, 1);
                         assert.strictEqual(messages[0].column, 1);
                         assert.strictEqual(messages[0].endLine, 1);
@@ -11935,7 +11935,7 @@ describe("Linter with FlatConfigArray", () => {
                          * first part only as defined in the
                          * parseJsonConfig function in lib/eslint.js
                          */
-                        assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/u);
+                        assert.match(messages[0].message, /^Failed to parse JSON from '"no-alert":0 2':/u);
                         assert.strictEqual(messages[0].line, 4);
                         assert.strictEqual(messages[0].column, 5);
                         assert.strictEqual(messages[0].endLine, 4);
@@ -16069,6 +16069,47 @@ var a = "test2";
 
                 linter.verify("foo", config, "a.md");
                 assert.strictEqual(logs.length, 1, "preprocess() should only be called once.");
+            });
+
+            it("should pass the BOM to preprocess", () => {
+                const logs = [];
+                const code = "\uFEFFfoo";
+                const config = {
+                    files: ["**/*.myjs"],
+                    processor: {
+                        preprocess(text, filenameForText) {
+                            logs.push({
+                                text,
+                                filename: filenameForText
+                            });
+
+                            return [{ text, filename: filenameForText }];
+                        },
+                        postprocess(messages) {
+                            return messages.flat();
+                        }
+                    },
+                    rules: {
+                        "unicode-bom": ["error", "never"]
+                    }
+                };
+
+                const results = linter.verify(code, config, {
+                    filename: "a.myjs",
+                    filterCodeBlock() {
+                        return true;
+                    }
+                });
+
+                assert.deepStrictEqual(logs, [
+                    {
+                        text: code,
+                        filename: "a.myjs"
+                    }
+                ]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].ruleId, "unicode-bom");
             });
 
             it("should apply a preprocessor to the code, and lint each code sample separately", () => {

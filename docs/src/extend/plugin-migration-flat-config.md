@@ -4,7 +4,7 @@ eleventyNavigation:
     key: plugin flat config
     parent: create plugins
     title: Migration to Flat Config
-    order: 4
+    order: 5
 
 ---
 
