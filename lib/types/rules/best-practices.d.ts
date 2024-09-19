@@ -417,6 +417,10 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 allowEmptyCase: boolean;
+                /**
+                 * @default false
+                 */
+                reportUnusedFallthroughComment: boolean;
             }>,
         ]
     >;
