@@ -506,6 +506,49 @@ describe("RuleTester", () => {
         });
     });
 
+    describe("after", () => {
+        const ruleName = "no-var";
+        const rule = require("../../fixtures/testers/rule-tester/no-var");
+
+        it("should be called when a function is assigned", () => {
+            const after = sinon.stub();
+
+            ruleTester = new RuleTester();
+            ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "const onlyValid = 42;",
+                    after
+                }],
+                invalid: []
+            });
+            sinon.assert.calledOnce(after);
+        });
+
+        it("should cause test to fail when it throws error", () => {
+            const after = sinon.stub().throws(new Error("Something happended"));
+
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "const onlyValid = 42;",
+                    after
+                }],
+                invalid: []
+            }), "Something happended");
+        });
+
+        it("should throw when not a function is assigned", () => {
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "const onlyValid = 42;",
+                    after: 42
+                }],
+                invalid: []
+            }), "Optional test case property 'after' must be a function");
+        });
+    });
+
     it("should not throw an error when everything passes", () => {
         ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
             valid: [
