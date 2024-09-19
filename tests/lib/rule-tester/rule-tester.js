@@ -463,89 +463,48 @@ describe("RuleTester", () => {
         });
     });
 
-    describe("before", () => {
+    describe("hooks", () => {
         const ruleName = "no-var";
         const rule = require("../../fixtures/testers/rule-tester/no-var");
 
-        it("should be called when a function is assigned", () => {
-            const before = sinon.stub();
+        ["before", "after"].forEach(hookName => {
+            it(`${hookName} should be called when a function is assigned`, () => {
+                const hook = sinon.stub();
 
-            ruleTester = new RuleTester();
-            ruleTester.run(ruleName, rule, {
-                valid: [{
-                    code: "const onlyValid = 42;",
-                    before
-                }],
-                invalid: []
+                ruleTester = new RuleTester();
+                ruleTester.run(ruleName, rule, {
+                    valid: [{
+                        code: "const onlyValid = 42;",
+                        [hookName]: hook
+                    }],
+                    invalid: []
+                });
+                sinon.assert.calledOnce(hook);
             });
-            sinon.assert.calledOnce(before);
-        });
 
-        it("should cause test to fail when it throws error", () => {
-            const before = sinon.stub().throws(new Error("Something happended"));
+            it(`${hookName} should cause test to fail when it throws error`, () => {
+                const hook = sinon.stub().throws(new Error("Something happended"));
 
-            ruleTester = new RuleTester();
-            assert.throws(() => ruleTester.run(ruleName, rule, {
-                valid: [{
-                    code: "const onlyValid = 42;",
-                    before
-                }],
-                invalid: []
-            }), "Something happended");
-        });
-
-        it("should throw when not a function is assigned", () => {
-            ruleTester = new RuleTester();
-            assert.throws(() => ruleTester.run(ruleName, rule, {
-                valid: [{
-                    code: "const onlyValid = 42;",
-                    before: 42
-                }],
-                invalid: []
-            }), "Optional test case property 'before' must be a function");
-        });
-    });
-
-    describe("after", () => {
-        const ruleName = "no-var";
-        const rule = require("../../fixtures/testers/rule-tester/no-var");
-
-        it("should be called when a function is assigned", () => {
-            const after = sinon.stub();
-
-            ruleTester = new RuleTester();
-            ruleTester.run(ruleName, rule, {
-                valid: [{
-                    code: "const onlyValid = 42;",
-                    after
-                }],
-                invalid: []
+                ruleTester = new RuleTester();
+                assert.throws(() => ruleTester.run(ruleName, rule, {
+                    valid: [{
+                        code: "const onlyValid = 42;",
+                        [hookName]: hook
+                    }],
+                    invalid: []
+                }), "Something happended");
             });
-            sinon.assert.calledOnce(after);
-        });
 
-        it("should cause test to fail when it throws error", () => {
-            const after = sinon.stub().throws(new Error("Something happended"));
-
-            ruleTester = new RuleTester();
-            assert.throws(() => ruleTester.run(ruleName, rule, {
-                valid: [{
-                    code: "const onlyValid = 42;",
-                    after
-                }],
-                invalid: []
-            }), "Something happended");
-        });
-
-        it("should throw when not a function is assigned", () => {
-            ruleTester = new RuleTester();
-            assert.throws(() => ruleTester.run(ruleName, rule, {
-                valid: [{
-                    code: "const onlyValid = 42;",
-                    after: 42
-                }],
-                invalid: []
-            }), "Optional test case property 'after' must be a function");
+            it(`${hookName} should throw when not a function is assigned`, () => {
+                ruleTester = new RuleTester();
+                assert.throws(() => ruleTester.run(ruleName, rule, {
+                    valid: [{
+                        code: "const onlyValid = 42;",
+                        [hookName]: 42
+                    }],
+                    invalid: []
+                }), `Optional test case property '${hookName}' must be a function`);
+            });
         });
     });
 
