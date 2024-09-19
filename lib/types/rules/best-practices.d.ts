@@ -974,7 +974,7 @@ export interface BestPractices extends Linter.RulesRecord {
     /**
      * Disallow use of `Object.prototype.hasOwnProperty.call()` and prefer use of `Object.hasOwn()`.
      *
-     * @since 3.5.0
+     * @since 8.5.0
      * @see https://eslint.org/docs/rules/prefer-object-has-own
      */
     "prefer-object-has-own": Linter.RuleEntry<[]>;
