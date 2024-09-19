@@ -180,7 +180,7 @@ export interface Variables extends Linter.RulesRecord {
                 ignoreRestSiblings: boolean;
                 argsIgnorePattern: string;
                 /**
-                 * @default 'none'
+                 * @default 'all'
                  */
                 caughtErrors: "none" | "all";
                 caughtErrorsIgnorePattern: string;
