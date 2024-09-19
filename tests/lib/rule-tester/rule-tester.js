@@ -506,6 +506,40 @@ describe("RuleTester", () => {
                 }), `Optional test case property '${hookName}' must be a function`);
             });
         });
+
+        it("should call both before() and after() hooks even when the case failed", () => {
+            const hookBefore = sinon.stub();
+            const hookAfter = sinon.stub();
+
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "var onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }],
+                invalid: []
+            }));
+            sinon.assert.calledOnce(hookBefore);
+            sinon.assert.calledOnce(hookAfter);
+        });
+
+        it("should call after() hook even when before() throws", () => {
+            const hookBefore = sinon.stub().throws(new Error("Something happended in before()"));
+            const hookAfter = sinon.stub();
+
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "const onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }],
+                invalid: []
+            }), "Something happended in before()");
+            sinon.assert.calledOnce(hookBefore);
+            sinon.assert.calledOnce(hookAfter);
+        });
     });
 
     it("should not throw an error when everything passes", () => {
