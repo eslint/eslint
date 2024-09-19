@@ -324,7 +324,16 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * @since 2.9.0
      * @see https://eslint.org/docs/rules/no-useless-computed-key
      */
-    "no-useless-computed-key": Linter.RuleEntry<[]>;
+    "no-useless-computed-key": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @default true
+                 */
+                enforceForClassMembers: boolean;
+            }>,
+        ]
+    >;
 
     /**
      * Rule to disallow unnecessary constructors.
