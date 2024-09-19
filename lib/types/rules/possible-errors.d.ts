@@ -251,7 +251,30 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * @since 0.4.0
      * @see https://eslint.org/docs/rules/no-extra-boolean-cast
      */
-    "no-extra-boolean-cast": Linter.RuleEntry<[]>;
+    "no-extra-boolean-cast": Linter.RuleEntry<
+        [
+            | Partial<{
+                  /**
+                   * @since 9.3.0
+                   * @default false
+                   */
+                  enforceForInnerExpressions: boolean;
+                  /**
+                   * @deprecated
+                   */
+                  enforceForLogicalOperands: never;
+              }>
+            | Partial<{
+                  /**
+                   * @deprecated
+                   * @since 7.0.0-alpha.2
+                   * @default false
+                   */
+                  enforceForLogicalOperands: boolean;
+                  enforceForInnerExpressions: never;
+              }>,
+        ]
+    >;
 
     /**
      * Rule to disallow unnecessary parentheses.
