@@ -382,6 +382,9 @@ export interface StylisticIssues extends Linter.RulesRecord {
                  * @default false
                  */
                 allowArrowFunctions: boolean;
+                overrides: {
+                    namedExports: "declaration" | "expression" | "ignore";
+                }
             }>,
         ]
     >;
