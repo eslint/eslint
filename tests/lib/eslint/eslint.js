@@ -921,6 +921,18 @@ describe("ESLint", () => {
                 await assert.rejects(() => eslint.lintText("var foo = 'bar';"), /Could not find config file/u);
             });
 
+            it("should throw if eslint.config.js file is not present even if overrideConfig was passed", async () => {
+                eslint = new ESLint({
+                    cwd: getFixturePath(".."),
+                    overrideConfig: {
+                        rules: {
+                            "no-unused-vars": 2
+                        }
+                    }
+                });
+                await assert.rejects(() => eslint.lintText("var foo = 'bar';"), /Could not find config file/u);
+            });
+
             it("should not throw if eslint.config.js file is not present and overrideConfigFile is `true`", async () => {
                 eslint = new ESLint({
                     flags,
@@ -1178,6 +1190,30 @@ describe("ESLint", () => {
                         cwd: workDir
                     });
                     await assert.rejects(() => eslint.lintFiles("no-config-file/*.js"), /Could not find config file/u);
+                });
+
+                it("should throw if eslint.config.js file is not present even if overrideConfig was passed", async () => {
+                    eslint = new ESLint({
+                        cwd: getFixturePath(".."),
+                        overrideConfig: {
+                            rules: {
+                                "no-unused-vars": 2
+                            }
+                        }
+                    });
+                    await assert.rejects(() => eslint.lintFiles("fixtures/undef*.js"), /Could not find config file/u);
+                });
+
+                it("should throw if eslint.config.js file is not present even if overrideConfig was passed and a file path is given", async () => {
+                    eslint = new ESLint({
+                        cwd: getFixturePath(".."),
+                        overrideConfig: {
+                            rules: {
+                                "no-unused-vars": 2
+                            }
+                        }
+                    });
+                    await assert.rejects(() => eslint.lintFiles("fixtures/undef.js"), /Could not find config file/u);
                 });
 
                 it("should not throw if eslint.config.js file is not present and overrideConfigFile is `true`", async () => {
