@@ -186,6 +186,7 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to disallow negating the left operand in `in` expressions.
      *
      * @since 0.1.2
+     * @deprecated since 3.3.0, use [`no-unsafe-negation`](https://eslint.org/docs/rules/no-unsafe-negation) instead.
      * @see https://eslint.org/docs/rules/no-negated-in-lhs
      */
     "no-negated-in-lhs": Linter.RuleEntry<[]>;
