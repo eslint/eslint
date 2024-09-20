@@ -9,6 +9,7 @@ eleventyNavigation:
 ---
 
 {%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 The ESLint Command Line Interface (CLI) lets you execute linting from the terminal. The CLI has a variety of options that you can pass to configure ESLint.
 
@@ -18,42 +19,46 @@ ESLint requires Node.js for installation. Follow the instructions in the [Gettin
 
 Most users use [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) to run ESLint on the command line like this:
 
-{{ code_tabs({
-     npm: "npx eslint [options] [file|dir|glob]*",
-    yarn: "yarn dlx eslint [options] [file|dir|glob]*"
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["[options]", "[file|dir|glob]*"],
+    comment: null
 }) }}
 
 Such as:
 
-{{ code_tabs({
-npm: '# Run on two files
-npx eslint file1.js file2.js
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["file1.js", "file2.js"],
+    comment: "Run on multiple files"
+}) }}
 
-# Run on multiple files
-
-npx eslint lib/\*\*',
-yarn: '# Run on two files
-yarn dlx eslint file1.js file2.js
-
-# Run on multiple files
-
-yarn dlx eslint lib/\*\*'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["lib/**"],
+    comment: "or"
 }) }}
 
 Please note that when passing a glob as a parameter, it is expanded by your shell. The results of the expansion can vary depending on your shell, and its configuration. If you want to use node `glob` syntax, you have to quote your parameter (using double quotes if you need it to run in Windows), as follows:
 
-{{ code_tabs({
-    npm: 'npx eslint "lib/**"',
-    yarn: 'yarn dlx eslint "lib/**"'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"lib/**\""],
+    comment: null
 }) }}
 
 If you are using a [flat configuration file](./configure/configuration-files) (`eslint.config.js`), you can also omit the file arguments and ESLint will use `.`. For instance, these two lines perform the same operation:
 
-{{ code_tabs({
-     npm: 'npx eslint .
-npx eslint',
-    yarn: 'yarn dlx eslint .
-yarn dlx eslint'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["."],
+    comment: null
+}) }}
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: [],
+    comment: null
 }) }}
 
 If you are not using a flat configuration file, running ESLint without file arguments results in an error.
@@ -66,17 +71,18 @@ Options that accept multiple values can be specified by repeating the option or 
 
 Examples of options that accept multiple values:
 
-{{ code_tabs({
-npm: 'npx eslint --ext .jsx --ext .js lib/
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--ext", ".jsx", "--ext", ".js",  "lib/"],
+    comment: null
+}) }}
 
-# OR
+OR
 
-npx eslint --ext .jsx,.js lib/',
-yarn: 'yarn dlx eslint --ext .jsx --ext .js lib/
-
-# OR
-
-yarn dlx eslint --ext .jsx,.js lib/'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--ext", ".jsx,.js", "lib/"],
+    comment: null
 }) }}
 
 ## Options
@@ -159,9 +165,10 @@ Miscellaneous:
 
 ##### `--no-eslintrc` example
 
-{{ code_tabs({
-    npm: 'npx eslint --no-eslintrc file.js',
-    yarn: 'yarn dlx eslint --no-eslintrc file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--no-eslintrc", "file.js"],
+    comment: null
 }) }}
 
 #### `-c`, `--config`
@@ -173,9 +180,10 @@ This option allows you to specify an additional configuration file for ESLint (s
 
 ##### `-c`, `--config` example
 
-{{ code_tabs({
-    npm: 'npx eslint -c ~/my-eslint.json file.js',
-    yarn: 'yarn dlx eslint -c ~/my-eslint.json file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["-c", "~/my-eslint.json", "file.js"],
+    comment: null
 }) }}
 
 This example uses the configuration file at `~/my-eslint.json`.
@@ -190,9 +198,10 @@ If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.
 
 ##### `--inspect-config` example
 
-{{ code_tabs({
-    npm: 'npx eslint --inspect-config',
-    yarn: 'yarn dlx eslint --inspect-config'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--inspect-config"],
+    comment: null
 }) }}
 
 #### `--env`
@@ -206,11 +215,16 @@ Details about the global variables defined by each environment are available in 
 
 ##### `--env` example
 
-{{ code_tabs({
-    npm: 'npx eslint --env browser,node file.js
-npx eslint --env browser --env node file.js',
-    yarn: 'yarn dlx eslint --env browser,node file.js
-yarn dlx eslint --env browser --env node file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--env", "browser,node", "file.js"],
+    comment: null
+}) }}
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--env", "browser", "--env", "node", "file.js"],
+    comment: null
 }) }}
 
 #### `--ext`
@@ -227,27 +241,22 @@ This option allows you to specify which file extensions ESLint uses when searchi
 
 ##### `--ext` example
 
-{{ code_tabs({
-npm: '# Use only .ts extension
-npx eslint . --ext .ts
+{{ npx_tabs ({
+    package: "eslint",
+    args: [".", "--ext", ".ts"],
+    comment: "Use only .ts extension"
+}) }}
 
-# Use both .js and .ts
+{{ npx_tabs ({
+    package: "eslint",
+    args: [".", "--ext", ".js", "--ext", ".ts"],
+    comment: "Use both .js and .ts"
+}) }}
 
-npx eslint . --ext .js --ext .ts
-
-# Also use both .js and .ts
-
-npx eslint . --ext .js,.ts',
-yarn: '# Use only .ts extension
-yarn dlx eslint . --ext .ts
-
-# Use both .js and .ts
-
-yarn dlx eslint . --ext .js --ext .ts
-
-# Also use both .js and .ts
-
-yarn dlx eslint . --ext .js,.ts'
+{{ npx_tabs ({
+    package: "eslint",
+    args: [".", "--ext", ".js,.ts"],
+    comment: "Also use both .js and .ts"
 }) }}
 
 #### `--global`
@@ -259,11 +268,16 @@ This option defines global variables so that they are not  flagged as undefined 
 
 ##### `--global` example
 
-{{ code_tabs({
-    npm: 'npx eslint --global require,exports:true file.js
-npx eslint --global require --global exports:true',
-    yarn: 'yarn dlx eslint --global require,exports:true file.js
-yarn dlx eslint --global require --global exports:true'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--global", "require,exports:true", "file.js"],
+    comment: null
+}) }}
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--global", "require", "--global", "exports:true"],
+    comment: null
 }) }}
 
 #### `--parser`
@@ -276,11 +290,10 @@ This option allows you to specify a parser to be used by ESLint.
 
 ##### `--parser` example
 
-{{ code_tabs({
-    npm: '# Use TypeScript ESLint parser
-npx eslint --parser @typescript-eslint/parser file.ts',
-    yarn: '# Use TypeScript ESLint parser
-yarn dlx eslint --parser @typescript-eslint/parser file.ts'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--parser", "@typescript-eslint/parser", "file.ts"],
+    comment: "Use TypeScript ESLint parser"
 }) }}
 
 #### `--parser-options`
@@ -292,11 +305,18 @@ This option allows you to specify parser options to be used by ESLint. The avail
 
 ##### `--parser-options` example
 
-{{ code_tabs({
-    npm: "echo '3 ** 4' | npx eslint --stdin --parser-options ecmaVersion:6 # fails with a parsing error
-echo '3 ** 4' | npx eslint --stdin --parser-options ecmaVersion:7 # succeeds, yay!",
-    yarn: "echo '3 ** 4' | yarn dlx eslint --stdin --parser-options ecmaVersion:6 # fails with a parsing error
-echo '3 ** 4' | yarn dlx eslint --stdin --parser-options ecmaVersion:7 # succeeds, yay!"
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--stdin", "--parser-options", "ecmaVersion:6"],
+    comment: "fails with a parsing error",
+    previousCommands: ["echo \'3 ** 4\'"]
+}) }}
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--stdin", "--parser-options", "ecmaVersion:7"],
+    comment: "succeds, yay!",
+    previousCommands: ["echo \'3 ** 4\'"]
 }) }}
 
 #### `--resolve-plugins-relative-to`
@@ -316,11 +336,10 @@ For example:
 
 ##### `--resolve-plugins-relative-to` example
 
-{{ code_tabs({
-    npm: 'npx eslint --config ~/personal-eslintrc.js \
---resolve-plugins-relative-to /usr/local/lib/',
-    yarn: 'yarn dlx eslint --config ~/personal-eslintrc.js \
---resolve-plugins-relative-to /usr/local/lib/'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--config", "~/personal-eslintrc.js", "\\", "--resolve-plugins-relative-to", "/usr/local/lib/"],
+    comment: null
 }) }}
 
 ### Specify Rules and Plugins
@@ -336,11 +355,16 @@ Before using the plugin, you have to install it using npm.
 
 ##### `--plugin` example
 
-{{ code_tabs({
-    npm: 'npx eslint --plugin jquery file.js
-npx eslint --plugin eslint-plugin-mocha file.js',
-    yarn: 'yarn dlx eslint --plugin jquery file.js
-yarn dlx eslint --plugin eslint-plugin-mocha file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--plugin", "jquery", "file.js"],
+    comment: null
+}) }}
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--plugin", "eslint-plugin-mocha", "file.js"],
+    comment: null
 }) }}
 
 #### `--rule`
@@ -356,35 +380,28 @@ To ignore rules in `.eslintrc` configuration files and only run rules specified 
 
 ##### `--rule` example
 
-{{ code_tabs({
-npm: "# Apply single rule
-npx eslint --rule 'quotes: [error, double]'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--rule", "\'guard-for-in: error\'", "--rule", "\'brace-style: [error, 1tbs]\'"],
+    comment: "Apply single rule"
+}) }}
 
-# Apply multiple rules
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--rule", "\'quotes: [error, double]\'"],
+    comment: "Apply multiple rules"
+}) }}
 
-npx eslint --rule 'guard-for-in: error' --rule 'brace-style: [error, 1tbs]'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--rule", "\'jquery/dollar-sign: error\'"],
+    comment: "Apply rule from jquery plugin"
+}) }}
 
-# Apply rule from jquery plugin
-
-npx eslint --rule 'jquery/dollar-sign: error'
-
-# Only apply rule from the command line
-
-npx eslint --rule 'quotes: [error, double]' --no-eslintrc",
-yarn: "# Apply single rule
-yarn dlx eslint --rule 'quotes: [error, double]'
-
-# Apply multiple rules
-
-yarn dlx eslint --rule 'guard-for-in: error' --rule 'brace-style: [error, 1tbs]'
-
-# Apply rule from jquery plugin
-
-yarn dlx eslint --rule 'jquery/dollar-sign: error'
-
-# Only apply rule from the command line
-
-yarn dlx eslint --rule 'quotes: [error, double]' --no-eslintrc"
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--rule", "\'quotes: [error, double]\'", "-no-eslintrc"],
+    comment: "Only apply rule from the command line"
 }) }}
 
 #### `--rulesdir`
@@ -400,11 +417,16 @@ Note that, as with core rules and plugin rules, you still need to enable the rul
 
 ##### `--rulesdir` example
 
-{{ code_tabs({
-    npm: 'npx eslint --rulesdir my-rules/ file.js
-npx eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js',
-    yarn: 'yarn dlx eslint --rulesdir my-rules/ file.js
-yarn dlx eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--rulesdir", "my-rules/", "file.js"],
+    comment: null
+}) }}
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--rulesdir", "my-rules/", "--rulesdir", "my-other-rules/", "file.js"],
+    comment: null
 }) }}
 
 ### Fix Problems
@@ -424,9 +446,10 @@ If you want to fix code from `stdin` or otherwise want to get the fixes without 
 
 ##### `--fix` example
 
-{{ code_tabs({
-    npm: 'npx eslint --fix file.js',
-    yarn: 'yarn dlx eslint --fix file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--fix", "file.js"],
+    comment: null
 }) }}
 
 #### `--fix-dry-run`
@@ -441,9 +464,11 @@ This flag can be useful for integrations (e.g. editor plugins) which need to aut
 
 ##### `--fix-dry-run` example
 
-{{ code_tabs({
-    npm: 'getSomeText | npx eslint --stdin --fix-dry-run --format json',
-    yarn: 'getSomeText | yarn dlx eslint --stdin --fix-dry-run --format json'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--stdin", "--fix-dry-run", "--format", "json"],
+    comment: null,
+    previousCommands: ["getSomeText"]
 }) }}
 
 #### `--fix-type`
@@ -461,13 +486,22 @@ This option is helpful if you are using another program to format your code, but
 
 ##### `--fix-type` example
 
-{{ code_tabs({
-    npm: 'npx eslint --fix --fix-type suggestion .
-npx eslint --fix --fix-type suggestion --fix-type problem .
-npx eslint --fix --fix-type suggestion,layout .',
-    yarn: 'yarn dlx eslint --fix --fix-type suggestion .
-yarn dlx eslint --fix --fix-type suggestion --fix-type problem .
-yarn dlx eslint --fix --fix-type suggestion,layout .'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--fix", "--fix-type", "suggestion", "."],
+    comment: null
+}) }}
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--fix", "--fix-type", "suggestion", "--fix-type", "problem", "."],
+    comment: null
+}) }}
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--fix", "--fix-type", "suggestion,layout", "."],
+    comment: null
 }) }}
 
 ### Ignore Files
@@ -484,11 +518,16 @@ yarn dlx eslint --fix --fix-type suggestion,layout .'
 
 ##### `--ignore-path` example
 
-{{ code_tabs({
-    npm: 'npx eslint --ignore-path tmp/.eslintignore file.js
-npx eslint --ignore-path .gitignore file.js',
-    yarn: 'yarn dlx eslint --ignore-path tmp/.eslintignore file.js
-yarn dlx eslint --ignore-path .gitignore file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--ignore-path", "tmp/.eslintignore", "file.js"],
+    comment: null
+}) }}
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--ignore-path", ".gitignore", "file.js"],
+    comment: null
 }) }}
 
 #### `--no-ignore`
@@ -499,9 +538,10 @@ Disables excluding of files from `.eslintignore` files, `--ignore-path` flags, `
 
 ##### `--no-ignore` example
 
-{{ code_tabs({
-    npm: 'npx eslint --no-ignore file.js',
-    yarn: 'yarn dlx eslint --no-ignore file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--no-ignore", "file.js"],
+    comment: null
 }) }}
 
 #### `--ignore-pattern`
@@ -513,9 +553,10 @@ This option allows you to specify patterns of files to ignore. In eslintrc mode,
 
 ##### `--ignore-pattern` example
 
-{{ code_tabs({
-    npm: 'npx eslint --ignore-pattern "/lib/" --ignore-pattern "/src/vendor/*" .',
-    yarn: 'yarn dlx eslint --ignore-pattern "/lib/" --ignore-pattern "/src/vendor/*" .'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--ignore-pattern", "\"/lib/\"", "--ignore-pattern", "\"/src/vendor/*\"", "."],
+    comment: null
 }) }}
 
 ### Use stdin
@@ -528,9 +569,11 @@ This option tells ESLint to read and lint source code from STDIN instead of from
 
 ##### `--stdin` example
 
-{{ code_tabs({
-    npm: 'cat myfile.js | npx eslint --stdin',
-    yarn: 'cat myfile.js | yarn dlx eslint --stdin'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--stdin"],
+    comment: null,
+    previousCommands: ["cat myFile.js"]
 }) }}
 
 #### `--stdin-filename`
@@ -544,9 +587,11 @@ This is useful when processing files from STDIN and you have rules which depend 
 
 ##### `--stdin-filename` example
 
-{{ code_tabs({
-    npm: 'cat myfile.js | npx eslint --stdin --stdin-filename myfile.js',
-    yarn: 'cat myfile.js | yarn dlx eslint --stdin --stdin-filename myfile.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--stdin", "--stdin-filename", "myfile.js"],
+    comment: null,
+    previousCommands: ["cat myFile.js"]
 }) }}
 
 ### Handle Warnings
@@ -559,9 +604,10 @@ This option allows you to disable reporting on warnings and running of rules set
 
 ##### `--quiet` example
 
-{{ code_tabs({
-    npm: 'npx eslint --quiet file.js',
-    yarn: 'yarn dlx eslint --quiet file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--quit", "file.js"],
+    comment: null
 }) }}
 
 #### `--max-warnings`
@@ -579,9 +625,10 @@ When used alongside `--quiet`, this will cause rules marked as warn to still be 
 
 ##### `--max-warnings` example
 
-{{ code_tabs({
-    npm: 'npx eslint --max-warnings 10 file.js',
-    yarn: 'yarn dlx eslint --max-warnings 10 file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--max-warnings", "10", "file.js"],
+    comment: null
 }) }}
 
 ### Output
@@ -595,9 +642,10 @@ Write the output of linting results to a specified file.
 
 ##### `-o`, `--output-file` example
 
-{{ code_tabs({
-    npm: 'npx eslint -o ./test/test.html',
-    yarn: 'yarn dlx eslint -o ./test/test.html'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["-o", "./test/test.html"],
+    comment: null
 }) }}
 
 #### `-f`, `--format`
@@ -614,50 +662,51 @@ An npm-installed formatter is resolved with or without `eslint-formatter-` prefi
 
 When specified, the given format is output to the console. If you'd like to save that output into a file, you can do so on the command line like so:
 
-{{ code_tabs({
-    npm: '# Saves the output into the `results.json` file.
-npx eslint -f json file.js > results.json',
-    yarn: '# Saves the output into the `results.json` file.
-yarn dlx eslint -f json file.js > results.json'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["-f", "json", "file.js", ">", "results.json"],
+    comment: "Saves the output into the `results.json` file."
 }) }}
 
 ##### `-f`, `--format` example
 
 Use the built-in `json` formatter:
 
-{{ code_tabs({
-    npm: 'npx eslint --format json file.js',
-    yarn: 'yarn dlx eslint --format json file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--format", "json", "file.js"],
+    comment: null
 }) }}
 
 Use a local custom formatter:
 
-{{ code_tabs({
-    npm: 'npx eslint -f ./customformat.js file.js',
-    yarn: 'yarn dlx eslint -f ./customformat.js file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["-f", "./customformat.js", "file.js"],
+    comment: null
 }) }}
 
 Use an npm-installed formatter:
 
 {{ code_tabs({
-npm: 'npm install eslint-formatter-pretty
+npm: 'npm install eslint-formatter-pretty',
+yarn: 'yarn add eslint-formatter-pretty'
+}) }}
 
-# Then run one of the following commands
+Then run one of the following commands
 
-npx eslint -f pretty file.js
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["-f", "pretty", "file.js"],
+    comment: null
+}) }}
 
-# or alternatively
+or alternatively
 
-npx eslint -f eslint-formatter-pretty file.js',
-yarn: 'yarn add eslint-formatter-pretty
-
-# Then run one of the following commands
-
-yarn dlx eslint -f pretty file.js
-
-# or alternatively
-
-yarn dlx eslint -f eslint-formatter-pretty file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["-f", "eslint-formatter-pretty", "file.js"],
+    comment: null
 }) }}
 
 #### `--color` and `--no-color`
@@ -670,11 +719,16 @@ You can use these options to override the default behavior, which is to enable c
 
 ##### `--color` and `--no-color` example
 
-{{ code_tabs({
-    npm: 'npx eslint --color file.js | cat
-npx eslint --no-color file.js',
-    yarn: 'yarn dlx eslint --color file.js | cat
-yarn dlx eslint --no-color file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--color", "file.js", "|", "cat"],
+    comment: null
+}) }}
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--no-color", "file.js"],
+    comment: null
 }) }}
 
 ### Inline Configuration Comments
@@ -698,9 +752,10 @@ This allows you to set an ESLint config without files modifying it. All inline c
 
 ##### `--no-inline-config` example
 
-{{ code_tabs({
-    npm: 'npx eslint --no-inline-config file.js',
-    yarn: 'yarn dlx eslint --no-inline-config file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--no-inline-config", "file.js"],
+    comment: null
 }) }}
 
 #### `--report-unused-disable-directives`
@@ -719,9 +774,10 @@ For example, suppose a rule has a bug that causes it to report a false positive,
 
 ##### `--report-unused-disable-directives` example
 
-{{ code_tabs({
-    npm: 'npx eslint --report-unused-disable-directives file.js',
-    yarn: 'yarn dlx eslint --report-unused-disable-directives file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--report-unused-disable-directives", "file.js"],
+    comment: null
 }) }}
 
 #### `--report-unused-disable-directives-severity`
@@ -737,9 +793,10 @@ Same as [`--report-unused-disable-directives`](#--report-unused-disable-directiv
 
 ##### `--report-unused-disable-directives-severity` example
 
-{{ code_tabs({
-    npm: 'npx eslint --report-unused-disable-directives-severity warn file.js',
-    yarn: 'yarn dlx eslint --report-unused-disable-directives-severity warn file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--report-unused-disable-directives-severity", "warn", "file.js"],
+    comment: null
 }) }}
 
 ### Caching
@@ -757,9 +814,10 @@ Autofixed files are not placed in the cache. Subsequent linting that does not tr
 
 ##### `--cache` example
 
-{{ code_tabs({
-    npm: 'npx eslint --cache file.js',
-    yarn: 'yarn dlx eslint --cache file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--cache", "file.js"],
+    comment: null
 }) }}
 
 #### `--cache-file`
@@ -780,9 +838,10 @@ If the directory for the cache does not exist make sure you add a trailing `/` o
 
 ##### `--cache-location` example
 
-{{ code_tabs({
-    npm: 'npx eslint "src/**/*.js" --cache --cache-location "/Users/user/.eslintcache/"',
-    yarn: 'yarn dlx eslint "src/**/*.js" --cache --cache-location "/Users/user/.eslintcache/"'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--cache", "--cache-location", "\"/Users/user/.eslintcache/\""],
+    comment: null
 }) }}
 
 #### `--cache-strategy`
@@ -799,9 +858,10 @@ The `content` strategy can be useful in cases where the modification time of you
 
 ##### `--cache-strategy` example
 
-{{ code_tabs({
-    npm: 'npx eslint "src/**/*.js" --cache --cache-strategy content',
-    yarn: 'yarn dlx eslint "src/**/*.js" --cache --cache-strategy content'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--cache", "--cache-strategy", "content"],
+    comment: null
 }) }}
 
 ### Miscellaneous
@@ -816,9 +876,10 @@ The resulting configuration file is created in the current directory.
 
 ##### `--init` example
 
-{{ code_tabs({
-    npm: 'npx eslint --init',
-    yarn: 'yarn dlx eslint --init'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--init"],
+    comment: null
 }) }}
 
 #### `--env-info`
@@ -831,9 +892,10 @@ The ESLint team may ask for this information to help solve bugs. When you use th
 
 ##### `--env-info` example
 
-{{ code_tabs({
-    npm: 'npx eslint --env-info',
-    yarn: 'yarn dlx eslint --env-info'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--env-info"],
+    comment: null
 }) }}
 
 #### `--no-error-on-unmatched-pattern`
@@ -844,9 +906,10 @@ This option prevents errors when a quoted glob pattern or `--ext` is unmatched. 
 
 ##### `--no-error-on-unmatched-pattern` example
 
-{{ code_tabs({
-    npm: 'npx eslint --no-error-on-unmatched-pattern --ext .ts "lib/*"',
-    yarn: 'yarn dlx eslint --no-error-on-unmatched-pattern --ext .ts "lib/*"'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--no-error-on-unmatched-pattern", "--ext", ".ts", "\"lib/*\""],
+    comment: null
 }) }}
 
 #### `--exit-on-fatal-error`
@@ -857,9 +920,10 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 ##### `--exit-on-fatal-error` example
 
-{{ code_tabs({
-    npm: 'npx eslint --exit-on-fatal-error file.js',
-    yarn: 'yarn dlx eslint --exit-on-fatal-error file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--exit-on-fatal-error", "file.js"],
+    comment: null
 }) }}
 
 #### `--no-warn-ignored`
@@ -870,9 +934,10 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 ##### `--no-warn-ignored` example
 
-{{ code_tabs({
-    npm: 'npx eslint --no-warn-ignored --max-warnings 0 ignored-file.js',
-    yarn: 'yarn dlx eslint --no-warn-ignored --max-warnings 0 ignored-file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--no-warn-ignored", "--max-warning", "0", "ignored-file.js"],
+    comment: null
 }) }}
 
 #### `--pass-on-no-patterns`
@@ -883,9 +948,10 @@ This option allows ESLint to exit with code 0 when no file or directory patterns
 
 ##### `--pass-on-no-patterns` example
 
-{{ code_tabs({
-    npm: 'npx eslint --pass-on-no-patterns',
-    yarn: 'yarn dlx eslint --pass-on-no-patterns'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--pass-on-no-patterns"],
+    comment: null
 }) }}
 
 #### `--debug`
@@ -898,9 +964,10 @@ This information is useful when you're seeing a problem and having a hard time p
 
 ##### `--debug` example
 
-{{ code_tabs({
-    npm: 'npx eslint --debug test.js',
-    yarn: 'yarn dlx eslint --debug test.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--debug", "test.js"],
+    comment: null
 }) }}
 
 #### `-h`, `--help`
@@ -911,9 +978,10 @@ This option outputs the help menu, displaying all of the available options. All 
 
 ##### `-h`, `--help` example
 
-{{ code_tabs({
-    npm: 'npx eslint --help',
-    yarn: 'yarn dlx eslint --help'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--help"],
+    comment: null
 }) }}
 
 #### `-v`, `--version`
@@ -924,9 +992,10 @@ This option outputs the current ESLint version onto the console. All other optio
 
 ##### `-v`, `--version` example
 
-{{ code_tabs({
-    npm: 'npx eslint --version',
-    yarn: 'yarn dlx eslint --version'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--version"],
+    comment: null
 }) }}
 
 #### `--print-config`
@@ -938,9 +1007,10 @@ This option outputs the configuration to be used for the file passed. When prese
 
 ##### `--print-config` example
 
-{{ code_tabs({
-    npm: 'npx eslint --print-config file.js',
-    yarn: 'yarn dlx eslint --print-config file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--print-config", "file.js"],
+    comment: null
 }) }}
 
 #### `--stats`
@@ -953,9 +1023,10 @@ This option is intended for use with custom formatters that display statistics. 
 
 ##### `--stats` example
 
-{{ code_tabs({
-    npm: 'npx eslint --stats --format json file.js',
-    yarn: 'yarn dlx eslint --stats --format json file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--stats", "--format", "json", "file.js"],
+    comment: null
 }) }}
 
 #### `--flag`
@@ -967,9 +1038,10 @@ This option enables one or more feature flags for ESLint.
 
 ##### `--flag` example
 
-{{ code_tabs({
-    npm: 'npx eslint --flag x_feature file.js',
-    yarn: 'yarn dlx eslint --flag x_feature file.js'
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--flag", "x_feature", "file.js"],
+    comment: null
 }) }}
 
 ## Exit Codes

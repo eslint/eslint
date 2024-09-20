@@ -11,7 +11,7 @@
 
 ```shell
 {% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
-npx {{ params.package | safe }} {{ params.args.toString().replaceAll(',', ' ') | safe }}
+{% if params.previousCommands %}{% for item in params.previousCommands %}{{item | safe}} {% endfor %}| {% endif -%}npx {{ params.package | safe }} {% for item in params.args %}{{item | safe}} {% endfor %}
 ```
 
    </div>
@@ -20,7 +20,7 @@ npx {{ params.package | safe }} {{ params.args.toString().replaceAll(',', ' ') |
 
 ```shell
 {% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
-yarn dlx {{ params.package | safe }} {{ params.args.toString().replaceAll(',', ' ') | safe }}
+{% if params.previousCommands %}{% for item in params.previousCommands %}{{item | safe}} {% endfor %}| {% endif -%}yarn dlx {{ params.package | safe }} {% for item in params.args %}{{item | safe}} {% endfor %}
 ```
 
    </div>
@@ -29,7 +29,7 @@ yarn dlx {{ params.package | safe }} {{ params.args.toString().replaceAll(',', '
 
 ```shell
 {% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
-pnpm dlx {{ params.package | safe }} {{ params.args.toString().replaceAll(',', ' ') | safe }}
+{% if params.previousCommands %}{% for item in params.previousCommands %}{{item | safe}} {% endfor %}| {% endif -%}pnpm dlx {{ params.package | safe }} {% for item in params.args %}{{item | safe}} {% endfor %}
 ```
 
    </div>
@@ -38,7 +38,7 @@ pnpm dlx {{ params.package | safe }} {{ params.args.toString().replaceAll(',', '
 
 ```shell
 {% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
-bunx {{ params.package | safe }} {{ params.args.toString().replaceAll(',', ' ') | safe }}
+{% if params.previousCommands %}{% for item in params.previousCommands %}{{item | safe}} {% endfor %}| {% endif -%}bunx {{ params.package | safe }} {% for item in params.args %}{{item | safe}} {% endfor %}
 ```
 
    </div>
