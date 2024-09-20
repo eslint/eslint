@@ -185,6 +185,16 @@ export interface Variables extends Linter.RulesRecord {
                 caughtErrors: "none" | "all";
                 caughtErrorsIgnorePattern: string;
                 destructuredArrayIgnorePattern: string;
+                /**
+                 * @since 9.0.0-beta.2
+                 * @default false
+                 */
+                ignoreClassWithStaticInitBlock: boolean;
+                /**
+                 * @since 9.0.0
+                 * @default false
+                 */
+                reportUsedIgnorePattern: boolean;
             }>,
         ]
     >;
