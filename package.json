@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "9.10.0",
+  "version": "9.11.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -22,8 +22,8 @@
       "types": "./lib/types/rules/index.d.ts"
     },
     "./universal": {
-        "types": "./lib/types/universal.d.ts",
-        "default": "./lib/universal.js"
+      "types": "./lib/types/universal.d.ts",
+      "default": "./lib/universal.js"
     }
   },
   "scripts": {
