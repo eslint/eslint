@@ -469,17 +469,24 @@ describe("RuleTester", () => {
 
         ["before", "after"].forEach(hookName => {
             it(`${hookName} should be called when a function is assigned`, () => {
-                const hook = sinon.stub();
+                const hookForValid = sinon.stub();
+                const hookForInvalid = sinon.stub();
 
                 ruleTester = new RuleTester();
                 ruleTester.run(ruleName, rule, {
                     valid: [{
                         code: "const onlyValid = 42;",
-                        [hookName]: hook
+                        [hookName]: hookForValid
                     }],
-                    invalid: []
+                    invalid: [{
+                        code: "var onlyValid = 42;",
+                        errors: [/^Bad var/u],
+                        output: " onlyValid = 42;",
+                        [hookName]: hookForInvalid
+                    }]
                 });
-                sinon.assert.calledOnce(hook);
+                sinon.assert.calledOnce(hookForValid);
+                sinon.assert.calledOnce(hookForInvalid);
             });
 
             it(`${hookName} should cause test to fail when it throws error`, () => {
