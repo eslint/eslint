@@ -1062,284 +1062,284 @@ describe("ESLint", () => {
 
                     const results = await eslint.lintText("foo");
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                });
             });
-        });
 
-        describe("TypeScript config files", () => {
+            describe("TypeScript config files", () => {
 
-            const flags = ["unstable_ts_config"];
+                const tsFlags = ["unstable_ts_config", ...flags];
 
-            it("should find and load eslint.config.ts when present", async () => {
+                it("should find and load eslint.config.ts when present", async () => {
 
-                const cwd = getFixturePath("ts-config-files", "ts");
+                    const cwd = getFixturePath("ts-config-files", "ts");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
+
+                    const results = await eslint.lintText("foo");
+
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
                 });
 
-                const results = await eslint.lintText("foo");
+                it("should load eslint.config.ts when we have \"type\": \"commonjs\" in nearest `package.json`", async () => {
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    const cwd = getFixturePath("ts-config-files", "ts", "with-type-commonjs");
 
-            });
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
 
-            it("should load eslint.config.ts when we have \"type\": \"commonjs\" in nearest `package.json`", async () => {
+                    const results = await eslint.lintText("foo");
 
-                const cwd = getFixturePath("ts-config-files", "ts", "with-type-commonjs");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags
                 });
 
-                const results = await eslint.lintText("foo");
+                it("should load eslint.config.ts when we have \"type\": \"module\" in nearest `package.json`", async () => {
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    const cwd = getFixturePath("ts-config-files", "ts", "with-type-module");
 
-            });
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
 
-            it("should load eslint.config.ts when we have \"type\": \"module\" in nearest `package.json`", async () => {
+                    const results = await eslint.lintText("foo");
 
-                const cwd = getFixturePath("ts-config-files", "ts", "with-type-module");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags
                 });
 
-                const results = await eslint.lintText("foo");
+                it("should load eslint.config.ts with const enums", async () => {
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    const cwd = getFixturePath("ts-config-files", "ts", "const-enums");
 
-            });
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
 
-            it("should load eslint.config.ts with const enums", async () => {
+                    const results = await eslint.lintText("foo");
 
-                const cwd = getFixturePath("ts-config-files", "ts", "const-enums");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags
                 });
 
-                const results = await eslint.lintText("foo");
+                it("should load eslint.config.ts with local namespace", async () => {
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    const cwd = getFixturePath("ts-config-files", "ts", "local-namespace");
 
-            });
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
 
-            it("should load eslint.config.ts with local namespace", async () => {
+                    const results = await eslint.lintText("foo");
 
-                const cwd = getFixturePath("ts-config-files", "ts", "local-namespace");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags
                 });
 
-                const results = await eslint.lintText("foo");
+                it("should allow passing a TS config file to `overrideConfigFile`", async () => {
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    const cwd = getFixturePath("ts-config-files", "ts", "custom-config");
 
-            });
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags,
+                        overrideConfigFile: getFixturePath("ts-config-files", "ts", "custom-config", "eslint.custom.config.ts")
+                    });
 
-            it("should allow passing a TS config file to `overrideConfigFile`", async () => {
+                    const results = await eslint.lintText("foo");
 
-                const cwd = getFixturePath("ts-config-files", "ts", "custom-config");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags,
-                    overrideConfigFile: getFixturePath("ts-config-files", "ts", "custom-config", "eslint.custom.config.ts")
                 });
 
-                const results = await eslint.lintText("foo");
+                it("should find and load eslint.config.mts when present", async () => {
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    const cwd = getFixturePath("ts-config-files", "mts");
 
-            });
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
 
-            it("should find and load eslint.config.mts when present", async () => {
+                    const results = await eslint.lintText("foo");
 
-                const cwd = getFixturePath("ts-config-files", "mts");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags
                 });
 
-                const results = await eslint.lintText("foo");
+                it("should load eslint.config.mts when we have \"type\": \"commonjs\" in nearest `package.json`", async () => {
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    const cwd = getFixturePath("ts-config-files", "mts", "with-type-commonjs");
 
-            });
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
 
-            it("should load eslint.config.mts when we have \"type\": \"commonjs\" in nearest `package.json`", async () => {
+                    const results = await eslint.lintText("foo");
 
-                const cwd = getFixturePath("ts-config-files", "mts", "with-type-commonjs");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags
                 });
 
-                const results = await eslint.lintText("foo");
+                it("should load eslint.config.mts config file when we have \"type\": \"module\" in nearest `package.json`", async () => {
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    const cwd = getFixturePath("ts-config-files", "mts", "with-type-module");
 
-            });
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
 
-            it("should load eslint.config.mts config file when we have \"type\": \"module\" in nearest `package.json`", async () => {
+                    const results = await eslint.lintText("foo");
 
-                const cwd = getFixturePath("ts-config-files", "mts", "with-type-module");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags
                 });
 
-                const results = await eslint.lintText("foo");
+                it("should find and load eslint.config.cts when present", async () => {
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    const cwd = getFixturePath("ts-config-files", "cts");
 
-            });
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
 
-            it("should find and load eslint.config.cts when present", async () => {
+                    const results = await eslint.lintText("foo");
 
-                const cwd = getFixturePath("ts-config-files", "cts");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags
                 });
 
-                const results = await eslint.lintText("foo");
+                it("should load eslint.config.cts config file when we have \"type\": \"commonjs\" in nearest `package.json`", async () => {
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    const cwd = getFixturePath("ts-config-files", "cts", "with-type-commonjs");
 
-            });
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
 
-            it("should load eslint.config.cts config file when we have \"type\": \"commonjs\" in nearest `package.json`", async () => {
+                    const results = await eslint.lintText("foo");
 
-                const cwd = getFixturePath("ts-config-files", "cts", "with-type-commonjs");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags
                 });
 
-                const results = await eslint.lintText("foo");
+                it("should load .cts config file when we have \"type\": \"module\" in nearest `package.json`", async () => {
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    const cwd = getFixturePath("ts-config-files", "cts", "with-type-module");
 
-            });
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
 
-            it("should load .cts config file when we have \"type\": \"module\" in nearest `package.json`", async () => {
+                    const results = await eslint.lintText("foo");
 
-                const cwd = getFixturePath("ts-config-files", "cts", "with-type-module");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags
                 });
 
-                const results = await eslint.lintText("foo");
+                it("should successfully load a TS config file that exports a promise", async () => {
 
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+                    const cwd = getFixturePath("ts-config-files", "ts", "exports-promise");
 
-            });
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
 
-            it("should successfully load a TS config file that exports a promise", async () => {
+                    const results = await eslint.lintText("foo;");
 
-                const cwd = getFixturePath("ts-config-files", "ts", "exports-promise");
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                eslint = new ESLint({
-                    cwd,
-                    flags
                 });
 
-                const results = await eslint.lintText("foo;");
-
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
-
             });
 
-        });
-
-        it("should pass BOM through processors", async () => {
-            eslint = new ESLint({
-                overrideConfigFile: true,
-                overrideConfig: [
-                    {
-                        files: ["**/*.myjs"],
-                        processor: {
-                            preprocess(text, filename) {
-                                return [{ text, filename }];
+            it("should pass BOM through processors", async () => {
+                eslint = new ESLint({
+                    overrideConfigFile: true,
+                    overrideConfig: [
+                        {
+                            files: ["**/*.myjs"],
+                            processor: {
+                                preprocess(text, filename) {
+                                    return [{ text, filename }];
+                                },
+                                postprocess(messages) {
+                                    return messages.flat();
+                                },
+                                supportsAutofix: true
                             },
-                            postprocess(messages) {
-                                return messages.flat();
-                            },
-                            supportsAutofix: true
-                        },
-                        rules: {
-                            "unicode-bom": ["error", "never"]
+                            rules: {
+                                "unicode-bom": ["error", "never"]
+                            }
                         }
-                    }
-                ],
-                cwd: path.join(fixtureDir)
-            });
-            const results = await eslint.lintText("\uFEFFvar foo = 'bar';", { filePath: "test.myjs" });
+                    ],
+                    cwd: path.join(fixtureDir)
+                });
+                const results = await eslint.lintText("\uFEFFvar foo = 'bar';", { filePath: "test.myjs" });
 
-            assert.strictEqual(results.length, 1);
-            assert.strictEqual(results[0].messages.length, 1);
-            assert.strictEqual(results[0].messages[0].severity, 2);
-            assert.strictEqual(results[0].messages[0].ruleId, "unicode-bom");
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].severity, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "unicode-bom");
+            });
         });
-    });
 
         describe("lintFiles()", () => {
 
