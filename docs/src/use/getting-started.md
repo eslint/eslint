@@ -153,7 +153,7 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["projec-dir/", "file.js"],
+    args: ["project-dir/", "file.js"],
     comment: null
 }) }}
 
