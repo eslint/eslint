@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-{%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 ::: tip
 This page explains how to ignore files using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](ignore-deprecated).
@@ -36,9 +36,10 @@ This configuration specifies that all of the files in the `.config` directory sh
 
 You can also ignore files on the command line using `--ignore-pattern`, such as:
 
-{{ code_tabs({
-    npm: "npx eslint . --ignore-pattern '.config/*'",
-    yarn: "yarn dlx . --ignore-pattern '.config/*'"
+{{ npx_tabs({
+    package: "eslint",
+    args: [".", "--ignore-pattern", "\'.config/*\'"],
+    comment: null
 }) }}
 
 ## Ignoring Directories
@@ -119,9 +120,10 @@ Note that only global `ignores` patterns can match directories.
 
 You can also unignore files on the command line using `--ignore-pattern`, such as:
 
-{{ code_tabs({
-    npm: "npx eslint . --ignore-pattern '!node_modules/'",
-    yarn: "yarn dlx eslint . --ignore-pattern '!node_modules/'"
+{{ npx_tabs({
+    package: "eslint",
+    args: [".", "--ingore-pattern", "\'!node_modules/\'"],
+    comment: null
 }) }}
 
 ## Glob Pattern Resolution
@@ -147,9 +149,10 @@ export default [
 
 And then you run:
 
-{{ code_tabs({
-    npm: "npx eslint foo.js",
-    yarn: "yarn dlx eslint foo.js"
+{{ npx_tabs({
+    package: "eslint",
+    args: ["foo.js"],
+    comment: null
 }) }}
 
 You'll see this warning:

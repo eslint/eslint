@@ -8,6 +8,7 @@ eleventyNavigation:
 ---
 
 {%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 This tutorial covers how to create a custom rule for ESLint and distribute it with a plugin.
 
@@ -346,9 +347,10 @@ Now you're ready to test the custom rule with the locally defined plugin.
 
 Run ESLint on `example.js`:
 
-{{ code_tabs({
-    npm: "npx eslint example.js",
-    yarn: "yarn dlx eslint example.js"
+{{ npx_tabs({
+    package: "eslint",
+    args: ["example.js"],
+    comment: null
 }) }}
 
 This produces the following output in the terminal:
@@ -434,9 +436,10 @@ Now you're ready to test the custom rule.
 
 Run ESLint on the `example.js` file you created in step 8, now with the downloaded plugin:
 
-{{ code_tabs({
-    npm: "npx eslint example.js",
-    yarn: "yarn dlx example.js"
+{{ npx_tabs({
+    package: "eslint",
+    args: ["example.js"],
+    comment: null
 }) }}
 
 This produces the following output in the terminal:
@@ -453,9 +456,10 @@ As you can see in the above message, you can actually fix the issue with the `--
 
 Run ESLint again with the `--fix` flag:
 
-{{ code_tabs({
-    npm: "npx eslint example.js --fix",
-    yarn: "yarn dlx eslint example.js --fix"
+{{ npx_tabs({
+    package: "eslint",
+    args: ["example.js", "--fix"],
+    comment: null
 }) }}
 
 There is no error output in the terminal when you run this, but you can see the fix applied in `example.js`. You should see the following:

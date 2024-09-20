@@ -8,7 +8,7 @@ eleventyNavigation:
     order: 6
 ---
 
-{%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 ESLint ships experimental and future breaking changes behind feature flags to let users opt-in to behavior they want. Flags are used in these situations:
 
@@ -68,9 +68,10 @@ Because feature flags are strictly opt-in, you need to manually enable the flags
 
 On the command line, you can specify feature flags using the `--flag` option. You can specify as many flags as you'd like:
 
-{{ code_tabs({
-    npm: "npx eslint --flag flag_one --flag flag_two file.js",
-    yarn: "yarn dlx eslint --flag flag_one --flag flag_two file.js"
+{{ npx_tabs({
+    package: "eslint",
+    args: ["--flag", "flag_one", "--flag", "flag_two", "file.js"],
+    comment: null
 }) }}
 
 ### Enable Feature Flags with the API

@@ -9,6 +9,7 @@ eleventyNavigation:
 ---
 
 {%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs.
 
@@ -55,13 +56,11 @@ yarn init @eslint/config@latest -- --config eslint-config-standard
 
 After that, you can run ESLint on any file or directory like this:
 
-```shell
-npx eslint yourfile.js
-
-# or
-
-yarn run eslint yourfile.js
-```
+{{ npx_tabs({
+    package: "eslint",
+    args: ["yourfile.js"],
+    comment: null
+}) }}
 
 ## Configuration
 
@@ -152,9 +151,10 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 
 3. Lint code using the ESLint CLI:
 
-{{ code_tabs({
-    npm: "npx eslint project-dir/ file1.js",
-    yarn: "yarn dlx eslint project-dir/ file1.js"
+{{ npx_tabs({
+    package: "eslint",
+    args: ["projec-dir/", "file.js"],
+    comment: null
 }) }}
 
    For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).

@@ -8,6 +8,7 @@ eleventyNavigation:
 ---
 
 {%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 This guide provides an overview of how you can migrate your ESLint configuration file from the eslintrc format (typically configured in `.eslintrc.js` or `.eslintrc.json` files) to the new flat config format (typically configured in an `eslint.config.js` file).
 
@@ -22,9 +23,10 @@ For reference information on these configuration formats, refer to the following
 
 To get started, use the [configuration migrator](https://npmjs.com/package/@eslint/migrate-config) on your existing configuration file (`.eslintrc`, `.eslintrc.json`, `.eslintrc.yml`), like this:
 
-{{ code_tabs({
-    npm: "npx @eslint/migrate-config .eslintrc.json",
-    yarn: "yarn dlx @eslint/migrate-config .eslintrc.json"
+{{ npx_tabs({
+    package: "eslint",
+    args: ["@eslint/migrate-config", ".eslintrc.json"],
+    comment: null
 }) }}
 
 This will create a starting point for your `eslint.config.js` file but is not guaranteed to work immediately without further modification. It will, however, do most of the conversion work mentioned in this guide automatically.
