@@ -152,7 +152,7 @@ This rule has a number or object option:
 
 * `"max"` (default: `20`) enforces a maximum complexity
 
-* `"variant": "classic|modified"` (default: `"classic"`) cyclomatic complexity variant to use
+* `"variant": "classic" | "modified"` (default: `"classic"`) cyclomatic complexity variant to use
 
 ### max
 
@@ -179,15 +179,15 @@ Cyclomatic complexity variant to use:
 
 _Modified cyclomatic complexity_ is the same as the classic cyclomatic complexity, but each `switch` statement only increases the complexity value by `1`, regardless of how many `case` statements it contains.
 
-Examples of **correct** code for this rule with the `{ "max": 2, "variant": "modified" }` option:
+Examples of **correct** code for this rule with the `{ "max": 3, "variant": "modified" }` option:
 
 ::: correct
 
 ```js
 /*eslint complexity: ["error", {"max": 3, "variant": "modified"}]*/
 
-function a(x) {     // this function has modified complexity = 1
-    switch (x) {    // this whole switch statement has modified complexity = 1
+function a(x) {     // initial modified complexity is 1
+    switch (x) {    // switch statement increases modified complexity by 1
         case 1:
             1;
             break;
@@ -195,7 +195,7 @@ function a(x) {     // this function has modified complexity = 1
             2;
             break;
         case 3:
-            if (x === 'foo') {  // this if block has modified complexity = 1
+            if (x === 'foo') {  // if block increases modified complexity by 1
                 3;
             }
             break;
