@@ -191,6 +191,15 @@ export interface Deprecated extends Linter.RulesRecord {
     "no-negated-in-lhs": Linter.RuleEntry<[]>;
 
     /**
+     * Rule to disallow `Object` constructors.
+     *
+     * @since 0.0.9
+     * @deprecated since 8.50.0, use [`no-object-constructor`](https://eslint.org/docs/rules/no-object-constructor) instead.
+     * @see https://eslint.org/docs/rules/no-object-constructor
+     */
+    "no-new-object": Linter.RuleEntry<[]>;
+
+    /**
      * Rule to disallow `new` operators with the `Symbol` object.
      *
      * @since 2.0.0-beta.1
