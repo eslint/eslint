@@ -873,7 +873,15 @@ export interface StylisticIssues extends Linter.RulesRecord {
      */
     "lines-between-class-members": Linter.RuleEntry<
         [
-            "always" | "never",
+            "always" | "never" | {
+                enforce: Array<
+                    {
+                        blankLine: "always" | "never";
+                        prev: "method" | "field" | "*";
+                        next: "method" | "field" | "*";
+                    }
+                >
+            },
             Partial<{
                 /**
                  * @default false
