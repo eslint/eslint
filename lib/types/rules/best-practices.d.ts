@@ -842,6 +842,11 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 allowTaggedTemplates: boolean;
+                /**
+                 * @since 7.20.0
+                 * @default false
+                 */
+                enforceForJSX: boolean;
             }>,
         ]
     >;
