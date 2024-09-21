@@ -552,7 +552,17 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * @since 3.3.0
      * @see https://eslint.org/docs/rules/no-unsafe-negation
      */
-    "no-unsafe-negation": Linter.RuleEntry<[]>;
+    "no-unsafe-negation": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @since 6.6.0
+                 * @default false
+                 */
+                enforceForOrderingRelations: boolean;
+            }>,
+        ]
+    >;
 
     /**
      * Disallow use of optional chaining in contexts where the `undefined` value is not allowed.
