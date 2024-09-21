@@ -33,10 +33,12 @@ Such as:
     comment: "Run on multiple files"
 }) }}
 
+or
+
 {{ npx_tabs ({
     package: "eslint",
     args: ["lib/**"],
-    comment: "or"
+    comment: null
 }) }}
 
 Please note that when passing a glob as a parameter, it is expanded by your shell. The results of the expansion can vary depending on your shell, and its configuration. If you want to use node `glob` syntax, you have to quote your parameter (using double quotes if you need it to run in Windows), as follows:
@@ -382,14 +384,14 @@ To ignore rules in `.eslintrc` configuration files and only run rules specified 
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--rule", "\'guard-for-in: error\'", "--rule", "\'brace-style: [error, 1tbs]\'"],
-    comment: "Apply single rule"
+    args: ["--rule", "\'quotes: [error, double]\'"],
+    comment: "Apply single rules"
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--rule", "\'quotes: [error, double]\'"],
-    comment: "Apply multiple rules"
+    args: ["--rule", "\'guard-for-in: error\'", "--rule", "\'brace-style: [error, 1tbs]\'"],
+    comment: "Apply multiple rule"
 }) }}
 
 {{ npx_tabs ({
