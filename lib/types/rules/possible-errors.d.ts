@@ -593,7 +593,17 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * @since 5.3.0
      * @see https://eslint.org/docs/rules/require-atomic-updates
      */
-    "require-atomic-updates": Linter.RuleEntry<[]>;
+    "require-atomic-updates": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @since 8.3.0
+                 * @default false
+                 */
+                allowProperties: boolean;
+            }>,
+        ]
+    >;
 
     /**
      * Rule to require calls to `isNaN()` when checking for `NaN`.
