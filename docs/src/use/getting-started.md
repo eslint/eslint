@@ -106,7 +106,6 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 
 1. Install the ESLint packages in your project:
 
-
 {{ npm_tabs({
     command: "install",
     packages: ["eslint", "@eslint/js"],
