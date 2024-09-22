@@ -1386,9 +1386,34 @@ export interface StylisticIssues extends Linter.RulesRecord {
                  */
                 allowAfterSuper: boolean;
                 /**
+                 * @since 6.7.0
+                 * @default false
+                 */
+                allowAfterThisConstructor: boolean;
+                /**
                  * @default false
                  */
                 enforceInMethodNames: boolean;
+                /**
+                 * @since 8.15.0
+                 * @default false
+                 */
+                enforceInClassFields: boolean;
+                /**
+                 * @since 8.31.0
+                 * @default true
+                 */
+                allowInArrayDestructuring: boolean;
+                /**
+                 * @since 8.31.0
+                 * @default true
+                 */
+                allowInObjectDestructuring: boolean;
+                /**
+                 * @since 7.7.0
+                 * @default true
+                 */
+                allowFunctionParams: boolean;
             }>,
         ]
     >;

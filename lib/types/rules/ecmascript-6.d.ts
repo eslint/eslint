@@ -387,6 +387,10 @@ export interface ECMAScript6 extends Linter.RulesRecord {
                      */
                     ignoreConstructors: boolean;
                     /**
+                     * @since 8.22.0
+                     */
+                    methodsIgnorePattern: string;
+                    /**
                      * @default false
                      */
                     avoidExplicitReturnArrows: boolean;

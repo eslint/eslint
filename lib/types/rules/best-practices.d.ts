@@ -803,7 +803,17 @@ export interface BestPractices extends Linter.RulesRecord {
      * @since 0.5.1
      * @see https://eslint.org/docs/rules/no-sequences
      */
-    "no-sequences": Linter.RuleEntry<[]>;
+    "no-sequences": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @since 7.23.0
+                 * @default true
+                 */
+                allowInParentheses: boolean;
+            }>,
+        ]
+    >;
 
     /**
      * Rule to disallow throwing literals as exceptions.
@@ -842,6 +852,11 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 allowTaggedTemplates: boolean;
+                /**
+                 * @since 7.20.0
+                 * @default false
+                 */
+                enforceForJSX: boolean;
             }>,
         ]
     >;
