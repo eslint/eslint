@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-{%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs.
@@ -23,33 +23,19 @@ To use ESLint, you must have [Node.js](https://nodejs.org/en/) (`^18.18.0`, `^20
 
 You can install and configure ESLint using this command:
 
-```shell
-npm init @eslint/config@latest
-
-# or
-
-yarn create @eslint/config
-
-# or
-
-pnpm create @eslint/config@latest
-```
+{{ npm_tabs({
+    command: "create",
+    packages: ["@eslint/config@latest"],
+    args: []
+}) }}
 
 If you want to use a specific shareable config that is hosted on npm, you can use the `--config` option and specify the package name:
 
-{{ code_tabs({
-npm: "# use `eslint-config-standard` shared config
-
-# npm 7+
-
-npm init @eslint/config@latest -- --config eslint-config-standard
-",
-yarn: "# use `eslint-config-standard` shared config
-
-# npm 7+
-
-yarn init @eslint/config@latest -- --config eslint-config-standard
-"
+{{ npm_tabs({
+    command: "create",
+    packages: ["@eslint/config@latest", "eslint-config-standard"],
+    args: ["--", "--config"],
+    comment: "use `eslint-config-standard` shared config - npm 7+"
 }) }}
 
 **Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
@@ -120,9 +106,11 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 
 1. Install the ESLint packages in your project:
 
-{{ code_tabs({
-    npm: "npm install --save-dev eslint @eslint/js",
-    yarn: "yarn add eslint @eslint/js --dev"
+
+{{ npm_tabs({
+    command: "install",
+    packages: ["eslint", "@eslint/js"],
+    args: ["--save-dev"]
 }) }}
 
 1. Add an `eslint.config.js` file:

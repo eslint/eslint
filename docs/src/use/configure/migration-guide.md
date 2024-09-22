@@ -7,7 +7,7 @@ eleventyNavigation:
     order: 9
 ---
 
-{%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 This guide provides an overview of how you can migrate your ESLint configuration file from the eslintrc format (typically configured in `.eslintrc.js` or `.eslintrc.json` files) to the new flat config format (typically configured in an `eslint.config.js` file).
@@ -429,9 +429,10 @@ You can also use the `extends` property to extend a shareable config. Shareable 
 
 In flat config files, predefined configs are imported from separate modules into flat config files. The `recommended` and `all` rules configs are located in the [`@eslint/js`](https://www.npmjs.com/package/@eslint/js) package. You must import this package to use these configs:
 
-{{ code_tabs({
-    npm: "npm install @eslint/js --save-dev",
-    yarn: "yarn add @eslint/js --dev"
+{{ npm_tabs({
+    command: "install",
+    packages: ["@eslint/js"],
+    args: ["--save-dev"]
 }) }}
 
 You can add each of these configs to the exported array or expose specific rules from them. You must import the modules for local config files and npm package configs with flat config.
@@ -509,9 +510,10 @@ export default [
 
 You may find that there's a shareable config you rely on that hasn't yet been updated to flat config format. In that case, you can use the `FlatCompat` utility to translate the eslintrc format into flat config format. First, install the `@eslint/eslintrc` package:
 
-{{ code_tabs({
-    npm: "npm install @eslint/eslintrc --save-dev",
-    yarn: "yarn add @eslint/eslintrc --dev"
+{{ npm_tabs({
+    command: "install",
+    packages: ["@eslint/eslintrc"],
+    args: ["--save-dev"]
 }) }}
 
 Then, import `FlatCompat` and create a new instance to convert an existing eslintrc config. For example, if the npm package `eslint-config-my-config` is in eslintrc format, you can write this:

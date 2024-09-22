@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-{%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 The ESLint Command Line Interface (CLI) lets you execute linting from the terminal. The CLI has a variety of options that you can pass to configure ESLint.
@@ -690,9 +690,10 @@ Use a local custom formatter:
 
 Use an npm-installed formatter:
 
-{{ code_tabs({
-npm: 'npm install eslint-formatter-pretty',
-yarn: 'yarn add eslint-formatter-pretty'
+{{ npm_tabs({
+    command: "install",
+    packages: ["eslint-formatter-pretty"],
+    args: []
 }) }}
 
 Then run one of the following commands

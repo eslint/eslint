@@ -1,0 +1,63 @@
+{# to npm #}
+{% set toNpmCommands = {
+   "install": "install",
+   "test": "test",
+   "run": "run",
+   "init": "init",
+   "create": "create"
+} %}
+{% set toNpmArgs = {
+   "--global": "--global",
+   "--save-dev": "--save-dev",
+   "-y": "-y",
+   "--": "--",
+   "--config": "--config"
+} %}
+
+{# to yarn #}
+{% set toYarnCommands = {
+   "install": "add",
+   "test": "test",
+   "run": "",
+   "init": "init",
+   "create": "create"
+} %}
+{% set toYarnArgs = {
+   "--global": "global",
+   "--save-dev": "--dev",
+   "-y": "-y",
+   "--": "--",
+   "--config": "--config"
+} %}
+
+{# to pnpm #}
+{% set toPnpmCommands = {
+   "install": "add",
+   "test": "test",
+   "run": "run",
+   "init": "init",
+   "create": "create"
+} %}
+{% set toPnpmArgs = {
+   "--global": "--global",
+   "--save-dev": "--save-dev",
+   "-y": "-y",
+   "--": "--",
+   "--config": "--config"
+} %}
+
+{# to bun #}
+{% set toBunCommands = {
+   "install": "add",
+   "test": "test",
+   "run": "run",
+   "init": "init",
+   "create": "create"
+} %}
+{% set toBunArgs = {
+   "--global": "--global",
+   "--save-dev": "--dev",
+   "-y": "-y",
+   "--": "--",
+   "--config": "--config"
+} %}

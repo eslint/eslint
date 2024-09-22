@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-{%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
 
 ESLint custom parsers let you extend ESLint to support linting new non-standard JavaScript language features or custom syntax in your code. A parser is responsible for taking your code and transforming it into an abstract syntax tree (AST) that ESLint can then analyze and lint.
 
@@ -119,9 +119,10 @@ For more information on publishing an npm package, refer to the [npm documentati
 
 Once you've published the npm package, you can use it by adding the package to your project. For example:
 
-{{ code_tabs({
-    npm: "npm install eslint-parser-myparser --save-dev",
-    yarn: "yarn add eslint-parser-myparser --dev"
+{{ npm_tabs({
+    command: "install",
+    packages: ["eslint-parser-myparser"],
+    args: ["--save-dev"]
 }) }}
 
 Then add the custom parser to your ESLint configuration file with the `parser` property. For example:

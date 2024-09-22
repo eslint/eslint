@@ -1,0 +1,47 @@
+{% import './_globals.html' as globals %}
+{%- macro npm_tabs(params) -%}
+<div class="c-tabs" data-tabs>
+   <div class="c-tabs__tablist" data-tablist hidden>
+      <button class="c-tabs__tab" data-tab>npm</button>
+      <button class="c-tabs__tab" data-tab>yarn</button>
+      <button class="c-tabs__tab" data-tab>pnpm</button>
+      <button class="c-tabs__tab" data-tab>bun</button>
+   </div>
+   <div class="c-tabs__tabpanel" data-tabpanel>
+      <h3 class="h6 c-tabs__tabpanel__title">npm</h3>
+
+```shell
+{% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
+npm {{globals.toNpmCommands[params.command] | safe}}{%for package in params.packages%} {{package | safe}}{%endfor%}{%for arg in params.args%} {{ globals.toNpmArgs[arg] | safe}}{%endfor%}
+```
+
+   </div>
+   <div class="c-tabs__tabpanel" data-tabpanel>
+      <h3 class="h6 c-tabs__tabpanel__title">yarn</h3>
+
+```shell
+{% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
+yarn {{globals.toYarnCommands[params.command] | safe}}{%for package in params.packages%} {{package | safe}}{%endfor%}{%for arg in params.args%} {{ globals.toYarnArgs[arg] | safe}}{%endfor%}
+```
+
+   </div>
+   <div class="c-tabs__tabpanel" data-tabpanel>
+      <h3 class="h6 c-tabs__tabpanel__title">pnpm</h3>
+
+```shell
+{% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
+pnpm {{globals.toPnpmCommands[params.command]|safe}}{%for package in params.packages%} {{package | safe}}{%endfor%}{%for arg in params.args%} {{ globals.toPnpmArgs[arg] | safe}}{%endfor%}
+```
+
+   </div>
+   <div class="c-tabs__tabpanel" data-tabpanel>
+      <h3 class="h6 c-tabs__tabpanel__title">bun</h3>
+
+```shell
+{% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
+bun {{globals.toBunCommands[params.command]|safe}}{%for package in params.packages%} {{package | safe}}{%endfor%}{%for arg in params.args%} {{ globals.toBunArgs[arg] | safe}}{%endfor%}
+```
+
+   </div>
+</div>
+{%- endmacro -%}

@@ -3,7 +3,7 @@ title: Migrating from JSCS
 
 ---
 
-{%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
 
 In April 2016, we [announced](https://eslint.org/blog/2016/04/welcoming-jscs-to-eslint) that the JSCS project was shutting down and the JSCS team would be joining the ESLint team. This guide is intended to help those who are using JSCS to migrate their settings and projects to use ESLint. We've tried to automate as much of the conversion as possible, but there are some manual changes that are needed.
 
@@ -20,9 +20,10 @@ Before beginning the process of migrating to ESLint, it's helpful to understand 
 
 To install Polyjuice:
 
-{{ code_tabs({
-    npm: "npm install -g polyjuice",
-    yarn: "yarn add global polyjuice"
+{{ npm_tabs({
+    command: "install",
+    packages: ["polyjuice"],
+    args: ["--global"]
 }) }}
 
 Polyjuice works with JSON configuration files, so if you're using a JavaScript or YAML JSCS configuration file, you should first convert it into a JSON configuration file.
@@ -47,9 +48,10 @@ polyjuice --jscs .jscsrc.json ./foo/.jscsrc.json > .eslintrc.json
 
 If you don't want to convert your JSCS configuration directly into an ESLint configuration, then you can use ESLint's built-in wizard to get you started. Just run:
 
-{{ code_tabs({
-    npm: "npm init @eslint/config",
-    yarn: "yarn init @eslint/config"
+{{ npm_tabs({
+    command: "create",
+    packages: ["@eslint/config"],
+    args: []
 }) }}
 
 You'll be guided through a series of questions that will help you setup a basic configuration file to get you started.
@@ -81,9 +83,10 @@ As an example, suppose that you are using the `airbnb` preset, so your `.jscsrc`
 
 In order to get the same functionality in ESLint, you would first need to install the `eslint-config-airbnb` shareable config package:
 
-{{ code_tabs({
-    npm: "npm install eslint-config-airbnb-base --save-dev",
-    yarn: "yarn add eslint-config-airbnb-base --dev"
+{{ npm_tabs({
+    command: "install",
+    packages: ["eslint-config-airbnb-base"],
+    args: ["--save-dev"]
 }) }}
 
 And then you would modify your configuration file like this:

@@ -7,7 +7,7 @@ eleventyNavigation:
     order: 1
 ---
 
-{%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 This tutorial covers how to create a custom rule for ESLint and distribute it with a plugin.
@@ -189,9 +189,10 @@ touch enforce-foo-bar.test.js
 
 You will use the `eslint` package in the test file. Install it as a development dependency:
 
-{{ code_tabs({
-    npm: "npm install eslint --save-dev",
-    yarn: "yarn add eslint --dev"
+{{ npm_tabs({
+    command: "install",
+    packages: ["eslint"],
+    args: ["--save-dev"]
 }) }}
 
 And add a test script to your `package.json` file to run the tests:
@@ -248,9 +249,10 @@ console.log("All tests passed!");
 
 Run the test with the following command:
 
-{{ code_tabs({
-    npm: "npm test",
-    yarn: "yarn test"
+{{ npm_tabs({
+    command: "test",
+    packages: [],
+    args: []
 }) }}
 
 If the test passes, you should see the following in your console:
@@ -415,9 +417,11 @@ Next, you can use the published plugin.
 
 Run the following command in your project to download the package:
 
-{{ code_tabs({
-    npm: "npm install --save-dev eslint-plugin-example # Add your package name here",
-    yarn: "yarn add eslint-plugin-example --dev # Add your package name here"
+{{ npm_tabs({
+    command: "install",
+    package: ["eslint-plugin-example"],
+    args: ["--save-dev"],
+    comment: "Add your package name here"
 }) }}
 
 Update the `eslint.config.js` to use the packaged version of the plugin:

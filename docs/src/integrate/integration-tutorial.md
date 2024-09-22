@@ -7,7 +7,7 @@ eleventyNavigation:
     order: 1
 ---
 
-{%- from 'components/code-tabs.macro.html' import code_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
 
 This guide walks you through integrating the `ESLint` class to lint files and
 retrieve results, which can be useful for creating integrations with other
@@ -67,16 +67,18 @@ cd eslint-integration
 
 Initialize the project with a `package.json` file:
 
-{{ code_tabs({
-    npm: "npm init -y",
-    yarn: "yarn init -y"
+{{ npm_tabs({
+    command: "create",
+    package: [],
+    args: ["-y"]
 }) }}
 
 Install the `eslint` package as a dependency (**not** as a dev dependency):
 
-{{ code_tabs({
-    npm: "npm install eslint",
-    yarn: "yarn add eslint"
+{{ npm_tabs({
+    command: "install",
+    package: ["eslint"],
+    args: []
 }) }}
 
 Create a new file called `example-eslint-integration.js` in the project root:
