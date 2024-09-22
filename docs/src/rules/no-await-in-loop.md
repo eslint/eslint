@@ -37,6 +37,37 @@ async function foo(things) {
 }
 ```
 
+Also, if a loop iterates over `Promise` rejections with `await`, then after the first promise is rejected, it immediately throws an error, stopping the loop's execution before handling the rest of the promises. This leads to unhandled rejections for any promises that haven’t been awaited yet.
+
+```js
+async function bar(things) {
+  const arrayOfRejections = new Array(things).fill(undefined).map((_, index) => Promise.reject(new Error("rejected " + index)));
+  const result = [];
+  for (const promise of arrayOfRejections) {
+    // Bad: after the rejection of first promise, loop's execution stops, leaving the rest of the promise rejections floating and unhandled.
+    const promisedValue = await promise;
+    result.push(promisedValue);
+  }
+
+  return result;
+}
+```
+
+This function should be refactored as shown:
+
+```js
+async function bar(things) {
+  const arrayOfRejections = new Array(things).fill(undefined).map((_, index) => Promise.reject(new Error("rejected " + index)));
+  const result = [];
+  // Good: all the promises are immediately rejected so there are no floating unhandled rejections.
+  for (const promisedValue of await Promise.all(arrayOfRejections)) {
+    result.push(promisedValue);
+  }
+
+  return result;
+}
+```
+
 ## Rule Details
 
 This rule disallows the use of `await` within loop bodies.
