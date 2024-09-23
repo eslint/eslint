@@ -108,7 +108,6 @@
     "ignore": "^5.2.0",
     "imurmurhash": "^0.1.4",
     "is-glob": "^4.0.0",
-    "is-path-inside": "^3.0.3",
     "json-stable-stringify-without-jsonify": "^1.0.1",
     "lodash.merge": "^4.6.2",
     "minimatch": "^3.1.2",
