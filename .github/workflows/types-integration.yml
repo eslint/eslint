@@ -140,7 +140,7 @@ jobs:
       - name: Install Packages (eslint/js)
         working-directory: eslint-js
         run: |
-          npm install --ignore-scripts
+          npm install
           npm install ../eslint
 
       - name: Run TSC
