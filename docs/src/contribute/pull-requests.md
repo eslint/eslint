@@ -106,11 +106,9 @@ git rebase upstream/main
 
 After rebasing, be sure to run all of the tests once again to make sure nothing broke:
 
-{{ npm_tabs({
-    command: "test",
-    packages: [],
-    args: []
-}) }}
+```shell
+npm test
+```
 
 If there are any failing tests, update your code until all tests pass.
 

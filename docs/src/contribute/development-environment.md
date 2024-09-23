@@ -79,11 +79,9 @@ Please see the [generator documentation](https://github.com/eslint/generator-esl
 
 Running the tests is the best way to ensure you have correctly set up your development environment. Make sure you're in the `eslint` directory and run:
 
-{{ npm_tabs({
-    command: "test",
-    packages: [""],
-    args: []
-}) }}
+``` shell
+npm test
+```
 
 The testing takes a few minutes to complete. If any tests fail, that likely means one or more parts of the environment setup didn't complete correctly. The upstream tests always pass.
 
