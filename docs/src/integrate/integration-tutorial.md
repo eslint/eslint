@@ -68,7 +68,7 @@ cd eslint-integration
 Initialize the project with a `package.json` file:
 
 {{ npm_tabs({
-    command: "create",
+    command: "init",
     package: [],
     args: ["-y"]
 }) }}
