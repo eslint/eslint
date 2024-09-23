@@ -122,7 +122,7 @@ You can also unignore files on the command line using `--ignore-pattern`, such a
 
 {{ npx_tabs({
     package: "eslint",
-    args: [".", "--ingore-pattern", "\'!node_modules/\'"],
+    args: [".", "--ignore-pattern", "\'!node_modules/\'"],
     comment: null
 }) }}
 
