@@ -130,6 +130,12 @@ jobs:
       - name: Install Packages (eslint)
         working-directory: eslint
         run: npm install
+      
+      - name: Update package.json eslint-visitor-keys
+        uses: restackio/update-json-file-action@2.1
+        with:
+          file: eslint-js/packages/eslint-visitor-keys/package.json
+          fields: '{"scripts.prepare": "npm run build:cjs"}'
 
       - name: Install Packages (eslint/js)
         working-directory: eslint-js
