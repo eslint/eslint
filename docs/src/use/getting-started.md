@@ -24,7 +24,7 @@ To use ESLint, you must have [Node.js](https://nodejs.org/en/) (`^18.18.0`, `^20
 You can install and configure ESLint using this command:
 
 {{ npm_tabs({
-    command: "create",
+    command: "init",
     packages: ["@eslint/config@latest"],
     args: []
 }) }}
@@ -32,7 +32,7 @@ You can install and configure ESLint using this command:
 If you want to use a specific shareable config that is hosted on npm, you can use the `--config` option and specify the package name:
 
 {{ npm_tabs({
-    command: "create",
+    command: "init",
     packages: ["@eslint/config@latest", "eslint-config-standard"],
     args: ["--", "--config"],
     comment: "use `eslint-config-standard` shared config - npm 7+"

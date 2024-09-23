@@ -462,7 +462,7 @@ Run ESLint again with the `--fix` flag:
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["example.js", "--fix"],
+    args: ["example.js", "--fix"],  
     comment: null
 }) }}
 
