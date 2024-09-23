@@ -419,7 +419,7 @@ Run the following command in your project to download the package:
 
 {{ npm_tabs({
     command: "install",
-    package: ["eslint-plugin-example"],
+    packages: ["eslint-plugin-example"],
     args: ["--save-dev"],
     comment: "Add your package name here"
 }) }}
