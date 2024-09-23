@@ -85,7 +85,7 @@
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.11.0",
     "@eslint/config-array": "^0.18.0",
-    "@eslint/core": "0.6.0",
+    "@eslint/core": "^0.6.0",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "9.11.0",
     "@eslint/plugin-kit": "^0.2.0",
