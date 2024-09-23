@@ -87,7 +87,7 @@
     "@eslint/config-array": "^0.18.0",
     "@eslint/core": "^0.6.0",
     "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "9.11.0",
+    "@eslint/js": "9.11.1",
     "@eslint/plugin-kit": "^0.2.0",
     "@humanwhocodes/module-importer": "^1.0.1",
     "@humanwhocodes/retry": "^0.3.0",
