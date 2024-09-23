@@ -534,7 +534,7 @@ export default [
       "no-console": [0],
     },
   },
-] satisfies Linter.FlatConfig[];
+] satisfies Linter.Config[];
 ```
 
 Here's an example in CommonJS format:
@@ -543,7 +543,7 @@ Here's an example in CommonJS format:
 import type { Linter } from "eslint";
 const eslint = require("@eslint/js");
 
-const config: Linter.FlatConfig[] = [
+const config: Linter.Config[] = [
   eslint.configs.recommended,
   {
     rules: {
