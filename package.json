@@ -92,7 +92,7 @@
     "@humanwhocodes/retry": "^0.3.0",
     "@nodelib/fs.walk": "^1.2.8",
     "@types/estree": "^1.0.6",
-    "@eslint/core": "0.6.0",
+    "@eslint/core": "^0.6.0",
     "@types/json-schema": "^7.0.15",
     "ajv": "^6.12.4",
     "chalk": "^4.0.0",
