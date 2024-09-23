@@ -9,6 +9,7 @@ eleventyNavigation:
 ---
 
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
 
 ::: tip
 This page explains how to use flat config files. For the deprecated eslintrc format, [see the deprecated documentation](configuration-files-deprecated).
@@ -519,13 +520,12 @@ You need to enable this feature through the `unstable_ts_config` feature flag:
 
 For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in your project (this dependency is not automatically installed by ESLint):
 
-```bash
-npm install -D jiti
-# or
-yarn add --dev jiti
-# or
-pnpm add -D jiti
-```
+
+{{ npm_tabs({
+    command: "install",
+    packages: ["jiti"],
+    args: ["--save-dev"]
+}) }}
 
 You can then create a configuration file with a `.ts`, `.mts`, or `.cts` extension, and export an array of [configuration objects](#configuration-objects). Here's an example in ESM format:
 
