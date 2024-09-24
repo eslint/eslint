@@ -500,6 +500,15 @@ describe("RuleTester", () => {
                     }],
                     invalid: []
                 }), "Something happened");
+                assert.throws(() => ruleTester.run(ruleName, rule, {
+                    valid: [],
+                    invalid: [{
+                        code: "var onlyValid = 42;",
+                        errors: [/^Bad var/u],
+                        output: " onlyValid = 42;",
+                        [hookName]: hook
+                    }]
+                }), "Something happened");
             });
 
             it(`${hookName} should throw when not a function is assigned`, () => {
@@ -510,6 +519,15 @@ describe("RuleTester", () => {
                         [hookName]: 42
                     }],
                     invalid: []
+                }), `Optional test case property '${hookName}' must be a function`);
+                assert.throws(() => ruleTester.run(ruleName, rule, {
+                    valid: [],
+                    invalid: [{
+                        code: "var onlyValid = 42;",
+                        errors: [/^Bad var/u],
+                        output: " onlyValid = 42;",
+                        [hookName]: 42
+                    }]
                 }), `Optional test case property '${hookName}' must be a function`);
             });
         });
@@ -529,6 +547,18 @@ describe("RuleTester", () => {
             }));
             sinon.assert.calledOnce(hookBefore);
             sinon.assert.calledOnce(hookAfter);
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [],
+                invalid: [{
+                    code: "const onlyValid = 42;",
+                    errors: [/^Bad var/u],
+                    output: " onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }]
+            }));
+            sinon.assert.calledTwice(hookBefore);
+            sinon.assert.calledTwice(hookAfter);
         });
 
         it("should call after() hook even when before() throws", () => {
@@ -546,6 +576,18 @@ describe("RuleTester", () => {
             }), "Something happened in before()");
             sinon.assert.calledOnce(hookBefore);
             sinon.assert.calledOnce(hookAfter);
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [],
+                invalid: [{
+                    code: "var onlyValid = 42;",
+                    errors: [/^Bad var/u],
+                    output: " onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }]
+            }), "Something happened in before()");
+            sinon.assert.calledTwice(hookBefore);
+            sinon.assert.calledTwice(hookAfter);
         });
     });
 
