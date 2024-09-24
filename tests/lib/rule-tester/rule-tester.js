@@ -561,6 +561,35 @@ describe("RuleTester", () => {
             sinon.assert.calledTwice(hookAfter);
         });
 
+        it("should call both before() and after() hooks regardless syntax errors", () => {
+            const hookBefore = sinon.stub();
+            const hookAfter = sinon.stub();
+
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "invalid javascript code",
+                    before: hookBefore,
+                    after: hookAfter
+                }],
+                invalid: []
+            }), /parsing error/u);
+            sinon.assert.calledOnce(hookBefore);
+            sinon.assert.calledOnce(hookAfter);
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [],
+                invalid: [{
+                    code: "invalid javascript code",
+                    errors: [/^Bad var/u],
+                    output: " onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }]
+            }), /parsing error/u);
+            sinon.assert.calledTwice(hookBefore);
+            sinon.assert.calledTwice(hookAfter);
+        });
+
         it("should call after() hook even when before() throws", () => {
             const hookBefore = sinon.stub().throws(new Error("Something happened in before()"));
             const hookAfter = sinon.stub();
