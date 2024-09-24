@@ -21,7 +21,6 @@ This automatically starts Mocha and runs all tests in the `tests` directory. You
 
 If you want to quickly run just one test file, you can do so by running Mocha directly and passing in the filename. For example:
 
-
 ```shell
 npm run test:cli tests/lib/rules/no-undef.js
 ```
