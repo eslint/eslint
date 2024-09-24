@@ -1,3 +1,17 @@
+v9.11.1 - September 23, 2024
+
+* [`df4a859`](https://github.com/eslint/eslint/commit/df4a859b4cd578a3535a488a665a6e858289f455) chore: upgrade @eslint/js@9.11.1 (#18943) (Milos Djermanovic)
+* [`36d8095`](https://github.com/eslint/eslint/commit/36d8095308d8973aa38bb9568121822776a5199d) chore: package.json update for @eslint/js release (Jenkins)
+* [`20fd916`](https://github.com/eslint/eslint/commit/20fd91689f2a89643a6f67e900a53552d47ddfe5) fix: add `@eslint/core`, `@types/estree`, & `@types/json-schema` deps (#18938) (Nitin Kumar)
+* [`3eff709`](https://github.com/eslint/eslint/commit/3eff70963772e9faad4a865aaa4cf3d7dbe700a0) docs: replace deprecated `Linter.FlatConfig` type with `Linter.Config` (#18941) (Carlos Meira)
+* [`2738322`](https://github.com/eslint/eslint/commit/27383226b8c5ead6b7cafc017a8ca12a1512a301) fix: add missing types for `require-atomic-updates` rule (#18937) (Kristóf Poduszló)
+* [`d71ff30`](https://github.com/eslint/eslint/commit/d71ff3068c3134171346c91f4095dd5908d9c897) fix: add missing types for `object-shorthand` rule (#18935) (Kristóf Poduszló)
+* [`561cadc`](https://github.com/eslint/eslint/commit/561cadc54376fd0a5cc1446c3cd76bfbb6b3ce9d) fix: add missing types for `no-unsafe-negation` rule (#18932) (Kristóf Poduszló)
+* [`8843656`](https://github.com/eslint/eslint/commit/8843656f9b161d97d9dc78db01413029621e266d) fix: add missing types for `no-underscore-dangle` rule (#18931) (Kristóf Poduszló)
+* [`92cde5c`](https://github.com/eslint/eslint/commit/92cde5c6da43b6017657e4c596421e3347f3dbc4) fix: add missing types for `no-shadow` rule (#18930) (Kristóf Poduszló)
+* [`b3cbe11`](https://github.com/eslint/eslint/commit/b3cbe11a9216d1edabd5b85d6f274ca84574bce6) fix: add missing types for `no-sequences` rule (#18929) (Kristóf Poduszló)
+* [`976f77f`](https://github.com/eslint/eslint/commit/976f77f7f6da591b715b1ce2592f09c2f1160153) fix: add missing types for `no-unused-expressions` rule (#18933) (Kristóf Poduszló)
+
 v9.11.0 - September 20, 2024
 
 * [`ca21a64`](https://github.com/eslint/eslint/commit/ca21a64ed0f59adb9dadcef2fc8f7248879edbd3) chore: upgrade @eslint/js@9.11.0 (#18927) (Milos Djermanovic)
