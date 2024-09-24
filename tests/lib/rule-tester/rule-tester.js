@@ -490,7 +490,7 @@ describe("RuleTester", () => {
             });
 
             it(`${hookName} should cause test to fail when it throws error`, () => {
-                const hook = sinon.stub().throws(new Error("Something happended"));
+                const hook = sinon.stub().throws(new Error("Something happened"));
 
                 ruleTester = new RuleTester();
                 assert.throws(() => ruleTester.run(ruleName, rule, {
@@ -499,7 +499,7 @@ describe("RuleTester", () => {
                         [hookName]: hook
                     }],
                     invalid: []
-                }), "Something happended");
+                }), "Something happened");
             });
 
             it(`${hookName} should throw when not a function is assigned`, () => {
@@ -532,7 +532,7 @@ describe("RuleTester", () => {
         });
 
         it("should call after() hook even when before() throws", () => {
-            const hookBefore = sinon.stub().throws(new Error("Something happended in before()"));
+            const hookBefore = sinon.stub().throws(new Error("Something happened in before()"));
             const hookAfter = sinon.stub();
 
             ruleTester = new RuleTester();
@@ -543,7 +543,7 @@ describe("RuleTester", () => {
                     after: hookAfter
                 }],
                 invalid: []
-            }), "Something happended in before()");
+            }), "Something happened in before()");
             sinon.assert.calledOnce(hookBefore);
             sinon.assert.calledOnce(hookAfter);
         });
