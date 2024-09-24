@@ -100,6 +100,11 @@ export interface Variables extends Linter.RulesRecord {
                  */
                 hoist: "functions" | "all" | "never";
                 allow: string[];
+                /**
+                 * @since 8.10.0
+                 * @default false
+                 */
+                ignoreOnInitialization: boolean;
             }>,
         ]
     >;
