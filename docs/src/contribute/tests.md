@@ -7,8 +7,6 @@ eleventyNavigation:
     order: 7
 ---
 
-{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
-
 Most parts of ESLint have unit tests associated with them. Unit tests are written using [Mocha](https://mochajs.org/) and are required when making contributions to ESLint. You'll find all of the unit tests in the `tests` directory.
 
 When you first get the source code, you need to run `npm install` once initially to set ESLint for development. Once you've done that, you can run the tests via:
@@ -23,11 +21,10 @@ This automatically starts Mocha and runs all tests in the `tests` directory. You
 
 If you want to quickly run just one test file, you can do so by running Mocha directly and passing in the filename. For example:
 
-{{ npm_tabs({
-    command: "run",
-    packages: ["test:cli tests/lib/rules/no-undef.js"],
-    args: []
-}) }}
+
+```shell
+npm run test:cli tests/lib/rules/no-undef.js
+```
 
 If you want to run just one or a subset of `RuleTester` test cases, add `only: true` to each test case or wrap the test case in `RuleTester.only(...)` to add it automatically:
 

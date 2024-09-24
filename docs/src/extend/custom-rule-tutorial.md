@@ -249,11 +249,9 @@ console.log("All tests passed!");
 
 Run the test with the following command:
 
-{{ npm_tabs({
-    command: "test",
-    packages: [],
-    args: []
-}) }}
+``` shell
+npm test
+```
 
 If the test passes, you should see the following in your console:
 
