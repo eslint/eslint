@@ -6464,6 +6464,25 @@ describe("ESLint", () => {
                 await assert.rejects(eslint.lintFiles("*.js"), error);
             });
 
+            it("should not throw with a glob pattern if a file-not-found error occurs traversing a directory", async () => {
+                const fsWalk = require("@nodelib/fs.walk");
+
+                const walkSpy = sinon.spy(fsWalk, "walk");
+
+                const cwd = getFixturePath("files");
+
+                eslint = new ESLint({
+                    cwd,
+                    overrideConfigFile: true
+                });
+
+                await eslint.lintFiles("*.js");
+
+                assert.strictEqual(walkSpy.calledOnce, true);
+                assert.strictEqual(walkSpy.firstCall.args[1].errorFilter({ code: "ENOENT" }), true);
+                assert.strictEqual(walkSpy.firstCall.args[1].errorFilter({ code: "EACCES" }), false);
+            });
+
         });
 
     });
