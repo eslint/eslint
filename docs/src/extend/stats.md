@@ -7,6 +7,8 @@ eleventyNavigation:
     order: 6
 ---
 
+{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
+
 While an analysis of the overall rule performance for an ESLint run can be carried out by setting the [TIMING](./custom-rules#profile-rule-performance) environment variable, it can sometimes be useful to acquire more *granular* timing data (lint time per file per rule) or collect other measures of interest. In particular, when developing new [custom plugins](./plugins) and evaluating/benchmarking new languages or rule sets. For these use cases, you can optionally collect runtime statistics from ESLint.
 
 ## Enable stats collection
@@ -51,9 +53,12 @@ function a() {
 
 Run ESLint with `--stats` and output to JSON via the built-in [`json` formatter](../use/formatters/):
 
-```bash
-npx eslint file-to-fix.js --fix --stats -f json
-```
+{{ npx_tabs({
+    package: "eslint",
+    args: ["file-to-fix.js", "--fix", "--stats", "-f", "json"],
+    comment: null
+}) }}
+
 
 This yields the following `stats` entry as part of the formatted lint results object:
 
