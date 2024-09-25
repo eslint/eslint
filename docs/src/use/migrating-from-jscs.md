@@ -50,7 +50,7 @@ If you don't want to convert your JSCS configuration directly into an ESLint con
 
 {{ npm_tabs({
     command: "init-create",
-    packages: ["@eslint/config"],
+    packages: ["@eslint/config@latest"],
     args: []
 }) }}
 
