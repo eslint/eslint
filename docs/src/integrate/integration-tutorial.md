@@ -69,7 +69,7 @@ Initialize the project with a `package.json` file:
 
 {{ npm_tabs({
     command: "init",
-    package: [],
+    packages: [],
     args: ["-y"]
 }) }}
 
@@ -77,7 +77,7 @@ Install the `eslint` package as a dependency (**not** as a dev dependency):
 
 {{ npm_tabs({
     command: "install",
-    package: ["eslint"],
+    packages: ["eslint"],
     args: []
 }) }}
 
