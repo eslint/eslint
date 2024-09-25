@@ -59,7 +59,6 @@ Run ESLint with `--stats` and output to JSON via the built-in [`json` formatter]
     comment: null
 }) }}
 
-
 This yields the following `stats` entry as part of the formatted lint results object:
 
 ```json
