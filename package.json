@@ -51,6 +51,7 @@
     "lint:unused": "knip",
     "lint:fix": "trunk check -y --ignore=docs/**/*.js -a --filter=eslint && trunk check -y --ignore=docs/**/*.js",
     "lint:fix:docs:js": "trunk check -y --ignore=** --ignore=!docs/**/*.js -a --flter=eslint && trunk check -y --ignore=** --ignore=!docs/**/*.js",
+    "lint:types": "attw --pack",
     "release:generate:alpha": "node Makefile.js generatePrerelease -- alpha",
     "release:generate:beta": "node Makefile.js generatePrerelease -- beta",
     "release:generate:latest": "node Makefile.js generateRelease -- latest",
