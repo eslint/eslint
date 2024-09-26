@@ -204,7 +204,7 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to disallow `new` operators with the `Symbol` object.
      *
      * @since 2.0.0-beta.1
-          * @deprecated since 8.27.0, use [`no-new-native-nonconstructor`](https://eslint.org/docs/rules/no-new-native-nonconstructor) instead.
+     * @deprecated since 8.27.0, use [`no-new-native-nonconstructor`](https://eslint.org/docs/rules/no-new-native-nonconstructor) instead.
      * @see https://eslint.org/docs/rules/no-new-symbol
      */
     "no-new-symbol": Linter.RuleEntry<[]>;
