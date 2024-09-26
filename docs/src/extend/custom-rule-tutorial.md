@@ -249,7 +249,7 @@ console.log("All tests passed!");
 
 Run the test with the following command:
 
-``` shell
+```shell
 npm test
 ```
 
