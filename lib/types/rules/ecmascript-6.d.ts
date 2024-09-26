@@ -221,7 +221,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
     >;
 
     /**
-     * Rule to disallow `new` operators with global non-constructor functions
+     * Rule to disallow `new` operator with global non-constructor functions
      * 
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
