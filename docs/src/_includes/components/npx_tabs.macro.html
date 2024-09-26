@@ -38,7 +38,7 @@
 
 ```shell
 {% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
-{% if params.previousCommands %}{% for item in params.previousCommands %}{{ item | safe }} {% endfor %}| {% endif -%}bunx {{ params.package | safe }} {% for item in params.args %}{{ item | safe }}{% endfor %}
+{% if params.previousCommands %}{% for item in params.previousCommands %}{{ item | safe }} {% endfor %}| {% endif -%}bunx {{ params.package | safe }} {% for item in params.args %}{{ item | safe }} {% endfor %}
 ```
 
    </div>
