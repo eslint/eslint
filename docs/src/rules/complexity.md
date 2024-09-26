@@ -148,19 +148,66 @@ function foo() { // this function has complexity = 1
 
 ## Options
 
-Optionally, you may specify a `max` object property:
+This rule has a number or object option:
 
-```json
-"complexity": ["error", 2]
-```
+* `"max"` (default: `20`) enforces a maximum complexity
 
-is equivalent to
+* `"variant": "classic" | "modified"` (default: `"classic"`) cyclomatic complexity variant to use
+
+### max
+
+Customize the threshold with the `max` property.
 
 ```json
 "complexity": ["error", { "max": 2 }]
 ```
 
 **Deprecated:** the object property `maximum` is deprecated. Please use the property `max` instead.
+
+Or use the shorthand syntax:
+
+```json
+"complexity": ["error", 2]
+```
+
+### variant
+
+Cyclomatic complexity variant to use:
+
+* `"classic"` (default) - Classic McCabe cyclomatic complexity
+* `"modified"` - Modified cyclomatic complexity
+
+_Modified cyclomatic complexity_ is the same as the classic cyclomatic complexity, but each `switch` statement only increases the complexity value by `1`, regardless of how many `case` statements it contains.
+
+Examples of **correct** code for this rule with the `{ "max": 3, "variant": "modified" }` option:
+
+::: correct
+
+```js
+/*eslint complexity: ["error", {"max": 3, "variant": "modified"}]*/
+
+function a(x) {     // initial modified complexity is 1
+    switch (x) {    // switch statement increases modified complexity by 1
+        case 1:
+            1;
+            break;
+        case 2:
+            2;
+            break;
+        case 3:
+            if (x === 'foo') {  // if block increases modified complexity by 1
+                3;
+            }
+            break;
+        default:
+            4;
+    }
+}
+```
+
+:::
+
+The classic cyclomatic complexity of the above function is `5`, but the modified cyclomatic complexity is only `3`.
 
 ## When Not To Use It
 
