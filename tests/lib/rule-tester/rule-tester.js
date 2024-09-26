@@ -463,6 +463,163 @@ describe("RuleTester", () => {
         });
     });
 
+    describe("hooks", () => {
+        const ruleName = "no-var";
+        const rule = require("../../fixtures/testers/rule-tester/no-var");
+
+        ["before", "after"].forEach(hookName => {
+            it(`${hookName} should be called when a function is assigned`, () => {
+                const hookForValid = sinon.stub();
+                const hookForInvalid = sinon.stub();
+
+                ruleTester = new RuleTester();
+                ruleTester.run(ruleName, rule, {
+                    valid: [{
+                        code: "const onlyValid = 42;",
+                        [hookName]: hookForValid
+                    }],
+                    invalid: [{
+                        code: "var onlyValid = 42;",
+                        errors: [/^Bad var/u],
+                        output: " onlyValid = 42;",
+                        [hookName]: hookForInvalid
+                    }]
+                });
+                sinon.assert.calledOnce(hookForValid);
+                sinon.assert.calledOnce(hookForInvalid);
+            });
+
+            it(`${hookName} should cause test to fail when it throws error`, () => {
+                const hook = sinon.stub().throws(new Error("Something happened"));
+
+                ruleTester = new RuleTester();
+                assert.throws(() => ruleTester.run(ruleName, rule, {
+                    valid: [{
+                        code: "const onlyValid = 42;",
+                        [hookName]: hook
+                    }],
+                    invalid: []
+                }), "Something happened");
+                assert.throws(() => ruleTester.run(ruleName, rule, {
+                    valid: [],
+                    invalid: [{
+                        code: "var onlyValid = 42;",
+                        errors: [/^Bad var/u],
+                        output: " onlyValid = 42;",
+                        [hookName]: hook
+                    }]
+                }), "Something happened");
+            });
+
+            it(`${hookName} should throw when not a function is assigned`, () => {
+                ruleTester = new RuleTester();
+                assert.throws(() => ruleTester.run(ruleName, rule, {
+                    valid: [{
+                        code: "const onlyValid = 42;",
+                        [hookName]: 42
+                    }],
+                    invalid: []
+                }), `Optional test case property '${hookName}' must be a function`);
+                assert.throws(() => ruleTester.run(ruleName, rule, {
+                    valid: [],
+                    invalid: [{
+                        code: "var onlyValid = 42;",
+                        errors: [/^Bad var/u],
+                        output: " onlyValid = 42;",
+                        [hookName]: 42
+                    }]
+                }), `Optional test case property '${hookName}' must be a function`);
+            });
+        });
+
+        it("should call both before() and after() hooks even when the case failed", () => {
+            const hookBefore = sinon.stub();
+            const hookAfter = sinon.stub();
+
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "var onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }],
+                invalid: []
+            }));
+            sinon.assert.calledOnce(hookBefore);
+            sinon.assert.calledOnce(hookAfter);
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [],
+                invalid: [{
+                    code: "const onlyValid = 42;",
+                    errors: [/^Bad var/u],
+                    output: " onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }]
+            }));
+            sinon.assert.calledTwice(hookBefore);
+            sinon.assert.calledTwice(hookAfter);
+        });
+
+        it("should call both before() and after() hooks regardless syntax errors", () => {
+            const hookBefore = sinon.stub();
+            const hookAfter = sinon.stub();
+
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "invalid javascript code",
+                    before: hookBefore,
+                    after: hookAfter
+                }],
+                invalid: []
+            }), /parsing error/u);
+            sinon.assert.calledOnce(hookBefore);
+            sinon.assert.calledOnce(hookAfter);
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [],
+                invalid: [{
+                    code: "invalid javascript code",
+                    errors: [/^Bad var/u],
+                    output: " onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }]
+            }), /parsing error/u);
+            sinon.assert.calledTwice(hookBefore);
+            sinon.assert.calledTwice(hookAfter);
+        });
+
+        it("should call after() hook even when before() throws", () => {
+            const hookBefore = sinon.stub().throws(new Error("Something happened in before()"));
+            const hookAfter = sinon.stub();
+
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "const onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }],
+                invalid: []
+            }), "Something happened in before()");
+            sinon.assert.calledOnce(hookBefore);
+            sinon.assert.calledOnce(hookAfter);
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [],
+                invalid: [{
+                    code: "var onlyValid = 42;",
+                    errors: [/^Bad var/u],
+                    output: " onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }]
+            }), "Something happened in before()");
+            sinon.assert.calledTwice(hookBefore);
+            sinon.assert.calledTwice(hookAfter);
+        });
+    });
+
     it("should not throw an error when everything passes", () => {
         ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
             valid: [
