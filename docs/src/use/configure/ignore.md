@@ -19,6 +19,10 @@ You can configure ESLint to ignore certain files and directories while linting b
 
 ## Ignoring Files
 
+::: tip
+Be aware that `ignores` need to be in it's own object. Combining with other configuration, such as `files` doesn't work!
+:::
+
 In your `eslint.config.js` file, if an `ignores` key is used without any other keys in the configuration object, then the patterns act as global ignores. Here's an example:
 
 ```js
