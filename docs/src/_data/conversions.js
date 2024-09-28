@@ -13,5 +13,5 @@ module.exports = async function() {
 
     const conversions = require("../_data/conversion_map.json");
 
-    return conversions
+    return conversions;
 };
