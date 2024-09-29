@@ -142,7 +142,7 @@ You can have both rules and custom processors in a single plugin. You can also h
 
 ### How `meta` Objects are Used
 
-The `meta` object helps ESLint cache configurations that use a processor and to provide more friendly debug messages. The `meta.name` property should match the processor name and the `meta.version` property should match the npm package version for your processors. The easiest way to accomplish this is by reading this information from your `package.json`.
+The `meta` object helps ESLint cache configurations that use a processor and to provide more friendly debug messages.
 
 #### Plugin `meta` Object
 
@@ -169,7 +169,7 @@ In this example, the processor name is `"example/processor-name"`, and that's th
 
 #### Processor `meta` Object
 
-Each processor can also specify its own `meta` object. This information is used when the processor object is passed directly to `processor` in a configuration. In that case, ESLint doesn't know which plugin the processor belongs to.
+Each processor can also specify its own `meta` object. This information is used when the processor object is passed directly to `processor` in a configuration. In that case, ESLint doesn't know which plugin the processor belongs to. The `meta.name` property should match the processor name and the `meta.version` property should match the npm package version for your processors. The easiest way to accomplish this is by reading this information from your `package.json`.
 
 Example:
 
