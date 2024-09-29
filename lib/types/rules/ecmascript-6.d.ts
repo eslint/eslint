@@ -232,6 +232,52 @@ export interface ECMAScript6 extends Linter.RulesRecord {
     "no-new-symbol": Linter.RuleEntry<[]>;
 
     /**
+     * Rule to disallow specified names in exports.
+     *
+     * @since 7.0.0-alpha.0
+     * @see https://eslint.org/docs/rules/no-restricted-exports
+     */
+    "no-restricted-exports": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @default []
+                 */
+                restrictedNamedExports: string[];
+                /**
+                 * @since 9.3.0
+                 */
+                restrictedNamedExportsPattern: string;
+                /**
+                 * @since 8.33.0
+                 */
+                restrictDefaultExports: Partial<{
+                    /**
+                     * @default false
+                     */
+                    direct: boolean;
+                    /**
+                     * @default false
+                     */
+                    named: boolean;
+                    /**
+                     * @default false
+                     */
+                    defaultFrom: boolean;
+                    /**
+                     * @default false
+                     */
+                    namedFrom: boolean;
+                    /**
+                     * @default false
+                     */
+                    namespaceFrom: boolean;
+                }>;
+            }>,
+        ]
+    >;
+
+    /**
      * Rule to disallow specified modules when loaded by `import`.
      *
      * @since 2.0.0-alpha-1
@@ -340,6 +386,10 @@ export interface ECMAScript6 extends Linter.RulesRecord {
                      * @default false
                      */
                     ignoreConstructors: boolean;
+                    /**
+                     * @since 8.22.0
+                     */
+                    methodsIgnorePattern: string;
                     /**
                      * @default false
                      */

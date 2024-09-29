@@ -1,3 +1,48 @@
+v9.11.1 - September 23, 2024
+
+* [`df4a859`](https://github.com/eslint/eslint/commit/df4a859b4cd578a3535a488a665a6e858289f455) chore: upgrade @eslint/js@9.11.1 (#18943) (Milos Djermanovic)
+* [`36d8095`](https://github.com/eslint/eslint/commit/36d8095308d8973aa38bb9568121822776a5199d) chore: package.json update for @eslint/js release (Jenkins)
+* [`20fd916`](https://github.com/eslint/eslint/commit/20fd91689f2a89643a6f67e900a53552d47ddfe5) fix: add `@eslint/core`, `@types/estree`, & `@types/json-schema` deps (#18938) (Nitin Kumar)
+* [`3eff709`](https://github.com/eslint/eslint/commit/3eff70963772e9faad4a865aaa4cf3d7dbe700a0) docs: replace deprecated `Linter.FlatConfig` type with `Linter.Config` (#18941) (Carlos Meira)
+* [`2738322`](https://github.com/eslint/eslint/commit/27383226b8c5ead6b7cafc017a8ca12a1512a301) fix: add missing types for `require-atomic-updates` rule (#18937) (Kristóf Poduszló)
+* [`d71ff30`](https://github.com/eslint/eslint/commit/d71ff3068c3134171346c91f4095dd5908d9c897) fix: add missing types for `object-shorthand` rule (#18935) (Kristóf Poduszló)
+* [`561cadc`](https://github.com/eslint/eslint/commit/561cadc54376fd0a5cc1446c3cd76bfbb6b3ce9d) fix: add missing types for `no-unsafe-negation` rule (#18932) (Kristóf Poduszló)
+* [`8843656`](https://github.com/eslint/eslint/commit/8843656f9b161d97d9dc78db01413029621e266d) fix: add missing types for `no-underscore-dangle` rule (#18931) (Kristóf Poduszló)
+* [`92cde5c`](https://github.com/eslint/eslint/commit/92cde5c6da43b6017657e4c596421e3347f3dbc4) fix: add missing types for `no-shadow` rule (#18930) (Kristóf Poduszló)
+* [`b3cbe11`](https://github.com/eslint/eslint/commit/b3cbe11a9216d1edabd5b85d6f274ca84574bce6) fix: add missing types for `no-sequences` rule (#18929) (Kristóf Poduszló)
+* [`976f77f`](https://github.com/eslint/eslint/commit/976f77f7f6da591b715b1ce2592f09c2f1160153) fix: add missing types for `no-unused-expressions` rule (#18933) (Kristóf Poduszló)
+
+v9.11.0 - September 20, 2024
+
+* [`ca21a64`](https://github.com/eslint/eslint/commit/ca21a64ed0f59adb9dadcef2fc8f7248879edbd3) chore: upgrade @eslint/js@9.11.0 (#18927) (Milos Djermanovic)
+* [`a10f90a`](https://github.com/eslint/eslint/commit/a10f90af35aea9ac555b1f33106fbba1027d774e) chore: package.json update for @eslint/js release (Jenkins)
+* [`5e5f39b`](https://github.com/eslint/eslint/commit/5e5f39b82535f59780ce4be56d01fd1466029c25) fix: add missing types for `no-restricted-exports` rule (#18914) (Kristóf Poduszló)
+* [`e4e5709`](https://github.com/eslint/eslint/commit/e4e570952249d1c4fde59c79a0f49a38490b72c9) docs: correct `prefer-object-has-own` type definition comment (#18924) (Nitin Kumar)
+* [`8f630eb`](https://github.com/eslint/eslint/commit/8f630eb5794ef9fe38e0b8f034287650def634bd) fix: add missing types for `no-param-reassign` options (#18906) (Kristóf Poduszló)
+* [`d715781`](https://github.com/eslint/eslint/commit/d71578124f14d6da3fa5ab5cc391bb6c9ac3ffcf) fix: add missing types for `no-extra-boolean-cast` options (#18902) (Kristóf Poduszló)
+* [`e4e02cc`](https://github.com/eslint/eslint/commit/e4e02cc6938f38ad5028bb8ad82f52460a18dea5) refactor: Extract processor logic into ProcessorService (#18818) (Nicholas C. Zakas)
+* [`ec30c73`](https://github.com/eslint/eslint/commit/ec30c7349e0bc2c37465a036e8c7ea3318ac2328) feat: add "eslint/universal" to export `Linter` (#18883) (唯然)
+* [`c591da6`](https://github.com/eslint/eslint/commit/c591da68d4a96aa28df68f4eff7641f42af82b15) feat: Add language to types (#18917) (Nicholas C. Zakas)
+* [`91cbd18`](https://github.com/eslint/eslint/commit/91cbd18c70dee2ef73de8d8e43f2c744fd173934) docs: add unicode abbreviations in no-irregular-whitespace rule (#18894) (Alix Royere)
+* [`959d360`](https://github.com/eslint/eslint/commit/959d360be597d3112b10590018cd52f1d98712d6) build: Support updates to previous major versions (#18871) (Milos Djermanovic)
+* [`6d4484d`](https://github.com/eslint/eslint/commit/6d4484d9c19e4132f3dee948174a543dbbb5d30f) chore: updates for v8.57.1 release (Jenkins)
+* [`492eb8f`](https://github.com/eslint/eslint/commit/492eb8f34ebbc5c9d1dbfcf4dd06b8dde8d1df74) feat: limit the name given to `ImportSpecifier` in `id-length` (#18861) (Tanuj Kanti)
+* [`2de5742`](https://github.com/eslint/eslint/commit/2de5742682ec45e24dca9ca7faaa45330497fca9) fix: add missing types for `no-misleading-character-class` options (#18905) (Kristóf Poduszló)
+* [`c153084`](https://github.com/eslint/eslint/commit/c153084250673b31bed46e3fe6af7a65b4ce8d6f) fix: add missing types for `no-implicit-coercion` options (#18903) (Kristóf Poduszló)
+* [`19c6856`](https://github.com/eslint/eslint/commit/19c685608d134d9120a129cc80c0ba7f8f016aa3) feat: Add `no-useless-constructor` suggestion (#18799) (Jordan Thomson)
+* [`fa11b2e`](https://github.com/eslint/eslint/commit/fa11b2ede6e5dc1f55dfe4b9b65d9760828900e8) fix: add missing types for `no-empty-function` options (#18901) (Kristóf Poduszló)
+* [`a0deed1`](https://github.com/eslint/eslint/commit/a0deed122a9676fab07b903c8d16fbf60b92eadf) fix: add missing types for `camelcase` options (#18897) (Kristóf Poduszló)
+* [`71f37c5`](https://github.com/eslint/eslint/commit/71f37c5bf04afb704232d312cc6c72c957d1c14e) refactor: use optional chaining when validating config rules (#18893) (lucasrmendonca)
+* [`2c2805f`](https://github.com/eslint/eslint/commit/2c2805f8ee0fb1f27f3e442de248f45e5a98a067) chore: Add PR note to all templates (#18892) (Nicholas C. Zakas)
+* [`7b852ce`](https://github.com/eslint/eslint/commit/7b852ce59e6ed56931c080aa46ab548fa57feffc) refactor: use `Directive` class from `@eslint/plugin-kit` (#18884) (Milos Djermanovic)
+* [`a48f8c2`](https://github.com/eslint/eslint/commit/a48f8c29b58c27d87dbf202d55a5770d678d37d6) feat: add type `FormatterFunction`, update `LoadedFormatter` (#18872) (Francesco Trotta)
+* [`d594ddd`](https://github.com/eslint/eslint/commit/d594ddd2cc9b0c251291ea12fbd14ccd2ee32ac7) chore: update dependency @eslint/core to ^0.6.0 (#18863) (renovate[bot])
+* [`59cfc0f`](https://github.com/eslint/eslint/commit/59cfc0f1b3bbb62260602579f79bd1c36ab5a00f) docs: clarify `resultsMeta` in `LoadedFormatter` type (#18881) (Milos Djermanovic)
+* [`78b2421`](https://github.com/eslint/eslint/commit/78b2421e28f29206fe120ae1b03804b1b79e6324) chore: Update change.yml (#18882) (Nicholas C. Zakas)
+* [`a416f0a`](https://github.com/eslint/eslint/commit/a416f0a270e922c86e8571e94a30fc87d72fa873) chore: enable `$ExpectType` comments in .ts files (#18869) (Francesco Trotta)
+* [`adcc50d`](https://github.com/eslint/eslint/commit/adcc50dbf1fb98c0884f841e2a627796a4490373) docs: Update README (GitHub Actions Bot)
+* [`4edac1a`](https://github.com/eslint/eslint/commit/4edac1a325a832804f76602736a86217b40f69ac) docs: Update README (GitHub Actions Bot)
+
 v8.57.1 - September 16, 2024
 
 * [`140ec45`](https://github.com/eslint/eslint/commit/140ec4569fda5a974b6964242b0b2991828a5567) chore: upgrade @eslint/js@8.57.1 (#18913) (Milos Djermanovic)
