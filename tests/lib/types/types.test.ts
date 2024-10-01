@@ -1390,11 +1390,10 @@ ruleTester.run("simple-valid-test", rule, {
 }));
 
 ((): Linter.Config => ({ files: ["abc"] }));
-((): Linter.Config => ({ files: [["abc"]] }));
 
 ((): Linter.Config => ({
-    // @ts-expect-error // Second level of nesting is not allowed
-    files: ["abc", ["abc"], [["abc"]]],
+    // @ts-expect-error // No nesting
+    files: ["abc", ["abc"]],
 }));
 
 ((): Linter.Config => ({ ignores: ["abc"] }));

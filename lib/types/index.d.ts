@@ -1257,7 +1257,7 @@ export namespace Linter {
          * object should apply to. If not specified, the configuration object applies
          * to all files
          */
-        files?: Array<string | string[]>;
+        files?: string[];
 
         /**
          * An array of glob patterns indicating the files that the configuration
