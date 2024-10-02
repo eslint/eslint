@@ -577,10 +577,6 @@ module.exports = config;
 ESLint does not perform type checking on your configuration file and does not apply any settings from `tsconfig.json`.
 :::
 
-::: warning
-As of now, [`jiti`](https://github.com/unjs/jiti) does not support [top-level `await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await)
-:::
-
 ### Configuration File Precedence
 
 If you have multiple ESLint configuration files, ESLint prioritizes JavaScript files over TypeScript files. The order of precedence is as follows:
