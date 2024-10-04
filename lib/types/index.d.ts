@@ -1396,6 +1396,11 @@ export class ESLint {
 
     static readonly version: string;
 
+    /**
+     * The default configuration that ESLint uses internally. This can change between versions, so it's not recommended to rely on this object.
+     */
+    static readonly defaultConfig: Linter.Config;
+
     static outputFixes(results: ESLint.LintResult[]): Promise<void>;
 
     static getErrorResults(results: ESLint.LintResult[]): ESLint.LintResult[];

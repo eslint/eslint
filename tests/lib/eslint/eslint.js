@@ -29,6 +29,7 @@ const shell = require("shelljs");
 const hash = require("../../../lib/cli-engine/hash");
 const { unIndent, createCustomTeardown } = require("../../_utils");
 const { shouldUseFlatConfig } = require("../../../lib/eslint/eslint");
+const { defaultConfig } = require("../../../lib/config/default-config");
 const coreRules = require("../../../lib/rules");
 const espree = require("espree");
 
@@ -156,6 +157,12 @@ describe("ESLint", () => {
 
             it("should have a static property indicating the configType being used", () => {
                 assert.strictEqual(ESLint.configType, "flat");
+            });
+
+            it("should have the defaultConfig static property", () => {
+                const eslintDefaultConfig = ESLint.defaultConfig;
+
+                assert.deepStrictEqual(eslintDefaultConfig, defaultConfig);
             });
 
             it("the default value of 'options.cwd' should be the current working directory.", async () => {
