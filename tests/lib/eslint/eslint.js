@@ -160,7 +160,7 @@ describe("ESLint", () => {
             });
 
             it("should have the defaultConfig static property", () => {
-                assert.deepStrictEqual([...ESLint.defaultConfig], defaultConfig);
+                assert.deepStrictEqual(ESLint.defaultConfig, defaultConfig);
             });
 
             it("the default value of 'options.cwd' should be the current working directory.", async () => {
