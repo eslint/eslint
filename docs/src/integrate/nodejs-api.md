@@ -336,7 +336,7 @@ This is a static property.
 const defaultConfig = ESLint.defaultConfig;
 ```
 
-The default configuration that ESLint uses internally. This can change between versions, so it's not recommended to rely on this object.
+The default configuration that ESLint uses internally. This is provided for tooling that wants to calculate configurations using the same defaults as ESLint. Keep in mind that the default configuration may change from version to version, so you shouldn't rely on any particular keys or values to be present.
 
 This is a static property.
 
