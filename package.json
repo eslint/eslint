@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "9.10.0",
+  "version": "9.12.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -20,6 +20,23 @@
     },
     "./rules": {
       "types": "./lib/types/rules/index.d.ts"
+    },
+    "./universal": {
+      "types": "./lib/types/universal.d.ts",
+      "default": "./lib/universal.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "use-at-your-own-risk": [
+        "./lib/types/use-at-your-own-risk.d.ts"
+      ],
+      "rules": [
+        "./lib/types/rules/index.d.ts"
+      ],
+      "universal": [
+        "./lib/types/universal.d.ts"
+      ]
     }
   },
   "scripts": {
@@ -34,9 +51,11 @@
     "lint:unused": "knip",
     "lint:fix": "trunk check -y --ignore=docs/**/*.js -a --filter=eslint && trunk check -y --ignore=docs/**/*.js",
     "lint:fix:docs:js": "trunk check -y --ignore=** --ignore=!docs/**/*.js -a --flter=eslint && trunk check -y --ignore=** --ignore=!docs/**/*.js",
+    "lint:types": "attw --pack",
     "release:generate:alpha": "node Makefile.js generatePrerelease -- alpha",
     "release:generate:beta": "node Makefile.js generatePrerelease -- beta",
-    "release:generate:latest": "node Makefile.js generateRelease",
+    "release:generate:latest": "node Makefile.js generateRelease -- latest",
+    "release:generate:maintenance": "node Makefile.js generateRelease -- maintenance",
     "release:generate:rc": "node Makefile.js generatePrerelease -- rc",
     "release:publish": "node Makefile.js publishRelease",
     "test": "node Makefile.js test",
@@ -80,20 +99,23 @@
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.11.0",
     "@eslint/config-array": "^0.18.0",
+    "@eslint/core": "^0.6.0",
     "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "9.10.0",
+    "@eslint/js": "9.12.0",
     "@eslint/plugin-kit": "^0.2.0",
+    "@humanfs/node": "^0.16.5",
     "@humanwhocodes/module-importer": "^1.0.1",
-    "@humanwhocodes/retry": "^0.3.0",
-    "@nodelib/fs.walk": "^1.2.8",
+    "@humanwhocodes/retry": "^0.3.1",
+    "@types/estree": "^1.0.6",
+    "@types/json-schema": "^7.0.15",
     "ajv": "^6.12.4",
     "chalk": "^4.0.0",
     "cross-spawn": "^7.0.2",
     "debug": "^4.3.2",
     "escape-string-regexp": "^4.0.0",
-    "eslint-scope": "^8.0.2",
-    "eslint-visitor-keys": "^4.0.0",
-    "espree": "^10.1.0",
+    "eslint-scope": "^8.1.0",
+    "eslint-visitor-keys": "^4.1.0",
+    "espree": "^10.2.0",
     "esquery": "^1.5.0",
     "esutils": "^2.0.2",
     "fast-deep-equal": "^3.1.3",
@@ -103,23 +125,19 @@
     "ignore": "^5.2.0",
     "imurmurhash": "^0.1.4",
     "is-glob": "^4.0.0",
-    "is-path-inside": "^3.0.3",
     "json-stable-stringify-without-jsonify": "^1.0.1",
     "lodash.merge": "^4.6.2",
     "minimatch": "^3.1.2",
     "natural-compare": "^1.4.0",
     "optionator": "^0.9.3",
-    "strip-ansi": "^6.0.1",
     "text-table": "^0.2.0"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.16.4",
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
-    "@eslint/core": "^0.6.0",
-    "@eslint/json": "^0.4.0",
+    "@eslint/json": "^0.5.0",
     "@trunkio/launcher": "^1.3.0",
-    "@types/estree": "^1.0.5",
-    "@types/json-schema": "^7.0.15",
     "@types/node": "^20.11.5",
     "@typescript-eslint/parser": "^8.4.0",
     "@wdio/browser-runner": "^9.0.5",
@@ -138,7 +156,7 @@
     "eslint-plugin-eslint-plugin": "^6.0.0",
     "eslint-plugin-expect-type": "^0.4.0",
     "eslint-plugin-yml": "^1.14.0",
-    "eslint-release": "^3.2.2",
+    "eslint-release": "^3.3.0",
     "eslint-rule-composer": "^0.3.0",
     "eslump": "^3.0.0",
     "esprima": "^4.0.1",
@@ -148,7 +166,7 @@
     "globals": "^15.0.0",
     "got": "^11.8.3",
     "gray-matter": "^4.0.3",
-    "jiti": "^1.21.6",
+    "jiti": "^2.1.0",
     "knip": "^5.21.0",
     "lint-staged": "^11.0.0",
     "load-perf": "^0.2.0",
@@ -161,7 +179,7 @@
     "metascraper-logo": "^5.25.7",
     "metascraper-logo-favicon": "^5.25.7",
     "metascraper-title": "^5.25.7",
-    "mocha": "^8.3.2",
+    "mocha": "^10.7.3",
     "node-polyfill-webpack-plugin": "^1.0.3",
     "npm-license": "^0.3.3",
     "pirates": "^4.0.5",

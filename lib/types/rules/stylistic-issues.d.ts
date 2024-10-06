@@ -166,6 +166,16 @@ export interface StylisticIssues extends Linter.RulesRecord {
                  */
                 ignoreDestructuring: boolean;
                 /**
+                 * @since 6.7.0
+                 * @default false
+                 */
+                ignoreImports: boolean;
+                /**
+                 * @since 7.4.0
+                 * @default false
+                 */
+                ignoreGlobals: boolean;
+                /**
                  * @remarks
                  * Also accept for regular expression patterns
                  */
@@ -1376,9 +1386,34 @@ export interface StylisticIssues extends Linter.RulesRecord {
                  */
                 allowAfterSuper: boolean;
                 /**
+                 * @since 6.7.0
+                 * @default false
+                 */
+                allowAfterThisConstructor: boolean;
+                /**
                  * @default false
                  */
                 enforceInMethodNames: boolean;
+                /**
+                 * @since 8.15.0
+                 * @default false
+                 */
+                enforceInClassFields: boolean;
+                /**
+                 * @since 8.31.0
+                 * @default true
+                 */
+                allowInArrayDestructuring: boolean;
+                /**
+                 * @since 8.31.0
+                 * @default true
+                 */
+                allowInObjectDestructuring: boolean;
+                /**
+                 * @since 7.7.0
+                 * @default true
+                 */
+                allowFunctionParams: boolean;
             }>,
         ]
     >;

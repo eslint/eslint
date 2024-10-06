@@ -44,7 +44,6 @@ body:
 - type: markdown
   attributes:
     value: Please **do not** open a pull request until this issue has been accepted by the team.
-
 - type: textarea
   attributes:
     label: Additional comments

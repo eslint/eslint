@@ -196,11 +196,19 @@ module.exports = [
         ...json.configs.recommended
     },
 
+    // JSON5 files
+    {
+        name: "eslint/json5",
+        files: ["**/*.json5"],
+        language: "json/json5",
+        ...json.configs.recommended
+    },
+
     // Restrict relative path imports
     {
         name: "eslint/lib",
         files: ["lib/*.js"],
-        ignores: ["lib/unsupported-api.js"],
+        ignores: ["lib/unsupported-api.js", "lib/universal.js"],
         rules: {
             "n/no-restricted-require": ["error", [
                 ...createInternalFilesPatterns()

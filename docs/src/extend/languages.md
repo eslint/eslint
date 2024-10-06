@@ -64,6 +64,10 @@ Additionally, the following members are common on `SourceCode` objects and are r
 
 See [`JSONSourceCode`](https://github.com/eslint/json/blob/main/src/languages/json-source-code.js) as an example of a basic `SourceCode` class.
 
+::: tip
+The [`@eslint/plugin-kit`](https://npmjs.com/package/@eslint/plugin-kit) package contains multiple classes that aim to make creating a `SourceCode` object easier. The `TextSourceCodeBase` class, in particular, implements the `TextSourceCode` interface and provides some basic functionality typically found in `SourceCode` objects.
+:::
+
 ### The `Language` Object
 
 The `Language` object contains all of the information about the programming language as well as methods for interacting with code written in that language. ESLint uses this object to determine how to deal with a particular file. The `Language` object must implement the `Language` interface as defined in the [`@eslint/core`](https://npmjs.com/package/@eslint/core) package.

@@ -2023,7 +2023,8 @@
             "description": "Disallow unnecessary constructors",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-useless-constructor"
-        }
+        },
+        "hasSuggestions": true
     },
     "no-useless-escape": {
         "type": "suggestion",
