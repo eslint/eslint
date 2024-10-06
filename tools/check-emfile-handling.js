@@ -50,6 +50,8 @@ if (os.platform() !== "win32") {
     }
 }
 
+FILE_COUNT = "1000000";
+
 /**
  * Generates files in a directory.
  * @returns {void}
