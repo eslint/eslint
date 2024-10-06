@@ -101,6 +101,10 @@ module.exports = {
 };
 ```
 
+::: tip
+You can view the complete AST for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+:::
+
 ## The Context Object
 
 The `context` object is the only argument of the `create` method in a rule. For example:
@@ -803,6 +807,10 @@ To learn more about JSON Schema, we recommend looking at some examples on the [J
 ### Accessing Variable Scopes
 
 The `SourceCode#getScope(node)` method returns the scope of the given node. It is a useful method for finding information about the variables in a given scope and how they are used in other scopes.
+
+::: tip
+You can view scope information for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+:::
 
 #### Scope types
 

@@ -1,3 +1,27 @@
+v9.12.0 - October 4, 2024
+
+* [`555aafd`](https://github.com/eslint/eslint/commit/555aafd06f6dddc743acff06111dc72dd8ea4c4e) chore: upgrade to `@eslint/js@9.12.0` (#18987) (Francesco Trotta)
+* [`873ae60`](https://github.com/eslint/eslint/commit/873ae608c15a0a386f022076b5aab6112b56b59b) chore: package.json update for @eslint/js release (Jenkins)
+* [`ea380ca`](https://github.com/eslint/eslint/commit/ea380cac6f598c86b25a2726c2783636c4169957) fix: Upgrade retry to avoid EMFILE errors (#18986) (Nicholas C. Zakas)
+* [`d0a5414`](https://github.com/eslint/eslint/commit/d0a5414c30421e5dbe313790502dbf13b9330fef) refactor: replace strip-ansi with native module (#18982) (Cristopher)
+* [`b827029`](https://github.com/eslint/eslint/commit/b8270299abe777bb80a065d537aa1d4be74be705) chore: Enable JSON5 linting (#18979) (Milos Djermanovic)
+* [`ecbd522`](https://github.com/eslint/eslint/commit/ecbd52291d7c118b77016c6bf1c60b7d263c44f0) docs: Mention code explorer (#18978) (Nicholas C. Zakas)
+* [`7ea4ecc`](https://github.com/eslint/eslint/commit/7ea4ecc6e3320a74c960cb78acc94c0140d15f55) docs: Clarifying the Use of Meta Objects (#18697) (Amaresh  S M)
+* [`d3e4b2e`](https://github.com/eslint/eslint/commit/d3e4b2ea4a8f76d4d49345c242f013f49635274f) docs: Clarify how to exclude `.js` files (#18976) (Milos Djermanovic)
+* [`5a6a053`](https://github.com/eslint/eslint/commit/5a6a05321ca34480c780be8c2cb7946e4c299001) feat: update to `jiti` v2 (#18954) (Arya Emami)
+* [`57232ff`](https://github.com/eslint/eslint/commit/57232ff3d50412586df094f052b47adb38f8d9ae) docs: Mention plugin-kit in language docs (#18973) (Nicholas C. Zakas)
+* [`b80ed00`](https://github.com/eslint/eslint/commit/b80ed007cefee086db1ff17cde9f7dd6690459f0) docs: Update README (GitHub Actions Bot)
+* [`cb69ab3`](https://github.com/eslint/eslint/commit/cb69ab374c149eb725b2fc5a8f0ff33fd7268a46) docs: Update README (GitHub Actions Bot)
+* [`7fb0d95`](https://github.com/eslint/eslint/commit/7fb0d957c102be499d5358a74928e0ea93913371) docs: Update README (GitHub Actions Bot)
+* [`fdd6319`](https://github.com/eslint/eslint/commit/fdd631964aee250bc5520770bc1fc3f2f2872813) fix: Issues with type definitions (#18940) (Arya Emami)
+* [`8f55ca2`](https://github.com/eslint/eslint/commit/8f55ca22d94c1b0ff3be323b97949edef8d880b0) chore: Upgrade espree, eslint-visitor-keys, eslint-scope (#18962) (Nicholas C. Zakas)
+* [`17a07fb`](https://github.com/eslint/eslint/commit/17a07fb548ecce24b88e8b2b07491c24ed1111a9) feat: Hooks for test cases (RuleTester) (#18771) (Anna Bocharova)
+* [`493348a`](https://github.com/eslint/eslint/commit/493348a9a5dcca29d7fbbe13c67ce13a7a38413b) docs: Update README (GitHub Actions Bot)
+* [`87a582c`](https://github.com/eslint/eslint/commit/87a582c8b537d133c140781aa9e3ff0201a3c10f) docs: fix typo in `id-match` rule (#18944) (Jay)
+* [`2ff0e51`](https://github.com/eslint/eslint/commit/2ff0e51cedaab967b7ce383437f64b4a6df8608d) feat: Implement alternate config lookup (#18742) (Nicholas C. Zakas)
+* [`2d17453`](https://github.com/eslint/eslint/commit/2d174532ae96bcaecf6fd7de78755164378b3a2d) feat: Implement modified cyclomatic complexity (#18896) (Dmitry Pashkevich)
+* [`c1a2725`](https://github.com/eslint/eslint/commit/c1a2725e9c776d6845d94c866c7f7b1fe0315090) chore: update dependency mocha to ^10.7.3 (#18945) (Milos Djermanovic)
+
 v9.11.1 - September 23, 2024
 
 * [`df4a859`](https://github.com/eslint/eslint/commit/df4a859b4cd578a3535a488a665a6e858289f455) chore: upgrade @eslint/js@9.11.1 (#18943) (Milos Djermanovic)

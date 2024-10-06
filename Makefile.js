@@ -469,7 +469,7 @@ function getFirstVersionOfDeletion(filePath) {
  * @returns {Object} Output from each formatter
  */
 function getFormatterResults() {
-    const stripAnsi = require("strip-ansi");
+    const util = require("node:util");
     const formattersMetadata = require("./lib/cli-engine/formatters/formatters-meta.json");
 
     const formatterFiles = fs.readdirSync("./lib/cli-engine/formatters/").filter(fileName => !fileName.includes("formatters-meta.json")),
@@ -513,7 +513,7 @@ function getFormatterResults() {
             );
 
             data.formatterResults[name] = {
-                result: stripAnsi(formattedOutput),
+                result: util.stripVTControlCharacters(formattedOutput),
                 description: formattersMetadata.find(formatter => formatter.name === name).description
             };
         }

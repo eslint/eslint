@@ -130,7 +130,7 @@ jobs:
       - name: Install Packages (eslint)
         working-directory: eslint
         run: npm install
-      
+
       - name: Update package.json eslint-visitor-keys
         uses: restackio/update-json-file-action@2.1
         with:
@@ -146,3 +146,24 @@ jobs:
       - name: Run TSC
         working-directory: eslint-js
         run: npm run build:types --workspace eslint-visitor-keys
+
+  are-the-types-wrong:
+    name: Are the types wrong?
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout eslint
+        uses: actions/checkout@v4
+        with:
+          path: eslint
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Install Packages
+        working-directory: eslint
+        run: npm install
+
+      - name: Check validity of type definitions
+        working-directory: eslint
+        run: npm run lint:types
