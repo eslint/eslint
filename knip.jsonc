@@ -26,10 +26,6 @@
                 "c8",
                 "@wdio/cli",
                 "rollup-plugin-node-polyfills",
-
-                // FIXME: not sure why is eslint-config-eslint reported as unused
-                "eslint-config-eslint",
-
                 // Optional peer dependency used for loading TypeScript configuration files
                 "jiti"
             ]
