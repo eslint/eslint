@@ -23,39 +23,23 @@ const got = require("got");
 //-----------------------------------------------------------------------------
 
 const SPONSORS_URL =
-    "https://raw.githubusercontent.com/eslint/eslint.org/main/src/_data/sponsors.json";
+    "https://raw.githubusercontent.com/eslint/eslint.org/main/includes/sponsors.md";
 const TEAM_URL =
     "https://raw.githubusercontent.com/eslint/eslint.org/main/src/_data/team.json";
 const README_FILE_PATH = "./README.md";
-const TECH_SPONSORS_URL =
-    "https://raw.githubusercontent.com/eslint/eslint.org/main/src/_data/techsponsors.json";
-const TECH_SPONSORS_IMAGE_PATH =
-    "https://raw.githubusercontent.com/eslint/eslint.org/main/src";
 
 const readme = fs.readFileSync(README_FILE_PATH, "utf8");
-
-const heights = {
-    platinum: 128,
-    gold: 96,
-    silver: 64,
-    bronze: 32
-};
 
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
 
 /**
- * Fetches the latest sponsors data from the website.
- * @returns {Object} The sponsors data object.
+ * Fetches the latest sponsors from the website.
+ * @returns {Promise<string>}} Prerendered sponsors markdown.
  */
-async function fetchSponsorsData() {
-    const data = await got(SPONSORS_URL).json();
-
-    // remove backers from sponsors list - not shown on readme
-    delete data.backers;
-
-    return data;
+async function fetchSponsorsMarkdown() {
+    return got(SPONSORS_URL).text();
 }
 
 /**
@@ -87,68 +71,6 @@ function formatTeamMembers(members) {
             )
             .join("")}</tr></tbody></table>`;
     /* eslint-enable indent -- Allow deeper template substitution indent */
-}
-
-/**
- * Formats an array of sponsors into HTML for the readme.
- * @param {Array} sponsors The array of sponsors.
- * @returns {string} The HTML for the readme.
- */
-function formatSponsors(sponsors) {
-    const nonEmptySponsors = Object.keys(sponsors).filter(
-        tier => sponsors[tier].length
-    );
-
-    /* eslint-disable indent -- Allow deeper template substitution indent */
-    return stripIndents`<!--sponsorsstart-->
-        ${nonEmptySponsors
-            .map(
-                tier => `<h3>${tier[0].toUpperCase()}${tier.slice(
-                    1
-                )} Sponsors</h3>
-            <p>${sponsors[tier]
-                .map(
-                    sponsor =>
-                        `<a href="${sponsor.url || "#"}"><img src="${
-                            sponsor.image
-                        }" alt="${sponsor.name}" height="${heights[tier]}"></a>`
-                )
-                .join(" ")}</p>`
-            )
-            .join("")}
-    <!--sponsorsend-->`;
-    /* eslint-enable indent -- Allow deeper template substitution indent */
-}
-
-/**
- * Fetches the latest tech sponsors data from the website.
- * @returns {Array<Object>} The tech sponsors array of data object.
- */
-async function fetchTechSponsors() {
-    const data = await got(TECH_SPONSORS_URL).json();
-
-    return data;
-}
-
-/**
- * Formats an array of sponsors into HTML for the readme.
- * @param {Array} sponsors The array of sponsors.
- * @returns {string} The HTML for the readme.
- */
-function formatTechSponsors(sponsors) {
-    return stripIndents`<!--techsponsorsstart-->
-        <h2>Technology Sponsors</h2>
-            <p>${sponsors
-        .map(
-            sponsor =>
-                `<a href="${sponsor.url || "#"}"><img src="${
-                    TECH_SPONSORS_IMAGE_PATH + sponsor.image
-                }" alt="${sponsor.name}" height="${
-                    heights.bronze
-                }"></a>`
-        )
-        .join(" ")}</p>
-    <!--techsponsorsend-->`;
 }
 
 //-----------------------------------------------------------------------------
@@ -195,10 +117,9 @@ const HTML_TEMPLATE = stripIndents`
 `;
 
 (async () => {
-    const [allSponsors, team, techSponsors] = await Promise.all([
-        fetchSponsorsData(),
-        fetchTeamData(),
-        fetchTechSponsors()
+    const [allSponsors, team] = await Promise.all([
+        fetchSponsorsMarkdown(),
+        fetchTeamData()
     ]);
 
     // replace all of the section
@@ -212,12 +133,7 @@ const HTML_TEMPLATE = stripIndents`
 
     newReadme = newReadme.replace(
         /<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/u,
-        formatSponsors(allSponsors)
-    );
-
-    newReadme = newReadme.replace(
-        /<!--techsponsorsstart-->[\w\W]*?<!--techsponsorsend-->/u,
-        formatTechSponsors(techSponsors)
+        `<!--sponsorsstart-->\n${allSponsors}\n<!--sponsorsend-->`
     );
 
     // replace multiple consecutive blank lines with just one blank line
