@@ -88,9 +88,17 @@ function generateEmFileError() {
 console.log(`Generating ${FILE_COUNT} files in ${OUTPUT_DIRECTORY}...`);
 generateFiles();
 
-console.log("Running ESLint...");
-execSync(`node bin/eslint.js ${OUTPUT_DIRECTORY} -c ${CONFIG_DIRECTORY}/eslint.config.js`, { stdio: "inherit" });
-console.log("✅ No errors encountered running ESLint.");
+
+try {
+    console.log("Running ESLint...");
+    execSync(`node bin/eslint.js ${OUTPUT_DIRECTORY} -c ${CONFIG_DIRECTORY}/eslint.config.js`, { stdio: "inherit" });
+    console.log("✅ No errors encountered running ESLint.");
+} catch (error) {
+    console.error("❌ ESLint encountered an error:", error.message);
+    console.error("Error details:", error);
+    throw error;
+}
+
 
 console.log("Checking that this number of files would cause an EMFILE error...");
 generateEmFileError()
