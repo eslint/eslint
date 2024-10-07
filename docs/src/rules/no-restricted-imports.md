@@ -703,7 +703,7 @@ Examples of **incorrect** code for `importNamePattern` option:
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["utils/*"],
-    importNamePattern: '^'
+    importNamePattern: "^"
 }]}]*/
 
 import isEmpty, { hasValue } from 'utils/collection-utils';
@@ -720,7 +720,7 @@ Examples of **correct** code for `importNamePattern` option:
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
     group: ["utils/*"],
-    importNamePattern: '^'
+    importNamePattern: "^"
 }]}]*/
 
 import 'utils/init-utils';
