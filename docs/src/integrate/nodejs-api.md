@@ -330,6 +330,16 @@ The version string of ESLint. E.g. `"7.0.0"`.
 
 This is a static property.
 
+### ◆ ESLint.defaultConfig
+
+```js
+const defaultConfig = ESLint.defaultConfig;
+```
+
+The default configuration that ESLint uses internally. This is provided for tooling that wants to calculate configurations using the same defaults as ESLint. Keep in mind that the default configuration may change from version to version, so you shouldn't rely on any particular keys or values to be present.
+
+This is a static property.
+
 ### ◆ ESLint.outputFixes(results)
 
 ```js
