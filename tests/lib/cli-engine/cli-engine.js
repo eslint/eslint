@@ -923,13 +923,15 @@ describe("CLIEngine", () => {
 
             engine = new CLIEngine({
                 parser: "esprima",
-                useEslintrc: false
+                useEslintrc: false,
+                ignore: false
             });
 
-            const report = engine.executeOnFiles(["lib/cli.js"]);
+            const report = engine.executeOnFiles(["tests/fixtures/simple-valid-project/foo.js"]);
 
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].messages.length, 0);
+
             assert.strictEqual(report.results[0].suppressedMessages.length, 0);
         });
 
