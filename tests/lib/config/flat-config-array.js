@@ -410,6 +410,40 @@ describe("FlatConfigArray", () => {
             assert.strictEqual(stringify(actual), stringify(expected));
         });
 
+        it("should not crash on undefined languageOptions", () => {
+
+            const configs = new FlatConfigArray([{
+                files: ["**/*.my"],
+                plugins: {
+                    test: {
+                        languages: {
+                            my: {}
+                        }
+                    }
+                },
+                language: "test/my"
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("file.my");
+
+            const expected = {
+                plugins: ["@", "test"],
+                language: "test/my",
+                languageOptions: void 0,
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
+                processor: void 0
+            };
+            const actual = config.toJSON();
+
+            assert.deepStrictEqual(actual, expected);
+
+            assert.strictEqual(stringify(actual), stringify(expected));
+        });
+
         it("should throw an error when config with unnamed parser object is normalized", () => {
 
             const configs = new FlatConfigArray([{
@@ -1413,6 +1447,105 @@ describe("FlatConfigArray", () => {
                     sourceType: "commonjs"
                 }
             }));
+
+            it("should get default languageOptions from the language", async () => {
+                const configs = new FlatConfigArray([{
+                    files: ["**/*.my"],
+                    plugins: {
+                        test: {
+                            languages: {
+                                my: {
+                                    defaultLanguageOptions: {
+                                        foo: 42
+                                    },
+                                    validateLanguageOptions() {}
+                                }
+                            }
+                        }
+                    },
+                    language: "test/my"
+                }]);
+
+                await configs.normalize();
+
+                const config = configs.getConfig("file.my");
+
+                assert.deepStrictEqual(config.languageOptions, { foo: 42 });
+            });
+
+            it("should merge configured languageOptions over default languageOptions from the language", async () => {
+                const configs = new FlatConfigArray([{
+                    files: ["**/*.my"],
+                    plugins: {
+                        test: {
+                            languages: {
+                                my: {
+                                    defaultLanguageOptions: {
+                                        foo: 42,
+                                        bar: 42
+                                    },
+                                    validateLanguageOptions() {}
+                                }
+                            }
+                        }
+                    },
+                    language: "test/my",
+                    languageOptions: {
+                        bar: 43
+                    }
+                }]);
+
+                await configs.normalize();
+
+                const config = configs.getConfig("file.my");
+
+                assert.deepStrictEqual(config.languageOptions, { foo: 42, bar: 43 });
+            });
+
+            it("should use configured languageOptions when default languageOptions are not specified", async () => {
+                const configs = new FlatConfigArray([{
+                    files: ["**/*.my"],
+                    plugins: {
+                        test: {
+                            languages: {
+                                my: {
+                                    validateLanguageOptions() {}
+                                }
+                            }
+                        }
+                    },
+                    language: "test/my",
+                    languageOptions: {
+                        bar: 43
+                    }
+                }]);
+
+                await configs.normalize();
+
+                const config = configs.getConfig("file.my");
+
+                assert.deepStrictEqual(config.languageOptions, { bar: 43 });
+            });
+
+            it("should return undefined if neither configured nor default languageOptions are specified", async () => {
+                const configs = new FlatConfigArray([{
+                    files: ["**/*.my"],
+                    plugins: {
+                        test: {
+                            languages: {
+                                my: {}
+                            }
+                        }
+                    },
+                    language: "test/my"
+                }]);
+
+                await configs.normalize();
+
+                const config = configs.getConfig("file.my");
+
+                assert.strictEqual(config.languageOptions, void 0);
+            });
 
             describe("ecmaVersion", () => {
 
