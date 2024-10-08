@@ -13,6 +13,7 @@ const { assert } = require("chai"),
     sinon = require("sinon"),
     espree = require("espree"),
     esprima = require("esprima"),
+    jsonPlugin = require("@eslint/json").default,
     testParsers = require("../../fixtures/parsers/linter-test-parsers");
 
 const { Linter } = require("../../../lib/linter");
@@ -16766,6 +16767,31 @@ var a = "test2";
     });
 
     describe("Languages", () => {
+
+        describe("With a language that doesn't have language options", () => {
+            const config = {
+                files: ["**/*.json"],
+                plugins: {
+                    json: jsonPlugin
+                },
+                language: "json/json",
+                rules: {
+                    "json/no-empty-keys": 1
+                }
+            };
+
+            it("linter.verify() should work", () => {
+                const messages = linter.verify('{ "": 42 }', config, { filename: "foo.json" });
+
+                assert.strictEqual(messages.length, 1);
+
+                const [message] = messages;
+
+                assert.strictEqual(message.ruleId, "json/no-empty-keys");
+                assert.strictEqual(message.severity, 1);
+                assert.strictEqual(message.messageId, "emptyKey");
+            });
+        });
 
         describe("With a language that has 0-based lines and 1-based columns", () => {
 
