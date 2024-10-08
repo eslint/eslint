@@ -382,6 +382,9 @@ export interface StylisticIssues extends Linter.RulesRecord {
                  * @default false
                  */
                 allowArrowFunctions: boolean;
+                overrides: {
+                    namedExports: "declaration" | "expression" | "ignore";
+                }
             }>,
         ]
     >;
@@ -870,7 +873,15 @@ export interface StylisticIssues extends Linter.RulesRecord {
      */
     "lines-between-class-members": Linter.RuleEntry<
         [
-            "always" | "never",
+            "always" | "never" | {
+                enforce: Array<
+                    {
+                        blankLine: "always" | "never";
+                        prev: "method" | "field" | "*";
+                        next: "method" | "field" | "*";
+                    }
+                >
+            },
             Partial<{
                 /**
                  * @default false
@@ -1279,12 +1290,12 @@ export interface StylisticIssues extends Linter.RulesRecord {
     "no-nested-ternary": Linter.RuleEntry<[]>;
 
     /**
-     * Rule to disallow `Object` constructors.
+     * Rule to disallow calls to the `Object` constructor without an argument
      *
-     * @since 0.0.9
-     * @see https://eslint.org/docs/rules/no-new-object
+     * @since 8.50.0
+     * @see https://eslint.org/docs/rules/no-object-constructor
      */
-    "no-new-object": Linter.RuleEntry<[]>;
+    "no-object-constructor": Linter.RuleEntry<[]>;
 
     /**
      * Rule to disallow the unary operators `++` and `--`.
@@ -1386,9 +1397,34 @@ export interface StylisticIssues extends Linter.RulesRecord {
                  */
                 allowAfterSuper: boolean;
                 /**
+                 * @since 6.7.0
+                 * @default false
+                 */
+                allowAfterThisConstructor: boolean;
+                /**
                  * @default false
                  */
                 enforceInMethodNames: boolean;
+                /**
+                 * @since 8.15.0
+                 * @default false
+                 */
+                enforceInClassFields: boolean;
+                /**
+                 * @since 8.31.0
+                 * @default true
+                 */
+                allowInArrayDestructuring: boolean;
+                /**
+                 * @since 8.31.0
+                 * @default true
+                 */
+                allowInObjectDestructuring: boolean;
+                /**
+                 * @since 7.7.0
+                 * @default true
+                 */
+                allowFunctionParams: boolean;
             }>,
         ]
     >;

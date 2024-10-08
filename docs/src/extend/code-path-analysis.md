@@ -18,6 +18,10 @@ bar();
 ![Code Path Example](../assets/images/code-path-analysis/helo.svg)
 :::
 
+::: tip
+You can view code path diagrams for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+:::
+
 ## Objects
 
 Program is expressed with several code paths.

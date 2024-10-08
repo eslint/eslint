@@ -1938,6 +1938,21 @@ describe("cli", () => {
                 });
 
             });
+
+            describe("unstable_config_lookup_from_file", () => {
+
+                const flag = "unstable_config_lookup_from_file";
+
+                it("should throw an error when text is passed and no config file is found", async () => {
+
+                    await stdAssert.rejects(
+                        () => cli.execute(`--flag ${flag} --stdin --stdin-filename /foo.js"`, "var foo = 'bar';", true),
+                        /Could not find config file/u
+                    );
+
+                });
+
+            });
         });
     });
 
