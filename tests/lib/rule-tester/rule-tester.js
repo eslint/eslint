@@ -1522,7 +1522,7 @@ describe("RuleTester", () => {
                         errors: 1
                     }]
                 });
-            }, /Parser must be an object with a parse\(\) or parseForESLint\(\) method/u);
+            }, /Key "languageOptions": Key "parser": Expected object with parse\(\) or parseForESLint\(\) method\./u);
 
         });
 
