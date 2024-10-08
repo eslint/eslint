@@ -417,6 +417,10 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 allowEmptyCase: boolean;
+                /**
+                 * @default false
+                 */
+                reportUnusedFallthroughComment: boolean;
             }>,
         ]
     >;
@@ -873,6 +877,15 @@ export interface BestPractices extends Linter.RulesRecord {
     "no-unused-labels": Linter.RuleEntry<[]>;
 
     /**
+     * Disallow variable assignments when the value is not used
+     *
+     *
+     * @since 9.0.0-alpha.1
+     * @see https://eslint.org/docs/latest/rules/no-useless-assignment
+     */
+    "no-useless-assignment": Linter.RuleEntry<[]>;
+
+    /**
      * Disallow useless backreferences in regular expressions
      *
      * @remarks
@@ -1045,12 +1058,21 @@ export interface BestPractices extends Linter.RulesRecord {
     "require-await": Linter.RuleEntry<[]>;
 
     /**
-     * Rule to enforce the use of `u` flag on RegExp.
+     * Enforce the use of `u` or `v` flag on RegExp
      *
      * @since 5.3.0
      * @see https://eslint.org/docs/rules/require-unicode-regexp
      */
-    "require-unicode-regexp": Linter.RuleEntry<[]>;
+    "require-unicode-regexp": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @default false
+                 */
+                requireFlag: "u" | "v";
+            }>,
+        ]
+    >;
 
     /**
      * Rule to require `var` declarations be placed at the top of their containing scope.

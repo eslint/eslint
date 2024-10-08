@@ -192,6 +192,24 @@ export interface Deprecated extends Linter.RulesRecord {
     "no-negated-in-lhs": Linter.RuleEntry<[]>;
 
     /**
+     * Rule to disallow `Object` constructors.
+     *
+     * @since 0.0.9
+     * @deprecated since 8.50.0, use [`no-object-constructor`](https://eslint.org/docs/rules/no-object-constructor) instead.
+     * @see https://eslint.org/docs/rules/no-object-constructor
+     */
+    "no-new-object": Linter.RuleEntry<[]>;
+
+    /**
+     * Rule to disallow `new` operators with the `Symbol` object.
+     *
+     * @since 2.0.0-beta.1
+     * @deprecated since 8.27.0, use [`no-new-native-nonconstructor`](https://eslint.org/docs/rules/no-new-native-nonconstructor) instead.
+     * @see https://eslint.org/docs/rules/no-new-symbol
+     */
+    "no-new-symbol": Linter.RuleEntry<[]>;
+
+    /**
      * Rule to disallow spacing between function identifiers and their applications.
      *
      * @since 0.1.2
@@ -211,83 +229,6 @@ export interface Deprecated extends Linter.RulesRecord {
         [
             Partial<{
                 exceptions: string[];
-            }>,
-        ]
-    >;
-
-    /**
-     * Rule to require JSDoc comments.
-     *
-     * @since 1.4.0
-     * @deprecated since 5.10.0
-     * @see https://eslint.org/docs/rules/require-jsdoc
-     */
-    "require-jsdoc": Linter.RuleEntry<
-        [
-            Partial<{
-                require: Partial<{
-                    /**
-                     * @default true
-                     */
-                    FunctionDeclaration: boolean;
-                    /**
-                     * @default false
-                     */
-                    MethodDefinition: boolean;
-                    /**
-                     * @default false
-                     */
-                    ClassDeclaration: boolean;
-                    /**
-                     * @default false
-                     */
-                    ArrowFunctionExpression: boolean;
-                    /**
-                     * @default false
-                     */
-                    FunctionExpression: boolean;
-                }>;
-            }>,
-        ]
-    >;
-
-    /**
-     * Rule to enforce valid JSDoc comments.
-     *
-     * @since 0.4.0
-     * @deprecated since 5.10.0
-     * @see https://eslint.org/docs/rules/valid-jsdoc
-     */
-    "valid-jsdoc": Linter.RuleEntry<
-        [
-            Partial<{
-                prefer: Record<string, string>;
-                preferType: Record<string, string>;
-                /**
-                 * @default true
-                 */
-                requireReturn: boolean;
-                /**
-                 * @default true
-                 */
-                requireReturnType: boolean;
-                /**
-                 * @remarks
-                 * Also accept for regular expression pattern
-                 */
-                matchDescription: string;
-                /**
-                 * @default true
-                 */
-                requireParamDescription: boolean;
-                /**
-                 * @default true
-                 */
-                requireReturnDescription: boolean;
-                /**
-                 * @default true
-                 */
-                requireParamType: boolean;
             }>,
         ]
     >;

@@ -221,15 +221,15 @@ export interface ECMAScript6 extends Linter.RulesRecord {
     >;
 
     /**
-     * Rule to disallow `new` operators with the `Symbol` object.
-     *
+     * Rule to disallow `new` operator with global non-constructor functions
+     * 
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
-     * @since 2.0.0-beta.1
-     * @see https://eslint.org/docs/rules/no-new-symbol
+     * @since 8.27.0
+     * @see https://eslint.org/docs/rules/no-new-native-nonconstructor
      */
-    "no-new-symbol": Linter.RuleEntry<[]>;
+    "no-new-native-nonconstructor": Linter.RuleEntry<[]>;
 
     /**
      * Rule to disallow specified names in exports.
@@ -324,7 +324,16 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * @since 2.9.0
      * @see https://eslint.org/docs/rules/no-useless-computed-key
      */
-    "no-useless-computed-key": Linter.RuleEntry<[]>;
+    "no-useless-computed-key": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @default true
+                 */
+                enforceForClassMembers: boolean;
+            }>,
+        ]
+    >;
 
     /**
      * Rule to disallow unnecessary constructors.
