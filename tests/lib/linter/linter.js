@@ -13,7 +13,6 @@ const { assert } = require("chai"),
     sinon = require("sinon"),
     espree = require("espree"),
     esprima = require("esprima"),
-    jsonPlugin = require("@eslint/json").default,
     testParsers = require("../../fixtures/parsers/linter-test-parsers");
 
 const { Linter } = require("../../../lib/linter");
@@ -22,6 +21,10 @@ const { SourceCode } = require("../../../lib/languages/js/source-code");
 const jslang = require("../../../lib/languages/js");
 const Traverser = require("../../../lib/shared/traverser");
 const { LATEST_ECMA_VERSION } = require("../../../conf/ecma-version");
+
+// In Node.js, `jsonPluginPackage.default` is the plugin. In the browser test, `jsonPluginPackage` is the plugin.
+const jsonPluginPackage = require("@eslint/json");
+const jsonPlugin = jsonPluginPackage.default || jsonPluginPackage;
 
 //------------------------------------------------------------------------------
 // Constants
