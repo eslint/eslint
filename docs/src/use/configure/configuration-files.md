@@ -529,7 +529,7 @@ npx eslint --flag unstable_ts_config
 
 For more information about using feature flags, see [Feature Flags](../../flags/).
 
-For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in your project (this dependency is not automatically installed by ESLint):
+For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in version 2.0.0 or later in your project (this dependency is not automatically installed by ESLint):
 
 ```bash
 npm install -D jiti
