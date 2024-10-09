@@ -1495,6 +1495,53 @@ describe("Linter", () => {
             assert.deepStrictEqual(messages, []);
         });
 
+        describe("when the rule has default options", () => {
+            beforeEach(() => {
+                linter.defineRules({
+                    "with-default-option": {
+                        meta: {
+                            defaultOptions: ["default-rule-option"],
+                            schema: {
+                                items: [{ type: "string" }],
+                                maxItems: 1,
+                                minItems: 1,
+                                type: "array"
+                            }
+                        },
+                        create(context) {
+                            const message = context.options[0];
+
+                            return {
+                                Identifier(node) {
+                                    context.report({ node, message });
+                                }
+                            };
+                        }
+                    }
+                });
+            });
+
+            it("preserves default options when the comment only has severity", () => {
+                const code = "/*eslint with-default-option: 'warn' */\nArray;";
+                const messages = linter.verify(code);
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].message, "default-rule-option");
+                assert.strictEqual(messages[0].ruleId, "with-default-option");
+                assert.strictEqual(messages[0].severity, 1);
+            });
+
+            it("overrides default options when the comment has severity and an option", () => {
+                const code = "/*eslint with-default-option: ['warn', 'overridden-rule-option'] */\nArray;";
+                const messages = linter.verify(code);
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].message, "overridden-rule-option");
+                assert.strictEqual(messages[0].ruleId, "with-default-option");
+                assert.strictEqual(messages[0].severity, 1);
+            });
+        });
+
         describe("when the rule was already configured", () => {
 
             beforeEach(() => {
