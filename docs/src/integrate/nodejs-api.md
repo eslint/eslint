@@ -330,6 +330,16 @@ The version string of ESLint. E.g. `"7.0.0"`.
 
 This is a static property.
 
+### ◆ ESLint.defaultConfig
+
+```js
+const defaultConfig = ESLint.defaultConfig;
+```
+
+The default configuration that ESLint uses internally. This is provided for tooling that wants to calculate configurations using the same defaults as ESLint. Keep in mind that the default configuration may change from version to version, so you shouldn't rely on any particular keys or values to be present.
+
+This is a static property.
+
 ### ◆ ESLint.outputFixes(results)
 
 ```js
@@ -818,6 +828,8 @@ A test case is an object with the following properties:
 * `name` (string, optional): The name to use for the test case, to make it easier to find
 * `code` (string, required): The source code that the rule should be run on
 * `options` (array, optional): The options passed to the rule. The rule severity should not be included in this list.
+* `before` (function, optional): Function to execute before testing the case.
+* `after` (function, optional): Function to execute after testing the case regardless of its result.
 * `filename` (string, optional): The filename for the given case (useful for rules that make assertions about filenames).
 * `only` (boolean, optional): Run this case exclusively for debugging in supported test frameworks.
 

@@ -324,6 +324,8 @@ export interface BestPractices extends Linter.RulesRecord {
                     | "getters"
                     | "setters"
                     | "constructors"
+                    | "asyncFunctions"
+                    | "asyncMethods"
                 >;
             }>,
         ]
@@ -415,6 +417,10 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 allowEmptyCase: boolean;
+                /**
+                 * @default false
+                 */
+                reportUnusedFallthroughComment: boolean;
             }>,
         ]
     >;
@@ -472,7 +478,7 @@ export interface BestPractices extends Linter.RulesRecord {
                 /**
                  * @default []
                  */
-                allow: Array<"~" | "!!" | "+" | "*">;
+                allow: Array<"~" | "!!" | "+" | "- -" | "-" | "*">;
             }>,
         ]
     >;
@@ -683,16 +689,22 @@ export interface BestPractices extends Linter.RulesRecord {
      */
     "no-param-reassign": Linter.RuleEntry<
         [
-            Partial<{
-                /**
-                 * @default false
-                 */
-                props: boolean;
-                /**
-                 * @default []
-                 */
-                ignorePropertyModificationsFor: string[];
-            }>,
+            | {
+                  props?: false;
+              }
+            | ({
+                  props: true;
+              } & Partial<{
+                  /**
+                   * @default []
+                   */
+                  ignorePropertyModificationsFor: string[];
+                  /**
+                   * @since 6.6.0
+                   * @default []
+                   */
+                  ignorePropertyModificationsForRegex: string[];
+              }>),
         ]
     >;
 
@@ -795,7 +807,17 @@ export interface BestPractices extends Linter.RulesRecord {
      * @since 0.5.1
      * @see https://eslint.org/docs/rules/no-sequences
      */
-    "no-sequences": Linter.RuleEntry<[]>;
+    "no-sequences": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @since 7.23.0
+                 * @default true
+                 */
+                allowInParentheses: boolean;
+            }>,
+        ]
+    >;
 
     /**
      * Rule to disallow throwing literals as exceptions.
@@ -834,6 +856,11 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 allowTaggedTemplates: boolean;
+                /**
+                 * @since 7.20.0
+                 * @default false
+                 */
+                enforceForJSX: boolean;
             }>,
         ]
     >;
@@ -848,6 +875,15 @@ export interface BestPractices extends Linter.RulesRecord {
      * @see https://eslint.org/docs/rules/no-unused-labels
      */
     "no-unused-labels": Linter.RuleEntry<[]>;
+
+    /**
+     * Disallow variable assignments when the value is not used
+     *
+     *
+     * @since 9.0.0-alpha.1
+     * @see https://eslint.org/docs/latest/rules/no-useless-assignment
+     */
+    "no-useless-assignment": Linter.RuleEntry<[]>;
 
     /**
      * Disallow useless backreferences in regular expressions
@@ -966,7 +1002,7 @@ export interface BestPractices extends Linter.RulesRecord {
     /**
      * Disallow use of `Object.prototype.hasOwnProperty.call()` and prefer use of `Object.hasOwn()`.
      *
-     * @since 3.5.0
+     * @since 8.5.0
      * @see https://eslint.org/docs/rules/prefer-object-has-own
      */
     "prefer-object-has-own": Linter.RuleEntry<[]>;
@@ -1022,12 +1058,21 @@ export interface BestPractices extends Linter.RulesRecord {
     "require-await": Linter.RuleEntry<[]>;
 
     /**
-     * Rule to enforce the use of `u` flag on RegExp.
+     * Enforce the use of `u` or `v` flag on RegExp
      *
      * @since 5.3.0
      * @see https://eslint.org/docs/rules/require-unicode-regexp
      */
-    "require-unicode-regexp": Linter.RuleEntry<[]>;
+    "require-unicode-regexp": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @default false
+                 */
+                requireFlag: "u" | "v";
+            }>,
+        ]
+    >;
 
     /**
      * Rule to require `var` declarations be placed at the top of their containing scope.

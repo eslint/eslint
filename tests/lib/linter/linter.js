@@ -16202,6 +16202,47 @@ var a = "test2";
                 assert.strictEqual(logs.length, 1, "preprocess() should only be called once.");
             });
 
+            it("should pass the BOM to preprocess", () => {
+                const logs = [];
+                const code = "\uFEFFfoo";
+                const config = {
+                    files: ["**/*.myjs"],
+                    processor: {
+                        preprocess(text, filenameForText) {
+                            logs.push({
+                                text,
+                                filename: filenameForText
+                            });
+
+                            return [{ text, filename: filenameForText }];
+                        },
+                        postprocess(messages) {
+                            return messages.flat();
+                        }
+                    },
+                    rules: {
+                        "unicode-bom": ["error", "never"]
+                    }
+                };
+
+                const results = linter.verify(code, config, {
+                    filename: "a.myjs",
+                    filterCodeBlock() {
+                        return true;
+                    }
+                });
+
+                assert.deepStrictEqual(logs, [
+                    {
+                        text: code,
+                        filename: "a.myjs"
+                    }
+                ]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].ruleId, "unicode-bom");
+            });
+
             it("should apply a preprocessor to the code, and lint each code sample separately", () => {
                 const code = "foo bar baz";
                 const configs = createFlatConfigArray([

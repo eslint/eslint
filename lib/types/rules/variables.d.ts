@@ -100,6 +100,11 @@ export interface Variables extends Linter.RulesRecord {
                  */
                 hoist: "functions" | "all" | "never";
                 allow: string[];
+                /**
+                 * @since 8.10.0
+                 * @default false
+                 */
+                ignoreOnInitialization: boolean;
             }>,
         ]
     >;
@@ -180,11 +185,19 @@ export interface Variables extends Linter.RulesRecord {
                 ignoreRestSiblings: boolean;
                 argsIgnorePattern: string;
                 /**
-                 * @default 'none'
+                 * @default 'all'
                  */
                 caughtErrors: "none" | "all";
                 caughtErrorsIgnorePattern: string;
                 destructuredArrayIgnorePattern: string;
+                /**
+                 * @default false
+                 */
+                ignoreClassWithStaticInitBlock: boolean;
+                /**
+                 * @default false
+                 */
+                reportUsedIgnorePattern: boolean;
             }>,
         ]
     >;

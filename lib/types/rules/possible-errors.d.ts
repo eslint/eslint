@@ -251,7 +251,30 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * @since 0.4.0
      * @see https://eslint.org/docs/rules/no-extra-boolean-cast
      */
-    "no-extra-boolean-cast": Linter.RuleEntry<[]>;
+    "no-extra-boolean-cast": Linter.RuleEntry<
+        [
+            | Partial<{
+                  /**
+                   * @since 9.3.0
+                   * @default false
+                   */
+                  enforceForInnerExpressions: boolean;
+                  /**
+                   * @deprecated
+                   */
+                  enforceForLogicalOperands: never;
+              }>
+            | Partial<{
+                  /**
+                   * @deprecated
+                   * @since 7.0.0-alpha.2
+                   * @default false
+                   */
+                  enforceForLogicalOperands: boolean;
+                  enforceForInnerExpressions: never;
+              }>,
+        ]
+    >;
 
     /**
      * Rule to disallow unnecessary parentheses.
@@ -391,7 +414,17 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * @since 5.3.0
      * @see https://eslint.org/docs/rules/no-misleading-character-class
      */
-    "no-misleading-character-class": Linter.RuleEntry<[]>;
+    "no-misleading-character-class": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @since 9.3.0
+                 * @default false
+                 */
+                allowEscape: boolean;
+            }>,
+        ]
+    >;
 
     /**
      * Rule to disallow calling global object properties as functions.
@@ -519,7 +552,17 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * @since 3.3.0
      * @see https://eslint.org/docs/rules/no-unsafe-negation
      */
-    "no-unsafe-negation": Linter.RuleEntry<[]>;
+    "no-unsafe-negation": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @since 6.6.0
+                 * @default false
+                 */
+                enforceForOrderingRelations: boolean;
+            }>,
+        ]
+    >;
 
     /**
      * Disallow use of optional chaining in contexts where the `undefined` value is not allowed.
@@ -550,7 +593,17 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * @since 5.3.0
      * @see https://eslint.org/docs/rules/require-atomic-updates
      */
-    "require-atomic-updates": Linter.RuleEntry<[]>;
+    "require-atomic-updates": Linter.RuleEntry<
+        [
+            Partial<{
+                /**
+                 * @since 8.3.0
+                 * @default false
+                 */
+                allowProperties: boolean;
+            }>,
+        ]
+    >;
 
     /**
      * Rule to require calls to `isNaN()` when checking for `NaN`.

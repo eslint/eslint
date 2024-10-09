@@ -26,6 +26,7 @@ describe("VFile", () => {
             assert.strictEqual(vfile.path, "foo.js");
             assert.strictEqual(vfile.physicalPath, "foo.js");
             assert.strictEqual(vfile.body, "var foo = bar;");
+            assert.strictEqual(vfile.rawBody, "var foo = bar;");
             assert.isFalse(vfile.bom);
         });
 
@@ -35,6 +36,7 @@ describe("VFile", () => {
             assert.strictEqual(vfile.path, "foo.js");
             assert.strictEqual(vfile.physicalPath, "foo.js");
             assert.strictEqual(vfile.body, "var foo = bar;");
+            assert.strictEqual(vfile.rawBody, "\uFEFFvar foo = bar;");
             assert.isTrue(vfile.bom);
         });
 
@@ -44,6 +46,7 @@ describe("VFile", () => {
             assert.strictEqual(vfile.path, "foo.js");
             assert.strictEqual(vfile.physicalPath, "foo/bar");
             assert.strictEqual(vfile.body, "var foo = bar;");
+            assert.strictEqual(vfile.rawBody, "var foo = bar;");
             assert.isFalse(vfile.bom);
         });
 
@@ -55,6 +58,7 @@ describe("VFile", () => {
             assert.strictEqual(vfile.path, "foo.js");
             assert.strictEqual(vfile.physicalPath, "foo.js");
             assert.deepStrictEqual(vfile.body, body);
+            assert.deepStrictEqual(vfile.rawBody, body);
             assert.isFalse(vfile.bom);
         });
 
@@ -66,6 +70,7 @@ describe("VFile", () => {
             assert.strictEqual(vfile.path, "foo.js");
             assert.strictEqual(vfile.physicalPath, "foo.js");
             assert.deepStrictEqual(vfile.body, body.slice(3));
+            assert.deepStrictEqual(vfile.rawBody, body);
             assert.isTrue(vfile.bom);
         });
 
