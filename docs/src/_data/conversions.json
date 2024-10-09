@@ -1,0 +1,58 @@
+{
+    "toNpmCommands": {
+        "install": "install",
+        "test": "test",
+        "run": "run",
+        "init": "init",
+        "init-create": "init"
+    },
+    "toNpmArgs": {
+        "--global": "--global",
+        "--save-dev": "--save-dev",
+        "-y": "-y",
+        "--": "--",
+        "--config": "--config"
+    },
+    "toYarnCommands": {
+        "install": "add",
+        "test": "test",
+        "run": "",
+        "init": "init",
+        "init-create": "create"
+     },
+     "toYarnArgs": {
+        "--global": "global",
+        "--save-dev": "--dev",
+        "-y": "-y",
+        "--": "--",
+        "--config": "--config"
+     },
+     "toPnpmCommands" : {
+        "install": "add",
+        "test": "test",
+        "run": "run",
+        "init": "init",
+        "init-create": "create"
+     },
+     "toPnpmArgs" : {
+        "--global": "--global",
+        "--save-dev": "--save-dev",
+        "-y": "-y",
+        "--": "--",
+        "--config": "--config"
+     } ,
+     "toBunCommands" : {
+        "install": "add",
+        "test": "test",
+        "run": "run",
+        "init": "init",
+        "init-create": "create"
+     },
+     "toBunArgs" : {
+        "--global": "--global",
+        "--save-dev": "--dev",
+        "-y": "-y",
+        "--": "--",
+        "--config": "--config"
+     }
+}
