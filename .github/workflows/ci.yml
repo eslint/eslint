@@ -127,4 +127,4 @@ jobs:
         run: npm run test:types
       - name: Test @eslint/js types
         run: npm run test:types
-        working-directory: packages/eslint-plugin
+        working-directory: packages/js
