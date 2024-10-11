@@ -4,7 +4,9 @@
   "description": "ESLint JavaScript language implementation",
   "main": "./src/index.js",
   "types": "./types/index.d.ts",
-  "scripts": {},
+  "scripts": {
+    "test:types": "tsc -p tests/types/tsconfig.json"
+  },
   "files": [
     "LICENSE",
     "README.md",
