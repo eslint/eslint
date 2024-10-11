@@ -9,6 +9,15 @@
 
 "use strict";
 
+const mod = require("node:module");
+
+/*
+ * to use V8's code cache to speed up instantiation time
+ * it was introduced in Node.js v22.8.0
+ * refs: https://nodejs.org/en/blog/release/v22.8.0#new-js-api-for-compile-cache
+ */
+mod.enableCompileCache?.();
+
 // must do this initialization *before* other requires in order to work
 if (process.argv.includes("--debug")) {
     require("debug").enable("eslint:*,-eslint:code-path,eslintrc:*");
