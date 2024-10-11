@@ -1346,6 +1346,23 @@ describe("ESLint", () => {
                     );
                 });
 
+                it("should fail to load a CommonJS TS config file that exports undefined with a helpful error message", async () => {
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags,
+                        overrideConfigFile: "eslint.undefined.config.ts"
+                    });
+
+                    await assert.rejects(
+                        eslint.lintText("foo"),
+                        { message: "Config (unnamed): Unexpected undefined config at user-defined index 0." }
+                    );
+
+                });
+
             });
 
             it("should pass BOM through processors", async () => {
@@ -5822,6 +5839,23 @@ describe("ESLint", () => {
                         eslint.lintFiles("foo.js"),
                         { message: "You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features." }
                     );
+                });
+
+                it("should fail to load a CommonJS TS config file that exports undefined with a helpful error message", async () => {
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: newFlags,
+                        overrideConfigFile: "eslint.undefined.config.ts"
+                    });
+
+                    await assert.rejects(
+                        eslint.lintFiles("foo.js"),
+                        { message: "Config (unnamed): Unexpected undefined config at user-defined index 0." }
+                    );
+
                 });
 
             });
