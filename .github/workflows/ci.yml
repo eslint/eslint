@@ -123,5 +123,8 @@ jobs:
           node-version: "lts/*"
       - name: Install Packages
         run: npm install
-      - name: Test
+      - name: Test eslint types
         run: npm run test:types
+      - name: Test @eslint/js types
+        run: npm run test:types
+        working-directory: packages/eslint-plugin
