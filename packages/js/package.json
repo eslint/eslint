@@ -3,11 +3,13 @@
   "version": "9.13.0",
   "description": "ESLint JavaScript language implementation",
   "main": "./src/index.js",
+  "types": "./types/index.d.ts",
   "scripts": {},
   "files": [
     "LICENSE",
     "README.md",
-    "src"
+    "src",
+    "types"
   ],
   "publishConfig": {
     "access": "public"
