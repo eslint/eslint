@@ -1313,6 +1313,61 @@ describe("ESLint", () => {
 
                 });
 
+                it("should fail to load a TS config file if jiti is not installed", async () => {
+
+                    const { ConfigLoader } = require("../../../lib/config/config-loader");
+
+                    sinon.stub(ConfigLoader, "loadJiti").rejects();
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
+
+                    await assert.rejects(
+                        eslint.lintText("foo();"),
+                        { message: "The 'jiti' library is required for loading TypeScript configuration files. Make sure to install it." }
+                    );
+                });
+
+                it("should fail to load a TS config file if an outdated version of jiti is installed", async () => {
+
+                    const { ConfigLoader } = require("../../../lib/config/config-loader");
+
+                    sinon.stub(ConfigLoader, "loadJiti").resolves({});
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
+
+                    await assert.rejects(
+                        eslint.lintText("foo();"),
+                        { message: "You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features." }
+                    );
+                });
+
+                it("should fail to load a CommonJS TS config file that exports undefined with a helpful error message", async () => {
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags,
+                        overrideConfigFile: "eslint.undefined.config.ts"
+                    });
+
+                    await assert.rejects(
+                        eslint.lintText("foo"),
+                        { message: "Config (unnamed): Unexpected undefined config at user-defined index 0." }
+                    );
+
+                });
+
             });
 
             it("should pass BOM through processors", async () => {
@@ -5750,6 +5805,61 @@ describe("ESLint", () => {
                     assert.strictEqual(results[0].messages.length, 1);
                     assert.strictEqual(results[0].messages[0].severity, 2);
                     assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+                });
+
+                it("should fail to load a TS config file if jiti is not installed", async () => {
+
+                    const { ConfigLoader } = require("../../../lib/config/config-loader");
+
+                    sinon.stub(ConfigLoader, "loadJiti").rejects();
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: newFlags
+                    });
+
+                    await assert.rejects(
+                        eslint.lintFiles("foo.js"),
+                        { message: "The 'jiti' library is required for loading TypeScript configuration files. Make sure to install it." }
+                    );
+                });
+
+                it("should fail to load a TS config file if an outdated version of jiti is installed", async () => {
+
+                    const { ConfigLoader } = require("../../../lib/config/config-loader");
+
+                    sinon.stub(ConfigLoader, "loadJiti").resolves({});
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: newFlags
+                    });
+
+                    await assert.rejects(
+                        eslint.lintFiles("foo.js"),
+                        { message: "You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features." }
+                    );
+                });
+
+                it("should fail to load a CommonJS TS config file that exports undefined with a helpful error message", async () => {
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: newFlags,
+                        overrideConfigFile: "eslint.undefined.config.ts"
+                    });
+
+                    await assert.rejects(
+                        eslint.lintFiles("foo.js"),
+                        { message: "Config (unnamed): Unexpected undefined config at user-defined index 0." }
+                    );
 
                 });
 
