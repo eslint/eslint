@@ -305,5 +305,17 @@ module.exports = [
         rules: {
             "expect-type/expect": "error"
         }
+    },
+    {
+        name: "eslint/bin",
+        files: ["bin/eslint.js"],
+        rules: {
+
+            /*
+             * it was introduced in Node.js v22.8.0
+             * refs: https://nodejs.org/en/blog/release/v22.8.0#new-js-api-for-compile-cache
+             */
+            "n/no-unsupported-features/node-builtins": [2, { ignores: ["module.enableCompileCache"] }]
+        }
     }
 ];
