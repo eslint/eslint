@@ -162,8 +162,7 @@ const baseConfig = {
  */
 function createFlatConfigArray(configs) {
     return new FlatConfigArray(configs, {
-        baseConfig: [baseConfig],
-        basePath: "/"
+        baseConfig: [baseConfig]
     });
 }
 
@@ -254,8 +253,7 @@ describe("FlatConfigArray", () => {
         }];
 
         const configs = new FlatConfigArray([], {
-            baseConfig: base,
-            basePath: "/"
+            baseConfig: base
         });
 
         configs.normalizeSync();
@@ -275,7 +273,7 @@ describe("FlatConfigArray", () => {
                     a: {},
                     b: {}
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -311,7 +309,7 @@ describe("FlatConfigArray", () => {
                         version: "2.3.1"
                     }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -349,7 +347,7 @@ describe("FlatConfigArray", () => {
                         }
                     }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -383,7 +381,7 @@ describe("FlatConfigArray", () => {
                         name: "off"
                     }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -456,7 +454,7 @@ describe("FlatConfigArray", () => {
                         parse() { /* empty */ }
                     }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -477,7 +475,7 @@ describe("FlatConfigArray", () => {
                         parse() { /* empty */ }
                     }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -500,7 +498,7 @@ describe("FlatConfigArray", () => {
                         parse() { /* empty */ }
                     }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -523,7 +521,7 @@ describe("FlatConfigArray", () => {
                         parse() { /* empty */ }
                     }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -558,7 +556,7 @@ describe("FlatConfigArray", () => {
                         parse() { /* empty */ }
                     }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -593,7 +591,7 @@ describe("FlatConfigArray", () => {
                         parse() { /* empty */ }
                     }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -626,7 +624,7 @@ describe("FlatConfigArray", () => {
                         parse() { /* empty */ }
                     }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -656,7 +654,7 @@ describe("FlatConfigArray", () => {
                     preprocess() { /* empty */ },
                     postprocess() { /* empty */ }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -676,7 +674,7 @@ describe("FlatConfigArray", () => {
                     preprocess() { /* empty */ },
                     postprocess() { /* empty */ }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -699,7 +697,7 @@ describe("FlatConfigArray", () => {
                     preprocess() { /* empty */ },
                     postprocess() { /* empty */ }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -730,7 +728,7 @@ describe("FlatConfigArray", () => {
                     preprocess() { /* empty */ },
                     postprocess() { /* empty */ }
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -764,7 +762,7 @@ describe("FlatConfigArray", () => {
                     preprocess() { /* empty */ },
                     postprocess() { /* empty */ }
                 }
-            }], { basePath: "/" });
+            }]);
 
 
             configs.normalizeSync();
@@ -797,7 +795,7 @@ describe("FlatConfigArray", () => {
                     preprocess() { /* empty */ },
                     postprocess() { /* empty */ }
                 }
-            }], { basePath: "/" });
+            }]);
 
 
             configs.normalizeSync();
@@ -2396,7 +2394,7 @@ describe("FlatConfigArray", () => {
                             "foo/baz": ["error", "always"]
                         }
                     }
-                ], { basePath: "/" });
+                ]);
 
                 await configs.normalize();
 
@@ -2430,7 +2428,7 @@ describe("FlatConfigArray", () => {
                             "foo/bar": "error"
                         }
                     }
-                ], { basePath: "/" });
+                ]);
 
                 await configs.normalize();
 
@@ -2464,7 +2462,7 @@ describe("FlatConfigArray", () => {
                             "foo/bar": "error"
                         }
                     }
-                ], { basePath: "/" });
+                ]);
 
                 await configs.normalize();
 
@@ -2755,7 +2753,7 @@ describe("FlatConfigArray", () => {
                     camelcase: ruleConfig,
                     "default-case": ruleConfig
                 }
-            }], { basePath: "/" });
+            }]);
 
             configs.normalizeSync();
 
@@ -2797,7 +2795,7 @@ describe("FlatConfigArray", () => {
                         ]
                     }
                 }
-            ], { basePath: "/" });
+            ]);
 
             configs.normalizeSync();
 
