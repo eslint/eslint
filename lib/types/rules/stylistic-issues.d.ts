@@ -789,6 +789,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce position of line comments.
      *
      * @since 3.5.0
+     * @deprecated since 9.3.0, please use the [corresponding rule](https://eslint.style/rules/js/line-comment-position) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/line-comment-position
      */
     "line-comment-position": Linter.RuleEntry<
@@ -1111,6 +1112,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce a particular style for multiline comments.
      *
      * @since 4.10.0
+     * @deprecated since 9.3.0, please use the [corresponding rule](https://eslint.style/rules/js/multiline-comment-style) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/multiline-comment-style
      */
     "multiline-comment-style": Linter.RuleEntry<["starred-block" | "bare-block" | "separate-lines"]>;
