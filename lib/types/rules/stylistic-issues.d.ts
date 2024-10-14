@@ -32,6 +32,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce linebreaks after opening and before closing array brackets.
      *
      * @since 4.0.0-alpha.1
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/array-bracket-newline) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/array-bracket-newline
      */
     "array-bracket-newline": Linter.RuleEntry<
@@ -56,6 +57,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent spacing inside array brackets.
      *
      * @since 0.24.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/array-bracket-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/array-bracket-spacing
      */
     "array-bracket-spacing":
@@ -102,6 +104,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce line breaks after each array element.
      *
      * @since 4.0.0-rc.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/array-element-newline) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/array-element-newline
      */
     "array-element-newline": Linter.RuleEntry<
@@ -126,6 +129,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to disallow or enforce spaces inside of blocks after opening block and before closing block.
      *
      * @since 1.2.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/block-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/block-spacing
      */
     "block-spacing": Linter.RuleEntry<["always" | "never"]>;
@@ -134,6 +138,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent brace style for blocks.
      *
      * @since 0.0.7
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/brace-style) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/brace-style
      */
     "brace-style": Linter.RuleEntry<
@@ -211,6 +216,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require or disallow trailing commas.
      *
      * @since 0.16.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/comma-dangle) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/comma-dangle
      */
     "comma-dangle": Linter.RuleEntry<
@@ -248,6 +254,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent spacing before and after commas.
      *
      * @since 0.9.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/comma-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/comma-spacing
      */
     "comma-spacing": Linter.RuleEntry<
@@ -269,6 +276,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent comma style.
      *
      * @since 0.9.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/coma-style) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/comma-style
      */
     "comma-style": Linter.RuleEntry<
@@ -284,6 +292,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent spacing inside computed property brackets.
      *
      * @since 0.23.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/computed-property-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/computed-property-spacing
      */
     "computed-property-spacing": Linter.RuleEntry<["never" | "always"]>;
@@ -300,6 +309,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require or disallow newline at the end of files.
      *
      * @since 0.7.1
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/eol-last) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/eol-last
      */
     "eol-last": Linter.RuleEntry<
@@ -312,6 +322,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require or disallow spacing between function identifiers and their invocations.
      *
      * @since 3.3.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/func-call-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/func-call-spacing
      */
     "func-call-spacing": Linter.RuleEntry<["never" | "always"]>;
@@ -393,6 +404,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent line breaks inside function parentheses.
      *
      * @since 4.6.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/function-paren-newline) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/function-paren-newline
      */
     "function-paren-newline": Linter.RuleEntry<
@@ -472,6 +484,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce the location of arrow function bodies.
      *
      * @since 4.12.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/implicit-arrow-linebreak) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/implicit-arrow-linebreak
      */
     "implicit-arrow-linebreak": Linter.RuleEntry<["beside" | "below"]>;
@@ -582,6 +595,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce the consistent use of either double or single quotes in JSX attributes.
      *
      * @since 1.4.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/jsx-quotes) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/jsx-quotes
      */
     "jsx-quotes": Linter.RuleEntry<["prefer-double" | "prefer-single"]>;
@@ -590,6 +604,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent spacing between keys and values in object literal properties.
      *
      * @since 0.9.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/key-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/key-spacing
      */
     "key-spacing": Linter.RuleEntry<
@@ -745,6 +760,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent spacing before and after keywords.
      *
      * @since 2.0.0-beta.1
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/keyword-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/keyword-spacing
      */
     "keyword-spacing": Linter.RuleEntry<
@@ -795,6 +811,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent linebreak style.
      *
      * @since 0.21.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/linebreak-style) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/linebreak-style
      */
     "linebreak-style": Linter.RuleEntry<["unix" | "windows"]>;
@@ -803,6 +820,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require empty lines around comments.
      *
      * @since 0.22.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/lines-around-comment) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/lines-around-comment
      */
     "lines-around-comment": Linter.RuleEntry<
@@ -869,6 +887,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require or disallow an empty line between class members.
      *
      * @since 4.9.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/lines-between-class-members) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/lines-between-class-members
      */
     "lines-between-class-members": Linter.RuleEntry<
@@ -912,6 +931,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce a maximum line length.
      *
      * @since 0.0.9
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/max-len) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/max-len
      */
     "max-len": Linter.RuleEntry<
@@ -1072,6 +1092,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce a maximum number of statements allowed per line.
      *
      * @since 2.5.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/max-statements-per-line) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/max-statements-per-line
      */
     "max-statements-per-line": Linter.RuleEntry<
@@ -1098,6 +1119,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce newlines between operands of ternary expressions.
      *
      * @since 3.1.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/multiline-ternary) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/multiline-ternary
      */
     "multiline-ternary": Linter.RuleEntry<["always" | "always-multiline" | "never"]>;
@@ -1135,6 +1157,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce or disallow parentheses when invoking a constructor with no arguments.
      *
      * @since 0.0.6
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/new-parens) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/new-parens
      */
     "new-parens": Linter.RuleEntry<["always" | "never"]>;
@@ -1143,6 +1166,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require a newline after each call in a method chain.
      *
      * @since 2.0.0-rc.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/newline-per-chained-call) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/newline-per-chained-call
      */
     "newline-per-chained-call": Linter.RuleEntry<
@@ -1210,6 +1234,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to disallow mixed binary operators.
      *
      * @since 2.12.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-mixed-operators) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/no-mixed-operators
      */
     "no-mixed-operators": Linter.RuleEntry<
@@ -1241,6 +1266,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.7.1
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-mixed-spaces-and-tabs) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/no-mixed-spaces-and-tabs
      */
     "no-mixed-spaces-and-tabs": Linter.RuleEntry<["smart-tabs"]>;
@@ -1257,6 +1283,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to disallow multiple empty lines.
      *
      * @since 0.9.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-multiple-empty-lines) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/no-multiple-empty-lines
      */
     "no-multiple-empty-lines": Linter.RuleEntry<
@@ -1336,6 +1363,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to disallow all tabs.
      *
      * @since 3.2.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-tabs) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/no-tabs
      */
     "no-tabs": Linter.RuleEntry<
@@ -1361,6 +1389,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to disallow trailing whitespace at the end of lines.
      *
      * @since 0.7.1
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-trailing-spaces) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/no-trailing-spaces
      */
     "no-trailing-spaces": Linter.RuleEntry<
@@ -1450,6 +1479,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to disallow whitespace before properties.
      *
      * @since 2.0.0-beta.1
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-whitespace-before-property) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/no-whitespace-before-property
      */
     "no-whitespace-before-property": Linter.RuleEntry<[]>;
@@ -1458,6 +1488,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce the location of single-line statements.
      *
      * @since 3.17.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/nonblock-statement-body-position) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/nonblock-statement-body-position
      */
     "nonblock-statement-body-position": Linter.RuleEntry<
@@ -1473,6 +1504,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent line breaks inside braces.
      *
      * @since 2.12.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/object-curly-newline) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/object-curly-newline
      */
     "object-curly-newline": Linter.RuleEntry<
@@ -1515,6 +1547,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent spacing inside braces.
      *
      * @since 0.22.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/object-curly-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/object-curly-spacing
      */
     "object-curly-spacing":
@@ -1553,6 +1586,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce placing object properties on separate lines.
      *
      * @since 2.10.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/object-property-newline) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/object-property-newline
      */
     "object-property-newline": Linter.RuleEntry<
@@ -1593,6 +1627,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require or disallow newlines around variable declarations.
      *
      * @since 2.0.0-beta.3
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/one-var-declaration-per-line) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/one-var-declaration-per-line
      */
     "one-var-declaration-per-line": Linter.RuleEntry<["initializations" | "always"]>;
@@ -1609,6 +1644,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent linebreak style for operators.
      *
      * @since 0.19.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/operator-linebreak) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/operator-linebreak
      */
     "operator-linebreak": Linter.RuleEntry<
@@ -1624,6 +1660,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require or disallow padding within blocks.
      *
      * @since 0.9.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/padded-blocks) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/padded-blocks
      */
     "padded-blocks": Linter.RuleEntry<
@@ -1642,6 +1679,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require or disallow padding lines between statements.
      *
      * @since 4.0.0-beta.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/padding-line-between-statements) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/padding-line-between-statements
      */
     "padding-line-between-statements": Linter.RuleEntry<
@@ -1666,6 +1704,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require quotes around object literal property names.
      *
      * @since 0.0.6
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/quote-props) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/quote-props
      */
     "quote-props":
@@ -1757,6 +1796,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent spacing before and after semicolons.
      *
      * @since 0.16.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/semi-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/semi-spacing
      */
     "semi-spacing": Linter.RuleEntry<
@@ -1778,6 +1818,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce location of semicolons.
      *
      * @since 4.0.0-beta.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/semi-style) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/semi-style
      */
     "semi-style": Linter.RuleEntry<["last" | "first"]>;
@@ -1833,6 +1874,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent spacing before blocks.
      *
      * @since 0.9.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/space-before-blocks) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/space-before-blocks
      */
     "space-before-blocks": Linter.RuleEntry<
@@ -1843,6 +1885,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent spacing before `function` definition opening parenthesis.
      *
      * @since 0.18.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/space-before-function-paren) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/space-before-function-paren
      */
     "space-before-function-paren": Linter.RuleEntry<
@@ -1853,6 +1896,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent spacing inside parentheses.
      *
      * @since 0.8.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/space-in-parens) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/space-in-parens
      */
     "space-in-parens": Linter.RuleEntry<
@@ -1868,6 +1912,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require spacing around infix operators.
      *
      * @since 0.2.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/space-infix-ops) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/space-infix-ops
      */
     "space-infix-ops": Linter.RuleEntry<
@@ -1885,6 +1930,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent spacing before or after unary operators.
      *
      * @since 0.10.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/space-unary-ops) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/space-unary-ops
      */
     "space-unary-ops": Linter.RuleEntry<
@@ -1907,6 +1953,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent spacing after the `//` or `/*` in a comment.
      *
      * @since 0.23.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/spaced-comment) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/spaced-comment
      */
     "spaced-comment": Linter.RuleEntry<
@@ -1935,6 +1982,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce spacing around colons of switch statements.
      *
      * @since 4.0.0-beta.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/switch-colon-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/switch-colon-spacing
      */
     "switch-colon-spacing": Linter.RuleEntry<
@@ -1956,6 +2004,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require or disallow spacing between template tags and their literals.
      *
      * @since 3.15.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/template-tag-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/template-tag-spacing
      */
     "template-tag-spacing": Linter.RuleEntry<["never" | "always"]>;
@@ -1972,6 +2021,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require parenthesis around regex literals.
      *
      * @since 0.1.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/wrap-regex) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/wrap-regex
      */
     "wrap-regex": Linter.RuleEntry<[]>;
