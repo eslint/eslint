@@ -276,7 +276,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent comma style.
      *
      * @since 0.9.0
-     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/coma-style) in `@stylistic/eslint-plugin-js`.
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/comma-style) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/comma-style
      */
     "comma-style": Linter.RuleEntry<
@@ -322,7 +322,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require or disallow spacing between function identifiers and their invocations.
      *
      * @since 3.3.0
-     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/func-call-spacing) in `@stylistic/eslint-plugin-js`.
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/function-call-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/func-call-spacing
      */
     "func-call-spacing": Linter.RuleEntry<["never" | "always"]>;
