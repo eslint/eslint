@@ -1179,6 +1179,9 @@ export namespace Linter {
         ruleId: string | null;
         message: string;
         messageId?: string | undefined;
+        /**
+         * @deprecated `nodeType` is deprecated and will be removed in the next major version.
+         */
         nodeType?: string | undefined;
         fatal?: true | undefined;
         severity: Exclude<Severity, 0>;
