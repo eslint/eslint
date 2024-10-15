@@ -928,6 +928,7 @@ describe("ESLint", () => {
 
             it("should throw if eslint.config.js file is not present even if overrideConfig was passed", async () => {
                 eslint = new ESLint({
+                    flags,
                     cwd: getFixturePath(".."),
                     overrideConfig: {
                         rules: {
@@ -1525,6 +1526,7 @@ describe("ESLint", () => {
 
                 it("should throw if eslint.config.js file is not present even if overrideConfig was passed", async () => {
                     eslint = new ESLint({
+                        flags,
                         cwd: getFixturePath(".."),
                         overrideConfig: {
                             rules: {
@@ -1532,11 +1534,12 @@ describe("ESLint", () => {
                             }
                         }
                     });
-                    await assert.rejects(() => eslint.lintFiles("fixtures/undef*.js"), /Could not find config file/u);
+                    await assert.rejects(() => eslint.lintFiles("no-config/no-config-file/*.js"), /Could not find config file/u);
                 });
 
                 it("should throw if eslint.config.js file is not present even if overrideConfig was passed and a file path is given", async () => {
                     eslint = new ESLint({
+                        flags,
                         cwd: getFixturePath(".."),
                         overrideConfig: {
                             rules: {
@@ -1544,7 +1547,7 @@ describe("ESLint", () => {
                             }
                         }
                     });
-                    await assert.rejects(() => eslint.lintFiles("fixtures/undef.js"), /Could not find config file/u);
+                    await assert.rejects(() => eslint.lintFiles("no-config/no-config-file/foo.js"), /Could not find config file/u);
                 });
 
                 it("should not throw if eslint.config.js file is not present and overrideConfigFile is `true`", async () => {
@@ -4643,7 +4646,7 @@ describe("ESLint", () => {
                 });
             });
 
-            it("should throw if non-boolean value is given to 'options.warnIgnored' option", async () => {
+            it("should throw if an invalid value is given to 'patterns' argument", async () => {
                 eslint = new ESLint({ flags });
                 await assert.rejects(() => eslint.lintFiles(777), /'patterns' must be a non-empty string or an array of non-empty strings/u);
                 await assert.rejects(() => eslint.lintFiles([null]), /'patterns' must be a non-empty string or an array of non-empty strings/u);
@@ -5941,20 +5944,6 @@ describe("ESLint", () => {
             });
 
             describe("with lintFiles", () => {
-                it("should not fix any rules when fixTypes is used without fix", async () => {
-                    eslint = new ESLint({
-                        flags,
-                        cwd: path.join(fixtureDir, ".."),
-                        overrideConfigFile: true,
-                        fix: false,
-                        fixTypes: ["layout"]
-                    });
-                    const inputPath = getFixturePath("fix-types/fix-only-semi.js");
-                    const results = await eslint.lintFiles([inputPath]);
-
-                    assert.strictEqual(results[0].output, void 0);
-                });
-
                 it("should not fix any rules when fixTypes is used without fix", async () => {
                     eslint = new ESLint({
                         flags,
