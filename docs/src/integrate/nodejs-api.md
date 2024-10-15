@@ -839,7 +839,7 @@ In addition to the properties above, invalid test cases can also have the follow
     * `message` (string/regexp): The message for the error. Must provide this or `messageId`
     * `messageId` (string): The Id for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details
     * `data` (object): Placeholder data which can be used in combination with `messageId`
-    * `type` (string): The type of the reported AST node
+    * `type` (string): **Deprecated**: The type of the reported AST node
     * `line` (number): The 1-based line number of the reported location
     * `column` (number): The 1-based column number of the reported location
     * `endLine` (number): The 1-based line number of the end of the reported location
