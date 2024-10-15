@@ -2492,37 +2492,37 @@ try {
         {
             code: "if (foo()) var bar;",
             languageOptions: { ecmaVersion: 6 },
-            errors: [definedError("bar", [{ output: "if (foo());", messageId: "removeVar", data: { varName: "bar" } }])]
+            errors: [definedError("bar", [{ output: "if (foo()) ;", messageId: "removeVar", data: { varName: "bar" } }])]
         },
         {
             code: "for (;;) var foo;",
             languageOptions: { ecmaVersion: 6 },
-            errors: [definedError("foo", [{ output: "for (;;);", messageId: "removeVar", data: { varName: "foo" } }])]
+            errors: [definedError("foo", [{ output: "for (;;) ;", messageId: "removeVar", data: { varName: "foo" } }])]
         },
         {
             code: "for (a in b) var foo;",
             languageOptions: { ecmaVersion: 6 },
-            errors: [definedError("foo", [{ output: "for (a in b);", messageId: "removeVar", data: { varName: "foo" } }])]
+            errors: [definedError("foo", [{ output: "for (a in b) ;", messageId: "removeVar", data: { varName: "foo" } }])]
         },
         {
             code: "for (a of b) var foo;",
             languageOptions: { ecmaVersion: 6 },
-            errors: [definedError("foo", [{ output: "for (a of b);", messageId: "removeVar", data: { varName: "foo" } }])]
+            errors: [definedError("foo", [{ output: "for (a of b) ;", messageId: "removeVar", data: { varName: "foo" } }])]
         },
         {
             code: "while (a) var foo;",
             languageOptions: { ecmaVersion: 6 },
-            errors: [definedError("foo", [{ output: "while (a);", messageId: "removeVar", data: { varName: "foo" } }])]
+            errors: [definedError("foo", [{ output: "while (a) ;", messageId: "removeVar", data: { varName: "foo" } }])]
         },
         {
             code: "do var foo; while (b);",
             languageOptions: { ecmaVersion: 6 },
-            errors: [definedError("foo", [{ output: "do; while (b);", messageId: "removeVar", data: { varName: "foo" } }])]
+            errors: [definedError("foo", [{ output: "do ; while (b);", messageId: "removeVar", data: { varName: "foo" } }])]
         },
         {
             code: "with (a) var foo;",
             languageOptions: { ecmaVersion: 6 },
-            errors: [definedError("foo", [{ output: "with (a);", messageId: "removeVar", data: { varName: "foo" } }])]
+            errors: [definedError("foo", [{ output: "with (a) ;", messageId: "removeVar", data: { varName: "foo" } }])]
         }
     ]
 });
