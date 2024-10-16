@@ -111,7 +111,7 @@ Each `message` object contains information about the ESLint rule that was trigge
 * **message**: the human readable description of the error.
 * **line**: the line where the issue is located.
 * **column**: the column where the issue is located.
-* **nodeType**: **Deprecated**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/es5.md#node-objects) or `null` if the issue isn't related to a particular AST node.
+* **nodeType**: (**Deprecated:** This property will be removed in a future version of ESLint.) the type of the node in the [AST](https://github.com/estree/estree/blob/master/es5.md#node-objects) or `null` if the issue isn't related to a particular AST node.
 
 ### The `context` Argument
 
