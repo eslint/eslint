@@ -410,14 +410,16 @@ describe("FlatConfigArray", () => {
             assert.strictEqual(stringify(actual), stringify(expected));
         });
 
-        it("should not crash on undefined languageOptions", () => {
+        it("should serialize languageOptions as an empty object if neither configured nor default languageOptions are specified", () => {
 
             const configs = new FlatConfigArray([{
                 files: ["**/*.my"],
                 plugins: {
                     test: {
                         languages: {
-                            my: {}
+                            my: {
+                                validateLanguageOptions() {}
+                            }
                         }
                     }
                 },
@@ -431,7 +433,7 @@ describe("FlatConfigArray", () => {
             const expected = {
                 plugins: ["@", "test"],
                 language: "test/my",
-                languageOptions: void 0,
+                languageOptions: {},
                 linterOptions: {
                     reportUnusedDisableDirectives: 1
                 },
@@ -1527,13 +1529,15 @@ describe("FlatConfigArray", () => {
                 assert.deepStrictEqual(config.languageOptions, { bar: 43 });
             });
 
-            it("should return undefined if neither configured nor default languageOptions are specified", async () => {
+            it("should default to an empty object if neither configured nor default languageOptions are specified", async () => {
                 const configs = new FlatConfigArray([{
                     files: ["**/*.my"],
                     plugins: {
                         test: {
                             languages: {
-                                my: {}
+                                my: {
+                                    validateLanguageOptions() {}
+                                }
                             }
                         }
                     },
@@ -1544,7 +1548,8 @@ describe("FlatConfigArray", () => {
 
                 const config = configs.getConfig("file.my");
 
-                assert.strictEqual(config.languageOptions, void 0);
+                assert.isObject(config.languageOptions);
+                assert.strictEqual(Object.keys(config.languageOptions).length, 0);
             });
 
             describe("ecmaVersion", () => {
