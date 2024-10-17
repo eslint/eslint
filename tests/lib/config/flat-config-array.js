@@ -186,6 +186,10 @@ async function assertMergedResult(values, result) {
         result.language = jslang;
     }
 
+    if (!result.languageOptions) {
+        result.languageOptions = jslang.defaultLanguageOptions;
+    }
+
     assert.deepStrictEqual(config, result);
 }
 
@@ -394,6 +398,42 @@ describe("FlatConfigArray", () => {
                         name: "off"
                     }
                 },
+                linterOptions: {
+                    reportUnusedDisableDirectives: 1
+                },
+                processor: void 0
+            };
+            const actual = config.toJSON();
+
+            assert.deepStrictEqual(actual, expected);
+
+            assert.strictEqual(stringify(actual), stringify(expected));
+        });
+
+        it("should serialize languageOptions as an empty object if neither configured nor default languageOptions are specified", () => {
+
+            const configs = new FlatConfigArray([{
+                files: ["**/*.my"],
+                plugins: {
+                    test: {
+                        languages: {
+                            my: {
+                                validateLanguageOptions() {}
+                            }
+                        }
+                    }
+                },
+                language: "test/my"
+            }]);
+
+            configs.normalizeSync();
+
+            const config = configs.getConfig("file.my");
+
+            const expected = {
+                plugins: ["@", "test"],
+                language: "test/my",
+                languageOptions: {},
                 linterOptions: {
                     reportUnusedDisableDirectives: 1
                 },
@@ -1404,10 +1444,113 @@ describe("FlatConfigArray", () => {
                 plugins: baseConfig.plugins,
                 language: jslang,
                 languageOptions: {
+                    ...jslang.defaultLanguageOptions,
                     ecmaVersion: 2019,
                     sourceType: "commonjs"
                 }
             }));
+
+            it("should get default languageOptions from the language", async () => {
+                const configs = new FlatConfigArray([{
+                    files: ["**/*.my"],
+                    plugins: {
+                        test: {
+                            languages: {
+                                my: {
+                                    defaultLanguageOptions: {
+                                        foo: 42
+                                    },
+                                    validateLanguageOptions() {}
+                                }
+                            }
+                        }
+                    },
+                    language: "test/my"
+                }]);
+
+                await configs.normalize();
+
+                const config = configs.getConfig("file.my");
+
+                assert.deepStrictEqual(config.languageOptions, { foo: 42 });
+            });
+
+            it("should merge configured languageOptions over default languageOptions from the language", async () => {
+                const configs = new FlatConfigArray([{
+                    files: ["**/*.my"],
+                    plugins: {
+                        test: {
+                            languages: {
+                                my: {
+                                    defaultLanguageOptions: {
+                                        foo: 42,
+                                        bar: 42
+                                    },
+                                    validateLanguageOptions() {}
+                                }
+                            }
+                        }
+                    },
+                    language: "test/my",
+                    languageOptions: {
+                        bar: 43
+                    }
+                }]);
+
+                await configs.normalize();
+
+                const config = configs.getConfig("file.my");
+
+                assert.deepStrictEqual(config.languageOptions, { foo: 42, bar: 43 });
+            });
+
+            it("should use configured languageOptions when default languageOptions are not specified", async () => {
+                const configs = new FlatConfigArray([{
+                    files: ["**/*.my"],
+                    plugins: {
+                        test: {
+                            languages: {
+                                my: {
+                                    validateLanguageOptions() {}
+                                }
+                            }
+                        }
+                    },
+                    language: "test/my",
+                    languageOptions: {
+                        bar: 43
+                    }
+                }]);
+
+                await configs.normalize();
+
+                const config = configs.getConfig("file.my");
+
+                assert.deepStrictEqual(config.languageOptions, { bar: 43 });
+            });
+
+            it("should default to an empty object if neither configured nor default languageOptions are specified", async () => {
+                const configs = new FlatConfigArray([{
+                    files: ["**/*.my"],
+                    plugins: {
+                        test: {
+                            languages: {
+                                my: {
+                                    validateLanguageOptions() {}
+                                }
+                            }
+                        }
+                    },
+                    language: "test/my"
+                }]);
+
+                await configs.normalize();
+
+                const config = configs.getConfig("file.my");
+
+                assert.isObject(config.languageOptions);
+                assert.strictEqual(Object.keys(config.languageOptions).length, 0);
+            });
 
             describe("ecmaVersion", () => {
 
@@ -1439,6 +1582,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         ecmaVersion: 2021
                     }
                 }));
@@ -1456,6 +1600,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         ecmaVersion: 2021
                     }
                 }));
@@ -1474,6 +1619,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         ecmaVersion: 2021
                     }
                 }));
@@ -1511,6 +1657,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         sourceType: "script"
                     }
                 }));
@@ -1528,6 +1675,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         sourceType: "script"
                     }
                 }));
@@ -1546,6 +1694,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         sourceType: "module"
                     }
                 }));
@@ -1629,6 +1778,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         globals: {
                             foo: "readonly",
                             bar: "writable"
@@ -1656,6 +1806,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         globals: {
                             foo: "writeable"
                         }
@@ -1677,6 +1828,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         globals: {
                             foo: "readable"
                         }
@@ -1699,6 +1851,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         globals: {
                             foo: "false"
                         }
@@ -1723,6 +1876,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         globals: {
                             foo: "false"
                         }
@@ -1805,6 +1959,7 @@ describe("FlatConfigArray", () => {
                         },
                         language: jslang,
                         languageOptions: {
+                            ...jslang.defaultLanguageOptions,
                             parser: stubParser
                         }
                     });
@@ -1829,6 +1984,7 @@ describe("FlatConfigArray", () => {
                         },
                         language: jslang,
                         languageOptions: {
+                            ...jslang.defaultLanguageOptions,
                             parser: stubParser
                         }
                     });
@@ -1855,6 +2011,7 @@ describe("FlatConfigArray", () => {
                         },
                         language: jslang,
                         languageOptions: {
+                            ...jslang.defaultLanguageOptions,
                             parser: stubParser
                         }
                     });
@@ -1898,6 +2055,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         parserOptions: {
                             foo: "whatever",
                             bar: "baz"
@@ -1929,6 +2087,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         parserOptions: {
                             ecmaFeatures: {
                                 jsx: true,
@@ -1958,6 +2117,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         ecmaVersion: 2021,
                         parserOptions: {
                             ecmaFeatures: {
@@ -1987,6 +2147,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         parserOptions: {
                             foo: "bar"
                         }
@@ -2008,6 +2169,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         parserOptions: {
                             foo: "whatever"
                         }
@@ -2030,6 +2192,7 @@ describe("FlatConfigArray", () => {
                     plugins: baseConfig.plugins,
                     language: jslang,
                     languageOptions: {
+                        ...jslang.defaultLanguageOptions,
                         parserOptions: {
                             foo: "bar"
                         }
