@@ -118,6 +118,11 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default 20
                  */
                 maximum: number;
+                /**
+                 * @default "classic"
+                 * @since 9.12.0
+                 */
+                variant: "classic" | "modified";
             }>
             | number,
         ]
