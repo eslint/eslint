@@ -12,36 +12,18 @@
     border-radius: var(--border-radius);
 
     &.alert--warning {
-        background-color: var(--color-rose-25);
-        color: var(--color-rose-600);
-
-        [data-theme="dark"] & {
-            border: 1px solid var(--color-rose-300);
-            color: var(--color-rose-300);
-            background-color: var(--color-rose-900);
-        }
+        background-color: var(--alert-warning-background-color);
+        color: var(--alert-warning-color);
     }
 
     &.alert--important {
-        background-color: var(--color-warning-25);
-        color: var(--color-warning-600);
-
-        [data-theme="dark"] & {
-            color: var(--color-warning-300);
-            border: 1px solid var(--color-warning-300);
-            background-color: var(--color-warning-900);
-        }
+        background-color: var(--alert-important-background-color);
+        color: var(--alert-important-color);
     }
 
     &.alert--tip {
-        background-color: var(--color-success-25);
-        color: var(--color-success-600);
-
-        [data-theme="dark"] & {
-            color: var(--color-success-300);
-            border: 1px solid var(--color-success-300);
-            background-color: var(--color-success-900);
-        }
+        background-color: var(--alert-tip-background-color);
+        color: var(--alert-tip-color);
     }
 }
 
@@ -63,27 +45,15 @@
     margin-block-end: .25rem;
 
     .alert--warning & {
-        color: var(--color-rose-700);
-
-        [data-theme="dark"] & {
-            color: var(--color-rose-200);
-        }
+        color: var(--alert-warning-heading-color);
     }
 
     .alert--important & {
-        color: var(--color-warning-700);
-
-        [data-theme="dark"] & {
-            color: var(--color-warning-200);
-        }
+        color: var(--alert-important-heading-color);
     }
 
     .alert--tip & {
-        color: var(--color-success-700);
-
-        [data-theme="dark"] & {
-            color: var(--color-success-200);
-        }
+        color: var(--alert-tip-heading-color);
     }
 }
 
