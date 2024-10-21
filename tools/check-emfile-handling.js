@@ -70,16 +70,21 @@ function generateFiles() {
 
 /**
  * Generates an EMFILE error by reading all files in the output directory.
- * @returns {Promise<Buffer[]>} A promise that resolves with the contents of all files.
+ * @returns {undefined}
  */
-function generateEmFileError() {
-    return Promise.all(
+async function generateEmFileError() {
+    const results = await Promise.allSettled(
         Array.from({ length: FILE_COUNT }, (_, i) => {
             const fileName = `file_${i}.js`;
 
             return readFile(`${OUTPUT_DIRECTORY}/${fileName}`);
         })
     );
+    const failedResult = results.find(({ status }) => status === "rejected");
+
+    if (failedResult?.reason) {
+        throw failedResult.reason;
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -109,7 +114,5 @@ generateEmFileError()
         }
     })
     .finally(() => {
-
-        // pause before cleanup to ensure file descriptors are freed
-        setTimeout(() => fs.rmSync(OUTPUT_DIRECTORY, { recursive: true, force: true, maxRetries: 8 }), 2000);
+        fs.rmSync(OUTPUT_DIRECTORY, { recursive: true, force: true, maxRetries: 8 });
     });
