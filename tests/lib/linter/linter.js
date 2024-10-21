@@ -16292,7 +16292,41 @@ var a = "test2";
                 { inBoth: "from-default-options", inDefaultOptions: "from-default-options", inSchema: "from-schema" }
             );
         });
+
+        it("meta.defaultOptions should be applied even if rule has schema:false", () => {
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            checker: {
+                                meta: {
+                                    defaultOptions: ["foo"],
+                                    schema: false
+                                },
+                                create(context) {
+                                    return {
+                                        Program(node) {
+                                            context.report({
+                                                message: context.options[0],
+                                                node
+                                            });
+                                        }
+                                    };
+                                }
+                            }
+                        }
+                    }
+                },
+                rules: {
+                    "test/checker": "error"
+                }
+            };
+            const messages = linter.verify("", config, filename);
+
+            assert.strictEqual(messages[0].message, "foo");
+        });
     });
+
 
     describe("processors", () => {
         let receivedFilenames = [];
