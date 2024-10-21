@@ -1625,6 +1625,23 @@ describe("Linter", () => {
                             };
                         }
                     },
+                    "has-default-options": {
+                        meta: {
+                            schema: [{
+                                type: "string"
+                            }],
+                            defaultOptions: ["option not provided"]
+                        },
+                        create(context) {
+                            const message = context.options[0];
+
+                            return {
+                                Identifier(node) {
+                                    context.report({ node, message });
+                                }
+                            };
+                        }
+                    },
                     "requires-option": {
                         meta: {
                             schema: {
@@ -1661,12 +1678,13 @@ describe("Linter", () => {
             ].forEach(ruleConfig => {
                 const config = {
                     rules: {
+                        "has-default-options": ruleConfig,
                         "my-rule": ruleConfig
                     }
                 };
 
                 it(`severity from the /*eslint*/ comment and options from the config should apply when the comment has only severity (original config: ${JSON.stringify(ruleConfig)})`, () => {
-                    const code = "/*eslint my-rule: 'warn' */";
+                    const code = "/*eslint my-rule: 'warn', has-default-options: 'warn' */ id";
                     const messages = linter.verify(code, config);
                     const suppressedMessages = linter.getSuppressedMessages();
 
@@ -1674,15 +1692,18 @@ describe("Linter", () => {
                         ? ruleConfig[1]
                         : "option not provided";
 
-                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages.length, 2);
                     assert.strictEqual(messages[0].ruleId, "my-rule");
                     assert.strictEqual(messages[0].severity, 1);
                     assert.strictEqual(messages[0].message, expectedMessage);
+                    assert.strictEqual(messages[1].ruleId, "has-default-options");
+                    assert.strictEqual(messages[1].severity, 1);
+                    assert.strictEqual(messages[1].message, expectedMessage);
                     assert.strictEqual(suppressedMessages.length, 0);
                 });
 
                 it(`severity from the /*eslint*/ comment and options from the config should apply when the comment has array with only severity (original config: ${JSON.stringify(ruleConfig)})`, () => {
-                    const code = "/*eslint my-rule: ['warn'] */";
+                    const code = "/*eslint my-rule: ['warn'], has-default-options: ['warn'] */ id";
                     const messages = linter.verify(code, config);
                     const suppressedMessages = linter.getSuppressedMessages();
 
@@ -1690,22 +1711,28 @@ describe("Linter", () => {
                         ? ruleConfig[1]
                         : "option not provided";
 
-                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages.length, 2);
                     assert.strictEqual(messages[0].ruleId, "my-rule");
                     assert.strictEqual(messages[0].severity, 1);
                     assert.strictEqual(messages[0].message, expectedMessage);
+                    assert.strictEqual(messages[1].ruleId, "has-default-options");
+                    assert.strictEqual(messages[1].severity, 1);
+                    assert.strictEqual(messages[1].message, expectedMessage);
                     assert.strictEqual(suppressedMessages.length, 0);
                 });
 
                 it(`severity and options from the /*eslint*/ comment should apply when the comment includes options (original config: ${JSON.stringify(ruleConfig)})`, () => {
-                    const code = "/*eslint my-rule: ['warn', 'foo'] */";
+                    const code = "/*eslint my-rule: ['warn', 'foo'], has-default-options: ['warn', 'foo'] */ id";
                     const messages = linter.verify(code, config);
                     const suppressedMessages = linter.getSuppressedMessages();
 
-                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages.length, 2);
                     assert.strictEqual(messages[0].ruleId, "my-rule");
                     assert.strictEqual(messages[0].severity, 1);
                     assert.strictEqual(messages[0].message, "foo");
+                    assert.strictEqual(messages[1].ruleId, "has-default-options");
+                    assert.strictEqual(messages[1].severity, 1);
+                    assert.strictEqual(messages[1].message, "foo");
                     assert.strictEqual(suppressedMessages.length, 0);
                 });
             });
@@ -7668,7 +7695,7 @@ var a = "test2";
             }, "The create() function for rule 'checker' did not return an object.");
 
             linter.defineRule("checker", {
-                create() {}
+                create() { }
             }); // returns undefined
 
             assert.throws(() => {
@@ -11240,6 +11267,23 @@ describe("Linter with FlatConfigArray", () => {
                     describe("when the rule was already configured", () => {
                         const plugin = {
                             rules: {
+                                "has-default-options": {
+                                    meta: {
+                                        schema: [{
+                                            type: "string"
+                                        }],
+                                        defaultOptions: ["option not provided"]
+                                    },
+                                    create(context) {
+                                        const message = context.options[0];
+
+                                        return {
+                                            Identifier(node) {
+                                                context.report({ node, message });
+                                            }
+                                        };
+                                    }
+                                },
                                 "my-rule": {
                                     meta: {
                                         schema: [{
@@ -11295,12 +11339,13 @@ describe("Linter with FlatConfigArray", () => {
                                     test: plugin
                                 },
                                 rules: {
+                                    "test/has-default-options": ruleConfig,
                                     "test/my-rule": ruleConfig
                                 }
                             };
 
                             it(`severity from the /*eslint*/ comment and options from the config should apply when the comment has only severity (original config: ${JSON.stringify(ruleConfig)})`, () => {
-                                const code = "/*eslint test/my-rule: 'warn' */";
+                                const code = "/*eslint test/my-rule: 'warn', test/has-default-options: 'warn' */ id";
                                 const messages = linter.verify(code, config);
                                 const suppressedMessages = linter.getSuppressedMessages();
 
@@ -11308,15 +11353,18 @@ describe("Linter with FlatConfigArray", () => {
                                     ? ruleConfig[1]
                                     : "option not provided";
 
-                                assert.strictEqual(messages.length, 1);
+                                assert.strictEqual(messages.length, 2);
                                 assert.strictEqual(messages[0].ruleId, "test/my-rule");
                                 assert.strictEqual(messages[0].severity, 1);
                                 assert.strictEqual(messages[0].message, expectedMessage);
+                                assert.strictEqual(messages[1].ruleId, "test/has-default-options");
+                                assert.strictEqual(messages[1].severity, 1);
+                                assert.strictEqual(messages[1].message, expectedMessage);
                                 assert.strictEqual(suppressedMessages.length, 0);
                             });
 
                             it(`severity from the /*eslint*/ comment and options from the config should apply when the comment has array with only severity (original config: ${JSON.stringify(ruleConfig)})`, () => {
-                                const code = "/*eslint test/my-rule: ['warn'] */";
+                                const code = "/*eslint test/my-rule: ['warn'], test/has-default-options: ['warn'] */ id";
                                 const messages = linter.verify(code, config);
                                 const suppressedMessages = linter.getSuppressedMessages();
 
@@ -11324,22 +11372,28 @@ describe("Linter with FlatConfigArray", () => {
                                     ? ruleConfig[1]
                                     : "option not provided";
 
-                                assert.strictEqual(messages.length, 1);
+                                assert.strictEqual(messages.length, 2);
                                 assert.strictEqual(messages[0].ruleId, "test/my-rule");
                                 assert.strictEqual(messages[0].severity, 1);
                                 assert.strictEqual(messages[0].message, expectedMessage);
+                                assert.strictEqual(messages[1].ruleId, "test/has-default-options");
+                                assert.strictEqual(messages[1].severity, 1);
+                                assert.strictEqual(messages[1].message, expectedMessage);
                                 assert.strictEqual(suppressedMessages.length, 0);
                             });
 
                             it(`severity and options from the /*eslint*/ comment should apply when the comment includes options (original config: ${JSON.stringify(ruleConfig)})`, () => {
-                                const code = "/*eslint test/my-rule: ['warn', 'foo'] */";
+                                const code = "/*eslint test/my-rule: ['warn', 'foo'], test/has-default-options: ['warn', 'foo'] */ id";
                                 const messages = linter.verify(code, config);
                                 const suppressedMessages = linter.getSuppressedMessages();
 
-                                assert.strictEqual(messages.length, 1);
+                                assert.strictEqual(messages.length, 2);
                                 assert.strictEqual(messages[0].ruleId, "test/my-rule");
                                 assert.strictEqual(messages[0].severity, 1);
                                 assert.strictEqual(messages[0].message, "foo");
+                                assert.strictEqual(messages[1].ruleId, "test/has-default-options");
+                                assert.strictEqual(messages[1].severity, 1);
+                                assert.strictEqual(messages[1].message, "foo");
                                 assert.strictEqual(suppressedMessages.length, 0);
                             });
                         });
@@ -15966,7 +16020,7 @@ var a = "test2";
         it("should throw an error when called in flat config mode", () => {
             assert.throws(() => {
                 linter.defineRule("foo", {
-                    create() {}
+                    create() { }
                 });
             }, /This method cannot be used with flat config/u);
         });
