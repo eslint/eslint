@@ -56,7 +56,7 @@ if (os.platform() !== "win32") {
  */
 function generateFiles() {
 
-    fs.rmSync(OUTPUT_DIRECTORY, { recursive: true, force: true, maxRetries: 8192 });
+    fs.rmSync(OUTPUT_DIRECTORY, { recursive: true, force: true, maxRetries: 8 });
     fs.mkdirSync(OUTPUT_DIRECTORY, { recursive: true });
 
     for (let i = 0; i < FILE_COUNT; i++) {
@@ -109,5 +109,7 @@ generateEmFileError()
         }
     })
     .finally(() => {
-        fs.rmSync(OUTPUT_DIRECTORY, { recursive: true, force: true, maxRetries: 8192 });
+
+        // pause before cleanup to ensure file descriptors are freed
+        setTimeout(() => fs.rmSync(OUTPUT_DIRECTORY, { recursive: true, force: true, maxRetries: 8 }), 2000);
     });
