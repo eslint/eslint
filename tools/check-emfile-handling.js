@@ -56,6 +56,7 @@ if (os.platform() !== "win32") {
  */
 function generateFiles() {
 
+    fs.rmSync(OUTPUT_DIRECTORY, { recursive: true, force: true });
     fs.mkdirSync(OUTPUT_DIRECTORY, { recursive: true });
 
     for (let i = 0; i < FILE_COUNT; i++) {
@@ -106,4 +107,7 @@ generateEmFileError()
             console.error("❌ Unexpected error encountered:", error.message);
             throw error;
         }
+    })
+    .finally(() => {
+        fs.rmSync(OUTPUT_DIRECTORY, { recursive: true, force: true });
     });
