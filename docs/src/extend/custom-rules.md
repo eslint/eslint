@@ -802,7 +802,7 @@ module.exports = {
 
 To learn more about JSON Schema, we recommend looking at some examples on the [JSON Schema website](https://json-schema.org/learn/miscellaneous-examples), or reading the free [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/) ebook.
 
-#### Option Defaults
+### Option Defaults
 
 Rules may specify a `meta.defaultOptions` array of default values for any options.
 When the rule is enabled in a user configuration, ESLint will recursively merge any user-provided option elements on top of the default elements.
