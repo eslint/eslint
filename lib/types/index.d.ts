@@ -1182,6 +1182,9 @@ export namespace Linter {
         ruleId: string | null;
         message: string;
         messageId?: string | undefined;
+        /**
+         * @deprecated `nodeType` is deprecated and will be removed in the next major version.
+         */
         nodeType?: string | undefined;
         fatal?: true | undefined;
         severity: Exclude<Severity, 0>;
@@ -1664,6 +1667,9 @@ export namespace RuleTester {
     interface TestCaseError {
         message?: string | RegExp;
         messageId?: string;
+        /**
+         * @deprecated `type` is deprecated and will be removed in the next major version.
+         */
         type?: string | undefined;
         data?: any;
         line?: number | undefined;
