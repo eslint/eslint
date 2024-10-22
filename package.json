@@ -100,7 +100,7 @@
     "@eslint-community/regexpp": "^4.11.0",
     "@eslint/config-array": "^0.18.0",
     "@eslint/core": "^0.6.0",
-    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/eslintrc": "github:JoshuaKGoldberg/eslintrc#factor-in-default-options",
     "@eslint/js": "9.12.0",
     "@eslint/plugin-kit": "^0.2.0",
     "@humanfs/node": "^0.16.5",
