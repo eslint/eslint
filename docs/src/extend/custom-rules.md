@@ -815,7 +815,7 @@ export default {
         defaultOptions: [{
             alias: "basic",
         }],
-        schema: {
+        schema: [{
             type: "object",
             properties: {
                 alias: {
@@ -823,7 +823,7 @@ export default {
                 }
             },
             additionalProperties: false
-        }
+        }]
     },
     create(context) {
         const [{ alias }] = context.options;
