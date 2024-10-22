@@ -4,8 +4,16 @@
   "description": "ESLint JavaScript language implementation",
   "main": "./src/index.js",
   "types": "./types/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
   "scripts": {
-    "test:types": "tsc -p tests/types/tsconfig.json"
+    "test:types": "tsc -p tests/types/tsconfig.json",
+    "lint:types": "attw --pack"
   },
   "files": [
     "LICENSE",
@@ -13,6 +21,19 @@
     "src",
     "types"
   ],
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.16.4",
+    "eslint": "^9.14.0",
+    "typescript": "^5.6.3"
+  },
+  "peerDependencies": {
+    "eslint": "^9.14.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    }
+  },
   "publishConfig": {
     "access": "public"
   },

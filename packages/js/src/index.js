@@ -11,13 +11,20 @@ const { version } = require("../package.json");
 // Public Interface
 //------------------------------------------------------------------------------
 
+const all = require("./configs/eslint-all");
+const recommended = require("./configs/eslint-recommended");
+
+const configs = {
+    all,
+    recommended
+};
+
+const meta = {
+    name: "@eslint/js",
+    version
+};
+
 module.exports = {
-    meta: {
-        name: "@eslint/js",
-        version
-    },
-    configs: {
-        all: require("./configs/eslint-all"),
-        recommended: require("./configs/eslint-recommended")
-    }
+    meta,
+    configs
 };

@@ -26,7 +26,7 @@
  */
 
 import type { ESLint, Linter } from "eslint";
-import js from "../../";
+import js = require("@eslint/js");
 
 js satisfies ESLint.Plugin;
 js.meta.name satisfies string;
