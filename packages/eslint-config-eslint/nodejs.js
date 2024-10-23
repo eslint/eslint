@@ -1,14 +1,24 @@
 "use strict";
 
-const recommendedScriptConfig = require("eslint-plugin-n/configs/recommended-script");
-const recommendedModuleConfig = require("eslint-plugin-n/configs/recommended-module");
+const {
+    configs: {
+        "flat/recommended-script": recommendedScriptConfig,
+        "flat/recommended-module": recommendedModuleConfig
+    }
+} = require("eslint-plugin-n");
 
+/**
+ * @type {import("eslint").Linter.RulesRecord}
+ */
 const sharedRules = {
     "n/callback-return": ["error", ["cb", "callback", "next"]],
     "n/handle-callback-err": ["error", "err"],
     "n/prefer-node-protocol": "error"
 };
 
+/**
+ * @type {import("eslint").Linter.Config[]}
+ */
 const cjsConfigs = [
     recommendedScriptConfig,
     {
@@ -22,6 +32,9 @@ const cjsConfigs = [
     }
 ];
 
+/**
+ * @type {import("eslint").Linter.Config[]}
+ */
 const esmConfigs = [
     recommendedModuleConfig,
     {
