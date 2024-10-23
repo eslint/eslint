@@ -89,6 +89,26 @@
     --hero-background-color: var(--color-neutral-25);
     --footer-background-color: var(--color-neutral-25);
     --outline-color: var(--color-brand);
+    --img-background-color: #fff;
+
+    --code-text-color: var(--color-neutral-900);
+
+    --logo-color: var(--color-primary-800);
+    --logo-center-color: var(--color-primary-600);
+
+    --alert-tip-heading-color: var(--color-success-700);
+    --alert-tip-color: var(--color-success-600);
+    --alert-tip-background-color: var(--color-success-25);
+
+    --alert-important-heading-color: var(--color-warning-700);
+    --alert-important-color: var(--color-warning-600);
+    --alert-important-background-color: var(--color-warning-25);
+
+    --alert-warning-heading-color: var(--color-rose-700);
+    --alert-warning-color: var(--color-rose-600);
+    --alert-warning-background-color: var(--color-rose-25);
+
+    --rule-status-background-color: var(--color-rose-50);
 }
 
 @media (prefers-color-scheme: dark) {
