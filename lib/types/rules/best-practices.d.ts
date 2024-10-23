@@ -118,6 +118,11 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default 20
                  */
                 maximum: number;
+                /**
+                 * @default "classic"
+                 * @since 9.12.0
+                 */
+                variant: "classic" | "modified";
             }>
             | number,
         ]
@@ -185,6 +190,7 @@ export interface BestPractices extends Linter.RulesRecord {
      * Rule to enforce consistent newlines before and after dots.
      *
      * @since 0.21.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/dot-location) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/dot-location
      */
     "dot-location": Linter.RuleEntry<["object" | "property"]>;
@@ -429,6 +435,7 @@ export interface BestPractices extends Linter.RulesRecord {
      * Rule to disallow leading or trailing decimal points in numeric literals.
      *
      * @since 0.0.6
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-floating-decimal) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/no-floating-decimal
      */
     "no-floating-decimal": Linter.RuleEntry<[]>;
@@ -605,6 +612,7 @@ export interface BestPractices extends Linter.RulesRecord {
      * Rule to disallow multiple spaces.
      *
      * @since 0.9.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-multi-spaces) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/no-multi-spaces
      */
     "no-multi-spaces": Linter.RuleEntry<
@@ -1086,6 +1094,7 @@ export interface BestPractices extends Linter.RulesRecord {
      * Rule to require parentheses around immediate `function` invocations.
      *
      * @since 0.0.9
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/wrap-iife) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/wrap-iife
      */
     "wrap-iife": Linter.RuleEntry<

@@ -928,6 +928,7 @@ describe("ESLint", () => {
 
             it("should throw if eslint.config.js file is not present even if overrideConfig was passed", async () => {
                 eslint = new ESLint({
+                    flags,
                     cwd: getFixturePath(".."),
                     overrideConfig: {
                         rules: {
@@ -1313,6 +1314,61 @@ describe("ESLint", () => {
 
                 });
 
+                it("should fail to load a TS config file if jiti is not installed", async () => {
+
+                    const { ConfigLoader } = require("../../../lib/config/config-loader");
+
+                    sinon.stub(ConfigLoader, "loadJiti").rejects();
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
+
+                    await assert.rejects(
+                        eslint.lintText("foo();"),
+                        { message: "The 'jiti' library is required for loading TypeScript configuration files. Make sure to install it." }
+                    );
+                });
+
+                it("should fail to load a TS config file if an outdated version of jiti is installed", async () => {
+
+                    const { ConfigLoader } = require("../../../lib/config/config-loader");
+
+                    sinon.stub(ConfigLoader, "loadJiti").resolves({});
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags
+                    });
+
+                    await assert.rejects(
+                        eslint.lintText("foo();"),
+                        { message: "You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features." }
+                    );
+                });
+
+                it("should fail to load a CommonJS TS config file that exports undefined with a helpful error message", async () => {
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: tsFlags,
+                        overrideConfigFile: "eslint.undefined.config.ts"
+                    });
+
+                    await assert.rejects(
+                        eslint.lintText("foo"),
+                        { message: "Config (unnamed): Unexpected undefined config at user-defined index 0." }
+                    );
+
+                });
+
             });
 
             it("should pass BOM through processors", async () => {
@@ -1470,6 +1526,7 @@ describe("ESLint", () => {
 
                 it("should throw if eslint.config.js file is not present even if overrideConfig was passed", async () => {
                     eslint = new ESLint({
+                        flags,
                         cwd: getFixturePath(".."),
                         overrideConfig: {
                             rules: {
@@ -1477,11 +1534,12 @@ describe("ESLint", () => {
                             }
                         }
                     });
-                    await assert.rejects(() => eslint.lintFiles("fixtures/undef*.js"), /Could not find config file/u);
+                    await assert.rejects(() => eslint.lintFiles("no-config/no-config-file/*.js"), /Could not find config file/u);
                 });
 
                 it("should throw if eslint.config.js file is not present even if overrideConfig was passed and a file path is given", async () => {
                     eslint = new ESLint({
+                        flags,
                         cwd: getFixturePath(".."),
                         overrideConfig: {
                             rules: {
@@ -1489,7 +1547,7 @@ describe("ESLint", () => {
                             }
                         }
                     });
-                    await assert.rejects(() => eslint.lintFiles("fixtures/undef.js"), /Could not find config file/u);
+                    await assert.rejects(() => eslint.lintFiles("no-config/no-config-file/foo.js"), /Could not find config file/u);
                 });
 
                 it("should not throw if eslint.config.js file is not present and overrideConfigFile is `true`", async () => {
@@ -4588,7 +4646,7 @@ describe("ESLint", () => {
                 });
             });
 
-            it("should throw if non-boolean value is given to 'options.warnIgnored' option", async () => {
+            it("should throw if an invalid value is given to 'patterns' argument", async () => {
                 eslint = new ESLint({ flags });
                 await assert.rejects(() => eslint.lintFiles(777), /'patterns' must be a non-empty string or an array of non-empty strings/u);
                 await assert.rejects(() => eslint.lintFiles([null]), /'patterns' must be a non-empty string or an array of non-empty strings/u);
@@ -5753,6 +5811,61 @@ describe("ESLint", () => {
 
                 });
 
+                it("should fail to load a TS config file if jiti is not installed", async () => {
+
+                    const { ConfigLoader } = require("../../../lib/config/config-loader");
+
+                    sinon.stub(ConfigLoader, "loadJiti").rejects();
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: newFlags
+                    });
+
+                    await assert.rejects(
+                        eslint.lintFiles("foo.js"),
+                        { message: "The 'jiti' library is required for loading TypeScript configuration files. Make sure to install it." }
+                    );
+                });
+
+                it("should fail to load a TS config file if an outdated version of jiti is installed", async () => {
+
+                    const { ConfigLoader } = require("../../../lib/config/config-loader");
+
+                    sinon.stub(ConfigLoader, "loadJiti").resolves({});
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: newFlags
+                    });
+
+                    await assert.rejects(
+                        eslint.lintFiles("foo.js"),
+                        { message: "You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features." }
+                    );
+                });
+
+                it("should fail to load a CommonJS TS config file that exports undefined with a helpful error message", async () => {
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    eslint = new ESLint({
+                        cwd,
+                        flags: newFlags,
+                        overrideConfigFile: "eslint.undefined.config.ts"
+                    });
+
+                    await assert.rejects(
+                        eslint.lintFiles("foo.js"),
+                        { message: "Config (unnamed): Unexpected undefined config at user-defined index 0." }
+                    );
+
+                });
+
             });
 
             it("should stop linting files if a rule crashes", async () => {
@@ -5831,20 +5944,6 @@ describe("ESLint", () => {
             });
 
             describe("with lintFiles", () => {
-                it("should not fix any rules when fixTypes is used without fix", async () => {
-                    eslint = new ESLint({
-                        flags,
-                        cwd: path.join(fixtureDir, ".."),
-                        overrideConfigFile: true,
-                        fix: false,
-                        fixTypes: ["layout"]
-                    });
-                    const inputPath = getFixturePath("fix-types/fix-only-semi.js");
-                    const results = await eslint.lintFiles([inputPath]);
-
-                    assert.strictEqual(results[0].output, void 0);
-                });
-
                 it("should not fix any rules when fixTypes is used without fix", async () => {
                     eslint = new ESLint({
                         flags,

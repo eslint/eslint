@@ -54,9 +54,9 @@ Options that accept multiple values can be specified by repeating the option or 
 Examples of options that accept multiple values:
 
 ```shell
-npx eslint --ext .jsx --ext .js lib/
+npx eslint --global describe --global it tests/
 # OR
-npx eslint --ext .jsx,.js lib/
+npx eslint --global describe,it tests/
 ```
 
 ## Options

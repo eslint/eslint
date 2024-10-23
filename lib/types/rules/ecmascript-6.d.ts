@@ -52,6 +52,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require parentheses around arrow function arguments.
      *
      * @since 1.0.0-rc-1
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/arrow-parens) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/arrow-parens
      */
     "arrow-parens":
@@ -72,6 +73,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to enforce consistent spacing before and after the arrow in arrow functions.
      *
      * @since 1.0.0-rc-1
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/arrow-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/arrow-spacing
      */
     "arrow-spacing": Linter.RuleEntry<[]>;
@@ -91,6 +93,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to enforce consistent spacing around `*` operators in generator functions.
      *
      * @since 0.17.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/generator-star-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/generator-star-spacing
      */
     "generator-star-spacing": Linter.RuleEntry<
@@ -168,6 +171,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to disallow arrow functions where they could be confused with comparisons.
      *
      * @since 2.0.0-alpha-2
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-confusing-arrow) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/no-confusing-arrow
      */
     "no-confusing-arrow": Linter.RuleEntry<
@@ -546,6 +550,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to enforce spacing between rest and spread operators and their expressions.
      *
      * @since 2.12.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/rest-spread-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/rest-spread-spacing
      */
     "rest-spread-spacing": Linter.RuleEntry<["never" | "always"]>;
@@ -595,6 +600,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require or disallow spacing around embedded expressions of template strings.
      *
      * @since 2.0.0-rc.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/template-curly-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/template-curly-spacing
      */
     "template-curly-spacing": Linter.RuleEntry<["never" | "always"]>;
@@ -603,6 +609,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require or disallow spacing around the `*` in `yield*` expressions.
      *
      * @since 2.0.0-alpha-1
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/yield-star-spacing) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/yield-star-spacing
      */
     "yield-star-spacing": Linter.RuleEntry<

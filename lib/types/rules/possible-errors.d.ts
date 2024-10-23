@@ -280,6 +280,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Rule to disallow unnecessary parentheses.
      *
      * @since 0.1.4
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-extra-parens) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/no-extra-parens
      */
     "no-extra-parens":
@@ -319,6 +320,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.0.9
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-extra-semi) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/no-extra-semi
      */
     "no-extra-semi": Linter.RuleEntry<[]>;

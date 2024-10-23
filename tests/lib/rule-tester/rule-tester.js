@@ -13,6 +13,8 @@ const sinon = require("sinon"),
     assert = require("chai").assert,
     nodeAssert = require("node:assert");
 
+const jsonPlugin = require("@eslint/json").default;
+
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
@@ -1522,10 +1524,33 @@ describe("RuleTester", () => {
                         errors: 1
                     }]
                 });
-            }, /Parser must be an object with a parse\(\) or parseForESLint\(\) method/u);
+            }, /Key "languageOptions": Key "parser": Expected object with parse\(\) or parseForESLint\(\) method\./u);
 
         });
 
+    });
+
+    describe("Languages", () => {
+        it("should work with a language that doesn't have language options", () => {
+            const ruleTesterJsonLanguage = new RuleTester({
+                plugins: {
+                    json: jsonPlugin
+                },
+                language: "json/json"
+            });
+
+            ruleTesterJsonLanguage.run("no-empty-keys", jsonPlugin.rules["no-empty-keys"], {
+                valid: [
+                    '{"foo": 1, "bar": 2}'
+                ],
+                invalid: [
+                    {
+                        code: '{"": 1}',
+                        errors: [{ messageId: "emptyKey" }]
+                    }
+                ]
+            });
+        });
     });
 
     it("should throw an error with the original message and an additional description if rule has `meta.schema` of an invalid type", () => {
