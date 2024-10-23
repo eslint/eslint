@@ -32,6 +32,8 @@ const { shouldUseFlatConfig } = require("../../../lib/eslint/eslint");
 const { defaultConfig } = require("../../../lib/config/default-config");
 const coreRules = require("../../../lib/rules");
 const espree = require("espree");
+const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
+const findUp = require("find-up");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -1460,6 +1462,49 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].messages.length, 0);
                 assert.strictEqual(results[1].messages.length, 0);
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
+            });
+
+            it("should lookup config file only once and create config array only once when linting multiple files in same directory", async () => {
+                let configLookupCount = 0;
+                let configArrayCreatedCount = 0;
+
+                const MyFlatConfigArray = class extends FlatConfigArray {
+                    constructor(...args) {
+                        configArrayCreatedCount++;
+                        super(...args);
+                    }
+                };
+
+                const configLoaders = proxyquire("../../../lib/config/config-loader", {
+                    "./flat-config-array": {
+                        FlatConfigArray: MyFlatConfigArray
+                    },
+                    "find-up"(...args) {
+                        configLookupCount++;
+                        return findUp(...args);
+                    }
+                });
+                const { ESLint: LocalESLint } = proxyquire("../../../lib/eslint/eslint", {
+                    "../config/config-loader": configLoaders
+                });
+
+                eslint = new LocalESLint({
+                    flags,
+                    cwd: path.resolve(originalDir, "tests/fixtures/simple-valid-project-2")
+                });
+                const results = await eslint.lintFiles([
+                    "foo.js",
+                    "bar.js"
+                ]);
+
+                assert.strictEqual(results.length, 2);
+                assert.strictEqual(results[0].messages.length, 0);
+                assert.strictEqual(results[0].suppressedMessages.length, 0);
+                assert.strictEqual(results[1].messages.length, 0);
+                assert.strictEqual(results[1].suppressedMessages.length, 0);
+
+                assert.strictEqual(configLookupCount, 1, "Exactly one config lookup shoud be performed");
+                assert.strictEqual(configArrayCreatedCount, 1, "Exactly one config array should be created");
             });
 
             it("should report zero messages when given a config file and a valid file and espree as parser", async () => {
