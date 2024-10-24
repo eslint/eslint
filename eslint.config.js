@@ -70,6 +70,9 @@ function createInternalFilesPatterns(pattern = null) {
         }));
 }
 
+/**
+ * @type {import("eslint").Linter.Config[]}
+ */
 module.exports = [
     ...eslintConfigESLintCJS.map(config => ({
         ...config,
@@ -292,11 +295,11 @@ module.exports = [
     })),
     {
         name: "eslint/ts-rules",
-        files: ["tests/lib/types/*.ts"],
+        files: ["tests/lib/types/*.ts", "packages/eslint-config-eslint/**/*.{ts,mts,cts,tsx}"],
         languageOptions: {
             parser: tsParser,
             parserOptions: {
-                project: "tests/lib/types/tsconfig.json"
+                project: ["tests/lib/types/tsconfig.json", "packages/eslint-config-eslint/tsconfig.json"]
             }
         },
         plugins: {

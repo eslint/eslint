@@ -116,6 +116,12 @@ jobs:
   test_types:
     name: Types Test
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        package:
+          [{ name: eslint-config-eslint, directory: packages/eslint-config-eslint }]
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -123,5 +129,11 @@ jobs:
           node-version: "lts/*"
       - name: Install Packages
         run: npm install
-      - name: Test
+
+      - name: Install Packages for ${{ matrix.package.name }}
+        working-directory: ${{ matrix.package.directory }}
+        run: npm install
+
+      - name: Test types for ${{ matrix.package.name }}
+        working-directory: ${{ matrix.package.directory }}
         run: npm run test:types
