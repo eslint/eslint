@@ -6778,6 +6778,73 @@ describe("ESLint", () => {
                 });
             });
 
+            it("should throw an error when this instance has not finished linting yet", async () => {
+                const cwd = path.resolve(originalDir, "tests/fixtures/simple-valid-project-2");
+
+                let engine; // eslint-disable-line prefer-const -- need to declare here to avoid no-use-before-define error
+                let error;
+
+                const MyFlatConfigArray = class extends FlatConfigArray {
+                    constructor(...args) {
+                        super(...args);
+                        process.nextTick(() => {
+                            try {
+                                engine.getRulesMetaForResults([
+                                    {
+                                        filePath: path.resolve(cwd, "foo.js"),
+                                        messages: [{
+                                            ruleId: "quotes",
+                                            severity: 2,
+                                            message: "Strings must use doublequote.",
+                                            line: 1,
+                                            column: 9,
+                                            nodeType: "Literal",
+                                            messageId: "wrongQuotes",
+                                            endLine: 1,
+                                            endColumn: 12,
+                                            fix: { range: [8, 11], text: "\"b\"" }
+                                        }],
+                                        suppressedMessages: [],
+                                        errorCount: 1,
+                                        warningCount: 0,
+                                        fatalErrorCount: 0,
+                                        fixableErrorCount: 1,
+                                        fixableWarningCount: 0,
+                                        source: "var a = 'b';\n"
+                                    }
+                                ]);
+                            } catch (e) {
+                                error = e;
+                            }
+                        });
+                    }
+                };
+
+                const configLoaders = proxyquire("../../../lib/config/config-loader", {
+                    "./flat-config-array": {
+                        FlatConfigArray: MyFlatConfigArray
+                    }
+                });
+                const { ESLint: LocalESLint } = proxyquire("../../../lib/eslint/eslint", {
+                    "../config/config-loader": configLoaders
+                });
+
+                engine = new LocalESLint({
+                    flags,
+                    cwd,
+                    overrideConfig: {
+                        rules: {
+                            quotes: ["error", "double"]
+                        }
+                    }
+                });
+
+                await engine.lintFiles(["foo.js"]);
+
+                assert(error, "An error was expected");
+                assert.strictEqual(error.message, "Results object was not created from this ESLint instance.");
+            });
+
             it("should throw an error when results were created from a different instance", async () => {
                 const engine1 = new ESLint({
                     flags,
