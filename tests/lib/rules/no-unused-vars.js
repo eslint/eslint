@@ -2523,6 +2523,14 @@ try {
             code: "with (a) var foo;",
             languageOptions: { ecmaVersion: 6 },
             errors: [definedError("foo", [{ output: "with (a) ;", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "var a;'use strict';b(00);",
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "defined", additional: "" } }]
+        },
+        {
+            code: "console.log('foo')\nvar a\n+b > 0 ? bar() : baz()",
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "defined", additional: "" } }]
         }
     ]
 });
