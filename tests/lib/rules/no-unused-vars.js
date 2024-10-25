@@ -2529,8 +2529,33 @@ try {
             errors: [{ messageId: "unusedVar", data: { varName: "a", action: "defined", additional: "" } }]
         },
         {
+            code: "var [a] = foo;'use strict';b(00);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" }, suggestions: [] }]
+        },
+        {
+            code: "var [...a] = foo;'use strict';b(00);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" }, suggestions: [] }]
+        },
+        {
+            code: "var {a} = foo;'use strict';b(00);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" }, suggestions: [] }]
+        },
+        {
             code: "console.log('foo')\nvar a\n+b > 0 ? bar() : baz()",
             errors: [{ messageId: "unusedVar", data: { varName: "a", action: "defined", additional: "" } }]
+        },
+        {
+            code: "console.log('foo')\nvar [a] = foo;\n+b > 0 ? bar() : baz()",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" } }]
+        },
+        {
+            code: "console.log('foo')\nvar {a} = foo;\n+b > 0 ? bar() : baz()",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" } }]
         }
     ]
 });
