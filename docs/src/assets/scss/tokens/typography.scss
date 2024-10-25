@@ -1,5 +1,10 @@
 /* @link https://utopia.fyi/type/calculator?c=320,16,1.125,1280,16,1.25,6,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l */
 
+@font-face {
+    font-family: "Inter Variable";
+    src: url(../fonts/Inter/Inter-VariableFont_slnt\,wght.ttf) format("woff");
+}
+
 @media screen and (min-width: 1280px) {
     :root {
         --fluid-screen: calc(var(--fluid-max-width) * 1px);
