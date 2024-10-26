@@ -55,7 +55,6 @@ const preWrapperPlugin = (md, options) => {
         return (
             `<div class="language-${lang} ${active}" style="position: relative">` +
             `<button title="${options.codeCopyButtonTitle}" class="c-btn c-btn--secondary c-btn--copy"></button>` +
-            `<span class="lang">${lang}</span>` +
             fence(...args) +
             '</div>'
         )
