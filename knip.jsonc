@@ -34,7 +34,9 @@
             "ignore": ["src/assets/js/search.js", "_examples/**"]
         },
         // Workspaces with default configs:
-        "packages/*": {},
+        "packages/*": {
+            "ignore": ["tests/types/**"]
+        },
         "tools/internal-rules": {}
     }
 }

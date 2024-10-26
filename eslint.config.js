@@ -292,11 +292,11 @@ module.exports = [
     })),
     {
         name: "eslint/ts-rules",
-        files: ["tests/lib/types/*.ts"],
+        files: ["tests/lib/types/*.ts", "packages/**/**/*.{ts,mts,cts,tsx}"],
         languageOptions: {
             parser: tsParser,
             parserOptions: {
-                project: "tests/lib/types/tsconfig.json"
+                project: ["tests/lib/types/tsconfig.json", "packages/js/tests/types/tsconfig.json"]
             }
         },
         plugins: {
