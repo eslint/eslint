@@ -8,7 +8,6 @@
     width: 40px;
     height: 40px;
     background-color: var(--color-neutral-200);
-    opacity: 0;
     cursor: pointer;
     background-image: url("/docs/head/assets/images/icons/copy.svg");
     background-position: 50%;
@@ -18,11 +17,6 @@
         border-color 0.25s,
         background-color 0.25s,
         opacity 0.25s;
-}
-
-[class*="language-"]:hover > .c-btn--copy,
-[class*="language-"] > .c-btn--copy:focus {
-    opacity: 1;
 }
 
 [class*="language-"] > .c-btn--copy:hover,
