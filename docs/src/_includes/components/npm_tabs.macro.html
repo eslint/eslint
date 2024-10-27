@@ -39,7 +39,7 @@ pnpm {{ globals.toPnpmCommands[params.command] | safe }}{% for arg in params.arg
 
 ```shell
 {% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
-bun {{ globals.toBunCommands[params.command] | safe }}{% for arg in params.args %} {{ globals.toBunArgs[arg] | safe }}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
+bun {{ conversions.toBunCommands[params.command] | safe }}{% for arg in params.args %} {{ conversions.toBunArgs[arg] | safe }}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
 ```
 
    </div>
