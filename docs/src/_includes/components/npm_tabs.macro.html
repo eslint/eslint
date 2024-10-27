@@ -12,7 +12,7 @@
 
 ```shell
 {% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
-npm {{ globals.toNpmCommands[params.command] | safe }}{% for arg in params.args %} {{ globals.toNpmArgs[arg] | safe }}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
+npm {{ conversions.toNpmCommands[params.command] | safe }}{% for arg in params.args %} {{ conversions.toNpmArgs[arg] | safe }}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
 ```
 
    </div>
