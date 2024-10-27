@@ -29,7 +29,7 @@ yarn {% if params.args.includes("--global") %}{{ conversions.toYarnArgs["--globa
 
 ```shell
 {% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
-pnpm {{ globals.toPnpmCommands[params.command] | safe }}{% for arg in params.args %} {{ globals.toPnpmArgs[arg] | safe}}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
+pnpm {{ conversions.toPnpmCommands[params.command] | safe }}{% for arg in params.args %} {{ conversions.toPnpmArgs[arg] | safe}}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
 ```
 
    </div>
