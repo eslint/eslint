@@ -1,8 +1,9 @@
 {
   "name": "eslint",
-  "version": "9.12.0",
+  "version": "9.13.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
+  "type": "commonjs",
   "bin": {
     "eslint": "./bin/eslint.js"
   },
@@ -99,9 +100,9 @@
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.11.0",
     "@eslint/config-array": "^0.18.0",
-    "@eslint/core": "^0.6.0",
+    "@eslint/core": "^0.7.0",
     "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "9.12.0",
+    "@eslint/js": "9.13.0",
     "@eslint/plugin-kit": "^0.2.0",
     "@humanfs/node": "^0.16.5",
     "@humanwhocodes/module-importer": "^1.0.1",
@@ -167,7 +168,7 @@
     "got": "^11.8.3",
     "gray-matter": "^4.0.3",
     "jiti": "^2.1.0",
-    "knip": "^5.21.0",
+    "knip": "^5.32.0",
     "lint-staged": "^11.0.0",
     "load-perf": "^0.2.0",
     "markdown-it": "^12.2.0",

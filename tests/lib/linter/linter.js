@@ -22,6 +22,10 @@ const jslang = require("../../../lib/languages/js");
 const Traverser = require("../../../lib/shared/traverser");
 const { LATEST_ECMA_VERSION } = require("../../../conf/ecma-version");
 
+// In Node.js, `jsonPluginPackage.default` is the plugin. In the browser test, `jsonPluginPackage` is the plugin.
+const jsonPluginPackage = require("@eslint/json");
+const jsonPlugin = jsonPluginPackage.default || jsonPluginPackage;
+
 //------------------------------------------------------------------------------
 // Constants
 //------------------------------------------------------------------------------
@@ -16766,6 +16770,31 @@ var a = "test2";
     });
 
     describe("Languages", () => {
+
+        describe("With a language that doesn't have language options", () => {
+            const config = {
+                files: ["**/*.json"],
+                plugins: {
+                    json: jsonPlugin
+                },
+                language: "json/json",
+                rules: {
+                    "json/no-empty-keys": 1
+                }
+            };
+
+            it("linter.verify() should work", () => {
+                const messages = linter.verify('{ "": 42 }', config, { filename: "foo.json" });
+
+                assert.strictEqual(messages.length, 1);
+
+                const [message] = messages;
+
+                assert.strictEqual(message.ruleId, "json/no-empty-keys");
+                assert.strictEqual(message.severity, 1);
+                assert.strictEqual(message.messageId, "emptyKey");
+            });
+        });
 
         describe("With a language that has 0-based lines and 1-based columns", () => {
 

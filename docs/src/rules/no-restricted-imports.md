@@ -694,6 +694,40 @@ import isEmpty, { hasValue } from 'utils/collection-utils';
 
 :::
 
+You can also use this option to allow only side-effect imports by setting it to a pattern that matches any name, such as `^`.
+
+Examples of **incorrect** code for `importNamePattern` option:
+
+::: incorrect { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNamePattern: "^"
+}]}]*/
+
+import isEmpty, { hasValue } from 'utils/collection-utils';
+
+import * as file from 'utils/file-utils';
+```
+
+:::
+
+Examples of **correct** code for `importNamePattern` option:
+
+::: correct { "sourceType": "module" }
+
+```js
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["utils/*"],
+    importNamePattern: "^"
+}]}]*/
+
+import 'utils/init-utils';
+```
+
+:::
+
 #### allowImportNamePattern
 
 This is a string option. Inverse of `importNamePattern`, this option allows imports that matches the specified regex pattern. So it restricts all imports from a module, except specified allowed patterns.

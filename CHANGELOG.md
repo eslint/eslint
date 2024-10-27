@@ -1,3 +1,25 @@
+v9.13.0 - October 18, 2024
+
+* [`68d2d9d`](https://github.com/eslint/eslint/commit/68d2d9dfd63401b6a9b413f11ac2c4b583e4897a) chore: upgrade to `@eslint/js@9.13.0` and `@eslint/core@^0.7.0` (#19034) (Francesco Trotta)
+* [`2211f0a`](https://github.com/eslint/eslint/commit/2211f0aeb350f55e1fa71d4df93d46bc1795789d) chore: package.json update for @eslint/js release (Jenkins)
+* [`381c32b`](https://github.com/eslint/eslint/commit/381c32b6975fa3208c62ca2b1052eb87182ed731) feat: Allow languages to provide `defaultLanguageOptions` (#19003) (Milos Djermanovic)
+* [`78836d4`](https://github.com/eslint/eslint/commit/78836d40ebd3881e527075a991da4cbb0ff9adfc) fix: update the `complexity` rule type (#19027) (Nitin Kumar)
+* [`c7abaef`](https://github.com/eslint/eslint/commit/c7abaef5332caf4b6251c9550a81a9c29bf324fd) perf: using Node.js compile cache (#19012) (唯然)
+* [`bf723bd`](https://github.com/eslint/eslint/commit/bf723bd0f948dbfef57f9b34ff894e7603aeaf88) feat: Improve eslintrc warning message (#19023) (Milos Djermanovic)
+* [`1d7c077`](https://github.com/eslint/eslint/commit/1d7c077145d070aa7754018b29b038ce2e0c8b0e) chore: add pkg.type "commonjs" (#19011) (唯然)
+* [`abdbfa8`](https://github.com/eslint/eslint/commit/abdbfa83907712d0d44a35aeed4e0ea7bf106740) docs: mark `LintMessage#nodeType` as deprecated (#19019) (Nitin Kumar)
+* [`468e3bd`](https://github.com/eslint/eslint/commit/468e3bdadfdf5f197a44efd6c8dc5cf2b241f964) test: fix `ESLint` tests (#19021) (Francesco Trotta)
+* [`19e68d3`](https://github.com/eslint/eslint/commit/19e68d3f3a86cf23e5c98eaf8736eeaa33f194f4) docs: update deprecated rules type definitions (#19018) (Nitin Kumar)
+* [`1def4cd`](https://github.com/eslint/eslint/commit/1def4cdfab1f067c5089df8b36242cdf912b0eb6) feat: drop support for jiti v1.21 (#18996) (Francesco Trotta)
+* [`7dd402d`](https://github.com/eslint/eslint/commit/7dd402d33226d821a17b22c4753ce9c40fc909bd) docs: Update examples of passing multiple values to a CLI option (#19006) (Milos Djermanovic)
+* [`064c8b6`](https://github.com/eslint/eslint/commit/064c8b612e2e4b773d6b25867f2045e3ceaa9d66) fix: update rule types (#18925) (Nitin Kumar)
+* [`f879be2`](https://github.com/eslint/eslint/commit/f879be240ca7ddf485b700df0eb93985ccb1db45) feat: export `ESLint.defaultConfig` (#18983) (Nitin Kumar)
+* [`5dcbc51`](https://github.com/eslint/eslint/commit/5dcbc519b729698be651bdbddb39da774cb70bf1) docs: Add example with side-effect imports to no-restricted-imports (#18997) (Milos Djermanovic)
+* [`ed4635f`](https://github.com/eslint/eslint/commit/ed4635fa0e4fb91705223a7d9c230b6e9a87cd4c) ci: upgrade knip@5.32.0 (#18992) (Milos Djermanovic)
+* [`efad767`](https://github.com/eslint/eslint/commit/efad76732170a9a7db2e056a8d9a0cf503448c48) chore: remove unused ignore dependency (#18993) (Amaresh  S M)
+* [`1ee87ca`](https://github.com/eslint/eslint/commit/1ee87ca1c50018947e76c29e78da9aaf711f53a2) docs: Update README (GitHub Actions Bot)
+* [`2c3dbdc`](https://github.com/eslint/eslint/commit/2c3dbdc2319fcf2f65c2de13f9064c5a315be890) docs: Use prerendered sponsors for README (#18988) (Milos Djermanovic)
+
 v9.12.0 - October 4, 2024
 
 * [`555aafd`](https://github.com/eslint/eslint/commit/555aafd06f6dddc743acff06111dc72dd8ea4c4e) chore: upgrade to `@eslint/js@9.12.0` (#18987) (Francesco Trotta)

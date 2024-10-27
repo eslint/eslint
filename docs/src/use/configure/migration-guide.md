@@ -546,7 +546,7 @@ For more information about the `FlatCompat` class, please see the [package READM
 
 With eslintrc, you can make ESLint ignore files by creating a separate `.eslintignore` file in the root of your project. The `.eslintignore` file uses the same glob pattern syntax as `.gitignore` files. Alternatively, you can use an `ignorePatterns` property in your eslintrc file.
 
-To ignore files with flat config, you can use the `ignores` property in a config object. The `ignores` property accepts an array of glob patterns. Flat config does not support loading ignore patterns from `.eslintignore` files, so you'll need to migrate those patterns directly into flat config.
+To ignore files with flat config, you can use the `ignores` property in a config object with no other properties. The `ignores` property accepts an array of glob patterns. Flat config does not support loading ignore patterns from `.eslintignore` files, so you'll need to migrate those patterns directly into flat config.
 
 For example, here's a `.eslintignore` example you can use with an eslintrc config:
 
@@ -573,6 +573,7 @@ The equivalent ignore patterns in flat config look like this:
 export default [
     // ...other config
     {
+        // Note: there should be no other properties in this object
         ignores: ["**/temp.js", "config/*"]
     }
 ];
@@ -695,9 +696,9 @@ The following changes have been made from the eslintrc to the flat config file f
 
 ## TypeScript Types for Flat Config Files
 
-You can see the TypeScript types for the flat config file format in the DefinitelyTyped project. The interface for the objects in the config’s array is called the `FlatConfig`.
+You can see the TypeScript types for the flat config file format in the [`lib/types` source folder on GitHub](https://github.com/eslint/eslint/tree/main/lib/types). The interface for the objects in the config’s array is called `Linter.Config`.
 
-You can view the type definitions in the [DefinitelyTyped repository on GitHub](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/eslint/index.d.ts).
+You can view the type definitions in [`lib/types/index.d.ts`](https://github.com/eslint/eslint/blob/main/lib/types/index.d.ts).
 
 ## Visual Studio Code Support
 

@@ -1179,6 +1179,9 @@ export namespace Linter {
         ruleId: string | null;
         message: string;
         messageId?: string | undefined;
+        /**
+         * @deprecated `nodeType` is deprecated and will be removed in the next major version.
+         */
         nodeType?: string | undefined;
         fatal?: true | undefined;
         severity: Exclude<Severity, 0>;
@@ -1395,6 +1398,12 @@ export class ESLint {
     static configType: "flat";
 
     static readonly version: string;
+
+    /**
+     * The default configuration that ESLint uses internally. This is provided for tooling that wants to calculate configurations using the same defaults as ESLint.
+     * Keep in mind that the default configuration may change from version to version, so you shouldn't rely on any particular keys or values to be present.
+     */
+    static readonly defaultConfig: Linter.Config[];
 
     static outputFixes(results: ESLint.LintResult[]): Promise<void>;
 
@@ -1655,6 +1664,9 @@ export namespace RuleTester {
     interface TestCaseError {
         message?: string | RegExp;
         messageId?: string;
+        /**
+         * @deprecated `type` is deprecated and will be removed in the next major version.
+         */
         type?: string | undefined;
         data?: any;
         line?: number | undefined;

@@ -9,6 +9,11 @@
 
 "use strict";
 
+const mod = require("node:module");
+
+// to use V8's code cache to speed up instantiation time
+mod.enableCompileCache?.();
+
 // must do this initialization *before* other requires in order to work
 if (process.argv.includes("--debug")) {
     require("debug").enable("eslint:*,-eslint:code-path,eslintrc:*");

@@ -75,7 +75,7 @@ Examples of options that accept multiple values:
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--ext", ".jsx", "--ext", ".js",  "lib/"],
+    args: ["--global", "describe", "--global", "it",  "tests/"],
     comment: null
 }) }}
 
@@ -83,7 +83,7 @@ OR
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--ext", ".jsx,.js", "lib/"],
+    args: ["--global", "describe,it", "tests/"],
     comment: null
 }) }}
 
