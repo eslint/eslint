@@ -38,6 +38,7 @@ type NoRestrictedImportPatternCommonOptions = {
     caseSensitive?: boolean;
 }
 
+// Adds oneOf and not constraints, ensuring group or regex are present and mutually exclusive sets for importNames, allowImportNames, etc., as per the schema.
 type ValidNoRestrictedImportPatternOptions = NoRestrictedImportPatternCommonOptions & (
     | { group: string[]; regex?: never }
     | { regex: string; group?: never }
