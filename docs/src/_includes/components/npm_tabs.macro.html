@@ -21,7 +21,7 @@ npm {{ conversions.toNpmCommands[params.command] | safe }}{% for arg in params.a
 
 ```shell
 {% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
-yarn {% if params.args.includes("--global") %}{{ globals.toYarnArgs["--global"] | safe }} {% endif -%} {{ globals.toYarnCommands[params.command] | safe }}{% for arg in params.args %}{% if arg !== "--global" %} {{ globals.toYarnArgs[arg] | safe }}{% endif -%}{% endfor %}{% for package in params.packages %} {{ package.replace("@eslint/config@latest", "@eslint/config") | safe }}{% endfor %}
+yarn {% if params.args.includes("--global") %}{{ conversions.toYarnArgs["--global"] | safe }} {% endif -%} {{ conversions.toYarnCommands[params.command] | safe }}{% for arg in params.args %}{% if arg !== "--global" %} {{ conversions.toYarnArgs[arg] | safe }}{% endif -%}{% endfor %}{% for package in params.packages %} {{ package.replace("@eslint/config@latest", "@eslint/config") | safe }}{% endfor %}
 ```
 
    </div>
