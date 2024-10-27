@@ -313,31 +313,39 @@ export interface ECMAScript6 extends Linter.RulesRecord {
         [
             ...Array<
                 | string
-                | {
-                    name: string;
-                    message?: string;
-                    importNames?: string[];
-                    allowImportNames?: string[];
-                }
+                | ({
+                      name: string;
+                      message?: string;
+                      importNames?: string[];
+                      allowImportNames?: string[];
+                  } & (
+                      | { importNames?: string[]; allowImportNames?: never }
+                      | { allowImportNames?: string[]; importNames?: never }
+                  ))
                 | Partial<{
-                    paths: Array<
-                        | string
-                        | {
-                            name: string;
-                            message?: string;
-                            importNames?: string[];
-                            allowImportNames?: string[];
-                        } & (
-                            | { importNames?: string[]; allowImportNames?: never }
-                            | { allowImportNames?: string[]; importNames?: never }
-                        )
-                    >;
-                    patterns: Array<
-                    | string
-                    | ValidNoRestrictedImportPatternOptions
-                    >;
-                }>
-            >,
+                      paths: Array<
+                          | string
+                          | ({
+                                name: string;
+                                message?: string;
+                                importNames?: string[];
+                                allowImportNames?: string[];
+                            } & (
+                                | {
+                                      importNames?: string[];
+                                      allowImportNames?: never;
+                                  }
+                                | {
+                                      allowImportNames?: string[];
+                                      importNames?: never;
+                                  }
+                            ))
+                      >;
+                      patterns: Array<
+                          string | ValidNoRestrictedImportPatternOptions
+                      >;
+                  }>
+            >
         ]
     >;
 
