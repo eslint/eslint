@@ -27,6 +27,27 @@
 
 import { Linter } from "../index";
 
+type NoRestrictedImportPatternCommonOptions = {
+    importNames?: string[];
+    allowImportNames?: string[];
+    group?: string[];
+    regex?: string;
+    importNamePattern?: string;
+    allowImportNamePattern?: string;
+    message?: string;
+    caseSensitive?: boolean;
+}
+
+type ValidNoRestrictedImportPatternOptions = NoRestrictedImportPatternCommonOptions & (
+    | { group: string[]; regex?: never }
+    | { regex: string; group?: never }
+) & (
+    | { importNames: string[]; allowImportNames?: never; importNamePattern?: never; allowImportNamePattern?: never }
+    | { importNamePattern: string; allowImportNames?: never; importNames?: never; allowImportNamePattern?: never }
+    | { allowImportNames: string[]; importNames?: never; importNamePattern?: never; allowImportNamePattern?: never }
+    | { allowImportNamePattern: string; importNames?: never; allowImportNames?: never; importNamePattern?: never }
+);
+
 export interface ECMAScript6 extends Linter.RulesRecord {
     /**
      * Rule to require braces around arrow function bodies.
@@ -293,19 +314,27 @@ export interface ECMAScript6 extends Linter.RulesRecord {
                 | string
                 | {
                     name: string;
-                    importNames?: string[] | undefined;
-                    message?: string | undefined;
+                    message?: string;
+                    importNames?: string[];
+                    allowImportNames?: string[];
                 }
                 | Partial<{
                     paths: Array<
                         | string
                         | {
                             name: string;
-                            importNames?: string[] | undefined;
-                            message?: string | undefined;
-                        }
+                            message?: string;
+                            importNames?: string[];
+                            allowImportNames?: string[];
+                        } & (
+                            | { importNames?: string[]; allowImportNames?: never }
+                            | { allowImportNames?: string[]; importNames?: never }
+                        )
                     >;
-                    patterns: string[];
+                    patterns: Array<
+                    | string
+                    | ValidNoRestrictedImportPatternOptions
+                    >;
                 }>
             >,
         ]
