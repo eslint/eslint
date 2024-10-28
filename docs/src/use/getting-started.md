@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs.
