@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 The ESLint Command Line Interface (CLI) lets you execute linting from the terminal. The CLI has a variety of options that you can pass to configure ESLint.
