@@ -7,7 +7,7 @@ eleventyNavigation:
     order: 9
 ---
 
-{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 This guide provides an overview of how you can migrate your ESLint configuration file from the eslintrc format (typically configured in `.eslintrc.js` or `.eslintrc.json` files) to the new flat config format (typically configured in an `eslint.config.js` file).
