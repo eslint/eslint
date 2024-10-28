@@ -9,7 +9,7 @@ eleventyNavigation:
 ---
 
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
-{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
 
 ::: tip
 This page explains how to use flat config files. For the deprecated eslintrc format, [see the deprecated documentation](configuration-files-deprecated).
