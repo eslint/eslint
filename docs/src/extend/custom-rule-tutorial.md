@@ -7,7 +7,7 @@ eleventyNavigation:
     order: 1
 ---
 
-{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 This tutorial covers how to create a custom rule for ESLint and distribute it with a plugin.
