@@ -104,7 +104,7 @@
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "9.13.0",
     "@eslint/plugin-kit": "^0.2.0",
-    "@humanfs/node": "^0.16.5",
+    "@humanfs/node": "^0.16.6",
     "@humanwhocodes/module-importer": "^1.0.1",
     "@humanwhocodes/retry": "^0.3.1",
     "@types/estree": "^1.0.6",
