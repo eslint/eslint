@@ -7,7 +7,7 @@ eleventyNavigation:
     order: 1
 ---
 
-{%- from 'components/npm_tabs.macro.html' import npm_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
 
 This guide walks you through integrating the `ESLint` class to lint files and
 retrieve results, which can be useful for creating integrations with other
