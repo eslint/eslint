@@ -30,7 +30,7 @@
      "toPnpmArgs" : {
         "--global": "--global",
         "--save-dev": "--save-dev",
-        "-y": "-y",
+        "-y": "-y"
      } ,
      "toBunCommands" : {
         "install": "add",
