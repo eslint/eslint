@@ -112,7 +112,7 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
     args: ["--save-dev"]
 }) }}
 
-2. Add an `eslint.config.js` file:
+1. Add an `eslint.config.js` file:
 
    ```shell
    # Create JavaScript configuration file
