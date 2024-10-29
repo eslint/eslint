@@ -119,7 +119,7 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
    touch eslint.config.js
    ```
 
-3. Add configuration to the `eslint.config.js` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, custom configurations, plugins, and more.
+1. Add configuration to the `eslint.config.js` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, custom configurations, plugins, and more.
 
    ```js
    import js from "@eslint/js";
