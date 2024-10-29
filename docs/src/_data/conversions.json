@@ -1,7 +1,6 @@
 {
     "toNpmCommands": {
         "install": "install",
-        "test": "test",
         "run": "run",
         "init": "init",
         "init-create": "init"
@@ -10,12 +9,9 @@
         "--global": "--global",
         "--save-dev": "--save-dev",
         "-y": "-y",
-        "--": "--",
-        "--config": "--config"
     },
     "toYarnCommands": {
         "install": "add",
-        "test": "test",
         "run": "",
         "init": "init",
         "init-create": "create"
@@ -24,12 +20,9 @@
         "--global": "global",
         "--save-dev": "--dev",
         "-y": "-y",
-        "--": "--",
-        "--config": "--config"
      },
      "toPnpmCommands" : {
         "install": "add",
-        "test": "test",
         "run": "run",
         "init": "init",
         "init-create": "create"
@@ -38,12 +31,9 @@
         "--global": "--global",
         "--save-dev": "--save-dev",
         "-y": "-y",
-        "--": "--",
-        "--config": "--config"
      } ,
      "toBunCommands" : {
         "install": "add",
-        "test": "test",
         "run": "run",
         "init": "init",
         "init-create": "create"
@@ -52,7 +42,5 @@
         "--global": "--global",
         "--save-dev": "--dev",
         "-y": "-y",
-        "--": "--",
-        "--config": "--config"
      }
 }
