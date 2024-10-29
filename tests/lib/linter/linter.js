@@ -1471,7 +1471,7 @@ describe("Linter", () => {
                 }
             };
             const codeA = "/*eslint no-constant-condition: error */ while (true) {}";
-            const messages = linter.verify(codeA, config, filename, false);
+            const messages = linter.verify(codeA, config, filename);
 
             assert.deepStrictEqual(
                 messages,
@@ -1494,7 +1494,7 @@ describe("Linter", () => {
         it("rules should apply meta.defaultOptions when the rule is not configured", () => {
             const config = { rules: {} };
             const codeA = "/*eslint no-constant-condition: error */ while (true) {}";
-            const messages = linter.verify(codeA, config, filename, false);
+            const messages = linter.verify(codeA, config, filename);
 
             assert.deepStrictEqual(messages, []);
         });
