@@ -19,7 +19,7 @@
      "toYarnArgs": {
         "--global": "global",
         "--save-dev": "--dev",
-        "-y": "-y",
+        "-y": "-y"
      },
      "toPnpmCommands" : {
         "install": "add",
