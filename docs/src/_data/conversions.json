@@ -41,6 +41,6 @@
      "toBunArgs" : {
         "--global": "--global",
         "--save-dev": "--dev",
-        "-y": "-y",
+        "-y": "-y"
      }
 }
