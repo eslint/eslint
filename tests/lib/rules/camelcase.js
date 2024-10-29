@@ -445,6 +445,69 @@ ruleTester.run("camelcase", rule, {
             `,
             options: [{ properties: "never", ignoreDestructuring: true }],
             languageOptions: { ecmaVersion: 2022 }
+        },
+
+        // Import attribute keys
+        {
+            code: "import foo from 'foo.json' with { my_type: 'json' }",
+            options: [{
+                properties: "always",
+                ignoreImports: false
+            }],
+            languageOptions: { ecmaVersion: 2025, sourceType: "module" }
+        },
+        {
+            code: "export * from 'foo.json' with { my_type: 'json' }",
+            options: [{
+                properties: "always",
+                ignoreImports: false
+            }],
+            languageOptions: { ecmaVersion: 2025, sourceType: "module" }
+        },
+        {
+            code: "export { default } from 'foo.json' with { my_type: 'json' }",
+            options: [{
+                properties: "always",
+                ignoreImports: false
+            }],
+            languageOptions: { ecmaVersion: 2025, sourceType: "module" }
+        },
+        {
+            code: "import('foo.json', { my_with: { my_type: 'json' } })",
+            options: [{
+                properties: "always",
+                ignoreImports: false
+            }],
+            languageOptions: { ecmaVersion: 2025 }
+        },
+        {
+            code: "import('foo.json', { 'with': { my_type: 'json' } })",
+            options: [{
+                properties: "always",
+                ignoreImports: false
+            }],
+            languageOptions: { ecmaVersion: 2025 }
+        },
+        {
+            code: "import('foo.json', { my_with: { my_type } })",
+            options: [{
+                properties: "always",
+                ignoreImports: false
+            }],
+            languageOptions: { ecmaVersion: 2025 }
+        },
+        {
+            code: "import('foo.json', { my_with: { my_type } })",
+            options: [{
+                properties: "always",
+                ignoreImports: false
+            }],
+            languageOptions: {
+                ecmaVersion: 2025,
+                globals: {
+                    my_type: true // eslint-disable-line camelcase -- for testing
+                }
+            }
         }
     ],
     invalid: [
@@ -1517,6 +1580,38 @@ ruleTester.run("camelcase", rule, {
                     data: { name: "some_property" },
                     line: 8,
                     column: 27
+                }
+            ]
+        },
+
+        // Not an import attribute key
+        {
+            code: "import('foo.json', { my_with: { [my_type]: 'json' } })",
+            options: [{
+                properties: "always",
+                ignoreImports: false
+            }],
+            languageOptions: { ecmaVersion: 2025 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "my_type" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import('foo.json', { my_with: { my_type: my_json } })",
+            options: [{
+                properties: "always",
+                ignoreImports: false
+            }],
+            languageOptions: { ecmaVersion: 2025 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "my_json" },
+                    type: "Identifier"
                 }
             ]
         }
