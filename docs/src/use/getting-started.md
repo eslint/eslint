@@ -136,7 +136,7 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
    ];
    ```
 
-3. Lint code using the ESLint CLI:
+1. Lint code using the ESLint CLI:
 
 {{ npx_tabs({
     package: "eslint",
