@@ -231,6 +231,38 @@ ruleTester.run("id-denylist", rule, {
             code: "class C { snake_case; #snake_case; #snake_case2() {} }",
             options: ["foo"],
             languageOptions: { ecmaVersion: 2022 }
+        },
+
+        // Import attribute keys
+        {
+            code: "import foo from 'foo.json' with { type: 'json' }",
+            options: ["type"],
+            languageOptions: { ecmaVersion: 2025, sourceType: "module" }
+        },
+        {
+            code: "export * from 'foo.json' with { type: 'json' }",
+            options: ["type"],
+            languageOptions: { ecmaVersion: 2025, sourceType: "module" }
+        },
+        {
+            code: "export { default } from 'foo.json' with { type: 'json' }",
+            options: ["type"],
+            languageOptions: { ecmaVersion: 2025, sourceType: "module" }
+        },
+        {
+            code: "import('foo.json', { with: { type: 'json' } })",
+            options: ["with", "type"],
+            languageOptions: { ecmaVersion: 2025 }
+        },
+        {
+            code: "import('foo.json', { 'with': { type: 'json' } })",
+            options: ["type"],
+            languageOptions: { ecmaVersion: 2025 }
+        },
+        {
+            code: "import('foo.json', { with: { type } })",
+            options: ["type"],
+            languageOptions: { ecmaVersion: 2025 }
         }
     ],
     invalid: [
@@ -1429,6 +1461,32 @@ ruleTester.run("id-denylist", rule, {
                 }
             ]
 
+        },
+
+        // Not an import attribute key
+        {
+            code: "import('foo.json', { with: { [type]: 'json' } })",
+            options: ["type"],
+            languageOptions: { ecmaVersion: 2025 },
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "type" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import('foo.json', { with: { type: json } })",
+            options: ["json"],
+            languageOptions: { ecmaVersion: 2025 },
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "json" },
+                    type: "Identifier"
+                }
+            ]
         }
     ]
 });
