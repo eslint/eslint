@@ -1332,22 +1332,6 @@ describe("RuleTester", () => {
         });
     });
 
-    it("should allow setting the filename to a file path without extension", () => {
-        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
-            valid: [
-                {
-                    code: "var foo = 'bar'",
-                    filename: "somefile"
-                },
-                {
-                    code: "var foo = 'bar'",
-                    filename: "path/to/somefile"
-                }
-            ],
-            invalid: []
-        });
-    });
-
     it("should allow setting the filename to a file path with extension", () => {
         ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
             valid: [
@@ -1371,6 +1355,10 @@ describe("RuleTester", () => {
     it("should allow setting the filename to a file path without extension", () => {
         ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
             valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile"
+                },
                 {
                     code: "var foo = 'bar'",
                     filename: "path/to/somefile"
@@ -2233,6 +2221,11 @@ describe("RuleTester", () => {
                 {
                     code: "eval(foo)",
                     filename: "/an-absolute-path/foo.js",
+                    errors: [{ message: "eval sucks.", type: "CallExpression" }]
+                },
+                {
+                    code: "eval(bar)",
+                    filename: "C:\\an-absolute-path\\foo.js",
                     errors: [{ message: "eval sucks.", type: "CallExpression" }]
                 }
             ]

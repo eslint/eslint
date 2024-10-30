@@ -7780,10 +7780,12 @@ describe("Linter with FlatConfigArray", () => {
      * Creates a config array with some default properties.
      * @param {FlatConfig|FlatConfig[]} value The value to base the
      *      config array on.
+     * @param {{basePath: string, shouldIgnore: boolean, baseConfig: FlatConfig}} [options]
+     *      The options to use for the config array instance.
      * @returns {FlatConfigArray} The created config array.
      */
-    function createFlatConfigArray(value) {
-        return new FlatConfigArray(value);
+    function createFlatConfigArray(value, options) {
+        return new FlatConfigArray(value, options);
     }
 
     beforeEach(() => {
@@ -9146,7 +9148,7 @@ describe("Linter with FlatConfigArray", () => {
         });
 
         // https://github.com/eslint/eslint/issues/17669
-        it("should use `cwd` constructor option as config `basePath` when config is not an instance of FlatConfigArray", () => {
+        it("should use `cwd` constructor option as config `basePath` when config is not an instance of FlatConfigArray with Posix paths", () => {
             const rule = {
                 create(context) {
                     return {
@@ -9254,6 +9256,147 @@ describe("Linter with FlatConfigArray", () => {
             assert.strictEqual(messages[0].ruleId, "test/test-rule-1");
             assert.strictEqual(messages[1].ruleId, "test/test-rule-2");
             assert.strictEqual(messages[2].ruleId, "test/test-rule-3");
+        });
+
+        // https://github.com/eslint/eslint/issues/18575
+        it("should use `cwd` constructor option as config `basePath` when config is not an instance of FlatConfigArray with Windows paths", () => {
+            const rule = {
+                create(context) {
+                    return {
+                        Program(node) {
+                            context.report({ node, message: "Bad program." });
+                        }
+                    };
+                }
+            };
+
+            const code = "foo";
+            const config = [
+                {
+                    plugins: {
+                        test: {
+                            rules: {
+                                "test-rule-1": rule,
+                                "test-rule-2": rule,
+                                "test-rule-3": rule
+                            }
+                        }
+                    }
+                },
+                {
+                    rules: {
+                        "test/test-rule-1": 2
+                    }
+                },
+                {
+                    files: ["**/*.ts"],
+                    rules: {
+                        "test/test-rule-2": 2
+                    }
+                },
+                {
+                    files: ["bar/file.ts"],
+                    rules: {
+                        "test/test-rule-3": 2
+                    }
+                }
+            ];
+
+            const linterWithOptions = new Linter({
+                configType: "flat",
+                cwd: "C:\\foo"
+            });
+
+            let messages;
+
+            messages = linterWithOptions.verify(code, config, "C:\\file.js");
+            assert.strictEqual(messages.length, 1);
+            assert.deepStrictEqual(messages[0], {
+                ruleId: null,
+                severity: 1,
+                message: "No matching configuration found for C:\\file.js.",
+                line: 0,
+                column: 0,
+                nodeType: null
+            });
+
+            messages = linterWithOptions.verify(code, config, "C:\\file.ts");
+            assert.strictEqual(messages.length, 1);
+            assert.deepStrictEqual(messages[0], {
+                ruleId: null,
+                severity: 1,
+                message: "No matching configuration found for C:\\file.ts.",
+                line: 0,
+                column: 0,
+                nodeType: null
+            });
+
+            messages = linterWithOptions.verify(code, config, "D:\\foo\\file.js");
+            assert.strictEqual(messages.length, 1);
+            assert.deepStrictEqual(messages[0], {
+                ruleId: null,
+                severity: 1,
+                message: "No matching configuration found for D:\\foo\\file.js.",
+                line: 0,
+                column: 0,
+                nodeType: null
+            });
+
+            messages = linterWithOptions.verify(code, config, "D:\\foo\\file.ts");
+            assert.strictEqual(messages.length, 1);
+            assert.deepStrictEqual(messages[0], {
+                ruleId: null,
+                severity: 1,
+                message: "No matching configuration found for D:\\foo\\file.ts.",
+                line: 0,
+                column: 0,
+                nodeType: null
+            });
+
+            messages = linterWithOptions.verify(code, config, "C:\\foo\\file.js");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "test/test-rule-1");
+
+            messages = linterWithOptions.verify(code, config, "C:\\foo\\file.ts");
+            assert.strictEqual(messages.length, 2);
+            assert.strictEqual(messages[0].ruleId, "test/test-rule-1");
+            assert.strictEqual(messages[1].ruleId, "test/test-rule-2");
+
+            messages = linterWithOptions.verify(code, config, "C:\\foo\\bar\\file.ts");
+            assert.strictEqual(messages.length, 3);
+            assert.strictEqual(messages[0].ruleId, "test/test-rule-1");
+            assert.strictEqual(messages[1].ruleId, "test/test-rule-2");
+            assert.strictEqual(messages[2].ruleId, "test/test-rule-3");
+        });
+
+        it("should ignore external files with Posix paths", () => {
+            const configs = createFlatConfigArray(
+                { files: ["**/*.js"] },
+                { basePath: "/foo" }
+            );
+
+            configs.normalizeSync();
+            const messages1 = linter.verify("foo", configs, "/foo/bar.js", true);
+            const messages2 = linter.verify("foo", configs, "/bar.js", true);
+
+            assert.strictEqual(messages1.length, 0);
+            assert.strictEqual(messages2.length, 1);
+            assert.strictEqual(messages2[0].message, "No matching configuration found for /bar.js.");
+        });
+
+        it("should ignore external files with Windows paths", () => {
+            const configs = createFlatConfigArray(
+                { files: ["**/*.js"] },
+                { basePath: "C:\\foo" }
+            );
+
+            configs.normalizeSync();
+            const messages1 = linter.verify("foo", configs, "C:\\foo\\bar.js", true);
+            const messages2 = linter.verify("foo", configs, "D:\\foo\\bar.js", true);
+
+            assert.strictEqual(messages1.length, 0);
+            assert.strictEqual(messages2.length, 1);
+            assert.strictEqual(messages2[0].message, "No matching configuration found for D:\\foo\\bar.js.");
         });
 
         describe("Plugins", () => {
