@@ -322,7 +322,7 @@ module.exports = [
     // Excluding lint rules for third-party `text-table` code to keep it close to the original, avoiding refactoring.
     {
         name: "eslint/text-table",
-        files: ["lib/cli-engine/formatters/text-table.js"],
+        files: ["lib/shared/text-table.js"],
         rules: {
             "jsdoc/require-jsdoc": "off",
             "jsdoc/require-returns": "off",
