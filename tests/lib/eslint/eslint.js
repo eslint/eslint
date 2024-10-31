@@ -2937,6 +2937,83 @@ describe("ESLint", () => {
                     assert.strictEqual(results[0].messages[0].message, "Program is disallowed.");
                 });
 
+                // https://github.com/eslint/eslint/issues/18575
+                describe("on Windows", () => {
+                    if (process.platform !== "win32") {
+                        return;
+                    }
+
+                    let otherDriveLetter;
+                    const exec = util.promisify(require("node:child_process").exec);
+
+                    before(async () => {
+                        const substDir = getFixturePath();
+
+                        for (const driveLetter of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+                            try {
+                                await exec(`subst ${driveLetter}: "${substDir}"`);
+                            } catch {
+                                continue;
+                            }
+                            otherDriveLetter = driveLetter;
+                            break;
+                        }
+                        if (!otherDriveLetter) {
+                            throw Error("Unable to assign a virtual drive letter.");
+                        }
+                    });
+
+                    after(async () => {
+                        if (otherDriveLetter) {
+                            try {
+                                await exec(`subst /D ${otherDriveLetter}:`);
+                            } catch ({ message }) {
+                                throw new Error(`Unable to unassign virtual drive letter ${otherDriveLetter}: - ${message}`);
+                            }
+                        }
+                    });
+
+                    it("should return a warning when an explicitly given file is on a different drive", async () => {
+                        eslint = new ESLint({
+                            flags,
+                            overrideConfigFile: true,
+                            cwd: getFixturePath()
+                        });
+                        const filePath = `${otherDriveLetter}:\\passing.js`;
+                        const results = await eslint.lintFiles([filePath]);
+
+                        assert.strictEqual(results.length, 1);
+                        assert.strictEqual(results[0].filePath, filePath);
+                        assert.strictEqual(results[0].messages[0].severity, 1);
+                        assert.strictEqual(results[0].messages[0].message, "File ignored because outside of base path.");
+                        assert.strictEqual(results[0].errorCount, 0);
+                        assert.strictEqual(results[0].warningCount, 1);
+                        assert.strictEqual(results[0].fatalErrorCount, 0);
+                        assert.strictEqual(results[0].fixableErrorCount, 0);
+                        assert.strictEqual(results[0].fixableWarningCount, 0);
+                        assert.strictEqual(results[0].suppressedMessages.length, 0);
+                    });
+
+                    it("should not ignore an explicitly given file that is on the same drive as cwd", async () => {
+                        eslint = new ESLint({
+                            flags,
+                            overrideConfigFile: true,
+                            cwd: `${otherDriveLetter}:\\`
+                        });
+                        const filePath = `${otherDriveLetter}:\\passing.js`;
+                        const results = await eslint.lintFiles([filePath]);
+
+                        assert.strictEqual(results.length, 1);
+                        assert.strictEqual(results[0].filePath, filePath);
+                        assert.strictEqual(results[0].messages.length, 0);
+                        assert.strictEqual(results[0].errorCount, 0);
+                        assert.strictEqual(results[0].warningCount, 0);
+                        assert.strictEqual(results[0].fatalErrorCount, 0);
+                        assert.strictEqual(results[0].fixableErrorCount, 0);
+                        assert.strictEqual(results[0].fixableWarningCount, 0);
+                        assert.strictEqual(results[0].suppressedMessages.length, 0);
+                    });
+                });
             });
 
 
