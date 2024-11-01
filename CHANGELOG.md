@@ -1,3 +1,24 @@
+v9.14.0 - November 1, 2024
+
+* [`f36cb16`](https://github.com/eslint/eslint/commit/f36cb1649a85028fb3999ee2056ee467a907c061) chore: upgrade @eslint/js@9.14.0 (#19086) (Milos Djermanovic)
+* [`28be447`](https://github.com/eslint/eslint/commit/28be4471f6eb61b4304ae3d17ea7eeacc6364bbe) chore: package.json update for @eslint/js release (Jenkins)
+* [`24d0172`](https://github.com/eslint/eslint/commit/24d0172bbfb92cac663cb1631bd04e7539262066) fix: enable retry concurrency limit for readFile() (#19077) (Nicholas C. Zakas)
+* [`3fa009f`](https://github.com/eslint/eslint/commit/3fa009f25992d3d305437205be0ca145a0fb53f4) feat: add support for Import Attributes and RegExp Modifiers (#19076) (Milos Djermanovic)
+* [`b0faee3`](https://github.com/eslint/eslint/commit/b0faee30e007a89bd7bdbc22a70223fabb99a541) feat: add types for the `@eslint/js` package (#19010) (Nitin Kumar)
+* [`151c965`](https://github.com/eslint/eslint/commit/151c965aec1c46000ac7dfc67a1c04802112aafc) docs: update `context.languageOptions.parser` description (#19084) (Nitin Kumar)
+* [`dc34f94`](https://github.com/eslint/eslint/commit/dc34f94a2ed25b37ac4aafcabed7bfae582db77e) docs: Update README (GitHub Actions Bot)
+* [`f48a2a0`](https://github.com/eslint/eslint/commit/f48a2a0e9bf4a659b9af5e70e873fb631430c1ba) test: add `no-invalid-regexp` tests with RegExp Modifiers (#19075) (Milos Djermanovic)
+* [`37c9177`](https://github.com/eslint/eslint/commit/37c9177aa07296a7a794c4b4ef5333e16fa22415) build: update `@wdio/*` dependencies (#19068) (Francesco Trotta)
+* [`b442067`](https://github.com/eslint/eslint/commit/b44206725247d30b10cd58859c388949f5489087) fix: Don't crash when directory is deleted during traversal. (#19067) (Nicholas C. Zakas)
+* [`35a8858`](https://github.com/eslint/eslint/commit/35a8858d62cb050fa0b56702e55c94ffaaf6956d) build: exclude flawed dendency versions (#19065) (Francesco Trotta)
+* [`425202e`](https://github.com/eslint/eslint/commit/425202ed49a1372c1719d4e7b48d0fbdda8af9fa) perf: Fix caching in config loaders (#19042) (Milos Djermanovic)
+* [`3d44b3c`](https://github.com/eslint/eslint/commit/3d44b3c4751e4c44c32b879b65a723faee9c1c29) ci: run tests in Node.js 23 (#19055) (Francesco Trotta)
+* [`f16e846`](https://github.com/eslint/eslint/commit/f16e846ac004bc32e52cd3991d14d7a89374bbb5) docs: Update README (GitHub Actions Bot)
+* [`ee0a77e`](https://github.com/eslint/eslint/commit/ee0a77ea3caa5838bab704b54a577eefbed58f68) docs: change link from @types/eslint to lib/types (#19049) (Karl Horky)
+* [`d474443`](https://github.com/eslint/eslint/commit/d474443109762f3b92811df0411965cf64f595c2) fix: avoid call stack overflow while processing globs (#19035) (Livia Medeiros)
+* [`7259627`](https://github.com/eslint/eslint/commit/725962731538eaa38d5d78b9e82ce3fccc9762d0) test: ensure tmp directory cleanup in `check-emfile-handling.js` (#19036) (Livia Medeiros)
+* [`50f03a1`](https://github.com/eslint/eslint/commit/50f03a119e6827c03b1d6c86d3aa1f4820b609e8) docs: Clarify global ignores in config migration guide (#19032) (Milos Djermanovic)
+
 v9.13.0 - October 18, 2024
 
 * [`68d2d9d`](https://github.com/eslint/eslint/commit/68d2d9dfd63401b6a9b413f11ac2c4b583e4897a) chore: upgrade to `@eslint/js@9.13.0` and `@eslint/core@^0.7.0` (#19034) (Francesco Trotta)
