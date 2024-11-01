@@ -3,11 +3,15 @@
   "version": "9.13.0",
   "description": "ESLint JavaScript language implementation",
   "main": "./src/index.js",
-  "scripts": {},
+  "types": "./types/index.d.ts",
+  "scripts": {
+    "test:types": "tsc -p tests/types/tsconfig.json"
+  },
   "files": [
     "LICENSE",
     "README.md",
-    "src"
+    "src",
+    "types"
   ],
   "publishConfig": {
     "access": "public"
