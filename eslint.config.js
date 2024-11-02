@@ -317,20 +317,5 @@ module.exports = [
              */
             "n/no-unsupported-features/node-builtins": [2, { ignores: ["module.enableCompileCache"] }]
         }
-    },
-
-    // Excluding lint rules for third-party `text-table` code to keep it close to the original, avoiding refactoring.
-    {
-        name: "eslint/text-table",
-        files: ["lib/shared/text-table.js"],
-        rules: {
-            "jsdoc/require-jsdoc": "off",
-            "jsdoc/require-returns": "off",
-            "jsdoc/require-param-type": "off",
-            "jsdoc/require-param-description": "off",
-            "jsdoc/require-description": "off",
-            "consistent-return": "off",
-            "no-param-reassign": "off"
-        }
     }
 ];
