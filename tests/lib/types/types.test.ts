@@ -26,7 +26,7 @@
  */
 
 import { AST, ESLint, Linter, loadESLint, Rule, RuleTester, Scope, SourceCode } from "eslint";
-import { ESLintRules } from "eslint/rules";
+import { ESLintRules, ESLintRulesStrictMode, ESLintRulesVariables } from "eslint/rules";
 import { Linter as ESLinter } from "eslint/universal";
 import {
     builtinRules,
@@ -1281,6 +1281,26 @@ eslintConfig3.rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undef
 eslintConfig3.overrides?.[1].rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undefined
 
 // #endregion
+
+// #region ESLintRulesGroup
+
+// @ts-expect-error contains only one rule of the group
+let myES6RulesConfig: ESLintRulesVariables = {
+    'init-declarations': 'error'
+}
+
+// should work because group is wrapped in a Partial
+let myES6RulesConfigPartial: Partial<ESLintRulesVariables> = {
+    'init-declarations': 'error'
+}
+
+const myStrictModeRulesConfig: ESLintRulesStrictMode = {
+    'strict': 'error',
+    // @ts-expect-error `no-label-var` is not part of strict mode group
+    'no-label-var': 'error',
+};
+
+// #endregion ESLintRulesGroup
 
 // #region RuleTester
 

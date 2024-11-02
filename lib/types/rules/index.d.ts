@@ -25,7 +25,6 @@
  * SOFTWARE
  */
 
-
 import { Linter } from "../index";
 
 import { BestPractices } from "./best-practices";
@@ -48,3 +47,16 @@ export interface ESLintRules
     StylisticIssues,
     ECMAScript6,
     Deprecated { }
+
+type NoStringIndex<T> = {
+    [K in keyof T as string extends K ? never : K]: T[K];
+};
+
+export type ESLintRulesPossibleErrors = NoStringIndex<PossibleErrors>;
+export type ESLintRulesBestPractices = NoStringIndex<BestPractices>;
+export type ESLintRulesStrictMode = NoStringIndex<StrictMode>;
+export type ESLintRulesVariables = NoStringIndex<Variables>;
+export type ESLintRulesNodeJSAndCommonJS = NoStringIndex<NodeJSAndCommonJS>;
+export type ESLintRulesStylisticIssues = NoStringIndex<StylisticIssues>;
+export type ESLintRulesECMAScript6 = NoStringIndex<ECMAScript6>;
+export type ESLintRulesDeprecated = NoStringIndex<Deprecated>;
