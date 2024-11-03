@@ -2939,7 +2939,7 @@ describe("ESLint", () => {
 
                 // https://github.com/eslint/eslint/issues/18575
                 describe("on Windows", () => {
-                    if (process.platform !== "win32") {
+                    if (os.platform !== "win32") {
                         return;
                     }
 
@@ -6186,6 +6186,22 @@ describe("ESLint", () => {
 
                 assert(await engine.isPathIgnored("node_modules/foo.js"));
             });
+
+            if (os.platform() === "win32") {
+                it("should return true for a file on a different drive on Windows", async () => {
+                    const currentRoot = path.resolve("\\");
+                    const otherRoot = currentRoot === "A:\\" ? "B:\\" : "A:\\";
+                    const engine = new ESLint({
+                        flags,
+                        overrideConfigFile: true,
+                        cwd: currentRoot
+                    });
+
+                    assert(!await engine.isPathIgnored(`${currentRoot}file.js`));
+                    assert(await engine.isPathIgnored(`${otherRoot}file.js`));
+                    assert(await engine.isPathIgnored("//SERVER//share//file.js"));
+                });
+            }
 
             describe("about the default ignore patterns", () => {
                 it("should always apply default ignore patterns if ignore option is true", async () => {
