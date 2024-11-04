@@ -15,6 +15,7 @@
  */
 
 module.exports = Object.freeze({
+    "name": "eslint/all",
     "rules": {
         "accessor-pairs": "error",
         "array-callback-return": "error",

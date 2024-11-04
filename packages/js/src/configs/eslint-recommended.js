@@ -17,6 +17,7 @@
  */
 
 module.exports = Object.freeze({
+    name: "eslint/recommended",
     rules: Object.freeze({
         "constructor-super": "error",
         "for-direction": "error",
