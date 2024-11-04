@@ -201,7 +201,7 @@ describe("ESLint", () => {
             });
 
             // https://github.com/eslint/eslint/issues/2380
-            it("should not modify baseConfig when format is specified", () => {
+            it("should not modify baseConfig in the constructor", () => {
                 const customBaseConfig = { root: true };
 
                 new ESLint({ baseConfig: customBaseConfig, flags }); // eslint-disable-line no-new -- Check for argument side effects
@@ -2939,7 +2939,7 @@ describe("ESLint", () => {
 
                 // https://github.com/eslint/eslint/issues/18575
                 describe("on Windows", () => {
-                    if (os.platform !== "win32") {
+                    if (os.platform() !== "win32") {
                         return;
                     }
 
@@ -3012,6 +3012,40 @@ describe("ESLint", () => {
                         assert.strictEqual(results[0].fixableErrorCount, 0);
                         assert.strictEqual(results[0].fixableWarningCount, 0);
                         assert.strictEqual(results[0].suppressedMessages.length, 0);
+                    });
+
+                    it("should not ignore a file on the same drive as cwd that matches a glob pattern", async () => {
+                        eslint = new ESLint({
+                            flags,
+                            overrideConfigFile: true,
+                            cwd: `${otherDriveLetter}:\\`
+                        });
+                        const pattern = `${otherDriveLetter}:\\pa*ng.*`;
+                        const results = await eslint.lintFiles([pattern]);
+
+                        assert.strictEqual(results.length, 1);
+                        assert.strictEqual(results[0].filePath, `${otherDriveLetter}:\\passing.js`);
+                        assert.strictEqual(results[0].messages.length, 0);
+                        assert.strictEqual(results[0].errorCount, 0);
+                        assert.strictEqual(results[0].warningCount, 0);
+                        assert.strictEqual(results[0].fatalErrorCount, 0);
+                        assert.strictEqual(results[0].fixableErrorCount, 0);
+                        assert.strictEqual(results[0].fixableWarningCount, 0);
+                        assert.strictEqual(results[0].suppressedMessages.length, 0);
+                    });
+
+                    it("should throw an error when a glob pattern matches only files on different drive", async () => {
+                        eslint = new ESLint({
+                            flags,
+                            overrideConfigFile: true,
+                            cwd: getFixturePath()
+                        });
+                        const pattern = `${otherDriveLetter}:\\pa**ng.*`;
+
+                        await assert.rejects(
+                            eslint.lintFiles([pattern]),
+                            `All files matched by '${otherDriveLetter}:\\pa**ng.*' are ignored.`
+                        );
                     });
                 });
             });
