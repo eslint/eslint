@@ -493,6 +493,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce consistent indentation.
      *
      * @since 0.14.0
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/indent) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/indent
      */
     indent: Linter.RuleEntry<
@@ -1746,6 +1747,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to enforce the consistent use of either backticks, double, or single quotes.
      *
      * @since 0.0.7
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/quotes) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/quotes
      */
     quotes: Linter.RuleEntry<
@@ -1768,6 +1770,7 @@ export interface StylisticIssues extends Linter.RulesRecord {
      * Rule to require or disallow semicolons instead of ASI.
      *
      * @since 0.0.6
+     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/semi) in `@stylistic/eslint-plugin-js`.
      * @see https://eslint.org/docs/rules/semi
      */
     semi:
