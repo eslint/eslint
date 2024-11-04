@@ -390,7 +390,7 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
 
-            it("should report the total and per file warnings when using local cwd .eslintrc", async () => {
+            it("should report the total and per file warnings when not using a config file", async () => {
                 eslint = new ESLint({
                     flags,
                     overrideConfig: {
@@ -523,6 +523,36 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
+
+            if (os.platform() === "win32") {
+                it("should return a warning when given a filename on a different drive by --stdin-filename if warnIgnored is true on Windows", async () => {
+                    const currentRoot = path.resolve("\\");
+                    const otherRoot = currentRoot === "A:\\" ? "B:\\" : "A:\\";
+
+                    eslint = new ESLint({
+                        flags,
+                        cwd: getFixturePath(),
+                        overrideConfigFile: true
+                    });
+
+                    const filePath = `${otherRoot}file.js`;
+                    const options = { filePath, warnIgnored: true };
+                    const results = await eslint.lintText("var bar = foo;", options);
+
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].filePath, filePath);
+                    assert.strictEqual(results[0].messages[0].severity, 1);
+                    assert.strictEqual(results[0].messages[0].message, "File ignored because outside of base path.");
+                    assert.strictEqual(results[0].messages[0].output, void 0);
+                    assert.strictEqual(results[0].errorCount, 0);
+                    assert.strictEqual(results[0].warningCount, 1);
+                    assert.strictEqual(results[0].fatalErrorCount, 0);
+                    assert.strictEqual(results[0].fixableErrorCount, 0);
+                    assert.strictEqual(results[0].fixableWarningCount, 0);
+                    assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+                    assert.strictEqual(results[0].suppressedMessages.length, 0);
+                });
+            }
 
             it("should return a warning when given a filename by --stdin-filename in excluded files list if constructor warnIgnored is false, but lintText warnIgnored is true", async () => {
                 eslint = new ESLint({
