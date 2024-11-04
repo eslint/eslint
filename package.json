@@ -130,8 +130,7 @@
     "lodash.merge": "^4.6.2",
     "minimatch": "^3.1.2",
     "natural-compare": "^1.4.0",
-    "optionator": "^0.9.3",
-    "text-table": "^0.2.0"
+    "optionator": "^0.9.3"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.16.4",
