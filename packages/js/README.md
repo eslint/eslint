@@ -28,12 +28,14 @@ export default [
 
     // apply recommended rules to JS files
     {
+        name: "your-project/recommended-rules",
         files: ["**/*.js"],
         rules: js.configs.recommended.rules
     },
 
     // apply recommended rules to JS files with an override
     {
+        name: "your-project/recommended-rules-with-override",
         files: ["**/*.js"],
         rules: {
             ...js.configs.recommended.rules,
@@ -43,6 +45,7 @@ export default [
 
     // apply all rules to JS files
     {
+        name: "your-project/all-rules",
         files: ["**/*.js"],
         rules: {
             ...js.configs.all.rules,
