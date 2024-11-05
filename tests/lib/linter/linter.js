@@ -146,7 +146,7 @@ describe("Linter", () => {
         const code = TEST_CODE;
 
         it("should retrieve SourceCode object after reset", () => {
-            linter.verify(code, {}, filename, true);
+            linter.verify(code, {}, filename);
 
             const sourceCode = linter.getSourceCode();
 
@@ -315,7 +315,7 @@ describe("Linter", () => {
                 })
             });
 
-            const messages = linter.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename);
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 0);
@@ -625,7 +625,7 @@ describe("Linter", () => {
 
             config.rules[rule] = 1;
 
-            const messages = linter.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename);
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 1);
@@ -640,7 +640,7 @@ describe("Linter", () => {
 
             config.rules[rule] = "warn";
 
-            const messages = linter.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename);
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 1);
@@ -656,7 +656,7 @@ describe("Linter", () => {
 
             config.rules[rule] = [1];
 
-            const messages = linter.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename);
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 1);
@@ -671,7 +671,7 @@ describe("Linter", () => {
 
             config.rules[rule] = ["warn"];
 
-            const messages = linter.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename);
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 1);
@@ -687,7 +687,7 @@ describe("Linter", () => {
 
             config.rules[rule] = "1";
 
-            const messages = linter.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename);
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 0);
@@ -696,7 +696,7 @@ describe("Linter", () => {
 
         it("should process empty config", () => {
             const config = {};
-            const messages = linter.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename);
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 0);
@@ -884,7 +884,7 @@ describe("Linter", () => {
             const code = "/* exported horse */";
             const config = { rules: {} };
 
-            linter.verify(code, config, filename, true);
+            linter.verify(code, config, filename);
         });
 
         it("variable should be exported ", () => {
@@ -1398,13 +1398,13 @@ describe("Linter", () => {
             const config = { rules: { strict: 2 } };
             const codeA = "/*eslint strict: 0*/ function bar() { return 2; }";
             const codeB = "function foo() { return 1; }";
-            let messages = linter.verify(codeA, config, filename, false);
+            let messages = linter.verify(codeA, config, filename);
             let suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 0);
             assert.strictEqual(suppressedMessages.length, 0);
 
-            messages = linter.verify(codeB, config, filename, false);
+            messages = linter.verify(codeB, config, filename);
             suppressedMessages = linter.getSuppressedMessages();
             assert.strictEqual(messages.length, 1);
 
@@ -1415,13 +1415,13 @@ describe("Linter", () => {
             const config = { rules: { quotes: [2, "double"] } };
             const codeA = "/*eslint quotes: 0*/ function bar() { return '2'; }";
             const codeB = "function foo() { return '1'; }";
-            let messages = linter.verify(codeA, config, filename, false);
+            let messages = linter.verify(codeA, config, filename);
             let suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 0);
             assert.strictEqual(suppressedMessages.length, 0);
 
-            messages = linter.verify(codeB, config, filename, false);
+            messages = linter.verify(codeB, config, filename);
             suppressedMessages = linter.getSuppressedMessages();
             assert.strictEqual(messages.length, 1);
 
@@ -1433,13 +1433,13 @@ describe("Linter", () => {
             const codeA = "/*eslint quotes: [0, \"single\"]*/ function bar() { return '2'; }";
             const codeB = "function foo() { return '1'; }";
 
-            let messages = linter.verify(codeA, config, filename, false);
+            let messages = linter.verify(codeA, config, filename);
             let suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 0);
             assert.strictEqual(suppressedMessages.length, 0);
 
-            messages = linter.verify(codeB, config, filename, false);
+            messages = linter.verify(codeB, config, filename);
             suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 1);
@@ -1451,13 +1451,13 @@ describe("Linter", () => {
             const codeA = "/*eslint no-unused-vars: [0, {\"vars\": \"local\"}]*/ var a = 44;";
             const codeB = "var b = 55;";
 
-            let messages = linter.verify(codeA, config, filename, false);
+            let messages = linter.verify(codeA, config, filename);
             let suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 0);
             assert.strictEqual(suppressedMessages.length, 0);
 
-            messages = linter.verify(codeB, config, filename, false);
+            messages = linter.verify(codeB, config, filename);
             suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 1);
@@ -1869,13 +1869,13 @@ describe("Linter", () => {
             const codeA = "/*eslint test-plugin/test-rule: 0*/ var a = \"trigger violation\";";
             const codeB = "var a = \"trigger violation\";";
 
-            let messages = linter.verify(codeA, config, filename, false);
+            let messages = linter.verify(codeA, config, filename);
             let suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 0);
             assert.strictEqual(suppressedMessages.length, 0);
 
-            messages = linter.verify(codeB, config, filename, false);
+            messages = linter.verify(codeB, config, filename);
             suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 1);
@@ -7499,7 +7499,7 @@ var a = "test2";
             const parseSpy = { parse: sinon.spy(espree.parse) };
 
             linter.defineParser("stub-parser", parseSpy);
-            linter.verify(code, { parser: "stub-parser" }, filename, true);
+            linter.verify(code, { parser: "stub-parser" }, filename);
 
             sinon.assert.calledWithMatch(parseSpy.parse, "", { filePath: filename });
         });
@@ -7533,7 +7533,7 @@ var a = "test2";
             linter.defineParser("unknown-logical-operator", testParsers.unknownLogicalOperator);
 
             // This shouldn't throw
-            const messages = linter.verify(code, { parser: "unknown-logical-operator" }, filename, true);
+            const messages = linter.verify(code, { parser: "unknown-logical-operator" }, filename);
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 0);
@@ -7546,7 +7546,7 @@ var a = "test2";
             linter.defineParser("unknown-logical-operator-nested", testParsers.unknownLogicalOperatorNested);
 
             // This shouldn't throw
-            const messages = linter.verify(code, { parser: "unknown-logical-operator-nested" }, filename, true);
+            const messages = linter.verify(code, { parser: "unknown-logical-operator-nested" }, filename);
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 0);
@@ -7573,7 +7573,7 @@ var a = "test2";
                 rules: {
                     "collect-node-types": "error"
                 }
-            }, filename, true);
+            }, filename);
             const suppressedMessages = linter.getSuppressedMessages();
 
             assert.strictEqual(messages.length, 0);
@@ -8348,7 +8348,7 @@ describe("Linter with FlatConfigArray", () => {
                             }
                         };
 
-                        linter.verify(code, config, filename, true);
+                        linter.verify(code, config, filename);
 
                         sinon.assert.calledWithMatch(parseSpy.parse, "", { filePath: filename });
                     });
@@ -8428,7 +8428,7 @@ describe("Linter with FlatConfigArray", () => {
                             }
                         };
 
-                        const messages = linter.verify(code, config, filename, true);
+                        const messages = linter.verify(code, config, filename);
                         const suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 0);
@@ -9029,7 +9029,7 @@ describe("Linter with FlatConfigArray", () => {
 
                 config.rules[rule] = 1;
 
-                const messages = linter.verify(code, config, filename, true);
+                const messages = linter.verify(code, config, filename);
                 const suppressedMessages = linter.getSuppressedMessages();
 
                 assert.strictEqual(messages.length, 1);
@@ -9044,7 +9044,7 @@ describe("Linter with FlatConfigArray", () => {
 
                 config.rules[rule] = "warn";
 
-                const messages = linter.verify(code, config, filename, true);
+                const messages = linter.verify(code, config, filename);
                 const suppressedMessages = linter.getSuppressedMessages();
 
                 assert.strictEqual(messages.length, 1);
@@ -9060,7 +9060,7 @@ describe("Linter with FlatConfigArray", () => {
 
                 config.rules[rule] = [1];
 
-                const messages = linter.verify(code, config, filename, true);
+                const messages = linter.verify(code, config, filename);
                 const suppressedMessages = linter.getSuppressedMessages();
 
                 assert.strictEqual(messages.length, 1);
@@ -9075,7 +9075,7 @@ describe("Linter with FlatConfigArray", () => {
 
                 config.rules[rule] = ["warn"];
 
-                const messages = linter.verify(code, config, filename, true);
+                const messages = linter.verify(code, config, filename);
                 const suppressedMessages = linter.getSuppressedMessages();
 
                 assert.strictEqual(messages.length, 1);
@@ -9092,13 +9092,13 @@ describe("Linter with FlatConfigArray", () => {
                 config.rules[rule] = "1";
 
                 assert.throws(() => {
-                    linter.verify(code, config, filename, true);
+                    linter.verify(code, config, filename);
                 }, /Key "rules": Key "semi": Expected severity/u);
             });
 
             it("should process empty config", () => {
                 const config = {};
-                const messages = linter.verify(code, config, filename, true);
+                const messages = linter.verify(code, config, filename);
                 const suppressedMessages = linter.getSuppressedMessages();
 
                 assert.strictEqual(messages.length, 0);
@@ -9376,8 +9376,8 @@ describe("Linter with FlatConfigArray", () => {
             );
 
             configs.normalizeSync();
-            const messages1 = linter.verify("foo", configs, "/foo/bar.js", true);
-            const messages2 = linter.verify("foo", configs, "/bar.js", true);
+            const messages1 = linter.verify("foo", configs, "/foo/bar.js");
+            const messages2 = linter.verify("foo", configs, "/bar.js");
 
             assert.strictEqual(messages1.length, 0);
             assert.strictEqual(messages2.length, 1);
@@ -9391,8 +9391,8 @@ describe("Linter with FlatConfigArray", () => {
             );
 
             configs.normalizeSync();
-            const messages1 = linter.verify("foo", configs, "C:\\foo\\bar.js", true);
-            const messages2 = linter.verify("foo", configs, "D:\\foo\\bar.js", true);
+            const messages1 = linter.verify("foo", configs, "C:\\foo\\bar.js");
+            const messages2 = linter.verify("foo", configs, "D:\\foo\\bar.js");
 
             assert.strictEqual(messages1.length, 0);
             assert.strictEqual(messages2.length, 1);
@@ -9552,7 +9552,7 @@ describe("Linter with FlatConfigArray", () => {
                     rules: { "test/checker": "error" }
                 };
 
-                const messages = linter.verify(code, config, filename, true);
+                const messages = linter.verify(code, config, filename);
                 const suppressedMessages = linter.getSuppressedMessages();
 
                 assert.strictEqual(messages.length, 0);
@@ -10088,7 +10088,7 @@ describe("Linter with FlatConfigArray", () => {
                     });
 
                 configs.normalizeSync();
-                const messages = linter.verify("foo", configs, filename, true);
+                const messages = linter.verify("foo", configs, filename);
                 const suppressedMessages = linter.getSuppressedMessages();
 
                 assert.strictEqual(messages.length, 1, "Message length is wrong");
@@ -10106,7 +10106,7 @@ describe("Linter with FlatConfigArray", () => {
                         }
                     }];
 
-                const messages = linter.verify("foo", configs, filename, true);
+                const messages = linter.verify("foo", configs, filename);
                 const suppressedMessages = linter.getSuppressedMessages();
 
                 assert.strictEqual(messages.length, 1, "Message length is wrong");
@@ -10124,7 +10124,7 @@ describe("Linter with FlatConfigArray", () => {
                         }
                     };
 
-                const messages = linter.verify("foo", config, filename, true);
+                const messages = linter.verify("foo", config, filename);
                 const suppressedMessages = linter.getSuppressedMessages();
 
                 assert.strictEqual(messages.length, 1, "Message length is wrong");
@@ -10796,7 +10796,7 @@ describe("Linter with FlatConfigArray", () => {
                     const code = "/* exported horse */";
                     const config = { rules: {} };
 
-                    linter.verify(code, config, filename, true);
+                    linter.verify(code, config, filename);
                 });
 
                 it("variable should be exported", () => {
@@ -11119,13 +11119,13 @@ describe("Linter with FlatConfigArray", () => {
                         };
                         const codeA = "/*eslint strict: 0*/ function bar() { return 2; }";
                         const codeB = "function foo() { return 1; }";
-                        let messages = linter.verify(codeA, config, filename, false);
+                        let messages = linter.verify(codeA, config, filename);
                         let suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 0);
                         assert.strictEqual(suppressedMessages.length, 0);
 
-                        messages = linter.verify(codeB, config, filename, false);
+                        messages = linter.verify(codeB, config, filename);
                         suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 1);
@@ -11141,13 +11141,13 @@ describe("Linter with FlatConfigArray", () => {
                         };
                         const codeA = "/*eslint quotes: 0*/ function bar() { return '2'; }";
                         const codeB = "function foo() { return '1'; }";
-                        let messages = linter.verify(codeA, config, filename, false);
+                        let messages = linter.verify(codeA, config, filename);
                         let suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 0);
                         assert.strictEqual(suppressedMessages.length, 0);
 
-                        messages = linter.verify(codeB, config, filename, false);
+                        messages = linter.verify(codeB, config, filename);
                         suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 1);
@@ -11158,13 +11158,13 @@ describe("Linter with FlatConfigArray", () => {
                         const config = { rules: { quotes: [2, "double"] } };
                         const codeA = "/*eslint quotes: [0, \"single\"]*/ function bar() { return '2'; }";
                         const codeB = "function foo() { return '1'; }";
-                        let messages = linter.verify(codeA, config, filename, false);
+                        let messages = linter.verify(codeA, config, filename);
                         let suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 0);
                         assert.strictEqual(suppressedMessages.length, 0);
 
-                        messages = linter.verify(codeB, config, filename, false);
+                        messages = linter.verify(codeB, config, filename);
                         suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 1);
@@ -11180,13 +11180,13 @@ describe("Linter with FlatConfigArray", () => {
                         };
                         const codeA = "/*eslint no-unused-vars: [0, {\"vars\": \"local\"}]*/ var a = 44;";
                         const codeB = "var b = 55;";
-                        let messages = linter.verify(codeA, config, filename, false);
+                        let messages = linter.verify(codeA, config, filename);
                         let suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 0);
                         assert.strictEqual(suppressedMessages.length, 0);
 
-                        messages = linter.verify(codeB, config, filename, false);
+                        messages = linter.verify(codeB, config, filename);
                         suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 1);
@@ -11649,13 +11649,13 @@ describe("Linter with FlatConfigArray", () => {
                         const config = { ...baseConfig, rules: { "test-plugin/test-rule": 2 } };
                         const codeA = "/*eslint test-plugin/test-rule: 0*/ var a = \"trigger violation\";";
                         const codeB = "var a = \"trigger violation\";";
-                        let messages = linter.verify(codeA, config, filename, false);
+                        let messages = linter.verify(codeA, config, filename);
                         let suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 0);
                         assert.strictEqual(suppressedMessages.length, 0);
 
-                        messages = linter.verify(codeB, config, filename, false);
+                        messages = linter.verify(codeB, config, filename);
                         suppressedMessages = linter.getSuppressedMessages();
 
                         assert.strictEqual(messages.length, 1);
@@ -15848,7 +15848,7 @@ var a = "test2";
         const code = TEST_CODE;
 
         it("should retrieve SourceCode object after reset", () => {
-            linter.verify(code, {}, filename, true);
+            linter.verify(code, {}, filename);
 
             const sourceCode = linter.getSourceCode();
 
