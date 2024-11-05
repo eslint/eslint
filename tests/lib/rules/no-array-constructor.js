@@ -376,6 +376,13 @@ ruleTester.run("no-array-constructor", rule, {
             },
             {
                 code: `
+                export { foo } from 'bar' with { type: "json" }
+                Array()
+                `,
+                languageOptions: { sourceType: "module" }
+            },
+            {
+                code: `
                 export * as foo from 'bar'
                 Array()
                 `,
@@ -383,7 +390,21 @@ ruleTester.run("no-array-constructor", rule, {
             },
             {
                 code: `
+                export * as foo from 'bar' with { type: "json" }
+                Array()
+                `,
+                languageOptions: { sourceType: "module" }
+            },
+            {
+                code: `
                 import foo from 'bar'
+                Array()
+                `,
+                languageOptions: { sourceType: "module" }
+            },
+            {
+                code: `
+                import foo from 'bar' with { type: "json" }
                 Array()
                 `,
                 languageOptions: { sourceType: "module" }

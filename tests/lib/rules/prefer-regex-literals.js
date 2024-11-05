@@ -3006,6 +3006,34 @@ ruleTester.run("prefer-regex-literals", rule, {
                 }
             ]
         },
+
+        // ES2025
+        {
+            code: "new RegExp('(?i:foo)bar')",
+            languageOptions: { ecmaVersion: 2025 },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: [
+                        {
+                            messageId: "replaceWithLiteral",
+                            output: "/(?i:foo)bar/"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            code: "new RegExp('(?i:foo)bar')",
+            languageOptions: { ecmaVersion: 2024 },
+            errors: [
+                {
+                    messageId: "unexpectedRegExp",
+                    suggestions: null
+                }
+            ]
+        },
+
         {
             code: "var regex = new RegExp('foo', 'u');",
             languageOptions: {

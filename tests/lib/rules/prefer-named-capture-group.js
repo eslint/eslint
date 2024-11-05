@@ -80,7 +80,19 @@ ruleTester.run("prefer-named-capture-group", rule, {
          * Without the v flag, `([\q])` is considered a valid regex and the rule reports,
          * but if the v flag is understood correctly the rule does not because of a syntax error.
          */
-        String.raw`new RegExp('([\\q])', 'v')` // SyntaxError
+        String.raw`new RegExp('([\\q])', 'v')`, // SyntaxError
+
+        // ES2025
+        {
+            code: "/(?i:foo)bar/",
+            languageOptions: { ecmaVersion: 2025 }
+        },
+        "new RegExp('(?i:foo)bar')",
+        {
+            code: "/(?-i:foo)bar/",
+            languageOptions: { ecmaVersion: 2025 }
+        },
+        "new RegExp('(?-i:foo)bar')"
     ],
 
     invalid: [
