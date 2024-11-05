@@ -153,12 +153,10 @@ This option allows you to specify an additional configuration file for ESLint (s
 ##### `-c`, `--config` example
 
 ```shell
-npx eslint -c ~/my-eslint.json file.js
+npx eslint -c ~/my.eslint.config.js file.js
 ```
 
-This example uses the configuration file at `~/my-eslint.json`.
-
-If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.e., `--no-eslintrc` was not specified), the configurations are merged. Options from this configuration file have precedence over the options from `.eslintrc.*` and `package.json` files.
+This example uses the configuration file at `~/my.eslint.config.js`, which is used instead of searching for an `eslint.config.js` file.
 
 #### `--inspect-config`
 
