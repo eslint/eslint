@@ -2976,11 +2976,17 @@ describe("ESLint", () => {
                     let otherDriveLetter;
                     const exec = util.promisify(require("node:child_process").exec);
 
+                    /*
+                     * Map the fixture directory to a new virtual drive.
+                     * Use the first drive letter available.
+                     */
                     before(async () => {
                         const substDir = getFixturePath();
 
                         for (const driveLetter of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
                             try {
+
+                                // More info on this command at https://en.wikipedia.org/wiki/SUBST
                                 await exec(`subst ${driveLetter}: "${substDir}"`);
                             } catch {
                                 continue;
@@ -2993,6 +2999,9 @@ describe("ESLint", () => {
                         }
                     });
 
+                    /*
+                     * Delete the virtual drive.
+                     */
                     after(async () => {
                         if (otherDriveLetter) {
                             try {
