@@ -85,7 +85,15 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "class foo { _field; }", options: [{ enforceInClassFields: false }], languageOptions: { ecmaVersion: 2022 } },
         { code: "class foo { #_field; }", languageOptions: { ecmaVersion: 2022 } },
         { code: "class foo { #_field; }", options: [{ enforceInClassFields: false }], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class foo { _field; }", options: [{}], languageOptions: { ecmaVersion: 2022 } }
+        { code: "class foo { _field; }", options: [{}], languageOptions: { ecmaVersion: 2022 } },
+
+        // Import attribute keys
+        { code: "import foo from 'foo.json' with { _type: 'json' }", languageOptions: { ecmaVersion: 2025 } },
+        { code: "export * from 'foo.json' with { _type: 'json' }", languageOptions: { ecmaVersion: 2025 } },
+        { code: "export { default } from 'foo.json' with { _type: 'json' }", languageOptions: { ecmaVersion: 2025 } },
+        { code: "import('foo.json', { _with: { _type: 'json' } })", languageOptions: { ecmaVersion: 2025 } },
+        { code: "import('foo.json', { 'with': { _type: 'json' } })", languageOptions: { ecmaVersion: 2025 } },
+        { code: "import('foo.json', { _with: { _type } })", languageOptions: { ecmaVersion: 2025 } }
     ],
     invalid: [
         { code: "var _foo = 1", errors: [{ messageId: "unexpectedUnderscore", data: { identifier: "_foo" }, type: "VariableDeclarator" }] },

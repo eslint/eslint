@@ -201,7 +201,7 @@ describe("ESLint", () => {
             });
 
             // https://github.com/eslint/eslint/issues/2380
-            it("should not modify baseConfig when format is specified", () => {
+            it("should not modify baseConfig in the constructor", () => {
                 const customBaseConfig = { root: true };
 
                 new ESLint({ baseConfig: customBaseConfig, flags }); // eslint-disable-line no-new -- Check for argument side effects
@@ -390,7 +390,7 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
 
-            it("should report the total and per file warnings when using local cwd .eslintrc", async () => {
+            it("should report the total and per file warnings when not using a config file", async () => {
                 eslint = new ESLint({
                     flags,
                     overrideConfig: {
@@ -523,6 +523,36 @@ describe("ESLint", () => {
                 assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
                 assert.strictEqual(results[0].suppressedMessages.length, 0);
             });
+
+            if (os.platform() === "win32") {
+                it("should return a warning when given a filename on a different drive by --stdin-filename if warnIgnored is true on Windows", async () => {
+                    const currentRoot = path.resolve("\\");
+                    const otherRoot = currentRoot === "A:\\" ? "B:\\" : "A:\\";
+
+                    eslint = new ESLint({
+                        flags,
+                        cwd: getFixturePath(),
+                        overrideConfigFile: true
+                    });
+
+                    const filePath = `${otherRoot}file.js`;
+                    const options = { filePath, warnIgnored: true };
+                    const results = await eslint.lintText("var bar = foo;", options);
+
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].filePath, filePath);
+                    assert.strictEqual(results[0].messages[0].severity, 1);
+                    assert.strictEqual(results[0].messages[0].message, "File ignored because outside of base path.");
+                    assert.strictEqual(results[0].messages[0].output, void 0);
+                    assert.strictEqual(results[0].errorCount, 0);
+                    assert.strictEqual(results[0].warningCount, 1);
+                    assert.strictEqual(results[0].fatalErrorCount, 0);
+                    assert.strictEqual(results[0].fixableErrorCount, 0);
+                    assert.strictEqual(results[0].fixableWarningCount, 0);
+                    assert.strictEqual(results[0].usedDeprecatedRules.length, 0);
+                    assert.strictEqual(results[0].suppressedMessages.length, 0);
+                });
+            }
 
             it("should return a warning when given a filename by --stdin-filename in excluded files list if constructor warnIgnored is false, but lintText warnIgnored is true", async () => {
                 eslint = new ESLint({
@@ -2937,6 +2967,126 @@ describe("ESLint", () => {
                     assert.strictEqual(results[0].messages[0].message, "Program is disallowed.");
                 });
 
+                // https://github.com/eslint/eslint/issues/18575
+                describe("on Windows", () => {
+                    if (os.platform() !== "win32") {
+                        return;
+                    }
+
+                    let otherDriveLetter;
+                    const exec = util.promisify(require("node:child_process").exec);
+
+                    /*
+                     * Map the fixture directory to a new virtual drive.
+                     * Use the first drive letter available.
+                     */
+                    before(async () => {
+                        const substDir = getFixturePath();
+
+                        for (const driveLetter of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+                            try {
+
+                                // More info on this command at https://en.wikipedia.org/wiki/SUBST
+                                await exec(`subst ${driveLetter}: "${substDir}"`);
+                            } catch {
+                                continue;
+                            }
+                            otherDriveLetter = driveLetter;
+                            break;
+                        }
+                        if (!otherDriveLetter) {
+                            throw Error("Unable to assign a virtual drive letter.");
+                        }
+                    });
+
+                    /*
+                     * Delete the virtual drive.
+                     */
+                    after(async () => {
+                        if (otherDriveLetter) {
+                            try {
+                                await exec(`subst /D ${otherDriveLetter}:`);
+                            } catch ({ message }) {
+                                throw new Error(`Unable to unassign virtual drive letter ${otherDriveLetter}: - ${message}`);
+                            }
+                        }
+                    });
+
+                    it("should return a warning when an explicitly given file is on a different drive", async () => {
+                        eslint = new ESLint({
+                            flags,
+                            overrideConfigFile: true,
+                            cwd: getFixturePath()
+                        });
+                        const filePath = `${otherDriveLetter}:\\passing.js`;
+                        const results = await eslint.lintFiles([filePath]);
+
+                        assert.strictEqual(results.length, 1);
+                        assert.strictEqual(results[0].filePath, filePath);
+                        assert.strictEqual(results[0].messages[0].severity, 1);
+                        assert.strictEqual(results[0].messages[0].message, "File ignored because outside of base path.");
+                        assert.strictEqual(results[0].errorCount, 0);
+                        assert.strictEqual(results[0].warningCount, 1);
+                        assert.strictEqual(results[0].fatalErrorCount, 0);
+                        assert.strictEqual(results[0].fixableErrorCount, 0);
+                        assert.strictEqual(results[0].fixableWarningCount, 0);
+                        assert.strictEqual(results[0].suppressedMessages.length, 0);
+                    });
+
+                    it("should not ignore an explicitly given file that is on the same drive as cwd", async () => {
+                        eslint = new ESLint({
+                            flags,
+                            overrideConfigFile: true,
+                            cwd: `${otherDriveLetter}:\\`
+                        });
+                        const filePath = `${otherDriveLetter}:\\passing.js`;
+                        const results = await eslint.lintFiles([filePath]);
+
+                        assert.strictEqual(results.length, 1);
+                        assert.strictEqual(results[0].filePath, filePath);
+                        assert.strictEqual(results[0].messages.length, 0);
+                        assert.strictEqual(results[0].errorCount, 0);
+                        assert.strictEqual(results[0].warningCount, 0);
+                        assert.strictEqual(results[0].fatalErrorCount, 0);
+                        assert.strictEqual(results[0].fixableErrorCount, 0);
+                        assert.strictEqual(results[0].fixableWarningCount, 0);
+                        assert.strictEqual(results[0].suppressedMessages.length, 0);
+                    });
+
+                    it("should not ignore a file on the same drive as cwd that matches a glob pattern", async () => {
+                        eslint = new ESLint({
+                            flags,
+                            overrideConfigFile: true,
+                            cwd: `${otherDriveLetter}:\\`
+                        });
+                        const pattern = `${otherDriveLetter}:\\pa*ng.*`;
+                        const results = await eslint.lintFiles([pattern]);
+
+                        assert.strictEqual(results.length, 1);
+                        assert.strictEqual(results[0].filePath, `${otherDriveLetter}:\\passing.js`);
+                        assert.strictEqual(results[0].messages.length, 0);
+                        assert.strictEqual(results[0].errorCount, 0);
+                        assert.strictEqual(results[0].warningCount, 0);
+                        assert.strictEqual(results[0].fatalErrorCount, 0);
+                        assert.strictEqual(results[0].fixableErrorCount, 0);
+                        assert.strictEqual(results[0].fixableWarningCount, 0);
+                        assert.strictEqual(results[0].suppressedMessages.length, 0);
+                    });
+
+                    it("should throw an error when a glob pattern matches only files on different drive", async () => {
+                        eslint = new ESLint({
+                            flags,
+                            overrideConfigFile: true,
+                            cwd: getFixturePath()
+                        });
+                        const pattern = `${otherDriveLetter}:\\pa**ng.*`;
+
+                        await assert.rejects(
+                            eslint.lintFiles([pattern]),
+                            `All files matched by '${otherDriveLetter}:\\pa**ng.*' are ignored.`
+                        );
+                    });
+                });
             });
 
 
@@ -6109,6 +6259,22 @@ describe("ESLint", () => {
 
                 assert(await engine.isPathIgnored("node_modules/foo.js"));
             });
+
+            if (os.platform() === "win32") {
+                it("should return true for a file on a different drive on Windows", async () => {
+                    const currentRoot = path.resolve("\\");
+                    const otherRoot = currentRoot === "A:\\" ? "B:\\" : "A:\\";
+                    const engine = new ESLint({
+                        flags,
+                        overrideConfigFile: true,
+                        cwd: currentRoot
+                    });
+
+                    assert(!await engine.isPathIgnored(`${currentRoot}file.js`));
+                    assert(await engine.isPathIgnored(`${otherRoot}file.js`));
+                    assert(await engine.isPathIgnored("//SERVER//share//file.js"));
+                });
+            }
 
             describe("about the default ignore patterns", () => {
                 it("should always apply default ignore patterns if ignore option is true", async () => {

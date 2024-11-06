@@ -91,6 +91,10 @@ ruleTester.run("no-invalid-regexp", rule, {
 
         // ES2025
         "new RegExp('((?<k>a)|(?<k>b))')",
+        "new RegExp('(?ims:foo)')",
+        "new RegExp('(?ims-:foo)')",
+        "new RegExp('(?-ims:foo)')",
+        "new RegExp('(?s-i:foo)')",
 
         // allowConstructorFlags
         {
@@ -439,6 +443,54 @@ ruleTester.run("no-invalid-regexp", rule, {
             errors: [{
                 messageId: "regexMessage",
                 data: { message: "Invalid regular expression: /(?<k>a)(?<k>b)/: Duplicate capture group name" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('(?ii:foo)')",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /(?ii:foo)/: Duplicated flag 'i'" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('(?-ii:foo)')",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /(?-ii:foo)/: Duplicated flag 'i'" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('(?i-i:foo)')",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /(?i-i:foo)/: Duplicated flag 'i'" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('(?-:foo)')",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /(?-:foo)/: Invalid empty flags" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('(?g:foo)')",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /(?g:foo)/: Invalid group" },
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new RegExp('(?-u:foo)')",
+            errors: [{
+                messageId: "regexMessage",
+                data: { message: "Invalid regular expression: /(?-u:foo)/: Invalid group" },
                 type: "NewExpression"
             }]
         }

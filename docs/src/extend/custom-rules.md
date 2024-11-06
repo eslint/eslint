@@ -137,7 +137,7 @@ The `context` object has the following properties:
 * `languageOptions`: (`object`) more details for each property [here](../use/configure/language-options)
     * `sourceType`: (`'script' | 'module' | 'commonjs'`) The mode for the current file.
     * `ecmaVersion`: (`number`) The ECMA version used to parse the current file.
-    * `parser`: (`object`|`string`): Either the parser used to parse the current file for flat config or its name for legacy config.
+    * `parser`: (`object`): The parser used to parse the current file.
     * `parserOptions`: (`object`) The parser options configured for this file.
     * `globals`: (`object`) The specified globals.
 * `parserPath`: (`string`, **Removed** Use `context.languageOptions.parser` instead.) The name of the `parser` from the configuration.

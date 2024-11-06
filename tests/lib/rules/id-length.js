@@ -237,6 +237,50 @@ ruleTester.run("id-length", rule, {
             languageOptions: {
                 ecmaVersion: 6
             }
+        },
+
+        // Import attribute keys
+        {
+            code: "import foo from 'foo.json' with { type: 'json' }",
+            options: [{ min: 1, max: 3, properties: "always" }],
+            languageOptions: {
+                ecmaVersion: 2025
+            }
+        },
+        {
+            code: "export * from 'foo.json' with { type: 'json' }",
+            options: [{ min: 1, max: 3, properties: "always" }],
+            languageOptions: {
+                ecmaVersion: 2025
+            }
+        },
+        {
+            code: "export { default } from 'foo.json' with { type: 'json' }",
+            options: [{ min: 1, max: 3, properties: "always" }],
+            languageOptions: {
+                ecmaVersion: 2025
+            }
+        },
+        {
+            code: "import('foo.json', { with: { type: 'json' } })",
+            options: [{ min: 1, max: 3, properties: "always" }],
+            languageOptions: {
+                ecmaVersion: 2025
+            }
+        },
+        {
+            code: "import('foo.json', { 'with': { type: 'json' } })",
+            options: [{ min: 1, max: 3, properties: "always" }],
+            languageOptions: {
+                ecmaVersion: 2025
+            }
+        },
+        {
+            code: "import('foo.json', { with: { type } })",
+            options: [{ min: 1, max: 3, properties: "always" }],
+            languageOptions: {
+                ecmaVersion: 2025
+            }
         }
     ],
     invalid: [
