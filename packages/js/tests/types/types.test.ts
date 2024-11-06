@@ -25,8 +25,12 @@
  * SOFTWARE
  */
 
-import type { Linter } from "eslint";
+import type { ESLint, Linter } from "eslint";
 import js from "../../";
+
+js satisfies ESLint.Plugin;
+js.meta.name satisfies string;
+js.meta.version satisfies string;
 
 let config: Linter.Config[];
 
