@@ -1030,7 +1030,7 @@ describe("ast-utils", () => {
                     }))
                 });
 
-                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 13 } }, "test.js", true);
+                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 13 } }, "test.js");
             });
         });
     });

@@ -2489,7 +2489,7 @@ describe("SourceCode", () => {
                 rules: { "test/checker": "error" }
             };
 
-            flatLinter.verify(code, config, filename, true);
+            flatLinter.verify(code, config, filename);
             assert(spy && spy.calledOnce, "Spy was not called.");
         });
 
@@ -2925,7 +2925,7 @@ describe("SourceCode", () => {
                 }
             });
 
-            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } }, filename, true);
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } }, filename);
             assert(spy && spy.calledOnce);
         });
 
