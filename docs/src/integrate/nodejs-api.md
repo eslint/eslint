@@ -422,7 +422,7 @@ The `LintMessage` value is the information of each linting error. The `messages`
 * `message` (`string`)<br>
   The error message.
 * `messageId` (`string | undefined`)<br>
-  The message id of the lint error. This property is undefined if the rule does not use message ids.
+  The message ID of the lint error. This property is undefined if the rule does not use message IDs.
 * `line` (`number | undefined`)<br>
   The 1-based line number of the begin point of this message.
 * `column` (`number | undefined`)<br>
@@ -662,7 +662,7 @@ The information available for each linting message is:
 * `fatal` - usually omitted, but will be set to true if there's a parsing error (not related to a rule).
 * `line` - the line on which the error occurred.
 * `message` - the message that should be output.
-* `messageId` - the ID of the message used to generate the message (this property is omitted if the rule does not use message ids).
+* `messageId` - the ID of the message used to generate the message (this property is omitted if the rule does not use message IDs).
 * `nodeType` - (**Deprecated:** This property will be removed in a future version of ESLint.) the node or token type that was reported with the problem.
 * `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
 * `severity` - either 1 or 2, depending on your configuration.
@@ -842,7 +842,7 @@ In addition to the properties above, invalid test cases can also have the follow
 
 * `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional unless otherwise noted):
     * `message` (string/regexp): The message for the error. Must provide this or `messageId`
-    * `messageId` (string): The Id for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details
+    * `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details
     * `data` (object): Placeholder data which can be used in combination with `messageId`
     * `type` (string): (**Deprecated:** This property will be removed in a future version of ESLint.) The type of the reported AST node
     * `line` (number): The 1-based line number of the reported location
