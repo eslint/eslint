@@ -421,6 +421,8 @@ The `LintMessage` value is the information of each linting error. The `messages`
   `true` if this is a fatal error unrelated to a rule, like a parsing error.
 * `message` (`string`)<br>
   The error message.
+* `messageId` (`string | undefined`)<br>
+  The message id of the lint error. This property is undefined if the rule does not use message ids.
 * `line` (`number | undefined`)<br>
   The 1-based line number of the begin point of this message.
 * `column` (`number | undefined`)<br>
@@ -431,7 +433,7 @@ The `LintMessage` value is the information of each linting error. The `messages`
   The 1-based column number of the end point of this message. This property is undefined if this message is not a range.
 * `fix` (`EditInfo | undefined`)<br>
   The [EditInfo] object of autofix. This property is undefined if this message is not fixable.
-* `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
+* `suggestions` (`{ desc: string; fix: EditInfo; messageId?: string; data?: object }[] | undefined`)<br>
   The list of suggestions. Each suggestion is the pair of a description and an [EditInfo] object to fix code. API users such as editor integrations can choose one of them to fix the problem of this message. This property is undefined if this message doesn't have any suggestions.
 
 ### ◆ SuppressedLintMessage type
@@ -446,6 +448,8 @@ The `SuppressedLintMessage` value is the information of each suppressed linting 
   Same as `fatal` in [LintMessage] type.
 * `message` (`string`)<br>
   Same as `message` in [LintMessage] type.
+* `messageId` (`string | undefined`)<br>
+  Same as `messageId` in [LintMessage] type.
 * `line` (`number | undefined`)<br>
   Same as `line` in [LintMessage] type.
 * `column` (`number | undefined`)<br>
@@ -456,7 +460,7 @@ The `SuppressedLintMessage` value is the information of each suppressed linting 
   Same as `endColumn` in [LintMessage] type.
 * `fix` (`EditInfo | undefined`)<br>
   Same as `fix` in [LintMessage] type.
-* `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
+* `suggestions` (`{ desc: string; fix: EditInfo; messageId?: string; data?: object }[] | undefined`)<br>
   Same as `suggestions` in [LintMessage] type.
 * `suppressions` (`{ kind: string; justification: string}[]`)<br>
   The list of suppressions. Each suppression is the pair of a kind and a justification.
@@ -658,6 +662,7 @@ The information available for each linting message is:
 * `fatal` - usually omitted, but will be set to true if there's a parsing error (not related to a rule).
 * `line` - the line on which the error occurred.
 * `message` - the message that should be output.
+* `messageId` - the ID of the message used to generate the message (this property is omitted if the rule does not use message ids).
 * `nodeType` - (**Deprecated:** This property will be removed in a future version of ESLint.) the node or token type that was reported with the problem.
 * `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
 * `severity` - either 1 or 2, depending on your configuration.
