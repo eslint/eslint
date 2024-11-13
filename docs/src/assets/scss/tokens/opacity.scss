@@ -1,0 +1,18 @@
+:root {
+    --opacity-100: 1;
+    --opacity-60: 0.6;
+}
+
+@media (prefers-color-scheme: "dark") {
+    :root {
+        --logo-center-opacity: var(--opacity-60);
+    }
+}
+
+html[data-theme="light"] {
+    --logo-center-opacity: var(--opacity-100);
+}
+
+html[data-theme="dark"] {
+    --logo-center-opacity: var(--opacity-60);
+}
