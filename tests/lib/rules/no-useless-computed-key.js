@@ -29,10 +29,6 @@ ruleTester.run("no-useless-computed-key", rule, {
         "var { a } = obj;",
         "var { a: a } = obj;",
         "var { a: b } = obj;",
-
-        // ['__proto__'] is useless computed key in object patterns, but the rule doesn't report it for backwards compatibility since it's frozen
-        "var { ['__proto__']: a } = obj",
-
         { code: "class Foo { a() {} }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { 'a'() {} }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { [x]() {} }", options: [{ enforceForClassMembers: true }] },
@@ -119,6 +115,14 @@ ruleTester.run("no-useless-computed-key", rule, {
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'x'" },
+                type: "Property"
+            }]
+        }, {
+            code: "var { ['__proto__']: a } = obj",
+            output: "var { '__proto__': a } = obj",
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'__proto__'" },
                 type: "Property"
             }]
         }, {
