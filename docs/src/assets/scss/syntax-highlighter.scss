@@ -33,11 +33,7 @@ pre[class*="language-"] {
     overflow: auto;
     border-radius: var(--border-radius);
     background-color: var(--lightest-background-color);
-    color: var(--color-neutral-900);
-
-    [data-theme="dark"] & {
-        color: var(--color-neutral-100);
-    }
+    color: var(--code-text-color);
 
     &.line-numbers-mode {
         padding-left: calc(1.5rem + 2.4em + 1.2rem);

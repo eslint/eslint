@@ -34,6 +34,9 @@ var a = { [0]: 0 };
 var a = { ['x']: 0 };
 var a = { ['x']() {} };
 
+var { [0]: a } = obj;
+var { ['x']: a } = obj;
+
 class Foo {
     ["foo"] = "bar";
 
@@ -62,6 +65,9 @@ var c = { 0: 0 };
 var a = { x() {} };
 var c = { a: 0 };
 var c = { '0+1,234': 0 };
+
+var { 0: a } = obj;
+var { 'x': a } = obj;
 
 class Foo {
     "foo" = "bar";

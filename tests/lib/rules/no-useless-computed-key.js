@@ -24,6 +24,11 @@ ruleTester.run("no-useless-computed-key", rule, {
         "({ [x]: 0 });",
         "({ a: 0, [b](){} })",
         "({ ['__proto__']: [] })",
+        "var { 'a': foo } = obj",
+        "var { [a]: b } = obj;",
+        "var { a } = obj;",
+        "var { a: a } = obj;",
+        "var { a: b } = obj;",
         { code: "class Foo { a() {} }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { 'a'() {} }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { [x]() {} }", options: [{ enforceForClassMembers: true }] },
@@ -65,6 +70,14 @@ ruleTester.run("no-useless-computed-key", rule, {
                 type: "Property"
             }]
         }, {
+            code: "var { ['0']: a } = obj",
+            output: "var { '0': a } = obj",
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'0'" },
+                type: "Property"
+            }]
+        }, {
             code: "({ ['0+1,234']: 0 })",
             output: "({ '0+1,234': 0 })",
             errors: [{
@@ -81,11 +94,35 @@ ruleTester.run("no-useless-computed-key", rule, {
                 type: "Property"
             }]
         }, {
+            code: "var { [0]: a } = obj",
+            output: "var { 0: a } = obj",
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "0" },
+                type: "Property"
+            }]
+        }, {
             code: "({ ['x']: 0 })",
             output: "({ 'x': 0 })",
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'x'" },
+                type: "Property"
+            }]
+        }, {
+            code: "var { ['x']: a } = obj",
+            output: "var { 'x': a } = obj",
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'x'" },
+                type: "Property"
+            }]
+        }, {
+            code: "var { ['__proto__']: a } = obj",
+            output: "var { '__proto__': a } = obj",
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'__proto__'" },
                 type: "Property"
             }]
         }, {
@@ -115,6 +152,14 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "({ [('x')]: 0 })",
             output: "({ 'x': 0 })",
+            errors: [{
+                messageId: "unnecessarilyComputedProperty",
+                data: { property: "'x'" },
+                type: "Property"
+            }]
+        }, {
+            code: "var { [('x')]: a } = obj",
+            output: "var { 'x': a } = obj",
             errors: [{
                 messageId: "unnecessarilyComputedProperty",
                 data: { property: "'x'" },

@@ -141,7 +141,7 @@ a.rule__name {
 
 .rule__status {
     color: var(--color-rose-500);
-    background: var(--color-rose-50);
+    background: var(--rule-status-background-color);
     border-radius: var(--border-radius);
     display: inline-block;
     font-weight: normal;
@@ -149,10 +149,6 @@ a.rule__name {
     margin-inline-start: .5rem;
     font-size: var(--step--1);
     padding: 0 .5rem;
-
-    [data-theme="dark"] & {
-        background: var(--body-background-color);
-    }
 }
 
 .rule__categories__type {
