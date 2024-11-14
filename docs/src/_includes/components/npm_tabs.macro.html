@@ -9,18 +9,11 @@
     <div class="c-tabs__tabpanel" data-tabpanel>
         <h3 class="h6 c-tabs__tabpanel__title">npm</h3>
 
-        ```shell
-        {% if params.comment %}
-            # {{ params.comment | safe }}
-            {{ "\n" }}
-        {% endif -%}
-        npm {{ conversions.toNpmCommands[params.command] | safe }}
-        {% for arg in params.args %}
-            {{ conversions.toNpmArgs[arg] | safe }}
-        {% endfor %}
-        {% for package in params.packages %}
-            {{ package | safe }}
-        {% endfor %} ```
+```shell
+{% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
+npm {{ conversions.toNpmCommands[params.command] | safe }}{% for arg in params.args %} {{ conversions.toNpmArgs[arg] | safe }}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
+```
+
     </div>
    <div class="c-tabs__tabpanel" data-tabpanel>
       <h3 class="h6 c-tabs__tabpanel__title">yarn</h3>
