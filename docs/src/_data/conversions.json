@@ -12,7 +12,6 @@
     },
     "toYarnCommands": {
         "install": "add",
-        "run": "",
         "init": "init",
         "init-create": "create"
      },
