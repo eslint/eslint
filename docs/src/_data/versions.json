@@ -6,7 +6,7 @@
             "path": "/docs/head/"
         },
         {
-            "version": "9.14.0",
+            "version": "9.15.0",
             "branch": "latest",
             "path": "/docs/latest/"
         },
