@@ -14,6 +14,7 @@ const assert = require("chai").assert;
 const stringify = require("json-stable-stringify-without-jsonify");
 const espree = require("espree");
 const jslang = require("../../../lib/languages/js");
+const { LATEST_ECMA_VERSION } = require("../../../conf/ecma-version");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -187,7 +188,7 @@ async function assertMergedResult(values, result) {
     }
 
     if (!result.languageOptions) {
-        result.languageOptions = jslang.defaultLanguageOptions;
+        result.languageOptions = jslang.normalizeLanguageOptions(jslang.defaultLanguageOptions);
     }
 
     assert.deepStrictEqual(config, result);
@@ -282,10 +283,13 @@ describe("FlatConfigArray", () => {
                 plugins: ["@", "a", "b"],
                 language: "@/js",
                 languageOptions: {
-                    ecmaVersion: "latest",
+                    ecmaVersion: LATEST_ECMA_VERSION,
                     sourceType: "module",
                     parser: `espree@${espree.version}`,
-                    parserOptions: {}
+                    parserOptions: {
+                        sourceType: "module"
+                    }
+
                 },
                 linterOptions: {
                     reportUnusedDisableDirectives: 1
@@ -318,10 +322,12 @@ describe("FlatConfigArray", () => {
                 plugins: ["@", "a", "b:b-plugin@2.3.1"],
                 language: "@/js",
                 languageOptions: {
-                    ecmaVersion: "latest",
+                    ecmaVersion: LATEST_ECMA_VERSION,
                     sourceType: "module",
                     parser: `espree@${espree.version}`,
-                    parserOptions: {}
+                    parserOptions: {
+                        sourceType: "module"
+                    }
                 },
                 linterOptions: {
                     reportUnusedDisableDirectives: 1
@@ -356,10 +362,12 @@ describe("FlatConfigArray", () => {
                 plugins: ["@", "a", "b:b-plugin@2.3.1"],
                 language: "@/js",
                 languageOptions: {
-                    ecmaVersion: "latest",
+                    ecmaVersion: LATEST_ECMA_VERSION,
                     sourceType: "module",
                     parser: `espree@${espree.version}`,
-                    parserOptions: {}
+                    parserOptions: {
+                        sourceType: "module"
+                    }
                 },
                 linterOptions: {
                     reportUnusedDisableDirectives: 1
@@ -390,10 +398,12 @@ describe("FlatConfigArray", () => {
                 plugins: ["@"],
                 language: "@/js",
                 languageOptions: {
-                    ecmaVersion: "latest",
+                    ecmaVersion: LATEST_ECMA_VERSION,
                     sourceType: "module",
                     parser: `espree@${espree.version}`,
-                    parserOptions: {},
+                    parserOptions: {
+                        sourceType: "module"
+                    },
                     globals: {
                         name: "off"
                     }
@@ -530,7 +540,7 @@ describe("FlatConfigArray", () => {
             assert.deepStrictEqual(config.toJSON(), {
                 language: "@/js",
                 languageOptions: {
-                    ecmaVersion: "latest",
+                    ecmaVersion: LATEST_ECMA_VERSION,
                     parser: "custom-parser",
                     parserOptions: {},
                     sourceType: "module"
@@ -565,7 +575,7 @@ describe("FlatConfigArray", () => {
             assert.deepStrictEqual(config.toJSON(), {
                 language: "@/js",
                 languageOptions: {
-                    ecmaVersion: "latest",
+                    ecmaVersion: LATEST_ECMA_VERSION,
                     parser: "custom-parser@0.1.0",
                     parserOptions: {},
                     sourceType: "module"
@@ -600,7 +610,7 @@ describe("FlatConfigArray", () => {
             assert.deepStrictEqual(config.toJSON(), {
                 language: "@/js",
                 languageOptions: {
-                    ecmaVersion: "latest",
+                    ecmaVersion: LATEST_ECMA_VERSION,
                     parser: "custom-parser@0.1.0",
                     parserOptions: {},
                     sourceType: "module"
@@ -633,7 +643,7 @@ describe("FlatConfigArray", () => {
             assert.deepStrictEqual(config.toJSON(), {
                 language: "@/js",
                 languageOptions: {
-                    ecmaVersion: "latest",
+                    ecmaVersion: LATEST_ECMA_VERSION,
                     parser: "custom-parser@0.1.0",
                     parserOptions: {},
                     sourceType: "module"
@@ -706,9 +716,11 @@ describe("FlatConfigArray", () => {
             assert.deepStrictEqual(config.toJSON(), {
                 language: "@/js",
                 languageOptions: {
-                    ecmaVersion: "latest",
+                    ecmaVersion: LATEST_ECMA_VERSION,
                     parser: `espree@${espree.version}`,
-                    parserOptions: {},
+                    parserOptions: {
+                        sourceType: "module"
+                    },
                     sourceType: "module"
                 },
                 linterOptions: {
@@ -737,9 +749,11 @@ describe("FlatConfigArray", () => {
             assert.deepStrictEqual(config.toJSON(), {
                 language: "@/js",
                 languageOptions: {
-                    ecmaVersion: "latest",
+                    ecmaVersion: LATEST_ECMA_VERSION,
                     parser: `espree@${espree.version}`,
-                    parserOptions: {},
+                    parserOptions: {
+                        sourceType: "module"
+                    },
                     sourceType: "module"
                 },
                 linterOptions: {
@@ -772,9 +786,11 @@ describe("FlatConfigArray", () => {
             assert.deepStrictEqual(config.toJSON(), {
                 language: "@/js",
                 languageOptions: {
-                    ecmaVersion: "latest",
+                    ecmaVersion: LATEST_ECMA_VERSION,
                     parser: `espree@${espree.version}`,
-                    parserOptions: {},
+                    parserOptions: {
+                        sourceType: "module"
+                    },
                     sourceType: "module"
                 },
                 linterOptions: {
@@ -805,9 +821,11 @@ describe("FlatConfigArray", () => {
             assert.deepStrictEqual(config.toJSON(), {
                 language: "@/js",
                 languageOptions: {
-                    ecmaVersion: "latest",
+                    ecmaVersion: LATEST_ECMA_VERSION,
                     parser: `espree@${espree.version}`,
-                    parserOptions: {},
+                    parserOptions: {
+                        sourceType: "module"
+                    },
                     sourceType: "module"
                 },
                 linterOptions: {
@@ -1446,7 +1464,10 @@ describe("FlatConfigArray", () => {
                 languageOptions: {
                     ...jslang.defaultLanguageOptions,
                     ecmaVersion: 2019,
-                    sourceType: "commonjs"
+                    sourceType: "commonjs",
+                    parserOptions: {
+                        sourceType: "commonjs"
+                    }
                 }
             }));
 
@@ -1658,7 +1679,10 @@ describe("FlatConfigArray", () => {
                     language: jslang,
                     languageOptions: {
                         ...jslang.defaultLanguageOptions,
-                        sourceType: "script"
+                        sourceType: "script",
+                        parserOptions: {
+                            sourceType: "script"
+                        }
                     }
                 }));
 
@@ -1676,7 +1700,10 @@ describe("FlatConfigArray", () => {
                     language: jslang,
                     languageOptions: {
                         ...jslang.defaultLanguageOptions,
-                        sourceType: "script"
+                        sourceType: "script",
+                        parserOptions: {
+                            sourceType: "script"
+                        }
                     }
                 }));
 
@@ -2058,7 +2085,8 @@ describe("FlatConfigArray", () => {
                         ...jslang.defaultLanguageOptions,
                         parserOptions: {
                             foo: "whatever",
-                            bar: "baz"
+                            bar: "baz",
+                            sourceType: "module"
                         }
                     }
                 }));
@@ -2091,8 +2119,9 @@ describe("FlatConfigArray", () => {
                         parserOptions: {
                             ecmaFeatures: {
                                 jsx: true,
-                                globalReturn: true
-                            }
+                                globalReturn: false
+                            },
+                            sourceType: "module"
                         }
                     }
                 }));
@@ -2122,7 +2151,8 @@ describe("FlatConfigArray", () => {
                         parserOptions: {
                             ecmaFeatures: {
                                 jsx: true
-                            }
+                            },
+                            sourceType: "module"
                         }
                     }
                 }));
@@ -2149,7 +2179,8 @@ describe("FlatConfigArray", () => {
                     languageOptions: {
                         ...jslang.defaultLanguageOptions,
                         parserOptions: {
-                            foo: "bar"
+                            foo: "bar",
+                            sourceType: "module"
                         }
                     }
                 }));
@@ -2171,7 +2202,8 @@ describe("FlatConfigArray", () => {
                     languageOptions: {
                         ...jslang.defaultLanguageOptions,
                         parserOptions: {
-                            foo: "whatever"
+                            foo: "whatever",
+                            sourceType: "module"
                         }
                     }
                 }));
@@ -2194,7 +2226,8 @@ describe("FlatConfigArray", () => {
                     languageOptions: {
                         ...jslang.defaultLanguageOptions,
                         parserOptions: {
-                            foo: "bar"
+                            foo: "bar",
+                            sourceType: "module"
                         }
                     }
                 }));
