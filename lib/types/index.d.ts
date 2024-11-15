@@ -741,6 +741,9 @@ export namespace Rule {
          */
         schema?: JSONSchema4 | JSONSchema4[] | false | undefined;
 
+        /** Any default options to be recursively merged on top of any user-provided options. */
+        defaultOptions?: unknown[];
+
         /** Indicates whether the rule has been deprecated. Omit if not deprecated. */
         deprecated?: boolean | undefined;
         /** The name of the rule(s) this rule was replaced by, if it was deprecated. */

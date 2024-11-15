@@ -2761,9 +2761,11 @@ describe("FlatConfigArray", () => {
 
             assert.deepStrictEqual(config.rules, {
                 camelcase: [2, {
+                    allow: [],
                     ignoreDestructuring: false,
                     ignoreGlobals: false,
-                    ignoreImports: false
+                    ignoreImports: false,
+                    properties: "always"
                 }],
                 "default-case": [2, {}]
             });
