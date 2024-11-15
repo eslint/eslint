@@ -1,3 +1,30 @@
+v9.15.0 - November 15, 2024
+
+* [`2967d91`](https://github.com/eslint/eslint/commit/2967d91037ad670ea3a67fdb9c171b60d9af138b) chore: upgrade @eslint/js@9.15.0 (#19133) (Milos Djermanovic)
+* [`b441bee`](https://github.com/eslint/eslint/commit/b441bee6ad9807fef614bd071e6bd3e8b3307b2d) chore: package.json update for @eslint/js release (Jenkins)
+* [`7d6bf4a`](https://github.com/eslint/eslint/commit/7d6bf4a250f97d8ff1e2606e3d769e016a32f45b) chore: upgrade @eslint/core@0.9.0 (#19131) (Milos Djermanovic)
+* [`01557ce`](https://github.com/eslint/eslint/commit/01557cec24203be72222858a3912da0a474ac75c) feat: Implement Language#normalizeLanguageOptions() (#19104) (Nicholas C. Zakas)
+* [`902e707`](https://github.com/eslint/eslint/commit/902e70713de1ab67ede9ef8a3836fd2d09a759e5) chore: upgrade @eslint/plugin-kit@0.2.3 (#19130) (Milos Djermanovic)
+* [`2edc0e2`](https://github.com/eslint/eslint/commit/2edc0e2bdc40c4a6da8d526c82c0b6c582bae419) feat: add meta.defaultOptions (#17656) (Josh Goldberg ✨)
+* [`fd33f13`](https://github.com/eslint/eslint/commit/fd33f1315ac59b1b3828dbab8e1e056a1585eff0) fix: update types for `no-restricted-imports` rule (#19060) (Nitin Kumar)
+* [`5ff6c1d`](https://github.com/eslint/eslint/commit/5ff6c1dd09f32b56c05ab97f328741fc8ffb1f64) chore: bump cross-spawn (#19125) (Ian Bobinac)
+* [`d927920`](https://github.com/eslint/eslint/commit/d9279202e7d15452e44adf38451d33d4aaad3bd4) docs: fix styles in no-js mode (#18916) (Tanuj Kanti)
+* [`bdec50e`](https://github.com/eslint/eslint/commit/bdec50e91baf9d5eefa07d97d2059fdebb53cdaa) feat: fix `no-useless-computed-key` false negative with `__proto__` (#19123) (Milos Djermanovic)
+* [`09bc2a8`](https://github.com/eslint/eslint/commit/09bc2a88c00aa9a93c7de505795fc4e85b2e6357) docs: Update README (GitHub Actions Bot)
+* [`bd35098`](https://github.com/eslint/eslint/commit/bd35098f5b949ecb83e8c7e287524b28b2a3dd71) fix: switch away from Node.js node:assert and AssertionError (#19082) (Josh Goldberg ✨)
+* [`39089c8`](https://github.com/eslint/eslint/commit/39089c80a7af09494fce86a6574bf012cbe46d10) docs: add `no-useless-computed-key` examples with object patterns (#19109) (Milos Djermanovic)
+* [`895c60f`](https://github.com/eslint/eslint/commit/895c60f7fe09f59df1e9490006220d3ec4b9d5b0) docs: add missing messageId property and suggestion properties (#19122) (fnx)
+* [`cceccc7`](https://github.com/eslint/eslint/commit/cceccc771631011e04b37122b990205f0e8b6925) chore: update dependency @eslint/json to ^0.6.0 (#19117) (renovate[bot])
+* [`0da3f73`](https://github.com/eslint/eslint/commit/0da3f732fe1776f8f79dac829b2cab4cedd4b6d8) chore: update algolia referrer (#19114) (Strek)
+* [`9db5b15`](https://github.com/eslint/eslint/commit/9db5b152c325a930130d49ca967013471c3ba0dc) fix: unsafe report for `no-lonely-if` (#19087) (Abraham Guo)
+* [`68fa497`](https://github.com/eslint/eslint/commit/68fa497f6a11f1738dce85bb2bdd7a5f8b9f5d6d) fix: ignore files on a different drive on Windows (#19069) (Francesco Trotta)
+* [`4f08332`](https://github.com/eslint/eslint/commit/4f08332ac03e51002f8de6da5c5a362608205437) ci: unpin `trunk-io/trunk-action` (#19108) (Francesco Trotta)
+* [`3087c9e`](https://github.com/eslint/eslint/commit/3087c9e95094cad1354aca2e4ae48c7bd2381184) feat: add `meta` object to `@eslint/js` plugin (#19095) (Francesco Trotta)
+* [`298625e`](https://github.com/eslint/eslint/commit/298625eb65dc00bfa0a877ea46faada22021c23e) docs: Change CLI -c to use flat config (#19103) (Nicholas C. Zakas)
+* [`4ce625a`](https://github.com/eslint/eslint/commit/4ce625a230778a41b856162df9ebcc57c25cc103) fix: upgrade @humanwhocodes/retry@0.4.1 to avoid debug logs (#19102) (Milos Djermanovic)
+* [`522d8a3`](https://github.com/eslint/eslint/commit/522d8a32f326c52886c531f43cf6a1ff15af8286) docs: add deprecation on `indent`, `quotes` and `semi` rule types (#19090) (Marco Pasqualetti)
+* [`6b75683`](https://github.com/eslint/eslint/commit/6b75683b47c346faaeb6c1dac8e168d64338c7b3) perf: optimize `text-table` by replacing regex with `trimEnd` (#19061) (Nitin Kumar)
+
 v9.14.0 - November 1, 2024
 
 * [`f36cb16`](https://github.com/eslint/eslint/commit/f36cb1649a85028fb3999ee2056ee467a907c061) chore: upgrade @eslint/js@9.14.0 (#19086) (Milos Djermanovic)
