@@ -36,6 +36,8 @@ ruleTester.run("consistent-return", rule, {
         "function foo() { function bar() { return true; } return; }",
         "function foo() { function bar() { return; } return false; }",
         "function Foo() { if (!(this instanceof Foo)) return new Foo(); }",
+        "function foo() { if (true) return 5; else return undefined; }",
+        "function foo() { if (true) return 5; else return void 0; }",
         { code: "function foo() { if (true) return; else return undefined; }", options: [{ treatUndefinedAsUnspecified: true }] },
         { code: "function foo() { if (true) return; else return void 0; }", options: [{ treatUndefinedAsUnspecified: true }] },
         { code: "function foo() { if (true) return undefined; else return; }", options: [{ treatUndefinedAsUnspecified: true }] },

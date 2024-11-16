@@ -2004,6 +2004,28 @@ ruleTester.run("sort-keys", rule, {
                 }
             ]
         },
+        {
+            code: `
+                let obj = {
+                    b
+
+                    ,a
+                }
+            `,
+            languageOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b"
+                    }
+                }
+            ]
+        },
 
         // When allowLineSeparatedGroups option is true
         {
