@@ -610,7 +610,7 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{}],
             errors: [
                 definedError("f", [{ output: "", messageId: "removeVar", data: { varName: "f" } }]),
-                assignedError("a", [{ output: "function f() {  return function(){ f(a = 2); }; }", messageId: "removeVar", data: { varName: "a" } }])
+                assignedError("a")
             ]
         },
         { code: "import x from \"y\";", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("x", [{ output: "import \"y\";", messageId: "removeVar", data: { varName: "x" } }])] },
@@ -920,13 +920,7 @@ ruleTester.run("no-unused-vars", rule, {
                     column: 5
                 },
                 {
-                    ...assignedError("b", [
-                        {
-                            output: "let _a; foo.forEach(item => { [a, b] = item; });",
-                            messageId: "removeVar",
-                            data: { varName: "b" }
-                        }
-                    ]),
+                    ...assignedError("b"),
                     line: 1,
                     column: 9
                 }
@@ -2554,6 +2548,16 @@ try {
         },
         {
             code: "console.log('foo')\nvar {a} = foo;\n+b > 0 ? bar() : baz()",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" } }]
+        },
+        {
+            code: "let x;\n() => x = 1;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "x", action: "assigned a value", additional: "" } }]
+        },
+        {
+            code: "let [a = 1] = arr;\na = 2;",
             languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" } }]
         }
