@@ -3,6 +3,7 @@ title: no-param-reassign
 rule_type: suggestion
 further_reading:
 - https://spin.atomicobject.com/2011/04/10/javascript-don-t-reassign-your-function-arguments/
+- https://github.com/Fishrock123/proposal-const-function-arguments
 ---
 
 
