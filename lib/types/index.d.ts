@@ -547,10 +547,6 @@ export namespace SourceCode {
 // #endregion
 
 export namespace Rule {
-    // interface RuleModule {
-    //     create(context: RuleContext): RuleListener;
-    //     meta?: RuleMetaData | undefined;
-    // }
 
     type RuleModule = RuleDefinition<{
         LangOptions: Linter.LanguageOptions,
