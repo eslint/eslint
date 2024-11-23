@@ -857,7 +857,7 @@ Suppresses existing violations, so that they are not being reported in subsequen
 ##### `--suppress-all` example
 
 ```shell
-npx eslint --suppress-all file.js
+npx eslint "src/**/*.js" --suppress-all
 ```
 
 #### `--suppress-rule`
@@ -870,10 +870,10 @@ Suppresses violations for specific rules, so that they are not being reported in
 ##### `--suppress-rule` example
 
 ```shell
-npx eslint --suppress-rule no-console --suppress-rule indent file.js
+npx eslint "src/**/*.js" --suppress-rule no-console --suppress-rule indent
 ```
 
-### `--suppressions-location`
+#### `--suppressions-location`
 
 Specify the path to the suppressions location. Can be a file or a directory.
 
@@ -881,11 +881,23 @@ Specify the path to the suppressions location. Can be a file or a directory.
 * **Multiple Arguments**: No
 * **Default Value**: If no location is specified, `.eslint-suppressions.json` is used. The file is created in the directory where the `eslint` command is executed.
 
-### `--prune-suppressions`
+##### `--suppressions-location` example
+
+```shell
+npx eslint "src/**/*.js" --suppressions-location ".eslint-suppressions-example.json"
+```
+
+#### `--prune-suppressions`
 
 Prune unused suppressions from the suppressions file. This option is useful when you want to remove suppressions for rules that are no longer enabled or when you want to remove suppressions for files that no longer exist.
 
 * **Argument Type**: No argument.
+
+##### `--prune-suppressions` example
+
+```shell
+npx eslint "src/**/*.js" --prune-suppressions
+```
 
 ### Miscellaneous
 
