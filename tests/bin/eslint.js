@@ -502,6 +502,197 @@ describe("bin/eslint.js", () => {
 		});
 	});
 
+    describe("suppress violations", () => {
+        const SUPPRESSIONS_PATH = ".temp-eslintsuppressions";
+        const SOURCE_PATH = "tests/fixtures/suppressions/test-file.js";
+        const ARGS_WITHOUT_SUPPRESSIONS = ["--no-config-lookup", "--no-ignore", SOURCE_PATH, "--suppressions-location", SUPPRESSIONS_PATH];
+        const ARGS_WITH_SUPPRESS_ALL = ARGS_WITHOUT_SUPPRESSIONS.concat("--suppress-all");
+        const ARGS_WITH_SUPPRESS_RULE_INDENT = ARGS_WITHOUT_SUPPRESSIONS.concat("--suppress-rule", "indent");
+        const ARGS_WITH_PRUNE_SUPPRESSIONS = ARGS_WITHOUT_SUPPRESSIONS.concat("--prune-suppressions");
+
+        const SUPPRESSIONS_FILE_WITH_INDENT = {
+            [SOURCE_PATH]: {
+                indent: {
+                    count: 1
+                }
+            }
+        };
+
+        const SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF = {
+            [SOURCE_PATH]: {
+                indent: {
+                    count: 1
+                },
+                "no-undef": {
+                    count: 3
+                }
+            }
+        };
+
+        describe("when no suppression file exists", () => {
+            beforeEach(() => {
+                fs.rmSync(SUPPRESSIONS_PATH, { force: true });
+                assert.isFalse(fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file should not exist at the start");
+            });
+            it("creates the suppressions file when the --suppress-all flag is used, and reports no violations", () => {
+                const child = runESLint(ARGS_WITH_SUPPRESS_ALL);
+
+                return assertExitCode(child, 0).then(() => {
+                    assert.isTrue(fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file should exist at the given location");
+
+                    JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8"));
+                });
+            });
+            it("creates rgw suppressions file when the --suppress-rule flag is used, and reports some violations", () => {
+                const child = runESLint(ARGS_WITH_SUPPRESS_RULE_INDENT);
+
+                const exitCodeAssertion = assertExitCode(child, 1).then(() => {
+                    assert.isTrue(fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file should exist at the given location");
+                    assert.deepStrictEqual(
+                        JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
+                        SUPPRESSIONS_FILE_WITH_INDENT,
+                        "Suppressions file should contain the expected contents"
+                    );
+                });
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stdout, "'b' is not defined");
+                    assert.include(output.stdout, "'c' is not defined");
+                    assert.include(output.stdout, "'d' is not defined");
+                    assert.notInclude(output.stdout, "Expected indentation of 2 spaces but found 4");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+            it("creates an empty suppressions file when the --prune-suppressions flag is used, and all violations are reported", () => {
+                const child = runESLint(ARGS_WITH_PRUNE_SUPPRESSIONS);
+
+                const exitCodeAssertion = assertExitCode(child, 1).then(() => {
+                    assert.isTrue(fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file should exist at the given location");
+                    assert.deepStrictEqual(
+                        JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
+                        {},
+                        "Suppressions file should be empty"
+                    );
+                });
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stdout, "'b' is not defined");
+                    assert.include(output.stdout, "'c' is not defined");
+                    assert.include(output.stdout, "'d' is not defined");
+                    assert.include(output.stdout, "Expected indentation of 2 spaces but found 4");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+        });
+
+        describe("when an invalid suppressions file already exists", () => {
+            beforeEach(() => {
+                fs.writeFileSync(SUPPRESSIONS_PATH, "This is not valid JSON.");
+
+                // Sanity check
+                assert.throws(
+                    () => JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
+                    SyntaxError,
+                    /Unexpected token/u,
+                    "Suppressions file should not contain valid JSON at the start"
+                );
+            });
+
+            it("overwrites the invalid suppressions file with a valid one when the --suppress-all argument is used", () => {
+                const child = runESLint(ARGS_WITH_SUPPRESS_ALL);
+
+                return assertExitCode(child, 0).then(() => {
+                    assert.isTrue(fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file should exist at the given location");
+                    assert.deepStrictEqual(
+                        JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
+                        SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF,
+                        "Suppressions file should contain the expected contents"
+                    );
+                });
+            });
+
+            it("gives an error when the --suppress-all argument is not used", () => {
+                const child = runESLint(ARGS_WITHOUT_SUPPRESSIONS);
+
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stderr, "Failed to parse suppressions file at");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+
+            it("gives an error when the --suppress-rule argument is used", () => {
+                const child = runESLint(ARGS_WITH_SUPPRESS_RULE_INDENT);
+
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stderr, "Failed to parse suppressions file at");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+
+            it("give an error when the --prune-suppressions argument is used", () => {
+                const child = runESLint(ARGS_WITH_PRUNE_SUPPRESSIONS);
+
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stderr, "Failed to parse suppressions file at");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+        });
+
+        describe("when a valid suppressions file already exists", () => {
+            it("suppresses the violations from the suppressions file, without passing --suppress-all", () => {
+                fs.writeFileSync(SUPPRESSIONS_PATH, JSON.stringify(SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF, null, 2));
+
+                const child = runESLint(ARGS_WITHOUT_SUPPRESSIONS);
+
+                return assertExitCode(child, 0);
+            });
+
+            it("displays all the violations, when there is at least one left unmatched", () => {
+                const suppressions = structuredClone(SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF);
+
+                suppressions[SOURCE_PATH]["no-undef"].count = 1;
+                fs.writeFileSync(SUPPRESSIONS_PATH, JSON.stringify(suppressions, null, 2));
+
+                const child = runESLint(ARGS_WITHOUT_SUPPRESSIONS);
+
+                const exitCodeAssertion = assertExitCode(child, 1);
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stdout, "'b' is not defined");
+                    assert.include(output.stdout, "'c' is not defined");
+                    assert.include(output.stdout, "'d' is not defined");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+
+            it("prunes the suppressions file, when the --prune-suppressions flag is used", () => {
+                const suppressions = structuredClone(SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF);
+
+                suppressions[SOURCE_PATH].indent.count = 10;
+                suppressions[SOURCE_PATH].ruleThatDoesntExist = { count: 1 };
+                suppressions["file-that-doesnt-exist.js"] = { indent: { count: 1 } };
+                fs.writeFileSync(SUPPRESSIONS_PATH, JSON.stringify(suppressions, null, 2));
+
+                const child = runESLint(ARGS_WITH_PRUNE_SUPPRESSIONS);
+
+                return assertExitCode(child, 0).then(() => {
+                    assert.deepStrictEqual(
+                        JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
+                        SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF,
+                        "Suppressions file should contain the expected contents"
+                    );
+                });
+            });
+        });
+    });
+
 	describe("handling crashes", () => {
 		it("prints the error message to stderr in the event of a crash", () => {
 			const child = runESLint([
