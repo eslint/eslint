@@ -597,6 +597,11 @@ describe("bin/eslint.js", () => {
                     "Suppressions file should not contain valid JSON at the start"
                 );
             });
+            afterEach(() => {
+                if (fs.existsSync(SUPPRESSIONS_PATH)) {
+                    fs.unlinkSync(SUPPRESSIONS_PATH);
+                }
+            });
 
             it("overwrites the invalid suppressions file with a valid one when the --suppress-all argument is used", () => {
                 const child = runESLint(ARGS_WITH_SUPPRESS_ALL);
@@ -646,6 +651,11 @@ describe("bin/eslint.js", () => {
         });
 
         describe("when a valid suppressions file already exists", () => {
+            afterEach(() => {
+                if (fs.existsSync(SUPPRESSIONS_PATH)) {
+                    fs.unlinkSync(SUPPRESSIONS_PATH);
+                }
+            });
             it("suppresses the violations from the suppressions file, without passing --suppress-all", () => {
                 fs.writeFileSync(SUPPRESSIONS_PATH, JSON.stringify(SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF, null, 2));
 
