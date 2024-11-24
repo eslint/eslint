@@ -89,6 +89,7 @@ The 2nd option is an object which has the following properties.
 * `minKeys` - Specifies the minimum number of keys that an object should have in order for the object's unsorted keys to produce an error. Default is `2`, which means by default all objects with unsorted keys will result in lint errors.
 * `natural` - if `true`, enforce properties to be in natural order. Default is `false`. Natural Order compares strings containing combination of letters and numbers in the way a human being would sort. It basically sorts numerically, instead of sorting alphabetically. So the number 10 comes after the number 3 in Natural Sorting.
 * `allowLineSeparatedGroups` - if `true`, the rule allows to group object keys through line breaks. In other words, a blank line after a property will reset the sorting of keys. Default is `false`.
+* `ignoreComputedKeys` - if `true`, the rule ignores all computed keys and doesn't report unsorted properties separated by them. Default is `false`.
 
 Example for a list:
 
@@ -367,6 +368,35 @@ var obj7 = {
     a: 2,
     ...z,
     c: 3
+}
+```
+
+:::
+
+### ignoreComputedKeys
+
+Examples of **correct** code for the `{ignoreComputedKeys: true}` option:
+
+::: correct
+
+```js
+/*eslint sort-keys: ["error", "asc", {ignoreComputedKeys: true}]*/
+
+let obj1 = {
+    [b]: 1,
+    a: 2
+}
+
+let obj2 = {
+    c: 1,
+    [b]: 2,
+    a: 3
+}
+
+let obj3 = {
+    c: 1,
+    ["b"]: 2,
+    a: 3
 }
 ```
 
