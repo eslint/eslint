@@ -163,6 +163,12 @@ ruleTester.run("id-denylist", rule, {
             languageOptions: { ecmaVersion: 6 }
         },
 
+        // RegExp as option
+        {
+            code: "foo = \"bar\"",
+            options: ["/Foo/", "/fo$/", "/bar/"]
+        },
+
         // references to global variables
         {
             code: "Number.parseInt()",
@@ -1484,6 +1490,46 @@ ruleTester.run("id-denylist", rule, {
                 {
                     messageId: "restricted",
                     data: { name: "json" },
+                    type: "Identifier"
+                }
+            ]
+        },
+
+        // RegExp matches
+        {
+            code: "foo = \"bar\"",
+            options: ["/foo/"],
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "foo = \"bar\"",
+            options: ["/Foo/i"],
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "whiteList = blackList",
+            options: ["/(white|black)list/i"],
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "whiteList" },
+                    type: "Identifier"
+                },
+                {
+                    messageId: "restricted",
+                    data: { name: "blackList" },
                     type: "Identifier"
                 }
             ]
