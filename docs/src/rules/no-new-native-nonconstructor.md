@@ -2,6 +2,7 @@
 title: no-new-native-nonconstructor
 layout: doc
 rule_type: problem
+handled_by_typescript: true
 related_rules:
 - no-obj-calls
 further_reading:
