@@ -22,13 +22,13 @@ After that, you're ready to start working on code.
 
 The process of submitting a pull request is fairly straightforward and generally follows the same pattern each time:
 
-1. [Create a new branch](#step1)
-2. [Make your changes](#step2)
-3. [Rebase onto upstream](#step3)
-4. [Run the tests](#step4)
-5. [Double check your submission](#step5)
-6. [Push your changes](#step6)
-7. [Submit the pull request](#step7)
+1. [Create a new branch](#step1).
+2. [Make your changes](#step2).
+3. [Rebase onto upstream](#step3).
+4. [Run the tests](#step4).
+5. [Double check your submission](#step5).
+6. [Push your changes](#step6).
+7. [Submit the pull request](#step7).
 
 Details about each step are found below.
 
