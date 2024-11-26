@@ -111,10 +111,10 @@ The ESLint project is jointly governed by a Technical Steering Committee (TSC) w
 
 The TSC has final authority over this project including:
 
-* Technical direction.
-* Project governance and process (including this policy).
-* Contribution policy.
-* GitHub repository hosting.
+* Technical direction
+* Project governance and process (including this policy)
+* Contribution policy
+* GitHub repository hosting
 
 TSC seats are not time-limited. The size of the TSC can not be larger than five members. This size ensures adequate coverage of important areas of expertise balanced with the ability to make decisions efficiently.
 
