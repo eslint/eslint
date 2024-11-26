@@ -369,8 +369,8 @@ export default [
 
 ESLint has two predefined configurations for JavaScript:
 
-* `js.configs.recommended` - enables the rules that ESLint recommends everyone use to avoid potential errors
-* `js.configs.all` - enables all of the rules shipped with ESLint
+* `js.configs.recommended` - enables the rules that ESLint recommends everyone use to avoid potential errors.
+* `js.configs.all` - enables all of the rules shipped with ESLint.
 
 To include these predefined configurations, install the `@eslint/js` package and then make any modifications to other properties in subsequent configuration objects:
 
