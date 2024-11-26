@@ -1001,8 +1001,6 @@ ruleTester.run("my-rule", myRule, {
 })
 ```
 
----
-
 [configuration object]: ../use/configure/
 [builtin-formatters]: ../use/formatters/
 [third-party-formatters]: https://www.npmjs.com/search?q=eslintformatter
