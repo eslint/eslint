@@ -543,7 +543,7 @@ describe("bin/eslint.js", () => {
                     JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8"));
                 });
             });
-            it("creates rgw suppressions file when the --suppress-rule flag is used, and reports some violations", () => {
+            it("creates the suppressions file when the --suppress-rule flag is used, and reports some violations", () => {
                 const child = runESLint(ARGS_WITH_SUPPRESS_RULE_INDENT);
 
                 const exitCodeAssertion = assertExitCode(child, 1).then(() => {
@@ -582,6 +582,21 @@ describe("bin/eslint.js", () => {
                 });
 
                 return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+            it("creates the suppressions file when the --suppress-all flag and --fix is used, and reports no violations", () => {
+                const tempFilePath = "tests/fixtures/suppressions/temp.js";
+
+                fs.copyFileSync(SOURCE_PATH, tempFilePath);
+
+                const child = runESLint(["--no-config-lookup", "--no-ignore", tempFilePath, "--suppressions-location", SUPPRESSIONS_PATH, "--suppress-all", "--fix"]);
+
+                return assertExitCode(child, 0).then(() => {
+                    assert.isTrue(fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file should exist at the given location");
+
+                    const suppressionsFiles = JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8"));
+
+                    assert.notExists(suppressionsFiles[tempFilePath].indent, "Suppressions file should not contain any suppressions for indent");
+                });
             });
         });
 
@@ -680,6 +695,18 @@ describe("bin/eslint.js", () => {
                 });
 
                 return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+
+            it("exits with code 2, when there are unused violations", () => {
+                const suppressions = structuredClone(SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF);
+
+                suppressions[SOURCE_PATH].indent.count = 10;
+                fs.writeFileSync(SUPPRESSIONS_PATH, JSON.stringify(suppressions, null, 2));
+
+                const child = runESLint(ARGS_WITHOUT_SUPPRESSIONS);
+
+                return assertExitCode(child, 2);
+
             });
 
             it("prunes the suppressions file, when the --prune-suppressions flag is used", () => {
