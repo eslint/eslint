@@ -1854,6 +1854,10 @@ export interface StylisticIssues extends Linter.RulesRecord {
                  * @default false
                  */
                 allowLineSeparatedGroups: boolean;
+                /**
+                 * @default false
+                 */
+                ignoreComputedKeys: boolean;
             }>,
         ]
     >;
