@@ -30,17 +30,17 @@ The main method is `cli.execute()`, which accepts an array of strings that repre
 
 This object's responsibilities include:
 
-* Interpreting command line arguments
-* Reading from the file system
-* Outputting to the console
-* Outputting to the filesystem
-* Use a formatter
-* Returning the correct exit code
+* Interpreting command line arguments.
+* Reading from the file system.
+* Outputting to the console.
+* Outputting to the filesystem.
+* Use a formatter.
+* Returning the correct exit code.
 
 This object may not:
 
-* Call `process.exit()` directly
-* Perform any asynchronous operations
+* Call `process.exit()` directly.
+* Perform any asynchronous operations.
 
 ## The `CLIEngine` object
 
@@ -50,16 +50,16 @@ The main method of the `CLIEngine` is `executeOnFiles()`, which accepts an array
 
 This object's responsibilities include:
 
-* Managing the execution environment for `Linter`
-* Reading from the file system
-* Reading configuration information from config files (including `.eslintrc` and `package.json`)
+* Managing the execution environment for `Linter`.
+* Reading from the file system.
+* Reading configuration information from config files (including `.eslintrc` and `package.json`).
 
 This object may not:
 
-* Call `process.exit()` directly
-* Perform any asynchronous operations
-* Output to the console
-* Use formatters
+* Call `process.exit()` directly.
+* Perform any asynchronous operations.
+* Output to the console.
+* Use formatters.
 
 ## The `Linter` object
 
@@ -69,18 +69,18 @@ Once the AST is available, `estraverse` is used to traverse the AST from top to 
 
 This object's responsibilities include:
 
-* Inspecting JavaScript code strings
-* Creating an AST for the code
-* Executing rules on the AST
-* Reporting back the results of the execution
+* Inspecting JavaScript code strings.
+* Creating an AST for the code.
+* Executing rules on the AST.
+* Reporting back the results of the execution.
 
 This object may not:
 
-* Call `process.exit()` directly
-* Perform any asynchronous operations
-* Use Node.js-specific features
-* Access the file system
-* Call `console.log()` or any other similar method
+* Call `process.exit()` directly.
+* Perform any asynchronous operations.
+* Use Node.js-specific features.
+* Access the file system.
+* Call `console.log()` or any other similar method.
 
 ## Rules
 
@@ -88,13 +88,13 @@ Individual rules are the most specialized part of the ESLint architecture. Rules
 
 These objects' responsibilities are:
 
-* Inspect the AST for specific patterns
-* Reporting warnings when certain patterns are found
+* Inspect the AST for specific patterns.
+* Reporting warnings when certain patterns are found.
 
 These objects may not:
 
-* Call `process.exit()` directly
-* Perform any asynchronous operations
-* Use Node.js-specific features
-* Access the file system
-* Call `console.log()` or any other similar method
+* Call `process.exit()` directly.
+* Perform any asynchronous operations.
+* Use Node.js-specific features.
+* Access the file system.
+* Call `console.log()` or any other similar method.
