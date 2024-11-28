@@ -950,7 +950,7 @@
     "no-compare-neg-zero": {
         "type": "problem",
         "docs": {
-            "description": "Disallow comparing against -0",
+            "description": "Disallow comparing against `-0`",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-compare-neg-zero"
         },
