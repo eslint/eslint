@@ -2560,6 +2560,24 @@ try {
             code: "let [a = 1] = arr;\na = 2;",
             languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" } }]
+        },
+        {
+            code: "function foo(a = 1, b){alert(b);} foo();",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a", [{ output: "function foo( b){alert(b);} foo();", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "function foo(a = 1) {a = 2;} foo();",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a")]
+        },
+        {
+            code: "function foo(a = 1, b) {a = 2;} foo();",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [
+                definedError("b", [{ output: "function foo(a = 1) {a = 2;} foo();", messageId: "removeVar", data: { varName: "b" } }]),
+                assignedError("a")
+            ]
         }
     ]
 });
