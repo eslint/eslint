@@ -10,7 +10,7 @@ extra_typescript_info: >-
 
 
 
-Because the `return`, `throw`, `break`, and `continue` statements unconditionally exit a block of code, any statements after them cannot be executed. Unreachable statements are usually a mistake.
+Because the `return`, `throw`, `continue`, and `break` statements unconditionally exit a block of code, any statements after them cannot be executed. Unreachable statements are usually a mistake.
 
 ```js
 function fn() {
