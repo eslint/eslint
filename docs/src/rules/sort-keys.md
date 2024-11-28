@@ -147,7 +147,7 @@ let obj4 = {2: c, 10: b, 1: a};
 
 :::
 
-### insensitive
+### caseSensitive
 
 Examples of **incorrect** code for the `{caseSensitive: false}` option:
 
