@@ -60,11 +60,7 @@ pre[class*="language-"] {
 .token.prolog,
 .token.doctype,
 .token.cdata {
-    color: var(--color-neutral-500);
-
-    [data-theme="dark"] & {
-        color: var(--color-neutral-400);
-    }
+    color: var(--code-comments-color);
 }
 
 .token.namespace {
