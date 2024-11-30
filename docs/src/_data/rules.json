@@ -52,7 +52,7 @@
             },
             {
                 "name": "no-compare-neg-zero",
-                "description": "Disallow comparing against -0",
+                "description": "Disallow comparing against `-0`",
                 "recommended": true,
                 "fixable": false,
                 "hasSuggestions": false
