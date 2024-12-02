@@ -606,6 +606,7 @@ The most important method on `Linter` is `verify()`, which initiates linting of 
     * `disableFixes` - (optional) when set to `true`, the linter doesn't make either the `fix` or `suggestions` property of the lint result.
     * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
     * `reportUnusedDisableDirectives` - (optional) when set to `true`, adds reported errors for unused `eslint-disable` and `eslint-enable` directives when no problems would be reported in the disabled area anyway.
+    * `reportUnusedInlineConfigs` - (optional) when set to a severity, adds reported errors for unused `eslint` config comments that don't change rule options or severities from what was already configured
     * `ruleFilter` - (optional) A function predicate that decides which rules should run. It receives an object containing `ruleId` and `severity`, and returns `true` if the rule should be run.
 
 If the third argument is a string, it is interpreted as the `filename`.

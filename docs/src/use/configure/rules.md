@@ -361,3 +361,22 @@ export default [
 This setting defaults to `"warn"`.
 
 This setting is similar to [`--report-unused-disable-directives`](../command-line-interface#--report-unused-disable-directives) and [`--report-unused-disable-directives-severity`](../command-line-interface#--report-unused-disable-directives-severity) CLI options.
+
+#### Report unused `eslint` inline config comments
+
+To report unused `eslint` inline config comments, use the `reportUnusedInlineConfigs` setting. For example:
+
+```js
+// eslint.config.js
+export default [
+    {
+        linterOptions: {
+            reportUnusedInlineConfigs: "error"
+        }
+    }
+];
+```
+
+This setting defaults to `"off"`.
+
+This setting is similar to the [`--report-unused-inline-configs`](../command-line-interface#--report-unused-inline-configs) CLI option.

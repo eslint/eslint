@@ -106,6 +106,15 @@ Please see the following page for information on how to convert your config obje
 https://eslint.org/docs/latest/use/configure/migration-guide#linter-options
 `,
 
+    reportUnusedInlineConfigs: `
+A config object is using the "reportUnusedInlineConfigs" key, which is not supported in flat config system.
+
+Flat config uses "linterOptions.reportUnusedInlineConfigs" to specify files to ignore.
+
+Please see the following page for information on how to convert your config object into the correct format:
+https://eslint.org/docs/latest/use/configure/migration-guide#linter-options
+`,
+
     root: `
 A config object is using the "root" key, which is not supported in flat config system.
 
