@@ -97,9 +97,9 @@ This rule optionally takes a second argument, which should be an object with the
 
 The `"smart"` option enforces the use of `===` and `!==` except for these cases:
 
-* Comparing two literal values
-* Evaluating the value of `typeof`
-* Comparing against `null`
+* Comparing two literal values.
+* Evaluating the value of `typeof`.
+* Comparing against `null`.
 
 Examples of **incorrect** code for the `"smart"` option:
 
