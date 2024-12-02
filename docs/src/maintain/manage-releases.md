@@ -19,10 +19,10 @@ One member of the Technical Steering Committee (TSC) is assigned to manage each 
 
 The release manager is responsible for:
 
-1. The scheduled release on Friday
-1. Monitoring issues over the weekend
-1. Determining if a patch release is necessary on Monday
-1. Publishing the patch release (if necessary)
+1. The scheduled release on Friday.
+1. Monitoring issues over the weekend.
+1. Determining if a patch release is necessary on Monday.
+1. Publishing the patch release (if necessary).
 
 The release manager should seek input from the whole team on the Monday following a release to double-check if a patch release is necessary.
 

@@ -20,9 +20,9 @@ ESLint comes with a large number of [built-in rules](../../rules/) and you can a
 
 To change a rule's severity, set the rule ID equal to one of these values:
 
-* `"off"` or `0` - turn the rule off
-* `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
-* `"error"` or `2` - turn the rule on as an error (exit code is 1 when triggered)
+* `"off"` or `0` - turn the rule off.
+* `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code).
+* `"error"` or `2` - turn the rule on as an error (exit code is 1 when triggered).
 
 Rules are typically set to `"error"` to enforce compliance with the rule during continuous integration testing, pre-commit checks, and pull request merging because doing so causes ESLint to exit with a non-zero exit code.
 

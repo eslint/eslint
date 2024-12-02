@@ -40,8 +40,8 @@ Website Team Members are community members who have shown that they are committe
 * Are expected to delete their public branches when they are no longer necessary.
 * Must submit pull requests for all changes.
 * Have their work reviewed by Reviewers and TSC members before acceptance into the repository.
-* May label and close website-related issues (see [Manage Issues](../maintain/manage-issues))
-* May merge some pull requests (see [Review Pull Requests](../maintain/review-pull-requests))
+* May label and close website-related issues (see [Manage Issues](../maintain/manage-issues)).
+* May merge some pull requests (see [Review Pull Requests](../maintain/review-pull-requests)).
 * May take time off whenever they want, and are expected to post in the `#team` Discord channel when they will be away for more than a couple of days.
 
 To become a  Website Team Member:
@@ -70,8 +70,8 @@ Committers:
 * Are expected to work on at least one issue in the "Ready to Implement" column of the [Triage Board](https://github.com/orgs/eslint/projects/3/views/1) that they didn't create each month.
 * Must submit pull requests for all changes.
 * Have their work reviewed by TSC members before acceptance into the repository.
-* May label and close issues (see [Manage Issues](../maintain/manage-issues))
-* May merge some pull requests (see [Review Pull Requests](../maintain/review-pull-requests))
+* May label and close issues (see [Manage Issues](../maintain/manage-issues)).
+* May merge some pull requests (see [Review Pull Requests](../maintain/review-pull-requests)).
 * May take time off whenever they want, and are expected to post in the `#team` Discord channel when they will be away for more than a couple of days.
 
 To become a Committer:

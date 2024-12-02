@@ -337,6 +337,14 @@ ruleTester.run("sort-imports", rule, {
             }]
         },
         {
+            code: "import b from 'b';\n\nimport a from 'a';",
+            output: null,
+            errors: [{
+                messageId: "sortImportsAlphabetically",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
             code: "import b from 'b';\nimport a from 'a';",
             output: null,
             options: [{}],
