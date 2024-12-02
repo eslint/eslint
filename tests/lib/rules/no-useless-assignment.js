@@ -11,6 +11,7 @@
 
 const rule = require("../../../lib/rules/no-useless-assignment");
 const RuleTester = require("../../../lib/rule-tester/rule-tester");
+const { Reference } = require("eslint-scope");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -27,6 +28,21 @@ const ruleTester = new RuleTester({
                         return {
                             VariableDeclaration(node) {
                                 sourceCode.markVariableAsUsed("a", node);
+                            }
+                        };
+                    }
+                },
+                jsx: {
+                    create(context) {
+                        const sourceCode = context.sourceCode;
+
+                        return {
+                            JSXIdentifier(node) {
+                                const scope = sourceCode.getScope(node);
+                                const variable = scope.variables.find(v => v.name === node.name);
+
+                                variable.references.push(new Reference(node, scope, Reference.READ, null, false, null));
+
                             }
                         };
                     }
@@ -353,7 +369,22 @@ ruleTester.run("no-useless-assignment", rule, {
         } = obj;
         console.log(a, b);`,
         `let { a, b: {c = a} = {} } = obj;
-        console.log(c);`
+        console.log(c);`,
+        {
+            code: `/*eslint test/jsx:1*/
+                function App() {
+                    const A = "";
+                    return <A/>
+                }
+            `,
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
+        }
     ],
     invalid: [
         {
