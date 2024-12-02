@@ -1,3 +1,24 @@
+v9.16.0 - November 29, 2024
+
+* [`feb703b`](https://github.com/eslint/eslint/commit/feb703b3dc198cda03fb69c75a31d56d999b9d2e) chore: upgrade to `@eslint/js@9.16.0` (#19195) (Francesco Trotta)
+* [`df9bf95`](https://github.com/eslint/eslint/commit/df9bf9519a302e284700ad300463ecdf2ebf9f25) chore: package.json update for @eslint/js release (Jenkins)
+* [`9eefc8f`](https://github.com/eslint/eslint/commit/9eefc8f813b5c31f49fbbd9a36f439b365bea180) docs: fix typos in `use-isnan` (#19190) (루밀LuMir)
+* [`0c8cea8`](https://github.com/eslint/eslint/commit/0c8cea8c803962a4358032fde5c117a1e9c41ca0) docs: switch the order of words in `no-unreachable` (#19189) (루밀LuMir)
+* [`0c19417`](https://github.com/eslint/eslint/commit/0c19417c644a29b5113d3a2b94ce00640117574b) docs: add missing backtick to `no-async-promise-executor` (#19188) (루밀LuMir)
+* [`8df9276`](https://github.com/eslint/eslint/commit/8df927646cadaa70263914c62f2f76fccb8c46fd) docs: add backtick in `-0` in `description` of `no-compare-neg-zero` (#19186) (루밀LuMir)
+* [`7e16e3f`](https://github.com/eslint/eslint/commit/7e16e3fb8594e361b3e121d2d4059dc26e30c407) docs: fix `caseSensitive` option's title of `sort-keys` (#19183) (Tanuj Kanti)
+* [`f831893`](https://github.com/eslint/eslint/commit/f831893b6e2951f56ce8b9ff12e4a16913b72b47) chore: add type for `ignoreComputedKeys` option of `sort-keys` (#19184) (Tanuj Kanti)
+* [`8f70eb1`](https://github.com/eslint/eslint/commit/8f70eb142cce025e7040d016a959eff0f51eb672) feat: Add `ignoreComputedKeys` option in `sort-keys` rule (#19162) (Milos Djermanovic)
+* [`0c6b842`](https://github.com/eslint/eslint/commit/0c6b84212144da3238693fa56500b02bd4a9f05a) docs: fix typos in `migration-guide.md` (#19180) (루밀LuMir)
+* [`353266e`](https://github.com/eslint/eslint/commit/353266edf827d4e63e9efef321f5d128748bc74d) docs: fix a typo in `debug.md` (#19179) (루밀LuMir)
+* [`3afb8a1`](https://github.com/eslint/eslint/commit/3afb8a1dcf12ad12df480db014042a51403ff672) chore: update dependency @eslint/json to ^0.8.0 (#19177) (Milos Djermanovic)
+* [`5ff318a`](https://github.com/eslint/eslint/commit/5ff318a528e3f6b8b9c6a62ea949d66ebb7f0716) docs: delete unnecessary horizontal rule(`---`) in `nodejs-api` (#19175) (루밀LuMir)
+* [`576bcc5`](https://github.com/eslint/eslint/commit/576bcc5461c0c00c30dfceec9abcddb99e559c74) docs: mark more rules as handled by TypeScript (#19164) (Tanuj Kanti)
+* [`1f77c53`](https://github.com/eslint/eslint/commit/1f77c53b12d00403b88a0e02c8d2432278abcf52) chore: add `repository.directory` property to `package.json` (#19165) (루밀LuMir)
+* [`d460594`](https://github.com/eslint/eslint/commit/d46059410a0e02b98067aa31975c25fd8d0d1c2b) chore: update dependency @arethetypeswrong/cli to ^0.17.0 (#19147) (renovate[bot])
+* [`45cd4ea`](https://github.com/eslint/eslint/commit/45cd4ead9c4fc354a2542b806ec82afb67cb54fc) refactor: update default options in rules (#19136) (Milos Djermanovic)
+* [`742d054`](https://github.com/eslint/eslint/commit/742d054ac1124d4e53c84234dd6960d4e272d490) docs: note that `no-restricted-syntax` can be used with any language (#19148) (Milos Djermanovic)
+
 v9.15.0 - November 15, 2024
 
 * [`2967d91`](https://github.com/eslint/eslint/commit/2967d91037ad670ea3a67fdb9c171b60d9af138b) chore: upgrade @eslint/js@9.15.0 (#19133) (Milos Djermanovic)

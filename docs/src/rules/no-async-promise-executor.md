@@ -76,4 +76,4 @@ const result = Promise.resolve(foo);
 
 ## When Not To Use It
 
-If your codebase doesn't support async function syntax, there's no need to enable this rule.
+If your codebase doesn't support `async function` syntax, there's no need to enable this rule.
