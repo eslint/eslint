@@ -10,15 +10,11 @@ function useCopyCode() {
 
         if (el.matches('div[class*="language-"] > .c-btn--copy')) {
             const parent = el.parentElement;
-            const sibling = el.nextElementSibling?.nextElementSibling.firstChild;
+            const sibling = el.nextElementSibling?.firstChild;
 
             if (!parent || !sibling) {
                 return;
             }
-
-            const isShell = /language-(shellscript|shell|bash|sh|zsh)/.test(
-                parent.className
-            );
 
             // Clone the node and remove the ignored nodes
             /** @type {HTMLElement} */
@@ -26,13 +22,10 @@ function useCopyCode() {
 
             let text = clone.textContent || "";
 
-            if (isShell) {
-                text = text.replace(/^ *(\$|>) /gm, "").trim();
-            }
-
             copyToClipboard(text).then(() => {
                 el.classList.add("copied");
                 clearTimeout(timeoutIdMap.get(el));
+
                 const timeoutId = setTimeout(() => {
                     el.classList.remove("copied");
                     el.blur();
