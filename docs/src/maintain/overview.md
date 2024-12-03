@@ -34,10 +34,10 @@ ESLint is funded through several sources, including:
 
 ESLint uses this funding for the following purposes:
 
-* Pay team members and contractors
-* Fund projects
-* Pay for services that keep ESLint running (web hosting, software subscriptions, etc.)
-* Provide financial support to our dependencies and ecosystem
+* Pay team members and contractors.
+* Fund projects.
+* Pay for services that keep ESLint running (web hosting, software subscriptions, etc.).
+* Provide financial support to our dependencies and ecosystem.
 
 ## Joining the Maintainer Team
 

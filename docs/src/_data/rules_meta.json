@@ -352,7 +352,7 @@
     "for-direction": {
         "type": "problem",
         "docs": {
-            "description": "Enforce \"for\" loop update clause moving the counter in the right direction",
+            "description": "Enforce `for` loop update clause moving the counter in the right direction",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/for-direction"
         },
@@ -440,7 +440,9 @@
     "getter-return": {
         "type": "problem",
         "defaultOptions": [
-            {}
+            {
+                "allowImplicit": false
+            }
         ],
         "docs": {
             "description": "Enforce `return` statements in getters",
@@ -515,7 +517,8 @@
             {
                 "exceptionPatterns": [],
                 "exceptions": [],
-                "min": 2
+                "min": 2,
+                "properties": "always"
             }
         ],
         "docs": {
@@ -528,7 +531,12 @@
         "type": "suggestion",
         "defaultOptions": [
             "^.+$",
-            {}
+            {
+                "classFields": false,
+                "ignoreDestructuring": false,
+                "onlyDeclarations": false,
+                "properties": false
+            }
         ],
         "docs": {
             "description": "Require identifiers to match a specified regular expression",
@@ -891,7 +899,8 @@
         "type": "suggestion",
         "defaultOptions": [
             {
-                "allow": []
+                "allow": [],
+                "int32Hint": false
             }
         ],
         "docs": {
@@ -950,7 +959,7 @@
     "no-compare-neg-zero": {
         "type": "problem",
         "docs": {
-            "description": "Disallow comparing against -0",
+            "description": "Disallow comparing against `-0`",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-compare-neg-zero"
         },
@@ -1113,7 +1122,9 @@
     "no-duplicate-imports": {
         "type": "problem",
         "defaultOptions": [
-            {}
+            {
+                "includeExports": false
+            }
         ],
         "docs": {
             "description": "Disallow duplicate module imports",
@@ -1173,7 +1184,9 @@
     "no-empty-pattern": {
         "type": "problem",
         "defaultOptions": [
-            {}
+            {
+                "allowObjectPatternsAsParameters": false
+            }
         ],
         "docs": {
             "description": "Disallow empty destructuring patterns",
@@ -1200,7 +1213,9 @@
     "no-eval": {
         "type": "suggestion",
         "defaultOptions": [
-            {}
+            {
+                "allowIndirect": false
+            }
         ],
         "docs": {
             "description": "Disallow the use of `eval()`",
@@ -1349,7 +1364,9 @@
     "no-implicit-globals": {
         "type": "suggestion",
         "defaultOptions": [
-            {}
+            {
+                "lexicalBindings": false
+            }
         ],
         "docs": {
             "description": "Disallow declarations in the global scope",
@@ -1387,7 +1404,10 @@
     "no-inner-declarations": {
         "type": "problem",
         "defaultOptions": [
-            "functions"
+            "functions",
+            {
+                "blockScopedFunctions": "allow"
+            }
         ],
         "docs": {
             "description": "Disallow variable or `function` declarations in nested blocks",
@@ -1549,7 +1569,9 @@
     "no-multi-assign": {
         "type": "suggestion",
         "defaultOptions": [
-            {}
+            {
+                "ignoreNonDeclaration": false
+            }
         ],
         "docs": {
             "description": "Disallow use of chained assignment expressions",
@@ -1756,7 +1778,9 @@
     "no-plusplus": {
         "type": "suggestion",
         "defaultOptions": [
-            {}
+            {
+                "allowForLoopAfterthoughts": false
+            }
         ],
         "docs": {
             "description": "Disallow the unary operators `++` and `--`",
@@ -1787,7 +1811,9 @@
     "no-promise-executor-return": {
         "type": "problem",
         "defaultOptions": [
-            {}
+            {
+                "allowVoid": false
+            }
         ],
         "docs": {
             "description": "Disallow returning values from Promise executor functions",
@@ -1963,7 +1989,9 @@
         "defaultOptions": [
             {
                 "allow": [],
-                "hoist": "functions"
+                "builtinGlobals": false,
+                "hoist": "functions",
+                "ignoreOnInitialization": false
             }
         ],
         "docs": {
@@ -2067,7 +2095,9 @@
     "no-undef": {
         "type": "problem",
         "defaultOptions": [
-            {}
+            {
+                "typeof": false
+            }
         ],
         "docs": {
             "description": "Disallow the use of undeclared variables unless mentioned in `/*global */` comments",
@@ -2103,6 +2133,7 @@
                 "allowFunctionParams": true,
                 "allowInArrayDestructuring": true,
                 "allowInObjectDestructuring": true,
+                "enforceInClassFields": false,
                 "enforceInMethodNames": false
             }
         ],
@@ -2174,7 +2205,9 @@
     "no-unsafe-negation": {
         "type": "problem",
         "defaultOptions": [
-            {}
+            {
+                "enforceForOrderingRelations": false
+            }
         ],
         "docs": {
             "description": "Disallow negating the left operand of relational operators",
@@ -2187,7 +2220,9 @@
     "no-unsafe-optional-chaining": {
         "type": "problem",
         "defaultOptions": [
-            {}
+            {
+                "disallowArithmeticOperators": false
+            }
         ],
         "docs": {
             "description": "Disallow use of optional chaining in contexts where the `undefined` value is not allowed",
@@ -2248,7 +2283,8 @@
             {
                 "classes": true,
                 "functions": true,
-                "variables": true
+                "variables": true,
+                "allowNamedExports": false
             }
         ]
     },
@@ -2327,7 +2363,11 @@
     "no-useless-rename": {
         "type": "suggestion",
         "defaultOptions": [
-            {}
+            {
+                "ignoreDestructuring": false,
+                "ignoreImport": false,
+                "ignoreExport": false
+            }
         ],
         "docs": {
             "description": "Disallow renaming import, export, and destructured assignments to the same name",
@@ -2357,7 +2397,9 @@
     "no-void": {
         "type": "suggestion",
         "defaultOptions": [
-            {}
+            {
+                "allowAsStatement": false
+            }
         ],
         "docs": {
             "description": "Disallow `void` operators",
@@ -2539,7 +2581,8 @@
         "type": "suggestion",
         "defaultOptions": [
             {
-                "destructuring": "any"
+                "destructuring": "any",
+                "ignoreReadBeforeAssign": false
             }
         ],
         "docs": {
@@ -2606,7 +2649,9 @@
     "prefer-promise-reject-errors": {
         "type": "suggestion",
         "defaultOptions": [
-            {}
+            {
+                "allowEmptyReject": false
+            }
         ],
         "docs": {
             "description": "Require using Error objects as Promise rejection reasons",
@@ -2628,7 +2673,9 @@
     "prefer-regex-literals": {
         "type": "suggestion",
         "defaultOptions": [
-            {}
+            {
+                "disallowRedundantWrapping": false
+            }
         ],
         "docs": {
             "description": "Disallow use of the `RegExp` constructor in favor of regular expression literals",
@@ -2700,7 +2747,9 @@
     "require-atomic-updates": {
         "type": "problem",
         "defaultOptions": [
-            {}
+            {
+                "allowProperties": false
+            }
         ],
         "docs": {
             "description": "Disallow assignments that can lead to race conditions due to usage of `await` or `yield`",
@@ -2809,6 +2858,7 @@
             {
                 "allowLineSeparatedGroups": false,
                 "caseSensitive": true,
+                "ignoreComputedKeys": false,
                 "minKeys": 2,
                 "natural": false
             }
@@ -2822,7 +2872,9 @@
     "sort-vars": {
         "type": "suggestion",
         "defaultOptions": [
-            {}
+            {
+                "ignoreCase": false
+            }
         ],
         "docs": {
             "description": "Require variables within the same declaration block to be sorted",
@@ -2981,7 +3033,9 @@
     "valid-typeof": {
         "type": "problem",
         "defaultOptions": [
-            {}
+            {
+                "requireStringLiterals": false
+            }
         ],
         "docs": {
             "description": "Enforce comparing `typeof` expressions against valid strings",

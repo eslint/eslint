@@ -25,8 +25,8 @@ ESLint v9.0.0 introduces [changes to the rules API](https://eslint.org/blog/2023
 
 Common resolutions for this issue include:
 
-* Upgrade the plugin to the latest version
-* Use the [compatibility utilities](https://eslint.org/blog/2024/05/eslint-compatibility-utilities/) to patch the plugin in your config file
+* Upgrade the plugin to the latest version.
+* Use the [compatibility utilities](https://eslint.org/blog/2024/05/eslint-compatibility-utilities/) to patch the plugin in your config file.
 
 ::: important
 If you are already using the latest version of the plugin and you need to use the compatibility utilities to make the plugin work with ESLint v9.0.0 and later, make sure to open an issue on the plugin's repository to ask the maintainer to make the necessary API changes.
