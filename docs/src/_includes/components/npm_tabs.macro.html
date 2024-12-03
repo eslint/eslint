@@ -11,7 +11,7 @@
 
 ```shell
 {% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
-npm {{ conversions.toNpmCommands[params.command] | safe }}{% for arg in params.args %} {{ conversions.toNpmArgs[arg] | safe }}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
+npm {% if conversions.toNpmCommands[params.command] %}{{ conversions.toNpmCommands[params.command] | safe }}{% else %}{{ params.command | safe }}{% endif -%}{% for arg in params.args %} {{ conversions.toNpmArgs[arg] | safe }}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
 ```
 
     </div>
