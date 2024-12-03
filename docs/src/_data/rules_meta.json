@@ -2721,7 +2721,7 @@
     "require-unicode-regexp": {
         "type": "suggestion",
         "docs": {
-            "description": "Enforce the use of `u` or `v` flag on RegExp",
+            "description": "Enforce the use of `u` or `v` flag on `RegExp`",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/require-unicode-regexp"
         },
