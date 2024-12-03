@@ -47,6 +47,12 @@ const preWrapperPlugin = (md, options) => {
         // remove title from info
         token.info = token.info.replace(/\[.*\]/, '')
 
+        // exclude correct or incorrect block
+        const beforeToken = tokens[idx - 1]
+        if (beforeToken && ['correct', 'incorrect'].includes(beforeToken.info)) {
+            return fence(...args)
+        }
+
         const active = / active( |$)/.test(token.info) ? ' active' : ''
         token.info = token.info.replace(/ active$/, '').replace(/ active /, ' ')
 
