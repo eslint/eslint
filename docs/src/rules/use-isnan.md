@@ -9,14 +9,14 @@ In JavaScript, `NaN` is a special value of the `Number` type. It's used to repre
 
 Because `NaN` is unique in JavaScript by not being equal to anything, including itself, the results of comparisons to `NaN` are confusing:
 
-* `NaN === NaN` or `NaN == NaN` evaluate to false
-* `NaN !== NaN` or `NaN != NaN` evaluate to true
+* `NaN === NaN` or `NaN == NaN` evaluate to `false`
+* `NaN !== NaN` or `NaN != NaN` evaluate to `true`
 
 Therefore, use `Number.isNaN()` or global `isNaN()` functions to test whether a value is `NaN`.
 
 ## Rule Details
 
-This rule disallows comparisons to 'NaN'.
+This rule disallows comparisons to `NaN`.
 
 Examples of **incorrect** code for this rule:
 
