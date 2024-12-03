@@ -2640,7 +2640,7 @@
     "prefer-object-spread": {
         "type": "suggestion",
         "docs": {
-            "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead",
+            "description": "Disallow using `Object.assign` with an object literal as the first argument and prefer the use of object spread instead",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/prefer-object-spread"
         },
@@ -2770,7 +2770,7 @@
     "require-unicode-regexp": {
         "type": "suggestion",
         "docs": {
-            "description": "Enforce the use of `u` or `v` flag on RegExp",
+            "description": "Enforce the use of `u` or `v` flag on regular expressions",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/require-unicode-regexp"
         },
