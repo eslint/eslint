@@ -38,7 +38,7 @@ pnpm {{ conversions.toPnpmCommands[params.command] | safe }}{% for arg in params
 
 ```shell
 {% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
-bun {{ conversions.toBunCommands[params.command] | safe }}{% for arg in params.args %} {{ conversions.toBunArgs[arg] | safe }}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
+bun {% if conversions.toBunCommands[params.command] %}{{ conversions.toBunCommands[params.command] | safe }}{% else %}{{ params.command | safe }}{% endif -%}{% for arg in params.args %} {{ conversions.toBunArgs[arg] | safe }}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
 ```
 
    </div>
