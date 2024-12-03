@@ -24,7 +24,7 @@ RegExp `u` flag has two effects:
 
     The `u` flag disables the recovering logic Annex B defined. As a result, you can find errors early. This is similar to [the strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode).
 
-The `RegExp` `v` flag, introduced in ECMAScript 2024, is a superset of the `u` flag, and offers two more features:
+The RegExp `v` flag, introduced in ECMAScript 2024, is a superset of the `u` flag, and offers two more features:
 
 1. **Unicode properties of strings**
 
