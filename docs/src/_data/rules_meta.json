@@ -1911,7 +1911,7 @@
     "no-script-url": {
         "type": "suggestion",
         "docs": {
-            "description": "Disallow `javascript:` urls",
+            "description": "Disallow `javascript:` URLs",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-script-url"
         }
