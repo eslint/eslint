@@ -290,7 +290,7 @@
     "default-case-last": {
         "type": "suggestion",
         "docs": {
-            "description": "Enforce default clauses in switch statements to be last",
+            "description": "Enforce `default` clauses in switch statements to be last",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/default-case-last"
         }
@@ -352,7 +352,7 @@
     "for-direction": {
         "type": "problem",
         "docs": {
-            "description": "Enforce \"for\" loop update clause moving the counter in the right direction",
+            "description": "Enforce `for` loop update clause moving the counter in the right direction",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/for-direction"
         },
@@ -1937,7 +1937,7 @@
     "no-script-url": {
         "type": "suggestion",
         "docs": {
-            "description": "Disallow `javascript:` urls",
+            "description": "Disallow `javascript:` URLs",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-script-url"
         }

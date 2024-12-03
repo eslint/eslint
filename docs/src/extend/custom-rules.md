@@ -207,9 +207,9 @@ The node contains all the information necessary to figure out the line and colum
 
 `messageId`s are the recommended approach to reporting messages in `context.report()` calls because of the following benefits:
 
-* Rule violation messages can be stored in a central `meta.messages` object for convenient management
-* Rule violation messages do not need to be repeated in both the rule file and rule test file
-* As a result, the barrier for changing rule violation messages is lower, encouraging more frequent contributions to improve and optimize them for the greatest clarity and usefulness
+* Rule violation messages can be stored in a central `meta.messages` object for convenient management.
+* Rule violation messages do not need to be repeated in both the rule file and rule test file.
+* As a result, the barrier for changing rule violation messages is lower, encouraging more frequent contributions to improve and optimize them for the greatest clarity and usefulness.
 
 Rule file:
 
@@ -654,11 +654,11 @@ There are two formats for a rule's `schema`:
 
 * An array of JSON Schema objects
     * Each element will be checked against the same position in the `context.options` array.
-    * If the `context.options` array has fewer elements than there are schemas, then the unmatched schemas are ignored
-    * If the `context.options` array has more elements than there are schemas, then the validation fails
+    * If the `context.options` array has fewer elements than there are schemas, then the unmatched schemas are ignored.
+    * If the `context.options` array has more elements than there are schemas, then the validation fails.
     * There are two important consequences to using this format:
-        * It is _always valid_ for a user to provide no options to your rule (beyond severity)
-        * If you specify an empty array, then it is _always an error_ for a user to provide any options to your rule (beyond severity)
+        * It is _always valid_ for a user to provide no options to your rule (beyond severity).
+        * If you specify an empty array, then it is _always an error_ for a user to provide any options to your rule (beyond severity).
 * A full JSON Schema object that will validate the `context.options` array
     * The schema should assume an array of options to validate even if your rule only accepts one option.
     * The schema can be arbitrarily complex, so you can validate completely different sets of potential options via `oneOf`, `anyOf` etc.

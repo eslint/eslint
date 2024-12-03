@@ -74,7 +74,7 @@ A test script SHOULD report test coverage when possible.
 
 ## Modifiers
 
-One or more of the following modifiers MAY be appended to the standard script names above. If a target has modifiers, they MUST be in the order in which they appear below (e.g. `lint:fix:js:watch` not `lint:watch:js:fix`)
+One or more of the following modifiers MAY be appended to the standard script names above. If a target has modifiers, they MUST be in the order in which they appear below (e.g. `lint:fix:js:watch` not `lint:watch:js:fix`).
 
 ### Fix
 
@@ -86,7 +86,7 @@ The name of the target of the action being run. In the case of a `build` script,
 
 A target MAY refer to a list of affected file extensions (such as `cjs` or `less`) delimited by a `+`. If there is more than one extension, the list SHOULD be alphabetized. When a file extension has variants (such as `cjs` for CommonJS and `mjs` for ESM), the common part of the extension MAY be used instead of explicitly listing out all of the variants (e.g. `js` instead of `cjs+jsx+mjs`).
 
-The target SHOULD NOT refer to name of the name of the tool that's performing the action (`eleventy`, `webpack`, etc.)
+The target SHOULD NOT refer to name of the name of the tool that's performing the action (`eleventy`, `webpack`, etc.).
 
 ### Options
 

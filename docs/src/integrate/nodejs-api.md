@@ -824,14 +824,14 @@ If you don't specify any options to the `RuleTester` constructor, then it uses t
 
 The `RuleTester#run()` method is used to run the tests. It should be passed the following arguments:
 
-* The name of the rule (string)
-* The rule object itself (see ["working with rules"](../extend/custom-rules))
+* The name of the rule (string).
+* The rule object itself (see ["working with rules"](../extend/custom-rules)).
 * An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
 
 A test case is an object with the following properties:
 
-* `name` (string, optional): The name to use for the test case, to make it easier to find
-* `code` (string, required): The source code that the rule should be run on
+* `name` (string, optional): The name to use for the test case, to make it easier to find.
+* `code` (string, required): The source code that the rule should be run on.
 * `options` (array, optional): The options passed to the rule. The rule severity should not be included in this list.
 * `before` (function, optional): Function to execute before testing the case.
 * `after` (function, optional): Function to execute after testing the case regardless of its result.
@@ -841,15 +841,15 @@ A test case is an object with the following properties:
 In addition to the properties above, invalid test cases can also have the following properties:
 
 * `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional unless otherwise noted):
-    * `message` (string/regexp): The message for the error. Must provide this or `messageId`
-    * `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details
-    * `data` (object): Placeholder data which can be used in combination with `messageId`
-    * `type` (string): (**Deprecated:** This property will be removed in a future version of ESLint.) The type of the reported AST node
-    * `line` (number): The 1-based line number of the reported location
-    * `column` (number): The 1-based column number of the reported location
-    * `endLine` (number): The 1-based line number of the end of the reported location
-    * `endColumn` (number): The 1-based column number of the end of the reported location
-    * `suggestions` (array): An array of objects with suggestion details to check. Required if the rule produces suggestions. See [Testing Suggestions](#testing-suggestions) for details
+    * `message` (string/regexp): The message for the error. Must provide this or `messageId`.
+    * `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details.
+    * `data` (object): Placeholder data which can be used in combination with `messageId`.
+    * `type` (string): (**Deprecated:** This property will be removed in a future version of ESLint.) The type of the reported AST node.
+    * `line` (number): The 1-based line number of the reported location.
+    * `column` (number): The 1-based column number of the reported location.
+    * `endLine` (number): The 1-based line number of the end of the reported location.
+    * `endColumn` (number): The 1-based column number of the end of the reported location.
+    * `suggestions` (array): An array of objects with suggestion details to check. Required if the rule produces suggestions. See [Testing Suggestions](#testing-suggestions) for details.
 
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
 * `output` (string, required if the rule fixes code): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null` or omitted, asserts that none of the reported problems suggest autofixes.
@@ -916,10 +916,10 @@ ESLint makes its best attempt at applying all fixes, but there is no guarantee t
 
 Suggestions can be tested by defining a `suggestions` key on an errors object. If this is a number, it asserts the number of suggestions provided for the error. Otherwise, this should be an array of objects, each containing information about a single provided suggestion. The following properties can be used:
 
-* `desc` (string): The suggestion `desc` value. Must provide this or `messageId`
-* `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s. Must provide this or `desc`
+* `desc` (string): The suggestion `desc` value. Must provide this or `messageId`.
+* `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s. Must provide this or `desc`.
 * `data` (object): Placeholder data which can be used in combination with `messageId`.
-* `output` (string, required): A code string representing the result of applying the suggestion fix to the input code
+* `output` (string, required): A code string representing the result of applying the suggestion fix to the input code.
 
 Example:
 
