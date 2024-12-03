@@ -265,6 +265,11 @@ ruleTester.run("id-match", rule, {
         // Class Fields
         {
             code: "class x { _foo = 1; }",
+            options: ["^[^_]+$"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class x { _foo = 1; }",
             options: ["^[^_]+$", {
                 classFields: false
             }],
@@ -275,6 +280,11 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 classFields: false
             }],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class x { #_foo = 1; }",
+            options: ["^[^_]+$"],
             languageOptions: { ecmaVersion: 2022 }
         },
 

@@ -245,6 +245,11 @@ Example output (formatted for easier reading):
         "rulesMeta": {
             "no-else-return": {
                 "type": "suggestion",
+                "defaultOptions": [
+                    {
+                        "allowElseIf": true
+                    }
+                ],
                 "docs": {
                     "description": "Disallow `else` blocks after `return` statements in `if` statements",
                     "recommended": false,
@@ -255,8 +260,7 @@ Example output (formatted for easier reading):
                         "type": "object",
                         "properties": {
                             "allowElseIf": {
-                                "type": "boolean",
-                                "default": true
+                                "type": "boolean"
                             }
                         },
                         "additionalProperties": false
@@ -661,11 +665,15 @@ Example output (formatted for easier reading):
                         "type": "object",
                         "properties": {
                             "treatUndefinedAsUnspecified": {
-                                "type": "boolean",
-                                "default": false
+                                "type": "boolean"
                             }
                         },
                         "additionalProperties": false
+                    }
+                ],
+                "defaultOptions": [
+                    {
+                        "treatUndefinedAsUnspecified": false
                     }
                 ],
                 "messages": {

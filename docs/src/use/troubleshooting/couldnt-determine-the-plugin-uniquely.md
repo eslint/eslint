@@ -41,10 +41,10 @@ The new ["flat" config system](../configure/configuration-files) has you `import
 
 Common resolutions for this issue include:
 
-* Upgrading all versions of all packages to their latest version
-* Running `npm dedupe` or the equivalent package manager command to deduplicate packages, if their version ranges are compatible
-* Using `overrides` or the equivalent package manager `package.json` field, to force a specific version of a plugin package
-    * Note that this may cause bugs in linting if the plugin package had breaking changes between versions
+* Upgrading all versions of all packages to their latest version.
+* Running `npm dedupe` or the equivalent package manager command to deduplicate packages, if their version ranges are compatible.
+* Using `overrides` or the equivalent package manager `package.json` field, to force a specific version of a plugin package.
+    * Note that this may cause bugs in linting if the plugin package had breaking changes between versions.
 
 ## Resources
 

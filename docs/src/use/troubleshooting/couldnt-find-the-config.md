@@ -47,10 +47,10 @@ Note that ESLint supports several config name formats:
 
 Common resolutions for this issue include:
 
-* Upgrading all versions of all packages to their latest version
-* Adding the config as a `devDependency` in your `package.json`
-* Running `npm install` or the equivalent package manager command
-* Checking that the name in your config file matches the name of the config package
+* Upgrading all versions of all packages to their latest version.
+* Adding the config as a `devDependency` in your `package.json`.
+* Running `npm install` or the equivalent package manager command.
+* Checking that the name in your config file matches the name of the config package.
 
 ## Resources
 

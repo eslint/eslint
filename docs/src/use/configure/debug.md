@@ -24,7 +24,7 @@ ESLint creates a configuration for each file that is linted based on your config
     comment: null
 }) }}
 
-This outputs all of ESLint's debugging information onto the console. You should copy this output to a file and then search for "eslint.config.js` to see which file is loaded. Here's some example output:
+This outputs all of ESLint's debugging information onto the console. You should copy this output to a file and then search for `eslint.config.js` to see which file is loaded. Here's some example output:
 
 ```text
 eslint:eslint Using file patterns: bin/eslint.js +0ms

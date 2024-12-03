@@ -45,8 +45,8 @@ To use flat config with ESLint v8, place a `eslint.config.js` file in the root o
 
 While the configuration file format has changed from eslintrc to flat config, the following has stayed the same:
 
-* Syntax for configuring rules
-* Syntax for configuring processors
+* Syntax for configuring rules.
+* Syntax for configuring processors.
 * The CLI, except for the flag changes noted in [CLI Flag Changes](#cli-flag-changes).
 * Global variables are configured the same way, but on a different property (see [Configuring Language Options](#configuring-language-options)).
 
@@ -422,8 +422,8 @@ export default [
 
 In eslintrc files, use the `extends` property to use predefined and shareable configs. ESLint comes with two predefined configs that you can access as strings:
 
-* `"eslint:recommended"`: the rules recommended by ESLint
-* `"eslint:all"`: all rules shipped with ESLint
+* `"eslint:recommended"`: the rules recommended by ESLint.
+* `"eslint:all"`: all rules shipped with ESLint.
 
 You can also use the `extends` property to extend a shareable config. Shareable configs can either be paths to local config files or npm package names.
 
@@ -582,12 +582,12 @@ export default [
 In `.eslintignore`, `temp.js` ignores all files named `temp.js`, whereas in flat config, you need to specify this as `**/temp.js`. The pattern `temp.js` in flat config only ignores a file named `temp.js` in the same directory as the configuration file.
 
 ::: important
-In flat config , dotfiles (e.g. `.dotfile.js`) are no longer ignored by default. If you want to ignore dotfiles, add an ignore pattern of `"**/.*"`.
+In flat config, dotfiles (e.g. `.dotfile.js`) are no longer ignored by default. If you want to ignore dotfiles, add an ignore pattern of `"**/.*"`.
 :::
 
 ### Linter Options
 
-ESlintrc files let you configure the linter itself with the `noInlineConfig` and `reportUnusedDisableDirectives` properties.
+Eslintrc files let you configure the linter itself with the `noInlineConfig` and `reportUnusedDisableDirectives` properties.
 
 The flat config system introduces a new top-level property `linterOptions` that you can use to configure the linter. In the `linterOptions` object, you can include `noInlineConfig` and `reportUnusedDisableDirectives`.
 
