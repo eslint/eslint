@@ -74,6 +74,7 @@
     --color-brand: var(--color-primary-800);
     --body-background-color: #fff;
     --body-text-color: var(--color-neutral-500);
+    --code-comments-color: var(--color-neutral-500);
     --headings-color: var(--color-neutral-900);
 
     --border-color: var(--color-neutral-300);
@@ -115,6 +116,7 @@
     :root {
         --body-background-color: var(--color-neutral-900);
         --body-text-color: var(--color-neutral-300);
+        --code-comments-color: var(--color-neutral-400);
         --headings-color: #fff;
 
         --divider-color: var(--color-neutral-600);
@@ -156,6 +158,7 @@
 html[data-theme="light"] {
     --body-background-color: #fff;
     --body-text-color: var(--color-neutral-500);
+    --code-comments-color: var(--color-neutral-500);
     --headings-color: var(--color-neutral-900);
 
     --border-color: var(--color-neutral-300);
@@ -198,6 +201,7 @@ html[data-theme="dark"] {
 
     --body-background-color: var(--color-neutral-900);
     --body-text-color: var(--color-neutral-300);
+    --code-comments-color: var(--color-neutral-400);
     --headings-color: #fff;
 
     --divider-color: var(--color-neutral-600);

@@ -110,8 +110,8 @@ Many users found this behavior confusing, because if they made a typo in a filen
 
 ESLint v5 will report a fatal error when either of the following conditions is met:
 
-* A file provided on the command line does not exist
-* A glob or folder provided on the command line does not match any lintable files
+* A file provided on the command line does not exist.
+* A glob or folder provided on the command line does not match any lintable files.
 
 Note that this also affects the [`CLIEngine.executeOnFiles()`](../integrate/nodejs-api#cliengineexecuteonfiles) API.
 

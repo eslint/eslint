@@ -51,10 +51,10 @@ Note that the `eslint-plugin-` plugin name prefix may be omitted for brevity, e.
 
 Common resolutions for this issue include:
 
-* Upgrading all versions of all packages to their latest version
-* Adding the plugin as a `devDependency` in your `package.json`
-* Running `npm install` or the equivalent package manager command
-* Checking that the name in your config file matches the name of the plugin package
+* Upgrading all versions of all packages to their latest version.
+* Adding the plugin as a `devDependency` in your `package.json`.
+* Running `npm install` or the equivalent package manager command.
+* Checking that the name in your config file matches the name of the plugin package.
 
 ## Resources
 

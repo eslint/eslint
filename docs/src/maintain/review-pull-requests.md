@@ -54,7 +54,7 @@ For a non-breaking feature, pull requests require approval from one reviewer or 
 For a breaking change, pull requests require an approval from two TSC members.
 
 ::: important
-If you approve a pull request and don't merge it, please leave a comment explaining why you didn't merge it. You might say something like, "LGTM. Waiting three days before merging." or "LGTM. Requires TSC member approval before merging" or "LGTM. Would like another review before merging."
+If you approve a pull request and don't merge it, please leave a comment explaining why you didn't merge it. You might say something like, "LGTM. Waiting three days before merging." or "LGTM. Requires TSC member approval before merging." or "LGTM. Would like another review before merging.".
 :::
 
 ## Moving a Pull Request Through the Triage Board
@@ -90,18 +90,18 @@ Website Team Members may merge a pull request in the `eslint.org` repository if 
 
 We use the "Merge" button to merge requests into the repository. Before merging a pull request, verify that:
 
-1. All comments have been addressed
-1. Any team members who made comments have verified that their concerns were addressed
-1. All automated tests are passing (never merge a pull request with failing tests)
+1. All comments have been addressed.
+1. Any team members who made comments have verified that their concerns were addressed.
+1. All automated tests are passing (never merge a pull request with failing tests).
 
 Be sure to say thank you to the submitter before merging, especially if they put a lot of work into the pull request.
 
 Team members may merge a pull request immediately if it:
 
-1. Makes a small documentation change
-1. Is a chore
-1. Fixes a block of other work on the repository (build-related, test-related, dependency-related, etc.)
-1. Is an important fix to get into a patch release
+1. Makes a small documentation change.
+1. Is a chore.
+1. Fixes a block of other work on the repository (build-related, test-related, dependency-related, etc.).
+1. Is an important fix to get into a patch release.
 
 Otherwise, team members should observe a waiting period before merging a pull request:
 

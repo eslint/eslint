@@ -40,8 +40,8 @@ To use flat config with ESLint v8, place a `eslint.config.js` file in the root o
 
 While the configuration file format has changed from eslintrc to flat config, the following has stayed the same:
 
-* Syntax for configuring rules
-* Syntax for configuring processors
+* Syntax for configuring rules.
+* Syntax for configuring processors.
 * The CLI, except for the flag changes noted in [CLI Flag Changes](#cli-flag-changes).
 * Global variables are configured the same way, but on a different property (see [Configuring Language Options](#configuring-language-options)).
 
@@ -417,8 +417,8 @@ export default [
 
 In eslintrc files, use the `extends` property to use predefined and shareable configs. ESLint comes with two predefined configs that you can access as strings:
 
-* `"eslint:recommended"`: the rules recommended by ESLint
-* `"eslint:all"`: all rules shipped with ESLint
+* `"eslint:recommended"`: the rules recommended by ESLint.
+* `"eslint:all"`: all rules shipped with ESLint.
 
 You can also use the `extends` property to extend a shareable config. Shareable configs can either be paths to local config files or npm package names.
 

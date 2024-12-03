@@ -44,19 +44,19 @@ In this case, the rule will not try to remove the parentheses around `"use stric
 
 This rule has a string option:
 
-* `"all"` (default) disallows unnecessary parentheses around *any* expression
-* `"functions"` disallows unnecessary parentheses *only* around function expressions
+* `"all"` (default) disallows unnecessary parentheses around *any* expression.
+* `"functions"` disallows unnecessary parentheses *only* around function expressions.
 
 This rule has an object option for exceptions to the `"all"` option:
 
-* `"conditionalAssign": false` allows extra parentheses around assignments in conditional test expressions
-* `"returnAssign": false` allows extra parentheses around assignments in `return` statements
-* `"nestedBinaryExpressions": false` allows extra parentheses in nested binary expressions
-* `"ternaryOperandBinaryExpressions": false` allows extra parentheses around binary expressions that are operands of ternary `?:`
+* `"conditionalAssign": false` allows extra parentheses around assignments in conditional test expressions.
+* `"returnAssign": false` allows extra parentheses around assignments in `return` statements.
+* `"nestedBinaryExpressions": false` allows extra parentheses in nested binary expressions.
+* `"ternaryOperandBinaryExpressions": false` allows extra parentheses around binary expressions that are operands of ternary `?:`.
 * `"ignoreJSX": "none|all|multi-line|single-line"` allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to `none`.
-* `"enforceForArrowConditionals": false` allows extra parentheses around ternary expressions which are the body of an arrow function
-* `"enforceForSequenceExpressions": false` allows extra parentheses around sequence expressions
-* `"enforceForNewInMemberExpressions": false` allows extra parentheses around `new` expressions in member expressions
+* `"enforceForArrowConditionals": false` allows extra parentheses around ternary expressions which are the body of an arrow function.
+* `"enforceForSequenceExpressions": false` allows extra parentheses around sequence expressions.
+* `"enforceForNewInMemberExpressions": false` allows extra parentheses around `new` expressions in member expressions.
 * `"enforceForFunctionPrototypeMethods": false` allows extra parentheses around immediate `.call` and `.apply` method calls on function expressions and around function expressions in the same context.
 * `"allowParensAfterCommentPattern": "any-string-pattern"` allows extra parentheses preceded by a comment that matches a regular expression.
 
