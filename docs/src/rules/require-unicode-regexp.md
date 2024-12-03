@@ -7,7 +7,7 @@ further_reading:
 ---
 
 
-`RegExp` `u` flag has two effects:
+RegExp `u` flag has two effects:
 
 1. **Make the regular expression handling UTF-16 surrogate pairs correctly.**
 
