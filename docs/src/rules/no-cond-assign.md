@@ -26,8 +26,8 @@ This rule disallows ambiguous assignment operators in test conditions of `if`, `
 
 This rule has a string option:
 
-* `"except-parens"` (default) allows assignments in test conditions *only if* they are enclosed in parentheses (for example, to allow reassigning a variable in the test of a `while` or `do...while` loop)
-* `"always"` disallows all assignments in test conditions
+* `"except-parens"` (default) allows assignments in test conditions *only if* they are enclosed in parentheses (for example, to allow reassigning a variable in the test of a `while` or `do...while` loop).
+* `"always"` disallows all assignments in test conditions.
 
 ### except-parens
 
