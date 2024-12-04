@@ -127,7 +127,7 @@ the loop is correct. As a few examples:
         let previousResult = null;
         for (let i = 0; i < 10; i++) {
             const result = await doSomething(i, previousResult);
-            if (someCondition(previousResult)) {
+            if (someCondition(result, previousResult)) {
                 break;
             } else {
                 previousResult = result;
