@@ -122,7 +122,7 @@ the loop is correct. As a few examples:
 
 * The output of one iteration might be used as the input to another.
 
-    ```ts
+    ```js
     async function loopIterationsDependOnEachOther() {
         let previousResult = null;
         for (let i = 0; i < 10; i++) {
@@ -138,7 +138,7 @@ the loop is correct. As a few examples:
 
 * Loops may be used to retry asynchronous operations that were unsuccessful.
 
-    ```ts
+    ```js
     async function retryUpTo10Times() {
         for (let i = 0; i < 10; i++) {
             const wasSuccessful = await tryToDoSomething();
@@ -153,7 +153,7 @@ the loop is correct. As a few examples:
 
 * Loops may be used to prevent your code from sending an excessive amount of requests in parallel.
 
-    ```ts
+    ```js
     async function makeUpdatesToRateLimitedApi(thingsToUpdate) {
         // we'll exceed our rate limit if we make all the network calls in parallel.
         for (const thing of thingsToUpdate) {
