@@ -5,10 +5,10 @@ rule_type: problem
 
 
 Performing an operation on each element of an iterable is a common task. However, performing an
-`await` as part of each operation is an indication that the program is not taking full advantage of
+`await` as part of each operation may indicate that the program is not taking full advantage of
 the parallelization benefits of `async`/`await`.
 
-Usually, the code should be refactored to create all the promises at once, then get access to the
+Often, the code can be refactored to create all the promises at once, then get access to the
 results using `Promise.all()`. Otherwise, each successive operation will not start until the
 previous one has completed.
 
@@ -19,21 +19,22 @@ async function foo(things) {
   const results = [];
   for (const thing of things) {
     // Bad: each loop iteration is delayed until the entire asynchronous operation completes
-    results.push(await bar(thing));
+    results.push(await doAsyncWork(thing));
   }
-  return baz(results);
+  return results;
 }
 ```
 
 ```js
 async function foo(things) {
-  const results = [];
+  const promises = [];
   for (const thing of things) {
     // Good: all asynchronous operations are immediately started.
-    results.push(bar(thing));
+    promises.push(doAsyncWork(thing));
   }
   // Now that all the asynchronous operations are running, here we wait until they all complete.
-  return baz(await Promise.all(results));
+  const results = await Promise.all(promises);
+  return results;
 }
 ```
 
@@ -51,13 +52,14 @@ Examples of **correct** code for this rule:
 /*eslint no-await-in-loop: "error"*/
 
 async function foo(things) {
-  const results = [];
+  const promises = [];
   for (const thing of things) {
     // Good: all asynchronous operations are immediately started.
-    results.push(bar(thing));
+    promises.push(doAsyncWork(thing));
   }
   // Now that all the asynchronous operations are running, here we wait until they all complete.
-  return baz(await Promise.all(results));
+  const results = await Promise.all(promises)
+  return results;
 }
 ```
 
@@ -74,9 +76,9 @@ async function foo(things) {
   const results = [];
   for (const thing of things) {
     // Bad: each loop iteration is delayed until the entire asynchronous operation completes
-    results.push(await bar(thing));
+    results.push(await doAsyncWork(thing));
   }
-  return baz(results);
+  return results;
 }
 ```
 
