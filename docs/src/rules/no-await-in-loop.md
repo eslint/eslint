@@ -62,7 +62,7 @@ async function foo() {
     const arrayOfPromises = somethingThatCreatesAnArrayOfPromises();
     // Good: Any rejections will cause a single exception to be thrown here,
     // which may be caught and handled by the caller.
-    const arrayOfValues = Promise.all(arrayOfPromises);
+    const arrayOfValues = await Promise.all(arrayOfPromises);
     for (const value of arrayOfValues) {
         console.log(value);
     }
