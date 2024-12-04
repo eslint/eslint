@@ -390,7 +390,25 @@ ruleTester.run("no-useless-assignment", rule, {
                 function App() {
                     let A = "";
                     foo(A);
-                    a = "A";
+                    A = "A";
+                    return <A/>;
+                }
+            `,
+            languageOptions: {
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            }
+        },
+        {
+            code: `/*eslint test/jsx:1*/
+                function App() {
+                    let A = "a";
+                    A = "b";
+                    A = "c";
+                    foo(A);
                     return <A/>;
                 }
             `,
