@@ -36,7 +36,7 @@ function a(x) {
 
 This rule is aimed at reducing code complexity by capping the amount of cyclomatic complexity allowed in a program. As such, it will warn when the cyclomatic complexity crosses the configured threshold (default is `20`).
 
-Examples of **incorrect** code for a maximum of 2:
+Examples of **incorrect** code for a maximum of `2`:
 
 ::: incorrect
 
@@ -69,7 +69,7 @@ function d(a) {
 
 :::
 
-Examples of **correct** code for a maximum of 2:
+Examples of **correct** code for a maximum of `2`:
 
 ::: correct
 
@@ -93,7 +93,7 @@ function b() {
 
 Class field initializers and class static blocks are implicit functions. Therefore, their complexity is calculated separately for each initializer and each static block, and it doesn't contribute to the complexity of the enclosing code.
 
-Examples of additional **incorrect** code for a maximum of 2:
+Examples of additional **incorrect** code for a maximum of `2`:
 
 ::: incorrect
 
@@ -115,7 +115,7 @@ class D { // this static block has complexity = 3
 
 :::
 
-Examples of additional **correct** code for a maximum of 2:
+Examples of additional **correct** code for a maximum of `2`:
 
 ::: correct
 
