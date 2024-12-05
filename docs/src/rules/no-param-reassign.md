@@ -6,13 +6,13 @@ further_reading:
 ---
 
 
-Assignment to variables declared as `function` parameters can be misleading and lead to confusing behavior, as modifying `function` parameters will also mutate the `arguments` object when not in `strict` mode (see [When Not To Use It](#when-not-to-use-it) below). Often, assignment to `function` parameters is unintended and indicative of a mistake or programmer error.
+Assignment to variables declared as function parameters can be misleading and lead to confusing behavior, as modifying function parameters will also mutate the `arguments` object when not in `strict` mode (see [When Not To Use It](#when-not-to-use-it) below). Often, assignment to function parameters is unintended and indicative of a mistake or programmer error.
 
-This rule can be also configured to fail when `function` parameters are modified. Side effects on parameters can cause counter-intuitive execution flow and make errors difficult to track down.
+This rule can be also configured to fail when function parameters are modified. Side effects on parameters can cause counter-intuitive execution flow and make errors difficult to track down.
 
 ## Rule Details
 
-This rule aims to prevent unintended behavior caused by modification or reassignment of `function` parameters.
+This rule aims to prevent unintended behavior caused by modification or reassignment of function parameters.
 
 Examples of **incorrect** code for this rule:
 
@@ -182,6 +182,6 @@ var foo = function(barBaz) {
 
 ## When Not To Use It
 
-If you want to allow assignment to `function` parameters, then you can safely disable this rule.
+If you want to allow assignment to function parameters, then you can safely disable this rule.
 
 `strict` mode code doesn't sync indices of the arguments object with each parameter binding. Therefore, this rule is not necessary to protect against arguments object mutation in ESM modules or other `strict` mode functions.
