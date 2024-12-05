@@ -429,15 +429,15 @@ describe("SourceCodeFixer", () => {
 
         });
 
-        describe("Nil fix", () => {
-            it("should not throw if fix equal null", () => {
+        describe("Nullish fixes", () => {
+            it("should not throw if fix is null", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [NULL_FIX]);
 
                 assert.isFalse(result.fixed);
                 assert.strictEqual(result.output, TEST_CODE);
             });
 
-            it("should not throw if fix equal undefined", () => {
+            it("should not throw if fix is undefined", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [UNDEFINED_FIX]);
 
                 assert.isFalse(result.fixed);
