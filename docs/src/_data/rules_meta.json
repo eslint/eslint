@@ -1760,7 +1760,7 @@
     "no-param-reassign": {
         "type": "suggestion",
         "docs": {
-            "description": "Disallow reassigning `function` parameters",
+            "description": "Disallow reassigning function parameters",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-param-reassign"
         }
