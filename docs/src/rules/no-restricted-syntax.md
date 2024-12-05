@@ -18,7 +18,7 @@ You can also specify [AST selectors](../extend/selectors) to restrict, allowing 
 Note: This rule can be used with any language you lint using ESLint. To see what type of nodes your code in another language consists of, you can use:
 
 * [typescript-eslint Playground](https://typescript-eslint.io/play) if you're using ESLint with `typescript-eslint`.
-* [ESLint Code Explorer](https://explorer.eslint.org/) if you're using ESLint to lint JavaScript, JSON, or Markdown.
+* [ESLint Code Explorer](https://explorer.eslint.org/) if you're using ESLint to lint JavaScript, JSON, Markdown, or CSS.
 
 ## Rule Details
 
