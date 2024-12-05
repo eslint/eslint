@@ -14,11 +14,11 @@ var x = Function.apply(null, ["a", "b", "return a + b"]);
 var x = Function.bind(null, "a", "b", "return a + b")();
 ```
 
-This is considered by many to be a bad practice due to the difficulty in debugging and reading these types of functions. In addition, Content-Security-Policy (CSP) directives may disallow the use of eval() and similar methods for creating code from strings.
+This is considered by many to be a bad practice due to the difficulty in debugging and reading these types of functions. In addition, Content-Security-Policy (CSP) directives may disallow the use of `eval()` and similar methods for creating code from strings.
 
 ## Rule Details
 
-This error is raised to highlight the use of a bad practice. By passing a string to the Function constructor, you are requiring the engine to parse that string much in the way it has to when you call the `eval` function.
+This error is raised to highlight the use of a bad practice. By passing a string to the `Function` constructor, you are requiring the engine to parse that string much in the way it has to when you call the `eval` function.
 
 Examples of **incorrect** code for this rule:
 
