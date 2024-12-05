@@ -9,7 +9,7 @@
     height: 40px;
     background-color: var(--color-neutral-200);
     cursor: pointer;
-    background-image: url("/docs/head/assets/images/icons/copy.svg");
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.167 12.5h-.834a1.667 1.667 0 0 1-1.666-1.667v-7.5a1.667 1.667 0 0 1 1.666-1.666h7.5A1.666 1.666 0 0 1 12.5 3.333v.834M9.167 7.5h7.5c.92 0 1.666.746 1.666 1.667v7.5c0 .92-.746 1.666-1.666 1.666h-7.5c-.92 0-1.667-.746-1.667-1.666v-7.5c0-.92.746-1.667 1.667-1.667Z' stroke='#667085' stroke-width='1.667' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     background-position: 50%;
     background-size: 20px;
     background-repeat: no-repeat;
@@ -26,7 +26,7 @@
 
 [class*="language-"] > .c-btn--copy.copied,
 [class*="language-"] > .c-btn--copy:hover.copied {
-    background-image: url("/docs/head/assets/images/icons/copied.svg");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='#667085' stroke-linecap='round'%3E%3Cpath stroke-linejoin='round' stroke-width='1.667' d='M4.167 12.5h-.834a1.667 1.667 0 0 1-1.666-1.667v-7.5a1.667 1.667 0 0 1 1.666-1.666h7.5A1.666 1.666 0 0 1 12.5 3.333v.834M9.167 7.5h7.5c.92 0 1.666.746 1.666 1.667v7.5c0 .92-.746 1.666-1.666 1.666h-7.5c-.92 0-1.667-.746-1.667-1.666v-7.5c0-.92.746-1.667 1.667-1.667'/%3E%3Cpath d='m10 13 2 2 4-4'/%3E%3C/svg%3E");
 }
 
 [class*="language-"] > span.lang {
