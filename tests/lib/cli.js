@@ -1612,31 +1612,6 @@ describe("cli", () => {
                         assert.strictEqual(exitCode, 2, "exit code should be 2");
                     });
 
-                    it("does not report when --report-unused-inline-configs 0", async () => {
-                        const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --report-unused-inline-configs 0 --rule "'no-console': 'error'"`,
-                            "/* eslint no-console: 'error' */",
-                            useFlatConfig);
-
-                        assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
-                        assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
-                        assert.strictEqual(exitCode, 0, "exit code should be 0");
-                    });
-
-                    it("fails when passing invalid string for --report-unused-inline-configs", async () => {
-                        const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --report-unused-inline-configs foo`, null, useFlatConfig);
-
-                        assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
-                        assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
-
-                        const lines = ["Option report-unused-inline-configs: 'foo' not one of off, warn, error, 0, 1, or 2."];
-
-                        if (useFlatConfig) {
-                            lines.push("You're using eslint.config.js, some command line flags are no longer available. Please see https://eslint.org/docs/latest/use/command-line-interface for details.");
-                        }
-                        assert.deepStrictEqual(log.error.firstCall.args, [lines.join("\n")], "has the right text to log.error");
-                        assert.strictEqual(exitCode, 2, "exit code should be 2");
-                    });
-
                     it("warns by default in flat config only", async () => {
                         const exitCode = await cli.execute(`${useFlatConfig ? "--no-config-lookup" : "--no-eslintrc"} --rule "'no-console': 'error'"`,
                             "foo(); // eslint-disable-line no-console",
@@ -1962,6 +1937,33 @@ describe("cli", () => {
                     assert.strictEqual(exitCode, 0);
                 });
 
+            });
+
+            describe("--report-unused-inline-configs option", () => {
+                it("does not report when --report-unused-inline-configs 0", async () => {
+                    const exitCode = await cli.execute("--no-config-lookup --report-unused-inline-configs 0 --rule \"'no-console': 'error'\"",
+                        "/* eslint no-console: 'error' */",
+                        true);
+
+                    assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(exitCode, 0, "exit code should be 0");
+                });
+
+                it("fails when passing invalid string for --report-unused-inline-configs", async () => {
+                    const exitCode = await cli.execute("--no-config-lookup --report-unused-inline-configs foo", null, true);
+
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
+
+                    const lines = [
+                        "Option report-unused-inline-configs: 'foo' not one of off, warn, error, 0, 1, or 2.",
+                        "You're using eslint.config.js, some command line flags are no longer available. Please see https://eslint.org/docs/latest/use/command-line-interface for details."
+                    ];
+
+                    assert.deepStrictEqual(log.error.firstCall.args, [lines.join("\n")], "has the right text to log.error");
+                    assert.strictEqual(exitCode, 2, "exit code should be 2");
+                });
             });
 
             describe("unstable_config_lookup_from_file", () => {
