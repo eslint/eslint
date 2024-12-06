@@ -21,7 +21,6 @@
      },
      "toPnpmCommands" : {
         "install": "add",
-        "run": "run",
         "init": "init",
         "init-create": "create"
      },
