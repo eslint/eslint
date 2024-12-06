@@ -1,7 +1,6 @@
 {
     "toNpmCommands": {
         "install": "install",
-        "run": "run",
         "init": "init",
         "init-create": "init"
     },
