@@ -150,20 +150,30 @@ jobs:
   are-the-types-wrong:
     name: Are the types wrong?
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        package:
+          [
+            { name: eslint, directory: . },
+            {
+              name: eslint-config-eslint,
+              directory: packages/eslint-config-eslint,
+            },
+          ]
+
     steps:
-      - name: Checkout eslint
+      - name: Checkout ${{ matrix.package.name }}
         uses: actions/checkout@v4
-        with:
-          path: eslint
 
       - uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
 
       - name: Install Packages
-        working-directory: eslint
+        working-directory: ${{ matrix.package.directory }}
         run: npm install
 
       - name: Check validity of type definitions
-        working-directory: eslint
+        working-directory: ${{ matrix.package.directory }}
         run: npm run lint:types

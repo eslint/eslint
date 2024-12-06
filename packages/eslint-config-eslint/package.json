@@ -3,15 +3,44 @@
   "version": "11.0.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "Default ESLint configuration for ESLint projects.",
+  "main": "./index.js",
+  "types": "./types/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
-    ".": "./index.js",
-    "./base": "./base.js",
-    "./cjs": "./cjs.js",
-    "./formatting": "./formatting.js"
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./index.js"
+    },
+    "./base": {
+      "types": "./types/base.d.ts",
+      "default": "./base.js"
+    },
+    "./cjs": {
+      "types": "./types/cjs.d.ts",
+      "default": "./cjs.js"
+    },
+    "./formatting": {
+      "types": "./types/formatting.d.ts",
+      "default": "./formatting.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "base": [
+        "./types/base.d.ts"
+      ],
+      "cjs": [
+        "./types/cjs.d.ts"
+      ],
+      "formatting": [
+        "./types/formatting.d.ts"
+      ]
+    }
   },
   "scripts": {
+    "lint:types": "attw --pack",
     "test": "node ./index.js && node ./cjs.js && node ./formatting.js",
+    "test:types": "tsc -p tsconfig.json",
     "prepublish": "npm test"
   },
   "files": [
@@ -21,7 +50,8 @@
     "cjs.js",
     "formatting.js",
     "index.js",
-    "nodejs.js"
+    "nodejs.js",
+    "types"
   ],
   "repository": {
     "type": "git",
@@ -36,6 +66,19 @@
     "eslint-plugin-jsdoc": "^48.2.3",
     "eslint-plugin-n": "^17.11.1",
     "eslint-plugin-unicorn": "^52.0.0"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.0",
+    "eslint": "^9.16.0",
+    "typescript": "^5.7.2"
+  },
+  "peerDependencies": {
+    "eslint": "^9.10.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    }
   },
   "keywords": [
     "eslintconfig",
