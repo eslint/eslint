@@ -345,7 +345,7 @@ You can also use the [`--no-inline-config`](../command-line-interface#--no-inlin
 
 #### Report unused `eslint-disable` comments
 
-To report unused `eslint-disable` comments, use the `reportUnusedDisableDirectives` setting. For example:
+To report unused `eslint-disable` comments (those that disable rules which were already disabled), use the `reportUnusedDisableDirectives` setting. For example:
 
 ```js
 // eslint.config.js
@@ -364,7 +364,7 @@ This setting is similar to [`--report-unused-disable-directives`](../command-lin
 
 #### Report unused `eslint` inline config comments
 
-To report unused `eslint` inline config comments, use the `reportUnusedInlineConfigs` setting. For example:
+To report unused `eslint` inline config comments (those that don't change anything from what was already configured), use the `reportUnusedInlineConfigs` setting. For example:
 
 ```js
 // eslint.config.js
