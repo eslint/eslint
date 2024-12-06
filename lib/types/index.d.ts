@@ -1376,7 +1376,7 @@ export namespace Linter {
          * A severity value indicating if and how unused inline configs should be
          * tracked and reported.
          */
-        reportUnusedInlineConfigs?: Severity | StringSeverity | boolean;
+        reportUnusedInlineConfigs?: Severity | StringSeverity;
     }
 
     interface Stats {
