@@ -114,4 +114,5 @@ footer:
 
 edit_link:
   start_with: https://github.com/eslint/eslint/edit/main/docs/
+  start_with_latest: https://github.com/eslint/eslint/edit/latest/docs/
   text: 编辑此页
