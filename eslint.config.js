@@ -70,6 +70,9 @@ function createInternalFilesPatterns(pattern = null) {
         }));
 }
 
+/**
+ * @type {import("./lib/types/index.js").Linter.Config[]}
+ */
 module.exports = [
     ...eslintConfigESLintCJS.map(config => ({
         ...config,
@@ -296,7 +299,7 @@ module.exports = [
         languageOptions: {
             parser: tsParser,
             parserOptions: {
-                project: ["tests/lib/types/tsconfig.json", "packages/js/tests/types/tsconfig.json"]
+                project: ["tests/lib/types/tsconfig.json", "packages/js/tests/types/tsconfig.json", "packages/eslint-config-eslint/tsconfig.json"]
             }
         },
         plugins: {
