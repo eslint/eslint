@@ -435,6 +435,8 @@ describe("SourceCodeFixer", () => {
 
                 assert.isFalse(result.fixed);
                 assert.strictEqual(result.output, TEST_CODE);
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].message, "null");
             });
 
             it("should not throw if fix is undefined", () => {
@@ -442,6 +444,8 @@ describe("SourceCodeFixer", () => {
 
                 assert.isFalse(result.fixed);
                 assert.strictEqual(result.output, TEST_CODE);
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].message, "undefined");
             });
         });
 
