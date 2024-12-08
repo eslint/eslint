@@ -12,7 +12,7 @@ Often, the code can be refactored to create all the promises at once, then get a
 results using `Promise.all()` (or one of the other [promise concurrency methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#promise_concurrency)). Otherwise, each successive operation will not start until the
 previous one has completed.
 
-Concretely, the following function should be refactored as shown:
+Concretely, the following function could be refactored as shown:
 
 ```js
 async function foo(things) {
