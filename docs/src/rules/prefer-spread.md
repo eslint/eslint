@@ -65,7 +65,7 @@ obj.foo.apply(obj, [1, 2, 3]);
 
 :::
 
-Known limitations:
+## Known Limitations
 
 This rule analyzes code statically to check whether or not the `this` argument is changed. So, if the `this` argument is computed in a dynamic expression, this rule cannot detect a violation.
 
