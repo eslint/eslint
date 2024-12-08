@@ -209,6 +209,7 @@ function generateRuleIndexPage() {
                         description: rule.meta.docs.description,
                         recommended: rule.meta.docs.recommended || false,
                         fixable: !!rule.meta.fixable,
+                        frozen: !!rule.meta.docs.frozen,
                         hasSuggestions: !!rule.meta.hasSuggestions
                     },
                     ruleType = ruleTypesData.types[rule.meta.type];
