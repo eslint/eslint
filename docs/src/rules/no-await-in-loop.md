@@ -41,7 +41,7 @@ async function foo(things) {
 This can be beneficial for subtle error-handling reasons as well. Given an array of promises that might reject,
 sequential awaiting puts the program at risk of unhandled promise rejections. The exact behavior of unhandled
 rejections depends on the environment running your code, but they are generally considered harmful regardless.
-In node.js, for example, [unhandled rejections cause a program to terminate](https://nodejs.org/api/cli.html#--unhandled-rejectionsmode) unless configured otherwise.
+In Node.js, for example, [unhandled rejections cause a program to terminate](https://nodejs.org/api/cli.html#--unhandled-rejectionsmode) unless configured otherwise.
 
 ```js
 async function foo() {
