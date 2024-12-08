@@ -127,6 +127,14 @@ const INSERT_AT_END = {
             range: [3, 0],
             text: " "
         }
+    },
+    UNDEFINED_FIX = {
+        message: "undefined",
+        fix: void 0
+    },
+    NULL_FIX = {
+        message: "null",
+        fix: null
     };
 
 //------------------------------------------------------------------------------
@@ -419,6 +427,26 @@ describe("SourceCodeFixer", () => {
                 assert.strictEqual(result.messages.length, 0);
             });
 
+        });
+
+        describe("Nullish fixes", () => {
+            it("should not throw if fix is null", () => {
+                const result = SourceCodeFixer.applyFixes(TEST_CODE, [NULL_FIX]);
+
+                assert.isFalse(result.fixed);
+                assert.strictEqual(result.output, TEST_CODE);
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].message, "null");
+            });
+
+            it("should not throw if fix is undefined", () => {
+                const result = SourceCodeFixer.applyFixes(TEST_CODE, [UNDEFINED_FIX]);
+
+                assert.isFalse(result.fixed);
+                assert.strictEqual(result.output, TEST_CODE);
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].message, "undefined");
+            });
         });
 
     });
