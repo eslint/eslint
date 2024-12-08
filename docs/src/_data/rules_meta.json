@@ -54,6 +54,7 @@
         "docs": {
             "description": "Require braces around arrow function bodies",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/arrow-body-style"
         },
         "fixable": "code"
@@ -125,6 +126,7 @@
         "docs": {
             "description": "Enforce camelcase naming convention",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/camelcase"
         }
     },
@@ -133,6 +135,7 @@
         "docs": {
             "description": "Enforce or disallow capitalization of the first letter of a comment",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/capitalized-comments"
         },
         "fixable": "code"
@@ -210,6 +213,7 @@
         "docs": {
             "description": "Enforce consistent naming when capturing the current execution context",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/consistent-this"
         }
     },
@@ -226,6 +230,7 @@
         "docs": {
             "description": "Enforce consistent brace style for all control statements",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/curly"
         },
         "fixable": "code"
@@ -251,6 +256,7 @@
         "docs": {
             "description": "Enforce default parameters to be last",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/default-param-last"
         }
     },
@@ -270,6 +276,7 @@
         "docs": {
             "description": "Enforce dot notation whenever possible",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/dot-notation"
         },
         "fixable": "code"
@@ -319,6 +326,7 @@
         "docs": {
             "description": "Require function names to match the name of the variable or property to which they are assigned",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/func-name-matching"
         }
     },
@@ -335,6 +343,7 @@
         "docs": {
             "description": "Enforce the consistent use of either `function` declarations or expressions assigned to variables",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/func-style"
         }
     },
@@ -433,6 +442,7 @@
         "docs": {
             "description": "Disallow specified identifiers",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/id-denylist"
         }
     },
@@ -441,6 +451,7 @@
         "docs": {
             "description": "Enforce minimum and maximum identifier lengths",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/id-length"
         }
     },
@@ -449,6 +460,7 @@
         "docs": {
             "description": "Require identifiers to match a specified regular expression",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/id-match"
         }
     },
@@ -492,6 +504,7 @@
         "docs": {
             "description": "Require or disallow initialization in variable declarations",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/init-declarations"
         }
     },
@@ -589,6 +602,7 @@
         "docs": {
             "description": "Require or disallow logical assignment operator shorthand",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/logical-assignment-operators"
         },
         "fixable": "code",
@@ -912,6 +926,7 @@
         "docs": {
             "description": "Disallow `continue` statements",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-continue"
         }
     },
@@ -945,6 +960,7 @@
         "docs": {
             "description": "Disallow equal signs explicitly at the beginning of regular expressions",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-div-regex"
         },
         "fixable": "code"
@@ -1002,6 +1018,7 @@
         "docs": {
             "description": "Disallow `else` blocks after `return` statements in `if` statements",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-else-return"
         },
         "fixable": "code"
@@ -1093,6 +1110,7 @@
         "docs": {
             "description": "Disallow unnecessary boolean casts",
             "recommended": true,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-extra-boolean-cast"
         },
         "fixable": "code"
@@ -1102,6 +1120,7 @@
         "docs": {
             "description": "Disallow unnecessary labels",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-extra-label"
         },
         "fixable": "code"
@@ -1169,6 +1188,7 @@
         "docs": {
             "description": "Disallow shorthand type conversions",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-implicit-coercion"
         },
         "fixable": "code"
@@ -1202,6 +1222,7 @@
         "docs": {
             "description": "Disallow inline comments after code",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-inline-comments"
         }
     },
@@ -1250,6 +1271,7 @@
         "docs": {
             "description": "Disallow labels that share a name with a variable",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-label-var"
         }
     },
@@ -1258,6 +1280,7 @@
         "docs": {
             "description": "Disallow labeled statements",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-labels"
         }
     },
@@ -1274,6 +1297,7 @@
         "docs": {
             "description": "Disallow `if` statements as the only statement in `else` blocks",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-lonely-if"
         },
         "fixable": "code"
@@ -1299,6 +1323,7 @@
         "docs": {
             "description": "Disallow magic numbers",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-magic-numbers"
         }
     },
@@ -1365,6 +1390,7 @@
         "docs": {
             "description": "Disallow multiline strings",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-multi-str"
         }
     },
@@ -1396,6 +1422,7 @@
         "docs": {
             "description": "Disallow negated conditions",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-negated-condition"
         }
     },
@@ -1416,6 +1443,7 @@
         "docs": {
             "description": "Disallow nested ternary expressions",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-nested-ternary"
         }
     },
@@ -1550,6 +1578,7 @@
         "docs": {
             "description": "Disallow the unary operators `++` and `--`",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-plusplus"
         }
     },
@@ -1796,6 +1825,7 @@
         "docs": {
             "description": "Disallow ternary operators",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-ternary"
         }
     },
@@ -1839,6 +1869,7 @@
         "docs": {
             "description": "Disallow initializing variables to `undefined`",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-undef-init"
         },
         "fixable": "code"
@@ -1856,6 +1887,7 @@
         "docs": {
             "description": "Disallow dangling underscores in identifiers",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-underscore-dangle"
         }
     },
@@ -1880,6 +1912,7 @@
         "docs": {
             "description": "Disallow ternary operators when simpler alternatives exist",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-unneeded-ternary"
         },
         "fixable": "code"
@@ -2005,6 +2038,7 @@
         "docs": {
             "description": "Disallow unnecessary computed property keys in objects and classes",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-useless-computed-key"
         },
         "fixable": "code"
@@ -2014,6 +2048,7 @@
         "docs": {
             "description": "Disallow unnecessary concatenation of literals or template literals",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-useless-concat"
         }
     },
@@ -2066,6 +2101,7 @@
         "docs": {
             "description": "Disallow `void` operators",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-void"
         }
     },
@@ -2074,6 +2110,7 @@
         "docs": {
             "description": "Disallow specified warning terms in comments",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-warning-comments"
         }
     },
@@ -2145,6 +2182,7 @@
         "docs": {
             "description": "Require or disallow method and property shorthand syntax for object literals",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/object-shorthand"
         },
         "fixable": "code"
@@ -2154,6 +2192,7 @@
         "docs": {
             "description": "Enforce variables to be declared either together or separately in functions",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/one-var"
         },
         "fixable": "code"
@@ -2174,6 +2213,7 @@
         "docs": {
             "description": "Require or disallow assignment operator shorthand where possible",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/operator-assignment"
         },
         "fixable": "code"
@@ -2216,6 +2256,7 @@
         "docs": {
             "description": "Require using arrow functions for callbacks",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/prefer-arrow-callback"
         },
         "fixable": "code"
@@ -2234,6 +2275,7 @@
         "docs": {
             "description": "Require destructuring from arrays and/or objects",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/prefer-destructuring"
         },
         "fixable": "code"
@@ -2243,6 +2285,7 @@
         "docs": {
             "description": "Disallow the use of `Math.pow` in favor of the `**` operator",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/prefer-exponentiation-operator"
         },
         "fixable": "code"
@@ -2261,6 +2304,7 @@
         "docs": {
             "description": "Disallow `parseInt()` and `Number.parseInt()` in favor of binary, octal, and hexadecimal literals",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/prefer-numeric-literals"
         },
         "fixable": "code"
@@ -2279,6 +2323,7 @@
         "docs": {
             "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/prefer-object-spread"
         },
         "fixable": "code"
@@ -2324,6 +2369,7 @@
         "docs": {
             "description": "Require spread operators instead of `.apply()`",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/prefer-spread"
         },
         "fixable": null
@@ -2333,6 +2379,7 @@
         "docs": {
             "description": "Require template literals instead of string concatenation",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/prefer-template"
         },
         "fixable": "code"
@@ -2451,6 +2498,7 @@
         "docs": {
             "description": "Enforce sorted import declarations within modules",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/sort-imports"
         },
         "fixable": "code"
@@ -2460,6 +2508,7 @@
         "docs": {
             "description": "Require object keys to be sorted",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/sort-keys"
         }
     },
@@ -2468,6 +2517,7 @@
         "docs": {
             "description": "Require variables within the same declaration block to be sorted",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/sort-vars"
         },
         "fixable": "code"
@@ -2621,6 +2671,7 @@
         "docs": {
             "description": "Require `var` declarations be placed at the top of their containing scope",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/vars-on-top"
         }
     },
@@ -2662,6 +2713,7 @@
         "docs": {
             "description": "Require or disallow \"Yoda\" conditions",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/yoda"
         },
         "fixable": "code"
