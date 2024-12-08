@@ -89,7 +89,7 @@ async function foo(things) {
     promises.push(doAsyncWork(thing));
   }
   // Now that all the asynchronous operations are running, here we wait until they all complete.
-  const results = await Promise.all(promises)
+  const results = await Promise.all(promises);
   return results;
 }
 ```
