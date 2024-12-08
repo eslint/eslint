@@ -53,11 +53,12 @@ const ruleTester = new RuleTester({
 /**
  * Returns an expected error for defined-but-not-used variables.
  * @param {string} varName The name of the variable
+ * @param {Array} suggestions The suggestions for the unused variable
  * @param {string} [additional] The additional text for the message data
  * @param {string} [type] The node type (defaults to "Identifier")
  * @returns {Object} An expected error object
  */
-function definedError(varName, additional = "", type = "Identifier") {
+function definedError(varName, suggestions = [], additional = "", type = "Identifier") {
     return {
         messageId: "unusedVar",
         data: {
@@ -65,18 +66,20 @@ function definedError(varName, additional = "", type = "Identifier") {
             action: "defined",
             additional
         },
-        type
+        type,
+        suggestions
     };
 }
 
 /**
  * Returns an expected error for assigned-but-not-used variables.
  * @param {string} varName The name of the variable
+ * @param {Array} suggestions The suggestions for the unused variable
  * @param {string} [additional] The additional text for the message data
  * @param {string} [type] The node type (defaults to "Identifier")
  * @returns {Object} An expected error object
  */
-function assignedError(varName, additional = "", type = "Identifier") {
+function assignedError(varName, suggestions = [], additional = "", type = "Identifier") {
     return {
         messageId: "unusedVar",
         data: {
@@ -84,7 +87,8 @@ function assignedError(varName, additional = "", type = "Identifier") {
             action: "assigned a value",
             additional
         },
-        type
+        type,
+        suggestions
     };
 }
 
@@ -519,50 +523,103 @@ ruleTester.run("no-unused-vars", rule, {
         }
     ],
     invalid: [
-        { code: "function foox() { return foox(); }", errors: [definedError("foox")] },
-        { code: "(function() { function foox() { if (true) { return foox(); } } }())", errors: [definedError("foox")] },
-        { code: "var a=10", errors: [assignedError("a")] },
-        { code: "function f() { var a = 1; return function(){ f(a *= 2); }; }", errors: [definedError("f")] },
-        { code: "function f() { var a = 1; return function(){ f(++a); }; }", errors: [definedError("f")] },
-        { code: "/*global a */", errors: [definedError("a", "", "Program")] },
-        { code: "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});};", errors: [definedError("foo")] },
-        { code: "var a=10;", options: ["all"], errors: [assignedError("a")] },
+        { code: "function foox() { return foox(); }", errors: [definedError("foox", [{ output: "", messageId: "removeVar", data: { varName: "foox" } }])] },
+        { code: "(function() { function foox() { if (true) { return foox(); } } }())", errors: [definedError("foox", [{ output: "(function() {  }())", messageId: "removeVar", data: { varName: "foox" } }])] },
+        { code: "var a=10", errors: [assignedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }])] },
+        { code: "function f() { var a = 1; return function(){ f(a *= 2); }; }", errors: [definedError("f", [{ output: "", messageId: "removeVar", data: { varName: "f" } }])] },
+        { code: "function f() { var a = 1; return function(){ f(++a); }; }", errors: [definedError("f", [{ output: "", messageId: "removeVar", data: { varName: "f" } }])] },
+        { code: "/*global a */", errors: [definedError("a", [], "", "Program")] },
+        { code: "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});}", errors: [definedError("foo", [{ output: "", messageId: "removeVar", data: { varName: "foo" } }])] },
+        { code: "var a=10;", options: ["all"], errors: [assignedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }])] },
         { code: "var a=10; a=20;", options: ["all"], errors: [assignedError("a")] },
-        { code: "var a=10; (function() { var a = 1; alert(a); })();", options: ["all"], errors: [assignedError("a")] },
-        { code: "var a=10, b=0, c=null; alert(a+b)", options: ["all"], errors: [assignedError("c")] },
-        { code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; alert(a+b+c); }, 0);", options: ["all"], errors: [assignedError("b")] },
-        { code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; var c=2; alert(a+b+c); }, 0);", options: ["all"], errors: [assignedError("b"), assignedError("c")] },
-        { code: "function f(){var a=[];return a.map(function(){});}", options: ["all"], errors: [definedError("f")] },
-        { code: "function f(){var a=[];return a.map(function g(){});}", options: ["all"], errors: [definedError("f")] },
+        { code: "var a=10; (function() { var a = 1; alert(a); })();", options: ["all"], errors: [assignedError("a", [{ output: " (function() { var a = 1; alert(a); })();", messageId: "removeVar", data: { varName: "a" } }])] },
+        { code: "var a=10, b=0, c=null; alert(a+b)", options: ["all"], errors: [assignedError("c", [{ output: "var a=10, b=0; alert(a+b)", messageId: "removeVar", data: { varName: "c" } }])] },
+        { code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; alert(a+b+c); }, 0);", options: ["all"], errors: [assignedError("b", [{ output: "var a=10, c=null; setTimeout(function() { var b=2; alert(a+b+c); }, 0);", messageId: "removeVar", data: { varName: "b" } }])] },
+        {
+            code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; var c=2; alert(a+b+c); }, 0);",
+            options: ["all"],
+            errors: [
+                assignedError("b", [{ output: "var a=10, c=null; setTimeout(function() { var b=2; var c=2; alert(a+b+c); }, 0);", messageId: "removeVar", data: { varName: "b" } }]),
+                assignedError("c", [{ output: "var a=10, b=0; setTimeout(function() { var b=2; var c=2; alert(a+b+c); }, 0);", messageId: "removeVar", data: { varName: "c" } }])
+            ]
+        },
+        { code: "function f(){var a=[];return a.map(function(){});}", options: ["all"], errors: [definedError("f", [{ output: "", messageId: "removeVar", data: { varName: "f" } }])] },
+        { code: "function f(){var a=[];return a.map(function g(){});}", options: ["all"], errors: [definedError("f", [{ output: "", messageId: "removeVar", data: { varName: "f" } }])] },
         {
             code: "function foo() {function foo(x) {\nreturn x; }; return function() {return foo; }; }",
             errors: [{
                 messageId: "unusedVar",
                 data: { varName: "foo", action: "defined", additional: "" },
                 line: 1,
-                type: "Identifier"
+                type: "Identifier",
+                suggestions: [
+                    {
+                        output: "",
+                        messageId: "removeVar",
+                        data: { varName: "foo" }
+                    }
+                ]
             }]
         },
-        { code: "function f(){var x;function a(){x=42;}function b(){alert(x);}}", options: ["all"], errors: 3 },
-        { code: "function f(a) {}; f();", options: ["all"], errors: [definedError("a")] },
-        { code: "function a(x, y, z){ return y; }; a();", options: ["all"], errors: [definedError("z")] },
-        { code: "var min = Math.min", options: ["all"], errors: [assignedError("min")] },
-        { code: "var min = {min: 1}", options: ["all"], errors: [assignedError("min")] },
-        { code: "Foo.bar = function(baz) { return 1; };", options: ["all"], errors: [definedError("baz")] },
-        { code: "var min = {min: 1}", options: [{ vars: "all" }], errors: [assignedError("min")] },
-        { code: "function gg(baz, bar) { return baz; }; gg();", options: [{ vars: "all" }], errors: [definedError("bar")] },
-        { code: "(function(foo, baz, bar) { return baz; })();", options: [{ vars: "all", args: "after-used" }], errors: [definedError("bar")] },
-        { code: "(function(foo, baz, bar) { return baz; })();", options: [{ vars: "all", args: "all" }], errors: [definedError("foo"), definedError("bar")] },
-        { code: "(function z(foo) { var bar = 33; })();", options: [{ vars: "all", args: "all" }], errors: [definedError("foo"), assignedError("bar")] },
-        { code: "(function z(foo) { z(); })();", options: [{}], errors: [definedError("foo")] },
-        { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [definedError("f"), assignedError("a")] },
-        { code: "import x from \"y\";", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("x")] },
-        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y")] },
-        { code: "export function fn2( x, y ) {\n console.log(x); \n};", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y")] },
+        {
+            code: "function f(){var x;function a(){x=42;}function b(){alert(x);}}",
+            options: ["all"],
+            errors: [
+                definedError("f", [{ output: "", messageId: "removeVar", data: { varName: "f" } }]),
+                definedError("a", [{ output: "function f(){var x;function b(){alert(x);}}", messageId: "removeVar", data: { varName: "a" } }]),
+                definedError("b", [{ output: "function f(){var x;function a(){x=42;}}", messageId: "removeVar", data: { varName: "b" } }])
+            ]
+        },
+        { code: "function f(a) {}; f();", options: ["all"], errors: [definedError("a", [{ output: "function f() {}; f();", messageId: "removeVar", data: { varName: "a" } }])] },
+        { code: "function a(x, y, z){ return y; }; a();", options: ["all"], errors: [definedError("z", [{ output: "function a(x, y){ return y; }; a();", messageId: "removeVar", data: { varName: "z" } }])] },
+        { code: "var min = Math.min", options: ["all"], errors: [assignedError("min", [{ output: "", messageId: "removeVar", data: { varName: "min" } }])] },
+        { code: "var min = {min: 1}", options: ["all"], errors: [assignedError("min", [{ output: "", messageId: "removeVar", data: { varName: "min" } }])] },
+        { code: "Foo.bar = function(baz) { return 1; }", options: ["all"], errors: [definedError("baz", [{ output: "Foo.bar = function() { return 1; }", messageId: "removeVar", data: { varName: "baz" } }])] },
+        { code: "var min = {min: 1}", options: [{ vars: "all" }], errors: [assignedError("min", [{ output: "", messageId: "removeVar", data: { varName: "min" } }])] },
+        { code: "function gg(baz, bar) { return baz; }; gg();", options: [{ vars: "all" }], errors: [definedError("bar", [{ output: "function gg(baz) { return baz; }; gg();", messageId: "removeVar", data: { varName: "bar" } }])] },
+        {
+            code: "(function(foo, baz, bar) { return baz; })();",
+            options: [{ vars: "all", args: "after-used" }],
+            errors: [definedError("bar", [{ output: "(function(foo, baz) { return baz; })();", messageId: "removeVar", data: { varName: "bar" } }])]
+        },
+        {
+            code: "(function(foo, baz, bar) { return baz; })();",
+            options: [{ vars: "all", args: "all" }],
+            errors: [
+                definedError("foo", [{ output: "(function( baz, bar) { return baz; })();", messageId: "removeVar", data: { varName: "foo" } }]),
+                definedError("bar", [{ output: "(function(foo, baz) { return baz; })();", messageId: "removeVar", data: { varName: "bar" } }])
+            ]
+        },
+        {
+            code: "(function z(foo) { var bar = 33; })();",
+            options: [{ vars: "all", args: "all" }],
+            errors: [
+                definedError("foo", [{ output: "(function z() { var bar = 33; })();", messageId: "removeVar", data: { varName: "foo" } }]),
+                assignedError("bar", [{ output: "(function z(foo) {  })();", messageId: "removeVar", data: { varName: "bar" } }])
+            ]
+        },
+        {
+            code: "(function z(foo) { z(); })();",
+            options: [{}],
+            errors: [
+                definedError("foo", [{ output: "(function z() { z(); })();", messageId: "removeVar", data: { varName: "foo" } }])
+            ]
+        },
+        {
+            code: "function f() { var a = 1; return function(){ f(a = 2); }; }",
+            options: [{}],
+            errors: [
+                definedError("f", [{ output: "", messageId: "removeVar", data: { varName: "f" } }]),
+                assignedError("a")
+            ]
+        },
+        { code: "import x from \"y\";", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("x", [{ output: "import \"y\";", messageId: "removeVar", data: { varName: "x" } }])] },
+        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y", [{ output: "export function fn2({ x }) {\n console.log(x); \n};", messageId: "removeVar", data: { varName: "y" } }])] },
+        { code: "export function fn2( x, y ) {\n console.log(x); \n};", languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y", [{ output: "export function fn2( x ) {\n console.log(x); \n};", messageId: "removeVar", data: { varName: "y" } }])] },
 
         // exported
-        { code: "/*exported max*/ var max = 1, min = {min: 1}", errors: [assignedError("min")] },
-        { code: "/*exported x*/ var { x, y } = z", languageOptions: { ecmaVersion: 6 }, errors: [assignedError("y")] },
+        { code: "/*exported max*/ var max = 1, min = {min: 1}", errors: [assignedError("min", [{ output: "/*exported max*/ var max = 1", messageId: "removeVar", data: { varName: "min" } }])] },
+        { code: "/*exported x*/ var { x, y } = z", languageOptions: { ecmaVersion: 6 }, errors: [assignedError("y", [{ output: "/*exported x*/ var { x } = z", messageId: "removeVar", data: { varName: "y" } }])] },
 
         // ignore pattern
         {
@@ -576,7 +633,14 @@ ruleTester.run("no-unused-vars", rule, {
                     varName: "b",
                     action: "defined",
                     additional: ". Allowed unused vars must match /^_/u"
-                }
+                },
+                suggestions: [
+                    {
+                        output: "var _a; ",
+                        messageId: "removeVar",
+                        data: { varName: "b" }
+                    }
+                ]
             }]
         },
         {
@@ -590,7 +654,14 @@ ruleTester.run("no-unused-vars", rule, {
                     varName: "c_",
                     action: "defined",
                     additional: ". Allowed unused vars must match /^_/u"
-                }
+                },
+                suggestions: [
+                    {
+                        output: "var a; function foo() { var _b;  } foo();",
+                        messageId: "removeVar",
+                        data: { varName: "c_" }
+                    }
+                ]
             }]
         },
         {
@@ -604,7 +675,14 @@ ruleTester.run("no-unused-vars", rule, {
                     varName: "a",
                     action: "defined",
                     additional: ". Allowed unused args must match /^_/u"
-                }
+                },
+                suggestions: [
+                    {
+                        output: "function foo( _b) { } foo();",
+                        messageId: "removeVar",
+                        data: { varName: "a" }
+                    }
+                ]
             }]
         },
         {
@@ -618,7 +696,14 @@ ruleTester.run("no-unused-vars", rule, {
                     varName: "c",
                     action: "defined",
                     additional: ". Allowed unused args must match /^_/u"
-                }
+                },
+                suggestions: [
+                    {
+                        output: "function foo(a, _b) { return a; } foo();",
+                        messageId: "removeVar",
+                        data: { varName: "c" }
+                    }
+                ]
             }]
         },
         {
@@ -632,7 +717,14 @@ ruleTester.run("no-unused-vars", rule, {
                     varName: "_a",
                     action: "defined",
                     additional: ". Allowed unused args must match /[iI]gnored/u"
-                }
+                },
+                suggestions: [
+                    {
+                        output: "function foo() { } foo();",
+                        messageId: "removeVar",
+                        data: { varName: "_a" }
+                    }
+                ]
             }]
         },
         {
@@ -647,131 +739,190 @@ ruleTester.run("no-unused-vars", rule, {
                     varName: "secondItem",
                     action: "assigned a value",
                     additional: ". Allowed unused vars must match /[iI]gnored/u"
-                }
+                },
+                suggestions: [
+                    {
+                        output: "var [ firstItemIgnored ] = items;",
+                        messageId: "removeVar",
+                        data: { varName: "secondItem" }
+                    }
+                ]
             }]
         },
 
         // https://github.com/eslint/eslint/issues/15611
         {
-            code: `
-            const array = ['a', 'b', 'c'];
-            const [a, _b, c] = array;
-            const newArray = [a, c];
-            `,
+            code: "const array = ['a', 'b', 'c']; const [a, _b, c] = array; const newArray = [a, c];",
             options: [{ destructuredArrayIgnorePattern: "^_" }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
 
                 // should report only `newArray`
-                { ...assignedError("newArray"), line: 4, column: 19 }
-            ]
-        },
-        {
-            code: `
-            const array = ['a', 'b', 'c', 'd', 'e'];
-            const [a, _b, c] = array;
-            `,
-            options: [{ destructuredArrayIgnorePattern: "^_" }],
-            languageOptions: { ecmaVersion: 2020 },
-            errors: [
                 {
-                    ...assignedError("a", ". Allowed unused elements of array destructuring must match /^_/u"),
-                    line: 3,
-                    column: 20
-                },
-                {
-                    ...assignedError("c", ". Allowed unused elements of array destructuring must match /^_/u"),
-                    line: 3,
-                    column: 27
+                    ...assignedError("newArray", [{ output: "const array = ['a', 'b', 'c']; const [a, _b, c] = array; ", messageId: "removeVar", data: { varName: "newArray" } }])
                 }
             ]
         },
         {
-            code: `
-            const array = ['a', 'b', 'c'];
-            const [a, _b, c] = array;
-            const fooArray = ['foo'];
-            const barArray = ['bar'];
-            const ignoreArray = ['ignore'];
-            `,
+            code: "const array = ['a', 'b', 'c', 'd', 'e']; const [a, _b, c] = array;",
+            options: [{ destructuredArrayIgnorePattern: "^_" }],
+            languageOptions: { ecmaVersion: 2020 },
+            errors: [
+                {
+                    ...assignedError(
+                        "a",
+                        [
+                            {
+                                output: "const array = ['a', 'b', 'c', 'd', 'e']; const [, _b, c] = array;",
+                                messageId: "removeVar",
+                                data: { varName: "a" }
+                            }
+                        ],
+                        ". Allowed unused elements of array destructuring must match /^_/u"
+                    ),
+                    line: 1,
+                    column: 49
+                },
+                {
+                    ...assignedError(
+                        "c",
+                        [
+                            {
+                                output: "const array = ['a', 'b', 'c', 'd', 'e']; const [a, _b] = array;",
+                                messageId: "removeVar",
+                                data: { varName: "c" }
+                            }
+                        ],
+                        ". Allowed unused elements of array destructuring must match /^_/u"
+                    ),
+                    line: 1,
+                    column: 56
+                }
+            ]
+        },
+        {
+            code: "const array = ['a', 'b', 'c'];\nconst [a, _b, c] = array;\nconst fooArray = ['foo'];\nconst barArray = ['bar'];\nconst ignoreArray = ['ignore'];",
             options: [{ destructuredArrayIgnorePattern: "^_", varsIgnorePattern: "ignore" }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
-                    ...assignedError("a", ". Allowed unused elements of array destructuring must match /^_/u"),
-                    line: 3,
-                    column: 20
+                    ...assignedError(
+                        "a",
+                        [
+                            {
+                                output: "const array = ['a', 'b', 'c'];\nconst [, _b, c] = array;\nconst fooArray = ['foo'];\nconst barArray = ['bar'];\nconst ignoreArray = ['ignore'];",
+                                messageId: "removeVar",
+                                data: { varName: "a" }
+                            }
+                        ],
+                        ". Allowed unused elements of array destructuring must match /^_/u"
+                    ),
+                    line: 2,
+                    column: 8
                 },
                 {
-                    ...assignedError("c", ". Allowed unused elements of array destructuring must match /^_/u"),
-                    line: 3,
-                    column: 27
+                    ...assignedError(
+                        "c",
+                        [
+                            {
+                                output: "const array = ['a', 'b', 'c'];\nconst [a, _b] = array;\nconst fooArray = ['foo'];\nconst barArray = ['bar'];\nconst ignoreArray = ['ignore'];",
+                                messageId: "removeVar",
+                                data: { varName: "c" }
+                            }
+                        ],
+                        ". Allowed unused elements of array destructuring must match /^_/u"
+                    ),
+                    line: 2,
+                    column: 15
                 },
                 {
-                    ...assignedError("fooArray", ". Allowed unused vars must match /ignore/u"),
+                    ...assignedError(
+                        "fooArray",
+                        [
+                            {
+                                output: "const array = ['a', 'b', 'c'];\nconst [a, _b, c] = array;\n\nconst barArray = ['bar'];\nconst ignoreArray = ['ignore'];",
+                                messageId: "removeVar",
+                                data: { varName: "fooArray" }
+                            }
+                        ],
+                        ". Allowed unused vars must match /ignore/u"
+                    ),
+                    line: 3,
+                    column: 7
+                },
+                {
+                    ...assignedError(
+                        "barArray",
+                        [
+                            {
+                                output: "const array = ['a', 'b', 'c'];\nconst [a, _b, c] = array;\nconst fooArray = ['foo'];\n\nconst ignoreArray = ['ignore'];",
+                                messageId: "removeVar",
+                                data: { varName: "barArray" }
+                            }
+                        ],
+                        ". Allowed unused vars must match /ignore/u"
+                    ),
                     line: 4,
-                    column: 19
-                },
-                {
-                    ...assignedError("barArray", ". Allowed unused vars must match /ignore/u"),
-                    line: 5,
-                    column: 19
+                    column: 7
                 }
             ]
         },
         {
-            code: `
-            const array = [obj];
-            const [{_a, foo}] = array;
-            console.log(foo);
-            `,
+            code: "const array = [obj]; const [{_a, foo}] = array; console.log(foo);",
             options: [{ destructuredArrayIgnorePattern: "^_" }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
-                    ...assignedError("_a"),
-                    line: 3,
-                    column: 21
+                    ...assignedError("_a", [
+                        {
+                            output: "const array = [obj]; const [{ foo}] = array; console.log(foo);",
+                            messageId: "removeVar",
+                            data: { varName: "_a" }
+                        }
+                    ]),
+                    line: 1,
+                    column: 30
                 }
             ]
         },
         {
-            code: `
-            function foo([{_a, bar}]) {
-                bar;
-            }
-            foo();
-            `,
+            code: "function foo([{_a, bar}]) {bar;}foo();",
             options: [{ destructuredArrayIgnorePattern: "^_" }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
-                    ...definedError("_a"),
-                    line: 2,
-                    column: 28
+                    ...definedError("_a", [
+                        {
+                            output: "function foo([{ bar}]) {bar;}foo();",
+                            messageId: "removeVar",
+                            data: { varName: "_a" }
+                        }
+                    ]),
+                    line: 1,
+                    column: 16
                 }
             ]
         },
         {
-            code: `
-            let _a, b;
-
-            foo.forEach(item => {
-                [a, b] = item;
-            });
-            `,
+            code: "let _a, b; foo.forEach(item => { [a, b] = item; });",
             options: [{ destructuredArrayIgnorePattern: "^_" }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
                 {
-                    ...definedError("_a"),
-                    line: 2,
-                    column: 17
+                    ...definedError("_a", [
+                        {
+                            output: "let  b; foo.forEach(item => { [a, b] = item; });",
+                            messageId: "removeVar",
+                            data: { varName: "_a" }
+                        }
+                    ]),
+                    line: 1,
+                    column: 5
                 },
                 {
                     ...assignedError("b"),
-                    line: 2,
-                    column: 21
+                    line: 1,
+                    column: 9
                 }
             ]
         },
@@ -816,6 +967,34 @@ ruleTester.run("no-unused-vars", rule, {
                 }
             }]
         },
+        {
+            code: "for ( var { foo } in bar ) { }",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 1,
+                column: 13,
+                messageId: "unusedVar",
+                data: {
+                    varName: "foo",
+                    action: "assigned a value",
+                    additional: ""
+                }
+            }]
+        },
+        {
+            code: "for ( var [ foo ] in bar ) { }",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 1,
+                column: 13,
+                messageId: "unusedVar",
+                data: {
+                    varName: "foo",
+                    action: "assigned a value",
+                    additional: ""
+                }
+            }]
+        },
 
         // For-of loops
         {
@@ -855,6 +1034,34 @@ ruleTester.run("no-unused-vars", rule, {
                 messageId: "unusedVar",
                 data: {
                     varName: "name",
+                    action: "assigned a value",
+                    additional: ""
+                }
+            }]
+        },
+        {
+            code: "for ( var { foo } of bar ) { }",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 1,
+                column: 13,
+                messageId: "unusedVar",
+                data: {
+                    varName: "foo",
+                    action: "assigned a value",
+                    additional: ""
+                }
+            }]
+        },
+        {
+            code: "for ( var [ foo ] of bar ) { }",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 1,
+                column: 13,
+                messageId: "unusedVar",
+                data: {
+                    varName: "foo",
                     action: "assigned a value",
                     additional: ""
                 }
@@ -934,7 +1141,14 @@ ruleTester.run("no-unused-vars", rule, {
                         varName: "type",
                         action: "assigned a value",
                         additional: ""
-                    }
+                    },
+                    suggestions: [
+                        {
+                            output: "const data = { type: 'coords', x: 1, y: 2 };\nconst {  ...coords } = data;\n console.log(coords);",
+                            messageId: "removeVar",
+                            data: { varName: "type" }
+                        }
+                    ]
                 }
             ]
         },
@@ -953,7 +1167,14 @@ ruleTester.run("no-unused-vars", rule, {
                         varName: "coords",
                         action: "assigned a value",
                         additional: ""
-                    }
+                    },
+                    suggestions: [
+                        {
+                            output: "const data = { type: 'coords', x: 2, y: 2 };\nconst { type } = data;\n console.log(type)",
+                            messageId: "removeVar",
+                            data: { varName: "coords" }
+                        }
+                    ]
                 }
             ]
         },
@@ -988,7 +1209,14 @@ ruleTester.run("no-unused-vars", rule, {
                         varName: "coords",
                         action: "assigned a value",
                         additional: ""
-                    }
+                    },
+                    suggestions: [
+                        {
+                            output: "const data = { type: 'coords', x: 3, y: 2 };\nconst { type } = data;\n console.log(type)",
+                            messageId: "removeVar",
+                            data: { varName: "coords" }
+                        }
+                    ]
                 }
             ]
         },
@@ -1006,7 +1234,14 @@ ruleTester.run("no-unused-vars", rule, {
                         varName: "x",
                         action: "assigned a value",
                         additional: ""
-                    }
+                    },
+                    suggestions: [
+                        {
+                            output: "const data = { vars: ['x','y'], x: 1, y: 2 };\nconst {  ...coords } = data;\n console.log(coords)",
+                            messageId: "removeVar",
+                            data: { varName: "x" }
+                        }
+                    ]
                 }
             ]
         },
@@ -1024,7 +1259,14 @@ ruleTester.run("no-unused-vars", rule, {
                         varName: "x",
                         action: "assigned a value",
                         additional: ""
-                    }
+                    },
+                    suggestions: [
+                        {
+                            output: "const data = { defaults: { x: 0 }, x: 1, y: 2 };\nconst {  ...coords } = data;\n console.log(coords)",
+                            messageId: "removeVar",
+                            data: { varName: "x" }
+                        }
+                    ]
                 }
             ]
         },
@@ -1034,7 +1276,7 @@ ruleTester.run("no-unused-vars", rule, {
             code: "(({a, ...rest}) => {})",
             options: [{ args: "all", ignoreRestSiblings: true }],
             languageOptions: { ecmaVersion: 2018 },
-            errors: [definedError("rest")]
+            errors: [definedError("rest", [{ output: "(({a}) => {})", messageId: "removeVar", data: { varName: "rest" } }])]
         },
 
         // https://github.com/eslint/eslint/issues/3714
@@ -1167,32 +1409,32 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "export default function(a) {}",
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [definedError("a")]
+            errors: [definedError("a", [{ output: "export default function() {}", messageId: "removeVar", data: { varName: "a" } }])]
         },
         {
             code: "export default function(a, b) { console.log(a); }",
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [definedError("b")]
+            errors: [definedError("b", [{ output: "export default function(a) { console.log(a); }", messageId: "removeVar", data: { varName: "b" } }])]
         },
         {
             code: "export default (function(a) {});",
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [definedError("a")]
+            errors: [definedError("a", [{ output: "export default (function() {});", messageId: "removeVar", data: { varName: "a" } }])]
         },
         {
             code: "export default (function(a, b) { console.log(a); });",
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [definedError("b")]
+            errors: [definedError("b", [{ output: "export default (function(a) { console.log(a); });", messageId: "removeVar", data: { varName: "b" } }])]
         },
         {
             code: "export default (a) => {};",
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [definedError("a")]
+            errors: [definedError("a", [{ output: "export default () => {};", messageId: "removeVar", data: { varName: "a" } }])]
         },
         {
             code: "export default (a, b) => { console.log(a); };",
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [definedError("b")]
+            errors: [definedError("b", [{ output: "export default (a) => { console.log(a); };", messageId: "removeVar", data: { varName: "b" } }])]
         },
 
         // caughtErrors
@@ -1208,7 +1450,7 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
-            errors: [definedError("err", ". Allowed unused caught errors must match /^ignore/u")]
+            errors: [definedError("err", [], ". Allowed unused caught errors must match /^ignore/u")]
         },
         {
             code: "try{}catch(err){};",
@@ -1225,7 +1467,7 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "try{}catch(ignoreErr){}try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
-            errors: [definedError("err", ". Allowed unused caught errors must match /^ignore/u")]
+            errors: [definedError("err", [], ". Allowed unused caught errors must match /^ignore/u")]
         },
 
         // multiple try catch both fail
@@ -1233,8 +1475,8 @@ ruleTester.run("no-unused-vars", rule, {
             code: "try{}catch(error){}try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
             errors: [
-                definedError("error", ". Allowed unused caught errors must match /^ignore/u"),
-                definedError("err", ". Allowed unused caught errors must match /^ignore/u")
+                definedError("error", [], ". Allowed unused caught errors must match /^ignore/u"),
+                definedError("err", [], ". Allowed unused caught errors must match /^ignore/u")
             ]
         },
 
@@ -1298,7 +1540,9 @@ ruleTester.run("no-unused-vars", rule, {
                 "    foo()",
                 "}"
             ].join("\n"),
-            errors: [assignedError("b")]
+            errors: [
+                assignedError("b")
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/7124
@@ -1306,8 +1550,8 @@ ruleTester.run("no-unused-vars", rule, {
             code: "(function(a, b, c) {})",
             options: [{ argsIgnorePattern: "c" }],
             errors: [
-                definedError("a", ". Allowed unused args must match /c/u"),
-                definedError("b", ". Allowed unused args must match /c/u")
+                definedError("a", [{ output: "(function( b, c) {})", messageId: "removeVar", data: { varName: "a" } }], ". Allowed unused args must match /c/u"),
+                definedError("b", [{ output: "(function(a, c) {})", messageId: "removeVar", data: { varName: "b" } }], ". Allowed unused args must match /c/u")
             ]
         },
         {
@@ -1315,8 +1559,8 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{ argsIgnorePattern: "[cd]" }],
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                definedError("a", ". Allowed unused args must match /[cd]/u"),
-                definedError("b", ". Allowed unused args must match /[cd]/u")
+                definedError("a", [{ output: "(function( b, {c, d}) {})", messageId: "removeVar", data: { varName: "a" } }], ". Allowed unused args must match /[cd]/u"),
+                definedError("b", [{ output: "(function(a, {c, d}) {})", messageId: "removeVar", data: { varName: "b" } }], ". Allowed unused args must match /[cd]/u")
             ]
         },
         {
@@ -1324,9 +1568,9 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{ argsIgnorePattern: "c" }],
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                definedError("a", ". Allowed unused args must match /c/u"),
-                definedError("b", ". Allowed unused args must match /c/u"),
-                definedError("d", ". Allowed unused args must match /c/u")
+                definedError("a", [{ output: "(function( b, {c, d}) {})", messageId: "removeVar", data: { varName: "a" } }], ". Allowed unused args must match /c/u"),
+                definedError("b", [{ output: "(function(a, {c, d}) {})", messageId: "removeVar", data: { varName: "b" } }], ". Allowed unused args must match /c/u"),
+                definedError("d", [{ output: "(function(a, b, {c}) {})", messageId: "removeVar", data: { varName: "d" } }], ". Allowed unused args must match /c/u")
             ]
         },
         {
@@ -1334,9 +1578,9 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{ argsIgnorePattern: "d" }],
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                definedError("a", ". Allowed unused args must match /d/u"),
-                definedError("b", ". Allowed unused args must match /d/u"),
-                definedError("c", ". Allowed unused args must match /d/u")
+                definedError("a", [{ output: "(function( b, {c, d}) {})", messageId: "removeVar", data: { varName: "a" } }], ". Allowed unused args must match /d/u"),
+                definedError("b", [{ output: "(function(a, {c, d}) {})", messageId: "removeVar", data: { varName: "b" } }], ". Allowed unused args must match /d/u"),
+                definedError("c", [{ output: "(function(a, b, { d}) {})", messageId: "removeVar", data: { varName: "c" } }], ". Allowed unused args must match /d/u")
             ]
         },
         {
@@ -1360,31 +1604,28 @@ ruleTester.run("no-unused-vars", rule, {
             code: "(function ({ a }, b ) { return b; })();",
             languageOptions: { ecmaVersion: 2015 },
             errors: [
-                definedError("a")
+                definedError("a", [{ output: "(function ( b ) { return b; })();", messageId: "removeVar", data: { varName: "a" } }])
             ]
         },
         {
             code: "(function ({ a }, { b, c } ) { return b; })();",
             languageOptions: { ecmaVersion: 2015 },
             errors: [
-                definedError("a"),
-                definedError("c")
+                definedError("a", [{ output: "(function ( { b, c } ) { return b; })();", messageId: "removeVar", data: { varName: "a" } }]),
+                definedError("c", [{ output: "(function ({ a }, { b } ) { return b; })();", messageId: "removeVar", data: { varName: "c" } }])
             ]
         },
 
         // https://github.com/eslint/eslint/issues/14325
         {
-            code: `let x = 0;
-            x++, x = 0;`,
+            code: "let x = 0;\nx++, x = 0;",
             languageOptions: { ecmaVersion: 2015 },
-            errors: [{ ...assignedError("x"), line: 2, column: 18 }]
+            errors: [{ ...assignedError("x"), line: 2, column: 6 }]
         },
         {
-            code: `let x = 0;
-            x++, x = 0;
-            x=3;`,
+            code: "let x = 0;\nx++, x = 0;\nx=3;",
             languageOptions: { ecmaVersion: 2015 },
-            errors: [{ ...assignedError("x"), line: 3, column: 13 }]
+            errors: [{ ...assignedError("x"), line: 3, column: 1 }]
         },
         {
             code: "let x = 0; x++, 0;",
@@ -1439,26 +1680,31 @@ ruleTester.run("no-unused-vars", rule, {
 
         // https://github.com/eslint/eslint/issues/14866
         {
-            code: `let z = 0;
-            z = z + 1, z = 2;
-            `,
+            code: "let z = 0;\nz = z + 1, z = 2;",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ ...assignedError("z"), line: 2, column: 24 }]
+            errors: [
+                {
+                    ...assignedError("z"),
+                    line: 2,
+                    column: 12
+                }
+            ]
         },
         {
-            code: `let z = 0;
-            z = z+1, z = 2;
-            z = 3;`,
+            code: "let z = 0;\nz = z+1, z = 2;\nz = 3;",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ ...assignedError("z"), line: 3, column: 13 }]
+            errors: [
+                {
+                    ...assignedError("z"),
+                    line: 3,
+                    column: 1
+                }
+            ]
         },
         {
-            code: `let z = 0;
-            z = z+1, z = 2;
-            z = z+3;
-            `,
+            code: "let z = 0;\nz = z+1, z = 2;\nz = z+3;",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ ...assignedError("z"), line: 3, column: 13 }]
+            errors: [{ ...assignedError("z"), line: 3, column: 1 }]
         },
         {
             code: "let x = 0; 0, x = x+1;",
@@ -1489,31 +1735,31 @@ ruleTester.run("no-unused-vars", rule, {
             code: "(function ({ a, b }, { c } ) { return b; })();",
             languageOptions: { ecmaVersion: 2015 },
             errors: [
-                definedError("a"),
-                definedError("c")
+                definedError("a", [{ output: "(function ({  b }, { c } ) { return b; })();", messageId: "removeVar", data: { varName: "a" } }]),
+                definedError("c", [{ output: "(function ({ a, b } ) { return b; })();", messageId: "removeVar", data: { varName: "c" } }])
             ]
         },
         {
             code: "(function ([ a ], b ) { return b; })();",
             languageOptions: { ecmaVersion: 2015 },
             errors: [
-                definedError("a")
+                definedError("a", [{ output: "(function ( b ) { return b; })();", messageId: "removeVar", data: { varName: "a" } }])
             ]
         },
         {
             code: "(function ([ a ], [ b, c ] ) { return b; })();",
             languageOptions: { ecmaVersion: 2015 },
             errors: [
-                definedError("a"),
-                definedError("c")
+                definedError("a", [{ output: "(function ( [ b, c ] ) { return b; })();", messageId: "removeVar", data: { varName: "a" } }]),
+                definedError("c", [{ output: "(function ([ a ], [ b ] ) { return b; })();", messageId: "removeVar", data: { varName: "c" } }])
             ]
         },
         {
             code: "(function ([ a, b ], [ c ] ) { return b; })();",
             languageOptions: { ecmaVersion: 2015 },
             errors: [
-                definedError("a"),
-                definedError("c")
+                definedError("a", [{ output: "(function ([ , b ], [ c ] ) { return b; })();", messageId: "removeVar", data: { varName: "a" } }]),
+                definedError("c", [{ output: "(function ([ a, b ] ) { return b; })();", messageId: "removeVar", data: { varName: "c" } }])
             ]
         },
 
@@ -1521,33 +1767,32 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "(function(_a) {})();",
             options: [{ args: "all", varsIgnorePattern: "^_" }],
-            errors: [definedError("_a")]
+            errors: [definedError("_a", [{ output: "(function() {})();", messageId: "removeVar", data: { varName: "_a" } }])]
         },
         {
             code: "(function(_a) {})();",
             options: [{ args: "all", caughtErrorsIgnorePattern: "^_" }],
-            errors: [definedError("_a")]
+            errors: [definedError("_a", [{ output: "(function() {})();", messageId: "removeVar", data: { varName: "_a" } }])]
         },
 
         // https://github.com/eslint/eslint/issues/10982
         {
             code: "var a = function() { a(); };",
-            errors: [{ ...assignedError("a"), line: 1, column: 5 }]
+            errors: [{ ...assignedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }]), line: 1, column: 5 }]
         },
         {
             code: "var a = function(){ return function() { a(); } };",
-            errors: [{ ...assignedError("a"), line: 1, column: 5 }]
+            errors: [{ ...assignedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }]), line: 1, column: 5 }]
         },
         {
             code: "const a = () => () => { a(); };",
             languageOptions: { ecmaVersion: 2015 },
-            errors: [{ ...assignedError("a"), line: 1, column: 7 }]
+            errors: [{ ...assignedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }]), line: 1, column: 7 }]
         },
         {
-            code: `let myArray = [1,2,3,4].filter((x) => x == 0);
-    myArray = myArray.filter((x) => x == 1);`,
+            code: "let myArray = [1,2,3,4].filter((x) => x == 0);\nmyArray = myArray.filter((x) => x == 1);",
             languageOptions: { ecmaVersion: 2015 },
-            errors: [{ ...assignedError("myArray"), line: 2, column: 5 }]
+            errors: [{ ...assignedError("myArray"), line: 2, column: 1 }]
         },
         {
             code: "const a = 1; a += 1;",
@@ -1557,7 +1802,7 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "const a = () => { a(); };",
             languageOptions: { ecmaVersion: 2015 },
-            errors: [{ ...assignedError("a"), line: 1, column: 7 }]
+            errors: [{ ...assignedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }]), line: 1, column: 7 }]
         },
 
         // https://github.com/eslint/eslint/issues/14324
@@ -1568,48 +1813,27 @@ ruleTester.run("no-unused-vars", rule, {
         },
         {
 
-            code: `let a = 'a';
-            a = 10;
-            function foo(){
-                a = 11;
-                a = () => {
-                    a = 13
-                }
-            }`,
+            code: "let a = 'a';\na = 10;\nfunction foo(){a = 11;a = () => {a = 13}}",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ ...assignedError("a"), line: 2, column: 13 }, { ...definedError("foo"), line: 3, column: 22 }]
+            errors: [
+                { ...assignedError("a"), line: 2, column: 1 },
+                { ...definedError("foo", [{ output: "let a = 'a';\na = 10;\n", messageId: "removeVar", data: { varName: "foo" } }]), line: 3, column: 10 }
+            ]
         },
         {
-            code: `let foo;
-            init();
-            foo = foo + 2;
-            function init() {
-                foo = 1;
-            }`,
+            code: "let foo;\ninit();\nfoo = foo + 2;\nfunction init() {foo = 1;}",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ ...assignedError("foo"), line: 3, column: 13 }]
+            errors: [{ ...assignedError("foo"), line: 3, column: 1 }]
         },
         {
-            code: `function foo(n) {
-                if (n < 2) return 1;
-                return n * foo(n - 1);
-            }`,
+            code: "function foo(n) {\nif (n < 2) return 1;\nreturn n * foo(n - 1);}",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ ...definedError("foo"), line: 1, column: 10 }]
+            errors: [{ ...definedError("foo", [{ output: "", messageId: "removeVar", data: { varName: "foo" } }]), line: 1, column: 10 }]
         },
         {
-            code: `let c = 'c'
-c = 10
-function foo1() {
-  c = 11
-  c = () => {
-    c = 13
-  }
-}
-
-c = foo1`,
+            code: "let c = 'c';\nc = 10;\nfunction foo1() {c = 11; c = () => { c = 13 }} c = foo1",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ ...assignedError("c"), line: 10, column: 1 }]
+            errors: [{ ...assignedError("c"), line: 3, column: 48 }]
         },
 
         // ignore class with static initialization block https://github.com/eslint/eslint/issues/17772
@@ -1617,36 +1841,36 @@ c = foo1`,
             code: "class Foo { static {} }",
             options: [{ ignoreClassWithStaticInitBlock: false }],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
+            errors: [{ ...definedError("Foo", [{ output: "", messageId: "removeVar", data: { varName: "Foo" } }]), line: 1, column: 7 }]
         },
         {
             code: "class Foo { static {} }",
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
+            errors: [{ ...definedError("Foo", [{ output: "", messageId: "removeVar", data: { varName: "Foo" } }]), line: 1, column: 7 }]
         },
         {
             code: "class Foo { static { var bar; } }",
             options: [{ ignoreClassWithStaticInitBlock: true }],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ ...definedError("bar"), line: 1, column: 26 }]
+            errors: [{ ...definedError("bar", [{ output: "class Foo { static {  } }", messageId: "removeVar", data: { varName: "bar" } }]), line: 1, column: 26 }]
         },
         {
             code: "class Foo {}",
             options: [{ ignoreClassWithStaticInitBlock: true }],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
+            errors: [{ ...definedError("Foo", [{ output: "", messageId: "removeVar", data: { varName: "Foo" } }]), line: 1, column: 7 }]
         },
         {
             code: "class Foo { static bar; }",
             options: [{ ignoreClassWithStaticInitBlock: true }],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
+            errors: [{ ...definedError("Foo", [{ output: "", messageId: "removeVar", data: { varName: "Foo" } }]), line: 1, column: 7 }]
         },
         {
             code: "class Foo { static bar() {} }",
             options: [{ ignoreClassWithStaticInitBlock: true }],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ ...definedError("Foo"), line: 1, column: 7 }]
+            errors: [{ ...definedError("Foo", [{ output: "", messageId: "removeVar", data: { varName: "Foo" } }]), line: 1, column: 7 }]
         },
 
         // https://github.com/eslint/eslint/issues/17568
@@ -1665,7 +1889,7 @@ c = foo1`,
             errors: [usedIgnoredError("_a", ". Used vars must not match /^_/u")]
         },
         {
-            code: "(function foo(_a) { return _a + 5 })(5)",
+            code: " (function foo(_a) { return _a + 5 })(5)",
             options: [{ args: "all", argsIgnorePattern: "^_", reportUsedIgnorePattern: true }],
             errors: [usedIgnoredError("_a", ". Used args must not match /^_/u")]
         },
@@ -1757,12 +1981,26 @@ try {
                 {
                     message: "'message' is defined but never used. Allowed unused caught errors must match /foo/u.",
                     column: 17,
-                    endColumn: 24
+                    endColumn: 24,
+                    suggestions: [
+                        {
+                            output: "try {} catch ({  errors: [firstError] }) {}",
+                            messageId: "removeVar",
+                            data: { varName: "message" }
+                        }
+                    ]
                 },
                 {
                     message: "'firstError' is defined but never used. Allowed unused caught errors must match /foo/u.",
                     column: 35,
-                    endColumn: 45
+                    endColumn: 45,
+                    suggestions: [
+                        {
+                            output: "try {} catch ({ message }) {}",
+                            messageId: "removeVar",
+                            data: { varName: "firstError" }
+                        }
+                    ]
                 }
             ]
         },
@@ -1779,9 +2017,7 @@ try {
             ]
         },
         {
-            code: `
-_ => { _ = _ + 1 };
-            `,
+            code: "_ => { _ = _ + 1 };",
             options: [{
                 argsIgnorePattern: "ignored",
                 varsIgnorePattern: "_"
@@ -1791,6 +2027,556 @@ _ => { _ = _ + 1 };
                 {
                     message: "'_' is assigned a value but never used. Allowed unused args must match /ignored/u."
                 }
+            ]
+        },
+        {
+            code: "const [a, b, c] = foo; alert(a + c);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("b", [{ output: "const [a, , c] = foo; alert(a + c);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [a = aDefault] = foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "const [[a = aDefault]]= foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "const [[a = aDefault], b]= foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [
+                assignedError("a", [{ output: "const [, b]= foo;", messageId: "removeVar", data: { varName: "a" } }]),
+                assignedError("b", [{ output: "const [[a = aDefault]]= foo;", messageId: "removeVar", data: { varName: "b" } }])
+            ]
+        },
+        {
+            code: "const [a = aDefault, b] = foo; alert(b);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a", [{ output: "const [, b] = foo; alert(b);", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "function a([a = aDefault]) { } a();",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a", [{ output: "function a() { } a();", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "function a([[a = aDefault]]) { } a();",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a", [{ output: "function a() { } a();", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "function a([a = aDefault, b]) { alert(b); } a();",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a", [{ output: "function a([, b]) { alert(b); } a();", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "function a([[a = aDefault, b]]) { alert(b); } a();",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a", [{ output: "function a([[, b]]) { alert(b); } a();", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "const { a: a1 } = foo",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a1", [{ output: "", messageId: "removeVar", data: { varName: "a1" } }])]
+        },
+        {
+            code: "const { a: a1, b: b1 } = foo; alert(b1);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a1", [{ output: "const {  b: b1 } = foo; alert(b1);", messageId: "removeVar", data: { varName: "a1" } }])]
+        },
+        {
+            code: "const { a: a1, b: b1 } = foo; alert(a1);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("b1", [{ output: "const { a: a1 } = foo; alert(a1);", messageId: "removeVar", data: { varName: "b1" } }])]
+        },
+        {
+            code: "function a({ a: a1 }) {} a();",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [definedError("a1", [{ output: "function a() {} a();", messageId: "removeVar", data: { varName: "a1" } }])]
+        },
+        {
+            code: "const { a: a1 = aDefault } = foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a1", [{ output: "", messageId: "removeVar", data: { varName: "a1" } }])]
+        },
+        {
+            code: "const [{ a: a1 = aDefault }] = foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a1", [{ output: "", messageId: "removeVar", data: { varName: "a1" } }])]
+        },
+        {
+            code: "const { a = aDefault } = foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "const { a = aDefault, b } = foo; alert(b);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a", [{ output: "const {  b } = foo; alert(b);", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "const { a, b = bDefault } = foo; alert(a);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("b", [{ output: "const { a } = foo; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const { a, b = bDefault, c } = foo; alert(a + c);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("b", [{ output: "const { a, c } = foo; alert(a + c);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const { [key]: a } = foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "const [...{ a, b }] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [...{ a }] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "function foo (...rest) {} foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("rest", [{ output: "function foo () {} foo();", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "function foo (a, ...rest) { alert(a); } foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("rest", [{ output: "function foo (a) { alert(a); } foo();", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "const {...rest} = foo;",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("rest", [{ output: "", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "const {a, ...rest} = foo; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("rest", [{ output: "const {a} = foo; alert(a);", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "const {...rest} = foo, a = bar; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("rest", [{ output: "const  a = bar; alert(a);", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "const a = bar, {...rest} = foo; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("rest", [{ output: "const a = bar; alert(a);", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "function foo ({...rest}) { } foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("rest", [{ output: "function foo () { } foo();", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "function foo (a, {...rest}) { alert(a); } foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("rest", [{ output: "function foo (a) { alert(a); } foo();", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "function foo ({...rest}, a) { alert(a); } foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("rest", [{ output: "function foo ( a) { alert(a); } foo();", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "const [...rest] = foo;",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("rest", [{ output: "", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "const [[...rest]] = foo;",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("rest", [{ output: "", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "const [a, ...rest] = foo; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("rest", [{ output: "const [a] = foo; alert(a);", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "function foo ([...rest]) { } foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("rest", [{ output: "function foo () { } foo();", messageId: "removeVar", data: { varName: "rest" } }])]
+        },
+        {
+            code: "const [a, ...{ b }] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [a] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [[a, ...{ b }]] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [[a]] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [...[a]] = array;",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "const [[...[a]]] = array;",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "const [...[a, b]] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [...[a]] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [a, ...[b]] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [a] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [[a, ...[b]]] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [[a]] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [a, ...[b]] = array; alert(b);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("a", [{ output: "const [, ...[b]] = array; alert(b);", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "const [a, ...[[ b ]]] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [a] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [a, ...[{ b }]] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [a] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "function foo([a, ...[[ b ]]]) {} foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [
+                definedError("a", [{ output: "function foo([, ...[[ b ]]]) {} foo();", messageId: "removeVar", data: { varName: "a" } }]),
+                definedError("b", [{ output: "function foo([a]) {} foo();", messageId: "removeVar", data: { varName: "b" } }])
+            ]
+        },
+        {
+            code: "function foo([a, ...[{ b }]]) {} foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [
+                definedError("a", [{ output: "function foo([, ...[{ b }]]) {} foo();", messageId: "removeVar", data: { varName: "a" } }]),
+                definedError("b", [{ output: "function foo([a]) {} foo();", messageId: "removeVar", data: { varName: "b" } }])
+            ]
+        },
+        {
+            code: "function foo(...[[ a ]]) {} foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("a", [{ output: "function foo() {} foo();", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "function foo(...[{ a }]) {} foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("a", [{ output: "function foo() {} foo();", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "function foo(a, ...[b]) { alert(a); } foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("b", [{ output: "function foo(a) { alert(a); } foo();", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [a, [b]] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [a] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [[a, [b]]] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [[a]] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [a, [[b]]] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [a] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "function a([[b]]) {} a();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("b", [{ output: "function a() {} a();", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "function a([[b], c]) { alert(c); } a();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("b", [{ output: "function a([, c]) { alert(c); } a();", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [{b}, a] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [, a] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [[{b}, a]] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [[, a]] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [[[{b}], a]] = array; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [[, a]] = array; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "function a([{b}]) {} a();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("b", [{ output: "function a() {} a();", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "function a([{b}, c]) { alert(c); } a();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("b", [{ output: "function a([, c]) { alert(c); } a();", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const { a: { b }, c } = foo; alert(c);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const {  c } = foo; alert(c);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const { c, a: { b } } = foo; alert(c);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const { c } = foo; alert(c);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const { a: { b: { c }, d } } = foo; alert(d);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("c", [{ output: "const { a: {  d } } = foo; alert(d);", messageId: "removeVar", data: { varName: "c" } }])]
+        },
+        {
+            code: "const { a: { b: { c: { e } }, d } } = foo; alert(d);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("e", [{ output: "const { a: {  d } } = foo; alert(d);", messageId: "removeVar", data: { varName: "e" } }])]
+        },
+        {
+            code: "const [{ a: { b }, c }] = foo; alert(c);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const [{  c }] = foo; alert(c);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const { a: [{ b }]} = foo;",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const { a: [[ b ]]} = foo;",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const [{ a: [{ b }]}] = foo;",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "const { a: [{ b }], c} = foo; alert(c);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "const {  c} = foo; alert(c);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "function foo({ a: [{ b }]}) {} foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("b", [{ output: "function foo() {} foo();", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "function foo({ a: [[ b ]]}) {} foo();",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [definedError("b", [{ output: "function foo() {} foo();", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "let a = foo, b = 'bar'; alert(b);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("a", [{ output: "let  b = 'bar'; alert(b);", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "let a = foo, b = 'bar'; alert(a);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("b", [{ output: "let a = foo; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "let { a } = foo, bar = 'hello'; alert(bar);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("a", [{ output: "let  bar = 'hello'; alert(bar);", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "let bar = 'hello', { a } = foo; alert(bar);",
+            languageOptions: { ecmaVersion: 2023 },
+            errors: [assignedError("a", [{ output: "let bar = 'hello'; alert(bar);", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "import a from 'module';",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("a", [{ output: "import 'module';", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "import * as foo from 'module';",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("foo", [{ output: "import 'module';", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "import a, * as foo from 'module'; a();",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("foo", [{ output: "import a from 'module'; a();", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "import a, * as foo from 'module'; foo.hello;",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("a", [{ output: "import  * as foo from 'module'; foo.hello;", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "import { a } from 'module';",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("a", [{ output: "", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "import { a, b } from 'module'; alert(b);",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("a", [{ output: "import {  b } from 'module'; alert(b);", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "import { a, b } from 'module'; alert(a);",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("b", [{ output: "import { a } from 'module'; alert(a);", messageId: "removeVar", data: { varName: "b" } }])]
+        },
+        {
+            code: "import { a as foo } from 'module';",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("foo", [{ output: "", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "import { a as foo, b } from 'module'; alert(b);",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("foo", [{ output: "import {  b } from 'module'; alert(b);", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "import { a, b as foo } from 'module'; alert(a);",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("foo", [{ output: "import { a } from 'module'; alert(a);", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "import { default as foo, a } from 'module'; alert(a);",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("foo", [{ output: "import {  a } from 'module'; alert(a);", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "import foo, { a } from 'module'; alert(a);",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("foo", [{ output: "import  { a } from 'module'; alert(a);", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "import foo, { a } from 'module'; foo();",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [definedError("a", [{ output: "import foo from 'module'; foo();", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "let a; a = foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a")]
+        },
+        {
+            code: "array.forEach(a => {})",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [definedError("a", [{ output: "array.forEach(() => {})", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "if (foo()) var bar;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [definedError("bar", [{ output: "if (foo()) ;", messageId: "removeVar", data: { varName: "bar" } }])]
+        },
+        {
+            code: "for (;;) var foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [definedError("foo", [{ output: "for (;;) ;", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "for (a in b) var foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [definedError("foo", [{ output: "for (a in b) ;", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "for (a of b) var foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [definedError("foo", [{ output: "for (a of b) ;", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "while (a) var foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [definedError("foo", [{ output: "while (a) ;", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "do var foo; while (b);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [definedError("foo", [{ output: "do ; while (b);", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "with (a) var foo;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [definedError("foo", [{ output: "with (a) ;", messageId: "removeVar", data: { varName: "foo" } }])]
+        },
+        {
+            code: "var a;'use strict';b(00);",
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "defined", additional: "" } }]
+        },
+        {
+            code: "var [a] = foo;'use strict';b(00);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" }, suggestions: [] }]
+        },
+        {
+            code: "var [...a] = foo;'use strict';b(00);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" }, suggestions: [] }]
+        },
+        {
+            code: "var {a} = foo;'use strict';b(00);",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" }, suggestions: [] }]
+        },
+        {
+            code: "console.log('foo')\nvar a\n+b > 0 ? bar() : baz()",
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "defined", additional: "" } }]
+        },
+        {
+            code: "console.log('foo')\nvar [a] = foo;\n+b > 0 ? bar() : baz()",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" } }]
+        },
+        {
+            code: "console.log('foo')\nvar {a} = foo;\n+b > 0 ? bar() : baz()",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" } }]
+        },
+        {
+            code: "let x;\n() => x = 1;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "x", action: "assigned a value", additional: "" } }]
+        },
+        {
+            code: "let [a = 1] = arr;\na = 2;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unusedVar", data: { varName: "a", action: "assigned a value", additional: "" } }]
+        },
+        {
+            code: "function foo(a = 1, b){alert(b);} foo();",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a", [{ output: "function foo( b){alert(b);} foo();", messageId: "removeVar", data: { varName: "a" } }])]
+        },
+        {
+            code: "function foo(a = 1) {a = 2;} foo();",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [assignedError("a")]
+        },
+        {
+            code: "function foo(a = 1, b) {a = 2;} foo();",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [
+                definedError("b", [{ output: "function foo(a = 1) {a = 2;} foo();", messageId: "removeVar", data: { varName: "b" } }]),
+                assignedError("a")
             ]
         }
     ]
