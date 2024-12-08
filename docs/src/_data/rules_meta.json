@@ -2150,6 +2150,7 @@
         "docs": {
             "description": "Disallow the use of `undefined` as an identifier",
             "recommended": false,
+            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-undefined"
         }
     },
