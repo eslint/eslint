@@ -4,7 +4,7 @@ eleventyNavigation:
     key: troubleshooting
     title: Troubleshooting
     parent: use eslint
-    order: 8
+    order: 11
 ---
 
 This page serves as a reference for common issues working with ESLint.

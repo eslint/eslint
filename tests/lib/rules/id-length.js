@@ -64,6 +64,13 @@ ruleTester.run("id-length", rule, {
         { code: "({ a: obj.x.y.z } = {});", options: [{ properties: "never" }], languageOptions: { ecmaVersion: 6 } },
         { code: "import something from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export var num = 0;", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import * as something from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { x } from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { x as x } from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { 'x' as x } from 'y';", languageOptions: { ecmaVersion: 2022, sourceType: "module" } },
+        { code: "import { x as foo } from 'y';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { longName } from 'y';", options: [{ max: 5 }], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import { x as bar } from 'y';", options: [{ max: 5 }], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "({ prop: obj.x.y.something } = {});", languageOptions: { ecmaVersion: 6 } },
         { code: "({ prop: obj.longName } = {});", languageOptions: { ecmaVersion: 6 } },
         { code: "var obj = { a: 1, bc: 2 };", options: [{ properties: "never" }] },
@@ -230,6 +237,50 @@ ruleTester.run("id-length", rule, {
             languageOptions: {
                 ecmaVersion: 6
             }
+        },
+
+        // Import attribute keys
+        {
+            code: "import foo from 'foo.json' with { type: 'json' }",
+            options: [{ min: 1, max: 3, properties: "always" }],
+            languageOptions: {
+                ecmaVersion: 2025
+            }
+        },
+        {
+            code: "export * from 'foo.json' with { type: 'json' }",
+            options: [{ min: 1, max: 3, properties: "always" }],
+            languageOptions: {
+                ecmaVersion: 2025
+            }
+        },
+        {
+            code: "export { default } from 'foo.json' with { type: 'json' }",
+            options: [{ min: 1, max: 3, properties: "always" }],
+            languageOptions: {
+                ecmaVersion: 2025
+            }
+        },
+        {
+            code: "import('foo.json', { with: { type: 'json' } })",
+            options: [{ min: 1, max: 3, properties: "always" }],
+            languageOptions: {
+                ecmaVersion: 2025
+            }
+        },
+        {
+            code: "import('foo.json', { 'with': { type: 'json' } })",
+            options: [{ min: 1, max: 3, properties: "always" }],
+            languageOptions: {
+                ecmaVersion: 2025
+            }
+        },
+        {
+            code: "import('foo.json', { with: { type } })",
+            options: [{ min: 1, max: 3, properties: "always" }],
+            languageOptions: {
+                ecmaVersion: 2025
+            }
         }
     ],
     invalid: [
@@ -246,6 +297,29 @@ ruleTester.run("id-length", rule, {
         { code: "var [i] = arr;", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
         { code: "var [,i,a] = arr;", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError, tooShortError] },
         { code: "function foo([a]) {}", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
+        { code: "import x from 'module';", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
+        { code: "import { x as z } from 'module';", languageOptions: { ecmaVersion: 6 }, errors: [{ ...tooShortError, column: 15 }] },
+        { code: "import { foo as z } from 'module';", languageOptions: { ecmaVersion: 6 }, errors: [{ ...tooShortError, column: 17 }] },
+        { code: "import { 'foo' as z } from 'module';", languageOptions: { ecmaVersion: 2022 }, errors: [{ ...tooShortError, column: 19 }] },
+        { code: "import * as x from 'module';", languageOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
+        {
+            code: "import longName from 'module';",
+            options: [{ max: 5 }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [tooLongError]
+        },
+        {
+            code: "import * as longName from 'module';",
+            options: [{ max: 5 }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [tooLongError]
+        },
+        {
+            code: "import { foo as longName } from 'module';",
+            options: [{ max: 5 }],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ ...tooLongError, column: 17 }]
+        },
         {
             code: "var _$xt_$ = Foo(42)",
             options: [{ min: 2, max: 4 }],

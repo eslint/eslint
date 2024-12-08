@@ -1,6 +1,13 @@
 {
     "accessor-pairs": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "enforceForClassMembers": true,
+                "getWithoutSet": false,
+                "setWithoutGet": true
+            }
+        ],
         "docs": {
             "description": "Enforce getter and setter pairs in objects and classes",
             "recommended": false,
@@ -31,6 +38,13 @@
     },
     "array-callback-return": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "allowImplicit": false,
+                "checkForEach": false,
+                "allowVoid": false
+            }
+        ],
         "docs": {
             "description": "Enforce `return` statements in callbacks of array methods",
             "recommended": false,
@@ -51,6 +65,9 @@
     },
     "arrow-body-style": {
         "type": "suggestion",
+        "defaultOptions": [
+            "as-needed"
+        ],
         "docs": {
             "description": "Require braces around arrow function bodies",
             "recommended": false,
@@ -123,6 +140,15 @@
     },
     "camelcase": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allow": [],
+                "ignoreDestructuring": false,
+                "ignoreGlobals": false,
+                "ignoreImports": false,
+                "properties": "always"
+            }
+        ],
         "docs": {
             "description": "Enforce camelcase naming convention",
             "recommended": false,
@@ -142,6 +168,12 @@
     },
     "class-methods-use-this": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "enforceForClassFields": true,
+                "exceptMethods": []
+            }
+        ],
         "docs": {
             "description": "Enforce that class methods utilize `this`",
             "recommended": false,
@@ -183,6 +215,9 @@
     },
     "complexity": {
         "type": "suggestion",
+        "defaultOptions": [
+            20
+        ],
         "docs": {
             "description": "Enforce a maximum cyclomatic complexity allowed in a program",
             "recommended": false,
@@ -206,7 +241,12 @@
             "description": "Require `return` statements to either always or never specify values",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/consistent-return"
-        }
+        },
+        "defaultOptions": [
+            {
+                "treatUndefinedAsUnspecified": false
+            }
+        ]
     },
     "consistent-this": {
         "type": "suggestion",
@@ -215,7 +255,10 @@
             "recommended": false,
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/consistent-this"
-        }
+        },
+        "defaultOptions": [
+            "that"
+        ]
     },
     "constructor-super": {
         "type": "problem",
@@ -233,10 +276,16 @@
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/curly"
         },
+        "defaultOptions": [
+            "all"
+        ],
         "fixable": "code"
     },
     "default-case": {
         "type": "suggestion",
+        "defaultOptions": [
+            {}
+        ],
         "docs": {
             "description": "Require `default` cases in `switch` statements",
             "recommended": false,
@@ -246,7 +295,7 @@
     "default-case-last": {
         "type": "suggestion",
         "docs": {
-            "description": "Enforce default clauses in switch statements to be last",
+            "description": "Enforce `default` clauses in switch statements to be last",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/default-case-last"
         }
@@ -273,6 +322,12 @@
     },
     "dot-notation": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowKeywords": true,
+                "allowPattern": ""
+            }
+        ],
         "docs": {
             "description": "Enforce dot notation whenever possible",
             "recommended": false,
@@ -304,7 +359,7 @@
     "for-direction": {
         "type": "problem",
         "docs": {
-            "description": "Enforce \"for\" loop update clause moving the counter in the right direction",
+            "description": "Enforce `for` loop update clause moving the counter in the right direction",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/for-direction"
         },
@@ -332,6 +387,10 @@
     },
     "func-names": {
         "type": "suggestion",
+        "defaultOptions": [
+            "always",
+            {}
+        ],
         "docs": {
             "description": "Require or disallow named `function` expressions",
             "recommended": false,
@@ -340,6 +399,13 @@
     },
     "func-style": {
         "type": "suggestion",
+        "defaultOptions": [
+            "expression",
+            {
+                "allowArrowFunctions": false,
+                "overrides": {}
+            }
+        ],
         "docs": {
             "description": "Enforce the consistent use of either `function` declarations or expressions assigned to variables",
             "recommended": false,
@@ -382,6 +448,11 @@
     },
     "getter-return": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "allowImplicit": false
+            }
+        ],
         "docs": {
             "description": "Enforce `return` statements in getters",
             "recommended": true,
@@ -401,6 +472,9 @@
     },
     "grouped-accessor-pairs": {
         "type": "suggestion",
+        "defaultOptions": [
+            "anyOrder"
+        ],
         "docs": {
             "description": "Require grouped accessor pairs in object literals and classes",
             "recommended": false,
@@ -439,6 +513,7 @@
     },
     "id-denylist": {
         "type": "suggestion",
+        "defaultOptions": [],
         "docs": {
             "description": "Disallow specified identifiers",
             "recommended": false,
@@ -448,6 +523,14 @@
     },
     "id-length": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "exceptionPatterns": [],
+                "exceptions": [],
+                "min": 2,
+                "properties": "always"
+            }
+        ],
         "docs": {
             "description": "Enforce minimum and maximum identifier lengths",
             "recommended": false,
@@ -457,6 +540,15 @@
     },
     "id-match": {
         "type": "suggestion",
+        "defaultOptions": [
+            "^.+$",
+            {
+                "classFields": false,
+                "ignoreDestructuring": false,
+                "onlyDeclarations": false,
+                "properties": false
+            }
+        ],
         "docs": {
             "description": "Require identifiers to match a specified regular expression",
             "recommended": false,
@@ -712,7 +804,28 @@
             "description": "Require constructor names to begin with a capital letter",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/new-cap"
-        }
+        },
+        "defaultOptions": [
+            {
+                "capIsNew": true,
+                "capIsNewExceptions": [
+                    "Array",
+                    "Boolean",
+                    "Date",
+                    "Error",
+                    "Function",
+                    "Number",
+                    "Object",
+                    "RegExp",
+                    "String",
+                    "Symbol",
+                    "BigInt"
+                ],
+                "newIsCap": true,
+                "newIsCapExceptions": [],
+                "properties": true
+            }
+        ]
     },
     "new-parens": {
         "deprecated": true,
@@ -798,6 +911,12 @@
     },
     "no-bitwise": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allow": [],
+                "int32Hint": false
+            }
+        ],
         "docs": {
             "description": "Disallow bitwise operators",
             "recommended": false,
@@ -854,7 +973,7 @@
     "no-compare-neg-zero": {
         "type": "problem",
         "docs": {
-            "description": "Disallow comparing against -0",
+            "description": "Disallow comparing against `-0`",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-compare-neg-zero"
         },
@@ -862,6 +981,9 @@
     },
     "no-cond-assign": {
         "type": "problem",
+        "defaultOptions": [
+            "except-parens"
+        ],
         "docs": {
             "description": "Disallow assignment operators in conditional expressions",
             "recommended": true,
@@ -881,6 +1003,9 @@
     },
     "no-console": {
         "type": "suggestion",
+        "defaultOptions": [
+            {}
+        ],
         "docs": {
             "description": "Disallow the use of `console`",
             "recommended": false,
@@ -906,6 +1031,11 @@
     },
     "no-constant-condition": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "checkLoops": "allExceptWhileTrue"
+            }
+        ],
         "docs": {
             "description": "Disallow constant expressions in conditions",
             "recommended": true,
@@ -1007,6 +1137,11 @@
     },
     "no-duplicate-imports": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "includeExports": false
+            }
+        ],
         "docs": {
             "description": "Disallow duplicate module imports",
             "recommended": false,
@@ -1015,6 +1150,11 @@
     },
     "no-else-return": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowElseIf": true
+            }
+        ],
         "docs": {
             "description": "Disallow `else` blocks after `return` statements in `if` statements",
             "recommended": false,
@@ -1026,6 +1166,11 @@
     "no-empty": {
         "hasSuggestions": true,
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowEmptyCatch": false
+            }
+        ],
         "docs": {
             "description": "Disallow empty block statements",
             "recommended": true,
@@ -1042,6 +1187,11 @@
     },
     "no-empty-function": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allow": []
+            }
+        ],
         "docs": {
             "description": "Disallow empty functions",
             "recommended": false,
@@ -1050,6 +1200,11 @@
     },
     "no-empty-pattern": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "allowObjectPatternsAsParameters": false
+            }
+        ],
         "docs": {
             "description": "Disallow empty destructuring patterns",
             "recommended": true,
@@ -1074,6 +1229,11 @@
     },
     "no-eval": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowIndirect": false
+            }
+        ],
         "docs": {
             "description": "Disallow the use of `eval()`",
             "recommended": false,
@@ -1090,6 +1250,11 @@
     },
     "no-extend-native": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "exceptions": []
+            }
+        ],
         "docs": {
             "description": "Disallow extending native types",
             "recommended": false,
@@ -1107,6 +1272,9 @@
     },
     "no-extra-boolean-cast": {
         "type": "suggestion",
+        "defaultOptions": [
+            {}
+        ],
         "docs": {
             "description": "Disallow unnecessary boolean casts",
             "recommended": true,
@@ -1149,6 +1317,12 @@
     },
     "no-fallthrough": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "allowEmptyCase": false,
+                "reportUnusedFallthroughComment": false
+            }
+        ],
         "docs": {
             "description": "Disallow fallthrough of `case` statements",
             "recommended": true,
@@ -1176,6 +1350,11 @@
     },
     "no-global-assign": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "exceptions": []
+            }
+        ],
         "docs": {
             "description": "Disallow assignments to native objects or read-only global variables",
             "recommended": true,
@@ -1191,10 +1370,24 @@
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-implicit-coercion"
         },
-        "fixable": "code"
+        "fixable": "code",
+        "defaultOptions": [
+            {
+                "allow": [],
+                "boolean": true,
+                "disallowTemplateShorthand": false,
+                "number": true,
+                "string": true
+            }
+        ]
     },
     "no-implicit-globals": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "lexicalBindings": false
+            }
+        ],
         "docs": {
             "description": "Disallow declarations in the global scope",
             "recommended": false,
@@ -1219,6 +1412,9 @@
     },
     "no-inline-comments": {
         "type": "suggestion",
+        "defaultOptions": [
+            {}
+        ],
         "docs": {
             "description": "Disallow inline comments after code",
             "recommended": false,
@@ -1228,6 +1424,12 @@
     },
     "no-inner-declarations": {
         "type": "problem",
+        "defaultOptions": [
+            "functions",
+            {
+                "blockScopedFunctions": "allow"
+            }
+        ],
         "docs": {
             "description": "Disallow variable or `function` declarations in nested blocks",
             "recommended": false,
@@ -1236,6 +1438,9 @@
     },
     "no-invalid-regexp": {
         "type": "problem",
+        "defaultOptions": [
+            {}
+        ],
         "docs": {
             "description": "Disallow invalid regular expression strings in `RegExp` constructors",
             "recommended": true,
@@ -1244,6 +1449,11 @@
     },
     "no-invalid-this": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "capIsConstructor": true
+            }
+        ],
         "docs": {
             "description": "Disallow use of `this` in contexts where the value of `this` is `undefined`",
             "recommended": false,
@@ -1252,6 +1462,15 @@
     },
     "no-irregular-whitespace": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "skipComments": false,
+                "skipJSXText": false,
+                "skipRegExps": false,
+                "skipStrings": true,
+                "skipTemplates": false
+            }
+        ],
         "docs": {
             "description": "Disallow irregular whitespace",
             "recommended": true,
@@ -1277,6 +1496,12 @@
     },
     "no-labels": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowLoop": false,
+                "allowSwitch": false
+            }
+        ],
         "docs": {
             "description": "Disallow labeled statements",
             "recommended": false,
@@ -1368,6 +1593,11 @@
     },
     "no-multi-assign": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "ignoreNonDeclaration": false
+            }
+        ],
         "docs": {
             "description": "Disallow use of chained assignment expressions",
             "recommended": false,
@@ -1558,7 +1788,7 @@
     "no-param-reassign": {
         "type": "suggestion",
         "docs": {
-            "description": "Disallow reassigning `function` parameters",
+            "description": "Disallow reassigning function parameters",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-param-reassign"
         }
@@ -1575,6 +1805,11 @@
     },
     "no-plusplus": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowForLoopAfterthoughts": false
+            }
+        ],
         "docs": {
             "description": "Disallow the unary operators `++` and `--`",
             "recommended": false,
@@ -1604,6 +1839,11 @@
     },
     "no-promise-executor-return": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "allowVoid": false
+            }
+        ],
         "docs": {
             "description": "Disallow returning values from Promise executor functions",
             "recommended": false,
@@ -1630,6 +1870,11 @@
     },
     "no-redeclare": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "builtinGlobals": true
+            }
+        ],
         "docs": {
             "description": "Disallow variable redeclaration",
             "recommended": true,
@@ -1697,6 +1942,9 @@
     },
     "no-return-assign": {
         "type": "suggestion",
+        "defaultOptions": [
+            "except-parens"
+        ],
         "docs": {
             "description": "Disallow assignment operators in `return` statements",
             "recommended": false,
@@ -1718,13 +1966,18 @@
     "no-script-url": {
         "type": "suggestion",
         "docs": {
-            "description": "Disallow `javascript:` urls",
+            "description": "Disallow `javascript:` URLs",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-script-url"
         }
     },
     "no-self-assign": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "props": true
+            }
+        ],
         "docs": {
             "description": "Disallow assignments where both sides are exactly the same",
             "recommended": true,
@@ -1745,7 +1998,12 @@
             "description": "Disallow comma operators",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-sequences"
-        }
+        },
+        "defaultOptions": [
+            {
+                "allowInParentheses": true
+            }
+        ]
     },
     "no-setter-return": {
         "type": "problem",
@@ -1757,6 +2015,14 @@
     },
     "no-shadow": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allow": [],
+                "builtinGlobals": false,
+                "hoist": "functions",
+                "ignoreOnInitialization": false
+            }
+        ],
         "docs": {
             "description": "Disallow variable declarations from shadowing variables declared in the outer scope",
             "recommended": false,
@@ -1858,6 +2124,11 @@
     },
     "no-undef": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "typeof": false
+            }
+        ],
         "docs": {
             "description": "Disallow the use of undeclared variables unless mentioned in `/*global */` comments",
             "recommended": true,
@@ -1884,6 +2155,19 @@
     },
     "no-underscore-dangle": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allow": [],
+                "allowAfterSuper": false,
+                "allowAfterThis": false,
+                "allowAfterThisConstructor": false,
+                "allowFunctionParams": true,
+                "allowInArrayDestructuring": true,
+                "allowInObjectDestructuring": true,
+                "enforceInClassFields": false,
+                "enforceInMethodNames": false
+            }
+        ],
         "docs": {
             "description": "Disallow dangling underscores in identifiers",
             "recommended": false,
@@ -1909,6 +2193,11 @@
     },
     "no-unneeded-ternary": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "defaultAssignment": true
+            }
+        ],
         "docs": {
             "description": "Disallow ternary operators when simpler alternatives exist",
             "recommended": false,
@@ -1927,6 +2216,11 @@
     },
     "no-unreachable-loop": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "ignore": []
+            }
+        ],
         "docs": {
             "description": "Disallow loops with a body that allows only one iteration",
             "recommended": false,
@@ -1943,6 +2237,11 @@
     },
     "no-unsafe-negation": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "enforceForOrderingRelations": false
+            }
+        ],
         "docs": {
             "description": "Disallow negating the left operand of relational operators",
             "recommended": true,
@@ -1953,6 +2252,11 @@
     },
     "no-unsafe-optional-chaining": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "disallowArithmeticOperators": false
+            }
+        ],
         "docs": {
             "description": "Disallow use of optional chaining in contexts where the `undefined` value is not allowed",
             "recommended": true,
@@ -1966,7 +2270,15 @@
             "description": "Disallow unused expressions",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-unused-expressions"
-        }
+        },
+        "defaultOptions": [
+            {
+                "allowShortCircuit": false,
+                "allowTernary": false,
+                "allowTaggedTemplates": false,
+                "enforceForJSX": false
+            }
+        ]
     },
     "no-unused-labels": {
         "type": "suggestion",
@@ -1999,7 +2311,15 @@
             "description": "Disallow the use of variables before they are defined",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-use-before-define"
-        }
+        },
+        "defaultOptions": [
+            {
+                "classes": true,
+                "functions": true,
+                "variables": true,
+                "allowNamedExports": false
+            }
+        ]
     },
     "no-useless-assignment": {
         "type": "problem",
@@ -2035,6 +2355,11 @@
     },
     "no-useless-computed-key": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "enforceForClassMembers": true
+            }
+        ],
         "docs": {
             "description": "Disallow unnecessary computed property keys in objects and classes",
             "recommended": false,
@@ -2058,7 +2383,8 @@
             "description": "Disallow unnecessary constructors",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-useless-constructor"
-        }
+        },
+        "hasSuggestions": true
     },
     "no-useless-escape": {
         "type": "suggestion",
@@ -2071,6 +2397,13 @@
     },
     "no-useless-rename": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "ignoreDestructuring": false,
+                "ignoreImport": false,
+                "ignoreExport": false
+            }
+        ],
         "docs": {
             "description": "Disallow renaming import, export, and destructured assignments to the same name",
             "recommended": false,
@@ -2098,6 +2431,11 @@
     },
     "no-void": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowAsStatement": false
+            }
+        ],
         "docs": {
             "description": "Disallow `void` operators",
             "recommended": false,
@@ -2107,6 +2445,16 @@
     },
     "no-warning-comments": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "location": "start",
+                "terms": [
+                    "todo",
+                    "fixme",
+                    "xxx"
+                ]
+            }
+        ],
         "docs": {
             "description": "Disallow specified warning terms in comments",
             "recommended": false,
@@ -2210,6 +2558,9 @@
     },
     "operator-assignment": {
         "type": "suggestion",
+        "defaultOptions": [
+            "always"
+        ],
         "docs": {
             "description": "Require or disallow assignment operator shorthand where possible",
             "recommended": false,
@@ -2253,6 +2604,12 @@
     },
     "prefer-arrow-callback": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowNamedFunctions": false,
+                "allowUnboundThis": true
+            }
+        ],
         "docs": {
             "description": "Require using arrow functions for callbacks",
             "recommended": false,
@@ -2263,6 +2620,12 @@
     },
     "prefer-const": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "destructuring": "any",
+                "ignoreReadBeforeAssign": false
+            }
+        ],
         "docs": {
             "description": "Require `const` declarations for variables that are never reassigned after declared",
             "recommended": false,
@@ -2321,7 +2684,7 @@
     "prefer-object-spread": {
         "type": "suggestion",
         "docs": {
-            "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead",
+            "description": "Disallow using `Object.assign` with an object literal as the first argument and prefer the use of object spread instead",
             "recommended": false,
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/prefer-object-spread"
@@ -2330,6 +2693,11 @@
     },
     "prefer-promise-reject-errors": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowEmptyReject": false
+            }
+        ],
         "docs": {
             "description": "Require using Error objects as Promise rejection reasons",
             "recommended": false,
@@ -2349,6 +2717,11 @@
     },
     "prefer-regex-literals": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "disallowRedundantWrapping": false
+            }
+        ],
         "docs": {
             "description": "Disallow use of the `RegExp` constructor in favor of regular expression literals",
             "recommended": false,
@@ -2408,6 +2781,9 @@
     },
     "radix": {
         "type": "suggestion",
+        "defaultOptions": [
+            "always"
+        ],
         "docs": {
             "description": "Enforce the consistent use of the radix argument when using `parseInt()`",
             "recommended": false,
@@ -2417,6 +2793,11 @@
     },
     "require-atomic-updates": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "allowProperties": false
+            }
+        ],
         "docs": {
             "description": "Disallow assignments that can lead to race conditions due to usage of `await` or `yield`",
             "recommended": false,
@@ -2430,12 +2811,13 @@
             "description": "Disallow async functions which have no `await` expression",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/require-await"
-        }
+        },
+        "hasSuggestions": true
     },
     "require-unicode-regexp": {
         "type": "suggestion",
         "docs": {
-            "description": "Enforce the use of `u` or `v` flag on RegExp",
+            "description": "Enforce the use of `u` or `v` flag on regular expressions",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/require-unicode-regexp"
         },
@@ -2495,6 +2877,20 @@
     },
     "sort-imports": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowSeparatedGroups": false,
+                "ignoreCase": false,
+                "ignoreDeclarationSort": false,
+                "ignoreMemberSort": false,
+                "memberSyntaxSortOrder": [
+                    "none",
+                    "all",
+                    "multiple",
+                    "single"
+                ]
+            }
+        ],
         "docs": {
             "description": "Enforce sorted import declarations within modules",
             "recommended": false,
@@ -2505,6 +2901,16 @@
     },
     "sort-keys": {
         "type": "suggestion",
+        "defaultOptions": [
+            "asc",
+            {
+                "allowLineSeparatedGroups": false,
+                "caseSensitive": true,
+                "ignoreComputedKeys": false,
+                "minKeys": 2,
+                "natural": false
+            }
+        ],
         "docs": {
             "description": "Require object keys to be sorted",
             "recommended": false,
@@ -2514,6 +2920,11 @@
     },
     "sort-vars": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "ignoreCase": false
+            }
+        ],
         "docs": {
             "description": "Require variables within the same declaration block to be sorted",
             "recommended": false,
@@ -2590,6 +3001,9 @@
     },
     "strict": {
         "type": "suggestion",
+        "defaultOptions": [
+            "safe"
+        ],
         "docs": {
             "description": "Require or disallow strict mode directives",
             "recommended": false,
@@ -2641,6 +3055,9 @@
     },
     "unicode-bom": {
         "type": "layout",
+        "defaultOptions": [
+            "never"
+        ],
         "docs": {
             "description": "Require or disallow Unicode byte order mark (BOM)",
             "recommended": false,
@@ -2655,10 +3072,21 @@
             "description": "Require calls to `isNaN()` when checking for `NaN`",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/use-isnan"
-        }
+        },
+        "defaultOptions": [
+            {
+                "enforceForIndexOf": false,
+                "enforceForSwitchCase": true
+            }
+        ]
     },
     "valid-typeof": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "requireStringLiterals": false
+            }
+        ],
         "docs": {
             "description": "Enforce comparing `typeof` expressions against valid strings",
             "recommended": true,
@@ -2710,6 +3138,13 @@
     },
     "yoda": {
         "type": "suggestion",
+        "defaultOptions": [
+            "never",
+            {
+                "exceptRange": false,
+                "onlyEquality": false
+            }
+        ],
         "docs": {
             "description": "Require or disallow \"Yoda\" conditions",
             "recommended": false,

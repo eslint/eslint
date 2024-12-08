@@ -358,6 +358,20 @@ ruleTester.run("sort-keys", rule, {
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
             languageOptions: { ecmaVersion: 2018 }
+        },
+
+        // ignoreComputedKeys
+        {
+            code: "var obj = { ['b']: 1, a: 2 }",
+            options: ["asc", { ignoreComputedKeys: true }]
+        },
+        {
+            code: "var obj = { a: 1, [c]: 2, b: 3 }",
+            options: ["asc", { ignoreComputedKeys: true }]
+        },
+        {
+            code: "var obj = { c: 1, ['b']: 2, a: 3 }",
+            options: ["asc", { ignoreComputedKeys: true }]
         }
     ],
     invalid: [
@@ -2004,6 +2018,28 @@ ruleTester.run("sort-keys", rule, {
                 }
             ]
         },
+        {
+            code: `
+                let obj = {
+                    b
+
+                    ,a
+                }
+            `,
+            languageOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b"
+                    }
+                }
+            ]
+        },
 
         // When allowLineSeparatedGroups option is true
         {
@@ -2234,6 +2270,22 @@ ruleTester.run("sort-keys", rule, {
             `,
             options: ["asc", { allowLineSeparatedGroups: true }],
             languageOptions: { ecmaVersion: 2018 },
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b"
+                    }
+                }
+            ]
+        },
+        {
+            code: "var obj = { d: 1, ['c']: 2, b: 3, a: 4 }",
+            options: ["asc", { ignoreComputedKeys: true, minKeys: 4 }],
             errors: [
                 {
                     messageId: "sortKeys",

@@ -13,6 +13,8 @@ const sinon = require("sinon"),
     assert = require("chai").assert,
     nodeAssert = require("node:assert");
 
+const jsonPlugin = require("@eslint/json").default;
+
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
@@ -460,6 +462,163 @@ describe("RuleTester", () => {
                     only: true
                 });
             });
+        });
+    });
+
+    describe("hooks", () => {
+        const ruleName = "no-var";
+        const rule = require("../../fixtures/testers/rule-tester/no-var");
+
+        ["before", "after"].forEach(hookName => {
+            it(`${hookName} should be called when a function is assigned`, () => {
+                const hookForValid = sinon.stub();
+                const hookForInvalid = sinon.stub();
+
+                ruleTester = new RuleTester();
+                ruleTester.run(ruleName, rule, {
+                    valid: [{
+                        code: "const onlyValid = 42;",
+                        [hookName]: hookForValid
+                    }],
+                    invalid: [{
+                        code: "var onlyValid = 42;",
+                        errors: [/^Bad var/u],
+                        output: " onlyValid = 42;",
+                        [hookName]: hookForInvalid
+                    }]
+                });
+                sinon.assert.calledOnce(hookForValid);
+                sinon.assert.calledOnce(hookForInvalid);
+            });
+
+            it(`${hookName} should cause test to fail when it throws error`, () => {
+                const hook = sinon.stub().throws(new Error("Something happened"));
+
+                ruleTester = new RuleTester();
+                assert.throws(() => ruleTester.run(ruleName, rule, {
+                    valid: [{
+                        code: "const onlyValid = 42;",
+                        [hookName]: hook
+                    }],
+                    invalid: []
+                }), "Something happened");
+                assert.throws(() => ruleTester.run(ruleName, rule, {
+                    valid: [],
+                    invalid: [{
+                        code: "var onlyValid = 42;",
+                        errors: [/^Bad var/u],
+                        output: " onlyValid = 42;",
+                        [hookName]: hook
+                    }]
+                }), "Something happened");
+            });
+
+            it(`${hookName} should throw when not a function is assigned`, () => {
+                ruleTester = new RuleTester();
+                assert.throws(() => ruleTester.run(ruleName, rule, {
+                    valid: [{
+                        code: "const onlyValid = 42;",
+                        [hookName]: 42
+                    }],
+                    invalid: []
+                }), `Optional test case property '${hookName}' must be a function`);
+                assert.throws(() => ruleTester.run(ruleName, rule, {
+                    valid: [],
+                    invalid: [{
+                        code: "var onlyValid = 42;",
+                        errors: [/^Bad var/u],
+                        output: " onlyValid = 42;",
+                        [hookName]: 42
+                    }]
+                }), `Optional test case property '${hookName}' must be a function`);
+            });
+        });
+
+        it("should call both before() and after() hooks even when the case failed", () => {
+            const hookBefore = sinon.stub();
+            const hookAfter = sinon.stub();
+
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "var onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }],
+                invalid: []
+            }));
+            sinon.assert.calledOnce(hookBefore);
+            sinon.assert.calledOnce(hookAfter);
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [],
+                invalid: [{
+                    code: "const onlyValid = 42;",
+                    errors: [/^Bad var/u],
+                    output: " onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }]
+            }));
+            sinon.assert.calledTwice(hookBefore);
+            sinon.assert.calledTwice(hookAfter);
+        });
+
+        it("should call both before() and after() hooks regardless syntax errors", () => {
+            const hookBefore = sinon.stub();
+            const hookAfter = sinon.stub();
+
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "invalid javascript code",
+                    before: hookBefore,
+                    after: hookAfter
+                }],
+                invalid: []
+            }), /parsing error/u);
+            sinon.assert.calledOnce(hookBefore);
+            sinon.assert.calledOnce(hookAfter);
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [],
+                invalid: [{
+                    code: "invalid javascript code",
+                    errors: [/^Bad var/u],
+                    output: " onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }]
+            }), /parsing error/u);
+            sinon.assert.calledTwice(hookBefore);
+            sinon.assert.calledTwice(hookAfter);
+        });
+
+        it("should call after() hook even when before() throws", () => {
+            const hookBefore = sinon.stub().throws(new Error("Something happened in before()"));
+            const hookAfter = sinon.stub();
+
+            ruleTester = new RuleTester();
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [{
+                    code: "const onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }],
+                invalid: []
+            }), "Something happened in before()");
+            sinon.assert.calledOnce(hookBefore);
+            sinon.assert.calledOnce(hookAfter);
+            assert.throws(() => ruleTester.run(ruleName, rule, {
+                valid: [],
+                invalid: [{
+                    code: "var onlyValid = 42;",
+                    errors: [/^Bad var/u],
+                    output: " onlyValid = 42;",
+                    before: hookBefore,
+                    after: hookAfter
+                }]
+            }), "Something happened in before()");
+            sinon.assert.calledTwice(hookBefore);
+            sinon.assert.calledTwice(hookAfter);
         });
     });
 
@@ -1173,22 +1332,6 @@ describe("RuleTester", () => {
         });
     });
 
-    it("should allow setting the filename to a file path without extension", () => {
-        ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
-            valid: [
-                {
-                    code: "var foo = 'bar'",
-                    filename: "somefile"
-                },
-                {
-                    code: "var foo = 'bar'",
-                    filename: "path/to/somefile"
-                }
-            ],
-            invalid: []
-        });
-    });
-
     it("should allow setting the filename to a file path with extension", () => {
         ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
             valid: [
@@ -1212,6 +1355,10 @@ describe("RuleTester", () => {
     it("should allow setting the filename to a file path without extension", () => {
         ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
             valid: [
+                {
+                    code: "var foo = 'bar'",
+                    filename: "somefile"
+                },
                 {
                     code: "var foo = 'bar'",
                     filename: "path/to/somefile"
@@ -1365,10 +1512,33 @@ describe("RuleTester", () => {
                         errors: 1
                     }]
                 });
-            }, /Parser must be an object with a parse\(\) or parseForESLint\(\) method/u);
+            }, /Key "languageOptions": Key "parser": Expected object with parse\(\) or parseForESLint\(\) method\./u);
 
         });
 
+    });
+
+    describe("Languages", () => {
+        it("should work with a language that doesn't have language options", () => {
+            const ruleTesterJsonLanguage = new RuleTester({
+                plugins: {
+                    json: jsonPlugin
+                },
+                language: "json/json"
+            });
+
+            ruleTesterJsonLanguage.run("no-empty-keys", jsonPlugin.rules["no-empty-keys"], {
+                valid: [
+                    '{"foo": 1, "bar": 2}'
+                ],
+                invalid: [
+                    {
+                        code: '{"": 1}',
+                        errors: [{ messageId: "emptyKey" }]
+                    }
+                ]
+            });
+        });
     });
 
     it("should throw an error with the original message and an additional description if rule has `meta.schema` of an invalid type", () => {
@@ -2051,6 +2221,11 @@ describe("RuleTester", () => {
                 {
                     code: "eval(foo)",
                     filename: "/an-absolute-path/foo.js",
+                    errors: [{ message: "eval sucks.", type: "CallExpression" }]
+                },
+                {
+                    code: "eval(bar)",
+                    filename: "C:\\an-absolute-path\\foo.js",
                     errors: [{ message: "eval sucks.", type: "CallExpression" }]
                 }
             ]

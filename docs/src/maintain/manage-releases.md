@@ -19,10 +19,10 @@ One member of the Technical Steering Committee (TSC) is assigned to manage each 
 
 The release manager is responsible for:
 
-1. The scheduled release on Friday
-1. Monitoring issues over the weekend
-1. Determining if a patch release is necessary on Monday
-1. Publishing the patch release (if necessary)
+1. The scheduled release on Friday.
+1. Monitoring issues over the weekend.
+1. Determining if a patch release is necessary on Monday.
+1. Publishing the patch release (if necessary).
 
 The release manager should seek input from the whole team on the Monday following a release to double-check if a patch release is necessary.
 
@@ -48,6 +48,47 @@ The patch release decision should be made as early on Monday as possible. If a p
 In rare cases, a second patch release might be necessary if the release is known to have a severe regression that hasn't been fixed by Monday. If this occurs, the release manager should announce the situation on the release issue, and leave the issue open until all patch releases are complete. However, it's usually better to fix bugs for the next release cycle rather than doing a second patch release.
 
 After the patch release has been published (or no patch release is necessary), close the release issue and inform the team that they can start merging in semver-minor changes again.
+
+### Release Parameters
+
+The following tables show examples of the option to select as `RELEASE_TYPE` when starting `eslint-js Release` (the `@eslint/js` package release) and `eslint Release` (the `eslint` package release) jobs on Jenkins to release a new version with the latest features. In both jobs, `main` should be selected as `RELEASE_BRANCH`.
+
+| **HEAD Version** | **Desired Next Version** | **`eslint-js Release`<br>`RELEASE_TYPE`** |
+| :---: | :---: | :---: |
+| `9.25.0` | `9.25.1` | `patch` |
+| `9.25.0` | `9.26.0` | `minor` |
+| `9.25.0` | `10.0.0-alpha.0` | `alpha.0` |
+| `10.0.0-alpha.0` | `10.0.0-alpha.1` | `alpha` |
+| `10.0.0-alpha.1` | `10.0.0-beta.0` | `beta` |
+| `10.0.0-beta.0` | `10.0.0-beta.1` | `beta` |
+| `10.0.0-beta.1` | `10.0.0-rc.0` | `rc` |
+| `10.0.0-rc.0` | `10.0.0-rc.1` | `rc` |
+| `10.0.0-rc.1` | `10.0.0` | `major` |
+
+| **HEAD Version** | **Desired Next Version** | **`eslint Release`<br>`RELEASE_TYPE`** |
+| :---: | :---: | :---: |
+| `9.25.0` | `9.25.1` or `9.26.0` |`latest` |
+| `9.25.0` | `10.0.0-alpha.0` | `alpha` |
+| `10.0.0-alpha.0` | `10.0.0-alpha.1` | `alpha` |
+| `10.0.0-alpha.1` | `10.0.0-beta.0` | `beta` |
+| `10.0.0-beta.0` | `10.0.0-beta.1` | `beta` |
+| `10.0.0-beta.1` | `10.0.0-rc.0` | `rc` |
+| `10.0.0-rc.0` | `10.0.0-rc.1` | `rc` |
+| `10.0.0-rc.1` | `10.0.0` | `latest` |
+
+When releasing a new version of the previous major line, the option to select as `RELEASE_TYPE` depends on whether the HEAD version is a prerelease or not. In both jobs, the corresponding development branch (for example, `v9.x-dev`) should be selected as `RELEASE_BRANCH`.
+
+| **HEAD Version** | **Previous Major Line Version** | **Desired Next Version** | **`eslint-js Release`<br>`RELEASE_TYPE`** |
+| :---: | :---: | :---: | :---: |
+| `10.0.0-alpha.0` | `9.25.0` | `9.25.1` | `patch` |
+| `10.0.0-alpha.0` | `9.25.0` | `9.26.0` | `minor` |
+| `10.0.0` | `9.25.0` | `9.25.1` | `maintenance.patch` |
+| `10.0.0` | `9.25.0` | `9.26.0` | `maintenance.minor` |
+
+| **HEAD Version** | **Previous Major Line Version** | **Desired Next Version** | **`eslint Release`<br>`RELEASE_TYPE`** |
+| :---: | :---: | :---: | :---: |
+| `10.0.0-alpha.0` | `9.25.0` | `9.25.1` or `9.26.0` | `latest` |
+| `10.0.0` | `9.25.0` | `9.25.1` or `9.26.0` | `maintenance` |
 
 ## Emergency Releases
 

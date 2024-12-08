@@ -21,6 +21,9 @@ The ESLint configuration file may be named any of the following:
 * `eslint.config.js`
 * `eslint.config.mjs`
 * `eslint.config.cjs`
+* `eslint.config.ts` (requires [additional setup](#typescript-configuration-files))
+* `eslint.config.mts` (requires [additional setup](#typescript-configuration-files))
+* `eslint.config.cts` (requires [additional setup](#typescript-configuration-files))
 
 It should be placed in the root directory of your project and export an array of [configuration objects](#configuration-objects). Here's an example:
 
@@ -63,7 +66,7 @@ Each configuration object contains all of the information ESLint needs to execut
     * `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
     * `sourceType` - The type of JavaScript source code. Possible values are `"script"` for traditional script files, `"module"` for ECMAScript modules (ESM), and `"commonjs"` for CommonJS files. (default: `"module"` for `.js` and `.mjs` files; `"commonjs"` for `.cjs` files)
     * `globals` - An object specifying additional objects that should be added to the global scope during linting.
-    * `parser` - An object containing a `parse()` method or a `parseForESLint()` method. (default: [`espree`](https://github.com/eslint/espree))
+    * `parser` - An object containing a `parse()` method or a `parseForESLint()` method. (default: [`espree`](https://github.com/eslint/js/tree/main/packages/espree))
     * `parserOptions` - An object specifying additional options that are passed directly to the `parse()` or `parseForESLint()` method on the parser. The available options are parser-dependent.
 * `linterOptions` - An object containing settings related to the linting process.
     * `noInlineConfig` - A Boolean value indicating if inline configuration is allowed.
@@ -79,7 +82,7 @@ Each configuration object contains all of the information ESLint needs to execut
 Patterns specified in `files` and `ignores` use [`minimatch`](https://www.npmjs.com/package/minimatch) syntax and are evaluated relative to the location of the `eslint.config.js` file. If using an alternate config file via the `--config` command line option, then all patterns are evaluated relative to the current working directory.
 :::
 
-You can use a combination of `files` and `ignores` to determine which files the configuration object should apply to and which not. By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Those files are always matched unless you explicitly exclude them using `ignores`.
+You can use a combination of `files` and `ignores` to determine which files the configuration object should apply to and which not. By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Those files are always matched unless you explicitly exclude them using [global ignores](#globally-ignoring-files-with-ignores).
 Because config objects that don't specify `files` or `ignores` apply to all files that have been matched by any other configuration object, they will apply to all JavaScript files. For example:
 
 ```js
@@ -366,8 +369,8 @@ export default [
 
 ESLint has two predefined configurations for JavaScript:
 
-* `js.configs.recommended` - enables the rules that ESLint recommends everyone use to avoid potential errors
-* `js.configs.all` - enables all of the rules shipped with ESLint
+* `js.configs.recommended` - enables the rules that ESLint recommends everyone use to avoid potential errors.
+* `js.configs.all` - enables all of the rules shipped with ESLint.
 
 To include these predefined configurations, install the `@eslint/js` package and then make any modifications to other properties in subsequent configuration objects:
 
@@ -495,3 +498,98 @@ npx eslint --config some-other-file.js **/*.js
 ```
 
 In this case, ESLint does not search for `eslint.config.js` and instead uses `some-other-file.js`.
+
+### Experimental Configuration File Resolution
+
+::: warning
+This feature is experimental and its details may change before being finalized. This behavior will be the new lookup behavior starting in v10.0.0, but you can try it today using a feature flag.
+:::
+
+You can use the `unstable_config_lookup_from_file` flag to change the way ESLint searches for configuration files. Instead of searching from the current working directory, ESLint will search for a configuration file by first starting in the directory of the file being linted and then searching up its ancestor directories until it finds a `eslint.config.js` file (or any other extension of configuration file). This behavior is better for monorepos, where each subdirectory may have its own configuration file.
+
+To use this feature on the command line, use the `--flag` flag:
+
+```shell
+npx eslint --flag unstable_config_lookup_from_file .
+```
+
+For more information about using feature flags, see [Feature Flags](../../flags/).
+
+## TypeScript Configuration Files
+
+::: warning
+This feature is currently experimental and may change in future versions.
+:::
+
+You need to enable this feature through the `unstable_ts_config` feature flag:
+
+```bash
+npx eslint --flag unstable_ts_config
+```
+
+For more information about using feature flags, see [Feature Flags](../../flags/).
+
+For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in version 2.0.0 or later in your project (this dependency is not automatically installed by ESLint):
+
+```bash
+npm install -D jiti
+# or
+yarn add --dev jiti
+# or
+pnpm add -D jiti
+```
+
+You can then create a configuration file with a `.ts`, `.mts`, or `.cts` extension, and export an array of [configuration objects](#configuration-objects). Here's an example in ESM format:
+
+```ts
+import js from "@eslint/js";
+import type { Linter } from "eslint";
+
+export default [
+  js.configs.recommended,
+  {
+    rules: {
+      "no-console": [0],
+    },
+  },
+] satisfies Linter.Config[];
+```
+
+Here's an example in CommonJS format:
+
+```ts
+import type { Linter } from "eslint";
+const eslint = require("@eslint/js");
+
+const config: Linter.Config[] = [
+  eslint.configs.recommended,
+  {
+    rules: {
+      "no-console": [0],
+    },
+  },
+];
+
+module.exports = config;
+```
+
+::: important
+ESLint does not perform type checking on your configuration file and does not apply any settings from `tsconfig.json`.
+:::
+
+### Configuration File Precedence
+
+If you have multiple ESLint configuration files, ESLint prioritizes JavaScript files over TypeScript files. The order of precedence is as follows:
+
+1. `eslint.config.js`
+2. `eslint.config.mjs`
+3. `eslint.config.cjs`
+4. `eslint.config.ts`
+5. `eslint.config.mts`
+6. `eslint.config.cts`
+
+To override this behavior, use the `--config` or `-c` command line option to specify a different configuration file:
+
+```bash
+npx eslint --flag unstable_ts_config --config eslint.config.ts
+```

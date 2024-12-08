@@ -45,7 +45,7 @@ npx eslint
 
 If you are not using a flat configuration file, running ESLint without file arguments results in an error.
 
-**Note:** You can also use alternative package managers such as [Yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/) to run ESLint. Please refer to your package manager's documentation for the correct syntax.
+**Note:** You can also use alternative package managers such as [Yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/) to run ESLint. For pnpm use `pnpm dlx eslint` and for Yarn use `yarn dlx eslint`.
 
 ## Pass Multiple Values to an Option
 
@@ -54,9 +54,9 @@ Options that accept multiple values can be specified by repeating the option or 
 Examples of options that accept multiple values:
 
 ```shell
-npx eslint --ext .jsx --ext .js lib/
+npx eslint --global describe --global it tests/
 # OR
-npx eslint --ext .jsx,.js lib/
+npx eslint --global describe,it tests/
 ```
 
 ## Options
@@ -153,12 +153,10 @@ This option allows you to specify an additional configuration file for ESLint (s
 ##### `-c`, `--config` example
 
 ```shell
-npx eslint -c ~/my-eslint.json file.js
+npx eslint -c ~/my.eslint.config.js file.js
 ```
 
-This example uses the configuration file at `~/my-eslint.json`.
-
-If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.e., `--no-eslintrc` was not specified), the configurations are merged. Options from this configuration file have precedence over the options from `.eslintrc.*` and `package.json` files.
+This example uses the configuration file at `~/my.eslint.config.js`, which is used instead of searching for an `eslint.config.js` file.
 
 #### `--inspect-config`
 
@@ -327,7 +325,7 @@ npx eslint --rule 'quotes: [error, double]' --no-eslintrc
 **eslintrc Mode Only.** This option allows you to specify another directory from which to load rules files. This allows you to dynamically load new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
 
 * **Argument Type**: String. Path to directory. The rules in your custom rules directory must follow the same format as bundled rules to work properly.
-* **Multiple Arguments**: Yes.
+* **Multiple Arguments**: Yes
 
 Note that, as with core rules and plugin rules, you still need to enable the rules in configuration or via the `--rule` CLI option in order to actually run those rules during linting. Specifying a rules directory with `--rulesdir` does not automatically enable the rules within that directory.
 

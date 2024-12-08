@@ -265,6 +265,11 @@ ruleTester.run("id-match", rule, {
         // Class Fields
         {
             code: "class x { _foo = 1; }",
+            options: ["^[^_]+$"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class x { _foo = 1; }",
             options: ["^[^_]+$", {
                 classFields: false
             }],
@@ -276,6 +281,55 @@ ruleTester.run("id-match", rule, {
                 classFields: false
             }],
             languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class x { #_foo = 1; }",
+            options: ["^[^_]+$"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+
+        // Import attribute keys
+        {
+            code: "import foo from 'foo.json' with { type: 'json' }",
+            options: ["^foo", {
+                properties: true
+            }],
+            languageOptions: { ecmaVersion: 2025 }
+        },
+        {
+            code: "export * from 'foo.json' with { type: 'json' }",
+            options: ["^foo", {
+                properties: true
+            }],
+            languageOptions: { ecmaVersion: 2025 }
+        },
+        {
+            code: "export { default } from 'foo.json' with { type: 'json' }",
+            options: ["^def", {
+                properties: true
+            }],
+            languageOptions: { ecmaVersion: 2025 }
+        },
+        {
+            code: "import('foo.json', { with: { type: 'json' } })",
+            options: ["^foo", {
+                properties: true
+            }],
+            languageOptions: { ecmaVersion: 2025 }
+        },
+        {
+            code: "import('foo.json', { 'with': { type: 'json' } })",
+            options: ["^foo", {
+                properties: true
+            }],
+            languageOptions: { ecmaVersion: 2025 }
+        },
+        {
+            code: "import('foo.json', { with: { type } })",
+            options: ["^foo", {
+                properties: true
+            }],
+            languageOptions: { ecmaVersion: 2025 }
         }
 
     ],
@@ -912,6 +966,32 @@ ruleTester.run("id-match", rule, {
                 {
                     message: "Identifier 'a' does not match the pattern '^[^a]'.",
                     type: "Identifier"
+                }
+            ]
+        },
+
+        // Not an import attribute key
+        {
+            code: "import('foo.json', { with: { [type]: 'json' } })",
+            options: ["^foo", {
+                properties: true
+            }],
+            languageOptions: { ecmaVersion: 2025 },
+            errors: [
+                {
+                    message: "Identifier 'type' does not match the pattern '^foo'."
+                }
+            ]
+        },
+        {
+            code: "import('foo.json', { with: { type: json } })",
+            options: ["^foo", {
+                properties: true
+            }],
+            languageOptions: { ecmaVersion: 2025 },
+            errors: [
+                {
+                    message: "Identifier 'json' does not match the pattern '^foo'."
                 }
             ]
         }

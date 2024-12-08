@@ -1,0 +1,179 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  webpack_plugin:
+    name: Types (eslint-webpack-plugin)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout eslint
+        uses: actions/checkout@v4
+        with:
+          path: eslint
+
+      - name: Checkout eslint-webpack-plugin
+        uses: actions/checkout@v4
+        with:
+          repository: webpack-contrib/eslint-webpack-plugin
+          path: webpack
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Install Packages (eslint)
+        working-directory: eslint
+        run: npm install
+
+      - name: Install Packages (eslint-webpack-plugin)
+        working-directory: webpack
+        run: |
+          npm install
+          npm install ../eslint
+
+      - name: Run TSC
+        working-directory: webpack
+        run: npm run lint:types
+
+  neostandard:
+    name: Types (neostandard)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout eslint
+        uses: actions/checkout@v4
+        with:
+          path: eslint
+
+      - name: Checkout neostandard
+        uses: actions/checkout@v4
+        with:
+          repository: neostandard/neostandard
+          path: neostandard
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Install Packages (eslint)
+        working-directory: eslint
+        run: npm install
+
+      - name: Install Packages (neostandard)
+        working-directory: neostandard
+        run: |
+          npm install
+          npm install ../eslint
+
+      - name: Run TSC
+        working-directory: neostandard
+        run: npm run check:tsc
+
+  eslint-flat-config-utils:
+    name: Types (eslint-flat-config-utils)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout eslint
+        uses: actions/checkout@v4
+        with:
+          path: eslint
+
+      - name: Checkout eslint-flat-config-utils
+        uses: actions/checkout@v4
+        with:
+          repository: antfu/eslint-flat-config-utils
+          path: antfu
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Install Packages (eslint)
+        working-directory: eslint
+        run: npm install
+
+      - name: Install Packages (neostandard)
+        working-directory: antfu
+        run: |
+          npm install
+          npm install ../eslint
+
+      - name: Run TSC
+        working-directory: antfu
+        run: npm run typecheck
+
+  eslint-visitor-keys:
+    name: Types (eslint-visitor-keys)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout eslint
+        uses: actions/checkout@v4
+        with:
+          path: eslint
+
+      - name: Checkout eslint/js
+        uses: actions/checkout@v4
+        with:
+          repository: eslint/js
+          path: eslint-js
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Install Packages (eslint)
+        working-directory: eslint
+        run: npm install
+
+      - name: Update package.json eslint-visitor-keys
+        uses: restackio/update-json-file-action@2.1
+        with:
+          file: eslint-js/packages/eslint-visitor-keys/package.json
+          fields: '{"scripts.prepare": "npm run build:cjs"}'
+
+      - name: Install Packages (eslint/js)
+        working-directory: eslint-js
+        run: |
+          npm install
+          npm install ../eslint
+
+      - name: Run TSC
+        working-directory: eslint-js
+        run: npm run build:types --workspace eslint-visitor-keys
+
+  are-the-types-wrong:
+    name: Are the types wrong?
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        package:
+          [
+            { name: eslint, directory: . },
+            {
+              name: eslint-config-eslint,
+              directory: packages/eslint-config-eslint,
+            },
+          ]
+
+    steps:
+      - name: Checkout ${{ matrix.package.name }}
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Install Packages
+        working-directory: ${{ matrix.package.directory }}
+        run: npm install
+
+      - name: Check validity of type definitions
+        working-directory: ${{ matrix.package.directory }}
+        run: npm run lint:types

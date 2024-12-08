@@ -9,13 +9,28 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    ruleFixer = require("../../../lib/linter/rule-fixer");
+    { RuleFixer } = require("../../../lib/linter/rule-fixer");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("RuleFixer", () => {
+
+    let ruleFixer;
+
+    beforeEach(() => {
+        ruleFixer = new RuleFixer({
+            sourceCode: {
+                getLoc(node) {
+                    return node.loc;
+                },
+                getRange(node) {
+                    return node.range;
+                }
+            }
+        });
+    });
 
     describe("insertTextBefore", () => {
 

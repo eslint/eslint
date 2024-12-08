@@ -4,7 +4,7 @@ eleventyNavigation:
     key: plugin flat config
     parent: create plugins
     title: Migration to Flat Config
-    order: 4
+    order: 5
 
 ---
 
@@ -63,7 +63,9 @@ No changes are necessary for the `rules` key in your plugin. Everything works th
 
 ## Migrating Processors for Flat Config
 
-No changes are necessary for the `processors` key in your plugin as long as you aren't using file extension-named processors. If you have any [file extension-named processors](custom-processors-deprecated#file-extension-named-processor), you must update the name to a valid identifier (numbers and letters). File extension-named processors were automatically applied in the old configuration system but are not automatically applied when using flat config. Here is an example of a file extension-named processor:
+Each processor should specify a `meta` object. For more information, see the [full documentation](custom-processors).
+
+No other changes are necessary for the `processors` key in your plugin as long as you aren't using file extension-named processors. If you have any [file extension-named processors](custom-processors-deprecated#file-extension-named-processor), you must update the name to a valid identifier (numbers and letters). File extension-named processors were automatically applied in the old configuration system but are not automatically applied when using flat config. Here is an example of a file extension-named processor:
 
 ```js
 const plugin = {
@@ -199,7 +201,42 @@ export default [
 ];
 ```
 
+If your config extends other configs, you can export an array:
+
+```js
+const baseConfig = require("./base-config");
+
+module.exports = {
+    configs: {
+        extendedConfig: [
+            baseConfig,
+            {
+                rules: {
+                    "example/rule1": "error",
+                    "example/rule2": "error"
+                }
+            }
+        ],
+    },
+};
+```
+
 You should update your documentation so your plugin users know how to reference the exported configs.
+
+If your exported config is an object, then your users can insert it directly into the config array; if your exported config is an array, then your users should use the spread operator (`...`) to insert the array's items into the config array.
+
+Here's an example with both an object config and an array config:
+
+```js
+import example from "eslint-plugin-example";
+
+export default [
+    example.configs.recommended, // Object, so don't spread
+    ...example.configs.extendedConfig, // Array, so needs spreading
+];
+```
+
+For more information, see the [full documentation](https://eslint.org/docs/latest/extend/plugins#configs-in-plugins).
 
 ## Migrating Environments for Flat Config
 

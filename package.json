@@ -1,16 +1,44 @@
 {
   "name": "eslint",
-  "version": "9.7.0",
+  "version": "9.16.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
+  "type": "commonjs",
   "bin": {
     "eslint": "./bin/eslint.js"
   },
   "main": "./lib/api.js",
+  "types": "./lib/types/index.d.ts",
   "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/api.js"
+    },
     "./package.json": "./package.json",
-    ".": "./lib/api.js",
-    "./use-at-your-own-risk": "./lib/unsupported-api.js"
+    "./use-at-your-own-risk": {
+      "types": "./lib/types/use-at-your-own-risk.d.ts",
+      "default": "./lib/unsupported-api.js"
+    },
+    "./rules": {
+      "types": "./lib/types/rules/index.d.ts"
+    },
+    "./universal": {
+      "types": "./lib/types/universal.d.ts",
+      "default": "./lib/universal.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "use-at-your-own-risk": [
+        "./lib/types/use-at-your-own-risk.d.ts"
+      ],
+      "rules": [
+        "./lib/types/rules/index.d.ts"
+      ],
+      "universal": [
+        "./lib/types/universal.d.ts"
+      ]
+    }
   },
   "scripts": {
     "build:docs:update-links": "node tools/fetch-docs-links.js",
@@ -18,15 +46,17 @@
     "build:webpack": "node Makefile.js webpack",
     "build:readme": "node tools/update-readme.js",
     "build:rules-index": "node Makefile.js generateRuleIndexPage",
-    "lint": "node Makefile.js lint",
-    "lint:docs:js": "node Makefile.js lintDocsJS",
+    "lint": "trunk check --no-fix --ignore=docs/**/*.js -a --filter=eslint && trunk check --no-fix --ignore=docs/**/*.js",
+    "lint:docs:js": "trunk check --no-fix --ignore=** --ignore=!docs/**/*.js -a --filter=eslint && trunk check --no-fix --ignore=** --ignore=!docs/**/*.js",
     "lint:docs:rule-examples": "node Makefile.js checkRuleExamples",
-    "lint:fix": "node Makefile.js lint -- fix",
-    "lint:fix:docs:js": "node Makefile.js lintDocsJS -- fix",
     "lint:unused": "knip",
+    "lint:fix": "trunk check -y --ignore=docs/**/*.js -a --filter=eslint && trunk check -y --ignore=docs/**/*.js",
+    "lint:fix:docs:js": "trunk check -y --ignore=** --ignore=!docs/**/*.js -a --flter=eslint && trunk check -y --ignore=** --ignore=!docs/**/*.js",
+    "lint:types": "attw --pack",
     "release:generate:alpha": "node Makefile.js generatePrerelease -- alpha",
     "release:generate:beta": "node Makefile.js generatePrerelease -- beta",
-    "release:generate:latest": "node Makefile.js generateRelease",
+    "release:generate:latest": "node Makefile.js generateRelease -- latest",
+    "release:generate:maintenance": "node Makefile.js generateRelease -- maintenance",
     "release:generate:rc": "node Makefile.js generatePrerelease -- rc",
     "release:publish": "node Makefile.js publishRelease",
     "test": "node Makefile.js test",
@@ -34,14 +64,15 @@
     "test:cli": "mocha",
     "test:fuzz": "node Makefile.js fuzz",
     "test:performance": "node Makefile.js perf",
-    "test:emfile": "node tools/check-emfile-handling.js"
+    "test:emfile": "node tools/check-emfile-handling.js",
+    "test:types": "tsc -p tests/lib/types/tsconfig.json"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": "eslint --fix",
-    "*.md": "markdownlint --fix",
+    "*.js": "trunk check --fix --filter=eslint",
+    "*.md": "trunk check --fix --filter=markdownlint",
     "lib/rules/*.js": [
       "node tools/update-eslint-all.js",
       "git add packages/js/src/configs/eslint-all.js"
@@ -51,7 +82,7 @@
       "node tools/fetch-docs-links.js",
       "git add docs/src/_data/further_reading_links.json"
     ],
-    "docs/**/*.svg": "npx -y svgo -r --multipass"
+    "docs/**/*.svg": "trunk check --fix --filter=svgo"
   },
   "files": [
     "LICENSE",
@@ -67,21 +98,25 @@
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
     "@eslint-community/eslint-utils": "^4.2.0",
-    "@eslint-community/regexpp": "^4.11.0",
-    "@eslint/config-array": "^0.17.0",
-    "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "9.7.0",
+    "@eslint-community/regexpp": "^4.12.1",
+    "@eslint/config-array": "^0.19.0",
+    "@eslint/core": "^0.9.0",
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "9.16.0",
+    "@eslint/plugin-kit": "^0.2.3",
+    "@humanfs/node": "^0.16.6",
     "@humanwhocodes/module-importer": "^1.0.1",
-    "@humanwhocodes/retry": "^0.3.0",
-    "@nodelib/fs.walk": "^1.2.8",
+    "@humanwhocodes/retry": "^0.4.1",
+    "@types/estree": "^1.0.6",
+    "@types/json-schema": "^7.0.15",
     "ajv": "^6.12.4",
     "chalk": "^4.0.0",
-    "cross-spawn": "^7.0.2",
+    "cross-spawn": "^7.0.6",
     "debug": "^4.3.2",
     "escape-string-regexp": "^4.0.0",
-    "eslint-scope": "^8.0.2",
-    "eslint-visitor-keys": "^4.0.0",
-    "espree": "^10.1.0",
+    "eslint-scope": "^8.2.0",
+    "eslint-visitor-keys": "^4.2.0",
+    "espree": "^10.3.0",
     "esquery": "^1.5.0",
     "esutils": "^2.0.2",
     "fast-deep-equal": "^3.1.3",
@@ -91,26 +126,24 @@
     "ignore": "^5.2.0",
     "imurmurhash": "^0.1.4",
     "is-glob": "^4.0.0",
-    "is-path-inside": "^3.0.3",
     "json-stable-stringify-without-jsonify": "^1.0.1",
-    "levn": "^0.4.1",
     "lodash.merge": "^4.6.2",
     "minimatch": "^3.1.2",
     "natural-compare": "^1.4.0",
-    "optionator": "^0.9.3",
-    "strip-ansi": "^6.0.1",
-    "text-table": "^0.2.0"
+    "optionator": "^0.9.3"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.0",
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
-    "@eslint/core": "^0.1.0",
-    "@types/estree": "^1.0.5",
+    "@eslint/json": "^0.8.0",
+    "@trunkio/launcher": "^1.3.0",
     "@types/node": "^20.11.5",
-    "@wdio/browser-runner": "^8.38.3",
-    "@wdio/cli": "^8.38.2",
-    "@wdio/concise-reporter": "^8.38.2",
-    "@wdio/mocha-framework": "^8.38.2",
+    "@typescript-eslint/parser": "^8.4.0",
+    "@wdio/browser-runner": "^9.2.4",
+    "@wdio/cli": "^9.2.4",
+    "@wdio/concise-reporter": "^9.2.2",
+    "@wdio/mocha-framework": "^9.2.2",
     "babel-loader": "^8.0.5",
     "c8": "^7.12.0",
     "chai": "^4.0.1",
@@ -121,7 +154,9 @@
     "eslint": "file:.",
     "eslint-config-eslint": "file:packages/eslint-config-eslint",
     "eslint-plugin-eslint-plugin": "^6.0.0",
-    "eslint-release": "^3.2.2",
+    "eslint-plugin-expect-type": "^0.6.0",
+    "eslint-plugin-yml": "^1.14.0",
+    "eslint-release": "^3.3.0",
     "eslint-rule-composer": "^0.3.0",
     "eslump": "^3.0.0",
     "esprima": "^4.0.1",
@@ -131,14 +166,12 @@
     "globals": "^15.0.0",
     "got": "^11.8.3",
     "gray-matter": "^4.0.3",
-    "js-yaml": "^4.1.0",
-    "knip": "^5.21.0",
+    "jiti": "^2.1.0",
+    "knip": "^5.32.0",
     "lint-staged": "^11.0.0",
     "load-perf": "^0.2.0",
     "markdown-it": "^12.2.0",
     "markdown-it-container": "^3.0.0",
-    "markdownlint": "^0.34.0",
-    "markdownlint-cli": "^0.41.0",
     "marked": "^4.0.8",
     "metascraper": "^5.25.7",
     "metascraper-description": "^5.25.7",
@@ -146,7 +179,7 @@
     "metascraper-logo": "^5.25.7",
     "metascraper-logo-favicon": "^5.25.7",
     "metascraper-title": "^5.25.7",
-    "mocha": "^8.3.2",
+    "mocha": "^10.7.3",
     "node-polyfill-webpack-plugin": "^1.0.3",
     "npm-license": "^0.3.3",
     "pirates": "^4.0.5",
@@ -163,6 +196,14 @@
     "webpack": "^5.23.0",
     "webpack-cli": "^4.5.0",
     "yorkie": "^2.0.0"
+  },
+  "peerDependencies": {
+    "jiti": "*"
+  },
+  "peerDependenciesMeta": {
+    "jiti": {
+      "optional": true
+    }
   },
   "keywords": [
     "ast",

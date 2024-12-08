@@ -60,6 +60,8 @@ The source file for a rule exports an object with the following properties. Both
 
 * `schema`: (`object | array | false`) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules). Mandatory when the rule has options.
 
+* `defaultOptions`: (`array`) Specifies [default options](#option-defaults) for the rule. If present, any user-provided options in their config will be merged on top of them recursively.
+
 * `deprecated`: (`boolean`) Indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.
 
 * `replacedBy`: (`array`) In the case of a deprecated rule, specify replacement rule(s).
@@ -101,6 +103,10 @@ module.exports = {
 };
 ```
 
+::: tip
+You can view the complete AST for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+:::
+
 ## The Context Object
 
 The `context` object is the only argument of the `create` method in a rule. For example:
@@ -131,7 +137,7 @@ The `context` object has the following properties:
 * `languageOptions`: (`object`) more details for each property [here](../use/configure/language-options)
     * `sourceType`: (`'script' | 'module' | 'commonjs'`) The mode for the current file.
     * `ecmaVersion`: (`number`) The ECMA version used to parse the current file.
-    * `parser`: (`object`|`string`): Either the parser used to parse the current file for flat config or its name for legacy config.
+    * `parser`: (`object`): The parser used to parse the current file.
     * `parserOptions`: (`object`) The parser options configured for this file.
     * `globals`: (`object`) The specified globals.
 * `parserPath`: (`string`, **Removed** Use `context.languageOptions.parser` instead.) The name of the `parser` from the configuration.
@@ -201,9 +207,9 @@ The node contains all the information necessary to figure out the line and colum
 
 `messageId`s are the recommended approach to reporting messages in `context.report()` calls because of the following benefits:
 
-* Rule violation messages can be stored in a central `meta.messages` object for convenient management
-* Rule violation messages do not need to be repeated in both the rule file and rule test file
-* As a result, the barrier for changing rule violation messages is lower, encouraging more frequent contributions to improve and optimize them for the greatest clarity and usefulness
+* Rule violation messages can be stored in a central `meta.messages` object for convenient management.
+* Rule violation messages do not need to be repeated in both the rule file and rule test file.
+* As a result, the barrier for changing rule violation messages is lower, encouraging more frequent contributions to improve and optimize them for the greatest clarity and usefulness.
 
 Rule file:
 
@@ -648,11 +654,11 @@ There are two formats for a rule's `schema`:
 
 * An array of JSON Schema objects
     * Each element will be checked against the same position in the `context.options` array.
-    * If the `context.options` array has fewer elements than there are schemas, then the unmatched schemas are ignored
-    * If the `context.options` array has more elements than there are schemas, then the validation fails
+    * If the `context.options` array has fewer elements than there are schemas, then the unmatched schemas are ignored.
+    * If the `context.options` array has more elements than there are schemas, then the validation fails.
     * There are two important consequences to using this format:
-        * It is _always valid_ for a user to provide no options to your rule (beyond severity)
-        * If you specify an empty array, then it is _always an error_ for a user to provide any options to your rule (beyond severity)
+        * It is _always valid_ for a user to provide no options to your rule (beyond severity).
+        * If you specify an empty array, then it is _always an error_ for a user to provide any options to your rule (beyond severity).
 * A full JSON Schema object that will validate the `context.options` array
     * The schema should assume an array of options to validate even if your rule only accepts one option.
     * The schema can be arbitrarily complex, so you can validate completely different sets of potential options via `oneOf`, `anyOf` etc.
@@ -796,6 +802,51 @@ module.exports = {
 
 To learn more about JSON Schema, we recommend looking at some examples on the [JSON Schema website](https://json-schema.org/learn/miscellaneous-examples), or reading the free [Understanding JSON Schema](https://json-schema.org/understanding-json-schema/) ebook.
 
+### Option Defaults
+
+Rules may specify a `meta.defaultOptions` array of default values for any options.
+When the rule is enabled in a user configuration, ESLint will recursively merge any user-provided option elements on top of the default elements.
+
+For example, given the following defaults:
+
+```js
+export default {
+    meta: {
+        defaultOptions: [{
+            alias: "basic",
+        }],
+        schema: [{
+            type: "object",
+            properties: {
+                alias: {
+                    type: "string"
+                }
+            },
+            additionalProperties: false
+        }]
+    },
+    create(context) {
+        const [{ alias }] = context.options;
+
+        return { /* ... */ };
+    }
+}
+```
+
+The rule would have a runtime `alias` value of `"basic"` unless the user configuration specifies a different value, such as with `["error", { alias: "complex" }]`.
+
+Each element of the options array is merged according to the following rules:
+
+* Any missing value or explicit user-provided `undefined` will fall back to a default option
+* User-provided arrays and primitive values other than `undefined` override a default option
+* User-provided objects will merge into a default option object and replace a non-object default otherwise
+
+Option defaults will also be validated against the rule's `meta.schema`.
+
+**Note:** ESLint internally uses [Ajv](https://ajv.js.org) for schema validation with its [`useDefaults` option](https://ajv.js.org/guide/modifying-data.html#assigning-defaults) enabled.
+Both user-provided and `meta.defaultOptions` options will override any defaults specified in a rule's schema.
+ESLint may disable Ajv's `useDefaults` in a future major version.
+
 ### Accessing Shebangs
 
 [Shebangs (#!)](https://en.wikipedia.org/wiki/Shebang_(Unix)) are represented by the unique tokens of type `"Shebang"`. They are treated as comments and can be accessed by the methods outlined in the [Accessing Comments](#accessing-comments) section, such as `sourceCode.getAllComments()`.
@@ -803,6 +854,10 @@ To learn more about JSON Schema, we recommend looking at some examples on the [J
 ### Accessing Variable Scopes
 
 The `SourceCode#getScope(node)` method returns the scope of the given node. It is a useful method for finding information about the variables in a given scope and how they are used in other scopes.
+
+::: tip
+You can view scope information for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+:::
 
 #### Scope types
 

@@ -59,7 +59,7 @@
             },
             {
                 "name": "no-compare-neg-zero",
-                "description": "Disallow comparing against -0",
+                "description": "Disallow comparing against `-0`",
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
@@ -1297,7 +1297,7 @@
                 "recommended": false,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "no-useless-escape",
@@ -1497,7 +1497,7 @@
                 "recommended": false,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "require-unicode-regexp",

@@ -4,7 +4,7 @@ eleventyNavigation:
     key: migration guide
     parent: configure
     title: Configuration Migration Guide
-    order: 8
+    order: 9
 ---
 
 This guide provides an overview of how you can migrate your ESLint configuration file from the eslintrc format (typically configured in `.eslintrc.js` or `.eslintrc.json` files) to the new flat config format (typically configured in an `eslint.config.js` file).
@@ -40,8 +40,8 @@ To use flat config with ESLint v8, place a `eslint.config.js` file in the root o
 
 While the configuration file format has changed from eslintrc to flat config, the following has stayed the same:
 
-* Syntax for configuring rules
-* Syntax for configuring processors
+* Syntax for configuring rules.
+* Syntax for configuring processors.
 * The CLI, except for the flag changes noted in [CLI Flag Changes](#cli-flag-changes).
 * Global variables are configured the same way, but on a different property (see [Configuring Language Options](#configuring-language-options)).
 
@@ -314,6 +314,7 @@ For example, here's an eslintrc file with language options:
 module.exports = {
     env: {
         browser: true,
+        node: true
     },
     globals: {
         myCustomGlobal: "readonly",
@@ -340,6 +341,7 @@ export default [
             sourceType: "module",
             globals: {
                 ...globals.browser,
+                ...globals.node,
                 myCustomGlobal: "readonly"
             }
         }
@@ -415,8 +417,8 @@ export default [
 
 In eslintrc files, use the `extends` property to use predefined and shareable configs. ESLint comes with two predefined configs that you can access as strings:
 
-* `"eslint:recommended"`: the rules recommended by ESLint
-* `"eslint:all"`: all rules shipped with ESLint
+* `"eslint:recommended"`: the rules recommended by ESLint.
+* `"eslint:all"`: all rules shipped with ESLint.
 
 You can also use the `extends` property to extend a shareable config. Shareable configs can either be paths to local config files or npm package names.
 
@@ -535,7 +537,7 @@ For more information about the `FlatCompat` class, please see the [package READM
 
 With eslintrc, you can make ESLint ignore files by creating a separate `.eslintignore` file in the root of your project. The `.eslintignore` file uses the same glob pattern syntax as `.gitignore` files. Alternatively, you can use an `ignorePatterns` property in your eslintrc file.
 
-To ignore files with flat config, you can use the `ignores` property in a config object. The `ignores` property accepts an array of glob patterns. Flat config does not support loading ignore patterns from `.eslintignore` files, so you'll need to migrate those patterns directly into flat config.
+To ignore files with flat config, you can use the `ignores` property in a config object with no other properties. The `ignores` property accepts an array of glob patterns. Flat config does not support loading ignore patterns from `.eslintignore` files, so you'll need to migrate those patterns directly into flat config.
 
 For example, here's a `.eslintignore` example you can use with an eslintrc config:
 
@@ -562,6 +564,7 @@ The equivalent ignore patterns in flat config look like this:
 export default [
     // ...other config
     {
+        // Note: there should be no other properties in this object
         ignores: ["**/temp.js", "config/*"]
     }
 ];
@@ -570,12 +573,12 @@ export default [
 In `.eslintignore`, `temp.js` ignores all files named `temp.js`, whereas in flat config, you need to specify this as `**/temp.js`. The pattern `temp.js` in flat config only ignores a file named `temp.js` in the same directory as the configuration file.
 
 ::: important
-In flat config , dotfiles (e.g. `.dotfile.js`) are no longer ignored by default. If you want to ignore dotfiles, add an ignore pattern of `"**/.*"`.
+In flat config, dotfiles (e.g. `.dotfile.js`) are no longer ignored by default. If you want to ignore dotfiles, add an ignore pattern of `"**/.*"`.
 :::
 
 ### Linter Options
 
-ESlintrc files let you configure the linter itself with the `noInlineConfig` and `reportUnusedDisableDirectives` properties.
+Eslintrc files let you configure the linter itself with the `noInlineConfig` and `reportUnusedDisableDirectives` properties.
 
 The flat config system introduces a new top-level property `linterOptions` that you can use to configure the linter. In the `linterOptions` object, you can include `noInlineConfig` and `reportUnusedDisableDirectives`.
 
@@ -684,9 +687,9 @@ The following changes have been made from the eslintrc to the flat config file f
 
 ## TypeScript Types for Flat Config Files
 
-You can see the TypeScript types for the flat config file format in the DefinitelyTyped project. The interface for the objects in the config’s array is called the `FlatConfig`.
+You can see the TypeScript types for the flat config file format in the [`lib/types` source folder on GitHub](https://github.com/eslint/eslint/tree/main/lib/types). The interface for the objects in the config’s array is called `Linter.Config`.
 
-You can view the type definitions in the [DefinitelyTyped repository on GitHub](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/eslint/index.d.ts).
+You can view the type definitions in [`lib/types/index.d.ts`](https://github.com/eslint/eslint/blob/main/lib/types/index.d.ts).
 
 ## Visual Studio Code Support
 

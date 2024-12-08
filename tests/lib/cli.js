@@ -22,8 +22,7 @@ const assert = require("chai").assert,
     sinon = require("sinon"),
     fs = require("node:fs"),
     os = require("node:os"),
-    sh = require("shelljs"),
-    { inactiveFlags } = require("../../lib/shared/flags");
+    sh = require("shelljs");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
@@ -1908,32 +1907,24 @@ describe("cli", () => {
 
             describe("--flag option", () => {
 
-                it("should emit a warning when an inactive flag is used", async () => {
+                it("should throw an error when an inactive flag is used", async () => {
                     const configPath = getFixturePath("eslint.config.js");
                     const filePath = getFixturePath("passing.js");
                     const input = `--flag test_only_old --config ${configPath} ${filePath}`;
-                    const exitCode = await cli.execute(input, null, true);
 
-                    sinon.assert.calledOnce(log.warn);
-
-                    const formattedOutput = log.warn.firstCall.args[0];
-
-                    assert.include(formattedOutput, `InactiveFlag: The 'test_only_old' flag is no longer active: ${inactiveFlags.get("test_only_old")}`);
-                    assert.strictEqual(exitCode, 0);
+                    await stdAssert.rejects(async () => {
+                        await cli.execute(input, null, true);
+                    }, /The flag 'test_only_old' is inactive: Used only for testing\./u);
                 });
 
                 it("should error out when an unknown flag is used", async () => {
                     const configPath = getFixturePath("eslint.config.js");
                     const filePath = getFixturePath("passing.js");
                     const input = `--flag test_only_oldx --config ${configPath} ${filePath}`;
-                    const exitCode = await cli.execute(input, null, true);
 
-                    sinon.assert.calledOnce(log.error);
-
-                    const formattedOutput = log.error.firstCall.args[0];
-
-                    assert.include(formattedOutput, "InvalidFlag: The 'test_only_oldx' flag is invalid.");
-                    assert.strictEqual(exitCode, 2);
+                    await stdAssert.rejects(async () => {
+                        await cli.execute(input, null, true);
+                    }, /Unknown flag 'test_only_oldx'\./u);
                 });
 
                 it("should not error when a valid flag is used", async () => {
@@ -1944,6 +1935,21 @@ describe("cli", () => {
 
                     sinon.assert.notCalled(log.error);
                     assert.strictEqual(exitCode, 0);
+                });
+
+            });
+
+            describe("unstable_config_lookup_from_file", () => {
+
+                const flag = "unstable_config_lookup_from_file";
+
+                it("should throw an error when text is passed and no config file is found", async () => {
+
+                    await stdAssert.rejects(
+                        () => cli.execute(`--flag ${flag} --stdin --stdin-filename /foo.js"`, "var foo = 'bar';", true),
+                        /Could not find config file/u
+                    );
+
                 });
 
             });

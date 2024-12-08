@@ -49,8 +49,8 @@ This rule requires or disallows strict mode directives.
 
 This rule disallows strict mode directives, no matter which option is specified, if ESLint configuration specifies either of the following as [parser options](../use/configure/language-options#specifying-javascript-options):
 
-* `"sourceType": "module"` that is, files are **ECMAScript** modules
-* `"impliedStrict": true` property in the `ecmaFeatures` object
+* `"sourceType": "module"` that is, files are **ECMAScript** modules.
+* `"impliedStrict": true` property in the `ecmaFeatures` object.
 
 This rule disallows strict mode directives, no matter which option is specified, in functions with non-simple parameter lists (for example, parameter lists with default parameter values) because that is a syntax error in **ECMAScript 2016** and later. See the examples of the [function](#function) option.
 

@@ -330,6 +330,16 @@ The version string of ESLint. E.g. `"7.0.0"`.
 
 This is a static property.
 
+### ◆ ESLint.defaultConfig
+
+```js
+const defaultConfig = ESLint.defaultConfig;
+```
+
+The default configuration that ESLint uses internally. This is provided for tooling that wants to calculate configurations using the same defaults as ESLint. Keep in mind that the default configuration may change from version to version, so you shouldn't rely on any particular keys or values to be present.
+
+This is a static property.
+
 ### ◆ ESLint.outputFixes(results)
 
 ```js
@@ -411,6 +421,8 @@ The `LintMessage` value is the information of each linting error. The `messages`
   `true` if this is a fatal error unrelated to a rule, like a parsing error.
 * `message` (`string`)<br>
   The error message.
+* `messageId` (`string | undefined`)<br>
+  The message ID of the lint error. This property is undefined if the rule does not use message IDs.
 * `line` (`number | undefined`)<br>
   The 1-based line number of the begin point of this message.
 * `column` (`number | undefined`)<br>
@@ -421,7 +433,7 @@ The `LintMessage` value is the information of each linting error. The `messages`
   The 1-based column number of the end point of this message. This property is undefined if this message is not a range.
 * `fix` (`EditInfo | undefined`)<br>
   The [EditInfo] object of autofix. This property is undefined if this message is not fixable.
-* `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
+* `suggestions` (`{ desc: string; fix: EditInfo; messageId?: string; data?: object }[] | undefined`)<br>
   The list of suggestions. Each suggestion is the pair of a description and an [EditInfo] object to fix code. API users such as editor integrations can choose one of them to fix the problem of this message. This property is undefined if this message doesn't have any suggestions.
 
 ### ◆ SuppressedLintMessage type
@@ -436,6 +448,8 @@ The `SuppressedLintMessage` value is the information of each suppressed linting 
   Same as `fatal` in [LintMessage] type.
 * `message` (`string`)<br>
   Same as `message` in [LintMessage] type.
+* `messageId` (`string | undefined`)<br>
+  Same as `messageId` in [LintMessage] type.
 * `line` (`number | undefined`)<br>
   Same as `line` in [LintMessage] type.
 * `column` (`number | undefined`)<br>
@@ -446,7 +460,7 @@ The `SuppressedLintMessage` value is the information of each suppressed linting 
   Same as `endColumn` in [LintMessage] type.
 * `fix` (`EditInfo | undefined`)<br>
   Same as `fix` in [LintMessage] type.
-* `suggestions` (`{ desc: string; fix: EditInfo }[] | undefined`)<br>
+* `suggestions` (`{ desc: string; fix: EditInfo; messageId?: string; data?: object }[] | undefined`)<br>
   Same as `suggestions` in [LintMessage] type.
 * `suppressions` (`{ kind: string; justification: string}[]`)<br>
   The list of suppressions. Each suppression is the pair of a kind and a justification.
@@ -466,8 +480,8 @@ This edit information means replacing the range of the `range` property by the `
 
 The `LoadedFormatter` value is the object to convert the [LintResult] objects to text. The [eslint.loadFormatter()][eslint-loadformatter] method returns it. It has the following method:
 
-* `format` (`(results: LintResult[], resultsMeta: ResultsMeta) => string | Promise<string>`)<br>
-  The method to convert the [LintResult] objects to text. `resultsMeta` is an object that will contain a `maxWarningsExceeded` object if `--max-warnings` was set and the number of warnings exceeded the limit. The `maxWarningsExceeded` object will contain two properties: `maxWarnings`, the value of the `--max-warnings` option, and `foundWarnings`, the number of lint warnings.
+* `format` (`(results: LintResult[], resultsMeta?: ResultsMeta) => string | Promise<string>`)<br>
+  The method to convert the [LintResult] objects to text. `resultsMeta` is an optional parameter that is primarily intended for use by the ESLint CLI and can contain only a `maxWarningsExceeded` property that would be passed through the [`context`](../extend/custom-formatters#the-context-argument) object when this method calls the underlying formatter function. Note that ESLint automatically generates `cwd` and `rulesMeta` properties of the `context` object, so you typically don't need to pass in the second argument when calling this method.
 
 ---
 
@@ -648,7 +662,8 @@ The information available for each linting message is:
 * `fatal` - usually omitted, but will be set to true if there's a parsing error (not related to a rule).
 * `line` - the line on which the error occurred.
 * `message` - the message that should be output.
-* `nodeType` - the node or token type that was reported with the problem.
+* `messageId` - the ID of the message used to generate the message (this property is omitted if the rule does not use message IDs).
+* `nodeType` - (**Deprecated:** This property will be removed in a future version of ESLint.) the node or token type that was reported with the problem.
 * `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
 * `severity` - either 1 or 2, depending on your configuration.
 * `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
@@ -809,30 +824,32 @@ If you don't specify any options to the `RuleTester` constructor, then it uses t
 
 The `RuleTester#run()` method is used to run the tests. It should be passed the following arguments:
 
-* The name of the rule (string)
-* The rule object itself (see ["working with rules"](../extend/custom-rules))
+* The name of the rule (string).
+* The rule object itself (see ["working with rules"](../extend/custom-rules)).
 * An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
 
 A test case is an object with the following properties:
 
-* `name` (string, optional): The name to use for the test case, to make it easier to find
-* `code` (string, required): The source code that the rule should be run on
+* `name` (string, optional): The name to use for the test case, to make it easier to find.
+* `code` (string, required): The source code that the rule should be run on.
 * `options` (array, optional): The options passed to the rule. The rule severity should not be included in this list.
+* `before` (function, optional): Function to execute before testing the case.
+* `after` (function, optional): Function to execute after testing the case regardless of its result.
 * `filename` (string, optional): The filename for the given case (useful for rules that make assertions about filenames).
 * `only` (boolean, optional): Run this case exclusively for debugging in supported test frameworks.
 
 In addition to the properties above, invalid test cases can also have the following properties:
 
 * `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional unless otherwise noted):
-    * `message` (string/regexp): The message for the error. Must provide this or `messageId`
-    * `messageId` (string): The Id for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details
-    * `data` (object): Placeholder data which can be used in combination with `messageId`
-    * `type` (string): The type of the reported AST node
-    * `line` (number): The 1-based line number of the reported location
-    * `column` (number): The 1-based column number of the reported location
-    * `endLine` (number): The 1-based line number of the end of the reported location
-    * `endColumn` (number): The 1-based column number of the end of the reported location
-    * `suggestions` (array): An array of objects with suggestion details to check. Required if the rule produces suggestions. See [Testing Suggestions](#testing-suggestions) for details
+    * `message` (string/regexp): The message for the error. Must provide this or `messageId`.
+    * `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details.
+    * `data` (object): Placeholder data which can be used in combination with `messageId`.
+    * `type` (string): (**Deprecated:** This property will be removed in a future version of ESLint.) The type of the reported AST node.
+    * `line` (number): The 1-based line number of the reported location.
+    * `column` (number): The 1-based column number of the reported location.
+    * `endLine` (number): The 1-based line number of the end of the reported location.
+    * `endColumn` (number): The 1-based column number of the end of the reported location.
+    * `suggestions` (array): An array of objects with suggestion details to check. Required if the rule produces suggestions. See [Testing Suggestions](#testing-suggestions) for details.
 
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
 * `output` (string, required if the rule fixes code): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null` or omitted, asserts that none of the reported problems suggest autofixes.
@@ -899,10 +916,10 @@ ESLint makes its best attempt at applying all fixes, but there is no guarantee t
 
 Suggestions can be tested by defining a `suggestions` key on an errors object. If this is a number, it asserts the number of suggestions provided for the error. Otherwise, this should be an array of objects, each containing information about a single provided suggestion. The following properties can be used:
 
-* `desc` (string): The suggestion `desc` value. Must provide this or `messageId`
-* `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s. Must provide this or `desc`
+* `desc` (string): The suggestion `desc` value. Must provide this or `messageId`.
+* `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s. Must provide this or `desc`.
 * `data` (object): Placeholder data which can be used in combination with `messageId`.
-* `output` (string, required): A code string representing the result of applying the suggestion fix to the input code
+* `output` (string, required): A code string representing the result of applying the suggestion fix to the input code.
 
 Example:
 
@@ -983,8 +1000,6 @@ ruleTester.run("my-rule", myRule, {
     ]
 })
 ```
-
----
 
 [configuration object]: ../use/configure/
 [builtin-formatters]: ../use/formatters/
