@@ -31,6 +31,8 @@
         <span class="visually-hidden">Categories:</span>
         {%- if params.deprecated -%}
             <p class="rule__categories__type">❌</p>
+            {%- elif params.categories and params.categories.frozen %}
+                <p class="rule__categories__type"> ❄️ <span class="visually-hidden">Frozen</span> </p>
             {%- else -%}
             <p class="rule__categories__type"{% if params.categories.recommended == false %} aria-hidden="true"{%- endif -%}>
             ✅ <span class="visually-hidden">Extends</span>

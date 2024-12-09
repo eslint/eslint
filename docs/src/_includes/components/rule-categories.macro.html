@@ -1,11 +1,12 @@
-
 {%- macro ruleCategories(params) -%}
 <div class="{% if params.index %}rule-categories{% endif %}" aria-label="Rule Categories">
     {%- if params.recommended == true -%}
     <div class="rule-category">
         <span class="rule-category__icon">✅ <span class="visually-hidden">Recommended</span></span>
         <p class="rule-category__description">
-            Using the <code>recommended</code> config from <code>@eslint/js</code> in a <a href="../use/configure/configuration-files#using-predefined-configurations">configuration file</a> enables this rule
+            Using the <code>recommended</code> config from <code>@eslint/js</code> in a <a
+                href="../use/configure/configuration-files#using-predefined-configurations">configuration file</a>
+            enables this rule
         </p>
     </div>
     {%- endif -%}
@@ -13,7 +14,8 @@
     <div class="rule-category">
         <span class="rule-category__icon">🔧 <span class="visually-hidden">Fixable</span></span>
         <p class="rule-category__description">
-            Some problems reported by this rule are automatically fixable by the <code>--fix</code> <a href="../use/command-line-interface#--fix">command line</a> option
+            Some problems reported by this rule are automatically fixable by the <code>--fix</code> <a
+                href="../use/command-line-interface#--fix">command line</a> option
         </p>
     </div>
     {%- endif -%}
@@ -21,7 +23,16 @@
     <div class="rule-category">
         <span class="rule-category__icon">💡 <span class="visually-hidden">hasSuggestions</span></span>
         <p class="rule-category__description">
-            Some problems reported by this rule are manually fixable by editor <a href="../use/core-concepts#rule-suggestions">suggestions</a>
+            Some problems reported by this rule are manually fixable by editor <a
+                href="../use/core-concepts#rule-suggestions">suggestions</a>
+        </p>
+    </div>
+    {%- endif -%}
+    {%- if params.frozen == true -%}
+    <div class="rule-category">
+        <span class="rule-category__icon">❄️ <span class="visually-hidden">Frozen</span></span>
+        <p class="rule-category__description">
+            This rule is currently frozen and is not accepting changes.
         </p>
     </div>
     {%- endif -%}
@@ -51,6 +62,15 @@
     <span class="rule-category__icon">💡 <span class="visually-hidden">hasSuggestions</span></span>
     <p class="rule-category__description">
         if some problems reported by the rule are manually fixable by editor suggestions
+    </p>
+</div>
+{%- endmacro -%}
+
+{%- macro frozen() -%}
+<div class="rule-category">
+    <span class="rule-category__icon">❄️ <span class="visually-hidden">Frozen</span></span>
+    <p class="rule-category__description">
+        if the rule is currently frozen and not accepting changes.
     </p>
 </div>
 {%- endmacro -%}
