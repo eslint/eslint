@@ -3,6 +3,9 @@
 const baseConfigs = require("./base");
 const { esmConfigs, cjsConfigs } = require("./nodejs");
 
+/**
+ * @type {import("eslint").Linter.Config[]}
+ */
 module.exports = [
     ...baseConfigs,
     ...esmConfigs.map(config => ({
