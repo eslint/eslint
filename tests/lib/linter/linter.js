@@ -7589,6 +7589,44 @@ var a = "test2";
                 linter.verify("0", { rules: { "test-rule": "error" } });
             }, /Fixable rules must set the `meta\.fixable` property/u);
         });
+
+        it("should stop fixing if a circular fix is detected", () => {
+            linter.defineRule("circular-fix", {
+                meta: {
+                    fixable: "whitespace"
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+
+                            // Alternate between adding and removing a hyphen.
+                            const sourceCode = context.getSourceCode();
+                            const hasLeadingHyphen = sourceCode.getText(node).startsWith("-");
+
+                            context.report({
+                                node,
+                                message: "Circular fix detected",
+                                fix: fixer => (hasLeadingHyphen
+                                    ? fixer.removeRange([0, 1])
+                                    : fixer.insertTextBefore(node, "-"))
+                            });
+                        }
+                    };
+                }
+            });
+
+            const initialCode = "-a";
+            const fixResult = linter.verifyAndFix(initialCode, { rules: { "circular-fix": "error" } });
+
+            assert.strictEqual(fixResult.fixed, true, "Fixing should have been applied but stopped due to circular fixes.");
+            assert.strictEqual(fixResult.output, "-a", "Output should match the original input due to circular fixes.");
+            assert.strictEqual(fixResult.messages.length, 1, "There should be one remaining lint message after detecting circular fixes.");
+            assert.strictEqual(fixResult.messages[0].message, "Circular fix detected", "Message should match the last fix attempt.");
+
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(suppressedMessages.length, 0, "No suppressed messages should exist.");
+        });
     });
 
     describe("Edge cases", () => {
@@ -16607,6 +16645,55 @@ var a = "test2";
             assert.throws(() => {
                 linter.verify("0", config);
             }, /Fixable rules must set the `meta\.fixable` property/u);
+        });
+
+        it("should stop fixing if a circular fix is detected", () => {
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            "circular-fix": {
+                                meta: {
+                                    fixable: "whitespace"
+                                },
+                                create(context) {
+                                    return {
+                                        Program(node) {
+
+                                            // Alternate between adding and removing a hyphen.
+                                            const sourceCode = context.getSourceCode();
+                                            const hasLeadingHyphen = sourceCode.getText(node).startsWith("-");
+
+                                            context.report({
+                                                node,
+                                                message: "Circular fix detected",
+                                                fix: fixer => (hasLeadingHyphen
+                                                    ? fixer.removeRange([0, 1])
+                                                    : fixer.insertTextBefore(node, "-"))
+                                            });
+                                        }
+                                    };
+                                }
+                            }
+                        }
+                    }
+                },
+                rules: {
+                    "test/circular-fix": "error"
+                }
+            };
+
+            const initialCode = "-a";
+            const fixResult = linter.verifyAndFix(initialCode, config);
+
+            assert.strictEqual(fixResult.fixed, true, "Fixing should have been applied but stopped due to circular fixes.");
+            assert.strictEqual(fixResult.output, "-a", "Output should match the original input due to circular fixes.");
+            assert.strictEqual(fixResult.messages.length, 1, "There should be one remaining lint message after detecting circular fixes.");
+            assert.strictEqual(fixResult.messages[0].message, "Circular fix detected", "Message should match the last fix attempt.");
+
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(suppressedMessages.length, 0, "No suppressed messages should exist.");
         });
     });
 
