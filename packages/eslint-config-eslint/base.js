@@ -278,7 +278,13 @@ const eslintCommentsConfigs = [eslintCommentsPluginConfigs.recommended, {
  * @type {import("eslint").Linter.Config[]}
  */
 module.exports = [
-    { name: "eslint-config-eslint/base", linterOptions: { reportUnusedDisableDirectives: "error" } },
+    {
+        name: "eslint-config-eslint/base",
+        linterOptions: {
+            reportUnusedDisableDirectives: "error",
+            reportUnusedInlineConfigs: "error"
+        }
+    },
     ...jsConfigs,
     ...unicornConfigs,
     ...jsdocConfigs,

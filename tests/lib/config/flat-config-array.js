@@ -1429,6 +1429,56 @@ describe("FlatConfigArray", () => {
 
             });
 
+
+            describe("reportUnusedInlineConfigs", () => {
+
+                it("should error when an unexpected value is found", async () => {
+
+                    await assertInvalidConfig([
+                        {
+                            linterOptions: {
+                                reportUnusedInlineConfigs: {}
+                            }
+                        }
+                    ], /Key "linterOptions": Key "reportUnusedInlineConfigs": Expected one of: "error", "warn", "off", 0, 1, or 2./u);
+                });
+
+                it("should merge two objects when second object has overrides", () => assertMergedResult([
+                    {
+                        linterOptions: {
+                            reportUnusedInlineConfigs: "off"
+                        }
+                    },
+                    {
+                        linterOptions: {
+                            reportUnusedInlineConfigs: "warn"
+                        }
+                    }
+                ], {
+                    plugins: baseConfig.plugins,
+
+                    linterOptions: {
+                        reportUnusedInlineConfigs: 1
+                    }
+                }));
+
+                it("should merge an object and undefined into one object", () => assertMergedResult([
+                    {},
+                    {
+                        linterOptions: {
+                            reportUnusedInlineConfigs: "warn"
+                        }
+                    }
+                ], {
+                    plugins: baseConfig.plugins,
+
+                    linterOptions: {
+                        reportUnusedInlineConfigs: 1
+                    }
+                }));
+
+            });
+
         });
 
         describe("languageOptions", () => {
