@@ -657,7 +657,8 @@ describe("ESLint", () => {
                         usedDeprecatedRules: [
                             {
                                 ruleId: "semi",
-                                replacedBy: []
+                                replacedBy: ["@stylistic/eslint-plugin-js/semi"],
+                                info: coreRules.get("semi").meta.deprecated
                             }
                         ]
                     }
@@ -914,7 +915,7 @@ describe("ESLint", () => {
 
                 assert.deepStrictEqual(
                     result.usedDeprecatedRules,
-                    [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+                    [{ ruleId: "indent-legacy", replacedBy: ["indent"], info: void 0 }]
                 );
             });
 
@@ -996,7 +997,7 @@ describe("ESLint", () => {
                     flags,
                     cwd: getFixturePath("promise-config")
                 });
-                const results = await eslint.lintText('var foo = "bar";');
+                const results = await eslint.lintText("var foo = \"bar\";");
 
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
@@ -3164,9 +3165,23 @@ describe("ESLint", () => {
                         cwd: originalDir,
                         overrideConfigFile: true,
                         overrideConfig: {
+                            plugins: {
+                                test: {
+                                    rules: {
+                                        "deprecated-with-replacement": {
+                                            meta: { deprecated: true, replacedBy: ["replacement"] },
+                                            create: () => ({})
+                                        },
+                                        "deprecated-without-replacement": {
+                                            meta: { deprecated: true },
+                                            create: () => ({})
+                                        }
+                                    }
+                                }
+                            },
                             rules: {
-                                "indent-legacy": 1,
-                                "callback-return": 1
+                                "test/deprecated-with-replacement": "error",
+                                "test/deprecated-without-replacement": "error"
                             }
                         }
                     });
@@ -3175,8 +3190,8 @@ describe("ESLint", () => {
                     assert.deepStrictEqual(
                         results[0].usedDeprecatedRules,
                         [
-                            { ruleId: "indent-legacy", replacedBy: ["indent"] },
-                            { ruleId: "callback-return", replacedBy: [] }
+                            { ruleId: "test/deprecated-with-replacement", replacedBy: ["replacement"], info: void 0 },
+                            { ruleId: "test/deprecated-without-replacement", replacedBy: [], info: void 0 }
                         ]
                     );
                 });
@@ -3205,7 +3220,42 @@ describe("ESLint", () => {
 
                     assert.deepStrictEqual(
                         results[0].usedDeprecatedRules,
-                        [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+                        [{ ruleId: "indent-legacy", replacedBy: ["indent"], info: void 0 }]
+                    );
+                });
+
+                it("should add the plugin name to the replacement if available", async () => {
+                    const deprecated = {
+                        message: "Deprecation",
+                        url: "https://example.com",
+                        replacedBy: [{ message: "Replacement", plugin: { name: "plugin" }, rule: { name: "name" } }]
+                    };
+
+                    eslint = new ESLint({
+                        flags,
+                        cwd: originalDir,
+                        overrideConfigFile: true,
+                        overrideConfig: {
+                            plugins: {
+                                test: {
+                                    rules: {
+                                        deprecated: {
+                                            meta: { deprecated },
+                                            create: () => ({})
+                                        }
+                                    }
+                                }
+                            },
+                            rules: {
+                                "test/deprecated": "error"
+                            }
+                        }
+                    });
+                    const results = await eslint.lintFiles(["lib/cli*.js"]);
+
+                    assert.deepStrictEqual(
+                        results[0].usedDeprecatedRules,
+                        [{ ruleId: "test/deprecated", replacedBy: ["plugin/name"], info: deprecated }]
                     );
                 });
             });
@@ -3288,16 +3338,19 @@ describe("ESLint", () => {
                             output: "true ? \"yes\" : \"no\";\n",
                             usedDeprecatedRules: [
                                 {
-                                    replacedBy: [],
-                                    ruleId: "semi"
+                                    ruleId: "semi",
+                                    replacedBy: ["@stylistic/eslint-plugin-js/semi"],
+                                    info: coreRules.get("semi").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "quotes"
+                                    ruleId: "quotes",
+                                    replacedBy: ["@stylistic/eslint-plugin-js/quotes"],
+                                    info: coreRules.get("quotes").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "space-infix-ops"
+                                    ruleId: "space-infix-ops",
+                                    replacedBy: ["@stylistic/eslint-plugin-js/space-infix-ops"],
+                                    info: coreRules.get("space-infix-ops").meta.deprecated
                                 }
                             ]
                         },
@@ -3312,16 +3365,19 @@ describe("ESLint", () => {
                             fixableWarningCount: 0,
                             usedDeprecatedRules: [
                                 {
-                                    replacedBy: [],
-                                    ruleId: "semi"
+                                    ruleId: "semi",
+                                    replacedBy: ["@stylistic/eslint-plugin-js/semi"],
+                                    info: coreRules.get("semi").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "quotes"
+                                    ruleId: "quotes",
+                                    replacedBy: ["@stylistic/eslint-plugin-js/quotes"],
+                                    info: coreRules.get("quotes").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "space-infix-ops"
+                                    ruleId: "space-infix-ops",
+                                    replacedBy: ["@stylistic/eslint-plugin-js/space-infix-ops"],
+                                    info: coreRules.get("space-infix-ops").meta.deprecated
                                 }
                             ]
                         },
@@ -3349,16 +3405,19 @@ describe("ESLint", () => {
                             output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n",
                             usedDeprecatedRules: [
                                 {
-                                    replacedBy: [],
-                                    ruleId: "semi"
+                                    ruleId: "semi",
+                                    replacedBy: ["@stylistic/eslint-plugin-js/semi"],
+                                    info: coreRules.get("semi").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "quotes"
+                                    ruleId: "quotes",
+                                    replacedBy: ["@stylistic/eslint-plugin-js/quotes"],
+                                    info: coreRules.get("quotes").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "space-infix-ops"
+                                    ruleId: "space-infix-ops",
+                                    replacedBy: ["@stylistic/eslint-plugin-js/space-infix-ops"],
+                                    info: coreRules.get("space-infix-ops").meta.deprecated
                                 }
                             ]
                         },
@@ -3386,16 +3445,19 @@ describe("ESLint", () => {
                             output: "var msg = \"hi\" + foo;\n",
                             usedDeprecatedRules: [
                                 {
-                                    replacedBy: [],
-                                    ruleId: "semi"
+                                    ruleId: "semi",
+                                    replacedBy: ["@stylistic/eslint-plugin-js/semi"],
+                                    info: coreRules.get("semi").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "quotes"
+                                    ruleId: "quotes",
+                                    replacedBy: ["@stylistic/eslint-plugin-js/quotes"],
+                                    info: coreRules.get("quotes").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "space-infix-ops"
+                                    ruleId: "space-infix-ops",
+                                    replacedBy: ["@stylistic/eslint-plugin-js/space-infix-ops"],
+                                    info: coreRules.get("space-infix-ops").meta.deprecated
                                 }
                             ]
                         }
