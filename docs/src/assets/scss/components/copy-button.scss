@@ -16,12 +16,12 @@
     transition:
         border-color 0.25s,
         background-color 0.25s,
-        opacity 0.25s;
+        box-shadow 0.25s;
 }
 
 [class*="language-"] > .c-btn--copy:hover,
 [class*="language-"] > .c-btn--copy.copied {
-    opacity: 0.8;
+    box-shadow: var(--shadow-lg);
 }
 
 [class*="language-"] > .c-btn--copy.copied,
