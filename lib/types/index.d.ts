@@ -741,9 +741,12 @@ export namespace Rule {
          */
         schema?: JSONSchema4 | JSONSchema4[] | false | undefined;
 
-        /** Indicates whether the rule has been deprecated. Omit if not deprecated. */
-        deprecated?: boolean | undefined;
-        /** The name of the rule(s) this rule was replaced by, if it was deprecated. */
+        /** Indicates whether the rule has been deprecated or provides additional metadata about the deprecation. Omit if not deprecated. */
+        deprecated?: boolean | DeprecatedInfo | undefined;
+        /**
+         * @deprecated Use deprecated.replacedBy instead.
+         * The name of the rule(s) this rule was replaced by, if it was deprecated.
+         */
         replacedBy?: readonly string[];
 
         /**
@@ -760,6 +763,46 @@ export namespace Rule {
          * Mandatory for rules that provide suggestions.
          */
         hasSuggestions?: boolean | undefined;
+    }
+
+    /** Provides additional metadata about a deprecation. */
+    interface DeprecatedInfo {
+        /** General message presented to the user, e.g. for the key rule why the rule is deprecated or for info how to replace the rule. */
+        message?: string
+        /** URL to more information about this deprecation in general. */
+        url?: string
+        /** An empty array explicitly states that there is no replacement. */
+        replacedBy?: ReplacedByInfo[]
+        /** The package version since when the rule is deprecated (should use full semver without a leading "v"). */
+        deprecatedSince?: string
+        /** The estimated version when the rule is removed (probably the next major version). null means the rule is "frozen" (will be available but will not be changed). */
+        availableUntil?: string | null
+    }
+
+    /** Provides metadat about a replacement */
+    interface ReplacedByInfo {
+        /** General message presented to the user, e.g. how to replace the rule */
+        message?: string
+        /** URL to more information about this replacement in general */
+        url?: string
+        /**
+        * Name should be "eslint" if the replacemenet is an ESLint core rule.
+        * Omit the property if the replacement is in the same plugin.
+        */
+        plugin?: ExternalSpecifier
+        /** Name and documentation of the replacement rule */
+        rule?: ExternalSpecifier
+    }
+
+    /** 
+    * Specifies the name and url of an external resource.
+    * At least one property should be set.
+    */
+    interface ExternalSpecifier {
+        /** Name of the referenced plugin / rule. */
+        name?: string
+        /** URL pointing to documentation for the plugin / rule. */
+        url?: string
     }
 
     interface RuleContext {
