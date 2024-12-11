@@ -406,8 +406,9 @@ The `LintResult` value is the information of the linting result of each file. Th
   The original source code text. This property is undefined if any messages didn't exist or the `output` property exists.
 * `stats` (`Stats | undefined`)<br>
   The [Stats](../extend/stats#-stats-type) object. This contains the lint performance statistics collected with the `stats` option.
-* `usedDeprecatedRules` (`{ ruleId: string; replacedBy: string[] }[]`)<br>
+* `usedDeprecatedRules` (`{ ruleId: string; replacedBy: string[]; info: DeprecatedInfo | undefined }[]`)<br>
   The information about the deprecated rules that were used to check this file.
+  The info property is defined to `rule.meta.deprecated` if the rule uses the [new deprecated property](../extend/rule-deprecation.md).
 
 ### ◆ LintMessage type
 
