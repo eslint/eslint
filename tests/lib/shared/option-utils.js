@@ -44,7 +44,17 @@ describe("containsDifferentProperty", () => {
         [["error", { a: true }], ["error", { a: true }], false],
         [["error", { a: true }], ["error", { a: false }], true],
         [["error", { a: false }], ["error", { a: false }], false],
-        [["error", { a: false }], ["error", { a: true }], true]
+        [["error", { a: false }], ["error", { a: true }], true],
+        [
+            ["foo"],
+            ["foo", "bar"],
+            true
+        ],
+        [
+            ["foo", "bar"],
+            ["foo"],
+            true
+        ]
     ].forEach(([input, original, expected]) => {
         it(`${JSON.stringify(input)} and ${JSON.stringify(original)}`, () => {
             assert.strictEqual(
