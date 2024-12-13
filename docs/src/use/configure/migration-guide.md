@@ -580,7 +580,7 @@ In flat config, dotfiles (e.g. `.dotfile.js`) are no longer ignored by default. 
 
 Eslintrc files let you configure the linter itself with the `noInlineConfig` and `reportUnusedDisableDirectives` properties.
 
-The flat config system introduces a new top-level property `linterOptions` that you can use to configure the linter. In the `linterOptions` object, you can include `noInlineConfig`, `reportUnusedDisableDirectives`, and `reportUnusedInlineConfigs`.
+The flat config system introduces a new top-level property `linterOptions` that you can use to configure the linter. In the `linterOptions` object, you can include `noInlineConfig` and `reportUnusedDisableDirectives`.
 
 For example, here's an eslintrc file with linter options enabled:
 
