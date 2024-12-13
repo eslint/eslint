@@ -27,12 +27,12 @@ describe("containsDifferentProperty", () => {
         [[0], [0], false],
         [[0], [1], true],
         [[1], [0], true],
-        [{ }, { a: 0 }, false],
+        [{ }, { a: 0 }, true],
         [{ a: 0 }, { a: 0 }, false],
         [{ a: 0 }, { a: 1 }, true],
         [{ a: 1 }, { a: 0 }, true],
         [{ a: 0 }, {}, true],
-        [{ }, { a: [0] }, false],
+        [{ }, { a: [0] }, true],
         [{ a: [0] }, { a: [0] }, false],
         [{ a: [0] }, { a: [1] }, true],
         [{ a: [1] }, { a: [0] }, true],
@@ -54,6 +54,26 @@ describe("containsDifferentProperty", () => {
             ["foo", "bar"],
             ["foo"],
             true
+        ],
+        [
+            ["foo", "bar"],
+            ["foo", "bar"],
+            false
+        ],
+        [
+            { a: "b" },
+            { a: "b", c: "d" },
+            true
+        ],
+        [
+            { a: "b", c: "d" },
+            { a: "b" },
+            true
+        ],
+        [
+            { a: "b", c: "d" },
+            { a: "b", c: "d" },
+            false
         ]
     ].forEach(([input, original, expected]) => {
         it(`${JSON.stringify(input)} and ${JSON.stringify(original)}`, () => {
