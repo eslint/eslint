@@ -160,7 +160,7 @@ for (i = 0, j = 10; i < j; i++, j--);
 ## When Not To Use It
 
 Disable this rule if sequence expressions with the comma operator are acceptable.
-Another case is where you might want to report all usages of the comma operator, even in a for loop. You can achieve this using rule `no-restricted-syntax`:
+Another case is where you might want to report all usages of the comma operator, even in a `for` loop. You can achieve this using rule `no-restricted-syntax`:
 
 ```js
 {
