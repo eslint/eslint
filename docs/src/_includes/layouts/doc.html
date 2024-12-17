@@ -102,12 +102,10 @@ layout: base.html
                 {% if edit_link %}
                     {{ edit_link }}
                 {% else %}
-                    {% if is_pre_release %}
-                        {% if PATH_PREFIX === '/docs/latest/' %}
-                            {{ site.edit_link.start_with_latest }}{{ page.inputPath }}
-                        {% else %}
-                            {{ site.edit_link.start_with }}{{ page.inputPath }}
-                        {% endif %}
+                    {% if is_pre_release and GIT_BRANCH === 'latest' %}
+                        {{ site.edit_link.start_with_latest }}{{ page.inputPath }}
+                    {% elseif is_number_version %}
+                        https://github.com/eslint/eslint/edit/{{ GIT_BRANCH }}/docs/{{ page.inputPath }}
                     {% else %}
                         {{ site.edit_link.start_with }}{{ page.inputPath }}
                     {% endif %}
