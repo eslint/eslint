@@ -55,16 +55,14 @@ module.exports = function(eleventyConfig) {
     // Load site-specific data
     const siteName = process.env.ESLINT_SITE_NAME || "en";
 
-    // Current version of ESLint
-    const currentVersion = require("../package.json").version;
-
     /**
      * Determines whether the given version is a prerelease.
-     * @param {string} version The version to check.
      * @returns {boolean} `true` if it is a prerelease, `false` otherwise.
      */
-    function isPreRelease(version) {
-        return /[a-z]/u.test(version);
+    async function isPreRelease() {
+        const eslintVersions = await require("./src/_data/eslintVersions")();
+
+        return eslintVersions.items.some(item => item.branch === "next");
     }
 
     eleventyConfig.addGlobalData("site_name", siteName);
@@ -72,7 +70,8 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addGlobalData("HEAD", process.env.BRANCH === "main");
     eleventyConfig.addGlobalData("NOINDEX", process.env.BRANCH !== "latest");
     eleventyConfig.addGlobalData("PATH_PREFIX", pathPrefix);
-    eleventyConfig.addGlobalData("is_pre_release", isPreRelease(currentVersion));
+    eleventyConfig.addGlobalData("is_pre_release", isPreRelease);
+    eleventyConfig.addGlobalData("is_number_version", process.env.BRANCH && /^v\d+\.x$/u.test(process.env.BRANCH));
     eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
     //------------------------------------------------------------------------------
