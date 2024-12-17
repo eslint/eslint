@@ -2304,7 +2304,8 @@
             "description": "Disallow unused variables",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-unused-vars"
-        }
+        },
+        "hasSuggestions": true
     },
     "no-use-before-define": {
         "type": "problem",
