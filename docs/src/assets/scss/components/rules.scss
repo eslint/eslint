@@ -22,17 +22,14 @@
             }
         }
 
-        @media screen and (min-width: 768px) and (max-width: 799px),
-        screen and (min-width: 854px) and (max-width: 1023px),
-        screen and (min-width: 1256px) {
+        @media screen and (min-width: 768px) and (max-width: 799px), screen and (min-width: 854px) and (max-width: 1023px), screen and (min-width: 1256px) {
             &:not(:first-child)::after {
                 height: 70%;
                 position: absolute;
             }
         }
 
-        @media screen and (min-width: 800px) and (max-width: 853px),
-        screen and (min-width: 1024px) and (max-width: 1255px) {
+        @media screen and (min-width: 800px) and (max-width: 853px), screen and (min-width: 1024px) and (max-width: 1255px) {
             &:nth-child(2)::after {
                 height: 70%;
                 position: absolute;
