@@ -214,10 +214,17 @@ document.addEventListener('keydown', function (e) {
 
     const searchResults = Array.from(document.querySelectorAll('.search-results__item'));
 
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
         e.preventDefault();
-        searchResults.length ? clearSearchResults(true) : clearNoResults();
-        searchInput.focus();
+        if (searchResults.length) {
+            clearSearchResults(true);
+            searchInput.focus();
+        } else if (
+            document.activeElement === searchInput
+        ) {
+            clearNoResults();
+            searchInput.blur();
+        }
     }
 
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
