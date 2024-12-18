@@ -8,7 +8,7 @@ related_rules:
 
 
 
-It's a common mistake in JavaScript to use a conditional expression to select between two Boolean values instead of using ! to convert the test to a Boolean.
+It's a common mistake in JavaScript to use a conditional expression to select between two Boolean values instead of using `!` to convert the test to a Boolean.
 Here are some examples:
 
 ```js
@@ -83,7 +83,7 @@ This rule has an object option:
 
 ### defaultAssignment
 
-When set to `true`, which it is by default, The defaultAssignment option allows expressions of the form `x ? x : expr` (where `x` is any identifier and `expr` is any expression).
+When set to `true`, which it is by default, The `defaultAssignment` option allows expressions of the form `x ? x : expr` (where `x` is any identifier and `expr` is any expression).
 
 Examples of additional **incorrect** code for this rule with the `{ "defaultAssignment": false }` option:
 

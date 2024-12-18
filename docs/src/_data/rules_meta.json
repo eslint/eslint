@@ -290,7 +290,7 @@
     "default-case-last": {
         "type": "suggestion",
         "docs": {
-            "description": "Enforce default clauses in switch statements to be last",
+            "description": "Enforce `default` clauses in switch statements to be last",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/default-case-last"
         }
@@ -1760,7 +1760,7 @@
     "no-param-reassign": {
         "type": "suggestion",
         "docs": {
-            "description": "Disallow reassigning `function` parameters",
+            "description": "Disallow reassigning function parameters",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-param-reassign"
         }
@@ -1937,7 +1937,7 @@
     "no-script-url": {
         "type": "suggestion",
         "docs": {
-            "description": "Disallow `javascript:` urls",
+            "description": "Disallow `javascript:` URLs",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-script-url"
         }
@@ -2270,7 +2270,8 @@
             "description": "Disallow unused variables",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-unused-vars"
-        }
+        },
+        "hasSuggestions": true
     },
     "no-use-before-define": {
         "type": "problem",
@@ -2640,7 +2641,7 @@
     "prefer-object-spread": {
         "type": "suggestion",
         "docs": {
-            "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead",
+            "description": "Disallow using `Object.assign` with an object literal as the first argument and prefer the use of object spread instead",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/prefer-object-spread"
         },
@@ -2770,7 +2771,7 @@
     "require-unicode-regexp": {
         "type": "suggestion",
         "docs": {
-            "description": "Enforce the use of `u` or `v` flag on RegExp",
+            "description": "Enforce the use of `u` or `v` flag on regular expressions",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/require-unicode-regexp"
         },
