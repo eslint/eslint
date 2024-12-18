@@ -73,6 +73,25 @@ Configuration comments can include descriptions to explain why the comment is ne
  */
 ```
 
+#### Report unused `eslint` inline config comments
+
+To report unused `eslint` inline config comments (those that don't change anything from what was already configured), use the `reportUnusedInlineConfigs` setting. For example:
+
+```js
+// eslint.config.js
+export default [
+    {
+        linterOptions: {
+            reportUnusedInlineConfigs: "error"
+        }
+    }
+];
+```
+
+This setting defaults to `"off"`.
+
+This setting is similar to the [`--report-unused-inline-configs`](../command-line-interface#--report-unused-inline-configs) CLI option.
+
 ### Using Configuration Files
 
 To configure rules inside of a [configuration file](./configuration-files#configuration-file), use the `rules` key along with an error level and any options you want to use. For example:
@@ -345,7 +364,7 @@ You can also use the [`--no-inline-config`](../command-line-interface#--no-inlin
 
 #### Report unused `eslint-disable` comments
 
-To report unused `eslint-disable` comments (those that disable rules which were already disabled), use the `reportUnusedDisableDirectives` setting. For example:
+To report unused `eslint-disable` comments (those that disable rules which would not report on the disabled line), use the `reportUnusedDisableDirectives` setting. For example:
 
 ```js
 // eslint.config.js
@@ -361,22 +380,3 @@ export default [
 This setting defaults to `"warn"`.
 
 This setting is similar to [`--report-unused-disable-directives`](../command-line-interface#--report-unused-disable-directives) and [`--report-unused-disable-directives-severity`](../command-line-interface#--report-unused-disable-directives-severity) CLI options.
-
-#### Report unused `eslint` inline config comments
-
-To report unused `eslint` inline config comments (those that don't change anything from what was already configured), use the `reportUnusedInlineConfigs` setting. For example:
-
-```js
-// eslint.config.js
-export default [
-    {
-        linterOptions: {
-            reportUnusedInlineConfigs: "error"
-        }
-    }
-];
-```
-
-This setting defaults to `"off"`.
-
-This setting is similar to the [`--report-unused-inline-configs`](../command-line-interface#--report-unused-inline-configs) CLI option.
