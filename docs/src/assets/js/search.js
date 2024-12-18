@@ -146,10 +146,18 @@ function debounce(callback, delay) {
     }
 }
 
+/**
+ * Debounced function to fetch search results after 300ms of inactivity.
+ * Calls `fetchSearchResults` to retrieve data and `displaySearchResults` to show them.
+ * If an error occurs, clears the search results.
+ * @param {string} query - The search query.
+ * @returns {void} - No return value.
+ * @see debounce - Limits the number of requests during rapid typing.
+ */
 const debouncedFetchSearchResults = debounce((query) => {
     fetchSearchResults(query)
         .then(displaySearchResults)
-        .catch(()=>{clearSearchResults(true)});
+        .catch(() => { clearSearchResults(true) });
 }, 300);
 
 
