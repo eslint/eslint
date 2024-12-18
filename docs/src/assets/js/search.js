@@ -41,13 +41,36 @@ function fetchSearchResults(query) {
 }
 
 /**
- * Removes any current search results from the display.
- * @returns {void}
+ * Clears the search results from the display.
+ * If the removeEventListener flag is true, removes the click event listener from the document.
+ * @param {boolean} [removeEventListener=false] - Optional flag to indicate if the click event listener should be removed. Default is false.
+ * @returns {void} - This function doesn't return anything.
  */
-function clearSearchResults() {
-    while (resultsElement.firstChild) {
-        resultsElement.removeChild(resultsElement.firstChild);
+function clearSearchResults(removeEventListener = false) {
+    resultsElement.innerHTML = "";
+    if (removeEventListener && document.clickEventAdded) {
+        document.removeEventListener('click', handleDocumentClick);
+        document.clickEventAdded = false;
     }
+}
+
+/**
+ * Displays a "No results found" message in both the live region and results display area.
+ * This is typically used when no matching results are found in the search.
+ * @returns {void} - This function doesn't return anything.
+ */
+function showNoResults() {
+    resultsLiveRegion.innerHTML = "No results found.";
+    resultsElement.innerHTML = "No results found.";
+    resultsElement.setAttribute('data-results', 'false');
+}
+
+/**
+ * Clears any "No results found" message from the live region and results display area.
+ * @returns {void} - This function doesn't return anything.
+ */
+function clearNoResults() {
+    resultsLiveRegion.innerHTML = "";
     resultsElement.innerHTML = "";
 }
 
@@ -81,9 +104,7 @@ function displaySearchResults(results) {
         }
 
     } else {
-        resultsLiveRegion.innerHTML = "No results found.";
-        resultsElement.innerHTML = "No results found.";
-        resultsElement.setAttribute('data-results', 'false');
+        showNoResults();
     }
 
 }
@@ -128,8 +149,21 @@ function debounce(callback, delay) {
 const debouncedFetchSearchResults = debounce((query) => {
     fetchSearchResults(query)
         .then(displaySearchResults)
-        .catch(clearSearchResults);
+        .catch(()=>{clearSearchResults(true)});
 }, 300);
+
+
+/**
+ * Handles the document click event to clear search results if the user clicks outside of the search input or results element.
+ * @param {MouseEvent} e - The event object representing the click event.
+ * @returns {void} - This function does not return any value. It directly interacts with the UI by clearing search results.
+ */
+const handleDocumentClick = (e) => {
+    if (e.target !== resultsElement && e.target !== searchInput) {
+        clearSearchResults(true);
+    }
+}
+
 
 //-----------------------------------------------------------------------------
 // Event Handlers
@@ -146,14 +180,13 @@ if (searchInput)
         else searchClearBtn.setAttribute('hidden', '');
 
         if (query.length > 2) {
-
             debouncedFetchSearchResults(query);
-
-            document.addEventListener('click', function (e) {
-                if (e.target !== resultsElement) clearSearchResults();
-            });
+            if (!document.clickEventAdded) {
+                document.addEventListener('click', handleDocumentClick);
+                document.clickEventAdded = true;
+            }
         } else {
-            clearSearchResults();
+            clearSearchResults(true);
         }
 
         searchQuery = query
@@ -165,7 +198,7 @@ if (searchClearBtn)
     searchClearBtn.addEventListener('click', function (e) {
         searchInput.value = '';
         searchInput.focus();
-        clearSearchResults();
+        clearSearchResults(true);
         searchClearBtn.setAttribute('hidden', '');
     });
 
@@ -175,10 +208,8 @@ document.addEventListener('keydown', function (e) {
 
     if (e.key === 'Escape') {
         e.preventDefault();
-        if (searchResults.length) {
-            clearSearchResults();
-            searchInput.focus();
-        }
+        searchResults.length ? clearSearchResults(true) : clearNoResults();
+        searchInput.focus();
     }
 
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
