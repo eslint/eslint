@@ -22,7 +22,12 @@
         {%- else -%}<p class="rule__description">{{ params.description }}</p>
         {%- endif -%}
         {%- else -%}
+        <div class="rule__name_wrapper">
         <a href="{{ ['/rules/', params.name] | join | url }}" class="rule__name">{{ params.name }}</a>
+            {%- if params.categories and params.categories.frozen %}
+                <p class="frozen"> ❄️ <span class="visually-hidden">Frozen</span></p>
+            {%- endif -%}
+        </div>
         <p class="rule__description">{{ params.description }}</p>
         {%- endif -%}
     </div>
