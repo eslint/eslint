@@ -17,7 +17,7 @@
             },
             {
                 "name": "for-direction",
-                "description": "Enforce \"for\" loop update clause moving the counter in the right direction",
+                "description": "Enforce `for` loop update clause moving the counter in the right direction",
                 "recommended": true,
                 "fixable": false,
                 "hasSuggestions": false
@@ -363,7 +363,7 @@
                 "description": "Disallow unused variables",
                 "recommended": true,
                 "fixable": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "no-use-before-define",
@@ -488,7 +488,7 @@
             },
             {
                 "name": "default-case-last",
-                "description": "Enforce default clauses in switch statements to be last",
+                "description": "Enforce `default` clauses in switch statements to be last",
                 "recommended": false,
                 "fixable": false,
                 "hasSuggestions": false
@@ -943,7 +943,7 @@
             },
             {
                 "name": "no-param-reassign",
-                "description": "Disallow reassigning `function` parameters",
+                "description": "Disallow reassigning function parameters",
                 "recommended": false,
                 "fixable": false,
                 "hasSuggestions": false
@@ -1020,7 +1020,7 @@
             },
             {
                 "name": "no-script-url",
-                "description": "Disallow `javascript:` urls",
+                "description": "Disallow `javascript:` URLs",
                 "recommended": false,
                 "fixable": false,
                 "hasSuggestions": false
@@ -1258,7 +1258,7 @@
             },
             {
                 "name": "prefer-object-spread",
-                "description": "Disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead",
+                "description": "Disallow using `Object.assign` with an object literal as the first argument and prefer the use of object spread instead",
                 "recommended": false,
                 "fixable": true,
                 "hasSuggestions": false
@@ -1314,7 +1314,7 @@
             },
             {
                 "name": "require-unicode-regexp",
-                "description": "Enforce the use of `u` or `v` flag on RegExp",
+                "description": "Enforce the use of `u` or `v` flag on regular expressions",
                 "recommended": false,
                 "fixable": false,
                 "hasSuggestions": true

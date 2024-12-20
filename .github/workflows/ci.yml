@@ -114,8 +114,24 @@ jobs:
             wdio-logs/*.log
 
   test_types:
-    name: Types Test
+    name: Test Types of ${{ matrix.package.name }}
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        package:
+          [
+            { name: eslint, directory: . },
+            {
+              name: eslint-config-eslint,
+              directory: packages/eslint-config-eslint,
+            },
+            {
+              name: '@eslint/js',
+              directory: packages/js,
+            },
+          ]
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -123,8 +139,11 @@ jobs:
           node-version: "lts/*"
       - name: Install Packages
         run: npm install
-      - name: Test eslint types
+
+      - name: Install Packages for ${{ matrix.package.name }}
+        working-directory: ${{ matrix.package.directory }}
+        run: npm install
+
+      - name: Test types for ${{ matrix.package.name }}
+        working-directory: ${{ matrix.package.directory }}
         run: npm run test:types
-      - name: Test @eslint/js types
-        run: npm run test:types
-        working-directory: packages/js

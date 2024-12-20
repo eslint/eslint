@@ -43,8 +43,8 @@ This rule can take a string option:
 
 The default `"never"` option can have exception options in an object literal:
 
-* If the `"exceptRange"` property is `true`, the rule *allows* yoda conditions in range comparisons which are wrapped directly in parentheses, including the parentheses of an `if` or `while` condition. The default value is `false`. A *range* comparison tests whether a variable is inside or outside the range between two literal values.
-* If the `"onlyEquality"` property is `true`, the rule reports yoda conditions *only* for the equality operators `==` and `===`. The default value is `false`.
+* If the `"exceptRange"` property is `true`, the rule *allows* Yoda conditions in range comparisons which are wrapped directly in parentheses, including the parentheses of an `if` or `while` condition. The default value is `false`. A *range* comparison tests whether a variable is inside or outside the range between two literal values.
+* If the `"onlyEquality"` property is `true`, the rule reports Yoda conditions *only* for the equality operators `==` and `===`. The default value is `false`.
 
 The `onlyEquality` option allows a superset of the exceptions which `exceptRange` allows, thus both options are not useful together.
 

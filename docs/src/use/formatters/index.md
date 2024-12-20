@@ -93,7 +93,23 @@ Example output (formatted for easier reading):
                     "nodeType": "Identifier",
                     "messageId": "unusedVar",
                     "endLine": 1,
-                    "endColumn": 16
+                    "endColumn": 16,
+                    "suggestions": [
+                        {
+                            "messageId": "removeVar",
+                            "data": {
+                                "varName": "addOne"
+                            },
+                            "fix": {
+                                "range": [
+                                    0,
+                                    94
+                                ],
+                                "text": ""
+                            },
+                            "desc": "Remove unused variable 'addOne'."
+                        }
+                    ]
                 },
                 {
                     "ruleId": "use-isnan",
@@ -709,7 +725,23 @@ Example output (formatted for easier reading):
                 "nodeType": "Identifier",
                 "messageId": "unusedVar",
                 "endLine": 1,
-                "endColumn": 16
+                "endColumn": 16,
+                "suggestions": [
+                    {
+                        "messageId": "removeVar",
+                        "data": {
+                            "varName": "addOne"
+                        },
+                        "fix": {
+                            "range": [
+                                0,
+                                94
+                            ],
+                            "text": ""
+                        },
+                        "desc": "Remove unused variable 'addOne'."
+                    }
+                ]
             },
             {
                 "ruleId": "use-isnan",
