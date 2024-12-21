@@ -28,5 +28,9 @@ module.exports = {
     fix: false,
     allowInlineConfig: true,
     reportUnusedDisableDirectives: void 0,
-    globInputPaths: true
+    globInputPaths: true,
+    suppressAll: false,
+    suppressRule: [],
+    suppressionsLocation: ".eslint-suppressions.json",
+    pruneSuppressions: false
 };
