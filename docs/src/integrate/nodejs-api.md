@@ -144,8 +144,8 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `null`. [Configuration object], extended by all configurations used with this instance. You can use this option to define the default settings that will be used if your configuration files don't configure it.
 * `options.overrideConfig` (`ConfigData | ConfigData[] | null`)<br>
   Default is `null`. [Configuration object], overrides all configurations used with this instance. You can use this option to define the settings that will be used even if your configuration files configure it.
-* `options.overrideConfigFile` (`string | boolean`)<br>
-  Default is `false`. The path to a configuration file, overrides all configurations used with this instance. The `options.overrideConfig` option is applied after this option is applied.
+* `options.overrideConfigFile` (`null | true | string`)<br>
+  Default is `null`. By default, ESLint searches for a configuration file. When this option is set to `true`, ESLint does not search for a configuration file. When this option is set to a `string` value, ESLint does not search for a configuration file, and uses the provided value as the path to the configuration file.
 * `options.plugins` (`Record<string, Plugin> | null`)<br>
   Default is `null`. The plugin implementations that ESLint uses for the `plugins` setting of your configuration. This is a map-like object. Those keys are plugin IDs and each value is implementation.
 * `options.ruleFilter` (`({ruleId: string, severity: number}) => boolean`)<br>
