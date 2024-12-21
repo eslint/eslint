@@ -89,6 +89,16 @@
     flex: 1 1 35ch;
 }
 
+.rule__name_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .frozen {
+        font-size: .875rem;
+    }
+}
+
 .rule__name {
     font-weight: 500;
     font-size: .875rem;
