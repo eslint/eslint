@@ -22,6 +22,7 @@ const resultsElement = document.querySelector('#search-results');
 const resultsLiveRegion = document.querySelector('#search-results-announcement');
 const searchInput = document.querySelector('#search');
 const searchClearBtn = document.querySelector('#search__clear-btn');
+const poweredByLink = document.querySelector('.search_powered-by-wrapper');
 let activeIndex = -1;
 let searchQuery;
 
@@ -209,6 +210,12 @@ if (searchClearBtn)
         clearSearchResults(true);
         searchClearBtn.setAttribute('hidden', '');
     });
+
+if (poweredByLink) {
+    poweredByLink.addEventListener('focus', function () {
+       clearSearchResults();
+    });
+}
 
 document.addEventListener('keydown', function (e) {
 

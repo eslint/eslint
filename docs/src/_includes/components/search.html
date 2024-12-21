@@ -9,11 +9,18 @@
         <p class="visually-hidden" id="search-hint">Results will be shown and updated as you type.</p>
         <div class="search__inner-input-wrapper">
             <input type="search" id="search" class="search__input" autocomplete="off" aria-describedby="search-hint" pattern="\S+">
+            <div id="search-results" class="search-results"></div>
+            <button class="search__clear-btn" id="search__clear-btn" hidden>
+                <span class="visually-hidden">Clear search</span>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
             <a class="search_powered-by-wrapper"
                 href="https://www.algolia.com/developers/?utm_source=eslint&amp;utm_medium=referral&amp;utm_content=powered_by&amp;utm_campaign=docsearch" target="_blank"
                 rel="noopener noreferrer">
                 <div class="search__powered-by">
-                    <span class="powered-by-text">Powered by</span>
+                    <span class="powered_by-text">Powered by</span>
                     <svg width="77" height="19" aria-label="Algolia" role="img" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 2196.2 500">
                         <path class="algolia-logo"
@@ -44,14 +51,9 @@
                     </svg>
                 </div>
             </a>
-            <button class="search__clear-btn" id="search__clear-btn" hidden>
-                <span class="visually-hidden">Clear search</span>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
-                    <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </button>
+
         </div>
     </div>
     <div id="search-results-announcement" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
-    <div id="search-results" class="search-results"></div>
+
 </div>
