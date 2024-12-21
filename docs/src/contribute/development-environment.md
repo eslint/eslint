@@ -7,6 +7,8 @@ eleventyNavigation:
     order: 6
 ---
 
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
+
 ESLint has a very lightweight development environment that makes updating code fast and easy. This is a step-by-step guide to setting up a local development environment that will let you contribute back to the project.
 
 ## Step 1: Install Node.js
@@ -29,8 +31,13 @@ Once you've cloned the repository, run `npm install` to get all the necessary de
 
 ```shell
 cd eslint
-npm install
 ```
+
+{{ npm_tabs({
+    command: "install",
+    packages: [],
+    args: []
+}) }}
 
 You must be connected to the Internet for this step to work. You'll see a lot of utilities being downloaded.
 
@@ -52,15 +59,19 @@ Now, the remote `upstream` points to the upstream source.
 
 [Yeoman](https://yeoman.io) is a scaffold generator that ESLint uses to help streamline development of new rules. If you don't already have Yeoman installed, you can install it via npm:
 
-```shell
-npm install -g yo
-```
+{{ npm_tabs({
+    command: "install",
+    packages: ["yo"],
+    args: ["--global"]
+}) }}
 
 Then, you can install the ESLint Yeoman generator:
 
-```shell
-npm install -g generator-eslint
-```
+{{ npm_tabs({
+    command: "install",
+    packages: ["generator-eslint"],
+    args: ["--global"]
+}) }}
 
 Please see the [generator documentation](https://github.com/eslint/generator-eslint) for instructions on how to use it.
 
