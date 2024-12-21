@@ -517,18 +517,6 @@ For more information about using feature flags, see [Feature Flags](../../flags/
 
 ## TypeScript Configuration Files
 
-::: warning
-This feature is currently experimental and may change in future versions.
-:::
-
-You need to enable this feature through the `unstable_ts_config` feature flag:
-
-```bash
-npx eslint --flag unstable_ts_config
-```
-
-For more information about using feature flags, see [Feature Flags](../../flags/).
-
 For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in version 2.0.0 or later in your project (this dependency is not automatically installed by ESLint):
 
 ```bash
@@ -591,5 +579,5 @@ If you have multiple ESLint configuration files, ESLint prioritizes JavaScript f
 To override this behavior, use the `--config` or `-c` command line option to specify a different configuration file:
 
 ```bash
-npx eslint --flag unstable_ts_config --config eslint.config.ts
+npx eslint --config eslint.config.ts
 ```
