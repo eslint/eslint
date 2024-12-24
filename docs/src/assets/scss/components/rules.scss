@@ -17,20 +17,19 @@
             &:not(:first-child)::after {
                 content: "";
                 display: block;
-                padding: 1px;
                 border-left: 1px solid var(--divider-color);
                 left: 0;
             }
         }
 
-        @media screen and (min-width: 768px) and (max-width: 1023px), screen and (min-width: 1440px) {
+        @media screen and (min-width: 768px) and (max-width: 799px), screen and (min-width: 854px) and (max-width: 1023px), screen and (min-width: 1256px) {
             &:not(:first-child)::after {
                 height: 70%;
                 position: absolute;
             }
         }
 
-        @media screen and (min-width: 1024px) and (max-width: 1439px) {
+        @media screen and (min-width: 800px) and (max-width: 853px), screen and (min-width: 1024px) and (max-width: 1255px) {
             &:nth-child(2)::after {
                 height: 70%;
                 position: absolute;
@@ -88,6 +87,16 @@
 
 .rule__content {
     flex: 1 1 35ch;
+}
+
+.rule__name_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .frozen {
+        font-size: .875rem;
+    }
 }
 
 .rule__name {
