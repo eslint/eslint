@@ -40,7 +40,7 @@ If you plan to distribute your plugin as an npm package, make sure that the modu
 
 ### Meta Data in Plugins
 
-For easier debugging and more effective caching of plugins, it's recommended to provide a name and version in a `meta` object at the root of your plugin, like this:
+For easier debugging and more effective caching of plugins, it's recommended to provide a `name` and `version` in a `meta` object at the root of your plugin, like this:
 
 ```js
 const plugin = {

@@ -9,7 +9,7 @@ rule_type: suggestion
 Naming things consistently in a project is an often underestimated aspect of code creation.
 When done correctly, it can save your team hours of unnecessary head scratching and misdirections.
 This rule allows you to precisely define and enforce the variables and function names on your team should use.
-No more limiting yourself to camelCase, snake_case, PascalCase, or HungarianNotation. Id-match has all your needs covered!
+No more limiting yourself to camelCase, snake_case, PascalCase, or HungarianNotation. `id-match` has all your needs covered!
 
 ## Rule Details
 

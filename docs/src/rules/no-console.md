@@ -69,7 +69,7 @@ console.error("Log an error level message.");
 
 If you're using Node.js, however, `console` is used to output information to the user and so is not strictly used for debugging purposes. If you are developing for Node.js then you most likely do not want this rule enabled.
 
-Another case where you might not use this rule is if you want to enforce console calls and not console overwrites. For example:
+Another case where you might not use this rule is if you want to enforce `console` calls and not `console` overwrites. For example:
 
 ```js
 /* eslint no-console: ["error", { allow: ["warn"] }] */
