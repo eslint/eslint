@@ -66,7 +66,7 @@ function escapeForMultilineComment(line) {
             // In a TSDoc comment, the sequence `*/` ("*" + "/") must be escaped as `*\/`.
             // But escaping inside a markdown code block is not possible, so discard the backticks.
             if (capture.includes("*/")) {
-                return capture.replaceAll(/\//gu, "\\/");
+                return capture.replaceAll("/", "\\/");
             }
             return substring;
         }
