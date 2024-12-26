@@ -65,7 +65,7 @@ export default [
 ```
 
 ::: important
-Please note that supporting JSX syntax is not the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [`@eslint-react/eslint-plugin`](https://github.com/rel1cx/eslint-react) or [`eslint-plugin-react`](https://github.com/jsx-eslint/eslint-plugin-react) if you are using React.
+Please note that supporting JSX syntax is not the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [`eslint-plugin-react`](https://github.com/jsx-eslint/eslint-plugin-react) or [`@eslint-react/eslint-plugin`](https://github.com/rel1cx/eslint-react) if you are using React.
 :::
 
 ## Specifying Globals
