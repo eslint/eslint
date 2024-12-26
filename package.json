@@ -82,7 +82,11 @@
       "node tools/fetch-docs-links.js",
       "git add docs/src/_data/further_reading_links.json"
     ],
-    "docs/**/*.svg": "trunk check --fix --filter=svgo"
+    "docs/**/*.svg": "trunk check --fix --filter=svgo",
+    "docs/src/_data/{rules_meta,rule_versions}.json": [
+      "node tools/update-rule-type-headers.js",
+      "git add lib/types/rules/*.ts"
+    ]
   },
   "files": [
     "LICENSE",

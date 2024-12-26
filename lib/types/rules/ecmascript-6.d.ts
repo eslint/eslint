@@ -63,7 +63,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require braces around arrow function bodies.
      *
      * @since 1.8.0
-     * @see https://eslint.org/docs/rules/arrow-body-style
+     * @see https://eslint.org/docs/latest/rules/arrow-body-style
      */
     "arrow-body-style":
         | Linter.RuleEntry<
@@ -84,7 +84,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      *
      * @since 1.0.0-rc-1
      * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/arrow-parens) in `@stylistic/eslint-plugin-js`.
-     * @see https://eslint.org/docs/rules/arrow-parens
+     * @see https://eslint.org/docs/latest/rules/arrow-parens
      */
     "arrow-parens":
         | Linter.RuleEntry<["always"]>
@@ -105,7 +105,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      *
      * @since 1.0.0-rc-1
      * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/arrow-spacing) in `@stylistic/eslint-plugin-js`.
-     * @see https://eslint.org/docs/rules/arrow-spacing
+     * @see https://eslint.org/docs/latest/rules/arrow-spacing
      */
     "arrow-spacing": Linter.RuleEntry<[]>;
 
@@ -116,7 +116,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.24.0
-     * @see https://eslint.org/docs/rules/constructor-super
+     * @see https://eslint.org/docs/latest/rules/constructor-super
      */
     "constructor-super": Linter.RuleEntry<[]>;
 
@@ -125,7 +125,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      *
      * @since 0.17.0
      * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/generator-star-spacing) in `@stylistic/eslint-plugin-js`.
-     * @see https://eslint.org/docs/rules/generator-star-spacing
+     * @see https://eslint.org/docs/latest/rules/generator-star-spacing
      */
     "generator-star-spacing": Linter.RuleEntry<
         [
@@ -168,10 +168,10 @@ export interface ECMAScript6 extends Linter.RulesRecord {
     >;
 
     /**
-     * Require or disallow logical assignment operator shorthand.
+     * Rule to require or disallow logical assignment operator shorthand.
      *
      * @since 8.24.0
-     * @see https://eslint.org/docs/rules/logical-assignment-operators
+     * @see https://eslint.org/docs/latest/rules/logical-assignment-operators
      */
     "logical-assignment-operators":
         | Linter.RuleEntry<
@@ -194,7 +194,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 1.0.0-rc-1
-     * @see https://eslint.org/docs/rules/no-class-assign
+     * @see https://eslint.org/docs/latest/rules/no-class-assign
      */
     "no-class-assign": Linter.RuleEntry<[]>;
 
@@ -203,7 +203,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      *
      * @since 2.0.0-alpha-2
      * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-confusing-arrow) in `@stylistic/eslint-plugin-js`.
-     * @see https://eslint.org/docs/rules/no-confusing-arrow
+     * @see https://eslint.org/docs/latest/rules/no-confusing-arrow
      */
     "no-confusing-arrow": Linter.RuleEntry<
         [
@@ -223,7 +223,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 1.0.0-rc-1
-     * @see https://eslint.org/docs/rules/no-const-assign
+     * @see https://eslint.org/docs/latest/rules/no-const-assign
      */
     "no-const-assign": Linter.RuleEntry<[]>;
 
@@ -234,7 +234,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 1.2.0
-     * @see https://eslint.org/docs/rules/no-dupe-class-members
+     * @see https://eslint.org/docs/latest/rules/no-dupe-class-members
      */
     "no-dupe-class-members": Linter.RuleEntry<[]>;
 
@@ -242,7 +242,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to disallow duplicate module imports.
      *
      * @since 2.5.0
-     * @see https://eslint.org/docs/rules/no-duplicate-imports
+     * @see https://eslint.org/docs/latest/rules/no-duplicate-imports
      */
     "no-duplicate-imports": Linter.RuleEntry<
         [
@@ -256,13 +256,13 @@ export interface ECMAScript6 extends Linter.RulesRecord {
     >;
 
     /**
-     * Rule to disallow `new` operator with global non-constructor functions
-     * 
+     * Rule to disallow `new` operators with global non-constructor functions.
+     *
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 8.27.0
-     * @see https://eslint.org/docs/rules/no-new-native-nonconstructor
+     * @see https://eslint.org/docs/latest/rules/no-new-native-nonconstructor
      */
     "no-new-native-nonconstructor": Linter.RuleEntry<[]>;
 
@@ -270,7 +270,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to disallow specified names in exports.
      *
      * @since 7.0.0-alpha.0
-     * @see https://eslint.org/docs/rules/no-restricted-exports
+     * @see https://eslint.org/docs/latest/rules/no-restricted-exports
      */
     "no-restricted-exports": Linter.RuleEntry<
         [
@@ -316,7 +316,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to disallow specified modules when loaded by `import`.
      *
      * @since 2.0.0-alpha-1
-     * @see https://eslint.org/docs/rules/no-restricted-imports
+     * @see https://eslint.org/docs/latest/rules/no-restricted-imports
      */
     "no-restricted-imports": Linter.RuleEntry<
         [
@@ -338,15 +338,15 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.24.0
-     * @see https://eslint.org/docs/rules/no-this-before-super
+     * @see https://eslint.org/docs/latest/rules/no-this-before-super
      */
     "no-this-before-super": Linter.RuleEntry<[]>;
 
     /**
-     * Rule to disallow unnecessary computed property keys in object literals.
+     * Rule to disallow unnecessary computed property keys in objects and classes.
      *
      * @since 2.9.0
-     * @see https://eslint.org/docs/rules/no-useless-computed-key
+     * @see https://eslint.org/docs/latest/rules/no-useless-computed-key
      */
     "no-useless-computed-key": Linter.RuleEntry<
         [
@@ -363,7 +363,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to disallow unnecessary constructors.
      *
      * @since 2.0.0-beta.1
-     * @see https://eslint.org/docs/rules/no-useless-constructor
+     * @see https://eslint.org/docs/latest/rules/no-useless-constructor
      */
     "no-useless-constructor": Linter.RuleEntry<[]>;
 
@@ -371,7 +371,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to disallow renaming import, export, and destructured assignments to the same name.
      *
      * @since 2.11.0
-     * @see https://eslint.org/docs/rules/no-useless-rename
+     * @see https://eslint.org/docs/latest/rules/no-useless-rename
      */
     "no-useless-rename": Linter.RuleEntry<
         [
@@ -396,7 +396,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require `let` or `const` instead of `var`.
      *
      * @since 0.12.0
-     * @see https://eslint.org/docs/rules/no-var
+     * @see https://eslint.org/docs/latest/rules/no-var
      */
     "no-var": Linter.RuleEntry<[]>;
 
@@ -404,7 +404,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require or disallow method and property shorthand syntax for object literals.
      *
      * @since 0.20.0
-     * @see https://eslint.org/docs/rules/object-shorthand
+     * @see https://eslint.org/docs/latest/rules/object-shorthand
      */
     "object-shorthand":
         | Linter.RuleEntry<
@@ -447,7 +447,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require using arrow functions for callbacks.
      *
      * @since 1.2.0
-     * @see https://eslint.org/docs/rules/prefer-arrow-callback
+     * @see https://eslint.org/docs/latest/rules/prefer-arrow-callback
      */
     "prefer-arrow-callback": Linter.RuleEntry<
         [
@@ -468,7 +468,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require `const` declarations for variables that are never reassigned after declared.
      *
      * @since 0.23.0
-     * @see https://eslint.org/docs/rules/prefer-const
+     * @see https://eslint.org/docs/latest/rules/prefer-const
      */
     "prefer-const": Linter.RuleEntry<
         [
@@ -489,7 +489,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require destructuring from arrays and/or objects.
      *
      * @since 3.13.0
-     * @see https://eslint.org/docs/rules/prefer-destructuring
+     * @see https://eslint.org/docs/latest/rules/prefer-destructuring
      */
     "prefer-destructuring": Linter.RuleEntry<
         [
@@ -516,7 +516,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
     >;
 
     /**
-     * Disallow the use of `Math.pow` in favor of the `**` operator.
+     * Rule to disallow the use of `Math.pow` in favor of the `**` operator.
      *
      * @since 6.7.0
      * @see https://eslint.org/docs/latest/rules/prefer-exponentiation-operator
@@ -527,7 +527,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to disallow `parseInt()` and `Number.parseInt()` in favor of binary, octal, and hexadecimal literals.
      *
      * @since 3.5.0
-     * @see https://eslint.org/docs/rules/prefer-numeric-literals
+     * @see https://eslint.org/docs/latest/rules/prefer-numeric-literals
      */
     "prefer-numeric-literals": Linter.RuleEntry<[]>;
 
@@ -535,7 +535,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require rest parameters instead of `arguments`.
      *
      * @since 2.0.0-alpha-1
-     * @see https://eslint.org/docs/rules/prefer-rest-params
+     * @see https://eslint.org/docs/latest/rules/prefer-rest-params
      */
     "prefer-rest-params": Linter.RuleEntry<[]>;
 
@@ -543,7 +543,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require spread operators instead of `.apply()`.
      *
      * @since 1.0.0-rc-1
-     * @see https://eslint.org/docs/rules/prefer-spread
+     * @see https://eslint.org/docs/latest/rules/prefer-spread
      */
     "prefer-spread": Linter.RuleEntry<[]>;
 
@@ -551,7 +551,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require template literals instead of string concatenation.
      *
      * @since 1.2.0
-     * @see https://eslint.org/docs/rules/prefer-template
+     * @see https://eslint.org/docs/latest/rules/prefer-template
      */
     "prefer-template": Linter.RuleEntry<[]>;
 
@@ -562,7 +562,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 1.0.0-rc-1
-     * @see https://eslint.org/docs/rules/require-yield
+     * @see https://eslint.org/docs/latest/rules/require-yield
      */
     "require-yield": Linter.RuleEntry<[]>;
 
@@ -571,15 +571,15 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      *
      * @since 2.12.0
      * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/rest-spread-spacing) in `@stylistic/eslint-plugin-js`.
-     * @see https://eslint.org/docs/rules/rest-spread-spacing
+     * @see https://eslint.org/docs/latest/rules/rest-spread-spacing
      */
     "rest-spread-spacing": Linter.RuleEntry<["never" | "always"]>;
 
     /**
-     * Rule to enforce sorted import declarations within modules.
+     * Rule to enforce sorted `import` declarations within modules.
      *
      * @since 2.0.0-beta.1
-     * @see https://eslint.org/docs/rules/sort-imports
+     * @see https://eslint.org/docs/latest/rules/sort-imports
      */
     "sort-imports": Linter.RuleEntry<
         [
@@ -612,7 +612,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      * Rule to require symbol descriptions.
      *
      * @since 3.4.0
-     * @see https://eslint.org/docs/rules/symbol-description
+     * @see https://eslint.org/docs/latest/rules/symbol-description
      */
     "symbol-description": Linter.RuleEntry<[]>;
 
@@ -621,7 +621,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      *
      * @since 2.0.0-rc.0
      * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/template-curly-spacing) in `@stylistic/eslint-plugin-js`.
-     * @see https://eslint.org/docs/rules/template-curly-spacing
+     * @see https://eslint.org/docs/latest/rules/template-curly-spacing
      */
     "template-curly-spacing": Linter.RuleEntry<["never" | "always"]>;
 
@@ -630,7 +630,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      *
      * @since 2.0.0-alpha-1
      * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/yield-star-spacing) in `@stylistic/eslint-plugin-js`.
-     * @see https://eslint.org/docs/rules/yield-star-spacing
+     * @see https://eslint.org/docs/latest/rules/yield-star-spacing
      */
     "yield-star-spacing": Linter.RuleEntry<
         [

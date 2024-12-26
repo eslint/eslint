@@ -255,7 +255,6 @@ const unicornConfigs = [{
         "unicorn/prefer-at": "error",
         "unicorn/prefer-includes": "error",
         "unicorn/prefer-set-has": "error",
-        "unicorn/prefer-string-slice": "error",
         "unicorn/prefer-string-starts-ends-with": "error",
         "unicorn/prefer-string-trim-start-end": "error"
     }
