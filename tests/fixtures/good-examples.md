@@ -9,7 +9,7 @@ export default⏎
 
 :::
 
-::: correct { "ecmaFeatures": { "jsx": true } }
+::: correct { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
 ```jsx
 const foo = <bar></bar>;
@@ -19,7 +19,7 @@ const foo = <bar></bar>;
 
 A test with multiple spaces after 'correct':
 <!-- markdownlint-disable-next-line no-trailing-spaces -->
-:::correct  
+:::correct
 
 ```js
 ```
