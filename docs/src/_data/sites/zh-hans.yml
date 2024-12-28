@@ -60,6 +60,9 @@ navigation:
   target: _blank
 - text: 演练场
   link: playground
+- text: Code Explorer
+  link: codeExplorer
+  target: _blank
 
 #------------------------------------------------------------------------------
 # Footer
