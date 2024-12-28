@@ -10,7 +10,7 @@ const { docsExampleCodeToParsableCode } = require("./code-block-utils");
  * @param {Object} data Callback data.
  * @param {"correct" | "incorrect"} data.type The type of the example.
  * @param {string} data.code The example code.
- * @param {LanguageOptions} data.languageOptions The language options to be passed to the Playground.
+ * @param {LanguageOptions | undefined} data.languageOptions The language options to be passed to the Playground.
  * @param {Object} data.codeBlockToken The `markdown-it` token for the code block inside the container.
  * @param {Object} data.env Additional Eleventy metadata, if available.
  * @returns {string | undefined} If a text is returned, it will be appended to the rendered output
