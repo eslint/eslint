@@ -141,7 +141,7 @@ for (var i = 0; i < 5; i++) {
 
 :::
 
-## Limitation
+## Known Limitations
 
 The rule cannot identify whether the function instance is just immediately invoked and then discarded, or possibly stored for later use.
 
