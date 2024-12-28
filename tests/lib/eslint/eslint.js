@@ -335,6 +335,15 @@ describe("ESLint", () => {
 
                 processStub.restore();
             });
+
+            it("should throw an error if the flag 'unstable_ts_config' is used", () => {
+                assert.throws(
+                    () => new ESLint({
+                        flags: [...flags, "unstable_ts_config"]
+                    }),
+                    { message: "The flag 'unstable_ts_config' is inactive: This flag is no longer required to enable TypeScript configuration files." }
+                );
+            });
         });
 
         describe("hasFlag", () => {
@@ -1107,15 +1116,13 @@ describe("ESLint", () => {
 
             describe("TypeScript config files", () => {
 
-                const tsFlags = ["unstable_ts_config", ...flags];
-
                 it("should find and load eslint.config.ts when present", async () => {
 
                     const cwd = getFixturePath("ts-config-files", "ts");
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     const results = await eslint.lintText("foo");
@@ -1133,7 +1140,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     const results = await eslint.lintText("foo");
@@ -1151,7 +1158,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     const results = await eslint.lintText("foo");
@@ -1169,7 +1176,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     const results = await eslint.lintText("foo");
@@ -1187,7 +1194,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     const results = await eslint.lintText("foo");
@@ -1205,7 +1212,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags,
+                        flags,
                         overrideConfigFile: getFixturePath("ts-config-files", "ts", "custom-config", "eslint.custom.config.ts")
                     });
 
@@ -1224,7 +1231,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     const results = await eslint.lintText("foo");
@@ -1242,7 +1249,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     const results = await eslint.lintText("foo");
@@ -1260,7 +1267,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     const results = await eslint.lintText("foo");
@@ -1278,7 +1285,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     const results = await eslint.lintText("foo");
@@ -1296,7 +1303,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     const results = await eslint.lintText("foo");
@@ -1314,7 +1321,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     const results = await eslint.lintText("foo");
@@ -1332,7 +1339,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     const results = await eslint.lintText("foo;");
@@ -1354,7 +1361,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     await assert.rejects(
@@ -1373,7 +1380,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags
+                        flags
                     });
 
                     await assert.rejects(
@@ -1388,7 +1395,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: tsFlags,
+                        flags,
                         overrideConfigFile: "eslint.undefined.config.ts"
                     });
 
@@ -4878,15 +4885,13 @@ describe("ESLint", () => {
 
                 const typeCommonJS = JSON.stringify({ type: "commonjs" }, null, 2);
 
-                const newFlags = flags.concat("unstable_ts_config");
-
                 it("should find and load eslint.config.ts when present", async () => {
 
                     const cwd = getFixturePath("ts-config-files", "ts");
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles("foo.js");
@@ -4905,7 +4910,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles("foo.js");
@@ -4924,7 +4929,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles("foo.js");
@@ -4959,7 +4964,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -4994,7 +4999,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5029,7 +5034,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5064,7 +5069,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5099,7 +5104,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5135,7 +5140,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5171,7 +5176,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5207,7 +5212,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5243,7 +5248,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5279,7 +5284,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5313,7 +5318,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5347,7 +5352,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5381,7 +5386,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5415,7 +5420,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5452,7 +5457,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5489,7 +5494,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5523,7 +5528,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5557,7 +5562,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5591,7 +5596,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5625,7 +5630,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5659,7 +5664,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5693,7 +5698,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo.js"]);
@@ -5713,7 +5718,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles("foo.js");
@@ -5732,7 +5737,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles("foo.js");
@@ -5753,7 +5758,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags,
+                        flags,
                         overrideConfigFile
                     });
 
@@ -5773,7 +5778,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles("foo.js");
@@ -5792,7 +5797,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles("foo.js");
@@ -5811,7 +5816,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles("foo.js");
@@ -5830,7 +5835,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles("foo.js");
@@ -5849,7 +5854,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles("foo.js");
@@ -5868,7 +5873,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles("foo.js");
@@ -5904,40 +5909,11 @@ describe("ESLint", () => {
                     eslint = new ESLint({
                         cwd,
                         overrideConfigFile: "eslint.config.mcts",
-                        flags: newFlags
+                        flags
                     });
 
                     assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.mcts"));
                     await assert.rejects(() => eslint.lintFiles(["foo.js"]));
-
-                });
-
-                it("should not load TS config files when `\"unstable_ts_config\"` flag is not set", async () => {
-
-                    const cwd = getFixturePath("ts-config-files", "ts");
-
-                    eslint = new ESLint({
-                        cwd,
-                        flags,
-                        overrideConfigFile: "eslint.config.ts"
-                    });
-
-                    assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
-                    await assert.rejects(() => eslint.lintFiles(["foo.js"]));
-
-                });
-
-                it("should fallback to JS config files when `\"unstable_ts_config\"` flag is not set", async () => {
-
-                    const cwd = getFixturePath("ts-config-files", "ts");
-
-                    eslint = new ESLint({
-                        cwd,
-                        flags
-                    });
-
-                    assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "../../eslint.config.js"));
-                    await assert.doesNotReject(() => eslint.lintFiles(["foo.js"]));
 
                 });
 
@@ -5947,7 +5923,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     const results = await eslint.lintFiles(["foo*.js"]);
@@ -5971,7 +5947,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     await assert.rejects(
@@ -5990,7 +5966,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags
+                        flags
                     });
 
                     await assert.rejects(
@@ -6005,7 +5981,7 @@ describe("ESLint", () => {
 
                     eslint = new ESLint({
                         cwd,
-                        flags: newFlags,
+                        flags,
                         overrideConfigFile: "eslint.undefined.config.ts"
                     });
 
@@ -8503,7 +8479,7 @@ describe("ESLint", () => {
 
                 await teardown.prepare();
 
-                let eslint = new ESLint({ cwd, flags: ["unstable_ts_config"] });
+                let eslint = new ESLint({ flags, cwd });
                 let [{ messages }] = await eslint.lintFiles(["a.js"]);
 
                 assert.strictEqual(messages.length, 1);
@@ -8514,7 +8490,7 @@ describe("ESLint", () => {
                 await sleep(100);
                 await fsp.writeFile(path.join(cwd, "eslint.config.ts"), configFileContent.replace("always", "never"));
 
-                eslint = new ESLint({ cwd, flags: ["unstable_ts_config"] });
+                eslint = new ESLint({ flags, cwd });
                 [{ messages }] = await eslint.lintFiles(["a.js"]);
 
                 assert.strictEqual(messages.length, 1);
