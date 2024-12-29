@@ -121,14 +121,29 @@ Once you've published the npm package, you can use it by adding the package to y
 npm install eslint-parser-myparser --save-dev
 ```
 
-Then add the custom parser to your ESLint configuration file with the `parser` property. For example:
+Then add the custom parser to your ESLint configuration file with the `languageOptions.parser` property. For example:
+
+```js
+// eslint.config.js
+
+const myparser = require("eslint-parser-myparser");
+
+module.exports = [{
+    languageOptions: {
+        parser: myparser
+    },
+    // ... rest of configuration
+}];
+```
+
+When using legacy configuration, specify the `parser` property as a string:
 
 ```js
 // .eslintrc.js
 
 module.exports = {
-  parser: 'eslint-parser-myparser',
-  // ... rest of configuration
+    parser: "eslint-parser-myparser",
+    // ... rest of configuration
 };
 ```
 
@@ -160,6 +175,17 @@ module.exports = { parseForESLint };
 ```
 
 Include the custom parser in an ESLint configuration file:
+
+```js
+// eslint.config.js
+module.exports = [{
+    languageOptions: {
+        parser: require("./path/to/awesome-custom-parser")
+    }
+}];
+```
+
+Or if using legacy configuration:
 
 ```js
 // .eslintrc.json
