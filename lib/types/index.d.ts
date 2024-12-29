@@ -1484,7 +1484,7 @@ export namespace ESLint {
         allowInlineConfig?: boolean | undefined;
         baseConfig?: Linter.Config | Linter.Config[] | null | undefined;
         overrideConfig?: Linter.Config | Linter.Config[] | null | undefined;
-        overrideConfigFile?: string | boolean | undefined;
+        overrideConfigFile?: string | true | null | undefined;
         plugins?: Record<string, Plugin> | null | undefined;
         ruleFilter?: ((arg: { ruleId: string; severity: Exclude<Linter.Severity, 0> }) => boolean) | undefined;
         stats?: boolean | undefined;
