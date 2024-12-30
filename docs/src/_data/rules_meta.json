@@ -2894,7 +2894,7 @@
             }
         ],
         "docs": {
-            "description": "Enforce sorted import declarations within modules",
+            "description": "Enforce sorted `import` declarations within modules",
             "recommended": false,
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/sort-imports"
