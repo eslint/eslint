@@ -62,6 +62,60 @@ export default [
 ];
 ```
 
+## Global Ignores
+
+::: tip
+Global Ignores is what you need if you want to define files to ignore in a single place and avoid to add the same `ignores` prop to every configuration objects.
+:::
+
+In eslint, there is concept of `global ignores`, to better explain it let's see first how config object works in eslint.
+
+Eslint configuration file is intended to be used like this: export a single array, that contains multiple [configuration objects](https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects), each one being an item of the array.  
+
+It's important to note that each configuration object, it's independent from other ones. Because of that, the `ignores` prop defined in one configuration object is not applied to other configuration objects of the array.
+
+```js
+// eslint.config.js
+
+export default [
+    { name: "config-1", files: "src/*", ignores: [".dist/*"], ... }, 
+    { name: "config-2", files: "scripts/*", ignores: [".others/*"], ... }, 
+    // ...
+];
+```
+
+In the code above, the `ignores` directive of `config-1` is not applied on `config-2`, and vice-versa.  If this is what you want, use this pattern.
+
+But usually, what you want is to globally ignores some directory/files, and apply this directive to all configuration objects of the array:  `global ignores` is exactly made for this scenario.
+
+The usage is the following:
+- define a configuration object with a single prop, `ignores` .
+- **don't add any other props** to this configuration object, only `ignores` prop
+- place this configuration objects as **first item** of the configuration object arrays
+
+This way every configuration object that follow this one inherit the `global ignores`.
+
+```ts
+// eslint.config.ts
+
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import tseslint from "typescript-eslint";
+
+/** @type {import('eslint').Linter.Config[]} */
+export default [
+  // DO NOT PUT OTHER PROPS IN THIS OBJECT, SO IT
+  // BEHAVES AS GLOBAL IGNORES
+  { ignores: ["**/node_modules/**", "dist/"] }, 
+
+  // THE IGNORES IS APPLIED ALSO TO THESE FOLLOWING CONFIGS
+  { files: ["**/*.{js,mjs,cjs,ts}"] },
+  { languageOptions: { globals: globals.browser } },
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
+];
+```
+
 ## Unignoring Files and Directories
 
 You can also unignore files and directories that are ignored by previous patterns, including the default patterns. For example, this config unignores `node_modules/mylibrary`:
