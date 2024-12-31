@@ -73,10 +73,11 @@ footer:
   secondary: Secondary
   social_icons:
     title: Social Media
-    twitter: Twitter
     chat: Discord
     github: GitHub
+    bluesky: Bluesky
     mastodon: Mastodon
+    twitter: Twitter
   theme_switcher:
     title: Theme Switcher
     light: Light
