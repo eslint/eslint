@@ -34,10 +34,10 @@ Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$"`
 ```js
 /*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$"]*/
 
-var my_favorite_color = "#112C85";
-var _myFavoriteColor  = "#112C85";
-var myFavoriteColor_  = "#112C85";
-var MY_FAVORITE_COLOR = "#112C85";
+const my_favorite_color = "#112C85";
+const _myFavoriteColor  = "#112C85";
+const myFavoriteColor_  = "#112C85";
+const MY_FAVORITE_COLOR = "#112C85";
 function do_something() {
     // ...
 }
@@ -62,11 +62,11 @@ Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$"` o
 ```js
 /*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$"]*/
 
-var myFavoriteColor   = "#112C85";
+const myFavoriteColor   = "#112C85";
 var foo = bar.baz_boom;
 var foo = { qux: bar.baz_boom };
 do_something();
-var obj = {
+const obj = {
     my_pref: 1
 };
 
@@ -103,7 +103,7 @@ Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$",
 ```js
 /*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$", { "properties": true }]*/
 
-var obj = {
+const obj = {
     my_pref: 1
 };
 

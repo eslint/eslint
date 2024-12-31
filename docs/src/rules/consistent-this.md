@@ -36,9 +36,9 @@ Examples of **incorrect** code for this rule with the default `"that"` option:
 ```js
 /*eslint consistent-this: ["error", "that"]*/
 
-var that = 42;
+let that = 42;
 
-var self = this;
+let self = this;
 
 that = 42;
 
@@ -54,7 +54,7 @@ Examples of **correct** code for this rule with the default `"that"` option:
 ```js
 /*eslint consistent-this: ["error", "that"]*/
 
-var that = this;
+let that = this;
 
 var self = 42;
 
@@ -74,7 +74,7 @@ Examples of **incorrect** code for this rule with the default `"that"` option, i
 ```js
 /*eslint consistent-this: ["error", "that"]*/
 
-var that;
+let that;
 function f() {
     that = this;
 }
@@ -84,16 +84,25 @@ function f() {
 
 Examples of **correct** code for this rule with the default `"that"` option, if the variable is not initialized:
 
+Declaring a variable that and assigning this to it.
 ::: correct
 
 ```js
 /*eslint consistent-this: ["error", "that"]*/
 
-var that;
+let that;
 that = this;
+```
 
-var foo, that;
-foo = 42;
+:::
+
+Declaring two variables, foo and that, with foo initialized, and then assigning this to that.
+::: correct
+
+```js
+/*eslint consistent-this: ["error", "that"]*/
+
+let foo = 42, that;
 that = this;
 ```
 
