@@ -50,8 +50,9 @@
 .rule-category {
     font-size: var(--step--1);
     display: flex;
+    flex-direction: column;
+    height: 8.5rem;
     position: relative;
-    flex-wrap: wrap;
     align-items: flex-start;
     gap: 1rem;
     padding: 1rem;
