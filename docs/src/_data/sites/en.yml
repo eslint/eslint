@@ -62,6 +62,9 @@ navigation:
   target: _blank
 - text: Playground
   link: playground
+- text: Code Explorer
+  link: codeExplorer
+  target: _blank
 
 #------------------------------------------------------------------------------
 # Footer
