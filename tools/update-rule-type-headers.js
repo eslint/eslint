@@ -1,6 +1,9 @@
 /**
  * @fileoverview Script to update the TSDoc header comments of rule types.
- * This script should be run after `docs/src/_data/rules_meta.json` and `docs/src/_data/rule_versions.json` have been updated.
+ * If this script is run with command-line arguments, it will only update rule types that match the specified rule files.
+ * E.g. running with CLI arguments `"./lib/rules/no-unused-vars.js"`
+ * will only update the TSDoc header comment for the `no-unused-vars` rule.
+ * If this script is run without arguments, it will update the TSDoc header comments for all rules.
  *
  * @author Francesco Trotta
  */
@@ -12,9 +15,9 @@
 //-----------------------------------------------------------------------------
 
 const { readdir, readFile, writeFile } = require("node:fs/promises");
-const { extname, join } = require("node:path");
-const rulesMeta = require("../docs/src/_data/rules_meta.json");
+const { basename, dirname, extname, join, resolve } = require("node:path");
 const { added } = require("../docs/src/_data/rule_versions.json");
+const rules = require("../lib/rules");
 const ts = require("typescript");
 
 //------------------------------------------------------------------------------
@@ -46,7 +49,7 @@ function createDeprecationNotice(tsDoc, ruleMeta) {
 
     if (replacedBy && replacedBy.length === 1) {
         const replacement = replacedBy[0];
-        const replacementURL = rulesMeta[replacement].docs.url;
+        const replacementURL = rules.get(replacement).meta.docs.url;
 
         return `please use [\`${replacement}\`](${replacementURL}).`;
     }
@@ -117,13 +120,40 @@ function formatTSDoc(lines) {
 }
 
 /**
+ * Returns the names of the rules whose paths were specified in the command line.
+ * If no rule paths were specified, the names of all built-in rules are returned.
+ * @returns {Set<string>} The names of the rules to be considered for the current run.
+ */
+function getConsideredRuleIds() {
+    let ruleIds;
+    const args = process.argv.slice(2);
+
+    if (args.length) {
+        const ruleDir = join(__dirname, "../lib/rules");
+        const ruleIndexFile = join(ruleDir, "index.js");
+
+        ruleIds = args
+            .filter(arg => {
+                const file = resolve(arg);
+
+                return dirname(file) === ruleDir && file !== ruleIndexFile;
+            })
+            .map(ruleFile => basename(ruleFile, ".js"));
+    } else {
+        ruleIds = rules.keys();
+    }
+    return new Set(ruleIds);
+}
+
+/**
  * Returns the locations of the TSDoc header comments for each rule in a type declaration file.
  * If a rule has no header comment the location returned is the start position of the rule name.
  * @param {string} sourceText The source text of the type declaration file.
+ * @param {Set<string>} consideredRuleIds The names of the rules to be considered for the current run.
  * @returns {Map<string, Range>} A map of rule names to ranges.
  * The ranges indicate the locations of the TSDoc header comments in the source.
  */
-function getTSDocRangeMap(sourceText) {
+function getTSDocRangeMap(sourceText, consideredRuleIds) {
     const tsDocRangeMap = new Map();
     const ast = ts.createSourceFile("", sourceText);
 
@@ -134,22 +164,25 @@ function getTSDocRangeMap(sourceText) {
             for (const member of members) {
                 if (member.kind === ts.SyntaxKind.PropertySignature) {
                     const ruleId = member.name.text;
-                    let tsDocRange;
 
-                    // Only the last TSDoc comment is regarded.
-                    const tsDoc = member.jsDoc?.at(-1);
+                    if (consideredRuleIds.has(ruleId)) {
+                        let tsDocRange;
 
-                    if (tsDoc) {
-                        tsDocRange = [tsDoc.pos, tsDoc.end];
-                    } else {
-                        const regExp = /\S/gu;
+                        // Only the last TSDoc comment is regarded.
+                        const tsDoc = member.jsDoc?.at(-1);
 
-                        regExp.lastIndex = member.pos;
-                        const { index } = regExp.exec(sourceText);
+                        if (tsDoc) {
+                            tsDocRange = [tsDoc.pos, tsDoc.end];
+                        } else {
+                            const regExp = /\S/gu;
 
-                        tsDocRange = [index, index];
+                            regExp.lastIndex = member.pos;
+                            const { index } = regExp.exec(sourceText);
+
+                            tsDocRange = [index, index];
+                        }
+                        tsDocRangeMap.set(ruleId, tsDocRange);
                     }
-                    tsDocRangeMap.set(ruleId, tsDocRange);
                 }
             }
         }
@@ -185,7 +218,7 @@ function paraphraseDescription(description) {
  * @returns {string} The updated TSDoc comment.
  */
 function createTSDoc(ruleId, currentTSDoc) {
-    const ruleMeta = rulesMeta[ruleId];
+    const ruleMeta = rules.get(ruleId).meta;
     const ruleDocs = ruleMeta.docs;
     const since = added[ruleId];
     const lines = [escapeForMultilineComment(paraphraseDescription(ruleDocs.description)), ""];
@@ -213,12 +246,13 @@ function createTSDoc(ruleId, currentTSDoc) {
 
 /**
  * Updates rule header comments in a `.d.ts` file.
- * @param {string} filePath Pathname of the `.d.ts` file.
+ * @param {string} ruleTypeFile Pathname of the `.d.ts` file.
+ * @param {Set<string>} consideredRuleIds The names of the rules to be considered for the current run.
  * @returns {Promise<Iterable<string>>} The names of the rules found in the `.d.ts` file.
  */
-async function updateTypeDeclaration(filePath) {
-    const sourceText = await readFile(filePath, "utf-8");
-    const tsDocRangeMap = getTSDocRangeMap(sourceText);
+async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds) {
+    const sourceText = await readFile(ruleTypeFile, "utf-8");
+    const tsDocRangeMap = getTSDocRangeMap(sourceText, consideredRuleIds);
     const chunks = [];
     let lastPos = 0;
 
@@ -236,7 +270,7 @@ async function updateTypeDeclaration(filePath) {
     chunks.push(sourceText.slice(Math.max(0, lastPos)));
     const newText = chunks.join("");
 
-    await writeFile(filePath, newText);
+    await writeFile(ruleTypeFile, newText);
     return tsDocRangeMap.keys();
 }
 
@@ -245,16 +279,18 @@ async function updateTypeDeclaration(filePath) {
 //-----------------------------------------------------------------------------
 
 (async () => {
-    const dirPath = join(__dirname, "../lib/types/rules");
-    const fileNames = (await readdir(dirPath)).filter(fileName => extname(fileName) === ".ts");
+    const consideredRuleIds = getConsideredRuleIds();
+    const ruleTypeDir = join(__dirname, "../lib/types/rules");
+    const fileNames = (await readdir(ruleTypeDir)).filter(fileName => extname(fileName) === ".ts");
     const typedRuleIds = new Set();
     const repeatedRuleIds = new Set();
     const untypedRuleIds = [];
 
+    console.log(`Considering ${consideredRuleIds.size} rule(s).`);
     await Promise.all(
         fileNames.map(
             async fileName => {
-                const ruleIds = await updateTypeDeclaration(join(dirPath, fileName));
+                const ruleIds = await updateTypeDeclaration(join(ruleTypeDir, fileName), consideredRuleIds);
 
                 for (const ruleId of ruleIds) {
                     if (typedRuleIds.has(ruleId)) {
@@ -266,7 +302,7 @@ async function updateTypeDeclaration(filePath) {
             }
         )
     );
-    for (const ruleId of Object.keys(rulesMeta)) {
+    for (const ruleId of consideredRuleIds) {
         if (!typedRuleIds.has(ruleId)) {
             untypedRuleIds.push(ruleId);
         }
