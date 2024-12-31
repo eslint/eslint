@@ -8,7 +8,7 @@ related_rules:
 
 
 Disallowing usage of specific global variables can be useful if you want to allow a set of global
-variables by enabling an environment, but still want to disallow some of those.
+variables, but still want to disallow some of those.
 
 For instance, early Internet Explorer versions exposed the current DOM event as a global variable
 `event`, but using this variable has been considered as a bad practice for a long time. Restricting
