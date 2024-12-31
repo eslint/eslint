@@ -21,7 +21,7 @@ const { LATEST_ECMA_VERSION } = require("../conf/ecma-version");
 
 /** @typedef {import("../lib/shared/types").LintMessage} LintMessage */
 /** @typedef {import("../lib/shared/types").LintResult} LintResult */
-/** @typedef {import("../lib/shared/types").ParserOptions} ParserOptions */
+/** @typedef {import("../lib/shared/types").LanguageOptions} LanguageOptions */
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -40,12 +40,18 @@ const commentParser = new ConfigCommentParser();
 /**
  * Tries to parse a specified JavaScript code with Playground presets.
  * @param {string} code The JavaScript code to parse.
- * @param {ParserOptions} parserOptions Explicitly specified parser options.
+ * @param {LanguageOptions} [languageOptions] Explicitly specified language options.
  * @returns {{ ast: ASTNode } | { error: SyntaxError }} An AST with comments, or a `SyntaxError` object if the code cannot be parsed.
  */
-function tryParseForPlayground(code, parserOptions) {
+function tryParseForPlayground(code, languageOptions) {
     try {
-        const ast = parse(code, { ecmaVersion: "latest", ...parserOptions, comment: true, loc: true });
+        const ast = parse(code, {
+            ecmaVersion: languageOptions?.ecmaVersion ?? "latest",
+            sourceType: languageOptions?.sourceType ?? "module",
+            ...languageOptions?.parserOptions,
+            comment: true,
+            loc: true
+        });
 
         return { ast };
     } catch (error) {
@@ -64,7 +70,7 @@ async function findProblems(filename) {
     const isRuleRemoved = !rules.has(title);
     const problems = [];
     const ruleExampleOptions = markdownItRuleExample({
-        open({ code, parserOptions, codeBlockToken }) {
+        open({ code, languageOptions, codeBlockToken }) {
             const languageTag = codeBlockToken.info;
 
             if (!STANDARD_LANGUAGE_TAGS.has(languageTag)) {
@@ -86,8 +92,8 @@ async function findProblems(filename) {
                 });
             }
 
-            if (parserOptions && typeof parserOptions.ecmaVersion !== "undefined") {
-                const { ecmaVersion } = parserOptions;
+            if (typeof languageOptions?.ecmaVersion !== "undefined") {
+                const { ecmaVersion } = languageOptions;
                 let ecmaVersionErrorMessage;
 
                 if (ecmaVersion === "latest") {
@@ -109,7 +115,7 @@ async function findProblems(filename) {
                 }
             }
 
-            const { ast, error } = tryParseForPlayground(code, parserOptions);
+            const { ast, error } = tryParseForPlayground(code, languageOptions);
 
             if (ast) {
                 let hasRuleConfigComment = false;

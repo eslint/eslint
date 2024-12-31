@@ -251,7 +251,7 @@ JSX is most-commonly used in the React ecosystem, where it is compiled to `React
 
 Examples of **incorrect** code for the `{ "enforceForJSX": true }` option:
 
-::: incorrect { "ecmaFeatures": { "jsx": true } }
+::: incorrect { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
 ```jsx
 /*eslint no-unused-expressions: ["error", { "enforceForJSX": true }]*/
@@ -265,7 +265,7 @@ Examples of **incorrect** code for the `{ "enforceForJSX": true }` option:
 
 Examples of **correct** code for the `{ "enforceForJSX": true }` option:
 
-::: correct { "ecmaFeatures": { "jsx": true } }
+::: correct { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
 ```jsx
 /*eslint no-unused-expressions: ["error", { "enforceForJSX": true }]*/

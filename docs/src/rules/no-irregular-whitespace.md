@@ -202,7 +202,7 @@ function thing() {
 
 Examples of additional **correct** code for this rule with the `{ "skipJSXText": true }` option:
 
-::: correct { "ecmaFeatures": { "jsx": true } }
+::: correct { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
 ```jsx
 /*eslint no-irregular-whitespace: ["error", { "skipJSXText": true }]*/

@@ -2,7 +2,7 @@
 
 const { docsExampleCodeToParsableCode } = require("./code-block-utils");
 
-/** @typedef {import("../../lib/shared/types").ParserOptions} ParserOptions */
+/** @typedef {import("../../lib/shared/types").LanguageOptions} LanguageOptions */
 
 /**
  * A callback function to handle the opening of container blocks.
@@ -10,7 +10,7 @@ const { docsExampleCodeToParsableCode } = require("./code-block-utils");
  * @param {Object} data Callback data.
  * @param {"correct" | "incorrect"} data.type The type of the example.
  * @param {string} data.code The example code.
- * @param {ParserOptions} data.parserOptions The parser options to be passed to the Playground.
+ * @param {LanguageOptions | undefined} data.languageOptions The language options to be passed to the Playground.
  * @param {Object} data.codeBlockToken The `markdown-it` token for the code block inside the container.
  * @param {Object} data.env Additional Eleventy metadata, if available.
  * @returns {string | undefined} If a text is returned, it will be appended to the rendered output
@@ -31,7 +31,7 @@ const { docsExampleCodeToParsableCode } = require("./code-block-utils");
  *
  * - Ensure that the plugin instance only matches container blocks tagged with 'correct' or
  * 'incorrect'.
- * - Parse the optional `parserOptions` after the correct/incorrect tag.
+ * - Parse the optional `languageOptions` after the correct/incorrect tag.
  * - Apply common transformations to the code inside the code block, like stripping '⏎' at the end
  * of a line or the last newline character.
  *
@@ -47,7 +47,7 @@ const { docsExampleCodeToParsableCode } = require("./code-block-utils");
  *
  * markdownIt()
  *     .use(markdownItContainer, "rule-example", markdownItRuleExample({
- *         open({ type, code, parserOptions, codeBlockToken, env }) {
+ *         open({ type, code, languageOptions, codeBlockToken, env }) {
  *             // do something
  *         }
  *         close() {
@@ -72,14 +72,14 @@ function markdownItRuleExample({ open, close }) {
                 return typeof text === "string" ? text : "";
             }
 
-            const { type, parserOptionsJSON } = /^\s*(?<type>\S+)(\s+(?<parserOptionsJSON>\S.*?))?\s*$/u.exec(tagToken.info).groups;
-            const parserOptions = { sourceType: "module", ...(parserOptionsJSON && JSON.parse(parserOptionsJSON)) };
+            const { type, languageOptionsJSON } = /^\s*(?<type>\S+)(\s+(?<languageOptionsJSON>\S.*?))?\s*$/u.exec(tagToken.info).groups;
+            const languageOptions = languageOptionsJSON ? JSON.parse(languageOptionsJSON) : void 0;
             const codeBlockToken = tokens[index + 1];
 
             // Remove trailing newline and presentational `⏎` characters (https://github.com/eslint/eslint/issues/17627):
             const code = docsExampleCodeToParsableCode(codeBlockToken.content);
 
-            const text = open({ type, code, parserOptions, codeBlockToken, env });
+            const text = open({ type, code, languageOptions, codeBlockToken, env });
 
             // Return an empty string to avoid appending unexpected text to the output.
             return typeof text === "string" ? text : "";
