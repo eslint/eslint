@@ -21,8 +21,8 @@ This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding ru
 Spacing around commas improves readability of a list of items. Although most of the style guidelines for languages prescribe adding a space after a comma and not before it, it is subjective to the preferences of a project.
 
 ```js
-const foo = 1, bar = 2;
-const baz = 1 ,qux = 2;
+var foo = 1, bar = 2;
+var foo = 1 ,bar = 2;
 ```
 
 ## Rule Details
@@ -55,9 +55,9 @@ Examples of **incorrect** code for this rule with the default `{ "before": false
 ```js
 /*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
 
-const foo = 1 ,bar = 2;
-const arr = [1 , 2];
-const obj = {"foo": "bar" ,"baz": "qur"};
+var foo = 1 ,bar = 2;
+var arr = [1 , 2];
+var obj = {"foo": "bar" ,"baz": "qur"};
 foo(a ,b);
 new Foo(a ,b);
 function baz(a ,b){}
@@ -73,11 +73,11 @@ Examples of **correct** code for this rule with the default `{ "before": false, 
 ```js
 /*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
 
-const foo = 1, bar = 2
+var foo = 1, bar = 2
     , baz = 3;
-const arr = [1, 2];
-const nums = [1,, 3]
-const obj = {"foo": "bar", "baz": "qur"};
+var arr = [1, 2];
+var arr = [1,, 3]
+var obj = {"foo": "bar", "baz": "qur"};
 foo(a, b);
 new Foo(a, b);
 function qur(a, b){}
@@ -108,8 +108,8 @@ var arr = [a, b,];
 [a, b,] = arr;
 
 // this rule does not enforce spacing before `}`
-const obj = {x, y,};
-const {z, q,} = obj;
+var obj = {x, y,};
+var {z, q,} = obj;
 import {foo, bar,} from "mod";
 
 // this rule does not enforce spacing before `)`
@@ -127,9 +127,9 @@ Examples of **incorrect** code for this rule with the `{ "before": true, "after"
 ```js
 /*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
 
-const foo = 1, bar = 2;
-const arr = [1 , 2];
-const obj = {"foo": "bar", "baz": "qur"};
+var foo = 1, bar = 2;
+var arr = [1 , 2];
+var obj = {"foo": "bar", "baz": "qur"};
 new Foo(a,b);
 function baz(a,b){}
 a, b
@@ -144,11 +144,11 @@ Examples of **correct** code for this rule with the `{ "before": true, "after": 
 ```js
 /*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
 
-const foo = 1 ,bar = 2 ,
+var foo = 1 ,bar = 2 ,
     baz = true;
-const arr = [1 ,2];
-const nums = [1 ,,3]
-const obj = {"foo": "bar" ,"baz": "qur"};
+var arr = [1 ,2];
+var arr = [1 ,,3]
+var obj = {"foo": "bar" ,"baz": "qur"};
 foo(a ,b);
 new Foo(a ,b);
 function qur(a ,b){}
