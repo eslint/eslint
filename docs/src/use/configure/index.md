@@ -17,7 +17,7 @@ Here are some of the options that you can configure in ESLint:
 
 * [**Globals**](./language-options#specifying-globals) - the additional global variables your script accesses during execution.
 * [**Rules**](rules) - which rules are enabled and at what error level.
-* [**Plugins**](plugins) - which third-party plugins define additional rules, environments, configs, etc. for ESLint to use.
+* [**Plugins**](plugins) - which third-party plugins define additional rules, languages, configs, etc. for ESLint to use.
 
 All of these options give you fine-grained control over how ESLint treats your code.
 
