@@ -61,7 +61,7 @@ Each configuration object contains all of the information ESLint needs to execut
 
 * `name` - A name for the configuration object. This is used in error messages and config inspector to help identify which configuration object is being used. ([Naming Convention](#configuration-naming-conventions))
 * `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
-* `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`. If `ignores` is used without any other keys in the configuration object, then the patterns act as [global ignores](#globally-ignoring-files-with-ignores).
+* `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`. If `ignores` is used without any other keys in the configuration object, then the patterns act as [global ignores](#globally-ignoring-files-with-ignores). `Global Ignores` is what you need if you want to apply the same `ignores` rule to every configuration object.
 * `languageOptions` - An object containing settings related to how JavaScript is configured for linting.
     * `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
     * `sourceType` - The type of JavaScript source code. Possible values are `"script"` for traditional script files, `"module"` for ECMAScript modules (ESM), and `"commonjs"` for CommonJS files. (default: `"module"` for `.js` and `.mjs` files; `"commonjs"` for `.cjs` files)
@@ -208,6 +208,7 @@ Filenames starting with a dot, such as `.gitignore`, are considered to have only
 
 #### Globally ignoring files with `ignores`
 
+If you want to globally ignores some directory/files, and apply this directive to all configuration objects of the array,  `global ignores` is exactly made for this scenario.
 If `ignores` is used without any other keys in the configuration object, then the patterns act as global ignores. Here's an example:
 
 ```js
@@ -221,7 +222,7 @@ export default [
 
 This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/", ".git/"]`.
 
-For more information on configuring rules, see [Ignore Files](ignore).
+For more information and examples on configuring `ignores` rules, see [Ignore Files](ignore).
 
 ::: important
 Glob patterns always match files and directories that begin with a dot, such as `.foo.js` or `.fixtures`, unless those files are explicitly ignored. The only dot directory ignored by default is `.git`.
