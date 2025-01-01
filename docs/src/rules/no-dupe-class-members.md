@@ -15,7 +15,7 @@ class Foo {
   bar() { console.log("goodbye"); }
 }
 
-var foo = new Foo();
+const foo = new Foo();
 foo.bar(); // goodbye
 ```
 
