@@ -34,7 +34,7 @@
             }
         }
 
-        @media screen and (min-width: 800px) and (max-width: 853px), screen and (min-width: 1024px) and (max-width: 1255px), screen and (min-width: 1654px) {
+        @media screen and (min-width: 800px) and (max-width: 853px), screen and (min-width: 1024px) and (max-width: 1255px), screen and (min-width: 1654px) and (max-width: 1982px) {
             &:nth-child(4)::after {
                 height: 70%;
                 position: absolute;
@@ -44,15 +44,15 @@
 
     .rule-category__description {
         flex: 1 1 45ch;
+        height: 100%;
     }
 }
 
 .rule-category {
     font-size: var(--step--1);
     display: flex;
-    flex-direction: column;
-    height: 8.5rem;
     position: relative;
+    flex-wrap: wrap;
     align-items: flex-start;
     gap: 1rem;
     padding: 1rem;
