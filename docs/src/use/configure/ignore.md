@@ -89,9 +89,9 @@ In the code above, the `ignores` directive of `config-1` is not applied on `conf
 But usually, what you want is to globally ignores some directory/files, and apply this directive to all configuration objects of the array:  `global ignores` is exactly made for this scenario.
 
 The usage is the following:
-- define a configuration object with a single prop, `ignores` .
-- **don't add any other props** to this configuration object, only `ignores` prop
-- place this configuration objects as **first item** of the configuration object arrays
+* define a configuration object with a single prop, `ignores` .
+* **don't add any other props** to this configuration object, only `ignores` prop
+* place this configuration objects as **first item** of the configuration object arrays
 
 This way every configuration object that follow this one inherit the `global ignores`.
 
