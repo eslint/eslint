@@ -6,6 +6,7 @@
     "blog": "/blog",
     "docs": "/docs/latest/",
     "playground": "/play",
+    "codeExplorer": "https://explorer.eslint.org/",
     "getStarted": "/docs/latest/use/getting-started",
     "sponsors": "/sponsors",
     "branding": "/branding",
