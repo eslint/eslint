@@ -90,9 +90,9 @@ But if you want to apply a particular `ignores` pattern to all configuration obj
 
 The usage is the following:
 
-* define a configuration object with a single prop, `ignores` .
-* **don't add any other props** to this configuration object, only `ignores` prop
-* place this configuration objects as **first item** of the configuration object arrays
+* define a configuration object with a single property, `ignores` .
+* **don't add any other property** to this configuration object other than `ignores` property.
+* place this configuration object as **first item** of the configuration array.
 
 This way every configuration object that follow this one inherit the `global ignores`.
 
