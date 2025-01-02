@@ -11608,7 +11608,7 @@ describe("Linter with FlatConfigArray", () => {
                                 assert.strictEqual(messages[0].message, expectedRuleMessage);
                                 assert.strictEqual(messages[1].ruleId, null);
                                 assert.strictEqual(messages[1].severity, 2);
-                                assert.strictEqual(messages[1].message, '"test/my-rule" is already configured to warn.');
+                                assert.strictEqual(messages[1].message, "Unused inline config ('test/my-rule' is already configured to 'warn').");
                                 assert.strictEqual(suppressedMessages.length, 0);
                             });
 
@@ -11653,7 +11653,7 @@ describe("Linter with FlatConfigArray", () => {
                                 assert.strictEqual(messages[0].message, "bar");
                                 assert.strictEqual(messages[1].ruleId, null);
                                 assert.strictEqual(messages[1].severity, 2);
-                                assert.strictEqual(messages[1].message, `"test/my-rule" is already configured to ${severity} with the same options.`);
+                                assert.strictEqual(messages[1].message, `Unused inline config ('test/my-rule' is already configured to '${severity}' with the same options).`);
                                 assert.strictEqual(suppressedMessages.length, 0);
                             });
                         });

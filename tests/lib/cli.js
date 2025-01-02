@@ -1950,6 +1950,24 @@ describe("cli", () => {
                     assert.strictEqual(exitCode, 0, "exit code should be 0");
                 });
 
+                [
+                    [1, 0, "0 errors, 1 warning"],
+                    ["warn", 0, "0 errors, 1 warning"],
+                    [2, 1, "1 error, 0 warnings"],
+                    ["error", 1, "1 error, 0 warnings"]
+                ].forEach(([setting, status, descriptor]) => {
+                    it(`reports when --report-unused-inline-configs ${setting}`, async () => {
+                        const exitCode = await cli.execute(`--no-config-lookup --report-unused-inline-configs ${setting} --rule "'no-console': 'error'"`,
+                            "/* eslint no-console: 'error' */",
+                            true);
+
+                        assert.strictEqual(log.info.callCount, 1, "log.info is called once");
+                        assert.ok(log.info.firstCall.args[0].includes("Unused inline config ('no-console' is already configured to 'error')"), "has correct message about unused inline config");
+                        assert.ok(log.info.firstCall.args[0].includes(descriptor), "has correct error and warning count");
+                        assert.strictEqual(exitCode, status, `exit code should be ${exitCode}`);
+                    });
+                });
+
                 it("fails when passing invalid string for --report-unused-inline-configs", async () => {
                     const exitCode = await cli.execute("--no-config-lookup --report-unused-inline-configs foo", null, true);
 
