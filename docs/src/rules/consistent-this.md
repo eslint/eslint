@@ -84,7 +84,8 @@ function f() {
 
 Examples of **correct** code for this rule with the default `"that"` option, if the variable is not initialized:
 
-Declaring a variable that and assigning this to it.
+Declaring a variable `that` and assigning `this` to it.
+
 ::: correct
 
 ```js
