@@ -94,7 +94,7 @@ The usage is the following:
 * **don't add any other property** to this configuration object other than `ignores` property.
 * place this configuration object as **first item** of the configuration array.
 
-This way every configuration object that follow this one inherit the `global ignores`.
+This way every configuration object that follow this one inherit the global `ignores`.
 
 ```js
 // eslint.config.ts
