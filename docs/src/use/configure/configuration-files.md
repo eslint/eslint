@@ -210,7 +210,7 @@ Filenames starting with a dot, such as `.gitignore`, are considered to have only
 
 Depending on how the `ignores` property is used, it can behave as non-global `ignores` or as global `ignores`.
 
-* If `ignores` is used without any other keys in the configuration object, then the patterns act as global ignores. This way it gets apply to every configuration object (not only to the configration object in which is defined). Global `ignores` allows you not to have to copy and keep the `ignores` property synchronized in more than one configuration object.
+* When `ignores` is used without any other keys (besides `name`) in the configuration object, then the patterns act as global ignores. This means they apply to every configuration object (not only to the configuration object in which it is defined). Global `ignores` allows you not to have to copy and keep the `ignores` property synchronized in more than one configuration object.
 * If `ignores` is used in conjunction with other properties in the same configuration object, then the patterns act as non-global ignores. This way `ignores` applies only that configuration object
 
 Global and non-global `ignores` have some usage differences:
