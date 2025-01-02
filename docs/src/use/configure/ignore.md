@@ -65,7 +65,7 @@ export default [
 ## Global Ignores
 
 ::: tip
-Global Ignores is what you need if you want to define files to ignore in a single place and avoid to add the same `ignores` prop to every configuration objects.
+Global `ignores` is what you need if you want to define files and directories to ignore in a single place and avoid to add the same `ignores` property to every configuration objects.
 :::
 
 In eslint, there is concept of `global ignores`, to better explain it let's see first how config object works in eslint.
