@@ -110,6 +110,8 @@
     --alert-warning-background-color: var(--color-rose-25);
 
     --rule-status-background-color: var(--color-rose-50);
+
+    --copy-button-background-color: var(--color-neutral-200);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -237,4 +239,6 @@ html[data-theme="dark"] {
     --alert-warning-background-color: var(--color-rose-900);
 
     --rule-status-background-color: var(--color-neutral-900);
+
+    --copy-button-background-color: var(--color-neutral-700);
 }
