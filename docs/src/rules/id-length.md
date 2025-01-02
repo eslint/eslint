@@ -89,7 +89,7 @@ const { prop: [name] } = {};
 const [longName] = arr;
 function foobar({ prop }) { }
 function foobaz({ a: prop }) { }
-var { a: property } = {};
+const { a: property } = {};
 ({ prop: obj.longName } = {});
 const data = { "x": 1 };  // excused because of quotes
 data["y"] = 3;  // excused because of calculated property access
