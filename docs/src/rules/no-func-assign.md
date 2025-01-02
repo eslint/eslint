@@ -6,7 +6,7 @@ handled_by_typescript: true
 
 
 
-JavaScript functions can be written as a FunctionDeclaration `function foo() { ... }` or as a FunctionExpression `var foo = function() { ... };`. While a JavaScript interpreter might tolerate it, overwriting/reassigning a function written as a FunctionDeclaration is often indicative of a mistake or issue.
+JavaScript functions can be written as a FunctionDeclaration `function foo() { ... }` or as a FunctionExpression `const foo = function() { ... };`. While a JavaScript interpreter might tolerate it, overwriting/reassigning a function written as a FunctionDeclaration is often indicative of a mistake or issue.
 
 ```js
 function foo() {}
@@ -66,7 +66,7 @@ function baz(baz) { // `baz` is shadowed.
 }
 
 function qux() {
-    var qux = bar;  // `qux` is shadowed.
+    const qux = bar;  // `qux` is shadowed.
 }
 ```
 
