@@ -43,7 +43,6 @@
     }
 
     .rule-category__description {
-        flex: 1 1 45ch;
         height: 100%;
     }
 }
@@ -64,10 +63,6 @@
     p {
         margin: 0;
     }
-
-    .rule-category__description {
-        flex: 1 1 30ch;
-    }
 }
 
 .rule:not(.token) {
@@ -84,11 +79,6 @@
     p:last-of-type {
         margin: 0;
     }
-}
-
-.rule--deprecated,
-.rule--removed {
-    // opacity: .5;
 }
 
 .rule__content {
