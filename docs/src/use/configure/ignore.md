@@ -86,7 +86,7 @@ export default [
 
 In the code above, the `ignores` directive of `config-1` is not applied on `config-2`, and vice-versa.  If this is what you want, use this pattern.
 
-But usually, what you want is to globally ignores some directory/files, and apply this directive to all configuration objects of the array:  `global ignores` is exactly made for this scenario.
+But if you want to apply a particular `ignores` pattern to all configuration objects of the configuration array,  global `ignores` is exactly made for this scenario.
 
 The usage is the following:
 
