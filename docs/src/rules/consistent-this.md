@@ -7,7 +7,7 @@ rule_type: suggestion
 It is often necessary to capture the current execution context in order to make it available subsequently. A prominent example of this are jQuery callbacks:
 
 ```js
-var that = this;
+const that = this;
 jQuery('li').click(function (event) {
     // here, "this" is the HTMLElement where the click event occurred
     that.setFoo(42);
@@ -56,9 +56,9 @@ Examples of **correct** code for this rule with the default `"that"` option:
 
 let that = this;
 
-var self = 42;
+const self = 42;
 
-var self;
+let foo;
 
 that = this;
 
