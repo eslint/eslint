@@ -84,13 +84,12 @@ class Baz { field = 1 }
 class Qux { #field = 1 }
 function baz(...args) { }
 function qux([longName]) { }
-var { prop } = {};
-var { prop: [name] } = {};
+const { prop } = {};
+const { prop: [name] } = {};
 const [longName] = arr;
 function foobar({ prop }) { }
 function foobaz({ a: prop }) { }
-var { prop } = {};
-var { a: prop } = {};
+var { a: property } = {};
 ({ prop: obj.longName } = {});
 const data = { "x": 1 };  // excused because of quotes
 data["y"] = 3;  // excused because of calculated property access
