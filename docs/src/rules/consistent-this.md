@@ -97,7 +97,8 @@ that = this;
 
 :::
 
-Declaring two variables, foo and that, with foo initialized, and then assigning this to that.
+Declaring two variables, `foo` and `that`, with `foo` initialized, and then assigning `this` to `that`.
+
 ::: correct
 
 ```js
