@@ -31,7 +31,7 @@ function baz() {
     baz = bar;
 }
 
-var a = function hello() {
+let a = function hello() {
   hello = 123;
 };
 ```
@@ -58,7 +58,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-func-assign: "error"*/
 
-var foo = function () {}
+let foo = function () {}
 foo = bar;
 
 function baz(baz) { // `baz` is shadowed.
