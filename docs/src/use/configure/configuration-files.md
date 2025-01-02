@@ -222,7 +222,7 @@ export default [
 
 This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/", ".git/"]`.
 
-For more information and examples on configuring `ignores` rules, see [Ignore Files](ignore).
+For more information and examples on configuring rules regarding `ignores`, see [Ignore Files](ignore).
 
 ::: important
 Glob patterns always match files and directories that begin with a dot, such as `.foo.js` or `.fixtures`, unless those files are explicitly ignored. The only dot directory ignored by default is `.git`.
