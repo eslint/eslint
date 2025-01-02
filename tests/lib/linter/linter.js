@@ -11557,6 +11557,26 @@ describe("Linter with FlatConfigArray", () => {
                             });
                         });
 
+                        it("reports an unnecessary inline config from the /*eslint*/ comment when the comment disables a rule that was not enabled", () => {
+                            const code = "/*eslint test/my-rule: 'off' */";
+                            const config = {
+                                linterOptions: {
+                                    reportUnusedInlineConfigs: "error"
+                                },
+                                plugins: {
+                                    test: plugin
+                                }
+                            };
+                            const messages = linter.verify(code, config);
+                            const suppressedMessages = linter.getSuppressedMessages();
+
+                            assert.strictEqual(messages.length, 1);
+                            assert.strictEqual(messages[0].ruleId, null);
+                            assert.strictEqual(messages[0].severity, 2);
+                            assert.strictEqual(messages[0].message, "Unused inline config ('test/my-rule' was not enabled).");
+                            assert.strictEqual(suppressedMessages.length, 0);
+                        });
+
                         [
                             "warn",
                             ["warn"],
