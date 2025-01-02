@@ -216,7 +216,7 @@ Depending on how the `ignores` property is used, it can behave as non-global `ig
 Global and non-global `ignores` have some usage differences:
 
 * patterns in non-global `ignores` only match the files (`dir/filename.js`) or files within directories (`dir/**`)
-* patterns in global `ignores` can also match directories (`dir/`), other than files like "non-global".
+* patterns in global `ignores` can match directories (`dir/`) in addition to the patterns that non-global ignores supports.
 
 In any case (non-global or global):
 
