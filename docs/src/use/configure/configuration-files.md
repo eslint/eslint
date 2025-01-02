@@ -221,7 +221,7 @@ Global and non-global `ignores` have some usage differences:
 For all uses of `ignores`:
 
 * The patterns you define are added after the default ESLint patterns, which are `["**/node_modules/", ".git/"]`.
-* glob patterns always match files and directories that begin with a dot, such as `.foo.js` or `.fixtures`, unless those files are explicitly ignored. The only dot directory ignored by default is `.git`
+* The patterns always match files and directories that begin with a dot, such as `.foo.js` or `.fixtures`, unless those files are explicitly ignored. The only dot directory ignored by default is `.git`.
 
 ```js
 // eslint.config.js
