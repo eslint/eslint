@@ -78,8 +78,8 @@ It's important to note that each configuration object is independent from other 
 // eslint.config.js
 
 export default [
-    { name: "config-1", files: "src/*", ignores: [".dist/*"], ... }, 
-    { name: "config-2", files: "scripts/*", ignores: [".others/*"], ... }, 
+    { name: "config-1", files: "src/**/*.js", ignores: ["**/*.config.js"], ... }, 
+    { name: "config-2", files: "scripts/**/*.js", ignores: ["**/dir/**"], ... }, 
     // ...
 ];
 ```
