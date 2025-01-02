@@ -97,17 +97,16 @@ The usage is the following:
 This way every configuration object that follow this one inherit the global `ignores`.
 
 ```js
-// eslint.config.ts
+// eslint.config.js
 
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 
-/** @type {import('eslint').Linter.Config[]} */
 export default [
   // DO NOT PUT OTHER PROPS IN THIS OBJECT, SO IT
   // BEHAVES AS GLOBAL IGNORES
-  { ignores: ["**/node_modules/**", "dist/"] }, 
+  { ignores: [".config/*", "dist/"] }, 
 
   // THE IGNORES IS APPLIED ALSO TO THESE FOLLOWING CONFIGS
   { files: ["**/*.{js,mjs,cjs,ts}"] },
