@@ -68,11 +68,11 @@ export default [
 Global `ignores` is what you need if you want to define files and directories to ignore in a single place and avoid to add the same `ignores` property to every configuration objects.
 :::
 
-In eslint, there is concept of `global ignores`, to better explain it let's see first how config object works in eslint.
+In ESLint, there is a concept of global `ignores`, to better explain it let's see first how configuration object works in ESLint.
 
-Eslint configuration file is intended to be used like this: export a single array, that contains multiple [configuration objects](https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects), each one being an item of the array.  
+ESLint configuration file is intended to be used like this: export a single array, that contains multiple [configuration objects](https://eslint.org/docs/latest/use/configure/configuration-files#configuration-objects), each one being an item of the array.  
 
-It's important to note that each configuration object, it's independent from other ones. Because of that, the `ignores` prop defined in one configuration object is not applied to other configuration objects of the array.
+It's important to note that each configuration object is independent from other ones. Because of that, the `ignores` property defined in one configuration object is not applied to other configuration objects of the array.
 
 ```js
 // eslint.config.js
