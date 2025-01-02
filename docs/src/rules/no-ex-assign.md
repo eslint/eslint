@@ -40,7 +40,7 @@ Examples of **correct** code for this rule:
 try {
     // code
 } catch (e) {
-    var foo = 10;
+    const foo = 10;
 }
 ```
 
