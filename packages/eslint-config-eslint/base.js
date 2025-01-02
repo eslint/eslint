@@ -60,14 +60,6 @@ const jsConfigs = [js.configs.recommended, {
         "no-process-exit": "off",
         "no-restricted-properties": ["error",
             {
-                property: "substring",
-                message: "Use .slice instead of .substring."
-            },
-            {
-                property: "substr",
-                message: "Use .slice instead of .substr."
-            },
-            {
                 object: "assert",
                 property: "equal",
                 message: "Use assert.strictEqual instead of assert.equal."

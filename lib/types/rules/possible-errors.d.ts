@@ -35,7 +35,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 4.0.0-beta.0
-     * @see https://eslint.org/docs/rules/for-direction
+     * @see https://eslint.org/docs/latest/rules/for-direction
      */
     "for-direction": Linter.RuleEntry<[]>;
 
@@ -46,7 +46,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 4.2.0
-     * @see https://eslint.org/docs/rules/getter-return
+     * @see https://eslint.org/docs/latest/rules/getter-return
      */
     "getter-return": Linter.RuleEntry<
         [
@@ -60,13 +60,13 @@ export interface PossibleErrors extends Linter.RulesRecord {
     >;
 
     /**
-     * Rule to disallow using an async function as a `Promise` executor.
+     * Rule to disallow using an async function as a Promise executor.
      *
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 5.3.0
-     * @see https://eslint.org/docs/rules/no-async-promise-executor
+     * @see https://eslint.org/docs/latest/rules/no-async-promise-executor
      */
     "no-async-promise-executor": Linter.RuleEntry<[]>;
 
@@ -74,7 +74,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Rule to disallow `await` inside of loops.
      *
      * @since 3.12.0
-     * @see https://eslint.org/docs/rules/no-await-in-loop
+     * @see https://eslint.org/docs/latest/rules/no-await-in-loop
      */
     "no-await-in-loop": Linter.RuleEntry<[]>;
 
@@ -85,18 +85,18 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 3.17.0
-     * @see https://eslint.org/docs/rules/no-compare-neg-zero
+     * @see https://eslint.org/docs/latest/rules/no-compare-neg-zero
      */
     "no-compare-neg-zero": Linter.RuleEntry<[]>;
 
     /**
-     * Rule to disallow assignment operators in conditional statements.
+     * Rule to disallow assignment operators in conditional expressions.
      *
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.0.9
-     * @see https://eslint.org/docs/rules/no-cond-assign
+     * @see https://eslint.org/docs/latest/rules/no-cond-assign
      */
     "no-cond-assign": Linter.RuleEntry<["except-parens" | "always"]>;
 
@@ -104,7 +104,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Rule to disallow the use of `console`.
      *
      * @since 0.0.2
-     * @see https://eslint.org/docs/rules/no-console
+     * @see https://eslint.org/docs/latest/rules/no-console
      */
     "no-console": Linter.RuleEntry<
         [
@@ -115,13 +115,24 @@ export interface PossibleErrors extends Linter.RulesRecord {
     >;
 
     /**
+     * Rule to disallow expressions where the operation doesn't affect the value.
+     *
+     * @remarks
+     * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
+     *
+     * @since 8.14.0
+     * @see https://eslint.org/docs/latest/rules/no-constant-binary-expression
+     */
+    "no-constant-binary-expression": Linter.RuleEntry<[]>;
+
+    /**
      * Rule to disallow constant expressions in conditions.
      *
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.4.1
-     * @see https://eslint.org/docs/rules/no-constant-condition
+     * @see https://eslint.org/docs/latest/rules/no-constant-condition
      */
     "no-constant-condition": Linter.RuleEntry<
         [
@@ -135,13 +146,21 @@ export interface PossibleErrors extends Linter.RulesRecord {
     >;
 
     /**
+     * Rule to disallow returning value from constructor.
+     *
+     * @since 6.7.0
+     * @see https://eslint.org/docs/latest/rules/no-constructor-return
+     */
+    "no-constructor-return": Linter.RuleEntry<[]>;
+
+    /**
      * Rule to disallow control characters in regular expressions.
      *
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.1.0
-     * @see https://eslint.org/docs/rules/no-control-regex
+     * @see https://eslint.org/docs/latest/rules/no-control-regex
      */
     "no-control-regex": Linter.RuleEntry<[]>;
 
@@ -152,7 +171,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.0.2
-     * @see https://eslint.org/docs/rules/no-debugger
+     * @see https://eslint.org/docs/latest/rules/no-debugger
      */
     "no-debugger": Linter.RuleEntry<[]>;
 
@@ -163,18 +182,18 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.16.0
-     * @see https://eslint.org/docs/rules/no-dupe-args
+     * @see https://eslint.org/docs/latest/rules/no-dupe-args
      */
     "no-dupe-args": Linter.RuleEntry<[]>;
 
     /**
-     * Disallow duplicate conditions in if-else-if chains.
+     * Rule to disallow duplicate conditions in if-else-if chains.
      *
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 6.7.0
-     * @see https://eslint.org/docs/rules/no-dupe-else-if
+     * @see https://eslint.org/docs/latest/rules/no-dupe-else-if
      */
     "no-dupe-else-if": Linter.RuleEntry<[]>;
 
@@ -185,18 +204,18 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.0.9
-     * @see https://eslint.org/docs/rules/no-dupe-keys
+     * @see https://eslint.org/docs/latest/rules/no-dupe-keys
      */
     "no-dupe-keys": Linter.RuleEntry<[]>;
 
     /**
-     * Rule to disallow a duplicate case label.
+     * Rule to disallow duplicate case labels.
      *
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.17.0
-     * @see https://eslint.org/docs/rules/no-duplicate-case
+     * @see https://eslint.org/docs/latest/rules/no-duplicate-case
      */
     "no-duplicate-case": Linter.RuleEntry<[]>;
 
@@ -207,7 +226,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.0.2
-     * @see https://eslint.org/docs/rules/no-empty
+     * @see https://eslint.org/docs/latest/rules/no-empty
      */
     "no-empty": Linter.RuleEntry<
         [
@@ -227,7 +246,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.22.0
-     * @see https://eslint.org/docs/rules/no-empty-character-class
+     * @see https://eslint.org/docs/latest/rules/no-empty-character-class
      */
     "no-empty-character-class": Linter.RuleEntry<[]>;
 
@@ -238,7 +257,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.0.9
-     * @see https://eslint.org/docs/rules/no-ex-assign
+     * @see https://eslint.org/docs/latest/rules/no-ex-assign
      */
     "no-ex-assign": Linter.RuleEntry<[]>;
 
@@ -249,7 +268,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.4.0
-     * @see https://eslint.org/docs/rules/no-extra-boolean-cast
+     * @see https://eslint.org/docs/latest/rules/no-extra-boolean-cast
      */
     "no-extra-boolean-cast": Linter.RuleEntry<
         [
@@ -281,7 +300,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      *
      * @since 0.1.4
      * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-extra-parens) in `@stylistic/eslint-plugin-js`.
-     * @see https://eslint.org/docs/rules/no-extra-parens
+     * @see https://eslint.org/docs/latest/rules/no-extra-parens
      */
     "no-extra-parens":
         | Linter.RuleEntry<
@@ -316,12 +335,9 @@ export interface PossibleErrors extends Linter.RulesRecord {
     /**
      * Rule to disallow unnecessary semicolons.
      *
-     * @remarks
-     * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
-     *
      * @since 0.0.9
      * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-extra-semi) in `@stylistic/eslint-plugin-js`.
-     * @see https://eslint.org/docs/rules/no-extra-semi
+     * @see https://eslint.org/docs/latest/rules/no-extra-semi
      */
     "no-extra-semi": Linter.RuleEntry<[]>;
 
@@ -332,18 +348,15 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.0.9
-     * @see https://eslint.org/docs/rules/no-func-assign
+     * @see https://eslint.org/docs/latest/rules/no-func-assign
      */
     "no-func-assign": Linter.RuleEntry<[]>;
 
     /**
      * Rule to disallow variable or `function` declarations in nested blocks.
      *
-     * @remarks
-     * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
-     *
      * @since 0.6.0
-     * @see https://eslint.org/docs/rules/no-inner-declarations
+     * @see https://eslint.org/docs/latest/rules/no-inner-declarations
      */
     "no-inner-declarations": Linter.RuleEntry<["functions" | "both"]>;
 
@@ -354,7 +367,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.1.4
-     * @see https://eslint.org/docs/rules/no-invalid-regexp
+     * @see https://eslint.org/docs/latest/rules/no-invalid-regexp
      */
     "no-invalid-regexp": Linter.RuleEntry<
         [
@@ -371,7 +384,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.9.0
-     * @see https://eslint.org/docs/rules/no-irregular-whitespace
+     * @see https://eslint.org/docs/latest/rules/no-irregular-whitespace
      */
     "no-irregular-whitespace": Linter.RuleEntry<
         [
@@ -397,7 +410,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
     >;
 
     /**
-     * Disallow literal numbers that lose precision.
+     * Rule to disallow literal numbers that lose precision.
      *
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
@@ -414,7 +427,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 5.3.0
-     * @see https://eslint.org/docs/rules/no-misleading-character-class
+     * @see https://eslint.org/docs/latest/rules/no-misleading-character-class
      */
     "no-misleading-character-class": Linter.RuleEntry<
         [
@@ -435,7 +448,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.0.9
-     * @see https://eslint.org/docs/rules/no-obj-calls
+     * @see https://eslint.org/docs/latest/rules/no-obj-calls
      */
     "no-obj-calls": Linter.RuleEntry<[]>;
 
@@ -443,7 +456,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Rule to disallow returning values from Promise executor functions.
      *
      * @since 7.3.0
-     * @see https://eslint.org/docs/rules/no-promise-executor-return
+     * @see https://eslint.org/docs/latest/rules/no-promise-executor-return
      */
     "no-promise-executor-return": Linter.RuleEntry<[
         {
@@ -455,13 +468,13 @@ export interface PossibleErrors extends Linter.RulesRecord {
     ]>;
 
     /**
-     * Rule to disallow use of `Object.prototypes` builtins directly.
+     * Rule to disallow calling some `Object.prototype` methods directly on objects.
      *
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 2.11.0
-     * @see https://eslint.org/docs/rules/no-prototype-builtins
+     * @see https://eslint.org/docs/latest/rules/no-prototype-builtins
      */
     "no-prototype-builtins": Linter.RuleEntry<[]>;
 
@@ -472,9 +485,20 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.4.0
-     * @see https://eslint.org/docs/rules/no-regex-spaces
+     * @see https://eslint.org/docs/latest/rules/no-regex-spaces
      */
     "no-regex-spaces": Linter.RuleEntry<[]>;
+
+    /**
+     * Rule to disallow returning values from setters.
+     *
+     * @remarks
+     * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
+     *
+     * @since 6.7.0
+     * @see https://eslint.org/docs/latest/rules/no-setter-return
+     */
+    "no-setter-return": Linter.RuleEntry<[]>;
 
     /**
      * Rule to disallow sparse arrays.
@@ -483,7 +507,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.4.0
-     * @see https://eslint.org/docs/rules/no-sparse-arrays
+     * @see https://eslint.org/docs/latest/rules/no-sparse-arrays
      */
     "no-sparse-arrays": Linter.RuleEntry<[]>;
 
@@ -491,7 +515,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Rule to disallow template literal placeholder syntax in regular strings.
      *
      * @since 3.3.0
-     * @see https://eslint.org/docs/rules/no-template-curly-in-string
+     * @see https://eslint.org/docs/latest/rules/no-template-curly-in-string
      */
     "no-template-curly-in-string": Linter.RuleEntry<[]>;
 
@@ -502,7 +526,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.24.0
-     * @see https://eslint.org/docs/rules/no-unexpected-multiline
+     * @see https://eslint.org/docs/latest/rules/no-unexpected-multiline
      */
     "no-unexpected-multiline": Linter.RuleEntry<[]>;
 
@@ -513,12 +537,12 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.0.6
-     * @see https://eslint.org/docs/rules/no-unreachable
+     * @see https://eslint.org/docs/latest/rules/no-unreachable
      */
     "no-unreachable": Linter.RuleEntry<[]>;
 
     /**
-     * Disallow loops with a body that allows only one iteration.
+     * Rule to disallow loops with a body that allows only one iteration.
      *
      * @since 7.3.0
      * @see https://eslint.org/docs/latest/rules/no-unreachable-loop
@@ -541,7 +565,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 2.9.0
-     * @see https://eslint.org/docs/rules/no-unsafe-finally
+     * @see https://eslint.org/docs/latest/rules/no-unsafe-finally
      */
     "no-unsafe-finally": Linter.RuleEntry<[]>;
 
@@ -552,7 +576,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 3.3.0
-     * @see https://eslint.org/docs/rules/no-unsafe-negation
+     * @see https://eslint.org/docs/latest/rules/no-unsafe-negation
      */
     "no-unsafe-negation": Linter.RuleEntry<
         [
@@ -567,13 +591,13 @@ export interface PossibleErrors extends Linter.RulesRecord {
     >;
 
     /**
-     * Disallow use of optional chaining in contexts where the `undefined` value is not allowed.
+     * Rule to disallow use of optional chaining in contexts where the `undefined` value is not allowed.
      *
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 7.15.0
-     * @see https://eslint.org/docs/rules/no-unsafe-optional-chaining
+     * @see https://eslint.org/docs/latest/rules/no-unsafe-optional-chaining
      */
     "no-unsafe-optional-chaining": Linter.RuleEntry<
         [
@@ -587,13 +611,21 @@ export interface PossibleErrors extends Linter.RulesRecord {
     >;
 
     /**
-     * Rule to disallow assignments that can lead to race conditions due to usage of `await` or `yield`.
+     * Rule to disallow unused private class members.
      *
      * @remarks
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
+     * @since 8.1.0
+     * @see https://eslint.org/docs/latest/rules/no-unused-private-class-members
+     */
+    "no-unused-private-class-members": Linter.RuleEntry<[]>;
+
+    /**
+     * Rule to disallow assignments that can lead to race conditions due to usage of `await` or `yield`.
+     *
      * @since 5.3.0
-     * @see https://eslint.org/docs/rules/require-atomic-updates
+     * @see https://eslint.org/docs/latest/rules/require-atomic-updates
      */
     "require-atomic-updates": Linter.RuleEntry<
         [
@@ -614,7 +646,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.0.6
-     * @see https://eslint.org/docs/rules/use-isnan
+     * @see https://eslint.org/docs/latest/rules/use-isnan
      */
     "use-isnan": Linter.RuleEntry<
         [
@@ -638,7 +670,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
      *
      * @since 0.5.0
-     * @see https://eslint.org/docs/rules/valid-typeof
+     * @see https://eslint.org/docs/latest/rules/valid-typeof
      */
     "valid-typeof": Linter.RuleEntry<
         [
