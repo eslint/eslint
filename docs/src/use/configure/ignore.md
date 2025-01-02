@@ -96,7 +96,7 @@ The usage is the following:
 
 This way every configuration object that follow this one inherit the `global ignores`.
 
-```ts
+```js
 // eslint.config.ts
 
 import globals from "globals";
