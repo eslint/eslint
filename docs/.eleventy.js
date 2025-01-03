@@ -37,6 +37,7 @@ module.exports = function(eleventyConfig) {
      */
 
     let pathPrefix = "/docs/head/";
+    const isNumberVersion = process.env.BRANCH && /^v\d+\.x$/u.test(process.env.BRANCH);
 
     if (process.env.CONTEXT === "deploy-preview") {
         pathPrefix = "/";
@@ -44,7 +45,7 @@ module.exports = function(eleventyConfig) {
         pathPrefix = "/docs/latest/";
     } else if (process.env.BRANCH === "next") {
         pathPrefix = "/docs/next/";
-    } else if (process.env.BRANCH && /^v\d+\.x$/u.test(process.env.BRANCH)) {
+    } else if (isNumberVersion) {
         pathPrefix = `/docs/${process.env.BRANCH}/`; // `/docs/v8.x/`, `/docs/v9.x/`, `/docs/v10.x/` ...
     }
 
@@ -56,10 +57,10 @@ module.exports = function(eleventyConfig) {
     const siteName = process.env.ESLINT_SITE_NAME || "en";
 
     /**
-     * Determines whether the given version is a prerelease.
-     * @returns {boolean} `true` if it is a prerelease, `false` otherwise.
+     * Determines whether we are in the prerelease phase.
+     * @returns {Promise<boolean>} `true` if there is a prerelease of the next major version, `false` otherwise.
      */
-    async function isPreRelease() {
+    async function isPrereleasePhase() {
         const eslintVersions = await require("./src/_data/eslintVersions")();
 
         return eslintVersions.items.some(item => item.branch === "next");
@@ -70,8 +71,8 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addGlobalData("HEAD", process.env.BRANCH === "main");
     eleventyConfig.addGlobalData("NOINDEX", process.env.BRANCH !== "latest");
     eleventyConfig.addGlobalData("PATH_PREFIX", pathPrefix);
-    eleventyConfig.addGlobalData("is_pre_release", isPreRelease);
-    eleventyConfig.addGlobalData("is_number_version", process.env.BRANCH && /^v\d+\.x$/u.test(process.env.BRANCH));
+    eleventyConfig.addGlobalData("is_prerelease_phase", isPrereleasePhase);
+    eleventyConfig.addGlobalData("is_number_version", isNumberVersion);
     eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
     //------------------------------------------------------------------------------
