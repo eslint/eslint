@@ -161,7 +161,7 @@ const { category_id } = query;
 
 const { categoryid_Default = 1 } = query;
 
-const { category_id: category_Id } = query;
+const { category_ids: category_ids } = query;
 
 const { category_id: category_Alias } = query;
 
