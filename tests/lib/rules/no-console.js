@@ -193,11 +193,7 @@ ruleTester.run("no-console", rule, {
                 messageId: "limited",
                 data: { allowed: "warn" },
                 type: "MemberExpression",
-                suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "info", to: "warn" },
-                    output: "if (a) console.warn(foo)"
-                }]
+                suggestions: null
             }]
         },
         {
@@ -207,11 +203,7 @@ ruleTester.run("no-console", rule, {
                 messageId: "limited",
                 data: { allowed: "log" },
                 type: "MemberExpression",
-                suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "warn", to: "log" },
-                    output: "foo(console.log)"
-                }]
+                suggestions: null
             }]
         },
         {
@@ -222,10 +214,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "error" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "log", to: "error" },
-                    output: "console.error(foo)"
-                }, {
                     messageId: "removeConsole",
                     data: { propertyName: "log" },
                     output: ""
@@ -240,10 +228,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "warn" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "error", to: "warn" },
-                    output: "console.warn(foo)"
-                }, {
                     messageId: "removeConsole",
                     data: { propertyName: "error" },
                     output: ""
@@ -258,10 +242,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "log" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "info", to: "log" },
-                    output: "console.log(foo)"
-                }, {
                     messageId: "removeConsole",
                     data: { propertyName: "info" },
                     output: ""
@@ -276,10 +256,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "error" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "warn", to: "error" },
-                    output: "console.error(foo)"
-                }, {
                     messageId: "removeConsole",
                     data: { propertyName: "warn" },
                     output: ""
@@ -294,10 +270,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "error" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "log", to: "error" },
-                    output: "switch (a) { case 1: console.error(foo) }"
-                }, {
                     messageId: "removeConsole",
                     data: { propertyName: "log" },
                     output: "switch (a) { case 1:  }"
@@ -312,10 +284,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "warn" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "info", to: "warn" },
-                    output: "if (a) { console.warn(foo) }"
-                }, {
                     messageId: "removeConsole",
                     data: { propertyName: "info" },
                     output: "if (a) {  }"
@@ -331,10 +299,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "log" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "error", to: "log" },
-                    output: "class A { static { console.log(foo) } }"
-                }, {
                     messageId: "removeConsole",
                     data: { propertyName: "error" },
                     output: "class A { static {  } }"
@@ -350,17 +314,7 @@ ruleTester.run("no-console", rule, {
                 messageId: "limited",
                 data: { allowed: "warn, error" },
                 type: "MemberExpression",
-                suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "log", to: "warn" },
-                    output: "if (a) console.warn(foo)"
-                },
-                {
-                    messageId: "replaceMethod",
-                    data: { from: "log", to: "error" },
-                    output: "if (a) console.error(foo)"
-                }
-                ]
+                suggestions: null
             }]
         },
         {
@@ -369,17 +323,7 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "limited",
                 type: "MemberExpression",
-                suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "info", to: "warn" },
-                    output: "foo(console.warn)"
-                },
-                {
-                    messageId: "replaceMethod",
-                    data: { from: "info", to: "error" },
-                    output: "foo(console.error)"
-                }
-                ]
+                suggestions: null
             }]
         },
         {
@@ -390,16 +334,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "warn, info" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "log", to: "warn" },
-                    output: "console.warn(foo)"
-                },
-                {
-                    messageId: "replaceMethod",
-                    data: { from: "log", to: "info" },
-                    output: "console.info(foo)"
-                },
-                {
                     messageId: "removeConsole",
                     data: { propertyName: "log" },
                     output: ""
@@ -414,21 +348,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "warn, info, log" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "error", to: "warn" },
-                    output: "console.warn(foo)"
-                },
-                {
-                    messageId: "replaceMethod",
-                    data: { from: "error", to: "info" },
-                    output: "console.info(foo)"
-                },
-                {
-                    messageId: "replaceMethod",
-                    data: { from: "error", to: "log" },
-                    output: "console.log(foo)"
-                },
-                {
                     messageId: "removeConsole",
                     data: { propertyName: "error" },
                     output: ""
@@ -443,21 +362,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "warn, error, log" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "info", to: "warn" },
-                    output: "console.warn(foo)"
-                },
-                {
-                    messageId: "replaceMethod",
-                    data: { from: "info", to: "error" },
-                    output: "console.error(foo)"
-                },
-                {
-                    messageId: "replaceMethod",
-                    data: { from: "info", to: "log" },
-                    output: "console.log(foo)"
-                },
-                {
                     messageId: "removeConsole",
                     data: { propertyName: "info" },
                     output: ""
@@ -472,16 +376,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "info, log" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "warn", to: "info" },
-                    output: "console.info(foo)"
-                },
-                {
-                    messageId: "replaceMethod",
-                    data: { from: "warn", to: "log" },
-                    output: "console.log(foo)"
-                },
-                {
                     messageId: "removeConsole",
                     data: { propertyName: "warn" },
                     output: ""
@@ -496,16 +390,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "info, log" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "error", to: "info" },
-                    output: "switch (a) { case 1: console.info(foo) }"
-                },
-                {
-                    messageId: "replaceMethod",
-                    data: { from: "error", to: "log" },
-                    output: "switch (a) { case 1: console.log(foo) }"
-                },
-                {
                     messageId: "removeConsole",
                     data: { propertyName: "error" },
                     output: "switch (a) { case 1:  }"
@@ -520,16 +404,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "warn, error" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "log", to: "warn" },
-                    output: "if (a) { console.warn(foo) }"
-                },
-                {
-                    messageId: "replaceMethod",
-                    data: { from: "log", to: "error" },
-                    output: "if (a) { console.error(foo) }"
-                },
-                {
                     messageId: "removeConsole",
                     data: { propertyName: "log" },
                     output: "if (a) {  }"
@@ -545,21 +419,6 @@ ruleTester.run("no-console", rule, {
                 data: { allowed: "log, error, warn" },
                 type: "MemberExpression",
                 suggestions: [{
-                    messageId: "replaceMethod",
-                    data: { from: "info", to: "log" },
-                    output: "class A { static { console.log(foo) } }"
-                },
-                {
-                    messageId: "replaceMethod",
-                    data: { from: "info", to: "error" },
-                    output: "class A { static { console.error(foo) } }"
-                },
-                {
-                    messageId: "replaceMethod",
-                    data: { from: "info", to: "warn" },
-                    output: "class A { static { console.warn(foo) } }"
-                },
-                {
                     messageId: "removeConsole",
                     data: { propertyName: "info" },
                     output: "class A { static {  } }"
