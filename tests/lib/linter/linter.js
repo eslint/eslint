@@ -11557,7 +11557,7 @@ describe("Linter with FlatConfigArray", () => {
                             });
                         });
 
-                        it("reports an unnecessary inline config from the /*eslint*/ comment when the comment disables a rule that was not enabled", () => {
+                        it("reports an unnecessary inline config from the /*eslint*/ comment when the comment disables a rule that is not enabled so can't be turned off", () => {
                             const code = "/*eslint test/my-rule: 'off' */";
                             const config = {
                                 linterOptions: {
@@ -11573,11 +11573,11 @@ describe("Linter with FlatConfigArray", () => {
                             assert.strictEqual(messages.length, 1);
                             assert.strictEqual(messages[0].ruleId, null);
                             assert.strictEqual(messages[0].severity, 2);
-                            assert.strictEqual(messages[0].message, "Unused inline config ('test/my-rule' was not enabled).");
+                            assert.strictEqual(messages[0].message, "Unused inline config ('test/my-rule' is not enabled so can't be turned off).");
                             assert.strictEqual(suppressedMessages.length, 0);
                         });
 
-                        it("doesn't report an inline config from the /*eslint*/ comment when the comment enables a rule that was not enabled", () => {
+                        it("doesn't report an inline config from the /*eslint*/ comment when the comment enables a rule that is not enabled so can't be turned off", () => {
                             const code = "/*eslint test/my-rule: 'error' */";
                             const config = {
                                 linterOptions: {
