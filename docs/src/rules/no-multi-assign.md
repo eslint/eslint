@@ -27,7 +27,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-multi-assign: "error"*/
 
-var a = b = c = 5;
+let a = b = c = 5;
 
 const foo = bar = "baz";
 
@@ -51,9 +51,9 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-multi-assign: "error"*/
 
-var a = 5;
-var b = 5;
-var c = 5;
+let a = 5;
+let b = 5;
+const c = 5;
 
 const foo = "baz";
 const bar = "baz";

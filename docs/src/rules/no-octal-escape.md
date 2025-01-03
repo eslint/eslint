@@ -7,7 +7,7 @@ rule_type: suggestion
 As of the ECMAScript 5 specification, octal escape sequences in string literals are deprecated and should not be used. Unicode escape sequences should be used instead.
 
 ```js
-var foo = "Copyright \251";
+const foo = "Copyright \251";
 ```
 
 ## Rule Details
@@ -23,7 +23,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-octal-escape: "error"*/
 
-var foo = "Copyright \251";
+const foo = "Copyright \251";
 ```
 
 :::
@@ -35,9 +35,9 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-octal-escape: "error"*/
 
-var foo = "Copyright \u00A9";   // unicode
+const foo = "Copyright \u00A9";   // unicode
 
-var foo = "Copyright \xA9";     // hexadecimal
+const buz = "Copyright \xA9";     // hexadecimal
 ```
 
 :::
