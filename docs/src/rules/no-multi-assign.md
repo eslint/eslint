@@ -27,7 +27,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-multi-assign: "error"*/
 
-const a = b = c = 5;
+let a = b = c = 5;
 
 const foo = bar = "baz";
 
