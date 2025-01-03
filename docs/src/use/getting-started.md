@@ -51,43 +51,19 @@ After that, you can run ESLint on any file or directory like this:
 
 **Note:** If you are coming from a version before 9.0.0 please see the [migration guide](configure/migration-guide).
 
-After running `npm init @eslint/config`, you'll have an `eslint.config.js` (or `eslint.config.mjs`) file in your directory. In it, you'll see some rules configured like this:
+When you run `npm init @eslint/config` , terminal would provide you different options to create a config file `eslint.config.js` (or `eslint.config.mjs`) as per your need .
+
+For example if you select *browser* and choose to install the *dependencies* , you will get a config like the one shown below .
 
 ```js
-// eslint.config.js
+import globals from "globals";
+import pluginJs from "@eslint/js";
+
+
+/** @type {import('eslint').Linter.Config[]} */
 export default [
-    {
-        rules: {
-            "no-unused-vars": "error",
-            "no-undef": "error"
-        }
-    }
-];
-```
-
-The names `"no-unused-vars"` and `"no-undef"` are the names of [rules](../rules) in ESLint. The first value is the error level of the rule and can be one of these values:
-
-* `"off"` or `0` - turn the rule off
-* `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
-* `"error"` or `2` - turn the rule on as an error (exit code will be 1)
-
-The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](configure/)).
-
-Your `eslint.config.js` configuration file will also include a recommended configuration, like this:
-
-```js
-// eslint.config.js
-import js from "@eslint/js";
-
-export default [
-    js.configs.recommended,
-
-    {
-        rules: {
-            "no-unused-vars": "warn",
-            "no-undef": "warn"
-        }
-    }
+  {languageOptions: { globals: globals.browser }},
+  pluginJs.configs.recommended,
 ];
 ```
 
