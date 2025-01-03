@@ -192,7 +192,7 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: null
+                suggestions: [{ messageId: "replaceMethod", data: { from: "info", to: "warn" }, output: "if (a) console.warn(foo)" }]
             }]
         },
         {
@@ -201,7 +201,7 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: null
+                suggestions: [{ messageId: "replaceMethod", data: { from: "warn", to: "log" }, output: "foo(console.log)" }]
             }]
         },
         {
@@ -210,7 +210,7 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
+                suggestions: [{ messageId: "replaceMethod", data: { from: "log", to: "error" }, output: "console.error(foo)" }, {
                     messageId: "removeConsole",
                     data: { propertyName: "log" },
                     output: ""
@@ -223,7 +223,7 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
+                suggestions: [{ messageId: "replaceMethod", data: { from: "error", to: "warn" }, output: "console.warn(foo)" }, {
                     messageId: "removeConsole",
                     data: { propertyName: "error" },
                     output: ""
@@ -236,7 +236,7 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
+                suggestions: [{ messageId: "replaceMethod", data: { from: "info", to: "log" }, output: "console.log(foo)" }, {
                     messageId: "removeConsole",
                     data: { propertyName: "info" },
                     output: ""
@@ -249,7 +249,7 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
+                suggestions: [{ messageId: "replaceMethod", data: { from: "warn", to: "error" }, output: "console.error(foo)" }, {
                     messageId: "removeConsole",
                     data: { propertyName: "warn" },
                     output: ""
@@ -262,7 +262,7 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
+                suggestions: [{ messageId: "replaceMethod", data: { from: "log", to: "error" }, output: "switch (a) { case 1: console.error(foo) }" }, {
                     messageId: "removeConsole",
                     data: { propertyName: "log" },
                     output: "switch (a) { case 1:  }"
@@ -275,7 +275,7 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
+                suggestions: [{ messageId: "replaceMethod", data: { from: "info", to: "warn" }, output: "if (a) { console.warn(foo) }" }, {
                     messageId: "removeConsole",
                     data: { propertyName: "info" },
                     output: "if (a) {  }"
@@ -289,7 +289,7 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
+                suggestions: [{ messageId: "replaceMethod", data: { from: "error", to: "log" }, output: "class A { static { console.log(foo) } }" }, {
                     messageId: "removeConsole",
                     data: { propertyName: "error" },
                     output: "class A { static {  } }"
@@ -304,7 +304,10 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: null
+                suggestions: [
+                    { messageId: "replaceMethod", data: { from: "log", to: "warn" }, output: "if (a) console.warn(foo)" },
+                    { messageId: "replaceMethod", data: { from: "log", to: "error" }, output: "if (a) console.error(foo)" }
+                ]
             }]
         },
         {
@@ -313,7 +316,10 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: null
+                suggestions: [
+                    { messageId: "replaceMethod", data: { from: "info", to: "warn" }, output: "foo(console.warn)" },
+                    { messageId: "replaceMethod", data: { from: "info", to: "error" }, output: "foo(console.error)" }
+                ]
             }]
         },
         {
@@ -322,11 +328,14 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
-                    messageId: "removeConsole",
-                    data: { propertyName: "log" },
-                    output: ""
-                }]
+                suggestions: [
+                    { messageId: "replaceMethod", data: { from: "log", to: "warn" }, output: "console.warn(foo)" },
+                    { messageId: "replaceMethod", data: { from: "log", to: "info" }, output: "console.info(foo)" },
+                    {
+                        messageId: "removeConsole",
+                        data: { propertyName: "log" },
+                        output: ""
+                    }]
             }]
         },
         {
@@ -335,11 +344,15 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
-                    messageId: "removeConsole",
-                    data: { propertyName: "error" },
-                    output: ""
-                }]
+                suggestions: [
+                    { messageId: "replaceMethod", data: { from: "error", to: "warn" }, output: "console.warn(foo)" },
+                    { messageId: "replaceMethod", data: { from: "error", to: "info" }, output: "console.info(foo)" },
+                    { messageId: "replaceMethod", data: { from: "error", to: "log" }, output: "console.log(foo)" },
+                    {
+                        messageId: "removeConsole",
+                        data: { propertyName: "error" },
+                        output: ""
+                    }]
             }]
         },
         {
@@ -348,11 +361,15 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
-                    messageId: "removeConsole",
-                    data: { propertyName: "info" },
-                    output: ""
-                }]
+                suggestions: [
+                    { messageId: "replaceMethod", data: { from: "info", to: "warn" }, output: "console.warn(foo)" },
+                    { messageId: "replaceMethod", data: { from: "info", to: "error" }, output: "console.error(foo)" },
+                    { messageId: "replaceMethod", data: { from: "info", to: "log" }, output: "console.log(foo)" },
+                    {
+                        messageId: "removeConsole",
+                        data: { propertyName: "info" },
+                        output: ""
+                    }]
             }]
         },
         {
@@ -361,11 +378,14 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
-                    messageId: "removeConsole",
-                    data: { propertyName: "warn" },
-                    output: ""
-                }]
+                suggestions: [
+                    { messageId: "replaceMethod", data: { from: "warn", to: "info" }, output: "console.info(foo)" },
+                    { messageId: "replaceMethod", data: { from: "warn", to: "log" }, output: "console.log(foo)" },
+                    {
+                        messageId: "removeConsole",
+                        data: { propertyName: "warn" },
+                        output: ""
+                    }]
             }]
         },
         {
@@ -374,11 +394,14 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
-                    messageId: "removeConsole",
-                    data: { propertyName: "error" },
-                    output: "switch (a) { case 1:  }"
-                }]
+                suggestions: [
+                    { messageId: "replaceMethod", data: { from: "error", to: "info" }, output: "switch (a) { case 1: console.info(foo) }" },
+                    { messageId: "replaceMethod", data: { from: "error", to: "log" }, output: "switch (a) { case 1: console.log(foo) }" },
+                    {
+                        messageId: "removeConsole",
+                        data: { propertyName: "error" },
+                        output: "switch (a) { case 1:  }"
+                    }]
             }]
         },
         {
@@ -387,11 +410,14 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
-                    messageId: "removeConsole",
-                    data: { propertyName: "log" },
-                    output: "if (a) {  }"
-                }]
+                suggestions: [
+                    { messageId: "replaceMethod", data: { from: "log", to: "warn" }, output: "if (a) { console.warn(foo) }" },
+                    { messageId: "replaceMethod", data: { from: "log", to: "error" }, output: "if (a) { console.error(foo) }" },
+                    {
+                        messageId: "removeConsole",
+                        data: { propertyName: "log" },
+                        output: "if (a) {  }"
+                    }]
             }]
         },
         {
@@ -401,11 +427,15 @@ ruleTester.run("no-console", rule, {
             errors: [{
                 messageId: "unexpected",
                 type: "MemberExpression",
-                suggestions: [{
-                    messageId: "removeConsole",
-                    data: { propertyName: "info" },
-                    output: "class A { static {  } }"
-                }]
+                suggestions: [
+                    { messageId: "replaceMethod", data: { from: "info", to: "log" }, output: "class A { static { console.log(foo) } }" },
+                    { messageId: "replaceMethod", data: { from: "info", to: "error" }, output: "class A { static { console.error(foo) } }" },
+                    { messageId: "replaceMethod", data: { from: "info", to: "warn" }, output: "class A { static { console.warn(foo) } }" },
+                    {
+                        messageId: "removeConsole",
+                        data: { propertyName: "info" },
+                        output: "class A { static {  } }"
+                    }]
             }]
         },
 
