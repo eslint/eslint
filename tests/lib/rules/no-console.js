@@ -322,6 +322,7 @@ ruleTester.run("no-console", rule, {
             options: [{ allow: ["warn", "error"] }],
             errors: [{
                 messageId: "limited",
+                data: { allowed: "warn, error" },
                 type: "MemberExpression",
                 suggestions: null
             }]
