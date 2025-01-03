@@ -53,7 +53,7 @@ After that, you can run ESLint on any file or directory like this:
 
 When you run `npm init @eslint/config`, terminal would provide you different options to create a config file `eslint.config.js` (or `eslint.config.mjs`) as per your need.
 
-For example if you select *browser` and choose to install the `dependencies`, you will get a config like the one shown below.
+For example if you select "browser" and choose to install the `dependencies`, you will get a config like the one shown below.
 
 ```js
 import globals from "globals";
