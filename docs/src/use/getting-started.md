@@ -51,9 +51,9 @@ After that, you can run ESLint on any file or directory like this:
 
 **Note:** If you are coming from a version before 9.0.0 please see the [migration guide](configure/migration-guide).
 
-When you run `npm init @eslint/config`, you'll be asked a series of questions to determine how you're using ESLint and what options should be included. After answering these questions, you'll have an `eslint.config.js` (or `eslint-config.mjs`) file created in your directory.
+When you run `npm init @eslint/config`, you'll be asked a series of questions to determine how you're using ESLint and what options should be included. After answering these questions, you'll have an `eslint.config.js` (or `eslint.config.mjs`) file created in your directory.
 
-For example,one of the questions is "Where does your code run?" If you select "Browser" then your configuration file will contain the definitions for global variables found in web browsers. Here's an example .
+For example, one of the questions is "Where does your code run?" If you select "Browser" then your configuration file will contain the definitions for global variables found in web browsers. Here's an example:
 
 ```js
 import globals from "globals";
