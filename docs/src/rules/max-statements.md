@@ -102,8 +102,8 @@ function foo() {
     // The number of statements in the inner function does not count toward the
     // statement maximum.
 
-    const bar;
-    const baz;
+    let bar;
+    let baz;
     return 42;
   };
 }
@@ -123,8 +123,8 @@ let bar = () => {
     // The number of statements in the inner function does not count toward the
     // statement maximum.
 
-    const bar;
-    const baz;
+    let bar;
+    let baz;
     return 42;
   };
 }
