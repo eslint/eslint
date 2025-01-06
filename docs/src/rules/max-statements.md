@@ -62,7 +62,7 @@ function foo() {
   const foo11 = 11; // Too many.
 }
 
-let bar = () => {
+const bar = () => {
   const foo1 = 1;
   const foo2 = 2;
   const foo3 = 3;
@@ -108,7 +108,7 @@ function foo() {
   };
 }
 
-let bar = () => {
+const bar = () => {
   const foo1 = 1;
   const foo2 = 2;
   const foo3 = 3;
