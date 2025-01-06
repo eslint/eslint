@@ -16,9 +16,9 @@ The `max-statements` rule allows you to specify the maximum number of statements
 
 ```js
 function foo() {
-  var bar = 1; // one statement
-  var baz = 2; // two statements
-  var qux = 3; // three statements
+  const bar = 1; // one statement
+  const baz = 2; // two statements
+  const qux = 3; // three statements
 }
 ```
 
@@ -48,33 +48,33 @@ Examples of **incorrect** code for this rule with the default `{ "max": 10 }` op
 /*eslint max-statements: ["error", 10]*/
 
 function foo() {
-  var foo1 = 1;
-  var foo2 = 2;
-  var foo3 = 3;
-  var foo4 = 4;
-  var foo5 = 5;
-  var foo6 = 6;
-  var foo7 = 7;
-  var foo8 = 8;
-  var foo9 = 9;
-  var foo10 = 10;
+  const foo1 = 1;
+  const foo2 = 2;
+  const foo3 = 3;
+  const foo4 = 4;
+  const foo5 = 5;
+  const foo6 = 6;
+  const foo7 = 7;
+  const foo8 = 8;
+  const foo9 = 9;
+  const foo10 = 10;
 
-  var foo11 = 11; // Too many.
+  const foo11 = 11; // Too many.
 }
 
 let bar = () => {
-  var foo1 = 1;
-  var foo2 = 2;
-  var foo3 = 3;
-  var foo4 = 4;
-  var foo5 = 5;
-  var foo6 = 6;
-  var foo7 = 7;
-  var foo8 = 8;
-  var foo9 = 9;
-  var foo10 = 10;
+  const foo1 = 1;
+  const foo2 = 2;
+  const foo3 = 3;
+  const foo4 = 4;
+  const foo5 = 5;
+  const foo6 = 6;
+  const foo7 = 7;
+  const foo8 = 8;
+  const foo9 = 9;
+  const foo10 = 10;
 
-  var foo11 = 11; // Too many.
+  const foo11 = 11; // Too many.
 };
 ```
 
@@ -88,43 +88,43 @@ Examples of **correct** code for this rule with the default `{ "max": 10 }` opti
 /*eslint max-statements: ["error", 10]*/
 
 function foo() {
-  var foo1 = 1;
-  var foo2 = 2;
-  var foo3 = 3;
-  var foo4 = 4;
-  var foo5 = 5;
-  var foo6 = 6;
-  var foo7 = 7;
-  var foo8 = 8;
-  var foo9 = 9;
+  const foo1 = 1;
+  const foo2 = 2;
+  const foo3 = 3;
+  const foo4 = 4;
+  const foo5 = 5;
+  const foo6 = 6;
+  const foo7 = 7;
+  const foo8 = 8;
+  const foo9 = 9;
   return function () { // 10
 
     // The number of statements in the inner function does not count toward the
     // statement maximum.
 
-    var bar;
-    var baz;
+    const bar;
+    const baz;
     return 42;
   };
 }
 
 let bar = () => {
-  var foo1 = 1;
-  var foo2 = 2;
-  var foo3 = 3;
-  var foo4 = 4;
-  var foo5 = 5;
-  var foo6 = 6;
-  var foo7 = 7;
-  var foo8 = 8;
-  var foo9 = 9;
+  const foo1 = 1;
+  const foo2 = 2;
+  const foo3 = 3;
+  const foo4 = 4;
+  const foo5 = 5;
+  const foo6 = 6;
+  const foo7 = 7;
+  const foo8 = 8;
+  const foo9 = 9;
   return function () { // 10
 
     // The number of statements in the inner function does not count toward the
     // statement maximum.
 
-    var bar;
-    var baz;
+    const bar;
+    const baz;
     return 42;
   };
 }
@@ -170,17 +170,17 @@ Examples of additional **correct** code for this rule with the `{ "max": 10 }, {
 /*eslint max-statements: ["error", 10, { "ignoreTopLevelFunctions": true }]*/
 
 function foo() {
-  var foo1 = 1;
-  var foo2 = 2;
-  var foo3 = 3;
-  var foo4 = 4;
-  var foo5 = 5;
-  var foo6 = 6;
-  var foo7 = 7;
-  var foo8 = 8;
-  var foo9 = 9;
-  var foo10 = 10;
-  var foo11 = 11;
+  const foo1 = 1;
+  const foo2 = 2;
+  const foo3 = 3;
+  const foo4 = 4;
+  const foo5 = 5;
+  const foo6 = 6;
+  const foo7 = 7;
+  const foo8 = 8;
+  const foo9 = 9;
+  const foo10 = 10;
+  const foo11 = 11;
 }
 ```
 
