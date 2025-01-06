@@ -15,16 +15,16 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint for-direction: "error"*/
-for (var i = 0; i < 10; i--) {
+for (let i = 0; i < 10; i--) {
 }
 
-for (var i = 10; i >= 0; i++) {
+for (let i = 10; i >= 0; i++) {
 }
 
-for (var i = 0; i > 10; i++) {
+for (let i = 0; i > 10; i++) {
 }
 
-for (var i = 0; 10 > i; i--) {
+for (let i = 0; 10 > i; i--) {
 }
 
 const n = -2;
@@ -40,10 +40,10 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint for-direction: "error"*/
-for (var i = 0; i < 10; i++) {
+for (let i = 0; i < 10; i++) {
 }
 
-for (var i = 0; 10 > i; i++) { // with counter "i" on the right
+for (let i = 0; 10 > i; i++) { // with counter "i" on the right
 }
 
 for (let i = 10; i >= 0; i += this.step) { // direction unknown

@@ -39,13 +39,13 @@ Examples of **incorrect** code for this rule with the default `"except-parens"` 
 /*eslint no-cond-assign: "error"*/
 
 // Unintentional assignment
-var x;
+let x;
 if (x = 0) {
-    var b = 1;
+    const b = 1;
 }
 
 // Practical example that is similar to an error
-var setHeight = function (someNode) {
+const setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while (someNode = someNode.parentNode);
@@ -62,20 +62,20 @@ Examples of **correct** code for this rule with the default `"except-parens"` op
 /*eslint no-cond-assign: "error"*/
 
 // Assignment replaced by comparison
-var x;
+let x;
 if (x === 0) {
-    var b = 1;
+    const b = 1;
 }
 
 // Practical example that wraps the assignment in parentheses
-var setHeight = function (someNode) {
+const setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode));
 }
 
 // Practical example that wraps the assignment and tests for 'null'
-var setHeight = function (someNode) {
+const set_height = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode) !== null);
@@ -94,27 +94,27 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 /*eslint no-cond-assign: ["error", "always"]*/
 
 // Unintentional assignment
-var x;
+let x;
 if (x = 0) {
-    var b = 1;
+    const b = 1;
 }
 
 // Practical example that is similar to an error
-var setHeight = function (someNode) {
+const setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while (someNode = someNode.parentNode);
 }
 
 // Practical example that wraps the assignment in parentheses
-var setHeight = function (someNode) {
+const set_height = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode));
 }
 
 // Practical example that wraps the assignment and tests for 'null'
-var setHeight = function (someNode) {
+const heightSetter = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode) !== null);
@@ -131,9 +131,9 @@ Examples of **correct** code for this rule with the `"always"` option:
 /*eslint no-cond-assign: ["error", "always"]*/
 
 // Assignment replaced by comparison
-var x;
+let x;
 if (x === 0) {
-    var b = 1;
+    const b = 1;
 }
 ```
 
