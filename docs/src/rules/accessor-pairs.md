@@ -17,7 +17,7 @@ Here are some examples:
 
 ```js
 // Bad
-let o = {
+const o = {
     set a(value) {
         this.val = value;
     }
@@ -25,7 +25,7 @@ let o = {
 
 
 // Good
-let p = {
+const p = {
     set a(value) {
         this.val = value;
     },
