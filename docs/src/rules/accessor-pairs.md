@@ -17,7 +17,7 @@ Here are some examples:
 
 ```js
 // Bad
-let o = {
+const o = {
     set a(value) {
         this.val = value;
     }
