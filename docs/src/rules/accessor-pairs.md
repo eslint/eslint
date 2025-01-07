@@ -25,7 +25,7 @@ let o = {
 
 
 // Good
-let o = {
+let p = {
     set a(value) {
         this.val = value;
     },
@@ -61,15 +61,15 @@ Examples of **incorrect** code for the default `{ "setWithoutGet": true }` optio
 ```js
 /*eslint accessor-pairs: "error"*/
 
-let o = {
+let q = {
     set a(value) {
         this.val = value;
     }
 };
 
 
-let o = {d: 1};
-Object.defineProperty(o, 'c', {
+let r = {d: 1};
+Object.defineProperty(r, 'c', {
     set: function(value) {
         this.val = value;
     }
@@ -85,7 +85,7 @@ Examples of **correct** code for the default `{ "setWithoutGet": true }` option:
 ```js
 /*eslint accessor-pairs: "error"*/
 
-let o = {
+let s = {
     set a(value) {
         this.val = value;
     },
@@ -94,8 +94,8 @@ let o = {
     }
 };
 
-let o = {d: 1};
-Object.defineProperty(o, 'c', {
+let t = {d: 1};
+Object.defineProperty(t, 'c', {
     set: function(value) {
         this.val = value;
     },
@@ -117,27 +117,27 @@ Examples of **incorrect** code for the `{ "getWithoutSet": true }` option:
 ```js
 /*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
 
-let o = {
+let u = {
     set a(value) {
         this.val = value;
     }
 };
 
-let o = {
+let v = {
     get a() {
         return this.val;
     }
 };
 
-let o = {d: 1};
-Object.defineProperty(o, 'c', {
+let w = {d: 1};
+Object.defineProperty(w, 'c', {
     set: function(value) {
         this.val = value;
     }
 });
 
-let o = {d: 1};
-Object.defineProperty(o, 'c', {
+let x = {d: 1};
+Object.defineProperty(x, 'c', {
     get: function() {
         return this.val;
     }
@@ -152,7 +152,7 @@ Examples of **correct** code for the `{ "getWithoutSet": true }` option:
 
 ```js
 /*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
-let o = {
+let y = {
     set a(value) {
         this.val = value;
     },
@@ -161,8 +161,8 @@ let o = {
     }
 };
 
-let o = {d: 1};
-Object.defineProperty(o, 'c', {
+let y = {d: 1};
+Object.defineProperty(y, 'c', {
     set: function(value) {
         this.val = value;
     },
@@ -281,14 +281,14 @@ might not report a missing pair for a getter/setter that has a computed key, lik
 ```js
 /*eslint accessor-pairs: "error"*/
 
-let a = 1;
+let z = 1;
 
 // no warnings
-let o = {
-    get [a++]() {
+let a = {
+    get [z++]() {
         return this.val;
     },
-    set [a++](value) {
+    set [z++](value) {
         this.val = value;
     }
 };
@@ -301,7 +301,7 @@ might not report a missing pair for a getter/setter, like in the following examp
 /*eslint accessor-pairs: "error"*/
 
 // no warnings
-let o = {
+let b = {
     get a() {
         return this.val;
     },
