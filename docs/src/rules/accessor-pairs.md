@@ -68,7 +68,7 @@ let q = {
 };
 
 
-let r = {d: 1};
+const r = {d: 1};
 Object.defineProperty(r, 'c', {
     set: function(value) {
         this.val = value;
@@ -85,7 +85,7 @@ Examples of **correct** code for the default `{ "setWithoutGet": true }` option:
 ```js
 /*eslint accessor-pairs: "error"*/
 
-let s = {
+const s = {
     set a(value) {
         this.val = value;
     },
@@ -94,7 +94,7 @@ let s = {
     }
 };
 
-let t = {d: 1};
+const t = {d: 1};
 Object.defineProperty(t, 'c', {
     set: function(value) {
         this.val = value;
@@ -161,7 +161,7 @@ let y = {
     }
 };
 
-let y = {d: 1};
+const z = {d: 1};
 Object.defineProperty(y, 'c', {
     set: function(value) {
         this.val = value;
@@ -284,7 +284,7 @@ might not report a missing pair for a getter/setter that has a computed key, lik
 let z = 1;
 
 // no warnings
-let a = {
+const a = {
     get [z++]() {
         return this.val;
     },
@@ -301,7 +301,7 @@ might not report a missing pair for a getter/setter, like in the following examp
 /*eslint accessor-pairs: "error"*/
 
 // no warnings
-let b = {
+const b = {
     get a() {
         return this.val;
     },
