@@ -162,7 +162,7 @@ let y = {
 };
 
 const z = {d: 1};
-Object.defineProperty(y, 'c', {
+Object.defineProperty(z, 'c', {
     set: function(value) {
         this.val = value;
     },
