@@ -25,7 +25,7 @@ const o = {
 
 
 // Good
-let p = {
+const p = {
     set a(value) {
         this.val = value;
     },
