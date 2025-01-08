@@ -5,7 +5,7 @@
 
 "use strict";
 
-const { version } = require("../package.json");
+const { name, version } = require("../package.json");
 
 //------------------------------------------------------------------------------
 // Public Interface
@@ -13,7 +13,7 @@ const { version } = require("../package.json");
 
 module.exports = {
     meta: {
-        name: "@eslint/js",
+        name,
         version
     },
     configs: {

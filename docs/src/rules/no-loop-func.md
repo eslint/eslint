@@ -140,3 +140,20 @@ for (var i = 0; i < 5; i++) {
 ```
 
 :::
+
+## Known Limitations
+
+The rule cannot identify whether the function instance is just immediately invoked and then discarded, or possibly stored for later use.
+
+```js
+const foo = [1, 2, 3, 4];
+var i = 0;
+
+while(foo.some(e => e > i)){
+    i += 1;
+}
+```
+
+Here the `some` method immediately executes the callback function for each element in the array and then discards the function instance. The function is not stored or reused beyond the scope of the loop iteration. So, this will work as intended.
+
+`eslint-disable` comments can be used in such cases.

@@ -19,6 +19,10 @@
     {
       "text": "Playground",
       "url": "https://eslint.org/play"
+    },
+    {
+      "text": "Code Explorer",
+      "url": "https://explorer.eslint.org/"
     }
   ]
 }

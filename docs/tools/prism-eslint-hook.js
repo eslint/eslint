@@ -27,7 +27,7 @@ try {
     // ignore
 }
 
-/** @typedef {import("../../lib/shared/types").ParserOptions} ParserOptions */
+/** @typedef {import("../../lib/shared/types").LanguageOptions} LanguageOptions */
 
 /**
  * Content that needs to be marked with ESLint
@@ -37,19 +37,19 @@ let contentMustBeMarked;
 
 /**
  * Parser options received from the `::: incorrect` or `::: correct` container.
- * @type {ParserOptions|undefined}
+ * @type {LanguageOptions|undefined}
  */
-let contentParserOptions;
+let contentLanguageOptions;
 
 /**
  * Set content that needs to be marked.
  * @param {string} content Source code content that marks ESLint errors.
- * @param {ParserOptions} options The options used for validation.
+ * @param {LanguageOptions} options The options used for validation.
  * @returns {void}
  */
 function addContentMustBeMarked(content, options) {
     contentMustBeMarked = content;
-    contentParserOptions = options;
+    contentLanguageOptions = options;
 }
 
 /**
@@ -113,7 +113,7 @@ function installPrismESLintMarkerHook() {
             return;
         }
         contentMustBeMarked = void 0;
-        const parserOptions = contentParserOptions;
+        const config = contentLanguageOptions ? { languageOptions: contentLanguageOptions } : {};
 
         const code = env.code;
 
@@ -148,7 +148,7 @@ function installPrismESLintMarkerHook() {
 
             // Remove trailing newline and presentational `⏎` characters
             docsExampleCodeToParsableCode(code),
-            { languageOptions: { sourceType: parserOptions.sourceType, parserOptions } },
+            config,
             { filename: "code.js" }
         );
 

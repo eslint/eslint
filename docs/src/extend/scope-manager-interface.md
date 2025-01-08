@@ -119,8 +119,6 @@ Those members are defined but not used in ESLint.
 * **Type:** `Map<string, Variable>`
 * **Description:** The map from variable names to variable objects.
 
-> I hope to rename `set` field or replace by a method.
-
 #### references
 
 * **Type:** `Reference[]`
@@ -135,8 +133,6 @@ Those members are defined but not used in ESLint.
 
 * **Type:** `boolean`
 * **Description:** `true` if this scope is `"function-expression-name"` scope.
-
-> I hope to deprecate `functionExpressionScope` field as replacing by `scope.type === "function-expression-name"`.
 
 ### Deprecated members
 
@@ -216,8 +212,6 @@ Those members are defined but not used in ESLint.
 
 * **Type:** `ASTNode[]`
 * **Description:** The array of `Identifier` nodes which define this variable. If this variable is redeclared, this array includes two or more nodes.
-
-> I hope to deprecate `identifiers` field as replacing by `defs[].name` field.
 
 #### references
 

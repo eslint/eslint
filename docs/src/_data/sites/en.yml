@@ -62,6 +62,9 @@ navigation:
   target: _blank
 - text: Playground
   link: playground
+- text: Code Explorer
+  link: codeExplorer
+  target: _blank
 
 #------------------------------------------------------------------------------
 # Footer
@@ -73,10 +76,11 @@ footer:
   secondary: Secondary
   social_icons:
     title: Social Media
-    twitter: Twitter
     chat: Discord
     github: GitHub
+    bluesky: Bluesky
     mastodon: Mastodon
+    twitter: Twitter
   theme_switcher:
     title: Theme Switcher
     light: Light

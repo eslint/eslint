@@ -55,6 +55,6 @@ ESLint ships with a built-in JavaScript parser (Espree), but custom parsers allo
 
 For example, the custom parser [@typescript-eslint/parser](https://typescript-eslint.io/packages/parser) extends ESLint to lint TypeScript code.
 
-Custom parsers **cannot** be included in a plugin, unlike the other extension types.
+Custom parsers can be also included in a plugin.
 
 To learn more about creating a custom parser, refer to [Custom Parsers](custom-parsers).

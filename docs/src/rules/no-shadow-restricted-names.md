@@ -38,6 +38,20 @@ try {} catch(eval){}
 
 :::
 
+::: incorrect
+
+```js
+/*eslint no-shadow-restricted-names: "error"*/
+
+import NaN from "foo";
+
+import { undefined } from "bar";
+
+class Infinity {}
+```
+
+:::
+
 Examples of **correct** code for this rule:
 
 ::: correct { "sourceType": "script" }
@@ -51,6 +65,16 @@ function f(a, b){}
 
 // Exception: `undefined` may be shadowed if the variable is never assigned a value.
 var undefined;
+```
+
+:::
+
+::: correct
+
+```js
+/*eslint no-shadow-restricted-names: "error"*/
+
+import { undefined as undef } from "bar";
 ```
 
 :::

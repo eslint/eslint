@@ -54,7 +54,7 @@ Comments inside the curly braces in JSX are allowed to be on the same line as th
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect { "ecmaFeatures": { "jsx": true } }
+::: incorrect { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
 ```jsx
 /*eslint no-inline-comments: "error"*/
@@ -74,7 +74,7 @@ var bar = (
 
 Examples of **correct** code for this rule:
 
-::: correct { "ecmaFeatures": { "jsx": true } }
+::: correct { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
 ```jsx
 /*eslint no-inline-comments: "error"*/

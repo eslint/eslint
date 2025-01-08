@@ -8,7 +8,7 @@ rule_type: problem
 Because empty character classes in regular expressions do not match anything, they might be typing mistakes.
 
 ```js
-var foo = /^abc[]/;
+const foo = /^abc[]/;
 ```
 
 ## Rule Details
@@ -73,5 +73,5 @@ Example of a *false negative* when this rule reports correct code:
 ```js
 /*eslint no-empty-character-class: "error"*/
 
-var abcNeverMatches = new RegExp("^abc[]");
+const abcNeverMatches = new RegExp("^abc[]");
 ```

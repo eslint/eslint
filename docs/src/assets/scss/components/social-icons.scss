@@ -18,5 +18,9 @@
                 padding: 1rem .75rem;
             }
         }
+
+        @media screen and (min-width: 800px) and (max-width: 1500px) {
+            flex-wrap: wrap;
+        }
     }
 }

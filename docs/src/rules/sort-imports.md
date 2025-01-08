@@ -8,7 +8,7 @@ related_rules:
 
 
 
-The import statement is used to import members (functions, objects or primitives) that have been exported from an external module. Using a specific member syntax:
+The `import` statement is used to import members (functions, objects or primitives) that have been exported from an external module. Using a specific member syntax:
 
 ```js
 // single - Import single member.
@@ -22,18 +22,18 @@ import {foo, bar} from "my-module.js";
 import * as myModule from "my-module.js";
 ```
 
-The import statement can also import a module without exported bindings. Used when the module does not export anything, but runs it own code or changes the global context object.
+The `import` statement can also import a module without exported bindings. Used when the module does not export anything, but runs it own code or changes the global context object.
 
 ```js
 // none - Import module without exported bindings.
 import "my-module.js"
 ```
 
-When declaring multiple imports, a sorted list of import declarations make it easier for developers to read the code and find necessary imports later. This rule is purely a matter of style.
+When declaring multiple imports, a sorted list of `import` declarations make it easier for developers to read the code and find necessary imports later. This rule is purely a matter of style.
 
 ## Rule Details
 
-This rule checks all import declarations and verifies that all imports are first sorted by the used member syntax and then alphabetically by the first member or alias name.
+This rule checks all `import` declarations and verifies that all imports are first sorted by the used member syntax and then alphabetically by the first member or alias name.
 
 The `--fix` option on the command line automatically fixes some problems reported by this rule: multiple members on a single line are automatically sorted (e.g. `import { b, a } from 'foo.js'` is corrected to `import { a, b } from 'foo.js'`), but multiple lines are not reordered.
 
