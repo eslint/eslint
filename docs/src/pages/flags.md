@@ -70,8 +70,7 @@ On the command line, you can specify feature flags using the `--flag` option. Yo
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["--flag", "flag_one", "--flag", "flag_two", "file.js"],
-    comment: null
+    args: ["--flag", "flag_one", "--flag", "flag_two", "file.js"]
 }) }}
 
 ### Enable Feature Flags with the API

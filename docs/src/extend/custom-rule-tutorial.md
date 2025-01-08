@@ -353,8 +353,7 @@ Run ESLint on `example.js`:
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["example.js"],
-    comment: null
+    args: ["example.js"]
 }) }}
 
 This produces the following output in the terminal:
@@ -444,8 +443,7 @@ Run ESLint on the `example.js` file you created in step 8, now with the download
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["example.js"],
-    comment: null
+    args: ["example.js"]
 }) }}
 
 This produces the following output in the terminal:
@@ -464,8 +462,7 @@ Run ESLint again with the `--fix` flag:
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["example.js", "--fix"],  
-    comment: null
+    args: ["example.js", "--fix"]
 }) }}
 
 There is no error output in the terminal when you run this, but you can see the fix applied in `example.js`. You should see the following:

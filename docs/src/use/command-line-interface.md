@@ -21,8 +21,7 @@ Most users use [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) to run ESLint
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["[options]", "[file|dir|glob]*"],
-    comment: null
+    args: ["[options]", "[file|dir|glob]*"]
 }) }}
 
 Such as:
@@ -45,22 +44,19 @@ Please note that when passing a glob as a parameter, it is expanded by your shel
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["\"lib/**\""],
-    comment: null
+    args: ["\"lib/**\""]
 }) }}
 
 If you are using a [flat configuration file](./configure/configuration-files) (`eslint.config.js`), you can also omit the file arguments and ESLint will use `.`. For instance, these two lines perform the same operation:
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["."],
-    comment: null
+    args: ["."]
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: [],
-    comment: null
+    args: []
 }) }}
 
 If you are not using a flat configuration file, running ESLint without file arguments results in an error.
@@ -75,16 +71,14 @@ Examples of options that accept multiple values:
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--global", "describe", "--global", "it",  "tests/"],
-    comment: null
+    args: ["--global", "describe", "--global", "it",  "tests/"]
 }) }}
 
 OR
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--global", "describe,it", "tests/"],
-    comment: null
+    args: ["--global", "describe,it", "tests/"]
 }) }}
 
 ## Options
@@ -169,8 +163,7 @@ Miscellaneous:
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--no-eslintrc", "file.js"],
-    comment: null
+    args: ["--no-eslintrc", "file.js"]
 }) }}
 
 #### `-c`, `--config`
@@ -184,8 +177,7 @@ This option allows you to specify an additional configuration file for ESLint (s
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["-c", "~/my.eslint.config.js", "file.js"],
-    comment: null
+    args: ["-c", "~/my.eslint.config.js", "file.js"]
 }) }}
 
 This example uses the configuration file at `~/my.eslint.config.js`, which is used instead of searching for an `eslint.config.js` file.
@@ -200,8 +192,7 @@ This example uses the configuration file at `~/my.eslint.config.js`, which is us
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--inspect-config"],
-    comment: null
+    args: ["--inspect-config"]
 }) }}
 
 #### `--env`
@@ -217,14 +208,12 @@ Details about the global variables defined by each environment are available in 
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--env", "browser,node", "file.js"],
-    comment: null
+    args: ["--env", "browser,node", "file.js"]
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--env", "browser", "--env", "node", "file.js"],
-    comment: null
+    args: ["--env", "browser", "--env", "node", "file.js"]
 }) }}
 
 #### `--ext`
@@ -270,14 +259,12 @@ This option defines global variables so that they are not  flagged as undefined 
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--global", "require,exports:true", "file.js"],
-    comment: null
+    args: ["--global", "require,exports:true", "file.js"]
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--global", "require", "--global", "exports:true"],
-    comment: null
+    args: ["--global", "require", "--global", "exports:true"]
 }) }}
 
 #### `--parser`
@@ -338,8 +325,7 @@ For example:
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--config", "~/personal-eslintrc.js", "\\", "--resolve-plugins-relative-to", "/usr/local/lib/"],
-    comment: null
+    args: ["--config", "~/personal-eslintrc.js", "\\", "--resolve-plugins-relative-to", "/usr/local/lib/"]
 }) }}
 
 ### Specify Rules and Plugins
@@ -357,14 +343,12 @@ Before using the plugin, you have to install it using npm.
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--plugin", "jquery", "file.js"],
-    comment: null
+    args: ["--plugin", "jquery", "file.js"]
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--plugin", "eslint-plugin-mocha", "file.js"],
-    comment: null
+    args: ["--plugin", "eslint-plugin-mocha", "file.js"]
 }) }}
 
 #### `--rule`
@@ -419,14 +403,12 @@ Note that, as with core rules and plugin rules, you still need to enable the rul
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--rulesdir", "my-rules/", "file.js"],
-    comment: null
+    args: ["--rulesdir", "my-rules/", "file.js"]
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--rulesdir", "my-rules/", "--rulesdir", "my-other-rules/", "file.js"],
-    comment: null
+    args: ["--rulesdir", "my-rules/", "--rulesdir", "my-other-rules/", "file.js"]
 }) }}
 
 ### Fix Problems
@@ -448,8 +430,7 @@ If you want to fix code from `stdin` or otherwise want to get the fixes without 
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--fix", "file.js"],
-    comment: null
+    args: ["--fix", "file.js"]
 }) }}
 
 #### `--fix-dry-run`
@@ -467,7 +448,6 @@ This flag can be useful for integrations (e.g. editor plugins) which need to aut
 {{ npx_tabs ({
     package: "eslint",
     args: ["--stdin", "--fix-dry-run", "--format", "json"],
-    comment: null,
     previousCommands: ["getSomeText"]
 }) }}
 
@@ -488,20 +468,17 @@ This option is helpful if you are using another program to format your code, but
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--fix", "--fix-type", "suggestion", "."],
-    comment: null
+    args: ["--fix", "--fix-type", "suggestion", "."]
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--fix", "--fix-type", "suggestion", "--fix-type", "problem", "."],
-    comment: null
+    args: ["--fix", "--fix-type", "suggestion", "--fix-type", "problem", "."]
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--fix", "--fix-type", "suggestion,layout", "."],
-    comment: null
+    args: ["--fix", "--fix-type", "suggestion,layout", "."]
 }) }}
 
 ### Ignore Files
@@ -520,14 +497,12 @@ This option is helpful if you are using another program to format your code, but
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--ignore-path", "tmp/.eslintignore", "file.js"],
-    comment: null
+    args: ["--ignore-path", "tmp/.eslintignore", "file.js"]
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--ignore-path", ".gitignore", "file.js"],
-    comment: null
+    args: ["--ignore-path", ".gitignore", "file.js"]
 }) }}
 
 #### `--no-ignore`
@@ -540,8 +515,7 @@ Disables excluding of files from `.eslintignore` files, `--ignore-path` flags, `
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--no-ignore", "file.js"],
-    comment: null
+    args: ["--no-ignore", "file.js"]
 }) }}
 
 #### `--ignore-pattern`
@@ -555,8 +529,7 @@ This option allows you to specify patterns of files to ignore. In eslintrc mode,
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--ignore-pattern", "\"/lib/\"", "--ignore-pattern", "\"/src/vendor/*\"", "."],
-    comment: null
+    args: ["--ignore-pattern", "\"/lib/\"", "--ignore-pattern", "\"/src/vendor/*\"", "."]
 }) }}
 
 ### Use stdin
@@ -572,7 +545,6 @@ This option tells ESLint to read and lint source code from STDIN instead of from
 {{ npx_tabs ({
     package: "eslint",
     args: ["--stdin"],
-    comment: null,
     previousCommands: ["cat myFile.js"]
 }) }}
 
@@ -590,7 +562,6 @@ This is useful when processing files from STDIN and you have rules which depend 
 {{ npx_tabs ({
     package: "eslint",
     args: ["--stdin", "--stdin-filename", "myfile.js"],
-    comment: null,
     previousCommands: ["cat myFile.js"]
 }) }}
 
@@ -606,8 +577,7 @@ This option allows you to disable reporting on warnings and running of rules set
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--quiet", "file.js"],
-    comment: null
+    args: ["--quiet", "file.js"]
 }) }}
 
 #### `--max-warnings`
@@ -627,8 +597,7 @@ When used alongside `--quiet`, this will cause rules marked as warn to still be 
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--max-warnings", "10", "file.js"],
-    comment: null
+    args: ["--max-warnings", "10", "file.js"]
 }) }}
 
 ### Output
@@ -644,8 +613,7 @@ Write the output of linting results to a specified file.
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["-o", "./test/test.html"],
-    comment: null
+    args: ["-o", "./test/test.html"]
 }) }}
 
 #### `-f`, `--format`
@@ -674,16 +642,14 @@ Use the built-in `json` formatter:
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--format", "json", "file.js"],
-    comment: null
+    args: ["--format", "json", "file.js"]
 }) }}
 
 Use a local custom formatter:
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["-f", "./customformat.js", "file.js"],
-    comment: null
+    args: ["-f", "./customformat.js", "file.js"]
 }) }}
 
 Use an npm-installed formatter:
@@ -698,16 +664,14 @@ Then run one of the following commands
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["-f", "pretty", "file.js"],
-    comment: null
+    args: ["-f", "pretty", "file.js"]
 }) }}
 
 or alternatively
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["-f", "eslint-formatter-pretty", "file.js"],
-    comment: null
+    args: ["-f", "eslint-formatter-pretty", "file.js"]
 }) }}
 
 #### `--color` and `--no-color`
@@ -722,14 +686,12 @@ You can use these options to override the default behavior, which is to enable c
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--color", "file.js", "|", "cat"],
-    comment: null
+    args: ["--color", "file.js", "|", "cat"]
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--no-color", "file.js"],
-    comment: null
+    args: ["--no-color", "file.js"]
 }) }}
 
 ### Inline Configuration Comments
@@ -755,8 +717,7 @@ This allows you to set an ESLint config without files modifying it. All inline c
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--no-inline-config", "file.js"],
-    comment: null
+    args: ["--no-inline-config", "file.js"]
 }) }}
 
 #### `--report-unused-disable-directives`
@@ -777,8 +738,7 @@ For example, suppose a rule has a bug that causes it to report a false positive,
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--report-unused-disable-directives", "file.js"],
-    comment: null
+    args: ["--report-unused-disable-directives", "file.js"]
 }) }}
 
 #### `--report-unused-disable-directives-severity`
@@ -796,8 +756,7 @@ Same as [`--report-unused-disable-directives`](#--report-unused-disable-directiv
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--report-unused-disable-directives-severity", "warn", "file.js"],
-    comment: null
+    args: ["--report-unused-disable-directives-severity", "warn", "file.js"]
 }) }}
 
 ### Caching
@@ -817,8 +776,7 @@ Autofixed files are not placed in the cache. Subsequent linting that does not tr
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--cache", "file.js"],
-    comment: null
+    args: ["--cache", "file.js"]
 }) }}
 
 #### `--cache-file`
@@ -841,8 +799,7 @@ If the directory for the cache does not exist make sure you add a trailing `/` o
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["\"src/**/*.js\"", "--cache", "--cache-location", "\"/Users/user/.eslintcache/\""],
-    comment: null
+    args: ["\"src/**/*.js\"", "--cache", "--cache-location", "\"/Users/user/.eslintcache/\""]
 }) }}
 
 #### `--cache-strategy`
@@ -861,8 +818,7 @@ The `content` strategy can be useful in cases where the modification time of you
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["\"src/**/*.js\"", "--cache", "--cache-strategy", "content"],
-    comment: null
+    args: ["\"src/**/*.js\"", "--cache", "--cache-strategy", "content"]
 }) }}
 
 ### Miscellaneous
@@ -879,8 +835,7 @@ The resulting configuration file is created in the current directory.
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--init"],
-    comment: null
+    args: ["--init"]
 }) }}
 
 #### `--env-info`
@@ -895,8 +850,7 @@ The ESLint team may ask for this information to help solve bugs. When you use th
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--env-info"],
-    comment: null
+    args: ["--env-info"]
 }) }}
 
 #### `--no-error-on-unmatched-pattern`
@@ -909,8 +863,7 @@ This option prevents errors when a quoted glob pattern or `--ext` is unmatched. 
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--no-error-on-unmatched-pattern", "--ext", ".ts", "\"lib/*\""],
-    comment: null
+    args: ["--no-error-on-unmatched-pattern", "--ext", ".ts", "\"lib/*\""]
 }) }}
 
 #### `--exit-on-fatal-error`
@@ -923,8 +876,7 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--exit-on-fatal-error", "file.js"],
-    comment: null
+    args: ["--exit-on-fatal-error", "file.js"]
 }) }}
 
 #### `--no-warn-ignored`
@@ -937,8 +889,7 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--no-warn-ignored", "--max-warnings", "0", "ignored-file.js"],
-    comment: null
+    args: ["--no-warn-ignored", "--max-warnings", "0", "ignored-file.js"]
 }) }}
 
 #### `--pass-on-no-patterns`
@@ -951,8 +902,7 @@ This option allows ESLint to exit with code 0 when no file or directory patterns
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--pass-on-no-patterns"],
-    comment: null
+    args: ["--pass-on-no-patterns"]
 }) }}
 
 #### `--debug`
@@ -967,8 +917,7 @@ This information is useful when you're seeing a problem and having a hard time p
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--debug", "test.js"],
-    comment: null
+    args: ["--debug", "test.js"]
 }) }}
 
 #### `-h`, `--help`
@@ -981,8 +930,7 @@ This option outputs the help menu, displaying all of the available options. All 
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--help"],
-    comment: null
+    args: ["--help"]
 }) }}
 
 #### `-v`, `--version`
@@ -995,8 +943,7 @@ This option outputs the current ESLint version onto the console. All other optio
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--version"],
-    comment: null
+    args: ["--version"]
 }) }}
 
 #### `--print-config`
@@ -1010,8 +957,7 @@ This option outputs the configuration to be used for the file passed. When prese
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--print-config", "file.js"],
-    comment: null
+    args: ["--print-config", "file.js"]
 }) }}
 
 #### `--stats`
@@ -1026,8 +972,7 @@ This option is intended for use with custom formatters that display statistics. 
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--stats", "--format", "json", "file.js"],
-    comment: null
+    args: ["--stats", "--format", "json", "file.js"]
 }) }}
 
 #### `--flag`
@@ -1041,8 +986,7 @@ This option enables one or more feature flags for ESLint.
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--flag", "x_feature", "file.js"],
-    comment: null
+    args: ["--flag", "x_feature", "file.js"]
 }) }}
 
 ## Exit Codes

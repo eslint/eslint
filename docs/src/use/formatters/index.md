@@ -56,8 +56,7 @@ Tests the formatters with the CLI:
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["--format", "<Add formatter here>", "fullOfProblems.js"],
-    comment: null
+    args: ["--format", "<Add formatter here>", "fullOfProblems.js"]
 }) }}
 
 ## Built-In Formatter Options

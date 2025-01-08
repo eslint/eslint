@@ -20,8 +20,7 @@ ESLint creates a configuration for each file that is linted based on your config
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["--debug", "file.js"],
-    comment: null
+    args: ["--debug", "file.js"]
 }) }}
 
 This outputs all of ESLint's debugging information onto the console. You should copy this output to a file and then search for `eslint.config.js` to see which file is loaded. Here's some example output:
@@ -41,8 +40,7 @@ eslint:eslint Config file URL is file:///C:/Users/nzakas/projects/eslint/eslint/
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["--print-config", "file.js"],
-    comment: null
+    args: ["--print-config", "file.js"]
 }) }}
 
 This outputs a JSON representation of the file's calculated config, such as:
@@ -78,8 +76,7 @@ You won't see any entries for `files`, `ignores`, or `name`, because those are o
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["--inspect-config"],
-    comment: null
+    args: ["--inspect-config"]
 }) }}
 
 This initiates the config inspector by installing and starting [`@eslint/config-inspector`](https://github.com/eslint/config-inspector). You can then type in the filename in question to see which configuration objects will apply.

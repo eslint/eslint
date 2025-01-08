@@ -55,8 +55,7 @@ Run ESLint with `--stats` and output to JSON via the built-in [`json` formatter]
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["file-to-fix.js", "--fix", "--stats", "-f", "json"],
-    comment: null
+    args: ["file-to-fix.js", "--fix", "--stats", "-f", "json"]
 }) }}
 
 This yields the following `stats` entry as part of the formatted lint results object:

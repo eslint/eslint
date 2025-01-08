@@ -44,8 +44,7 @@ After that, you can run ESLint on any file or directory like this:
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["yourfile.js"],
-    comment: null
+    args: ["yourfile.js"]
 }) }}
 
 ## Configuration
@@ -140,8 +139,7 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["project-dir/", "file.js"],
-    comment: null
+    args: ["project-dir/", "file.js"]
 }) }}
 
    For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).

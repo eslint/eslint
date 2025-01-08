@@ -38,8 +38,7 @@ You can also ignore files on the command line using `--ignore-pattern`, such as:
 
 {{ npx_tabs({
     package: "eslint",
-    args: [".", "--ignore-pattern", "\'.config/*\'"],
-    comment: null
+    args: [".", "--ignore-pattern", "\'.config/*\'"]
 }) }}
 
 ## Ignoring Directories
@@ -122,8 +121,7 @@ You can also unignore files on the command line using `--ignore-pattern`, such a
 
 {{ npx_tabs({
     package: "eslint",
-    args: [".", "--ignore-pattern", "\'!node_modules/\'"],
-    comment: null
+    args: [".", "--ignore-pattern", "\'!node_modules/\'"]
 }) }}
 
 ## Glob Pattern Resolution
@@ -151,8 +149,7 @@ And then you run:
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["foo.js"],
-    comment: null
+    args: ["foo.js"]
 }) }}
 
 You'll see this warning:

@@ -498,8 +498,7 @@ You can prevent this search for `eslint.config.js` by using the `-c` or `--confi
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["--config", "some-other-file.js", "**/*.js"],
-    comment: null
+    args: ["--config", "some-other-file.js", "**/*.js"]
 }) }}
 
 In this case, ESLint does not search for `eslint.config.js` and instead uses `some-other-file.js`.
@@ -530,8 +529,7 @@ You need to enable this feature through the `unstable_ts_config` feature flag:
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["--flag", "unstable_ts_config"],
-    comment: null
+    args: ["--flag", "unstable_ts_config"]
 }) }}
 
 For more information about using feature flags, see [Feature Flags](../../flags/).
@@ -597,6 +595,5 @@ To override this behavior, use the `--config` or `-c` command line option to spe
 
 {{ npx_tabs({
     package: "eslint",
-    args: ["--config", "eslint.config.ts"],
-    comment: null
+    args: ["--config", "eslint.config.ts"]
 }) }}
