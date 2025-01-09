@@ -102,7 +102,13 @@ layout: base.html
                 {% if edit_link %}
                     {{ edit_link }}
                 {% else %}
-                    {{ site.edit_link.start_with }}{{ page.inputPath }}
+                    {% if eslintVersions.isPrereleasePhase and GIT_BRANCH === 'latest' %}
+                        {{ site.edit_link.start_with_latest }}{{ page.inputPath }}
+                    {% elseif is_number_version %}
+                        https://github.com/eslint/eslint/edit/{{ GIT_BRANCH }}/docs/{{ page.inputPath }}
+                    {% else %}
+                        {{ site.edit_link.start_with }}{{ page.inputPath }}
+                    {% endif %}
                 {% endif %}
                 "
                 class="c-btn c-btn--secondary">{{ site.edit_link.text }}</a>

@@ -31,6 +31,7 @@ module.exports = async function() {
     const { items } = data;
 
     let foundItemForThisBranch = false;
+    let isPrereleasePhase = false;
 
     for (const item of items) {
         const isItemForThisBranch = item.branch === thisBranch;
@@ -54,6 +55,10 @@ module.exports = async function() {
         if (isItemForThisBranch) {
             item.selected = true;
         }
+
+        if (item.branch === "next") {
+            isPrereleasePhase = true;
+        }
     }
 
     // Add an empty item if this is not a production branch
@@ -66,6 +71,8 @@ module.exports = async function() {
             selected: true
         });
     }
+
+    data.isPrereleasePhase = isPrereleasePhase;
 
     return data;
 };
