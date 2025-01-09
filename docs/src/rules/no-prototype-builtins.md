@@ -22,11 +22,11 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-prototype-builtins: "error"*/
 
-var hasBarProperty = foo.hasOwnProperty("bar");
+const hasBarProperty = foo.hasOwnProperty("bar");
 
-var isPrototypeOfBar = foo.isPrototypeOf(bar);
+const isPrototypeOfBar = foo.isPrototypeOf(bar);
 
-var barIsEnumerable = foo.propertyIsEnumerable("bar");
+const barIsEnumerable = foo.propertyIsEnumerable("bar");
 ```
 
 :::
@@ -38,11 +38,11 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-prototype-builtins: "error"*/
 
-var hasBarProperty = Object.prototype.hasOwnProperty.call(foo, "bar");
+const hasBarProperty = Object.prototype.hasOwnProperty.call(foo, "bar");
 
-var isPrototypeOfBar = Object.prototype.isPrototypeOf.call(foo, bar);
+const isPrototypeOfBar = Object.prototype.isPrototypeOf.call(foo, bar);
 
-var barIsEnumerable = {}.propertyIsEnumerable.call(foo, "bar");
+const barIsEnumerable = {}.propertyIsEnumerable.call(foo, "bar");
 ```
 
 :::
