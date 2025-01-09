@@ -1,6 +1,5 @@
 ---
 title: Package.json Conventions
-edit_link: https://github.com/eslint/eslint/edit/main/docs/src/contribute/package-json-conventions.md
 eleventyNavigation:
     key: package.json conventions
     parent: contribute to eslint
