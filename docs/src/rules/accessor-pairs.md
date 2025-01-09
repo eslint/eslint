@@ -61,7 +61,7 @@ Examples of **incorrect** code for the default `{ "setWithoutGet": true }` optio
 ```js
 /*eslint accessor-pairs: "error"*/
 
-let q = {
+const q = {
     set a(value) {
         this.val = value;
     }
@@ -117,26 +117,26 @@ Examples of **incorrect** code for the `{ "getWithoutSet": true }` option:
 ```js
 /*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
 
-let u = {
+const u = {
     set a(value) {
         this.val = value;
     }
 };
 
-let v = {
+const v = {
     get a() {
         return this.val;
     }
 };
 
-let w = {d: 1};
+const w = {d: 1};
 Object.defineProperty(w, 'c', {
     set: function(value) {
         this.val = value;
     }
 });
 
-let x = {d: 1};
+const x = {d: 1};
 Object.defineProperty(x, 'c', {
     get: function() {
         return this.val;
@@ -152,7 +152,7 @@ Examples of **correct** code for the `{ "getWithoutSet": true }` option:
 
 ```js
 /*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
-let y = {
+const y = {
     set a(value) {
         this.val = value;
     },
@@ -281,7 +281,7 @@ might not report a missing pair for a getter/setter that has a computed key, lik
 ```js
 /*eslint accessor-pairs: "error"*/
 
-let z = 1;
+const z = 1;
 
 // no warnings
 const a = {
