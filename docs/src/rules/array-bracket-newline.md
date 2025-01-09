@@ -35,12 +35,12 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ```js
 /*eslint array-bracket-newline: ["error", "always"]*/
 
-let a = [];
-let b = [1];
-let c = [1, 2];
-let d = [1,
+const a = [];
+const b = [1];
+const c = [1, 2];
+const d = [1,
     2];
-let e = [function foo() {
+const e = [function foo() {
     dosomething();
 }];
 ```
@@ -54,19 +54,19 @@ Examples of **correct** code for this rule with the `"always"` option:
 ```js
 /*eslint array-bracket-newline: ["error", "always"]*/
 
-let a = [
+const a = [
 ];
-let b = [
+const b = [
     1
 ];
-let c = [
+const c = [
     1, 2
 ];
-let d = [
+const d = [
     1,
     2
 ];
-let e = [
+const e = [
     function foo() {
         dosomething();
     }
@@ -84,19 +84,19 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ```js
 /*eslint array-bracket-newline: ["error", "never"]*/
 
-let a = [
+const a = [
 ];
-let b = [
+const b = [
     1
 ];
-let c = [
+const c = [
     1, 2
 ];
-let d = [
+const d = [
     1,
     2
 ];
-let e = [
+const e = [
     function foo() {
         dosomething();
     }
@@ -112,12 +112,12 @@ Examples of **correct** code for this rule with the `"never"` option:
 ```js
 /*eslint array-bracket-newline: ["error", "never"]*/
 
-let a = [];
-let b = [1];
-let c = [1, 2];
-let d = [1,
+const a = [];
+const b = [1];
+const c = [1, 2];
+const d = [1,
     2];
-let e = [function foo() {
+const e = [function foo() {
     dosomething();
 }];
 ```
@@ -133,15 +133,15 @@ Examples of **incorrect** code for this rule with the `"consistent"` option:
 ```js
 /*eslint array-bracket-newline: ["error", "consistent"]*/
 
-let a = [1
+const a = [1
 ];
-let b = [
+const b = [
     1];
-let c = [function foo() {
+const c = [function foo() {
     dosomething();
 }
 ]
-let d = [
+const d = [
     function foo() {
         dosomething();
     }]
@@ -156,17 +156,17 @@ Examples of **correct** code for this rule with the `"consistent"` option:
 ```js
 /*eslint array-bracket-newline: ["error", "consistent"]*/
 
-let a = [];
-let b = [
+const a = [];
+const b = [
 ];
-let c = [1];
-let d = [
+const c = [1];
+const d = [
     1
 ];
-let e = [function foo() {
+const e = [function foo() {
     dosomething();
 }];
-let f = [
+const f = [
     function foo() {
         dosomething();
     }
@@ -184,17 +184,17 @@ Examples of **incorrect** code for this rule with the default `{ "multiline": tr
 ```js
 /*eslint array-bracket-newline: ["error", { "multiline": true }]*/
 
-let a = [
+const a = [
 ];
-let b = [
+const b = [
     1
 ];
-let c = [
+const c = [
     1, 2
 ];
-let d = [1,
+const d = [1,
     2];
-let e = [function foo() {
+const e = [function foo() {
     dosomething();
 }];
 ```
@@ -208,14 +208,14 @@ Examples of **correct** code for this rule with the default `{ "multiline": true
 ```js
 /*eslint array-bracket-newline: ["error", { "multiline": true }]*/
 
-let a = [];
-let b = [1];
-let c = [1, 2];
-let d = [
+const a = [];
+const b = [1];
+const c = [1, 2];
+const d = [
     1,
     2
 ];
-let e = [
+const e = [
     function foo() {
         dosomething();
     }
@@ -233,15 +233,15 @@ Examples of **incorrect** code for this rule with the `{ "minItems": 2 }` option
 ```js
 /*eslint array-bracket-newline: ["error", { "minItems": 2 }]*/
 
-let a = [
+const a = [
 ];
-let b = [
+const b = [
     1
 ];
-let c = [1, 2];
-let d = [1,
+const c = [1, 2];
+const d = [1,
     2];
-let e = [
+const e = [
   function foo() {
     dosomething();
   }
@@ -257,16 +257,16 @@ Examples of **correct** code for this rule with the `{ "minItems": 2 }` option:
 ```js
 /*eslint array-bracket-newline: ["error", { "minItems": 2 }]*/
 
-let a = [];
-let b = [1];
-let c = [
+const a = [];
+const b = [1];
+const c = [
     1, 2
 ];
-let d = [
+const d = [
     1,
     2
 ];
-let e = [function foo() {
+const e = [function foo() {
     dosomething();
 }];
 ```
@@ -282,15 +282,15 @@ Examples of **incorrect** code for this rule with the `{ "multiline": true, "min
 ```js
 /*eslint array-bracket-newline: ["error", { "multiline": true, "minItems": 2 }]*/
 
-let a = [
+const a = [
 ];
-let b = [
+const b = [
     1
 ];
-let c = [1, 2];
-let d = [1,
+const c = [1, 2];
+const d = [1,
     2];
-let e = [function foo() {
+const e = [function foo() {
     dosomething();
 }];
 ```
@@ -304,16 +304,16 @@ Examples of **correct** code for this rule with the `{ "multiline": true, "minIt
 ```js
 /*eslint array-bracket-newline: ["error", { "multiline": true, "minItems": 2 }]*/
 
-let a = [];
-let b = [1];
-let c = [
+const a = [];
+const b = [1];
+const c = [
     1, 2
 ];
-let d = [
+const d = [
     1,
     2
 ];
-let e = [
+const e = [
     function foo() {
         dosomething();
     }
