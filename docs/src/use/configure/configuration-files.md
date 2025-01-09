@@ -8,6 +8,9 @@ eleventyNavigation:
 
 ---
 
+{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
+
 ::: tip
 This page explains how to use flat config files. For the deprecated eslintrc format, [see the deprecated documentation](configuration-files-deprecated).
 :::
@@ -493,9 +496,10 @@ When ESLint is run on the command line, it first checks the current working dire
 
 You can prevent this search for `eslint.config.js` by using the `-c` or `--config` option on the command line to specify an alternate configuration file, such as:
 
-```shell
-npx eslint --config some-other-file.js **/*.js
-```
+{{ npx_tabs({
+    package: "eslint",
+    args: ["--config", "some-other-file.js", "**/*.js"]
+}) }}
 
 In this case, ESLint does not search for `eslint.config.js` and instead uses `some-other-file.js`.
 
@@ -517,15 +521,26 @@ For more information about using feature flags, see [Feature Flags](../../flags/
 
 ## TypeScript Configuration Files
 
+::: warning
+This feature is currently experimental and may change in future versions.
+:::
+
+You need to enable this feature through the `unstable_ts_config` feature flag:
+
+{{ npx_tabs({
+    package: "eslint",
+    args: ["--flag", "unstable_ts_config"]
+}) }}
+
+For more information about using feature flags, see [Feature Flags](../../flags/).
+
 For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in version 2.0.0 or later in your project (this dependency is not automatically installed by ESLint):
 
-```bash
-npm install -D jiti
-# or
-yarn add --dev jiti
-# or
-pnpm add -D jiti
-```
+{{ npm_tabs({
+    command: "install",
+    packages: ["jiti"],
+    args: ["--save-dev"]
+}) }}
 
 You can then create a configuration file with a `.ts`, `.mts`, or `.cts` extension, and export an array of [configuration objects](#configuration-objects). Here's an example in ESM format:
 
@@ -578,6 +593,7 @@ If you have multiple ESLint configuration files, ESLint prioritizes JavaScript f
 
 To override this behavior, use the `--config` or `-c` command line option to specify a different configuration file:
 
-```bash
-npx eslint --config eslint.config.ts
-```
+{{ npx_tabs({
+    package: "eslint",
+    args: ["--config", "eslint.config.ts"]
+}) }}
