@@ -17,7 +17,7 @@ Here are some examples:
 
 ```js
 // Bad
-var o = {
+const o = {
     set a(value) {
         this.val = value;
     }
@@ -25,7 +25,7 @@ var o = {
 
 
 // Good
-var o = {
+const p = {
     set a(value) {
         this.val = value;
     },
@@ -61,15 +61,15 @@ Examples of **incorrect** code for the default `{ "setWithoutGet": true }` optio
 ```js
 /*eslint accessor-pairs: "error"*/
 
-var o = {
+const q = {
     set a(value) {
         this.val = value;
     }
 };
 
 
-var o = {d: 1};
-Object.defineProperty(o, 'c', {
+const r = {d: 1};
+Object.defineProperty(r, 'c', {
     set: function(value) {
         this.val = value;
     }
@@ -85,7 +85,7 @@ Examples of **correct** code for the default `{ "setWithoutGet": true }` option:
 ```js
 /*eslint accessor-pairs: "error"*/
 
-var o = {
+const s = {
     set a(value) {
         this.val = value;
     },
@@ -94,8 +94,8 @@ var o = {
     }
 };
 
-var o = {d: 1};
-Object.defineProperty(o, 'c', {
+const t = {d: 1};
+Object.defineProperty(t, 'c', {
     set: function(value) {
         this.val = value;
     },
@@ -117,27 +117,27 @@ Examples of **incorrect** code for the `{ "getWithoutSet": true }` option:
 ```js
 /*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
 
-var o = {
+const u = {
     set a(value) {
         this.val = value;
     }
 };
 
-var o = {
+const v = {
     get a() {
         return this.val;
     }
 };
 
-var o = {d: 1};
-Object.defineProperty(o, 'c', {
+const w = {d: 1};
+Object.defineProperty(w, 'c', {
     set: function(value) {
         this.val = value;
     }
 });
 
-var o = {d: 1};
-Object.defineProperty(o, 'c', {
+const x = {d: 1};
+Object.defineProperty(x, 'c', {
     get: function() {
         return this.val;
     }
@@ -152,7 +152,7 @@ Examples of **correct** code for the `{ "getWithoutSet": true }` option:
 
 ```js
 /*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
-var o = {
+const y = {
     set a(value) {
         this.val = value;
     },
@@ -161,8 +161,8 @@ var o = {
     }
 };
 
-var o = {d: 1};
-Object.defineProperty(o, 'c', {
+const z = {d: 1};
+Object.defineProperty(z, 'c', {
     set: function(value) {
         this.val = value;
     },
@@ -281,14 +281,14 @@ might not report a missing pair for a getter/setter that has a computed key, lik
 ```js
 /*eslint accessor-pairs: "error"*/
 
-var a = 1;
+const z = 1;
 
 // no warnings
-var o = {
-    get [a++]() {
+const a = {
+    get [z++]() {
         return this.val;
     },
-    set [a++](value) {
+    set [z++](value) {
         this.val = value;
     }
 };
@@ -301,7 +301,7 @@ might not report a missing pair for a getter/setter, like in the following examp
 /*eslint accessor-pairs: "error"*/
 
 // no warnings
-var o = {
+const b = {
     get a() {
         return this.val;
     },
