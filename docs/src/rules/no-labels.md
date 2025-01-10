@@ -76,7 +76,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-labels: "error"*/
 
-var f = {
+const f = {
     label: "foo"
 };
 
