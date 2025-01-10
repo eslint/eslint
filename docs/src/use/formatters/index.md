@@ -8,8 +8,6 @@ eleventyNavigation:
 edit_link: https://github.com/eslint/eslint/edit/main/templates/formatter-examples.md.ejs
 ---
 
-{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
-
 ESLint comes with several built-in formatters to control the appearance of the linting results, and supports third-party formatters as well.
 
 You can specify a formatter using the `--format` or `-f` flag in the CLI. For example, `--format json` uses the `json` formatter.
@@ -54,10 +52,9 @@ function addOne(i) {
 
 Tests the formatters with the CLI:
 
-{{ npx_tabs({
-    package: "eslint",
-    args: ["--format", "<Add formatter here>", "fullOfProblems.js"]
-}) }}
+```shell
+npx eslint --format <Add formatter here> fullOfProblems.js
+```
 
 ## Built-In Formatter Options
 
@@ -268,6 +265,7 @@ Example output (formatted for easier reading):
                 "docs": {
                     "description": "Disallow `else` blocks after `return` statements in `if` statements",
                     "recommended": false,
+                    "frozen": true,
                     "url": "https://eslint.org/docs/latest/rules/no-else-return"
                 },
                 "schema": [
