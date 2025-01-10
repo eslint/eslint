@@ -96,7 +96,7 @@ while (true) {
     doSomething();
 }
 
-for (var i=0; i < items.length; i++) {
+for (let i=0; i < items.length; i++) {
     doSomething();
 }
 ```
@@ -209,7 +209,7 @@ while (true) {
     doSomething();
 }
 
-for (var i = 0; foo; i++) {
+for (let i = 0; foo; i++) {
     doSomething();
 }
 ```
@@ -243,7 +243,7 @@ if (foo)
 while (true)
     doSomething();
 
-for (var i = 0; foo; i++)
+for (let i = 0; foo; i++)
     doSomething();
 ```
 
