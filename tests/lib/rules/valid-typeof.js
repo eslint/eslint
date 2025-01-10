@@ -216,6 +216,36 @@ ruleTester.run("valid-typeof", rule, {
             options: [{ requireStringLiterals: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "notString", type: "TemplateLiteral" }]
+        },
+        {
+            code: "typeof foo === void 0",
+            errors: [
+                {
+                    messageId: "usingVoidOperator",
+                    type: "UnaryExpression",
+                    suggestions: [
+                        {
+                            messageId: "suggestStringOnVoid",
+                            data: { type: "undefined", invalidOperation: "void 0" },
+                            output: 'typeof foo === "undefined"'
+                        }
+                    ]
+                }]
+        },
+        {
+            code: "void 0 === typeof foo",
+            errors: [
+                {
+                    messageId: "usingVoidOperator",
+                    type: "UnaryExpression",
+                    suggestions: [
+                        {
+                            messageId: "suggestStringOnVoid",
+                            data: { type: "undefined", invalidOperation: "void 0" },
+                            output: '"undefined" === typeof foo'
+                        }
+                    ]
+                }]
         }
     ]
 });
