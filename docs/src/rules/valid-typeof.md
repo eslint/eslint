@@ -26,6 +26,8 @@ typeof foo === "strnig"
 typeof foo == "undefimed"
 typeof bar != "nunber"
 typeof bar !== "fucntion"
+typeof baz === undefined
+typeof baz !== void 0
 ```
 
 :::
