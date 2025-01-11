@@ -1,9 +1,9 @@
 ---
-title: Global Ignores
+title: Ignore Files
 eleventyNavigation:
     key: ignore files
     parent: configure
-    title: Global Ignores
+    title: Ignore Files
     order: 7
 
 ---
