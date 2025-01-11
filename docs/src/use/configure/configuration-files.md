@@ -521,19 +521,6 @@ For more information about using feature flags, see [Feature Flags](../../flags/
 
 ## TypeScript Configuration Files
 
-::: warning
-This feature is currently experimental and may change in future versions.
-:::
-
-You need to enable this feature through the `unstable_ts_config` feature flag:
-
-{{ npx_tabs({
-    package: "eslint",
-    args: ["--flag", "unstable_ts_config"]
-}) }}
-
-For more information about using feature flags, see [Feature Flags](../../flags/).
-
 For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in version 2.0.0 or later in your project (this dependency is not automatically installed by ESLint):
 
 {{ npm_tabs({
