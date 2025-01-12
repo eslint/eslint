@@ -325,7 +325,7 @@ For example:
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--config", "~/personal-eslintrc.js", "\\", "--resolve-plugins-relative-to", "/usr/local/lib/"]
+    args: ["--config", "~/personal-eslintrc.js", "--resolve-plugins-relative-to", "/usr/local/lib/"]
 }) }}
 
 ### Specify Rules and Plugins
@@ -384,7 +384,7 @@ To ignore rules in `.eslintrc` configuration files and only run rules specified 
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--rule", "\'quotes: [error, double]\'", "-no-eslintrc"],
+    args: ["--rule", "\'quotes: [error, double]\'", "--no-eslintrc"],
     comment: "Only apply rule from the command line"
 }) }}
 
