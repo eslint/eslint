@@ -39,25 +39,25 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-obj-calls: "error"*/
 
-var math = Math();
+const math = Math();
 
-var newMath = new Math();
+const newMath = new Math();
 
-var json = JSON();
+const json = JSON();
 
-var newJSON = new JSON();
+const newJSON = new JSON();
 
-var reflect = Reflect();
+const reflect = Reflect();
 
-var newReflect = new Reflect();
+const newReflect = new Reflect();
 
-var atomics = Atomics();
+const atomics = Atomics();
 
-var newAtomics = new Atomics();
+const newAtomics = new Atomics();
 
-var intl = Intl();
+const intl = Intl();
 
-var newIntl = new Intl();
+const newIntl = new Intl();
 ```
 
 :::
@@ -73,13 +73,13 @@ function area(r) {
     return Math.PI * r * r;
 }
 
-var object = JSON.parse("{}");
+const object = JSON.parse("{}");
 
-var value = Reflect.get({ x: 1, y: 2 }, "x");
+const value = Reflect.get({ x: 1, y: 2 }, "x");
 
-var first = Atomics.load(foo, 0);
+const first = Atomics.load(foo, 0);
 
-var segmenterFr = new Intl.Segmenter("fr", { granularity: "word" });
+const segmenterFr = new Intl.Segmenter("fr", { granularity: "word" });
 ```
 
 :::

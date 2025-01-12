@@ -8,6 +8,8 @@ eleventyNavigation:
 
 ---
 
+{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
+
 ESLint creates a configuration for each file that is linted based on your configuration file and command line options. The larger the configuration file, the more difficult it can be to determine why a file isn't linted as expected. To aid in debugging your configuration, ESLint provides several tools.
 
 ## Run the CLI in Debug Mode
@@ -16,9 +18,10 @@ ESLint creates a configuration for each file that is linted based on your config
 
 **What To Do:** Run ESLint with the `--debug` command line flag and pass the file to check, like this:
 
-```shell
-npx eslint --debug file.js
-```
+{{ npx_tabs({
+    package: "eslint",
+    args: ["--debug", "file.js"]
+}) }}
 
 This outputs all of ESLint's debugging information onto the console. You should copy this output to a file and then search for `eslint.config.js` to see which file is loaded. Here's some example output:
 
@@ -35,9 +38,10 @@ eslint:eslint Config file URL is file:///C:/Users/nzakas/projects/eslint/eslint/
 
 **What To Do:** Run ESLint with the `--print-config` command line flag and pass the file to check, like this:
 
-```shell
-npx eslint --print-config file.js
-```
+{{ npx_tabs({
+    package: "eslint",
+    args: ["--print-config", "file.js"]
+}) }}
 
 This outputs a JSON representation of the file's calculated config, such as:
 
@@ -70,9 +74,10 @@ You won't see any entries for `files`, `ignores`, or `name`, because those are o
 
 **What To Do:** Run ESLint with the `--inspect-config` command line flag and pass the file to check, like this:
 
-```shell
-npx eslint --inspect-config
-```
+{{ npx_tabs({
+    package: "eslint",
+    args: ["--inspect-config"]
+}) }}
 
 This initiates the config inspector by installing and starting [`@eslint/config-inspector`](https://github.com/eslint/config-inspector). You can then type in the filename in question to see which configuration objects will apply.
 

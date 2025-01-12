@@ -1,6 +1,8 @@
 ---
 title: no-eq-null
 rule_type: suggestion
+related_rules:
+- eqeqeq
 ---
 
 
@@ -14,7 +16,7 @@ if (foo == null) {
 
 ## Rule Details
 
-The `no-eq-null` rule aims reduce potential bug and unwanted behavior by ensuring that comparisons to `null` only match `null`, and not also `undefined`. As such it will flag comparisons to null when using `==` and `!=`.
+The `no-eq-null` rule aims reduce potential bug and unwanted behavior by ensuring that comparisons to `null` only match `null`, and not also `undefined`. As such it will flag comparisons to `null` when using `==` and `!=`.
 
 Examples of **incorrect** code for this rule:
 

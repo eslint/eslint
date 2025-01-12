@@ -1,0 +1,46 @@
+{%- macro npx_tabs(params) -%}
+<div class="c-tabs" data-tabs>
+   <div class="c-tabs__tablist" data-tablist hidden>
+      <button class="c-tabs__tab" data-tab>npm</button>
+      <button class="c-tabs__tab" data-tab>yarn</button>
+      <button class="c-tabs__tab" data-tab>pnpm</button>
+      <button class="c-tabs__tab" data-tab>bun</button>
+   </div>
+   <div class="c-tabs__tabpanel" data-tabpanel>
+      <h3 class="h6 c-tabs__tabpanel__title">npm</h3>
+
+```shell
+{% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
+{% if params.previousCommands %}{% for item in params.previousCommands %}{{ item | safe }} {% endfor %}| {% endif -%}npx {{ params.package | safe }} {% for item in params.args %}{{ item | safe }} {% endfor %}
+```
+
+   </div>
+   <div class="c-tabs__tabpanel" data-tabpanel>
+      <h3 class="h6 c-tabs__tabpanel__title">yarn</h3>
+
+```shell
+{% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
+{% if params.previousCommands %}{% for item in params.previousCommands %}{{ item | safe }} {% endfor %}| {% endif -%}yarn dlx {{ params.package | safe }} {% for item in params.args %}{{ item | safe }} {% endfor %}
+```
+
+   </div>
+   <div class="c-tabs__tabpanel" data-tabpanel>
+      <h3 class="h6 c-tabs__tabpanel__title">pnpm</h3>
+
+```shell
+{% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
+{% if params.previousCommands %}{% for item in params.previousCommands %}{{ item | safe }} {% endfor %}| {% endif -%}pnpm dlx {{ params.package | safe }} {% for item in params.args %}{{ item | safe }} {% endfor %}
+```
+
+   </div>
+   <div class="c-tabs__tabpanel" data-tabpanel>
+      <h3 class="h6 c-tabs__tabpanel__title">bun</h3>
+
+```shell
+{% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
+{% if params.previousCommands %}{% for item in params.previousCommands %}{{ item | safe }} {% endfor %}| {% endif -%}bunx {{ params.package | safe }} {% for item in params.args %}{{ item | safe }} {% endfor %}
+```
+
+   </div>
+</div>
+{%- endmacro -%}

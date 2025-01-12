@@ -557,7 +557,7 @@
             },
             {
                 "name": "default-case-last",
-                "description": "Enforce `default` clauses in switch statements to be last",
+                "description": "Enforce `default` clauses in `switch` statements to be last",
                 "recommended": false,
                 "fixable": false,
                 "frozen": false,
@@ -1517,7 +1517,7 @@
             },
             {
                 "name": "sort-imports",
-                "description": "Enforce sorted import declarations within modules",
+                "description": "Enforce sorted `import` declarations within modules",
                 "recommended": false,
                 "fixable": true,
                 "frozen": true,

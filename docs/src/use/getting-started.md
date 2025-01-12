@@ -8,6 +8,9 @@ eleventyNavigation:
 
 ---
 
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
+{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
+
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs.
 
 ESLint is completely pluggable. Every single rule is a plugin and you can add more at runtime. You can also add community plugins, configurations, and parsers to extend the functionality of ESLint.
@@ -20,39 +23,29 @@ To use ESLint, you must have [Node.js](https://nodejs.org/en/) (`^18.18.0`, `^20
 
 You can install and configure ESLint using this command:
 
-```shell
-npm init @eslint/config@latest
-
-# or
-
-yarn create @eslint/config
-
-# or
-
-pnpm create @eslint/config@latest
-```
+{{ npm_tabs({
+    command: "init-create",
+    packages: ["@eslint/config@latest"],
+    args: []
+}) }}
 
 If you want to use a specific shareable config that is hosted on npm, you can use the `--config` option and specify the package name:
 
-```shell
-# use `eslint-config-standard` shared config
-
-# npm 7+
-npm init @eslint/config@latest -- --config eslint-config-standard
-
-```
+{{ npm_tabs({
+    command: "init-create",
+    packages: ["@eslint/config@latest", "--", "--config", "eslint-config-standard"],
+    args: [],
+    comment: "use `eslint-config-standard` shared config - npm 7+"
+}) }}
 
 **Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
 
 After that, you can run ESLint on any file or directory like this:
 
-```shell
-npx eslint yourfile.js
-
-# or
-
-yarn run eslint yourfile.js
-```
+{{ npx_tabs({
+    package: "eslint",
+    args: ["yourfile.js"]
+}) }}
 
 ## Configuration
 
@@ -112,9 +105,11 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 
 1. Install the ESLint packages in your project:
 
-   ```shell
-   npm install --save-dev eslint @eslint/js
-   ```
+{{ npm_tabs({
+    command: "install",
+    packages: ["eslint", "@eslint/js"],
+    args: ["--save-dev"]
+}) }}
 
 1. Add an `eslint.config.js` file:
 
@@ -142,9 +137,10 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 
 1. Lint code using the ESLint CLI:
 
-   ```shell
-   npx eslint project-dir/ file1.js
-   ```
+{{ npx_tabs({
+    package: "eslint",
+    args: ["project-dir/", "file.js"]
+}) }}
 
    For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).
 

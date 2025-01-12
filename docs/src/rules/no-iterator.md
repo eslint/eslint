@@ -48,7 +48,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-iterator: "error"*/
 
-var __iterator__ = foo; // Not using the `__iterator__` property.
+const __iterator__ = foo; // Not using the `__iterator__` property.
 ```
 
 :::

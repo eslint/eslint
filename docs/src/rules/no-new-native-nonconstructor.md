@@ -16,10 +16,10 @@ It is a convention in JavaScript that global variables beginning with an upperca
 
 ```js
 // throws a TypeError
-let foo = new Symbol("foo");
+const foo = new Symbol("foo");
 
 // throws a TypeError
-let result = new BigInt(9007199254740991);
+const result = new BigInt(9007199254740991);
 ```
 
 Both `new Symbol` and `new BigInt` throw a type error because they are functions and not classes. It is easy to make this mistake by assuming the uppercase letters indicate classes.
@@ -40,8 +40,8 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-new-native-nonconstructor: "error"*/
 
-var foo = new Symbol('foo');
-var bar = new BigInt(9007199254740991);
+const foo = new Symbol('foo');
+const bar = new BigInt(9007199254740991);
 ```
 
 :::
@@ -53,8 +53,8 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-new-native-nonconstructor: "error"*/
 
-var foo = Symbol('foo');
-var bar = BigInt(9007199254740991);
+const foo = Symbol('foo');
+const bar = BigInt(9007199254740991);
 
 // Ignores shadowed Symbol.
 function baz(Symbol) {

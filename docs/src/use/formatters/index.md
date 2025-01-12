@@ -265,6 +265,7 @@ Example output (formatted for easier reading):
                 "docs": {
                     "description": "Disallow `else` blocks after `return` statements in `if` statements",
                     "recommended": false,
+                    "frozen": true,
                     "url": "https://eslint.org/docs/latest/rules/no-else-return"
                 },
                 "schema": [

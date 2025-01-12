@@ -32,6 +32,10 @@ module.exports = {
 };
 ```
 
+::: warning
+The core rules shipped in the `eslint` package are not considered part of the public API and are not designed to be extended from. Building on top of these rules is fragile and will most likely result in your rules breaking completely at some point in the future. If you're interested in creating a rule that is similar to a core rule, you should first copy the rule file into your project and proceed from there.
+:::
+
 ## Rule Structure
 
 The source file for a rule exports an object with the following properties. Both custom rules and core rules follow this format.

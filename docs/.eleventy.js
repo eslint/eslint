@@ -37,6 +37,7 @@ module.exports = function(eleventyConfig) {
      */
 
     let pathPrefix = "/docs/head/";
+    const isNumberVersion = process.env.BRANCH && /^v\d+\.x$/u.test(process.env.BRANCH);
 
     if (process.env.CONTEXT === "deploy-preview") {
         pathPrefix = "/";
@@ -44,7 +45,7 @@ module.exports = function(eleventyConfig) {
         pathPrefix = "/docs/latest/";
     } else if (process.env.BRANCH === "next") {
         pathPrefix = "/docs/next/";
-    } else if (process.env.BRANCH && /^v\d+\.x$/u.test(process.env.BRANCH)) {
+    } else if (isNumberVersion) {
         pathPrefix = `/docs/${process.env.BRANCH}/`; // `/docs/v8.x/`, `/docs/v9.x/`, `/docs/v10.x/` ...
     }
 
@@ -60,6 +61,7 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addGlobalData("HEAD", process.env.BRANCH === "main");
     eleventyConfig.addGlobalData("NOINDEX", process.env.BRANCH !== "latest");
     eleventyConfig.addGlobalData("PATH_PREFIX", pathPrefix);
+    eleventyConfig.addGlobalData("is_number_version", isNumberVersion);
     eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
     //------------------------------------------------------------------------------

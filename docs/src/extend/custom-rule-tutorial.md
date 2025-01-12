@@ -6,6 +6,10 @@ eleventyNavigation:
     title: Custom Rule Tutorial
     order: 1
 ---
+
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
+{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
+
 This tutorial covers how to create a custom rule for ESLint and distribute it with a plugin.
 
 You can create custom rules to validate if your code meets a certain expectation, and determine what to do if it does not meet that expectation. Plugins package custom rules and other configuration, allowing you to easily share and reuse them in different projects.
@@ -189,9 +193,11 @@ touch enforce-foo-bar.test.js
 
 You will use the `eslint` package in the test file. Install it as a development dependency:
 
-```shell
-npm install eslint --save-dev
-```
+{{ npm_tabs({
+    command: "install",
+    packages: ["eslint"],
+    args: ["--save-dev"]
+}) }}
 
 And add a test script to your `package.json` file to run the tests:
 
@@ -345,9 +351,10 @@ Now you're ready to test the custom rule with the locally defined plugin.
 
 Run ESLint on `example.js`:
 
-```shell
-npx eslint example.js
-```
+{{ npx_tabs({
+    package: "eslint",
+    args: ["example.js"]
+}) }}
 
 This produces the following output in the terminal:
 
@@ -411,9 +418,12 @@ Next, you can use the published plugin.
 
 Run the following command in your project to download the package:
 
-```shell
-npm install --save-dev eslint-plugin-example # Add your package name here
-```
+{{ npm_tabs({
+    command: "install",
+    packages: ["eslint-plugin-example"],
+    args: ["--save-dev"],
+    comment: "Add your package name here"
+}) }}
 
 Update the `eslint.config.js` to use the packaged version of the plugin:
 
@@ -431,9 +441,10 @@ Now you're ready to test the custom rule.
 
 Run ESLint on the `example.js` file you created in step 8, now with the downloaded plugin:
 
-```shell
-npx eslint example.js
-```
+{{ npx_tabs({
+    package: "eslint",
+    args: ["example.js"]
+}) }}
 
 This produces the following output in the terminal:
 
@@ -449,9 +460,10 @@ As you can see in the above message, you can actually fix the issue with the `--
 
 Run ESLint again with the `--fix` flag:
 
-```shell
-npx eslint example.js --fix
-```
+{{ npx_tabs({
+    package: "eslint",
+    args: ["example.js", "--fix"]
+}) }}
 
 There is no error output in the terminal when you run this, but you can see the fix applied in `example.js`. You should see the following:
 

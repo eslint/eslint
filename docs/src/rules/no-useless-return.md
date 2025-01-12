@@ -18,23 +18,23 @@ Examples of **incorrect** code for this rule:
 ```js
 /* eslint no-useless-return: "error" */
 
-var foo = function() { return; }
+const foo = function() { return; }
 
-var foo = function() {
+const bar = function() {
   doSomething();
   return;
 }
 
-var foo = function() {
+const baz = function() {
   if (condition) {
-    bar();
+    qux();
     return;
   } else {
-    baz();
+    quux();
   }
 }
 
-var foo = function() {
+const item = function() {
   switch (bar) {
     case 1:
       doSomething();
@@ -55,23 +55,23 @@ Examples of **correct** code for this rule:
 ```js
 /* eslint no-useless-return: "error" */
 
-var foo = function() { return 5; }
+const foo = function() { return 5; }
 
-var foo = function() {
+const bar = function() {
   return doSomething();
 }
 
-var foo = function() {
+const baz = function() {
   if (condition) {
-    bar();
+    qux();
     return;
   } else {
-    baz();
+    quux();
   }
   qux();
 }
 
-var foo = function() {
+const item = function() {
   switch (bar) {
     case 1:
       doSomething();
@@ -81,7 +81,7 @@ var foo = function() {
   }
 }
 
-var foo = function() {
+const func = function() {
   for (const foo of bar) {
     return;
   }

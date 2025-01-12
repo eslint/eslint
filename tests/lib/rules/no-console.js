@@ -190,7 +190,8 @@ ruleTester.run("no-console", rule, {
             code: "if (a) console.info(foo)",
             options: [{ allow: ["warn"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "warn" },
                 type: "MemberExpression",
                 suggestions: null
             }]
@@ -199,7 +200,8 @@ ruleTester.run("no-console", rule, {
             code: "foo(console.warn)",
             options: [{ allow: ["log"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "log" },
                 type: "MemberExpression",
                 suggestions: null
             }]
@@ -208,7 +210,8 @@ ruleTester.run("no-console", rule, {
             code: "console.log(foo)",
             options: [{ allow: ["error"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "error" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -221,7 +224,8 @@ ruleTester.run("no-console", rule, {
             code: "console.error(foo)",
             options: [{ allow: ["warn"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "warn" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -234,7 +238,8 @@ ruleTester.run("no-console", rule, {
             code: "console.info(foo)",
             options: [{ allow: ["log"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "log" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -247,7 +252,8 @@ ruleTester.run("no-console", rule, {
             code: "console.warn(foo)",
             options: [{ allow: ["error"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "error" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -260,7 +266,8 @@ ruleTester.run("no-console", rule, {
             code: "switch (a) { case 1: console.log(foo) }",
             options: [{ allow: ["error"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "error" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -273,7 +280,8 @@ ruleTester.run("no-console", rule, {
             code: "if (a) { console.info(foo) }",
             options: [{ allow: ["warn"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "warn" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -287,7 +295,8 @@ ruleTester.run("no-console", rule, {
             options: [{ allow: ["log"] }],
             languageOptions: { ecmaVersion: "latest" },
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "log" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -302,7 +311,8 @@ ruleTester.run("no-console", rule, {
             code: "if (a) console.log(foo)",
             options: [{ allow: ["warn", "error"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "warn, error" },
                 type: "MemberExpression",
                 suggestions: null
             }]
@@ -311,7 +321,8 @@ ruleTester.run("no-console", rule, {
             code: "foo(console.info)",
             options: [{ allow: ["warn", "error"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "warn, error" },
                 type: "MemberExpression",
                 suggestions: null
             }]
@@ -320,7 +331,8 @@ ruleTester.run("no-console", rule, {
             code: "console.log(foo)",
             options: [{ allow: ["warn", "info"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "warn, info" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -333,7 +345,8 @@ ruleTester.run("no-console", rule, {
             code: "console.error(foo)",
             options: [{ allow: ["warn", "info", "log"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "warn, info, log" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -346,7 +359,8 @@ ruleTester.run("no-console", rule, {
             code: "console.info(foo)",
             options: [{ allow: ["warn", "error", "log"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "warn, error, log" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -359,7 +373,8 @@ ruleTester.run("no-console", rule, {
             code: "console.warn(foo)",
             options: [{ allow: ["info", "log"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "info, log" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -372,7 +387,8 @@ ruleTester.run("no-console", rule, {
             code: "switch (a) { case 1: console.error(foo) }",
             options: [{ allow: ["info", "log"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "info, log" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -385,7 +401,8 @@ ruleTester.run("no-console", rule, {
             code: "if (a) { console.log(foo) }",
             options: [{ allow: ["warn", "error"] }],
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "warn, error" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
@@ -399,7 +416,8 @@ ruleTester.run("no-console", rule, {
             options: [{ allow: ["log", "error", "warn"] }],
             languageOptions: { ecmaVersion: "latest" },
             errors: [{
-                messageId: "unexpected",
+                messageId: "limited",
+                data: { allowed: "log, error, warn" },
                 type: "MemberExpression",
                 suggestions: [{
                     messageId: "removeConsole",
