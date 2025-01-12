@@ -108,7 +108,7 @@ const { categoryId = 1 } = query;
 
 const { foo: isCamelCased } = bar;
 
-const { foo: isCamelCased = 1 } = quz;
+const { foo: camelCasedName = 1 } = quz;
 
 ```
 
@@ -179,9 +179,9 @@ Examples of **correct** code for this rule with the `{ "ignoreDestructuring": tr
 
 const { category_id } = query;
 
-const { category_id = 1 } = query;
+const { category_name = 1 } = query;
 
-const { category_id: category_id } = query;
+const { category_id: category_id_name } = query;
 ```
 
 :::

@@ -36,7 +36,7 @@ Examples of **correct** code for this rule:
 
 const x = foo.bar;
 
-const x = foo[bar];    // Property name is a variable, square-bracket notation required
+const y = foo[bar];    // Property name is a variable, square-bracket notation required
 ```
 
 :::
