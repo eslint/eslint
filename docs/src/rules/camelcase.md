@@ -181,7 +181,7 @@ const { category_id } = query;
 
 const { category_name = 1 } = query;
 
-const { category_id: category_id_name } = query;
+const { category_id_name: category_id_name } = query;
 ```
 
 :::
