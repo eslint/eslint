@@ -336,13 +336,19 @@ describe("ESLint", () => {
                 processStub.restore();
             });
 
-            it("should throw an error if the flag 'unstable_ts_config' is used", () => {
-                assert.throws(
-                    () => new ESLint({
-                        flags: [...flags, "unstable_ts_config"]
-                    }),
-                    { message: "The flag 'unstable_ts_config' is inactive: This flag is no longer required to enable TypeScript configuration files." }
-                );
+            it("should warn if the flag 'unstable_ts_config' is used", () => {
+                sinon.restore();
+                const processStub = sinon.stub(process, "emitWarning");
+
+                // eslint-disable-next-line no-new -- for testing purpose only
+                new ESLint({
+                    flags: [...flags, "unstable_ts_config"]
+                });
+
+                assert.strictEqual(processStub.callCount > 1, true, "calls `process.emitWarning()` once");
+                assert.strictEqual(processStub.getCall(0).args[1], "ESLintInactiveFlagWarning");
+
+                processStub.restore();
             });
         });
 
@@ -357,12 +363,18 @@ describe("ESLint", () => {
                 assert.strictEqual(eslint.hasFlag("test_only"), true);
             });
 
-            it("should throw an error if the flag is inactive", () => {
+            it("should warn if the flag is inactive", () => {
+                sinon.restore();
+                const processStub = sinon.stub(process, "emitWarning");
 
-                assert.throws(() => {
-                    eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_old"] });
-                }, /The flag 'test_only_old' is inactive/u);
+                eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_old"] });
+                assert.strictEqual(eslint.hasFlag("test_only_old"), false);
 
+                assert.strictEqual(processStub.callCount > 1, true, "calls `process.emitWarning()` once");
+                assert.strictEqual(processStub.getCall(0).args[0], "The flag 'test_only_old' is inactive: Used only for testing.. It is subject to removal in a future version of ESLint.");
+                assert.strictEqual(processStub.getCall(0).args[1], "ESLintInactiveFlagWarning");
+
+                processStub.restore();
             });
 
             it("should return false if the flag is not present", () => {

@@ -1907,14 +1907,20 @@ describe("cli", () => {
 
             describe("--flag option", () => {
 
-                it("should throw an error when an inactive flag is used", async () => {
+                it("should warn when an inactive flag is used", async () => {
+                    sinon.restore();
+                    const processStub = sinon.stub(process, "emitWarning");
+
                     const configPath = getFixturePath("eslint.config.js");
                     const filePath = getFixturePath("passing.js");
                     const input = `--flag test_only_old --config ${configPath} ${filePath}`;
+                    const exitCode = await cli.execute(input, null, true);
 
-                    await stdAssert.rejects(async () => {
-                        await cli.execute(input, null, true);
-                    }, /The flag 'test_only_old' is inactive: Used only for testing\./u);
+                    assert.strictEqual(exitCode, 0);
+                    assert.isAtLeast(processStub.callCount, 1, "calls `process.emitWarning()` at least once");
+                    assert.strictEqual(processStub.getCall(0).args[1], "ESLintInactiveFlagWarning");
+
+                    processStub.restore();
                 });
 
                 it("should error out when an unknown flag is used", async () => {

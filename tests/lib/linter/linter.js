@@ -8043,11 +8043,20 @@ describe("Linter with FlatConfigArray", () => {
             );
         });
 
-        it("should throw an error if an inactive flag is present", () => {
-            assert.throws(() => {
-                // eslint-disable-next-line no-new -- needed for test
-                new Linter({ configType: "flat", flags: ["test_only_old"] });
-            }, /The flag 'test_only_old' is inactive: Used only for testing/u);
+        it("should warn if an inactive flag is present", () => {
+            sinon.restore();
+            const processStub = sinon.stub(process, "emitWarning");
+
+            assert.strictEqual(
+                new Linter({ configType: "flat", flags: ["test_only_old"] }).hasFlag("test_only_old"),
+                false
+            );
+
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.strictEqual(processStub.getCall(0).args[0], "The flag 'test_only_old' is inactive: Used only for testing.. It is subject to removal in a future version of ESLint.");
+            assert.strictEqual(processStub.getCall(0).args[1], "ESLintInactiveFlagWarning");
+
+            processStub.restore();
         });
 
         it("should throw an error if an unknown flag is present", () => {
