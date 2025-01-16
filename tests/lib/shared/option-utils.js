@@ -32,6 +32,8 @@ describe("containsDifferentProperty", () => {
         [0, 0, false],
         [0, 1, true],
         [1, 0, true],
+        [[], {}, true],
+        [{}, [], true],
         [[0], [0], false],
         [[0], [1], true],
         [[1], [0], true],

@@ -11617,7 +11617,7 @@ describe("Linter with FlatConfigArray", () => {
                                 }
                             };
 
-                            it(`reports an unnecessary inline config from the /*eslint*/ comment and options from the config when the comment has only severity and reportUnusedInlineConfigs disabled (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                            it(`does not report an unnecessary inline config from the /*eslint*/ comment when the comment has only severity and reportUnusedInlineConfigs is disabled (original config: ${JSON.stringify(ruleConfig)})`, () => {
                                 const code = "/*eslint test/my-rule: 'warn' */";
                                 const messages = linter.verify(code, config);
                                 const suppressedMessages = linter.getSuppressedMessages();
@@ -11633,7 +11633,7 @@ describe("Linter with FlatConfigArray", () => {
                                 assert.strictEqual(suppressedMessages.length, 0);
                             });
 
-                            it(`reports an unnecessary inline config from the /*eslint*/ comment and options from the config when the comment has array with only severity and reportUnusedInlineConfigs is enabled (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                            it(`reports an unnecessary inline config from the /*eslint*/ comment when the comment has array with only severity and reportUnusedInlineConfigs is enabled (original config: ${JSON.stringify(ruleConfig)})`, () => {
                                 const code = "/*eslint test/my-rule: ['warn'] */";
                                 const messages = linter.verify(code, configWithLinterOptions);
                                 const suppressedMessages = linter.getSuppressedMessages();
