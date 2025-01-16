@@ -69,6 +69,30 @@ export default [
 
 The `pluginJs.configs.recommended` object contains configuration to ensure that all of the rules marked as recommended on the [rules page](../rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
 
+We can add `rules` as following:
+
+```js
+   import pluginJs from "@eslint/js";
+
+   export default [
+       pluginJs.configs.recommended,
+
+      {
+          rules: {
+              "no-unused-vars": "warn",
+              "no-undef": "warn"
+          }
+      }
+   ];
+```
+The names `"no-unused-vars"` and `"no-undef"` are the names of [rules](../rules) in ESLint. The first value is the error level of the rule and can be one of these values:
+
+- "off" or 0 - turn the rule off
+- "warn" or 1 - turn the rule on as a warning (doesn’t affect exit code)
+- "error" or 2 - turn the rule on as an error (exit code will be 1)
+
+The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the configuration docs).
+
 ## Global Install
 
 It is also possible to install ESLint globally, rather than locally, using `npm install eslint --global`. However, this is not recommended, and any plugins or shareable configs that you use must still be installed locally if you install ESLint globally.
