@@ -67,7 +67,7 @@ export default [
 ];
 ```
 
-The `js.configs.recommended` object contains configuration to ensure that all of the rules marked as recommended on the [rules page](../rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
+The `pluginJs.configs.recommended` object contains configuration to ensure that all of the rules marked as recommended on the [rules page](../rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
 
 ## Global Install
 
@@ -97,10 +97,10 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 1. Add configuration to the `eslint.config.js` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, custom configurations, plugins, and more.
 
    ```js
-   import js from "@eslint/js";
+   import pluginJs from "@eslint/js";
 
    export default [
-       js.configs.recommended,
+       pluginJs.configs.recommended,
 
       {
           rules: {
