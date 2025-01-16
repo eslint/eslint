@@ -15,7 +15,7 @@
 //-----------------------------------------------------------------------------
 
 const { readdir, readFile, writeFile } = require("node:fs/promises");
-const { basename, dirname, extname, join, resolve } = require("node:path");
+const { basename, extname, join, relative } = require("node:path");
 const { added } = require("../docs/src/_data/rule_versions.json");
 const rules = require("../lib/rules");
 const ts = require("typescript");
@@ -122,22 +122,17 @@ function formatTSDoc(lines) {
 /**
  * Returns the names of the rules whose paths were specified in the command line.
  * If no rule paths were specified, the names of all built-in rules are returned.
+ * @param {string[]} args The command line arguments without options.
  * @returns {Set<string>} The names of the rules to be considered for the current run.
  */
-function getConsideredRuleIds() {
+function getConsideredRuleIds(args) {
     let ruleIds;
-    const args = process.argv.slice(2);
 
     if (args.length) {
         const ruleDir = join(__dirname, "../lib/rules");
-        const ruleIndexFile = join(ruleDir, "index.js");
 
         ruleIds = args
-            .filter(arg => {
-                const file = resolve(arg);
-
-                return dirname(file) === ruleDir && file !== ruleIndexFile;
-            })
+            .filter(arg => relative(arg, ruleDir) === ".." && basename(arg) !== "index.js")
             .map(ruleFile => basename(ruleFile, ".js"));
     } else {
         ruleIds = rules.keys();
@@ -245,12 +240,13 @@ function createTSDoc(ruleId, currentTSDoc) {
 }
 
 /**
- * Updates rule header comments in a `.d.ts` file.
+ * Updates rule header comments in a `.d.ts` file or checks is a `.d.ts` file is up-to-date.
  * @param {string} ruleTypeFile Pathname of the `.d.ts` file.
  * @param {Set<string>} consideredRuleIds The names of the rules to be considered for the current run.
+ * @param {boolean} check Whether to throw an error if the `.d.ts` file is not up-to-date.
  * @returns {Promise<Iterable<string>>} The names of the rules found in the `.d.ts` file.
  */
-async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds) {
+async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check) {
     const sourceText = await readFile(ruleTypeFile, "utf-8");
     const tsDocRangeMap = getTSDocRangeMap(sourceText, consideredRuleIds);
     const chunks = [];
@@ -268,9 +264,14 @@ async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds) {
         lastPos = tsDocEnd;
     }
     chunks.push(sourceText.slice(Math.max(0, lastPos)));
-    const newText = chunks.join("");
+    const newSourceText = chunks.join("");
 
-    await writeFile(ruleTypeFile, newText);
+    if (newSourceText !== sourceText) {
+        if (check) {
+            throw new Error("The rule types are not up-to-date. Please, run `node tools/update-rule-type-headers.js` to fix.");
+        }
+        await writeFile(ruleTypeFile, newSourceText);
+    }
     return tsDocRangeMap.keys();
 }
 
@@ -279,7 +280,15 @@ async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds) {
 //-----------------------------------------------------------------------------
 
 (async () => {
-    const consideredRuleIds = getConsideredRuleIds();
+    let check = false;
+    const args = process.argv.slice(2).filter(arg => {
+        if (arg === "--check") {
+            check = true;
+            return false;
+        }
+        return true;
+    });
+    const consideredRuleIds = getConsideredRuleIds(args);
     const ruleTypeDir = join(__dirname, "../lib/types/rules");
     const fileNames = (await readdir(ruleTypeDir)).filter(fileName => extname(fileName) === ".ts");
     const typedRuleIds = new Set();
@@ -290,7 +299,7 @@ async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds) {
     await Promise.all(
         fileNames.map(
             async fileName => {
-                const ruleIds = await updateTypeDeclaration(join(ruleTypeDir, fileName), consideredRuleIds);
+                const ruleIds = await updateTypeDeclaration(join(ruleTypeDir, fileName), consideredRuleIds, check);
 
                 for (const ruleId of ruleIds) {
                     if (typedRuleIds.has(ruleId)) {

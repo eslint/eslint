@@ -63,6 +63,9 @@ jobs:
       - name: Check Rule Examples
         run: node Makefile checkRuleExamples
 
+      - name: Check Rule Types
+        run: node tools/update-rule-type-headers.js --check
+
       - name: Lint Files, Dependencies, & Exports
         run: npm run lint:unused
 
