@@ -1671,7 +1671,6 @@ describe("Linter", () => {
 
             [
                 "off",
-                "warn",
                 "error",
                 ["off"],
                 ["warn"],
@@ -11488,13 +11487,10 @@ describe("Linter with FlatConfigArray", () => {
 
                         [
                             "off",
-                            "warn",
                             "error",
                             ["off"],
-                            ["warn"],
                             ["error"],
                             ["off", "bar"],
-                            ["warn", "bar"],
                             ["error", "bar"]
                         ].forEach(ruleConfig => {
                             const config = {
@@ -11557,6 +11553,147 @@ describe("Linter with FlatConfigArray", () => {
                                 assert.strictEqual(messages[1].ruleId, "test/has-default-options");
                                 assert.strictEqual(messages[1].severity, 1);
                                 assert.strictEqual(messages[1].message, "foo");
+                                assert.strictEqual(suppressedMessages.length, 0);
+                            });
+                        });
+
+                        it("reports an unnecessary inline config from the /*eslint*/ comment when the comment disables a rule that is not enabled so can't be turned off", () => {
+                            const code = "/*eslint test/my-rule: 'off' */";
+                            const config = {
+                                linterOptions: {
+                                    reportUnusedInlineConfigs: "error"
+                                },
+                                plugins: {
+                                    test: plugin
+                                }
+                            };
+                            const messages = linter.verify(code, config);
+                            const suppressedMessages = linter.getSuppressedMessages();
+
+                            assert.strictEqual(messages.length, 1);
+                            assert.strictEqual(messages[0].ruleId, null);
+                            assert.strictEqual(messages[0].severity, 2);
+                            assert.strictEqual(messages[0].message, "Unused inline config ('test/my-rule' is not enabled so can't be turned off).");
+                            assert.strictEqual(suppressedMessages.length, 0);
+                        });
+
+                        it("doesn't report an inline config from the /*eslint*/ comment when the comment enables a rule that is not enabled so can't be turned off", () => {
+                            const code = "/*eslint test/my-rule: 'error' */";
+                            const config = {
+                                linterOptions: {
+                                    reportUnusedInlineConfigs: "error"
+                                },
+                                plugins: {
+                                    test: plugin
+                                }
+                            };
+                            const messages = linter.verify(code, config);
+                            const suppressedMessages = linter.getSuppressedMessages();
+
+                            assert.strictEqual(messages.length, 1);
+                            assert.strictEqual(messages[0].ruleId, "test/my-rule");
+                            assert.strictEqual(messages[0].severity, 2);
+                            assert.strictEqual(messages[0].message, "option not provided");
+                            assert.strictEqual(suppressedMessages.length, 0);
+                        });
+
+                        [
+                            "warn",
+                            ["warn"],
+                            ["warn", "bar"]
+                        ].forEach(ruleConfig => {
+                            const config = {
+                                plugins: {
+                                    test: plugin
+                                },
+                                rules: {
+                                    "test/my-rule": ruleConfig
+                                }
+                            };
+                            const configWithLinterOptions = {
+                                ...config,
+                                linterOptions: {
+                                    reportUnusedInlineConfigs: "error"
+                                }
+                            };
+
+                            it(`does not report an unnecessary inline config from the /*eslint*/ comment when the comment has only severity and reportUnusedInlineConfigs is disabled (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                                const code = "/*eslint test/my-rule: 'warn' */";
+                                const messages = linter.verify(code, config);
+                                const suppressedMessages = linter.getSuppressedMessages();
+
+                                const expectedMessage = Array.isArray(ruleConfig) && ruleConfig.length > 1
+                                    ? ruleConfig[1]
+                                    : "option not provided";
+
+                                assert.strictEqual(messages.length, 1);
+                                assert.strictEqual(messages[0].ruleId, "test/my-rule");
+                                assert.strictEqual(messages[0].severity, 1);
+                                assert.strictEqual(messages[0].message, expectedMessage);
+                                assert.strictEqual(suppressedMessages.length, 0);
+                            });
+
+                            it(`reports an unnecessary inline config from the /*eslint*/ comment when the comment has array with only severity and reportUnusedInlineConfigs is enabled (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                                const code = "/*eslint test/my-rule: ['warn'] */";
+                                const messages = linter.verify(code, configWithLinterOptions);
+                                const suppressedMessages = linter.getSuppressedMessages();
+
+                                const expectedRuleMessage = Array.isArray(ruleConfig) && ruleConfig.length > 1
+                                    ? ruleConfig[1]
+                                    : "option not provided";
+
+                                assert.strictEqual(messages.length, 2);
+                                assert.strictEqual(messages[0].ruleId, "test/my-rule");
+                                assert.strictEqual(messages[0].severity, 1);
+                                assert.strictEqual(messages[0].message, expectedRuleMessage);
+                                assert.strictEqual(messages[1].ruleId, null);
+                                assert.strictEqual(messages[1].severity, 2);
+                                assert.strictEqual(messages[1].message, "Unused inline config ('test/my-rule' is already configured to 'warn').");
+                                assert.strictEqual(suppressedMessages.length, 0);
+                            });
+
+                            it(`does not report options or severity from the /*eslint*/ comment when the comment includes new options and reportUnusedInlineConfigs is enabled (original config: ${JSON.stringify(ruleConfig)})`, () => {
+                                const code = "/*eslint test/my-rule: ['warn', 'foo'] */";
+                                const messages = linter.verify(code, configWithLinterOptions);
+                                const suppressedMessages = linter.getSuppressedMessages();
+
+                                assert.strictEqual(messages.length, 1);
+                                assert.strictEqual(messages[0].ruleId, "test/my-rule");
+                                assert.strictEqual(messages[0].severity, 1);
+                                assert.strictEqual(messages[0].message, "foo");
+                                assert.strictEqual(suppressedMessages.length, 0);
+                            });
+                        });
+
+                        [
+                            ["error", 2],
+                            ["warn", 1]
+                        ].forEach(([severity, severityCode]) => {
+                            it(`reports an unnecessary inline config from the /*eslint*/ comment and options from the config when the comment has array with options and reportUnusedInlineConfigs is enabled (severity: ${severity})`, () => {
+                                const code = `/*eslint test/my-rule: ['${severity}', 'bar'] */`;
+                                const config = {
+                                    plugins: {
+                                        test: plugin
+                                    },
+                                    rules: {
+                                        "test/my-rule": [`${severity}`, "bar"]
+                                    }
+                                };
+                                const messages = linter.verify(code, {
+                                    ...config,
+                                    linterOptions: {
+                                        reportUnusedInlineConfigs: "error"
+                                    }
+                                });
+                                const suppressedMessages = linter.getSuppressedMessages();
+
+                                assert.strictEqual(messages.length, 2);
+                                assert.strictEqual(messages[0].ruleId, "test/my-rule");
+                                assert.strictEqual(messages[0].severity, severityCode);
+                                assert.strictEqual(messages[0].message, "bar");
+                                assert.strictEqual(messages[1].ruleId, null);
+                                assert.strictEqual(messages[1].severity, 2);
+                                assert.strictEqual(messages[1].message, `Unused inline config ('test/my-rule' is already configured to '${severity}' with the same options).`);
                                 assert.strictEqual(suppressedMessages.length, 0);
                             });
                         });

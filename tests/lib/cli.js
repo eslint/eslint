@@ -1939,6 +1939,51 @@ describe("cli", () => {
 
             });
 
+            describe("--report-unused-inline-configs option", () => {
+                it("does not report when --report-unused-inline-configs 0", async () => {
+                    const exitCode = await cli.execute("--no-config-lookup --report-unused-inline-configs 0 --rule \"'no-console': 'error'\"",
+                        "/* eslint no-console: 'error' */",
+                        true);
+
+                    assert.strictEqual(log.error.callCount, 0, "log.error should not be called");
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(exitCode, 0, "exit code should be 0");
+                });
+
+                [
+                    [1, 0, "0 errors, 1 warning"],
+                    ["warn", 0, "0 errors, 1 warning"],
+                    [2, 1, "1 error, 0 warnings"],
+                    ["error", 1, "1 error, 0 warnings"]
+                ].forEach(([setting, status, descriptor]) => {
+                    it(`reports when --report-unused-inline-configs ${setting}`, async () => {
+                        const exitCode = await cli.execute(`--no-config-lookup --report-unused-inline-configs ${setting} --rule "'no-console': 'error'"`,
+                            "/* eslint no-console: 'error' */",
+                            true);
+
+                        assert.strictEqual(log.info.callCount, 1, "log.info is called once");
+                        assert.ok(log.info.firstCall.args[0].includes("Unused inline config ('no-console' is already configured to 'error')"), "has correct message about unused inline config");
+                        assert.ok(log.info.firstCall.args[0].includes(descriptor), "has correct error and warning count");
+                        assert.strictEqual(exitCode, status, `exit code should be ${exitCode}`);
+                    });
+                });
+
+                it("fails when passing invalid string for --report-unused-inline-configs", async () => {
+                    const exitCode = await cli.execute("--no-config-lookup --report-unused-inline-configs foo", null, true);
+
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
+
+                    const lines = [
+                        "Option report-unused-inline-configs: 'foo' not one of off, warn, error, 0, 1, or 2.",
+                        "You're using eslint.config.js, some command line flags are no longer available. Please see https://eslint.org/docs/latest/use/command-line-interface for details."
+                    ];
+
+                    assert.deepStrictEqual(log.error.firstCall.args, [lines.join("\n")], "has the right text to log.error");
+                    assert.strictEqual(exitCode, 2, "exit code should be 2");
+                });
+            });
+
             describe("unstable_config_lookup_from_file", () => {
 
                 const flag = "unstable_config_lookup_from_file";

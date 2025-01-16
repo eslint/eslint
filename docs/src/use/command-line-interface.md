@@ -128,6 +128,7 @@ Inline configuration comments:
   --report-unused-disable-directives  Adds reported errors for unused eslint-disable and eslint-enable directives
   --report-unused-disable-directives-severity String  Chooses severity level for reporting unused eslint-disable and
                                                       eslint-enable directives - either: off, warn, error, 0, 1, or 2
+  --report-unused-inline-configs String  Adds reported errors for unused eslint inline config comments - either: off, warn, error, 0, 1, or 2
 
 Caching:
   --cache                         Only check changed files - default: false
@@ -758,6 +759,26 @@ Same as [`--report-unused-disable-directives`](#--report-unused-disable-directiv
     package: "eslint",
     args: ["--report-unused-disable-directives-severity", "warn", "file.js"]
 }) }}
+
+#### `--report-unused-inline-configs`
+
+This option causes ESLint to report inline config comments like `/* eslint rule-name: "error" */` whose rule severity and any options match what's already been configured.
+
+* **Argument Type**: String. One of the following values:
+  1. `off` (or `0`)
+  1. `warn` (or `1`)
+  1. `error` (or `2`)
+* **Multiple Arguments**: No
+* **Default Value**: By default, `linterOptions.reportUnusedInlineConfigs` configuration setting is used (which defaults to `"off"`).
+
+This can be useful to keep files clean and devoid of misleading clutter.
+Inline config comments are meant to change ESLint's behavior in some way: if they change nothing, there is no reason to leave them in.
+
+##### `--report-unused-inline-configs` example
+
+```shell
+npx eslint --report-unused-inline-configs error file.js
+```
 
 ### Caching
 
