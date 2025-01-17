@@ -72,18 +72,18 @@ The `pluginJs.configs.recommended` object contains configuration to ensure that 
 You can configure rules individually by defining a new object with a `rules` key, as in this example:
 
 ```js
-   import pluginJs from "@eslint/js";
+import pluginJs from "@eslint/js";
 
-   export default [
-       pluginJs.configs.recommended,
+export default [
+    pluginJs.configs.recommended,
 
-      {
-          rules: {
-              "no-unused-vars": "warn",
-              "no-undef": "warn"
-          }
-      }
-   ];
+    {
+        rules: {
+            "no-unused-vars": "warn",
+            "no-undef": "warn"
+        }
+    }
+];
 ```
 
 The names `"no-unused-vars"` and `"no-undef"` are the names of [rules](../rules) in ESLint. The first value is the error level of the rule and can be one of these values:
