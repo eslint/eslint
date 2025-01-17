@@ -69,7 +69,7 @@ export default [
 
 The `pluginJs.configs.recommended` object contains configuration to ensure that all of the rules marked as recommended on the [rules page](../rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
 
-We can add `rules` as following:
+You can configure rules individually by defining a new object with a `rules` key, as in this example:
 
 ```js
    import pluginJs from "@eslint/js";
