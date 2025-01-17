@@ -14,6 +14,9 @@ eleventyNavigation:
 This page explains how to ignore files using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](ignore-deprecated).
 :::
 
+::: tip
+This page explains how to use `ignores` property of an ESLint configuration object to globally ignore files and directories (aka global ignores). The `ignores` property can behave as either global or non-global depending on how you use it. For more information on non-global ignores, see [Specifying files and ignores](configuration-files#specifying-files-and-ignores). For more information on the differences between global and non-global ignores, see [Globally ignoring files with `ignores`](configuration-files#globally-ignoring-files-with-ignores).
+:::
 You can configure ESLint to ignore certain files and directories while linting by specifying one or more glob patterns in the following ways:
 
 * Inside of your `eslint.config.js` file.
