@@ -3064,13 +3064,13 @@ describe("ESLint", () => {
                         eslint = new ESLint({
                             flags,
                             overrideConfigFile: true,
-                            cwd: `${otherDriveLetter}:\\`
+                            cwd: `${otherDriveLetter}:\\files`
                         });
-                        const pattern = `${otherDriveLetter}:\\pa*ng.*`;
+                        const pattern = `${otherDriveLetter}:\\files\\???.*`;
                         const results = await eslint.lintFiles([pattern]);
 
                         assert.strictEqual(results.length, 1);
-                        assert.strictEqual(results[0].filePath, `${otherDriveLetter}:\\passing.js`);
+                        assert.strictEqual(results[0].filePath, `${otherDriveLetter}:\\files\\foo.js`);
                         assert.strictEqual(results[0].messages.length, 0);
                         assert.strictEqual(results[0].errorCount, 0);
                         assert.strictEqual(results[0].warningCount, 0);
