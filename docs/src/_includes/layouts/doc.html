@@ -95,7 +95,9 @@ layout: base.html
                         {% set deprecated_description %}
                             <p>This rule was <b>deprecated</b> in ESLint v{{ rule_meta.deprecated.deprecatedSince }}.
                             
-                            {% if rule_meta.deprecated.replacedBy[0].plugin %}
+                            {% if rule_meta.deprecated.replacedBy.length === 0 %}
+                                There is no replacement rule.
+                            {% elif rule_meta.deprecated.replacedBy[0].plugin %}
                                 Please use the <a href="{{ rule_meta.deprecated.replacedBy[0].rule.url }}">corresponding rule</a> in <a href="{{ rule_meta.deprecated.replacedBy[0].plugin.url }}">{{ rule_meta.deprecated.replacedBy[0].plugin.name }}</a>.
                             {% else %}
                                 Please replace the rule with <a href="{{ rule.meta.deprecated.replacedBy[0].rule.url}}">{{ rule.meta.deprecated.replacedBy[0].rule.name }}</a>
