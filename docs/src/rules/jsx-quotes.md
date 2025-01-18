@@ -4,9 +4,6 @@ rule_type: layout
 related_rules:
 - quotes
 ---
-
-This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/jsx-quotes) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
-
 JSX attribute values can contain string literals, which are delimited with single or double quotes.
 
 ```jsx

@@ -5,9 +5,6 @@ related_rules:
 - no-constant-condition
 - arrow-parens
 ---
-
-This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/no-confusing-arrow) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
-
 Arrow functions (`=>`) are similar in syntax to some comparison operators (`>`, `<`, `<=`, and `>=`). This rule warns against using the arrow function syntax in places where it could be confused with a comparison operator.
 
 Here's an example where the usage of `=>` could be confusing:

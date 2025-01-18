@@ -2,9 +2,6 @@
 title: space-infix-ops
 rule_type: layout
 ---
-
-This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/space-infix-ops) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
-
 While formatting preferences are very personal, a number of style guides require spaces around operators, such as:
 
 ```js

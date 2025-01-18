@@ -7,9 +7,6 @@ related_rules:
 further_reading:
 - https://en.wikipedia.org/wiki/Indent_style
 ---
-
-This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/brace-style) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
-
 Brace style is closely related to [indent style](https://en.wikipedia.org/wiki/Indent_style) in programming and describes the placement of braces relative to their control statement and body. There are probably a dozen, if not more, brace styles in the world.
 
 The *one true brace style* is one of the most common brace styles in JavaScript, in which the opening brace of a block is placed on the same line as its corresponding statement or declaration. For example:

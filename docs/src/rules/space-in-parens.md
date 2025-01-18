@@ -6,9 +6,6 @@ related_rules:
 - object-curly-spacing
 - computed-property-spacing
 ---
-
-This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/space-in-parens) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
-
 Some style guides require or disallow spaces inside of parentheses:
 
 ```js

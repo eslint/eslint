@@ -5,9 +5,6 @@ related_rules:
 - space-before-blocks
 - brace-style
 ---
-
-This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/block-spacing) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
-
 ## Rule Details
 
 This rule enforces consistent spacing inside an open block token and the next token on the same line. This rule also enforces consistent spacing inside a close block token and previous token on the same line.

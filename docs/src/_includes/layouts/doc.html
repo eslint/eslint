@@ -4,6 +4,7 @@ layout: base.html
 
 {% include "partials/docs-header.html" %}
 {% from 'components/rule-categories.macro.html' import ruleCategories %}
+{% from 'components/alert.macro.html' import important %}
 
 <div class="docs-wrapper">
     <div class="docs-nav">
@@ -89,6 +90,20 @@ layout: base.html
                     fixable: rule_meta.fixable,
                     hasSuggestions: rule_meta.hasSuggestions
                     }) }}
+
+                    {% if rule_meta.deprecated %}
+                        {% set deprecated_description %}
+                            <p>This rule was <b>deprecated</b> in ESLint v{{ rule_meta.deprecated.deprecatedSince }}.
+                            
+                            {% if rule_meta.deprecated.replacedBy[0].plugin %}
+                                Please use the <a href="{{ rule_meta.deprecated.replacedBy[0].rule.url }}">corresponding rule</a> in <a href="{{ rule_meta.deprecated.replacedBy[0].plugin.url }}">{{ rule_meta.deprecated.replacedBy[0].plugin.name }}</a>.
+                            {% else %}
+                                Please replace the rule with <a href="{{ rule.meta.deprecated.replacedBy[0].rule.url}}">{{ rule.meta.deprecated.replacedBy[0].rule.name }}</a>
+                            {% endif %}
+                        {% endset %}
+
+                        {% important deprecated_description, rule_meta.deprecated.url %}
+                    {% endif %}
                 {% endif %}
 
                 {% include 'components/docs-toc.html' %}

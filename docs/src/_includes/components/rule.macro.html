@@ -8,8 +8,8 @@
             {{ params.name }}
             <span class="rule__status">deprecated</span>
         </p>
-        {%- if params.replacedBy|length -%}
-        <p class="rule__description">Replaced by {{ ruleList({ rules: params.replacedBy }) }}</p>
+        {%- if params.deprecated.replacedBy|length -%}
+        <p class="rule__description">Replaced by {{ ruleList({ rules: params.deprecated.replacedBy }) }}</p>
         {%- else -%}<p class="rule__description">{{ params.description }}</p>
         {%- endif -%}
         {%- elseif params.removed == true -%}
@@ -17,8 +17,8 @@
             {{ params.name }}
             <span class="rule__status">removed</span>
         </p>
-        {%- if params.replacedBy -%}
-        <p class="rule__description">Replaced by {{ ruleList({ rules: params.replacedBy }) }}</p>
+        {%- if params.deprecated.replacedBy -%}
+        <p class="rule__description">Replaced by {{ ruleList({ rules: params.deprecated.replacedBy }) }}</p>
         {%- else -%}<p class="rule__description">{{ params.description }}</p>
         {%- endif -%}
         {%- else -%}
