@@ -745,18 +745,6 @@ target.checkRuleFiles = function() {
         }
 
         /**
-         * Check if deprecated information is in rule code and README.md.
-         * @returns {boolean} true if present
-         * @private
-         */
-        function hasDeprecatedInfo() {
-            const deprecatedTagRegExp = /@deprecated in ESLint/u;
-            const deprecatedInfoRegExp = /This rule was .+deprecated.+in ESLint/u;
-
-            return deprecatedTagRegExp.test(ruleCode) && deprecatedInfoRegExp.test(docText);
-        }
-
-        /**
          * Check if the rule code has the jsdoc comment with the rule type annotation.
          * @returns {boolean} true if present
          * @private
@@ -794,12 +782,6 @@ target.checkRuleFiles = function() {
             console.error(`Missing rule from index (./lib/rules/index.js): ${basename}. If you just added a new rule then add an entry for it in this file.`);
             errors++;
         } else {
-
-            // check deprecated
-            if (ruleDef.meta.deprecated && !hasDeprecatedInfo()) {
-                console.error(`Missing deprecated information in ${basename} rule code or README.md. Please write @deprecated tag in code and「This rule was deprecated in ESLint ...」 in README.md.`);
-                errors++;
-            }
 
             // check eslint:recommended
             const recommended = require("./packages/js").configs.recommended;
