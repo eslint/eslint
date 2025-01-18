@@ -7,6 +7,7 @@ The legacy format used the two top-level [rule meta](./custom-rules.md#rule-stru
 In the new format `deprecated` is an object of type `DeprecatedInfo` and `replacedBy` should be defined inside `deprecated` instead of the top-level.
 
 ## ◆ DeprecatedInfo type
+
 This type represents general information about a rule deprecation.
 Every property is optional.
 
@@ -24,6 +25,7 @@ Every property is optional.
   The special value `null` means the rule is "frozen". This means the rule will no longer be changed but will be kept available.
 
 ## ◆ ReplacedByInfo type
+
 The type describes a single possible replacement of a rule.
 Every property is optional.
 
@@ -40,7 +42,8 @@ Every property is optional.
   May be omitted if the plugin only contains a single rule or has the same name as the rule.
 
 ### ◆ ExternalSpecifier type
-This type represents 
+
+This type represents an external resource.
 Every property is optional.
 
 * `name` (`string`)<br>
