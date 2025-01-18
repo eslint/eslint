@@ -9,7 +9,7 @@ export default⏎
 
 :::
 
-::: correct { "ecmaFeatures": { "jsx": true } }
+::: correct { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
 ```jsx
 const foo = <bar></bar>;

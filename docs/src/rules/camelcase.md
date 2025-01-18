@@ -35,7 +35,7 @@ Examples of **incorrect** code for this rule with the default `{ "properties": "
 
 import { no_camelcased } from "external-module"
 
-var my_favorite_color = "#112C85";
+const my_favorite_color = "#112C85";
 
 function do_something() {
     // ...
@@ -57,15 +57,15 @@ function baz({ no_camelcased = 'default value' }) {
     // ...
 };
 
-var obj = {
+const obj = {
     my_pref: 1
 };
 
-var { category_id = 1 } = query;
+const { category_id = 1 } = query;
 
-var { foo: snake_cased } = bar;
+const { foo: snake_cased } = bar;
 
-var { foo: bar_baz = 1 } = quz;
+const { foo: bar_baz = 1 } = quz;
 ```
 
 :::
@@ -79,18 +79,18 @@ Examples of **correct** code for this rule with the default `{ "properties": "al
 
 import { no_camelcased as camelCased } from "external-module";
 
-var myFavoriteColor   = "#112C85";
-var _myFavoriteColor  = "#112C85";
-var myFavoriteColor_  = "#112C85";
-var MY_FAVORITE_COLOR = "#112C85";
-var foo1 = bar.baz_boom;
-var foo2 = { qux: bar.baz_boom };
+const myFavoriteColor   = "#112C85";
+const _myFavoriteColor  = "#112C85";
+const myFavoriteColor_  = "#112C85";
+const MY_FAVORITE_COLOR = "#112C85";
+const foo1 = bar.baz_boom;
+const foo2 = { qux: bar.baz_boom };
 
 obj.do_something();
 do_something();
 new do_something();
 
-var { category_id: category } = query;
+const { category_id: category } = query;
 
 function foo({ isCamelCased }) {
     // ...
@@ -104,11 +104,11 @@ function baz({ isCamelCased = 'default value' }) {
     // ...
 };
 
-var { categoryId = 1 } = query;
+const { categoryId = 1 } = query;
 
-var { foo: isCamelCased } = bar;
+const { foo: isCamelCased } = bar;
 
-var { foo: isCamelCased = 1 } = quz;
+const { foo: camelCasedName = 1 } = quz;
 
 ```
 
@@ -123,7 +123,7 @@ Examples of **correct** code for this rule with the `{ "properties": "never" }` 
 ```js
 /*eslint camelcase: ["error", {properties: "never"}]*/
 
-var obj = {
+const obj = {
     my_pref: 1
 };
 
@@ -141,15 +141,15 @@ Examples of **incorrect** code for this rule with the default `{ "ignoreDestruct
 ```js
 /*eslint camelcase: "error"*/
 
-var { category_id } = query;
+const { category_id } = query;
 
-var { category_name = 1 } = query;
+const { category_name = 1 } = query;
 
-var { category_id: category_title } = query;
+const { category_id: category_title } = query;
 
-var { category_id: category_alias } = query;
+const { category_id: category_alias } = query;
 
-var { category_id: categoryId, ...other_props } = query;
+const { category_id: categoryId, ...other_props } = query;
 ```
 
 :::
@@ -163,9 +163,9 @@ Examples of **incorrect** code for this rule with the `{ "ignoreDestructuring": 
 ```js
 /*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
 
-var { category_id: category_alias } = query;
+const { category_id: category_alias } = query;
 
-var { category_id, ...other_props } = query;
+const { category_id, ...other_props } = query;
 ```
 
 :::
@@ -177,11 +177,11 @@ Examples of **correct** code for this rule with the `{ "ignoreDestructuring": tr
 ```js
 /*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
 
-var { category_id } = query;
+const { category_id } = query;
 
-var { category_id = 1 } = query;
+const { category_name = 1 } = query;
 
-var { category_id: category_id } = query;
+const { category_id_name: category_id_name } = query;
 ```
 
 :::
@@ -195,8 +195,8 @@ Examples of additional **incorrect** code for this rule with the `{ "ignoreDestr
 ```js
 /*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
 
-var { some_property } = obj; // allowed by {ignoreDestructuring: true}
-var foo = some_property + 1; // error, ignoreDestructuring does not apply to this statement
+const { some_property } = obj; // allowed by {ignoreDestructuring: true}
+const foo = some_property + 1; // error, ignoreDestructuring does not apply to this statement
 ```
 
 :::
@@ -210,7 +210,7 @@ Examples of additional **correct** code for this rule with the `{ "ignoreDestruc
 ```js
 /*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
 
-var { some_property, ...rest } = obj;
+const { some_property, ...rest } = obj;
 // do something with 'rest', nothing with 'some_property'
 ```
 
@@ -225,7 +225,7 @@ Examples of additional **correct** code for this rule with the `{ "properties": 
 ```js
 /*eslint camelcase: ["error", {"properties": "never", ignoreDestructuring: true}]*/
 
-var { some_property } = obj;
+const { some_property } = obj;
 doSomething({ some_property });
 ```
 

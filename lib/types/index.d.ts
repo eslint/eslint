@@ -741,6 +741,9 @@ export namespace Rule {
          */
         schema?: JSONSchema4 | JSONSchema4[] | false | undefined;
 
+        /** Any default options to be recursively merged on top of any user-provided options. */
+        defaultOptions?: unknown[];
+
         /** Indicates whether the rule has been deprecated or provides additional metadata about the deprecation. Omit if not deprecated. */
         deprecated?: boolean | DeprecatedInfo | undefined;
         /**
@@ -1411,6 +1414,12 @@ export namespace Linter {
          * tracked and reported.
          */
         reportUnusedDisableDirectives?: Severity | StringSeverity | boolean;
+
+        /**
+         * A severity value indicating if and how unused inline configs should be
+         * tracked and reported.
+         */
+        reportUnusedInlineConfigs?: Severity | StringSeverity;
     }
 
     interface Stats {
@@ -1524,7 +1533,7 @@ export namespace ESLint {
         allowInlineConfig?: boolean | undefined;
         baseConfig?: Linter.Config | Linter.Config[] | null | undefined;
         overrideConfig?: Linter.Config | Linter.Config[] | null | undefined;
-        overrideConfigFile?: string | boolean | undefined;
+        overrideConfigFile?: string | true | null | undefined;
         plugins?: Record<string, Plugin> | null | undefined;
         ruleFilter?: ((arg: { ruleId: string; severity: Exclude<Linter.Severity, 0> }) => boolean) | undefined;
         stats?: boolean | undefined;

@@ -56,7 +56,7 @@ Some code styles prohibit `void` operator, marking it as non-obvious and hard to
 
 ## Rule Details
 
-This rule aims to eliminate use of void operator.
+This rule aims to eliminate use of `void` operator.
 
 Examples of **incorrect** code for this rule:
 
@@ -80,11 +80,11 @@ function baz() {
 
 This rule has an object option:
 
-* `allowAsStatement` set to `true` allows the void operator to be used as a statement (Default `false`).
+* `allowAsStatement` set to `true` allows the `void` operator to be used as a statement (Default `false`).
 
 ### allowAsStatement
 
-When `allowAsStatement` is set to true, the rule will not error on cases that the void operator is used as a statement, i.e. when it's not used in an expression position, like in a variable assignment or a function return.
+When `allowAsStatement` is set to true, the rule will not error on cases that the `void` operator is used as a statement, i.e. when it's not used in an expression position, like in a variable assignment or a function return.
 
 Examples of **incorrect** code for `{ "allowAsStatement": true }`:
 

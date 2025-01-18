@@ -74,7 +74,7 @@
         padding: 10px 6px 0 0;
         align-items: center;
 
-        .powered-by-text {
+        .powered_by-text {
             color: var(--body-text-color);
             margin-right: 5px;
             margin-top: -2px;
@@ -94,16 +94,11 @@
     width: 100%;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
     border: 1px solid var(--divider-color);
-    position: relative;
-    top: -1.5rem;
+    position: absolute;
+    top: calc(100% - 1.5rem);
     max-height: 400px;
     overflow-y: auto;
-
-    @media all and (min-width: 1024px) {
-        box-shadow: var(--shadow-lg);
-        position: absolute;
-        top: calc(100% - 1.5rem);
-    }
+    box-shadow: var(--shadow-lg);
 
     &[data-results="true"] {
         padding: 0;

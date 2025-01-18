@@ -37,6 +37,7 @@ module.exports = function(eleventyConfig) {
      */
 
     let pathPrefix = "/docs/head/";
+    const isNumberVersion = process.env.BRANCH && /^v\d+\.x$/u.test(process.env.BRANCH);
 
     if (process.env.CONTEXT === "deploy-preview") {
         pathPrefix = "/";
@@ -44,7 +45,7 @@ module.exports = function(eleventyConfig) {
         pathPrefix = "/docs/latest/";
     } else if (process.env.BRANCH === "next") {
         pathPrefix = "/docs/next/";
-    } else if (process.env.BRANCH && /^v\d+\.x$/u.test(process.env.BRANCH)) {
+    } else if (isNumberVersion) {
         pathPrefix = `/docs/${process.env.BRANCH}/`; // `/docs/v8.x/`, `/docs/v9.x/`, `/docs/v10.x/` ...
     }
 
@@ -60,6 +61,7 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addGlobalData("HEAD", process.env.BRANCH === "main");
     eleventyConfig.addGlobalData("NOINDEX", process.env.BRANCH !== "latest");
     eleventyConfig.addGlobalData("PATH_PREFIX", pathPrefix);
+    eleventyConfig.addGlobalData("is_number_version", isNumberVersion);
     eleventyConfig.addDataExtension("yml", contents => yaml.load(contents));
 
     //------------------------------------------------------------------------------
@@ -197,9 +199,9 @@ module.exports = function(eleventyConfig) {
 
     // markdown-it plugin options for playground-linked code blocks in rule examples.
     const ruleExampleOptions = markdownItRuleExample({
-        open({ type, code, parserOptions, env, codeBlockToken }) {
+        open({ type, code, languageOptions, env, codeBlockToken }) {
 
-            prismESLintHook.addContentMustBeMarked(codeBlockToken.content, parserOptions);
+            prismESLintHook.addContentMustBeMarked(codeBlockToken.content, languageOptions);
 
             const isRuleRemoved = !Object.hasOwn(env.rules_meta, env.title);
 
@@ -207,10 +209,10 @@ module.exports = function(eleventyConfig) {
                 return `<div class="${type}">`;
             }
 
-            // See https://github.com/eslint/eslint.org/blob/ac38ab41f99b89a8798d374f74e2cce01171be8b/src/playground/App.js#L44
+            // See https://github.com/eslint/eslint.org/blob/29e1d8a000592245e4a30c1996e794643e9b263a/src/playground/App.js#L91-L105
             const state = encodeToBase64(
                 JSON.stringify({
-                    options: { parserOptions },
+                    options: languageOptions ? { languageOptions } : void 0,
                     text: code
                 })
             );

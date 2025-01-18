@@ -209,6 +209,7 @@ function generateRuleIndexPage() {
                         description: rule.meta.docs.description,
                         recommended: rule.meta.docs.recommended || false,
                         fixable: !!rule.meta.fixable,
+                        frozen: !!rule.meta.docs.frozen,
                         hasSuggestions: !!rule.meta.hasSuggestions
                     },
                     ruleType = ruleTypesData.types[rule.meta.type];
@@ -323,6 +324,21 @@ function updateVersions(oldVersion, newVersion) {
 }
 
 /**
+ * Updates TSDoc header comments of all rule types.
+ * @returns {void}
+ */
+function updateRuleTypeHeaders() {
+    const { execFileSync } = require("node:child_process");
+
+    // We don't need the stack trace of execFileSync if the command fails.
+    try {
+        execFileSync(process.execPath, ["tools/update-rule-type-headers.js"], { stdio: "inherit" });
+    } catch {
+        exit(1);
+    }
+}
+
+/**
  * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
  * and generates the site in an adjacent `website` folder.
  * @param {Object} options Release options.
@@ -355,8 +371,11 @@ function generateRelease({ prereleaseId, packageTag }) {
         updateVersions(oldVersion, releaseInfo.version);
     }
 
-    echo("Updating commit with docs data");
-    exec("git add docs/ && git commit --amend --no-edit");
+    echo("Updating rule type header comments");
+    updateRuleTypeHeaders();
+
+    echo("Updating commit with docs data and rule types");
+    exec("git add lib/types/rules/ docs/ && git commit --amend --no-edit");
     exec(`git tag -a -f v${releaseInfo.version} -m ${releaseInfo.version}`);
 }
 

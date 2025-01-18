@@ -22,7 +22,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint dot-notation: "error"*/
 
-var x = foo["bar"];
+const x = foo["bar"];
 ```
 
 :::
@@ -34,9 +34,9 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint dot-notation: "error"*/
 
-var x = foo.bar;
+const x = foo.bar;
 
-var x = foo[bar];    // Property name is a variable, square-bracket notation required
+const y = foo[bar];    // Property name is a variable, square-bracket notation required
 ```
 
 :::
@@ -57,8 +57,8 @@ Examples of **correct** code for the `{ "allowKeywords": false }` option:
 ```js
 /*eslint dot-notation: ["error", { "allowKeywords": false }]*/
 
-var foo = { "class": "CS 101" }
-var x = foo["class"]; // Property name is a reserved word, square-bracket notation required
+const foo = { "class": "CS 101" }
+const x = foo["class"]; // Property name is a reserved word, square-bracket notation required
 ```
 
 :::
@@ -91,7 +91,7 @@ Examples of **incorrect** code for the sample `{ "allowPattern": "^[a-z]+(_[a-z]
 ```js
 /*eslint dot-notation: ["error", { "allowPattern": "^[a-z]+(_[a-z]+)+$" }]*/
 
-var data = {};
+const data = {};
 data["fooBar"] = 42;
 ```
 
@@ -103,7 +103,7 @@ Examples of **correct** code for the sample `{ "allowPattern": "^[a-z]+(_[a-z]+)
 ```js
 /*eslint dot-notation: ["error", { "allowPattern": "^[a-z]+(_[a-z]+)+$" }]*/
 
-var data = {};
+const data = {};
 data["foo_bar"] = 42;
 ```
 

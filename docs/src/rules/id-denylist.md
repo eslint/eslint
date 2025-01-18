@@ -37,7 +37,7 @@ For example, to restrict the use of common generic identifiers:
 }
 ```
 
-**Note:** The first element of the array is for the rule severity (see [Configure Rules](../use/configure/rules). The other elements in the array are the identifiers that you want to disallow.
+**Note:** The first element of the array is for the rule severity (see [Configure Rules](../use/configure/rules)). The other elements in the array are the identifiers that you want to disallow.
 
 Examples of **incorrect** code for this rule with sample `"data", "callback"` restricted identifiers:
 
@@ -46,7 +46,7 @@ Examples of **incorrect** code for this rule with sample `"data", "callback"` re
 ```js
 /*eslint id-denylist: ["error", "data", "callback"] */
 
-var data = { ...values };
+const data = { ...values };
 
 function callback() {
     // ...
@@ -56,7 +56,7 @@ element.callback = function() {
     // ...
 };
 
-var itemSet = {
+const itemSet = {
     data: [...values]
 };
 
@@ -86,7 +86,7 @@ Examples of **correct** code for this rule with sample `"data", "callback"` rest
 ```js
 /*eslint id-denylist: ["error", "data", "callback"] */
 
-var encodingOptions = {...values};
+const encodingOptions = {...values};
 
 function processFileResult() {
     // ...
@@ -96,7 +96,7 @@ element.successHandler = function() {
     // ...
 };
 
-var itemSet = {
+const itemSet = {
     entities: [...values]
 };
 

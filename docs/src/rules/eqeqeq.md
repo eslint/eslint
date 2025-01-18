@@ -89,17 +89,17 @@ foo === null
 This rule optionally takes a second argument, which should be an object with the following supported properties:
 
 * `"null"`: Customize how this rule treats `null` literals. Possible values:
-    * `always` (default) - Always use === or !==.
-    * `never` - Never use === or !== with `null`.
+    * `always` (default) - Always use `===` or `!==`.
+    * `never` - Never use `===` or `!==` with `null`.
     * `ignore` - Do not apply this rule to `null`.
 
 ### smart
 
 The `"smart"` option enforces the use of `===` and `!==` except for these cases:
 
-* Comparing two literal values
-* Evaluating the value of `typeof`
-* Comparing against `null`
+* Comparing two literal values.
+* Evaluating the value of `typeof`.
+* Comparing against `null`.
 
 Examples of **incorrect** code for the `"smart"` option:
 

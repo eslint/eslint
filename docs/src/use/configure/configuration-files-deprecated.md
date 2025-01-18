@@ -205,8 +205,8 @@ A configuration file, once extended, can inherit all the traits of another confi
 
 The `extends` property value is either:
 
-* a string that specifies a configuration (either a path to a config file, the name of a shareable config, `eslint:recommended`, or `eslint:all`)
-* an array of strings where each additional configuration extends the preceding configurations
+* a string that specifies a configuration (either a path to a config file, the name of a shareable config, `eslint:recommended`, or `eslint:all`).
+* an array of strings where each additional configuration extends the preceding configurations.
 
 ESLint extends configurations recursively, so a base configuration can also have an `extends` property. Relative paths and shareable config names in an `extends` property are resolved from the location of the config file where they appear.
 

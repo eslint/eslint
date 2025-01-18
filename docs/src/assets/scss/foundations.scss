@@ -10,6 +10,7 @@ h4:target,
 h5:target,
 h6:target {
     background-color: var(--lighter-background-color);
+    border-radius: var(--border-radius);
 }
 
 *:focus {
@@ -363,6 +364,7 @@ h6 {
     font-weight: 500;
     margin-top: 0;
     margin-block-start: 0;
+    padding: 0.25rem 0;
 }
 
 h2,

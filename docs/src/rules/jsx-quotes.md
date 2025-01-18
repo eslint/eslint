@@ -34,7 +34,7 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"prefer-double"` option:
 
-:::incorrect { "ecmaFeatures": { "jsx": true } }
+:::incorrect { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
 ```jsx
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
@@ -46,7 +46,7 @@ Examples of **incorrect** code for this rule with the default `"prefer-double"` 
 
 Examples of **correct** code for this rule with the default `"prefer-double"` option:
 
-:::correct { "ecmaFeatures": { "jsx": true } }
+:::correct { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
 ```jsx
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
@@ -61,7 +61,7 @@ Examples of **correct** code for this rule with the default `"prefer-double"` op
 
 Examples of **incorrect** code for this rule with the `"prefer-single"` option:
 
-:::incorrect { "ecmaFeatures": { "jsx": true } }
+:::incorrect { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
 ```jsx
 /*eslint jsx-quotes: ["error", "prefer-single"]*/
@@ -73,7 +73,7 @@ Examples of **incorrect** code for this rule with the `"prefer-single"` option:
 
 Examples of **correct** code for this rule with the `"prefer-single"` option:
 
-:::correct { "ecmaFeatures": { "jsx": true } }
+:::correct { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
 ```jsx
 /*eslint jsx-quotes: ["error", "prefer-single"]*/

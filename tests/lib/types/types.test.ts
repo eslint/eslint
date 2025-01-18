@@ -927,8 +927,6 @@ linterWithEslintrcConfig.getRules();
     eslint = new ESLint();
     eslint = new ESLint({ allowInlineConfig: false });
     eslint = new ESLint({ baseConfig: {} });
-    eslint = new ESLint({ overrideConfig: {} });
-    eslint = new ESLint({ overrideConfigFile: "foo" });
     eslint = new ESLint({ cache: true });
     eslint = new ESLint({ cacheLocation: "foo" });
     eslint = new ESLint({ cacheStrategy: "content" });
@@ -941,6 +939,14 @@ linterWithEslintrcConfig.getRules();
     eslint = new ESLint({ globInputPaths: true });
     eslint = new ESLint({ ignore: true });
     eslint = new ESLint({ ignorePatterns: ["foo", "bar"] });
+    eslint = new ESLint({ overrideConfig: {} });
+
+    eslint = new ESLint({ overrideConfigFile: "foo" });
+    eslint = new ESLint({ overrideConfigFile: true });
+    eslint = new ESLint({ overrideConfigFile: null });
+    // @ts-expect-error `overrideConfigFile` cannot be `false`
+    eslint = new ESLint({ overrideConfigFile: false });
+
     eslint = new ESLint({ plugins: { foo: {} } });
     eslint = new ESLint({
         ruleFilter({ severity }) {

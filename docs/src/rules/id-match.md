@@ -9,7 +9,7 @@ rule_type: suggestion
 Naming things consistently in a project is an often underestimated aspect of code creation.
 When done correctly, it can save your team hours of unnecessary head scratching and misdirections.
 This rule allows you to precisely define and enforce the variables and function names on your team should use.
-No more limiting yourself to camelCase, snake_case, PascalCase, or HungarianNotation. Id-match has all your needs covered!
+No more limiting yourself to camelCase, snake_case, PascalCase, or HungarianNotation. `id-match` has all your needs covered!
 
 ## Rule Details
 
@@ -34,10 +34,10 @@ Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$"`
 ```js
 /*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$"]*/
 
-var my_favorite_color = "#112C85";
-var _myFavoriteColor  = "#112C85";
-var myFavoriteColor_  = "#112C85";
-var MY_FAVORITE_COLOR = "#112C85";
+const my_favorite_color = "#112C85";
+const _myFavoriteColor  = "#112C85";
+const myFavoriteColor_  = "#112C85";
+const MY_FAVORITE_COLOR = "#112C85";
 function do_something() {
     // ...
 }
@@ -62,11 +62,11 @@ Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$"` o
 ```js
 /*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$"]*/
 
-var myFavoriteColor   = "#112C85";
-var foo = bar.baz_boom;
-var foo = { qux: bar.baz_boom };
+const myFavoriteColor   = "#112C85";
+const foo = bar.baz_boom;
+const buz = { qux: bar.baz_boom };
 do_something();
-var obj = {
+const obj = {
     my_pref: 1
 };
 
@@ -103,7 +103,7 @@ Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$",
 ```js
 /*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$", { "properties": true }]*/
 
-var obj = {
+const obj = {
     my_pref: 1
 };
 
@@ -157,15 +157,15 @@ Examples of **incorrect** code for this rule with the default `"^[^_]+$", { "ign
 ```js
 /*eslint id-match: [2, "^[^_]+$", { "ignoreDestructuring": false }]*/
 
-var { category_id } = query;
+const { category_id } = query;
 
-var { category_id = 1 } = query;
+const { categoryid_Default = 1 } = query;
 
-var { category_id: category_id } = query;
+const { category_ids: category_ids } = query;
 
-var { category_id: category_alias } = query;
+const { category_id: category_Alias } = query;
 
-var { category_id: categoryId, ...other_props } = query;
+const { category_id: category_IdRenamed, ...other_Props } = query;
 ```
 
 :::
@@ -179,9 +179,9 @@ Examples of **incorrect** code for this rule with the `"^[^_]+$", { "ignoreDestr
 ```js
 /*eslint id-match: [2, "^[^_]+$", { "ignoreDestructuring": true }]*/
 
-var { category_id: category_alias } = query;
+const { category_id: category_alias } = query;
 
-var { category_id, ...other_props } = query;
+const { category_id: category_Id, ...other_props } = query;
 ```
 
 :::
@@ -193,11 +193,11 @@ Examples of **correct** code for this rule with the `"^[^_]+$", { "ignoreDestruc
 ```js
 /*eslint id-match: [2, "^[^_]+$", { "ignoreDestructuring": true }]*/
 
-var { category_id } = query;
+const { category_id } = query;
 
-var { category_id = 1 } = query;
+const { category_Id = 1 } = query;
 
-var { category_id: category_id } = query;
+const { category_alias: category_alias } = query;
 ```
 
 :::

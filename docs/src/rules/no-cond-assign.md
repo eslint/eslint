@@ -26,8 +26,8 @@ This rule disallows ambiguous assignment operators in test conditions of `if`, `
 
 This rule has a string option:
 
-* `"except-parens"` (default) allows assignments in test conditions *only if* they are enclosed in parentheses (for example, to allow reassigning a variable in the test of a `while` or `do...while` loop)
-* `"always"` disallows all assignments in test conditions
+* `"except-parens"` (default) allows assignments in test conditions *only if* they are enclosed in parentheses (for example, to allow reassigning a variable in the test of a `while` or `do...while` loop).
+* `"always"` disallows all assignments in test conditions.
 
 ### except-parens
 
@@ -39,13 +39,13 @@ Examples of **incorrect** code for this rule with the default `"except-parens"` 
 /*eslint no-cond-assign: "error"*/
 
 // Unintentional assignment
-var x;
+let x;
 if (x = 0) {
-    var b = 1;
+    const b = 1;
 }
 
 // Practical example that is similar to an error
-var setHeight = function (someNode) {
+const setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while (someNode = someNode.parentNode);
@@ -62,20 +62,20 @@ Examples of **correct** code for this rule with the default `"except-parens"` op
 /*eslint no-cond-assign: "error"*/
 
 // Assignment replaced by comparison
-var x;
+let x;
 if (x === 0) {
-    var b = 1;
+    const b = 1;
 }
 
 // Practical example that wraps the assignment in parentheses
-var setHeight = function (someNode) {
+const setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode));
 }
 
 // Practical example that wraps the assignment and tests for 'null'
-var setHeight = function (someNode) {
+const set_height = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode) !== null);
@@ -94,27 +94,27 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 /*eslint no-cond-assign: ["error", "always"]*/
 
 // Unintentional assignment
-var x;
+let x;
 if (x = 0) {
-    var b = 1;
+    const b = 1;
 }
 
 // Practical example that is similar to an error
-var setHeight = function (someNode) {
+const setHeight = function (someNode) {
     do {
         someNode.height = "100px";
     } while (someNode = someNode.parentNode);
 }
 
 // Practical example that wraps the assignment in parentheses
-var setHeight = function (someNode) {
+const set_height = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode));
 }
 
 // Practical example that wraps the assignment and tests for 'null'
-var setHeight = function (someNode) {
+const heightSetter = function (someNode) {
     do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode) !== null);
@@ -131,9 +131,9 @@ Examples of **correct** code for this rule with the `"always"` option:
 /*eslint no-cond-assign: ["error", "always"]*/
 
 // Assignment replaced by comparison
-var x;
+let x;
 if (x === 0) {
-    var b = 1;
+    const b = 1;
 }
 ```
 

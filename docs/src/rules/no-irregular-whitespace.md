@@ -81,31 +81,31 @@ Examples of **incorrect** code for this rule with the default `{ "skipStrings": 
 ```js
 /*eslint no-irregular-whitespace: "error"*/
 
-var thing = function() /*<NBSP>*/{
+const thing = function() /*<NBSP>*/{
     return 'test';
 }
 
-var thing = function( /*<NBSP>*/){
+const foo = function( /*<NBSP>*/){
     return 'test';
 }
 
-var thing = function /*<NBSP>*/(){
+const bar = function /*<NBSP>*/(){
     return 'test';
 }
 
-var thing = function /*<Ogham Space Mark>*/(){
+const baz = function /*<Ogham Space Mark>*/(){
     return 'test';
 }
 
-var thing = function() {
+const qux = function() {
     return 'test'; /*<ENSP>*/
 }
 
-var thing = function() {
+const quux = function() {
     return 'test'; /*<NBSP>*/
 }
 
-var thing = function() {
+const item = function() {
     // Description <NBSP>: some descriptive text
 }
 
@@ -113,11 +113,11 @@ var thing = function() {
 Description <NBSP>: some descriptive text
 */
 
-var thing = function() {
+const func = function() {
     return / <NBSP>regexp/;
 }
 
-var thing = function() {
+const myFunc = function() {
     return `template <NBSP>string`;
 }
 ```
@@ -131,15 +131,15 @@ Examples of **correct** code for this rule with the default `{ "skipStrings": tr
 ```js
 /*eslint no-irregular-whitespace: "error"*/
 
-var thing = function() {
+const thing = function() {
     return ' <NBSP>thing';
 }
 
-var thing = function() {
+const foo = function() {
     return '​<ZWSP>thing';
 }
 
-var thing = function() {
+const bar = function() {
     return 'th <NBSP>ing';
 }
 ```
@@ -202,7 +202,7 @@ function thing() {
 
 Examples of additional **correct** code for this rule with the `{ "skipJSXText": true }` option:
 
-::: correct { "ecmaFeatures": { "jsx": true } }
+::: correct { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
 ```jsx
 /*eslint no-irregular-whitespace: ["error", { "skipJSXText": true }]*/

@@ -47,7 +47,7 @@ customConfirm("Are you sure?");
 customPrompt("Who are you?");
 
 function foo() {
-    var alert = myCustomLib.customAlert;
+    const alert = myCustomLib.customAlert;
     alert();
 }
 ```

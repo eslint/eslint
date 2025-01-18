@@ -103,9 +103,8 @@ In environments outside of CommonJS or ECMAScript modules, you may use `var` to 
 
 Note that `/* exported */` has no effect for any of the following:
 
-* when the environment is `node` or `commonjs`
-* when `parserOptions.sourceType` is `module`
-* when `ecmaFeatures.globalReturn` is `true`
+* when `languageOptions.sourceType` is `module` (default) or `commonjs`
+* when `languageOptions.parserOptions.ecmaFeatures.globalReturn` is `true`
 
 The line comment `// exported variableName` will not work as `exported` is not line-specific.
 

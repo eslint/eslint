@@ -34,9 +34,9 @@ We need all of this information in order to determine whether or not the rule is
 
 In order for a rule to be accepted in the ESLint core, it must:
 
-1. Fulfill all the criteria listed in the "Core Rule Guidelines" section
-1. Have an ESLint team member champion inclusion of the rule
-1. Be related to an ECMAScript feature that has reached stage 4 in the preceding 12 months
+1. Fulfill all the criteria listed in the "Core Rule Guidelines" section.
+1. Have an ESLint team member champion inclusion of the rule.
+1. Be related to an ECMAScript feature that has reached stage 4 in the preceding 12 months.
 
 Keep in mind that we have over 200 rules, and that is daunting both for end users and the ESLint team (who has to maintain them). As such, any new rules must be deemed of high importance to be considered for inclusion in ESLint.
 

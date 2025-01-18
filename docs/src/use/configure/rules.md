@@ -20,9 +20,9 @@ ESLint comes with a large number of [built-in rules](../../rules/) and you can a
 
 To change a rule's severity, set the rule ID equal to one of these values:
 
-* `"off"` or `0` - turn the rule off
-* `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
-* `"error"` or `2` - turn the rule on as an error (exit code is 1 when triggered)
+* `"off"` or `0` - turn the rule off.
+* `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code).
+* `"error"` or `2` - turn the rule on as an error (exit code is 1 when triggered).
 
 Rules are typically set to `"error"` to enforce compliance with the rule during continuous integration testing, pre-commit checks, and pull request merging because doing so causes ESLint to exit with a non-zero exit code.
 
@@ -72,6 +72,25 @@ Configuration comments can include descriptions to explain why the comment is ne
  * This will not work due to the line above starting with a '*' character.
  */
 ```
+
+#### Report unused `eslint` inline config comments
+
+To report unused `eslint` inline config comments (those that don't change anything from what was already configured), use the `reportUnusedInlineConfigs` setting. For example:
+
+```js
+// eslint.config.js
+export default [
+    {
+        linterOptions: {
+            reportUnusedInlineConfigs: "error"
+        }
+    }
+];
+```
+
+This setting defaults to `"off"`.
+
+This setting is similar to the [`--report-unused-inline-configs`](../command-line-interface#--report-unused-inline-configs) CLI option.
 
 ### Using Configuration Files
 
@@ -345,7 +364,7 @@ You can also use the [`--no-inline-config`](../command-line-interface#--no-inlin
 
 #### Report unused `eslint-disable` comments
 
-To report unused `eslint-disable` comments, use the `reportUnusedDisableDirectives` setting. For example:
+To report unused `eslint-disable` comments (those that disable rules which would not report on the disabled line), use the `reportUnusedDisableDirectives` setting. For example:
 
 ```js
 // eslint.config.js

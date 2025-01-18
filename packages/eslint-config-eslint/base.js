@@ -6,6 +6,9 @@ const eslintCommentsPluginConfigs = require("@eslint-community/eslint-plugin-esl
 const unicorn = require("eslint-plugin-unicorn");
 
 // extends eslint recommended config
+/**
+ * @type {import("eslint").Linter.Config[]}
+ */
 const jsConfigs = [js.configs.recommended, {
     name: "eslint-config-eslint/js",
     rules: {
@@ -56,14 +59,6 @@ const jsConfigs = [js.configs.recommended, {
         "no-proto": "error",
         "no-process-exit": "off",
         "no-restricted-properties": ["error",
-            {
-                property: "substring",
-                message: "Use .slice instead of .substring."
-            },
-            {
-                property: "substr",
-                message: "Use .slice instead of .substr."
-            },
             {
                 object: "assert",
                 property: "equal",
@@ -142,6 +137,9 @@ const jsConfigs = [js.configs.recommended, {
 }];
 
 // extends eslint-plugin-jsdoc's recommended config
+/**
+ * @type {import("eslint").Linter.Config[]}
+ */
 const jsdocConfigs = [jsdoc.configs["flat/recommended"], {
     name: "eslint-config-eslint/jsdoc",
     settings: {
@@ -234,6 +232,9 @@ const jsdocConfigs = [jsdoc.configs["flat/recommended"], {
 }];
 
 // extends eslint-plugin-unicorn's config
+/**
+ * @type {import("eslint").Linter.Config[]}
+ */
 const unicornConfigs = [{
     name: "eslint-config-eslint/unicorn",
     plugins: { unicorn },
@@ -253,6 +254,9 @@ const unicornConfigs = [{
 }];
 
 // extends @eslint-community/eslint-plugin-eslint-comments's recommended config
+/**
+ * @type {import("eslint").Linter.Config[]}
+ */
 const eslintCommentsConfigs = [eslintCommentsPluginConfigs.recommended, {
     name: "eslint-config-eslint/eslint-comments",
     rules: {
@@ -262,8 +266,17 @@ const eslintCommentsConfigs = [eslintCommentsPluginConfigs.recommended, {
     }
 }];
 
+/**
+ * @type {import("eslint").Linter.Config[]}
+ */
 module.exports = [
-    { name: "eslint-config-eslint/base", linterOptions: { reportUnusedDisableDirectives: "error" } },
+    {
+        name: "eslint-config-eslint/base",
+        linterOptions: {
+            reportUnusedDisableDirectives: "error",
+            reportUnusedInlineConfigs: "error"
+        }
+    },
     ...jsConfigs,
     ...unicornConfigs,
     ...jsdocConfigs,

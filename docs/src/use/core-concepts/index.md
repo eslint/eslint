@@ -56,7 +56,7 @@ For more information, refer to [Using a shareable configuration package](../conf
 
 ## Plugins
 
-An ESLint plugin is an npm module that can contain a set of ESLint rules, configurations, processors, and environments. Often plugins include custom rules. Plugins can be used to enforce a style guide and support JavaScript extensions (like TypeScript), libraries (like React), and frameworks (Angular).
+An ESLint plugin is an npm module that can contain a set of ESLint rules, configurations, processors, and languages. Often plugins include custom rules. Plugins can be used to enforce a style guide and support JavaScript extensions (like TypeScript), libraries (like React), and frameworks (Angular).
 
 A popular use case for plugins is to enforce best practices for a framework. For example, [@angular-eslint/eslint-plugin](https://www.npmjs.com/package/@angular-eslint/eslint-plugin) contains best practices for using the Angular framework.
 

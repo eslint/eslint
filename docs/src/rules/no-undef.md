@@ -22,8 +22,8 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-undef: "error"*/
 
-var foo = someFunction();
-var bar = a + 1;
+const foo = someFunction();
+const bar = a + 1;
 ```
 
 :::
@@ -36,8 +36,8 @@ Examples of **correct** code for this rule with `global` declaration:
 /*global someFunction, a*/
 /*eslint no-undef: "error"*/
 
-var foo = someFunction();
-var bar = a + 1;
+const foo = someFunction();
+const bar = a + 1;
 ```
 
 :::

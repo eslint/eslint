@@ -7,6 +7,8 @@ eleventyNavigation:
     order: 6
 ---
 
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
+
 ESLint has a very lightweight development environment that makes updating code fast and easy. This is a step-by-step guide to setting up a local development environment that will let you contribute back to the project.
 
 ## Step 1: Install Node.js
@@ -29,8 +31,13 @@ Once you've cloned the repository, run `npm install` to get all the necessary de
 
 ```shell
 cd eslint
-npm install
 ```
+
+{{ npm_tabs({
+    command: "install",
+    packages: [],
+    args: []
+}) }}
 
 You must be connected to the Internet for this step to work. You'll see a lot of utilities being downloaded.
 
@@ -52,15 +59,19 @@ Now, the remote `upstream` points to the upstream source.
 
 [Yeoman](https://yeoman.io) is a scaffold generator that ESLint uses to help streamline development of new rules. If you don't already have Yeoman installed, you can install it via npm:
 
-```shell
-npm install -g yo
-```
+{{ npm_tabs({
+    command: "install",
+    packages: ["yo"],
+    args: ["--global"]
+}) }}
 
 Then, you can install the ESLint Yeoman generator:
 
-```shell
-npm install -g generator-eslint
-```
+{{ npm_tabs({
+    command: "install",
+    packages: ["generator-eslint"],
+    args: ["--global"]
+}) }}
 
 Please see the [generator documentation](https://github.com/eslint/generator-eslint) for instructions on how to use it.
 
@@ -80,16 +91,16 @@ The testing takes a few minutes to complete. If any tests fail, that likely mean
 
 The ESLint directory and file structure is as follows:
 
-* `bin` - executable files that are available when ESLint is installed
-* `conf` - default configuration information
-* `docs` - documentation for the project
-* `lib` - contains the source code
-    * `formatters` - all source files defining formatters
-    * `rules` - all source files defining rules
-* `tests` - the main unit test folder
-    * `lib` - tests for the source code
-        * `formatters` - tests for the formatters
-        * `rules` - tests for the rules
+* `bin` - executable files that are available when ESLint is installed.
+* `conf` - default configuration information.
+* `docs` - documentation for the project.
+* `lib` - contains the source code.
+    * `formatters` - all source files defining formatters.
+    * `rules` - all source files defining rules.
+* `tests` - the main unit test folder.
+    * `lib` - tests for the source code.
+        * `formatters` - tests for the formatters.
+        * `rules` - tests for the rules.
 
 ### Workflow
 
@@ -103,11 +114,11 @@ ESLint has several build scripts that help with various parts of development.
 
 The primary script to use is `npm test`, which does several things:
 
-1. Lints all JavaScript (including tests) and JSON
-1. Runs all tests on Node.js
-1. Checks code coverage targets
-1. Generates `build/eslint.js` for use in a browser
-1. Runs a subset of tests in PhantomJS
+1. Lints all JavaScript (including tests) and JSON.
+1. Runs all tests on Node.js.
+1. Checks code coverage targets.
+1. Generates `build/eslint.js` for use in a browser.
+1. Runs a subset of tests in PhantomJS.
 
 Be sure to run this after making changes and before sending a pull request with your changes.
 

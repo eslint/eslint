@@ -540,6 +540,24 @@ ruleTester.run("no-irregular-whitespace", rule, {
         },
         {
             code: "var any = `\u3000`, other = `\u000B`;",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 12
+                },
+                {
+                    messageId: "noIrregularWhitespace",
+                    type: "Program",
+                    line: 1,
+                    column: 25
+                }
+            ]
+        },
+        {
+            code: "var any = `\u3000`, other = `\u000B`;",
             options: [{ skipTemplates: false }],
             languageOptions: { ecmaVersion: 6 },
             errors: [

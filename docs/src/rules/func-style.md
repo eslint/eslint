@@ -44,7 +44,7 @@ var doSomething = function() {
 };
 ```
 
-In this case, `doSomething()` is undefined at the time of invocation and so causes a runtime error.
+In this case, `doSomething` is `undefined` at the time of invocation and so causes a runtime error.
 
 Due to these different behaviors, it is common to have guidelines as to which style of function should be used. There is really no correct or incorrect choice here, it is just a preference.
 

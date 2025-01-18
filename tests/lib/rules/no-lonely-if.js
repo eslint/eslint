@@ -23,7 +23,8 @@ ruleTester.run("no-lonely-if", rule, {
     // Examples of code that should not trigger the rule
     valid: [
         "if (a) {;} else if (b) {;}",
-        "if (a) {;} else { if (b) {;} ; }"
+        "if (a) {;} else { if (b) {;} ; }",
+        "if (a) if (a) {} else { if (b) {} } else {}"
     ],
 
     // Examples of code that should trigger the rule

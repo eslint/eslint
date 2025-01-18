@@ -32,12 +32,12 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ```js
 /*eslint array-bracket-newline: ["error", "always"]*/
 
-var a = [];
-var b = [1];
-var c = [1, 2];
-var d = [1,
+const a = [];
+const b = [1];
+const c = [1, 2];
+const d = [1,
     2];
-var e = [function foo() {
+const e = [function foo() {
     dosomething();
 }];
 ```
@@ -51,19 +51,19 @@ Examples of **correct** code for this rule with the `"always"` option:
 ```js
 /*eslint array-bracket-newline: ["error", "always"]*/
 
-var a = [
+const a = [
 ];
-var b = [
+const b = [
     1
 ];
-var c = [
+const c = [
     1, 2
 ];
-var d = [
+const d = [
     1,
     2
 ];
-var e = [
+const e = [
     function foo() {
         dosomething();
     }
@@ -81,19 +81,19 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ```js
 /*eslint array-bracket-newline: ["error", "never"]*/
 
-var a = [
+const a = [
 ];
-var b = [
+const b = [
     1
 ];
-var c = [
+const c = [
     1, 2
 ];
-var d = [
+const d = [
     1,
     2
 ];
-var e = [
+const e = [
     function foo() {
         dosomething();
     }
@@ -109,12 +109,12 @@ Examples of **correct** code for this rule with the `"never"` option:
 ```js
 /*eslint array-bracket-newline: ["error", "never"]*/
 
-var a = [];
-var b = [1];
-var c = [1, 2];
-var d = [1,
+const a = [];
+const b = [1];
+const c = [1, 2];
+const d = [1,
     2];
-var e = [function foo() {
+const e = [function foo() {
     dosomething();
 }];
 ```
@@ -130,15 +130,15 @@ Examples of **incorrect** code for this rule with the `"consistent"` option:
 ```js
 /*eslint array-bracket-newline: ["error", "consistent"]*/
 
-var a = [1
+const a = [1
 ];
-var b = [
+const b = [
     1];
-var c = [function foo() {
+const c = [function foo() {
     dosomething();
 }
 ]
-var d = [
+const d = [
     function foo() {
         dosomething();
     }]
@@ -153,17 +153,17 @@ Examples of **correct** code for this rule with the `"consistent"` option:
 ```js
 /*eslint array-bracket-newline: ["error", "consistent"]*/
 
-var a = [];
-var b = [
+const a = [];
+const b = [
 ];
-var c = [1];
-var d = [
+const c = [1];
+const d = [
     1
 ];
-var e = [function foo() {
+const e = [function foo() {
     dosomething();
 }];
-var f = [
+const f = [
     function foo() {
         dosomething();
     }
@@ -181,17 +181,17 @@ Examples of **incorrect** code for this rule with the default `{ "multiline": tr
 ```js
 /*eslint array-bracket-newline: ["error", { "multiline": true }]*/
 
-var a = [
+const a = [
 ];
-var b = [
+const b = [
     1
 ];
-var c = [
+const c = [
     1, 2
 ];
-var d = [1,
+const d = [1,
     2];
-var e = [function foo() {
+const e = [function foo() {
     dosomething();
 }];
 ```
@@ -205,14 +205,14 @@ Examples of **correct** code for this rule with the default `{ "multiline": true
 ```js
 /*eslint array-bracket-newline: ["error", { "multiline": true }]*/
 
-var a = [];
-var b = [1];
-var c = [1, 2];
-var d = [
+const a = [];
+const b = [1];
+const c = [1, 2];
+const d = [
     1,
     2
 ];
-var e = [
+const e = [
     function foo() {
         dosomething();
     }
@@ -230,15 +230,15 @@ Examples of **incorrect** code for this rule with the `{ "minItems": 2 }` option
 ```js
 /*eslint array-bracket-newline: ["error", { "minItems": 2 }]*/
 
-var a = [
+const a = [
 ];
-var b = [
+const b = [
     1
 ];
-var c = [1, 2];
-var d = [1,
+const c = [1, 2];
+const d = [1,
     2];
-var e = [
+const e = [
   function foo() {
     dosomething();
   }
@@ -254,16 +254,16 @@ Examples of **correct** code for this rule with the `{ "minItems": 2 }` option:
 ```js
 /*eslint array-bracket-newline: ["error", { "minItems": 2 }]*/
 
-var a = [];
-var b = [1];
-var c = [
+const a = [];
+const b = [1];
+const c = [
     1, 2
 ];
-var d = [
+const d = [
     1,
     2
 ];
-var e = [function foo() {
+const e = [function foo() {
     dosomething();
 }];
 ```
@@ -279,15 +279,15 @@ Examples of **incorrect** code for this rule with the `{ "multiline": true, "min
 ```js
 /*eslint array-bracket-newline: ["error", { "multiline": true, "minItems": 2 }]*/
 
-var a = [
+const a = [
 ];
-var b = [
+const b = [
     1
 ];
-var c = [1, 2];
-var d = [1,
+const c = [1, 2];
+const d = [1,
     2];
-var e = [function foo() {
+const e = [function foo() {
     dosomething();
 }];
 ```
@@ -301,16 +301,16 @@ Examples of **correct** code for this rule with the `{ "multiline": true, "minIt
 ```js
 /*eslint array-bracket-newline: ["error", { "multiline": true, "minItems": 2 }]*/
 
-var a = [];
-var b = [1];
-var c = [
+const a = [];
+const b = [1];
+const c = [
     1, 2
 ];
-var d = [
+const d = [
     1,
     2
 ];
-var e = [
+const e = [
     function foo() {
         dosomething();
     }

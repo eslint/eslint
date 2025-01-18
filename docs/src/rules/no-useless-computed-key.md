@@ -8,13 +8,13 @@ rule_type: suggestion
 It's unnecessary to use computed properties with literals such as:
 
 ```js
-var foo = {["a"]: "b"};
+const foo = {["a"]: "b"};
 ```
 
 The code can be rewritten as:
 
 ```js
-var foo = {"a": "b"};
+const foo = {"a": "b"};
 ```
 
 ## Rule Details
@@ -28,11 +28,14 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-useless-computed-key: "error"*/
 
-var a = { ['0']: 0 };
-var a = { ['0+1,234']: 0 };
-var a = { [0]: 0 };
-var a = { ['x']: 0 };
-var a = { ['x']() {} };
+const a = { ['0']: 0 };
+const b = { ['0+1,234']: 0 };
+const c = { [0]: 0 };
+const d = { ['x']: 0 };
+const e = { ['x']() {} };
+
+const { [0]: foo } = obj;
+const { ['x']: bar } = obj;
 
 class Foo {
     ["foo"] = "bar";
@@ -57,11 +60,14 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-useless-computed-key: "error"*/
 
-var c = { 'a': 0 };
-var c = { 0: 0 };
-var a = { x() {} };
-var c = { a: 0 };
-var c = { '0+1,234': 0 };
+const a = { 'a': 0 };
+const b = { 0: 0 };
+const c = { x() {} };
+const d = { a: 0 };
+const e = { '0+1,234': 0 };
+
+const { 0: foo } = obj;
+const { 'x': bar } = obj;
 
 class Foo {
     "foo" = "bar";
@@ -86,7 +92,7 @@ Examples of additional **correct** code for this rule:
 ```js
 /*eslint no-useless-computed-key: "error"*/
 
-var c = {
+const c = {
     "__proto__": foo, // defines object's prototype
 
     ["__proto__"]: bar // defines a property named "__proto__"

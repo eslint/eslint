@@ -9,7 +9,7 @@ If we forget to write `return` statement in a callback of those, it's probably a
 
 ```js
 // example: convert ['a', 'b', 'c'] --> {a: 0, b: 1, c: 2}
-var indexMap = myArray.reduce(function(memo, item, index) {
+const indexMap = myArray.reduce(function(memo, item, index) {
   memo[item] = index;
 }, {}); // Error: cannot set property 'b' of undefined
 ```
@@ -45,17 +45,17 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint array-callback-return: "error"*/
 
-var indexMap = myArray.reduce(function(memo, item, index) {
+const indexMap = myArray.reduce(function(memo, item, index) {
     memo[item] = index;
 }, {});
 
-var foo = Array.from(nodes, function(node) {
+const foo = Array.from(nodes, function(node) {
     if (node.tagName === "DIV") {
         return true;
     }
 });
 
-var bar = foo.filter(function(x) {
+const bar = foo.filter(function(x) {
     if (x) {
         return true;
     } else {
@@ -73,19 +73,19 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint array-callback-return: "error"*/
 
-var indexMap = myArray.reduce(function(memo, item, index) {
+const indexMap = myArray.reduce(function(memo, item, index) {
     memo[item] = index;
     return memo;
 }, {});
 
-var foo = Array.from(nodes, function(node) {
+const foo = Array.from(nodes, function(node) {
     if (node.tagName === "DIV") {
         return true;
     }
     return false;
 });
 
-var bar = foo.map(node => node.getAttribute("id"));
+const bar = foo.map(node => node.getAttribute("id"));
 ```
 
 :::
@@ -98,7 +98,7 @@ This rule accepts a configuration object with three options:
 * `"checkForEach": false` (default) When set to `true`, rule will also report `forEach` callbacks that return a value.
 * `"allowVoid": false` (default) When set to `true`, allows `void` in `forEach` callbacks, so rule will not report the return value with a `void` operator.
 
-**Note:** `{ "allowVoid": true }` works only if `checkForEach` option is set to `true`.  
+**Note:** `{ "allowVoid": true }` works only if `checkForEach` option is set to `true`.
 
 ### allowImplicit
 
@@ -108,7 +108,7 @@ Examples of **correct** code for the `{ "allowImplicit": true }` option:
 
 ```js
 /*eslint array-callback-return: ["error", { allowImplicit: true }]*/
-var undefAllTheThings = myArray.map(function(item) {
+const undefAllTheThings = myArray.map(function(item) {
     return;
 });
 ```
