@@ -22,7 +22,7 @@ Every property is optional.
   [Semver](https://semver.org/) of the version deprecating the rule.
 * `availableUntil` (`string | null`)<br>
   [Semver](https://semver.org/) of the version likely to remove the rule, e.g. the next major version.
-  The special value `null` means the rule is "frozen". This means the rule will no longer be changed but will be kept available.
+  The special value `null` means the rule will no longer be changed but will be kept available.
 
 ## ◆ ReplacedByInfo type
 
