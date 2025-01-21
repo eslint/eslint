@@ -69,7 +69,7 @@ foo.bar = this;
 
 Examples of **incorrect** code for this rule with the default `"that"` option, if the variable is not initialized:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint consistent-this: ["error", "that"]*/

@@ -4,7 +4,6 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const { parse } = require("espree");
 const { readFile } = require("node:fs").promises;
 const { glob } = require("glob");
 const matter = require("gray-matter");
@@ -14,6 +13,7 @@ const markdownItRuleExample = require("../docs/tools/markdown-it-rule-example");
 const { ConfigCommentParser } = require("@eslint/plugin-kit");
 const rules = require("../lib/rules");
 const { LATEST_ECMA_VERSION } = require("../conf/ecma-version");
+const { Linter } = require("../lib/linter");
 
 //------------------------------------------------------------------------------
 // Typedefs
@@ -38,28 +38,6 @@ const VALID_ECMA_VERSIONS = new Set([
 const commentParser = new ConfigCommentParser();
 
 /**
- * Tries to parse a specified JavaScript code with Playground presets.
- * @param {string} code The JavaScript code to parse.
- * @param {LanguageOptions} [languageOptions] Explicitly specified language options.
- * @returns {{ ast: ASTNode } | { error: SyntaxError }} An AST with comments, or a `SyntaxError` object if the code cannot be parsed.
- */
-function tryParseForPlayground(code, languageOptions) {
-    try {
-        const ast = parse(code, {
-            ecmaVersion: languageOptions?.ecmaVersion ?? "latest",
-            sourceType: languageOptions?.sourceType ?? "module",
-            ...languageOptions?.parserOptions,
-            comment: true,
-            loc: true
-        });
-
-        return { ast };
-    } catch (error) {
-        return { error };
-    }
-}
-
-/**
  * Checks the example code blocks in a rule documentation file.
  * @param {string} filename The file to be checked.
  * @returns {Promise<LintMessage[]>} A promise of problems found. The promise will be rejected if an error occurs.
@@ -70,7 +48,7 @@ async function findProblems(filename) {
     const isRuleRemoved = !rules.has(title);
     const problems = [];
     const ruleExampleOptions = markdownItRuleExample({
-        open({ code, languageOptions, codeBlockToken }) {
+        open({ code, type, languageOptions = {}, codeBlockToken }) {
             const languageTag = codeBlockToken.info;
 
             if (!STANDARD_LANGUAGE_TAGS.has(languageTag)) {
@@ -112,12 +90,64 @@ async function findProblems(filename) {
                         line: codeBlockToken.map[0] - 1,
                         column: 1
                     });
+
+                    return;
                 }
             }
 
-            const { ast, error } = tryParseForPlayground(code, languageOptions);
+            const linter = new Linter();
+            let lintMessages;
 
-            if (ast) {
+            try {
+                lintMessages = linter.verify(code, { languageOptions });
+            } catch (error) {
+                problems.push({
+                    fatal: true,
+                    severity: 2,
+                    message: `Configuration error: ${error.message}`,
+                    line: codeBlockToken.map[0] - 1,
+                    column: 1
+                });
+
+                return;
+            }
+
+            // for removed rules, leave only parsing errors
+            if (isRuleRemoved) {
+                lintMessages = lintMessages.filter(lintMessage => lintMessage.fatal);
+            } else {
+
+                if (type === "incorrect") {
+                    const { length } = lintMessages;
+
+                    // filter out errors reported by the rule as they are expected in incorrect examples
+                    lintMessages = lintMessages.filter(lintMessage =>
+                        lintMessage.ruleId !== title ||
+                        lintMessage.fatal ||
+                        lintMessage.message.includes(`Inline configuration for rule "${title}" is invalid`));
+
+                    if (lintMessages.length === length && !lintMessages.some(lintMessage => lintMessage.fatal)) {
+                        problems.push({
+                            fatal: false,
+                            severity: 2,
+                            message: "Incorrect examples should have at least one error reported by the rule.",
+                            line: codeBlockToken.map[0] + 2,
+                            column: 1
+                        });
+                    }
+                }
+            }
+
+            problems.push(...lintMessages.map(lintMessage => ({
+                ...lintMessage,
+                message: `Unexpected lint error found: ${lintMessage.message}`,
+                line: codeBlockToken.map[0] + 1 + lintMessage.line
+            })));
+
+            const sourceCode = linter.getSourceCode();
+
+            if (sourceCode) {
+                const { ast } = sourceCode;
                 let hasRuleConfigComment = false;
 
                 for (const comment of ast.comments) {
@@ -137,17 +167,8 @@ async function findProblems(filename) {
                     }
                     const { value } = commentParser.parseDirective(comment.value);
                     const parseResult = commentParser.parseJSONLikeConfig(value);
-                    const parseError = parseResult.error;
 
-                    if (parseError) {
-                        problems.push({
-                            fatal: true,
-                            severity: 2,
-                            message: parseError.message,
-                            line: comment.loc.start.line + codeBlockToken.map[0] + 1,
-                            column: comment.loc.start.column + 1
-                        });
-                    } else if (Object.hasOwn(parseResult.config, title)) {
+                    if (parseResult.ok && Object.hasOwn(parseResult.config, title)) {
                         if (hasRuleConfigComment) {
                             problems.push({
                                 fatal: false,
@@ -174,19 +195,7 @@ async function findProblems(filename) {
                 }
             }
 
-            if (error) {
-                const message = `Syntax error: ${error.message}`;
-                const line = codeBlockToken.map[0] + 1 + error.lineNumber;
-                const { column } = error;
 
-                problems.push({
-                    fatal: false,
-                    severity: 2,
-                    message,
-                    line,
-                    column
-                });
-            }
         }
     });
 

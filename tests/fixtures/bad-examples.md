@@ -28,7 +28,7 @@ const foo = "baz";
 :::correct
 
 ```js
-/* eslint another-rule: error */
+/* eslint no-undef: error */
 ```
 
 :::
@@ -77,6 +77,44 @@ const foo = "baz";
 
 /*eslint-env node */
 /*eslint-env*/
+```
+
+:::
+
+:::correct { "foo": 6 }
+
+```js
+/* eslint no-restricted-syntax: ["error", "ArrayPattern"] */
+```
+
+:::
+
+:::correct
+
+```js
+/* eslint no-restricted-syntax: ["error", "ArrayPattern"] */
+
+const [foo] = bar;
+```
+
+:::
+
+:::incorrect
+
+```js
+/* eslint no-restricted-syntax: ["error", "ArrayPattern"] */
+
+const foo = [bar];
+```
+
+:::
+
+:::incorrect
+
+```js
+/* eslint no-restricted-syntax: ["errorr", "ArrayPattern"] */
+
+const foo = [bar];
 ```
 
 :::
