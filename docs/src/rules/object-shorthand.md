@@ -23,7 +23,7 @@ const foo = {
 };
 
 // methods
-const foo = {
+const bar = {
     a: function() {},
     b: function() {}
 };
@@ -36,7 +36,7 @@ Now here are ES6 equivalents:
 const foo = {x, y, z};
 
 // methods
-const foo = {
+const bar = {
     a() {},
     b() {}
 };
