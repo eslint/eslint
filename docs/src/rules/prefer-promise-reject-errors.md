@@ -60,7 +60,7 @@ new Promise(function(resolve, reject) {
   reject(new Error("something bad happened"));
 });
 
-var foo = getUnknownValue();
+const foo = getUnknownValue();
 Promise.reject(foo);
 ```
 

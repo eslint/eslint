@@ -16,14 +16,14 @@ Here are a few common examples using the ES5 syntax:
 
 ```js
 // properties
-var foo = {
+const foo = {
     x: x,
     y: y,
     z: z,
 };
 
 // methods
-var foo = {
+const bar = {
     a: function() {},
     b: function() {}
 };
@@ -33,10 +33,10 @@ Now here are ES6 equivalents:
 
 ```js
 // properties
-var foo = {x, y, z};
+const foo = {x, y, z};
 
 // methods
-var foo = {
+const bar = {
     a() {},
     b() {}
 };
@@ -53,7 +53,7 @@ Each of the following properties would warn:
 ```js
 /*eslint object-shorthand: "error"*/
 
-var foo = {
+const foo = {
     w: function() {},
     x: function *() {},
     [y]: function() {},
@@ -66,7 +66,7 @@ In that case the expected syntax would have been:
 ```js
 /*eslint object-shorthand: "error"*/
 
-var foo = {
+const foo = {
     w() {},
     *x() {},
     [y]() {},
@@ -80,7 +80,7 @@ The following will *not* warn:
 ```js
 /*eslint object-shorthand: "error"*/
 
-var foo = {
+const foo = {
     x: (y) => y
 };
 ```
@@ -126,7 +126,7 @@ Example of **incorrect** code for this rule with the `"always", { "avoidQuotes":
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidQuotes": true }]*/
 
-var foo = {
+const foo = {
     "bar-baz"() {}
 };
 ```
@@ -140,7 +140,7 @@ Example of **correct** code for this rule with the `"always", { "avoidQuotes": t
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidQuotes": true }]*/
 
-var foo = {
+const foo = {
     "bar-baz": function() {},
     "qux": qux
 };
@@ -163,7 +163,7 @@ Example of **correct** code for this rule with the `"always", { "ignoreConstruct
 ```js
 /*eslint object-shorthand: ["error", "always", { "ignoreConstructors": true }]*/
 
-var foo = {
+const foo = {
     ConstructorFunction: function() {}
 };
 ```
@@ -179,7 +179,7 @@ Example of **correct** code for this rule with the `"always", { "methodsIgnorePa
 ```js
 /*eslint object-shorthand: ["error", "always", { "methodsIgnorePattern": "^bar$" }]*/
 
-var foo = {
+const foo = {
     bar: function() {}
 };
 ```
@@ -201,7 +201,7 @@ Example of **incorrect** code for this rule with the `"always", { "avoidExplicit
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidExplicitReturnArrows": true }]*/
 
-var foo = {
+const foo = {
   foo: (bar, baz) => {
     return bar + baz;
   },
@@ -221,7 +221,7 @@ Example of **correct** code for this rule with the `"always", { "avoidExplicitRe
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidExplicitReturnArrows": true }]*/
 
-var foo = {
+const foo = {
   foo(bar, baz) {
     return bar + baz;
   },
@@ -239,7 +239,7 @@ Example of **incorrect** code for this rule with the `"consistent"` option:
 ```js
 /*eslint object-shorthand: [2, "consistent"]*/
 
-var foo = {
+const foo = {
     a,
     b: "foo",
 };
@@ -254,12 +254,12 @@ Examples of **correct** code for this rule with the `"consistent"` option:
 ```js
 /*eslint object-shorthand: [2, "consistent"]*/
 
-var foo = {
+const foo = {
     a: a,
     b: "foo"
 };
 
-var bar = {
+const bar = {
     a,
     b,
 };
@@ -274,7 +274,7 @@ Example of **incorrect** code with the `"consistent-as-needed"` option, which is
 ```js
 /*eslint object-shorthand: [2, "consistent-as-needed"]*/
 
-var foo = {
+const foo = {
     a: a,
     b: b,
 };

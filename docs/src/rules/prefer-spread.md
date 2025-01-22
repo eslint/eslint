@@ -9,14 +9,14 @@ related_rules:
 Before ES2015, one must use `Function.prototype.apply()` to call variadic functions.
 
 ```js
-var args = [1, 2, 3, 4];
+const args = [1, 2, 3, 4];
 Math.max.apply(Math, args);
 ```
 
 In ES2015, one can use spread syntax to call variadic functions.
 
 ```js
-var args = [1, 2, 3, 4];
+const args = [1, 2, 3, 4];
 Math.max(...args);
 ```
 
