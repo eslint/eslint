@@ -36,7 +36,7 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 1. [Releases](#releases)
 1. [Security Policy](#security-policy)
 1. [Semantic Versioning Policy](#semantic-versioning-policy)
-1. [Frozen Rule Updates](#frozen-rule-updates)
+1. [Stylistic Rule Updates](#stylistic-rule-updates)
 1. [License](#license)
 1. [Team](#team)
 1. [Sponsors](#sponsors)
@@ -192,7 +192,7 @@ ESLint follows [semantic versioning](https://semver.org). However, due to the na
 
 According to our policy, any minor update may report more linting errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
 
-## Frozen Rule Updates
+## Stylistic Rule Updates
 
 Stylistic rules are frozen according to [our policy](https://eslint.org/blog/2020/05/changes-to-rules-policies) on how we evaluate new rules and rule changes.
 This means:
