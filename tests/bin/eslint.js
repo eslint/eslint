@@ -129,7 +129,7 @@ describe("bin/eslint.js", () => {
                                 availableUntil: "10.0.0",
                                 replacedBy: [
                                     {
-                                        message: "ESLint Stylistic Maintains now deprecated stylistic core rules",
+                                        message: "ESLint Stylistic now maintains deprecated stylistic core rules",
                                         url: "https://eslint.style/guide/migration",
                                         plugin: {
                                             name: "@stylistic/eslint-plugin-js",
