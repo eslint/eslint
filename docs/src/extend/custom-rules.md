@@ -67,7 +67,7 @@ The source file for a rule exports an object with the following properties. Both
 * `defaultOptions`: (`array`) Specifies [default options](#option-defaults) for the rule. If present, any user-provided options in their config will be merged on top of them recursively.
 
 * `deprecated`: (`boolean | DeprecatedInfo`) Indicates whether the rule has been deprecated.  You may omit the `deprecated` property if the rule has not been deprecated.  
-There is a dedicated page for the [DeprecatedInfo](./rule-deprecation.md)
+There is a dedicated page for the [DeprecatedInfo](./rule-deprecation)
 
 * `replacedBy`: (`array`, **Deprecated** Use `meta.deprecated.replacedBy` instead.) In the case of a deprecated rule, specify replacement rule(s).
 
