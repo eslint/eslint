@@ -1,3 +1,25 @@
+v9.19.0 - January 24, 2025
+
+* [`9b9cb05`](https://github.com/eslint/eslint/commit/9b9cb0584867916d50aa2e9590b132e2ef8ca59c) chore: upgrade @eslint/js@9.19.0 (#19371) (Milos Djermanovic)
+* [`58560e7`](https://github.com/eslint/eslint/commit/58560e70bb4dcb305343fcd7c893ac56a404f674) chore: package.json update for @eslint/js release (Jenkins)
+* [`cfea9ab`](https://github.com/eslint/eslint/commit/cfea9abe0e27cf2ce1d27232b8c70555397e141b) docs: Clarify overrideConfig option (#19370) (Nicholas C. Zakas)
+* [`2b84f66`](https://github.com/eslint/eslint/commit/2b84f666cd7474bb061e2f12205af57f5dbb89d6) docs: Update README (#19362) (Nicholas C. Zakas)
+* [`044f93c`](https://github.com/eslint/eslint/commit/044f93cbbe71a45130156004509083814e2b9669) docs: clarify frozen rule description (#19351) (Pavel)
+* [`797ee7c`](https://github.com/eslint/eslint/commit/797ee7c0d669678b90c5d5742228bc7b24353f79) docs: fix Bluesky links (#19368) (Milos Djermanovic)
+* [`81a9c0e`](https://github.com/eslint/eslint/commit/81a9c0ebc33dd33765711296f827c4448c80163d) docs: Update README (GitHub Actions Bot)
+* [`093fb3d`](https://github.com/eslint/eslint/commit/093fb3d40286588c2c425b738426ebfe5d142a63) docs: replace `var` with `let` and `const` in rule examples (#19365) (Tanuj Kanti)
+* [`417de32`](https://github.com/eslint/eslint/commit/417de3298527e4f257e1ae7b02e1df9db3c9ed33) docs: replace var with const in rule examples (#19352) (jj)
+* [`17f2aae`](https://github.com/eslint/eslint/commit/17f2aaec16d5afbb0d219bce6ae01d7b15d74828) docs: update getting-started config to match default generated config (#19308) (0xDev)
+* [`aae6717`](https://github.com/eslint/eslint/commit/aae67172ab9631b4267fc03f64d3c3d6d1fcda73) fix: sync rule type header comments automatically (#19276) (Francesco Trotta)
+* [`8a0a5a8`](https://github.com/eslint/eslint/commit/8a0a5a8851f72982327c2aa3a41403963f025771) docs: better `global ignores` instruction (#19297) (Jacopo Marrone)
+* [`2089707`](https://github.com/eslint/eslint/commit/20897070913418078d8f1ea9a877d223650dff73) test: fix failing test in Node.js v22.13.0 (#19345) (Francesco Trotta)
+* [`6671a2c`](https://github.com/eslint/eslint/commit/6671a2cd8ccc710fefbccad9a813c3bea5f76c68) docs: Update README (GitHub Actions Bot)
+* [`1637b8e`](https://github.com/eslint/eslint/commit/1637b8e87df5c7f58ab71e0e159f4b96c998e070) feat: add `--report-unused-inline-configs` (#19201) (Josh Goldberg ✨)
+* [`e39d3f2`](https://github.com/eslint/eslint/commit/e39d3f22ff793db42e1f1fc3808cbb12fc513118) docs: fix divider for rule category (#19264) (Tanuj Kanti)
+* [`e0cf53f`](https://github.com/eslint/eslint/commit/e0cf53f80a4b127524e0badc8999d5d1a247143f) docs: fix search result box position for small screens (#19328) (Tanuj Kanti)
+* [`f92a680`](https://github.com/eslint/eslint/commit/f92a6803a10c66cf77408b2bf29c17bcd63b1049) docs: replace var with let or const in rule examples (#19331) (Ravi Teja Kolla)
+* [`b04b84b`](https://github.com/eslint/eslint/commit/b04b84bc17d4aaaea1326cb08196593624db02a2) docs: revert accidental changes in TS config files docs (#19336) (Francesco Trotta)
+
 v9.18.0 - January 10, 2025
 
 * [`c52be85`](https://github.com/eslint/eslint/commit/c52be85c4a916f70807377e1a486adb3a5857347) chore: upgrade to `@eslint/js@9.18.0` (#19330) (Francesco Trotta)
