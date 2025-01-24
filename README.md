@@ -16,7 +16,7 @@
 [Twitter](https://twitter.com/geteslint) |
 [Discord](https://eslint.org/chat) |
 [Mastodon](https://fosstodon.org/@eslint)
-[Bluesky](https://bsky.app/eslint.org)
+[Bluesky](https://bsky.app/profile/eslint.org)
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
 
