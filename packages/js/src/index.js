@@ -17,7 +17,13 @@ module.exports = {
         version
     },
     configs: {
-        all: require("./configs/eslint-all"),
-        recommended: require("./configs/eslint-recommended")
+        all: Object.freeze({
+            ...require("./configs/eslint-all"),
+            name: "eslint/defaults/js/all"
+        }),
+        recommended: Object.freeze({
+            ...require("./configs/eslint-recommended"),
+            name: "eslint/defaults/js/recommended"
+        })
     }
 };
