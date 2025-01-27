@@ -112,14 +112,14 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
     args: ["--save-dev"]
 }) }}
 
-1. Add an `eslint.config.js` file:
+2. Add an `eslint.config.js` file:
 
    ```shell
    # Create JavaScript configuration file
    touch eslint.config.js
    ```
 
-1. Add configuration to the `eslint.config.js` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, custom configurations, plugins, and more.
+3. Add configuration to the `eslint.config.js` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, custom configurations, plugins, and more.
 
    ```js
    import pluginJs from "@eslint/js";
@@ -136,7 +136,7 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
    ];
    ```
 
-1. Lint code using the ESLint CLI:
+4. Lint code using the ESLint CLI:
 
 {{ npx_tabs({
     package: "eslint",
