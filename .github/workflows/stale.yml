@@ -9,6 +9,8 @@ on:
   schedule:
   - cron: '31 22 * * *'
 
+permissions: read-all
+
 jobs:
   stale:
 
