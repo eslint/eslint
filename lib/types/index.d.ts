@@ -1473,7 +1473,7 @@ export namespace ESLint {
         environments?: Record<string, Environment> | undefined;
         languages?: Record<string, Language> | undefined;
         processors?: Record<string, Linter.Processor> | undefined;
-        rules?: Record<string, Rule.RuleModule> | undefined;
+        rules?: Record<string, RuleDefinition> | undefined;
     }
 
     type FixType = "directive" | "problem" | "suggestion" | "layout";
