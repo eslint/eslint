@@ -316,7 +316,7 @@ function foo(x) {
 })();
 
 if(y) {
-   console.log('foo');
+  console.log('foo');
 }
 ```
 
