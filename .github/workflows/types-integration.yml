@@ -147,6 +147,39 @@ jobs:
         working-directory: eslint-js
         run: npm run build:types --workspace eslint-visitor-keys
 
+  eslint_json:
+    name: Types (@eslint/json)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout eslint
+        uses: actions/checkout@v4
+        with:
+          path: eslint
+
+      - name: Checkout @eslint/json
+        uses: actions/checkout@v4
+        with:
+          repository: eslint/json
+          path: json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Install Packages (eslint)
+        working-directory: eslint
+        run: npm install
+
+      - name: Install Packages (neostandard)
+        working-directory: json
+        run: |
+          npm install
+          npm install ../eslint
+
+      - name: Run TSC
+        working-directory: json
+        run: npm run test:types
+
   are-the-types-wrong:
     name: Are the types wrong?
     runs-on: ubuntu-latest
