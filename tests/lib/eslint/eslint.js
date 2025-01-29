@@ -1743,6 +1743,47 @@ describe("ESLint", () => {
 						"ESLintEmptyConfigWarning",
 					);
 				});
+                it("should load a TS config file when --experimental-strip-types is enabled", async () => {
+
+                    const originalProcessEnv = process.env;
+
+                    process.env = { ...process.env, NODE_OPTIONS: "--experimental-strip-types" };
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${
+                        JSON.stringify([
+                            { rules: { "no-undef": 2 } }
+                        ], null, 2)} satisfies FlatConfig[];`;
+
+                    const teardown = createCustomTeardown({
+                        cwd,
+                        files: {
+                            "eslint.config.ts": configFileContent,
+                            "foo.js": "foo;",
+                            helper: "import { Linter } from \"eslint\";\nexport type FlatConfig = Linter.Config;\n"
+                        }
+                    });
+
+                    await teardown.prepare();
+
+                    eslint = new ESLint({
+                        cwd,
+                        overrideConfigFile: "eslint.config.ts",
+                        flags
+                    });
+
+                    const results = await eslint.lintText("foo;");
+
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+                    process.env = originalProcessEnv;
+
+                });
+
 			});
 
 			it("should pass BOM through processors", async () => {
@@ -7606,17 +7647,57 @@ describe("ESLint", () => {
 
 					await eslint.lintFiles("foo.js");
 
-					assert.strictEqual(
-						processStub.callCount,
-						1,
-						"calls `process.emitWarning()` once",
-					);
-					assert.strictEqual(
-						processStub.getCall(0).args[1],
-						"ESLintEmptyConfigWarning",
-					);
-				});
-			});
+                    assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+                    assert.strictEqual(processStub.getCall(0).args[1], "ESLintEmptyConfigWarning");
+
+
+                });
+
+                it("should load a TS config file when --experimental-strip-types is enabled", async () => {
+
+                    const originalProcessEnv = process.env;
+
+                    process.env = { ...process.env, NODE_OPTIONS: "--experimental-transform-types" };
+
+                    const cwd = getFixturePath("ts-config-files", "ts");
+
+                    const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${
+                        JSON.stringify([
+                            { rules: { "no-undef": 2 } }
+                        ], null, 2)} satisfies FlatConfig[];`;
+
+                    const teardown = createCustomTeardown({
+                        cwd,
+                        files: {
+                            "package.json": typeModule,
+                            "eslint.config.ts": configFileContent,
+                            "foo.js": "foo;",
+                            helper: "import { Linter } from \"eslint\";\nexport type FlatConfig = Linter.Config;\n"
+                        }
+                    });
+
+                    await teardown.prepare();
+
+                    eslint = new ESLint({
+                        cwd,
+                        overrideConfigFile: "eslint.config.ts",
+                        flags
+                    });
+
+                    const results = await eslint.lintFiles(["foo*.js"]);
+
+                    assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+                    process.env = originalProcessEnv;
+
+                });
+
+            });
 
 			it("should stop linting files if a rule crashes", async () => {
 				const cwd = getFixturePath("files");
