@@ -12,7 +12,7 @@ looks something like this:
         "plugins": ${JSON.stringify(plugins)}
     }
 
-Flat config requires "plugins" to be an object in this form, like this:
+Flat config requires "plugins" to be an object, like this:
 
     {
         plugins: {
