@@ -118,3 +118,5 @@ When a rule is frozen, it means:
 * **Bug fixes**: We will still fix confirmed bugs.
 * **New ECMAScript features**: We will ensure compatibility with new ECMAScript features, meaning the rule will not break on new syntax.
 * **New options**: We will **not** add any new options unless an option is the only way to fix a bug or support a newly-added ECMAScript feature.
+
+If you find that a frozen rule would work better for you with a change, we recommend copying the rule source code and modifying it to fit your needs.
