@@ -68,6 +68,7 @@ ruleTester.run("consistent-this", rule, {
         { code: "that = this", options: ["self"], errors: [{ messageId: "unexpectedAlias", data: { name: "that" }, type: "AssignmentExpression" }] },
         { code: "self = this", options: ["that"], errors: [{ messageId: "unexpectedAlias", data: { name: "self" }, type: "AssignmentExpression" }] },
         { code: "self += this", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "AssignmentExpression" }] },
-        { code: "var self; (function() { self = this; }())", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "VariableDeclarator" }] }
+        { code: "var self; (function() { self = this; }())", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "VariableDeclarator" }] },
+        { code: "var self; (function() { self = this; }())", options: ["self"], languageOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "VariableDeclarator" }] }
     ]
 });
