@@ -168,7 +168,7 @@
     "gray-matter": "^4.0.3",
     "jiti": "^2.1.0",
     "knip": "^5.32.0",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^15.3.0",
     "load-perf": "^0.2.0",
     "markdown-it": "^12.2.0",
     "markdown-it-container": "^3.0.0",
