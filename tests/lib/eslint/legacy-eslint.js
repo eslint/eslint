@@ -983,7 +983,7 @@ describe("LegacyESLint", () => {
 
             assert.deepStrictEqual(
                 result.usedDeprecatedRules,
-                [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+                [{ ruleId: "indent-legacy", replacedBy: [] }]
             );
         });
 
@@ -1853,7 +1853,7 @@ describe("LegacyESLint", () => {
             assert.deepStrictEqual(
                 results[0].usedDeprecatedRules,
                 [
-                    { ruleId: "indent-legacy", replacedBy: ["indent"] },
+                    { ruleId: "indent-legacy", replacedBy: [] },
                     { ruleId: "callback-return", replacedBy: [] }
                 ]
             );
@@ -1882,7 +1882,7 @@ describe("LegacyESLint", () => {
 
             assert.deepStrictEqual(
                 results[0].usedDeprecatedRules,
-                [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+                [{ ruleId: "indent-legacy", replacedBy: [] }]
             );
         });
 

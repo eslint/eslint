@@ -954,7 +954,7 @@ describe("ESLint", () => {
 
                 assert.deepStrictEqual(
                     result.usedDeprecatedRules,
-                    [{ ruleId: "indent-legacy", replacedBy: ["indent"], info: void 0 }]
+                    [{ ruleId: "indent-legacy", replacedBy: ["@stylistic/eslint-plugin-js/indent"], info: coreRules.get('indent-legacy')?.meta.deprecated }]
                 );
             });
 
@@ -3377,7 +3377,7 @@ describe("ESLint", () => {
 
                     assert.deepStrictEqual(
                         results[0].usedDeprecatedRules,
-                        [{ ruleId: "indent-legacy", replacedBy: ["indent"], info: void 0 }]
+                        [{ ruleId: "indent-legacy", replacedBy: ["@stylistic/eslint-plugin-js/indent"], info: coreRules.get('indent-legacy').meta.deprecated }]
                     );
                 });
 
