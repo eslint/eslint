@@ -74,8 +74,15 @@ jobs:
                 include:
                     - os: windows-latest
                       node: "lts/*"
-                    - os: macOS-latest
-                      node: "lts/*"
+                      NODE_OPTIONS: "--experimental-strip-types --experimental-transform-types"
+          - os: macOS-latest
+            node: "lts/*"
+          - os: ubuntu-latest
+            node: 22.x
+            NODE_OPTIONS: "--experimental-strip-types --experimental-transform-types"
+          - os: ubuntu-latest
+            node: 23.x
+            NODE_OPTIONS: "--experimental-transform-types"
         runs-on: ${{ matrix.os }}
         steps:
             - uses: actions/checkout@v4
@@ -85,6 +92,8 @@ jobs:
             - name: Install Packages
               run: npm install
             - name: Test
+        env:
+          NODE_OPTIONS: ${{ matrix.NODE_OPTIONS }}
               run: node Makefile mocha
             - name: Fuzz Test
               run: node Makefile fuzz
