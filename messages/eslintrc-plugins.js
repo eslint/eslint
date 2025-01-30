@@ -5,8 +5,7 @@ module.exports = function({ plugins }) {
     const isArrayOfStrings = typeof plugins[0] === "string";
 
     return `
-A config object has a "plugins" key defined as an array${isArrayOfStrings ? " of strings" : ""}. It
-looks something like this:
+A config object has a "plugins" key defined as an array${isArrayOfStrings ? " of strings" : ""}. It looks something like this:
 
     {
         "plugins": ${JSON.stringify(plugins)}
