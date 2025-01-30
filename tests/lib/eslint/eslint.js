@@ -1488,7 +1488,7 @@ describe("ESLint", () => {
                     eslint = new ESLint({
                         cwd,
                         overrideConfigFile: "eslint.config.ts",
-                        flags
+                        flags: ["unstable_native_nodejs_ts_config"]
                     });
 
                     const results = await eslint.lintText("foo;");
@@ -6250,7 +6250,7 @@ describe("ESLint", () => {
                     eslint = new ESLint({
                         cwd,
                         overrideConfigFile: "eslint.config.ts",
-                        flags
+                        flags: ["unstable_native_nodejs_ts_config"]
                     });
 
                     const results = await eslint.lintFiles(["foo*.js"]);
