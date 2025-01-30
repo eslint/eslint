@@ -1642,7 +1642,9 @@
         },
         {
             "name": "callback-return",
-            "replacedBy": [],
+            "replacedBy": [
+                "callback-return"
+            ],
             "fixable": false,
             "hasSuggestions": false
         },
@@ -1697,7 +1699,7 @@
         {
             "name": "func-call-spacing",
             "replacedBy": [
-                "function-call-spacing"
+                "func-call-spacing"
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1768,7 +1770,9 @@
         },
         {
             "name": "indent-legacy",
-            "replacedBy": [],
+            "replacedBy": [
+                "indent"
+            ],
             "fixable": true,
             "hasSuggestions": false
         },
@@ -2069,7 +2073,7 @@
         {
             "name": "no-spaced-func",
             "replacedBy": [
-                "function-call-spacing"
+                "func-call-spacing"
             ],
             "fixable": true,
             "hasSuggestions": false
