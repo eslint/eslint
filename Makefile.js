@@ -199,7 +199,7 @@ function generateRuleIndexPage() {
             if (rule.meta.deprecated) {
                 ruleTypesData.deprecated.push({
                     name: basename,
-                    replacedBy: rule.meta.deprecated.replacedBy?.map(({ rule }) => rule) ?? [],
+                    replacedBy: rule.meta.deprecated.replacedBy?.map(replacement => replacement.rule) ?? [],
                     fixable: !!rule.meta.fixable,
                     hasSuggestions: !!rule.meta.hasSuggestions
                 });
