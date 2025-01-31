@@ -47,12 +47,12 @@ Examples of **incorrect** code for this rule:
 /* eslint prefer-destructuring: "error" */
 
 // With `array` enabled
-var foo = array[0];
+const foo = array[0];
 bar.baz = array[0];
 
 // With `object` enabled
-var foo = object.foo;
-var foo = object['foo'];
+const obj1 = object.foo;
+const obj2 = object['foo'];
 ```
 
 :::
@@ -65,15 +65,15 @@ Examples of **correct** code for this rule:
 /* eslint prefer-destructuring: "error" */
 
 // With `array` enabled
-var [ foo ] = array;
-var foo = array[someIndex];
+const [ foo ] = array;
+const arr = array[someIndex];
 [bar.baz] = array;
 
 
 // With `object` enabled
-var { foo } = object;
+const { baz } = object;
 
-var foo = object.bar;
+const obj = object.bar;
 
 let bar;
 ({ bar } = object);
@@ -108,7 +108,7 @@ Examples of **correct** code when object destructuring in `VariableDeclarator` i
 
 ```javascript
 /* eslint prefer-destructuring: ["error", {VariableDeclarator: {object: true}}] */
-var {bar: foo} = object;
+const {bar: foo} = object;
 ```
 
 :::
@@ -148,7 +148,7 @@ Examples of **incorrect** code when `enforceForRenamedProperties` is enabled:
 
 ```javascript
 /* eslint "prefer-destructuring": ["error", { "object": true }, { "enforceForRenamedProperties": true }] */
-var foo = object.bar;
+const foo = object.bar;
 ```
 
 :::
@@ -159,7 +159,7 @@ Examples of **correct** code when `enforceForRenamedProperties` is enabled:
 
 ```javascript
 /* eslint "prefer-destructuring": ["error", { "object": true }, { "enforceForRenamedProperties": true }] */
-var { bar: foo } = object;
+const { bar: foo } = object;
 ```
 
 :::
@@ -194,7 +194,7 @@ If you want to be able to access array indices or object properties directly, yo
 Additionally, if you intend to access large array indices directly, like:
 
 ```javascript
-var foo = array[100];
+const foo = array[100];
 ```
 
 Then the `array` part of this rule is not recommended, as destructuring does not match this use case very well.
@@ -202,7 +202,7 @@ Then the `array` part of this rule is not recommended, as destructuring does not
 Or for non-iterable 'array-like' objects:
 
 ```javascript
-var $ = require('jquery');
-var foo = $('body')[0];
-var [bar] = $('body'); // fails with a TypeError
+const $ = require('jquery');
+const foo = $('body')[0];
+const [bar] = $('body'); // fails with a TypeError
 ```

@@ -20,20 +20,20 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint sort-keys: "error"*/
 
-let obj1 = {a: 1, c: 3, b: 2};
-let obj2 = {a: 1, "c": 3, b: 2};
+const obj1 = {a: 1, c: 3, b: 2};
+const obj2 = {a: 1, "c": 3, b: 2};
 
 // Case-sensitive by default.
-let obj3 = {a: 1, b: 2, C: 3};
+const obj3 = {a: 1, b: 2, C: 3};
 
 // Non-natural order by default.
-let obj4 = {1: a, 2: c, 10: b};
+const obj4 = {1: a, 2: c, 10: b};
 
 // This rule checks computed properties which have a simple name as well.
 // Simple names are names which are expressed by an Identifier node or a Literal node.
 const S = Symbol("s")
-let obj5 = {a: 1, ["c"]: 3, b: 2};
-let obj6 = {a: 1, [S]: 3, b: 2};
+const obj5 = {a: 1, ["c"]: 3, b: 2};
+const obj6 = {a: 1, [S]: 3, b: 2};
 ```
 
 :::
@@ -45,27 +45,27 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint sort-keys: "error"*/
 
-let obj1 = {a: 1, b: 2, c: 3};
-let obj2 = {a: 1, "b": 2, c: 3};
+const obj1 = {a: 1, b: 2, c: 3};
+const obj2 = {a: 1, "b": 2, c: 3};
 
 // Case-sensitive by default.
-let obj3 = {C: 3, a: 1, b: 2};
+const obj3 = {C: 3, a: 1, b: 2};
 
 // Non-natural order by default.
-let obj4 = {1: a, 10: b, 2: c};
+const obj4 = {1: a, 10: b, 2: c};
 
 // This rule checks computed properties which have a simple name as well.
-let obj5 = {a: 1, ["b"]: 2, c: 3};
-let obj6 = {a: 1, [b]: 2, c: 3};
+const obj5 = {a: 1, ["b"]: 2, c: 3};
+const obj6 = {a: 1, [b]: 2, c: 3};
 
 // This rule ignores computed properties which have a non-simple name.
-let obj7 = {a: 1, [c + d]: 3, b: 2};
-let obj8 = {a: 1, ["c" + "d"]: 3, b: 2};
-let obj9 = {a: 1, [`${c}`]: 3, b: 2};
-let obj10 = {a: 1, [tag`c`]: 3, b: 2};
+const obj7 = {a: 1, [c + d]: 3, b: 2};
+const obj8 = {a: 1, ["c" + "d"]: 3, b: 2};
+const obj9 = {a: 1, [`${c}`]: 3, b: 2};
+const obj10 = {a: 1, [tag`c`]: 3, b: 2};
 
 // This rule does not report unsorted properties that are separated by a spread property.
-let obj11 = {b: 1, ...c, a: 2};
+const obj11 = {b: 1, ...c, a: 2};
 ```
 
 :::
@@ -116,14 +116,14 @@ Examples of **incorrect** code for the `"desc"` option:
 ```js
 /*eslint sort-keys: ["error", "desc"]*/
 
-let obj1 = {b: 2, c: 3, a: 1};
-let obj2 = {"b": 2, c: 3, a: 1};
+const obj1 = {b: 2, c: 3, a: 1};
+const obj2 = {"b": 2, c: 3, a: 1};
 
 // Case-sensitive by default.
-let obj3 = {C: 1, b: 3, a: 2};
+const obj3 = {C: 1, b: 3, a: 2};
 
 // Non-natural order by default.
-let obj4 = {10: b, 2: c, 1: a};
+const obj4 = {10: b, 2: c, 1: a};
 ```
 
 :::
@@ -135,14 +135,14 @@ Examples of **correct** code for the `"desc"` option:
 ```js
 /*eslint sort-keys: ["error", "desc"]*/
 
-let obj1 = {c: 3, b: 2, a: 1};
-let obj2 = {c: 3, "b": 2, a: 1};
+const obj1 = {c: 3, b: 2, a: 1};
+const obj2 = {c: 3, "b": 2, a: 1};
 
 // Case-sensitive by default.
-let obj3 = {b: 3, a: 2, C: 1};
+const obj3 = {b: 3, a: 2, C: 1};
 
 // Non-natural order by default.
-let obj4 = {2: c, 10: b, 1: a};
+const obj4 = {2: c, 10: b, 1: a};
 ```
 
 :::
@@ -156,8 +156,8 @@ Examples of **incorrect** code for the `{caseSensitive: false}` option:
 ```js
 /*eslint sort-keys: ["error", "asc", {caseSensitive: false}]*/
 
-let obj1 = {a: 1, c: 3, C: 4, b: 2};
-let obj2 = {a: 1, C: 3, c: 4, b: 2};
+const obj1 = {a: 1, c: 3, C: 4, b: 2};
+const obj2 = {a: 1, C: 3, c: 4, b: 2};
 ```
 
 :::
@@ -169,8 +169,8 @@ Examples of **correct** code for the `{caseSensitive: false}` option:
 ```js
 /*eslint sort-keys: ["error", "asc", {caseSensitive: false}]*/
 
-let obj1 = {a: 1, b: 2, c: 3, C: 4};
-let obj2 = {a: 1, b: 2, C: 3, c: 4};
+const obj1 = {a: 1, b: 2, c: 3, C: 4};
+const obj2 = {a: 1, b: 2, C: 3, c: 4};
 ```
 
 :::
@@ -184,7 +184,7 @@ Examples of **incorrect** code for the `{natural: true}` option:
 ```js
 /*eslint sort-keys: ["error", "asc", {natural: true}]*/
 
-let obj = {1: a, 10: c, 2: b};
+const obj = {1: a, 10: c, 2: b};
 ```
 
 :::
@@ -196,7 +196,7 @@ Examples of **correct** code for the `{natural: true}` option:
 ```js
 /*eslint sort-keys: ["error", "asc", {natural: true}]*/
 
-let obj = {1: a, 2: b, 10: c};
+const obj = {1: a, 2: b, 10: c};
 ```
 
 :::
@@ -211,7 +211,7 @@ Examples of **incorrect** code for the `{minKeys: 4}` option:
 /*eslint sort-keys: ["error", "asc", {minKeys: 4}]*/
 
 // 4 keys
-let obj1 = {
+const obj1 = {
     b: 2,
     a: 1, // not sorted correctly (should be 1st key)
     c: 3,
@@ -219,7 +219,7 @@ let obj1 = {
 };
 
 // 5 keys
-let obj2 = {
+const obj2 = {
     2: 'a',
     1: 'b', // not sorted correctly (should be 1st key)
     3: 'c',
@@ -238,14 +238,14 @@ Examples of **correct** code for the `{minKeys: 4}` option:
 /*eslint sort-keys: ["error", "asc", {minKeys: 4}]*/
 
 // 3 keys
-let obj1 = {
+const obj1 = {
     b: 2,
     a: 1,
     c: 3,
 };
 
 // 2 keys
-let obj2 = {
+const obj2 = {
     2: 'b',
     1: 'a',
 };
@@ -262,7 +262,7 @@ Examples of **incorrect** code for the `{allowLineSeparatedGroups: true}` option
 ```js
 /*eslint sort-keys: ["error", "asc", {allowLineSeparatedGroups: true}]*/
 
-let obj1 = {
+const obj1 = {
     b: 1,
     c () {
 
@@ -270,7 +270,7 @@ let obj1 = {
     a: 3
 }
 
-let obj2 = {
+const obj2 = {
     b: 1,
     c: 2,
 
@@ -280,7 +280,7 @@ let obj2 = {
     y: 3
 }
 
-let obj3 = {
+const obj3 = {
     b: 1,
     c: 2,
 
@@ -291,7 +291,7 @@ let obj3 = {
     y: 3,
 }
 
-let obj4 = {
+const obj4 = {
     b: 1
     // comment before comma
     , a: 2
@@ -307,7 +307,7 @@ Examples of **correct** code for the `{allowLineSeparatedGroups: true}` option:
 ```js
 /*eslint sort-keys: ["error", "asc", {allowLineSeparatedGroups: true}]*/
 
-let obj1 = {
+const obj1 = {
     e: 1,
     f: 2,
     g: 3,
@@ -317,7 +317,7 @@ let obj1 = {
     c: 6
 }
 
-let obj2 = {
+const obj2 = {
     b: 1,
 
     // comment
@@ -325,7 +325,7 @@ let obj2 = {
     c: 5,
 }
 
-let obj3 = {
+const obj3 = {
     c: 1,
     d: 2,
 
@@ -335,7 +335,7 @@ let obj3 = {
     e: 3,
 }
 
-let obj4 = {
+const obj4 = {
     c: 1,
     d: 2,
     // comment
@@ -347,14 +347,14 @@ let obj4 = {
     e: 4
 }
 
-let obj5 = {
+const obj5 = {
     b,
 
     [foo + bar]: 1,
     a
 }
 
-let obj6 = {
+const obj6 = {
     b: 1
     // comment before comma
 
@@ -362,7 +362,7 @@ let obj6 = {
     a: 2
 };
 
-var obj7 = {
+const obj7 = {
     b: 1,
 
     a: 2,
@@ -382,18 +382,18 @@ Examples of **correct** code for the `{ignoreComputedKeys: true}` option:
 ```js
 /*eslint sort-keys: ["error", "asc", {ignoreComputedKeys: true}]*/
 
-let obj1 = {
+const obj1 = {
     [b]: 1,
     a: 2
 }
 
-let obj2 = {
+const obj2 = {
     c: 1,
     [b]: 2,
     a: 3
 }
 
-let obj3 = {
+const obj3 = {
     c: 1,
     ["b"]: 2,
     a: 3
