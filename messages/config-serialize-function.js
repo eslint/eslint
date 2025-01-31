@@ -3,7 +3,7 @@
 module.exports = function({ key, objectKey }) {
 
     // special case for parsers
-    const isParser = objectKey === "parser" && key === "parse";
+    const isParser = objectKey === "parser" && (key === "parse" || key === "parseForESLint");
     const parserMessage = `
     This typically happens when you're using a custom parser that does not
 provide a "meta" property, which is how ESLint determines the serialized
